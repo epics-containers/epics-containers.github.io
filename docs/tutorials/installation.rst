@@ -1,12 +1,6 @@
 Installation Tutorial
 =====================
 
-.. note::
-
-    For installation inside DLS, please see the internal documentation on
-    ``dls-python3`` and ``pipenv``. Although these instructions will work
-    inside DLS, they are intended for external use.
-
 Check your version of python
 ----------------------------
 
@@ -35,7 +29,7 @@ You can now use ``pip`` to install the library::
 If you require a feature that is not currently released you can also install
 from github::
 
-    python3 -m pip install git+git://github.com/dls-controls/k8s_epics_docs.git
+    python3 -m pip install git+git://github.com/epics-containers/k8s-epics-docs.git
 
 The library should now be installed and the commandline interface on your path.
 You can check the version that has been installed by typing::

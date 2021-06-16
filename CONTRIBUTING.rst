@@ -2,20 +2,20 @@ Contributing
 ============
 
 Contributions and issues are most welcome! All issues and pull requests are
-handled through github on the `dls_controls repository`_. Also, please check for
+handled through github on the `epics-containers repository`_. Also, please check for
 any existing issues before filing a new one. If you have a great idea but it
 involves big changes, please file a ticket before making a pull request! We
 want to make sure you don't spend your time coding something that might not fit
 the scope of the project.
 
-.. _dls_controls repository: https://github.com/dls-controls/k8s_epics_docs/issues
+.. _epics-containers repository: https://github.com/epics-containers/k8s-epics-docs/issues
 
 Running the tests
 -----------------
 
 To get the source source code and run the unit tests, run::
 
-    $ git clone git://github.com/dls-controls/k8s_epics_docs.git
+    $ git clone git://github.com/epics-containers/k8s-epics-docs.git
     $ cd k8s_epics_docs
     $ pipenv install --dev
     $ pipenv run tests
@@ -26,6 +26,9 @@ same or is improved by a pull request!
 
 Code Styling
 ------------
+
+This documentation module currently has no code but the style applies to any
+python modules in the epics-containers organization.
 
 The code in this repository conforms to standards set by the following tools:
 
@@ -66,13 +69,3 @@ You can build the docs from the project directory by running::
     $ pipenv run docs
     $ firefox build/html/index.html
 
-
-Release Checklist
------------------
-
-Before a new release, please go through the following checklist:
-
-- Choose a new PEP440 compliant release number
-- Git tag the version with a message summarizing the changes
-- Push to github and the actions will make a release on pypi
-- Push to internal gitlab and do a dls-release.py of the tag

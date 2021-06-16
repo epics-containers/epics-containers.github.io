@@ -7,17 +7,6 @@ import os
 import pytest
 
 
-@pytest.fixture
-def setupcfg():
-    import configparser
-
-    conf = configparser.ConfigParser()
-    conf.read("setup.cfg")
-
-    return conf["metadata"]
-
-
-# setup.cfg
 def test_module_description(setupcfg):
     if "One line description of your module" in setupcfg["description"]:
         raise AssertionError(

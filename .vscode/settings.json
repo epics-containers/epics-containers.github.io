@@ -13,4 +13,5 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     },
+    "python.pythonPath": "/home/giles/.local/share/virtualenvs/k8s-epics-docs-jjNZuJbx",
 }
