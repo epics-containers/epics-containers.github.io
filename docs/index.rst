@@ -51,14 +51,15 @@ About the documentation
     :name: how-to
     :maxdepth: 1
 
-    how-to/accomplish-a-task
+    how-to/setup_k8s
+    how-to/manage_iocs
 
 .. toctree::
     :caption: Explanations
     :name: explanations
     :maxdepth: 1
 
-    explanations/why-is-something-so
+    explanations/strategy
 
 .. rst-class:: no-margin-after-ul
 
@@ -67,7 +68,7 @@ About the documentation
     :name: reference
     :maxdepth: 1
 
-    reference/api
+    reference/cli
     reference/contributing
 
 * :ref:`genindex`

@@ -1,6 +1,12 @@
 Installation Tutorial
 =====================
 
+Intro
+----------------------------
+This project is documentation only but if you want to update the
+documentation and build it then follow these instructions
+
+
 Check your version of python
 ----------------------------
 
@@ -9,29 +15,15 @@ typing into a terminal::
 
     python3 --version
 
-Create a virtual environment
-----------------------------
+Use Pipenv to install developer tools
+-------------------------------------
 
-It is recommended that you install into a “virtual environment” so this
-installation will not interfere with any existing Python software::
+Install pipenv if you do not already have it https://pypi.org/project/pipenv/
 
-    python3 -m venv /path/to/venv
-    source /path/to/venv/bin/activate
+    pipenv install --dev
 
 
-Installing the library
-----------------------
+Building the documentation with sphinx
+--------------------------------------
 
-You can now use ``pip`` to install the library::
-
-    python3 -m pip install k8s_epics_docs
-
-If you require a feature that is not currently released you can also install
-from github::
-
-    python3 -m pip install git+git://github.com/epics-containers/k8s-epics-docs.git
-
-The library should now be installed and the commandline interface on your path.
-You can check the version that has been installed by typing::
-
-    k8s_epics_docs --version
+    pipenv run docs

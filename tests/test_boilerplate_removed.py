@@ -7,6 +7,16 @@ import os
 import pytest
 
 
+@pytest.fixture
+def setupcfg():
+    import configparser
+
+    conf = configparser.ConfigParser()
+    conf.read("setup.cfg")
+
+    return conf["metadata"]
+
+
 def assert_not_contains_text(path, text, explanation):
     with open(path, "r") as f:
         contents = f.read().replace("\n", " ")

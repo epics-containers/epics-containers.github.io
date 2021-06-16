@@ -1,7 +1,7 @@
 .. _CLI:
 
-CLI
-===
+Command Line Interface for IOC Management
+=========================================
 
 The Module k8s-epics-utils provides scripts that simplify common operations
 for deploying and managing IOCs with Kubernetes.

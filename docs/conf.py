@@ -14,6 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, "..", "..")))
 
+import k8s_epics_docs  # noqa
 
 # -- General configuration ------------------------------------------------
 
