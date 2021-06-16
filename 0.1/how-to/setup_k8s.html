@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Set up a lightwieght Kubernetes Cluster for experimentation &mdash; k8s_epics_docs 0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/dls-favicon.ico"/>
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create a new generic IOC image" href="manage_iocs.html" />
+    <link rel="prev" title="Installation Tutorial" href="../tutorials/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> k8s_epics_docs
+          
+
+          
+            
+            <img src="../_static/dls-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+  <style>
+    /* style mobile top nav to look like main nav */
+    .wy-nav-top {
+        background: rgb(7, 43, 93)
+    }
+  </style>
+  
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/installation.html">Installation Tutorial</a></li>
+</ul>
+<p class="caption"><span class="caption-text">How-to Guides</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Set up a lightwieght Kubernetes Cluster for experimentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html#debug-an-ioc-instance-locally">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
+</ul>
+
+            
+          
+  <!-- Include Index in the sidebar -->
+  <!-- https://stackoverflow.com/a/37843854 -->
+  <a href="../genindex.html">Index</a>
+  <!-- Include all versions of the docs -->
+  <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
+  
+  <p class="caption"><span class="caption-text">Versions</span></p>
+  <ul>
+    <li><a href="../../main/how-to/setup_k8s.html">main</a></li>
+    <li><a href="setup_k8s.html">0.1</a></li>
+  </ul>
+  
+
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">k8s_epics_docs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Set up a lightwieght Kubernetes Cluster for experimentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/how-to/setup_k8s.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="set-up-a-lightwieght-kubernetes-cluster-for-experimentation">
+<h1>Set up a lightwieght Kubernetes Cluster for experimentation<a class="headerlink" href="#set-up-a-lightwieght-kubernetes-cluster-for-experimentation" title="Permalink to this headline">¶</a></h1>
+<p># Intro
+This is a very easy set of instructions for setting up a Kubernetes cluster
+ready to deploy epics IOCs.</p>
+<p>It has been tested on Ubuntu 20.10 and Raspbian Buster.</p>
+<p>Give it a try, K3S provides a good uninstaller that will clean up your system
+if you decide to back out.</p>
+<p>If you prefer to investigate other implementations there are also:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>kind <a class="reference external" href="https://kind.sigs.k8s.io/docs/user/quick-start/">https://kind.sigs.k8s.io/docs/user/quick-start/</a></p></li>
+<li><p>microk8s <a class="reference external" href="https://microk8s.io/">https://microk8s.io/</a></p></li>
+<li><p>minikube <a class="reference external" href="https://minikube.sigs.k8s.io/docs/start/">https://minikube.sigs.k8s.io/docs/start/</a></p></li>
+</ul>
+</div></blockquote>
+<p># Installation Steps</p>
+<p>## Install K3S lightweight Kubernetes
+Execute this command on your server to set up the cluster master (aka K3S Server node):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">curl</span> <span class="pre">-sfL</span> <span class="pre">https://get.k3s.io</span> <span class="pre">|</span> <span class="pre">sh</span> <span class="pre">-</span>
+<span class="pre">`</span></code></p>
+<p>Install kubectl on the workstation from which you will be managing the cluster
+(workstation==server if you have one machine only)
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">curl</span> <span class="pre">-LO</span> <span class="pre">&quot;https://dl.k8s.io/release/$(curl</span> <span class="pre">-L</span> <span class="pre">-s</span> <span class="pre">https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;</span>
+<span class="pre">sudo</span> <span class="pre">install</span> <span class="pre">-o</span> <span class="pre">root</span> <span class="pre">-g</span> <span class="pre">root</span> <span class="pre">-m</span> <span class="pre">0755</span> <span class="pre">kubectl</span> <span class="pre">/usr/local/bin/kubectl</span>
+<span class="pre">`</span></code>
+Go to the server machine and copy over the kubectl configuration to your
+workstation
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">sudo</span> <span class="pre">scp</span>&#160; <span class="pre">/etc/rancher/k3s/k3s.yaml</span> <span class="pre">&lt;YOUR_ACCOUNT&gt;&#64;&lt;YOUR_WORKSTATION&gt;:.kube/config</span>
+<span class="pre">#</span> <span class="pre">edit</span> <span class="pre">the</span> <span class="pre">file</span> <span class="pre">.kube/config</span> <span class="pre">replacing</span> <span class="pre">127.0.0.1</span> <span class="pre">with</span> <span class="pre">your</span> <span class="pre">server</span> <span class="pre">IP</span> <span class="pre">Address</span>
+<span class="pre">`</span></code></p>
+<p>## Create an epics IOCs namespace and context
+From the workstation execute the following:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">kubectl</span> <span class="pre">create</span> <span class="pre">namespace</span> <span class="pre">epics-iocs</span>
+<span class="pre">kubectl</span> <span class="pre">config</span> <span class="pre">set-context</span> <span class="pre">epics-iocs</span> <span class="pre">--namespace=epics-iocs</span> <span class="pre">--user=default</span> <span class="pre">--cluster=default</span>
+<span class="pre">kubectl</span> <span class="pre">config</span> <span class="pre">use-context</span> <span class="pre">epics-iocs</span>
+<span class="pre">`</span></code></p>
+<p>## Install helm
+Execute this on the workstation:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">curl</span> <span class="pre">-fsSL</span> <span class="pre">-o</span> <span class="pre">get_helm.sh</span> <span class="pre">https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3</span>
+<span class="pre">bash</span> <span class="pre">get_helm.sh</span>
+<span class="pre">`</span></code></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="manage_iocs.html" class="btn btn-neutral float-right" title="Create a new generic IOC image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../tutorials/installation.html" class="btn btn-neutral float-left" title="Installation Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Diamond Light Source.
+
+    </p>
+  </div> 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
