@@ -12,9 +12,10 @@
 import os
 import sys
 
+import k8s_epics_docs  # noqa
+
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, "..", "..")))
 
-import k8s_epics_docs  # noqa
 
 # -- General configuration ------------------------------------------------
 
@@ -136,7 +137,7 @@ html_favicon = "images/dls-favicon.ico"
 # sphinx-multiversion config
 smv_rebuild_tags = False
 smv_tag_whitelist = r"^\d+\.\d+.*$"  # only document tags with form 0.9*
-smv_branch_whitelist = r"^master$"  # only branch to document is master
+smv_branch_whitelist = r"^main$"  # only branch to document is main
 smv_outputdir_format = "{ref.name}"
 smv_prefer_remote_refs = False
 smv_remote_whitelist = "origin|github"
