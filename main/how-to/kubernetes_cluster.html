@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Kubernetes for EPICS IOCs strategy &mdash; k8s_epics_docs 0.1+2.g389e71a documentation</title>
+  <title>Central Kubernetes Cluster Config &mdash; k8s_epics_docs 0.1+2.g389e71a documentation</title>
   
 
   
@@ -46,8 +46,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Channel Access and Other Protocols" href="net_protocols.html" />
-    <link rel="prev" title="epics-containers Contents" href="whats_in.html" /> 
+    <link rel="next" title="Run an IOC without Kubernetes" href="generic_iocs.html" />
+    <link rel="prev" title="Create a new generic IOC image" href="../tutorials/manage_iocs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -107,10 +107,10 @@
             
             
               <p class="caption"><span class="caption-text">Explanations</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Kubernetes for EPICS IOCs strategy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -124,11 +124,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#logging">Logging</a></li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/kubernetes_cluster.html">Central Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Central Kubernetes Cluster Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brief-overview-of-dls-argus-cluster">Brief Overview of DLS Argus cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hostnetwork-true">hostNetwork = true</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#namespaces-and-permissions">Namespaces and Permissions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#taints-and-tolerances">Taints and Tolerances</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="generic_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference</span></p>
 <ul>
@@ -147,8 +154,8 @@
   
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
-    <li><a href="strategy.html">main</a></li>
-    <li><a href="../../0.1/explanations/strategy.html">0.1</a></li>
+    <li><a href="kubernetes_cluster.html">main</a></li>
+    <li><a href="../../0.1/index.html">0.1</a></li>
   </ul>
   
 
@@ -196,13 +203,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Kubernetes for EPICS IOCs strategy</li>
+      <li>Central Kubernetes Cluster Config</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/explanations/strategy.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/how-to/kubernetes_cluster.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -215,11 +222,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="kubernetes-for-epics-iocs-strategy">
-<h1>Kubernetes for EPICS IOCs strategy<a class="headerlink" href="#kubernetes-for-epics-iocs-strategy" title="Permalink to this headline">¶</a></h1>
-<p><strong>TODO</strong> this page will draw from presentation slides</p>
-<p>Hopefully using <a class="reference external" href="https://github.com/dbrnz/pptx2svg/tree/main/pptx2svg">https://github.com/dbrnz/pptx2svg/tree/main/pptx2svg</a> or some
-other conversion utility and keep the PPTX in the repo.</p>
+  <div class="section" id="central-kubernetes-cluster-config">
+<h1>Central Kubernetes Cluster Config<a class="headerlink" href="#central-kubernetes-cluster-config" title="Permalink to this headline">¶</a></h1>
+<p><strong>TODO</strong> this section will give details of the topology and special
+configuration used by the DLS argus cluster to enable running
+IOCs on a Beamline.</p>
+<div class="section" id="brief-overview-of-dls-argus-cluster">
+<h2>Brief Overview of DLS Argus cluster<a class="headerlink" href="#brief-overview-of-dls-argus-cluster" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="beamline-local-cluster-nodes">
+<h2>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="hostnetwork-true">
+<h2>hostNetwork = true<a class="headerlink" href="#hostnetwork-true" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="namespaces-and-permissions">
+<h2>Namespaces and Permissions<a class="headerlink" href="#namespaces-and-permissions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="taints-and-tolerances">
+<h2>Taints and Tolerances<a class="headerlink" href="#taints-and-tolerances" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -228,8 +250,8 @@ other conversion utility and keep the PPTX in the repo.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="net_protocols.html" class="btn btn-neutral float-right" title="Channel Access and Other Protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="whats_in.html" class="btn btn-neutral float-left" title="epics-containers Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generic_iocs.html" class="btn btn-neutral float-right" title="Run an IOC without Kubernetes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../tutorials/manage_iocs.html" class="btn btn-neutral float-left" title="Create a new generic IOC image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

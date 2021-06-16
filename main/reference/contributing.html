@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Contributing &mdash; k8s_epics_docs 0.1+1.g3825343 documentation</title>
+  <title>Contributing &mdash; k8s_epics_docs 0.1+2.g389e71a documentation</title>
   
 
   
@@ -105,25 +105,33 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/installation.html">Installation Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/introduction.html">Quick Start Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup Experimental Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#logging">Logging</a></li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/setup_k8s.html">Set up a lightwieght Kubernetes Cluster for experimentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/manage_iocs.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/manage_iocs.html#debug-an-ioc-instance-locally">Debug an IOC instance locally</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/manage_iocs.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Explanations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/kubernetes_cluster.html">Central Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
@@ -213,24 +221,21 @@
             
   <div class="section" id="contributing">
 <h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
-<p>Contributions and issues are most welcome! All issues and pull requests are
-handled through github on the <a class="reference external" href="https://github.com/epics-containers/k8s-epics-docs/issues">epics-containers repository</a>. Also, please check for
-any existing issues before filing a new one. If you have a great idea but it
-involves big changes, please file a ticket before making a pull request! We
-want to make sure you don’t spend your time coding something that might not fit
-the scope of the project.</p>
+<p>Contributions and issues are most welcome! All issues and pull requests for
+the documentation or for the ideas expressed in the epics-containers
+organization are handled through github on the <a class="reference external" href="https://github.com/epics-containers/k8s-epics-docs/issues">k8s-epics-docs repository</a>.</p>
+<p>Report issues for generic iocs etc. in their own repos.</p>
 <div class="section" id="running-the-tests">
 <h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>This module contains no code but running the tests does verify the sphinx
+documentation.</p>
 <p>To get the source source code and run the unit tests, run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git://github.com/epics-containers/k8s-epics-docs.git
-$ cd k8s_epics_docs
+$ cd k8s-epics-docs
 $ pipenv install --dev
 $ pipenv run tests
 </pre></div>
 </div>
-<p>While 100% code coverage does not make a library bug-free, it significantly
-reduces the number of easily caught bugs! Please make sure coverage remains the
-same or is improved by a pull request!</p>
 </div>
 <div class="section" id="code-styling">
 <h2>Code Styling<a class="headerlink" href="#code-styling" title="Permalink to this headline">¶</a></h2>
@@ -267,6 +272,9 @@ docstrings of the API.</p>
 $ firefox build/html/index.html
 </pre></div>
 </div>
+<p>The documentation is automatically built and published on github pages when
+this repo is pushed to main or with a tag.</p>
+<p>See <a class="reference external" href="https://epics-containers.github.io/k8s-epics-docs/">https://epics-containers.github.io/k8s-epics-docs/</a></p>
 </div>
 </div>
 

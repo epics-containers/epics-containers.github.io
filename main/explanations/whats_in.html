@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Kubernetes for EPICS IOCs strategy &mdash; k8s_epics_docs 0.1+2.g389e71a documentation</title>
+  <title>epics-containers Contents &mdash; k8s_epics_docs 0.1+2.g389e71a documentation</title>
   
 
   
@@ -46,8 +46,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Channel Access and Other Protocols" href="net_protocols.html" />
-    <link rel="prev" title="epics-containers Contents" href="whats_in.html" /> 
+    <link rel="next" title="Kubernetes for EPICS IOCs strategy" href="strategy.html" />
+    <link rel="prev" title="epics-containers" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -108,8 +108,15 @@
             
               <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">epics-containers Contents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-beamline">Example Beamline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-generic-iocs">Production generic IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utilities">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packages-in-the-organization">Packages in the Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#naming-convention-for-repositories">Naming Convention for Repositories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
@@ -147,8 +154,8 @@
   
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
-    <li><a href="strategy.html">main</a></li>
-    <li><a href="../../0.1/explanations/strategy.html">0.1</a></li>
+    <li><a href="whats_in.html">main</a></li>
+    <li><a href="../../0.1/index.html">0.1</a></li>
   </ul>
   
 
@@ -196,13 +203,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Kubernetes for EPICS IOCs strategy</li>
+      <li>epics-containers Contents</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/explanations/strategy.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/explanations/whats_in.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -215,11 +222,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="kubernetes-for-epics-iocs-strategy">
-<h1>Kubernetes for EPICS IOCs strategy<a class="headerlink" href="#kubernetes-for-epics-iocs-strategy" title="Permalink to this headline">¶</a></h1>
-<p><strong>TODO</strong> this page will draw from presentation slides</p>
-<p>Hopefully using <a class="reference external" href="https://github.com/dbrnz/pptx2svg/tree/main/pptx2svg">https://github.com/dbrnz/pptx2svg/tree/main/pptx2svg</a> or some
-other conversion utility and keep the PPTX in the repo.</p>
+  <div class="section" id="epics-containers-contents">
+<h1>epics-containers Contents<a class="headerlink" href="#epics-containers-contents" title="Permalink to this headline">¶</a></h1>
+<p>The epics-containers organization contains the following elements.</p>
+<div class="section" id="example-beamline">
+<h2>Example Beamline<a class="headerlink" href="#example-beamline" title="Permalink to this headline">¶</a></h2>
+<p>By way of example we will include a full implementation of the
+test beamline BL45P at Diamond Light Source.</p>
+<p>The benefit of this is that it will be live and constantly kept up to date with
+the latest developments. Also proven to work (<strong>TODO</strong> ref documentation on the
+DLS beamline Kubernetes infrastructure)</p>
+<p>The downside is that it will only serve as an example; those without access
+to the beamline will not be able to run the code without getting errors.</p>
+<p><strong>TODO</strong>: supply a demo beamline that is based purely on simulated devices
+so that anyone can experiment with Kubernetes for EPICS IOCs.</p>
+</div>
+<div class="section" id="production-generic-iocs">
+<h2>Production generic IOCs<a class="headerlink" href="#production-generic-iocs" title="Permalink to this headline">¶</a></h2>
+<p>The generic IOC container images supplied here are intended for general use.
+All EPICS modules included in these images are vanilla versions direct from
+their official repositories with no changes as far as possible.</p>
+<p>A great benefit of using containers is that you can adjust the container
+environment to suit the software instead of needing to modify the software to
+suit your organizations infrastructure.</p>
+<p>Therefore there is a real possibility that multiple facilities can use the
+same images with all the economies of scale that this implies.</p>
+<p>These generic images are intended to be used in production at DLS once the
+Beamline Kubernetes infrastructure is rolled out.</p>
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<p>The repository k8s-epics-utils contains scripts simplifying the
+managing IOCs using helm and kubectl. It also contains a personal
+container for developers, this allows a developer to work on the support
+modules and IOCs without installing anything on their desktop except docker.</p>
+</div>
+<div class="section" id="packages-in-the-organization">
+<h2>Packages in the Organization<a class="headerlink" href="#packages-in-the-organization" title="Permalink to this headline">¶</a></h2>
+<p>In addition to source repositories the epics-containers organization also hosts
+the container images and helm charts that it generates. See
+<a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a> for the packages registry
+that stores these.</p>
+</div>
+<div class="section" id="naming-convention-for-repositories">
+<h2>Naming Convention for Repositories<a class="headerlink" href="#naming-convention-for-repositories" title="Permalink to this headline">¶</a></h2>
+<p>The following naming conventions help identify the source repositories. Note
+that where a repository generates an image the image will have the same name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">epics</dt>
+<dd class="field-odd"><p>this prefix is for images that are nodes in the network of
+image dependencies.
+e.g. epics-base, epics-adcore</p>
+</dd>
+<dt class="field-even">iocs</dt>
+<dd class="field-even"><p>this prefix is for images that are leaves in the network of
+image dependencies. These are the images which IOC instances make
+containers from. e.g. ioc-pmac, ioc-adaravis</p>
+</dd>
+<dt class="field-odd">k8s</dt>
+<dd class="field-odd"><p>this prefix is for utilities and documentation repos.</p>
+</dd>
+</dl>
+</div>
 </div>
 
 
@@ -228,8 +292,8 @@ other conversion utility and keep the PPTX in the repo.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="net_protocols.html" class="btn btn-neutral float-right" title="Channel Access and Other Protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="whats_in.html" class="btn btn-neutral float-left" title="epics-containers Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="strategy.html" class="btn btn-neutral float-right" title="Kubernetes for EPICS IOCs strategy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="epics-containers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
