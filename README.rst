@@ -1,36 +1,32 @@
-k8s_epics_docs
-===========================
+epics-containers Organization Documentation
+===========================================
 
-|code_ci| |docs_ci| |coverage| |pypi_version| |license|
+|docs_ci| |license|
 
-This is where you should write a short paragraph that describes what your module does,
-how it does it, and why people should use it.
+epics-containers is an experimental area for trying ideas for managing
+EPICS IOCs in a kubernetes cluster.
+
+This will include a full implemtation of all the IOCs for the test beamline
+BL45P at Diamond Light Source.
+
+The organization includes container images for generic iocs and
+these might also be used independently of kubernetes.
 
 ============== ==============================================================
-PyPI           ``pip install k8s_epics_docs``
-Source code    https://github.com/epics-containers/k8s-epics-docs
+Docs Source    https://github.com/epics-containers/k8s-epics-docs
 Documentation  https://epics-containers.github.io
 ============== ==============================================================
 
-This is where you should put some images or code snippets that illustrate
-some relevant examples. If it is a library then you might put some
-introductory code here:
+An important principal of the approach presented here is that an IOC container
+image represents a 'generic' IOC. The generic IOC image is used for all
+IOC instances that connect to a give class of device.
 
-.. code:: python
+An IOC instance will use a generic IOC image plus some configuration that
+will bootstrap the unique properties of the instance. In nearly all cases the
+configuration need only be a single IOC boot script.
 
-    from k8s_epics_docs import HelloClass
-
-    hello = HelloClass("me")
-    print(hello.format_greeting())
-
-Or if it is a commandline tool then you might put some example commands here::
-
-    k8s_epics_docs person --times=2
-
-
-.. |code_ci| image:: https://github.com/epics-containers/k8s-epics-docs/workflows/Code%20CI/badge.svg?branch=master
-    :target: https://github.com/epics-containers/k8s-epics-docs/actions?query=workflow%3A%22Code+CI%22
-    :alt: Code CI
+This approach reduces the number of images required and saves disk. It also
+makes for simple configuration management.
 
 .. |docs_ci| image:: https://github.com/epics-containers/k8s-epics-docs/workflows/Docs%20CI/badge.svg?branch=master
     :target: https://github.com/epics-containers/k8s-epics-docs/actions?query=workflow%3A%22Docs+CI%22

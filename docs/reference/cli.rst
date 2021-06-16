@@ -11,13 +11,23 @@ The underlying tools used are:
   - kubectl: https://kubernetes.io/docs/tasks/tools/
   - helm: https://helm.sh/docs/intro/install/
 
+All the functions described below are simply shortcuts for helm and
+kubectl commands.
+
 To enable the scripts you must have helm and kubectl installed and be
-authenticated to your kubernetes cluster. Then source the script:
+authenticated to your kubernetes cluster. You must also have enabled a
+kubectl context that connects to the kubernetes namespace in which you
+deploy your IOCs.
 
-  -
+Declare the URL of your HELM registry and source kube-functions.sh to add
+the k8s-iocs function to your shell:
 
-The k8s-iocs shell function can perform the following opertions. In all cases
-these are simply shortcuts for helm and kubectl commands.
+  - export K8S_HELM_REGISTRY=ghcr.io/epics-containers
+  - wget https://raw.githubusercontent.com/epics-containers/k8s-epics-utils/main/epics-dev-image/home/bin/kube-functions.sh
+  - source kube-functions.sh
+
+The k8s-iocs shell function can perform the following opertions. Note that
+the command k8s-iocs with no parameters will print this list.
 
         usage:
           k8s-ioc <command> <options>

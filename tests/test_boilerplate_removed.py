@@ -7,14 +7,6 @@ import os
 import pytest
 
 
-def test_module_description(setupcfg):
-    if "One line description of your module" in setupcfg["description"]:
-        raise AssertionError(
-            "Please change description in ./setup.cfg "
-            "to be a one line description of your module"
-        )
-
-
 def assert_not_contains_text(path, text, explanation):
     with open(path, "r") as f:
         contents = f.read().replace("\n", " ")
@@ -39,7 +31,7 @@ def test_changed_README():
 # Docs
 def test_docs_ref_api_changed():
     assert_not_contains_text(
-        "docs/reference/api.rst",
+        "docs/reference/cli.rst",
         "You can mix verbose text with docstring and signature",
         "to introduce the API for your module",
     )
