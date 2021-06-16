@@ -1,0 +1,40 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+# Pinning black stops us having to allow pre-releases globally
+black = "==19.10b0"
+
+# Pins to make lockfile usable on multiple Python versions and platforms
+mypy = "*"
+atomicwrites = "*"
+typing-extensions = "*"
+importlib-metadata = "*"
+
+# Switch to main repo after PR https://github.com/Holzhaus/sphinx-multiversion/pull/64 is merged
+sphinx-multiversion = {editable = true,git = "https://github.com/dls-controls/sphinx-multiversion.git",ref = "only-arg"}
+
+# List wheel here to make sure we make the same version to make wheels on gitlab and github CI
+wheel = "0.33.1"
+
+# Test and docs dependencies
+pytest-cov = "*"
+pytest-mypy = "*"
+pytest-flake8 = "*"
+pytest-black = "*"
+flake8-isort = "*"
+isort = ">5.0"
+sphinx-rtd-theme = "*"
+
+[packages]
+# All other package requirements from setup.cfg
+k8s_epics_docs = {editable = true,path = "."}
+
+[scripts]
+tests = "python -m pytest"
+docs = "sphinx-build -EWT --keep-going docs build/html"
+build = "python setup.py sdist bdist_wheel"
+# Delete any files that git ignore hides from us
+gitclean = "git clean -fdX"

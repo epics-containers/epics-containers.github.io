@@ -1,0 +1,56 @@
+
+name: Code CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.7", "3.8", "3.9"]
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install Python Dependencies
+        run: |
+          pip install pipenv twine
+          pipenv install --dev --deploy --python $(which python) && pipenv graph
+
+      - name: Check wheel version is specified
+        run: grep '"wheel":' Pipfile.lock
+
+      - name: Create Sdist and Wheel
+        # for reproducible builds set SOURCE_DATE_EPOCH to the date of the last commit
+        # See here for more info : https://reproducible-builds.org/
+        run: |
+          export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
+          pipenv run build
+
+      - name: Run Tests
+        run: pipenv run tests
+
+      - name: Publish Sdist and Wheel to PyPI
+        # Only once when on a tag
+        if: matrix.python == '3.7' && startsWith(github.ref, 'refs/tags')
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.pypi_token }}
+        run: twine upload dist/*
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          name: ${{ matrix.python }}
+          files: cov.xml
+
