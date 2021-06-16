@@ -12,10 +12,8 @@
 import os
 import sys
 
-
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, "..", "..")))
 
-import k8s_epics_docs  # noqa
 
 # -- General configuration ------------------------------------------------
 
@@ -30,7 +28,7 @@ release = k8s_epics_docs.__version__
 # The short X.Y version.
 if "+" in release:
     # Not on a tag
-    version = "master"
+    version = "main"
 else:
     version = release
 
