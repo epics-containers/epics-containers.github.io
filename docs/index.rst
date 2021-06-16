@@ -6,10 +6,17 @@ How the documentation is structured
 
 .. rst-class:: columns
 
+:ref:`explanations`
+~~~~~~~~~~~~~~~~~~~
+
+Explanation of the principal ideas for deploying IOCs in Kubernetes.
+
+.. rst-class:: columns
+
 :ref:`tutorials`
 ~~~~~~~~~~~~~~~~
 
-Tutorials for installation, library and commandline usage. New users start here.
+Tutorials for setting up a test cluster, and deploying an IOC.
 
 .. rst-class:: columns
 
@@ -20,17 +27,10 @@ Practical step-by-step guides for the more experienced user.
 
 .. rst-class:: columns
 
-:ref:`explanations`
-~~~~~~~~~~~~~~~~~~~
-
-Explanation of how the library works and why it works that way.
-
-.. rst-class:: columns
-
 :ref:`reference`
 ~~~~~~~~~~~~~~~~
 
-Technical reference material, for classes, methods, APIs, commands, and contributing to the project.
+Technical reference material.
 
 .. rst-class:: endcolumns
 
@@ -40,26 +40,31 @@ About the documentation
 `Why is the documentation structured this way? <https://documentation.divio.com>`_
 
 .. toctree::
+    :caption: Explanations
+    :name: explanations
+    :maxdepth: 1
+
+    explanations/whats_in
+    explanations/strategy
+    explanations/net_protocols
+
+.. toctree::
     :caption: Tutorials
     :name: tutorials
     :maxdepth: 1
 
-    tutorials/installation
+    tutorials/introduction
+    tutorials/setup_k8s
+    tutorials/manage_iocs
 
 .. toctree::
     :caption: How-to Guides
     :name: how-to
     :maxdepth: 1
 
-    how-to/setup_k8s
-    how-to/manage_iocs
-
-.. toctree::
-    :caption: Explanations
-    :name: explanations
-    :maxdepth: 1
-
-    explanations/strategy
+    how-to/kubernetes_cluster
+    how-to/generic_iocs
+    how-to/debug
 
 .. rst-class:: no-margin-after-ul
 
@@ -68,6 +73,7 @@ About the documentation
     :name: reference
     :maxdepth: 1
 
+    reference/faq
     reference/cli
     reference/contributing
 

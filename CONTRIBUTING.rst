@@ -1,28 +1,26 @@
 Contributing
 ============
 
-Contributions and issues are most welcome! All issues and pull requests are
-handled through github on the `epics-containers repository`_. Also, please check for
-any existing issues before filing a new one. If you have a great idea but it
-involves big changes, please file a ticket before making a pull request! We
-want to make sure you don't spend your time coding something that might not fit
-the scope of the project.
+Contributions and issues are most welcome! All issues and pull requests for
+the documentation or for the ideas expressed in the epics-containers
+organization are handled through github on the `k8s-epics-docs repository`_.
 
-.. _epics-containers repository: https://github.com/epics-containers/k8s-epics-docs/issues
+Report issues for generic iocs etc. in their own repos.
+
+.. _k8s-epics-docs repository: https://github.com/epics-containers/k8s-epics-docs/issues
 
 Running the tests
 -----------------
 
+This module contains no code but running the tests does verify the sphinx
+documentation.
+
 To get the source source code and run the unit tests, run::
 
     $ git clone git://github.com/epics-containers/k8s-epics-docs.git
-    $ cd k8s_epics_docs
+    $ cd k8s-epics-docs
     $ pipenv install --dev
     $ pipenv run tests
-
-While 100% code coverage does not make a library bug-free, it significantly
-reduces the number of easily caught bugs! Please make sure coverage remains the
-same or is improved by a pull request!
 
 Code Styling
 ------------
@@ -68,4 +66,9 @@ You can build the docs from the project directory by running::
 
     $ pipenv run docs
     $ firefox build/html/index.html
+
+The documentation is automatically built and published on github pages when
+this repo is pushed to main or with a tag.
+
+See https://epics-containers.github.io/k8s-epics-docs/
 

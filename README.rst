@@ -1,16 +1,10 @@
-epics-containers Organization Documentation
-===========================================
+epics-containers
+================
 
 |docs_ci| |license|
 
-epics-containers is an experimental area for trying ideas for managing
-EPICS IOCs in a kubernetes cluster.
-
-This will include a full implemtation of all the IOCs for the test beamline
-BL45P at Diamond Light Source.
-
-The organization includes container images for generic iocs and
-these might also be used independently of kubernetes.
+epics-containers is an experimental GitHub organizaion to try out ideas
+for managing EPICS IOCs in a Kubernetes cluster.
 
 ============== ==============================================================
 Docs Source    https://github.com/epics-containers/k8s-epics-docs
@@ -19,11 +13,13 @@ Documentation  https://epics-containers.github.io/k8s-epics-docs/
 
 An important principal of the approach presented here is that an IOC container
 image represents a 'generic' IOC. The generic IOC image is used for all
-IOC instances that connect to a give class of device.
+IOC instances that connect to a given class of device.
 
-An IOC instance will use a generic IOC image plus some configuration that
-will bootstrap the unique properties of the instance. In nearly all cases the
-configuration need only be a single IOC boot script.
+An IOC instance runs in a container that bases its
+filesystem on a generic IOC image.
+In addition the instance has configuration mapped into the
+container that will bootstrap the unique properties of that instance.
+In most cases the configuration need only be a single IOC boot script.
 
 This approach reduces the number of images required and saves disk. It also
 makes for simple configuration management.
