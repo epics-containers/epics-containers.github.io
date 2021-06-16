@@ -36,8 +36,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@bbdfb200618d235585ad98e965f4aafc39b4c501  # v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # deploy to the organization github.io
-          external_repository: ${{ github.repository_owner }}
           publish_dir: .github/pages
           keep_files: true
 
@@ -66,8 +64,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@bbdfb200618d235585ad98e965f4aafc39b4c501  # v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # deploy to the organization github.io
-          external_repository: ${{ github.repository_owner }}
           publish_dir: build/html
           keep_files: true
 
