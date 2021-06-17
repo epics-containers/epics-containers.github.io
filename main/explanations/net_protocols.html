@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.2 documentation</title>
+  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.3 documentation</title>
   
 
   
@@ -46,8 +46,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Kubernetes Cluster Config" href="../how-to/kubernetes_cluster.html" />
-    <link rel="prev" title="Kubernetes for EPICS IOCs strategy" href="strategy.html" /> 
+    <link rel="next" title="Create a new generic IOC image" href="../how-to/create_ioc.html" />
+    <link rel="prev" title="epics-containers Contents" href="whats_in.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                0.2
+                0.3
               </div>
             
           
@@ -108,27 +108,25 @@
             
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/introduction.html">Quick Start Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup Experimental Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#logging">Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Deploy and Manage IOCs</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Channel Access and Other Protocols</a></li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Reference</span></p>
 <ul>
@@ -139,15 +137,13 @@
 
             
           
-  <!-- Include Index in the sidebar -->
-  <!-- https://stackoverflow.com/a/37843854 -->
-  <a href="../genindex.html">Index</a>
   <!-- Include all versions of the docs -->
   <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
   
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
     <li><a href="net_protocols.html">main</a></li>
+    <li><a href="../../0.3/explanations/net_protocols.html">0.3</a></li>
     <li><a href="../../0.2/explanations/net_protocols.html">0.2</a></li>
   </ul>
   
@@ -227,8 +223,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="../how-to/kubernetes_cluster.html" class="btn btn-neutral float-right" title="Kubernetes Cluster Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="strategy.html" class="btn btn-neutral float-left" title="Kubernetes for EPICS IOCs strategy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../how-to/create_ioc.html" class="btn btn-neutral float-right" title="Create a new generic IOC image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="whats_in.html" class="btn btn-neutral float-left" title="epics-containers Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
