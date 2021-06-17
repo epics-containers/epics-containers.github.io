@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>epics-containers Contents &mdash; k8s_epics_docs 0.2 documentation</title>
+  <title>epics-containers Contents &mdash; k8s_epics_docs 0.2+1.ge0573d9 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Kubernetes for EPICS IOCs strategy" href="strategy.html" />
-    <link rel="prev" title="epics-containers" href="../index.html" /> 
+    <link rel="prev" title="Create a new generic IOC image" href="../tutorials/manage_iocs.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                0.2
+                main
               </div>
             
           
@@ -106,7 +106,18 @@
               
             
             
-              <p class="caption"><span class="caption-text">Explanations</span></p>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/introduction.html">Quick Start Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup Experimental Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#logging">Logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Explanations</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">epics-containers Contents</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#example-beamline">Example Beamline</a></li>
@@ -118,17 +129,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Tutorials</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/introduction.html">Quick Start Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup Experimental Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#create-a-beamline-repository">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#add-an-ioc-instance-to-a-beamline">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html#logging">Logging</a></li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
@@ -267,7 +267,20 @@ that stores these.</p>
 <div class="section" id="naming-convention-for-repositories">
 <h2>Naming Convention for Repositories<a class="headerlink" href="#naming-convention-for-repositories" title="Permalink to this headline">¶</a></h2>
 <p>The following naming conventions help identify the source repositories. Note
-that where a repository generates an image the image will have the same name.</p>
+that where a repository generates an image the image will have the same name.
+e.g.</p>
+<ul class="simple">
+<li><p>the repo</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/epics-containers/epics-base">https://github.com/epics-containers/epics-base</a></p></li>
+</ul>
+</li>
+<li><p>generates the image</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/epics-containers/epics-base/pkgs/container/epics-base">https://github.com/epics-containers/epics-base/pkgs/container/epics-base</a></p></li>
+</ul>
+</li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">epics</dt>
 <dd class="field-odd"><p>this prefix is for images that are nodes in the network of
@@ -296,7 +309,7 @@ containers from. e.g. ioc-pmac, ioc-adaravis</p>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="strategy.html" class="btn btn-neutral float-right" title="Kubernetes for EPICS IOCs strategy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="../index.html" class="btn btn-neutral float-left" title="epics-containers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorials/manage_iocs.html" class="btn btn-neutral float-left" title="Create a new generic IOC image" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

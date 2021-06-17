@@ -6,17 +6,17 @@ How the documentation is structured
 
 .. rst-class:: columns
 
-:ref:`explanations`
-~~~~~~~~~~~~~~~~~~~
-
-Explanation of the principal ideas for deploying IOCs in Kubernetes.
-
-.. rst-class:: columns
-
 :ref:`tutorials`
 ~~~~~~~~~~~~~~~~
 
 Tutorials for setting up a test cluster, and deploying an IOC.
+
+.. rst-class:: columns
+
+:ref:`explanations`
+~~~~~~~~~~~~~~~~~~~
+
+Explanation of the principal ideas for deploying IOCs in Kubernetes.
 
 .. rst-class:: columns
 
@@ -40,15 +40,6 @@ About the documentation
 `Why is the documentation structured this way? <https://documentation.divio.com>`_
 
 .. toctree::
-    :caption: Explanations
-    :name: explanations
-    :maxdepth: 1
-
-    explanations/whats_in
-    explanations/strategy
-    explanations/net_protocols
-
-.. toctree::
     :caption: Tutorials
     :name: tutorials
     :maxdepth: 1
@@ -56,6 +47,15 @@ About the documentation
     tutorials/introduction
     tutorials/setup_k8s
     tutorials/manage_iocs
+
+.. toctree::
+    :caption: Explanations
+    :name: explanations
+    :maxdepth: 1
+
+    explanations/whats_in
+    explanations/strategy
+    explanations/net_protocols
 
 .. toctree::
     :caption: How-to Guides

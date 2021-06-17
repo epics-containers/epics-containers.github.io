@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>epics-containers &mdash; k8s_epics_docs 0.2 documentation</title>
+  <title>epics-containers &mdash; k8s_epics_docs 0.2+1.ge0573d9 documentation</title>
   
 
   
@@ -46,7 +46,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="epics-containers Contents" href="explanations/whats_in.html" /> 
+    <link rel="next" title="Quick Start Introduction" href="tutorials/introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                0.2
+                main
               </div>
             
           
@@ -105,13 +105,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Explanations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/introduction.html">Quick Start Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/setup_k8s.html">Setup Experimental Kubernetes</a></li>
@@ -121,6 +115,12 @@
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#logging">Logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
@@ -233,25 +233,15 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 </tr>
 </tbody>
 </table>
-<p>An important principal of the approach presented here is that an IOC container
-image represents a ‘generic’ IOC. The generic IOC image is used for all
-IOC instances that connect to a given class of device.</p>
-<p>An IOC instance runs in a container that bases its
-filesystem on a generic IOC image.
-In addition the instance has configuration mapped into the
-container that will bootstrap the unique properties of that instance.
-In most cases the configuration need only be a single IOC boot script.</p>
-<p>This approach reduces the number of images required and saves disk. It also
-makes for simple configuration management.</p>
 <div class="section" id="how-the-documentation-is-structured">
 <h2>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this headline">¶</a></h2>
-<div class="columns section" id="explanations">
-<h3><a class="reference internal" href="#id1"><span class="std std-ref">Explanations</span></a><a class="headerlink" href="#explanations" title="Permalink to this headline">¶</a></h3>
-<p>Explanation of the principal ideas for deploying IOCs in Kubernetes.</p>
-</div>
 <div class="columns section" id="tutorials">
-<h3><a class="reference internal" href="#id2"><span class="std std-ref">Tutorials</span></a><a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h3>
+<h3><a class="reference internal" href="#id1"><span class="std std-ref">Tutorials</span></a><a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h3>
 <p>Tutorials for setting up a test cluster, and deploying an IOC.</p>
+</div>
+<div class="columns section" id="explanations">
+<h3><a class="reference internal" href="#id2"><span class="std std-ref">Explanations</span></a><a class="headerlink" href="#explanations" title="Permalink to this headline">¶</a></h3>
+<p>Explanation of the principal ideas for deploying IOCs in Kubernetes.</p>
 </div>
 <div class="columns section" id="how-to">
 <h3><a class="reference internal" href="#id3"><span class="std std-ref">How-to Guides</span></a><a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h3>
@@ -265,14 +255,6 @@ makes for simple configuration management.</p>
 <h3>About the documentation<a class="headerlink" href="#about-the-documentation" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://documentation.divio.com">Why is the documentation structured this way?</a></p>
 <div class="toctree-wrapper compound" id="id1">
-<p class="caption"><span class="caption-text">Explanations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound" id="id2">
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/introduction.html">Quick Start Introduction</a></li>
@@ -283,6 +265,14 @@ makes for simple configuration management.</p>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#controlling-a-deployed-ioc">Controlling a deployed IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html#logging">Logging</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound" id="id2">
+<p class="caption"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/strategy.html">Kubernetes for EPICS IOCs strategy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound" id="id3">
@@ -315,7 +305,7 @@ makes for simple configuration management.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="explanations/whats_in.html" class="btn btn-neutral float-right" title="epics-containers Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="tutorials/introduction.html" class="btn btn-neutral float-right" title="Quick Start Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
