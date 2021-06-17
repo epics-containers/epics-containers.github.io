@@ -1,12 +1,13 @@
 .. _setup_kubernetes:
 
-Setup Experimental Kubernetes
-=============================
+Setup a Kubernetes Server
+=========================
 
 Introduction
 ------------
-This is a very easy set of instructions for setting up a Kubernetes 'cluster'
-containing a single server and ready to deploy EPICS IOCs.
+This is a very easy set of instructions for setting up an experimental
+Kubernetes 'cluster' containing a single server and
+ready to deploy EPICS IOCs.
 
 It has been tested on Ubuntu 20.10 and Raspberry Pi OS 2021-05-07.
 

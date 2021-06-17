@@ -82,7 +82,16 @@ e.g.
     containers from. e.g. ioc-pmac, ioc-adaravis
 
 :k8s:
-    this prefix is for utilities and documentation repositories.
+    this prefix is for utilities repositories.
 
 :helm:
     this prefix is for definitions of helm charts or helm chart libraries
+
+:bl:
+    this prefix is for the example beamline repositories e.g. bl45p. Note
+    that when tagged commit is pushed to these repositories, they will
+    generate a helm chart per ioc defined in the beamline. These helm charts
+    are also pushed to the packages registry.
+    e.g.
+
+    - https://github.com/epics-containers/bl45p/pkgs/container/bl45p-mo-ioc-01

@@ -1,23 +1,26 @@
-Create a new generic IOC image
-==============================
-Todo - will have a template repo for this
+Deploy and Manage IOCs
+======================
 
-Create a beamline repository
-============================
-Todo - will have a template repo for this
+Deploy an IOC Version
+---------------------
+**Todo**
 
-Add an IOC instance to a beamline
-=================================
-Todo
+Rollback an IOC
+---------------
+(within K8s using helm and simply by doing another deploy)
+**Todo**
 
-Controlling a deployed IOC
-==========================
-Todo
+Starting and Stopping IOCs
+--------------------------
+**Todo**
 
 Monitoring and interacting with an IOC shell
-============================================
-Todo
+--------------------------------------------
+**Todo**
 
 Logging
-=======
-Todo
+-------
+**Todo**
+
+
+

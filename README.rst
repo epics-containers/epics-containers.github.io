@@ -7,8 +7,8 @@ epics-containers is an experimental GitHub organizaion to try out ideas
 for managing EPICS IOCs in a Kubernetes cluster.
 
 ============== ==============================================================
-Docs Source    https://github.com/epics-containers/k8s-epics-docs
-Documentation  https://epics-containers.github.io/k8s-epics-docs/
+Docs Source    https://github.com/epics-containers/epics-containers.github.io
+Documentation  https://epics-containers.github.io
 ============== ==============================================================
 
 

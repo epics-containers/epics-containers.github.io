@@ -8,9 +8,6 @@
     }
   </style>
   {{ super() }}
-  <!-- Include Index in the sidebar -->
-  <!-- https://stackoverflow.com/a/37843854 -->
-  <a href="{{pathto('genindex.html', 1)}}">Index</a>
   <!-- Include all versions of the docs -->
   <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
   {% if versions %}

@@ -44,8 +44,9 @@ About the documentation
     :name: tutorials
     :maxdepth: 1
 
-    tutorials/introduction
     tutorials/setup_k8s
+    tutorials/create_beamline
+    tutorials/add_ioc
     tutorials/manage_iocs
 
 .. toctree::
@@ -53,8 +54,9 @@ About the documentation
     :name: explanations
     :maxdepth: 1
 
-    explanations/whats_in
+    explanations/introduction
     explanations/strategy
+    explanations/whats_in
     explanations/net_protocols
 
 .. toctree::
@@ -62,9 +64,10 @@ About the documentation
     :name: how-to
     :maxdepth: 1
 
-    how-to/kubernetes_cluster
+    how-to/create_ioc
     how-to/generic_iocs
     how-to/debug
+    how-to/kubernetes_cluster
 
 .. rst-class:: no-margin-after-ul
 
@@ -77,4 +80,3 @@ About the documentation
     reference/cli
     reference/contributing
 
-* :ref:`genindex`
