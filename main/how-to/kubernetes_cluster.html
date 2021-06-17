@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Central Kubernetes Cluster Config &mdash; k8s_epics_docs 0.1.1 documentation</title>
+  <title>Kubernetes Cluster Config &mdash; k8s_epics_docs 0.2 documentation</title>
   
 
   
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                0.1.1
+                0.2
               </div>
             
           
@@ -125,12 +125,16 @@
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Central Kubernetes Cluster Config</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#brief-overview-of-dls-argus-cluster">Brief Overview of DLS Argus cluster</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#hostnetwork-true">hostNetwork = true</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#namespaces-and-permissions">Namespaces and Permissions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#taints-and-tolerances">Taints and Tolerances</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Kubernetes Cluster Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cluster-options">Cluster Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dls-argus-cluster">DLS Argus Cluster</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#brief-overview-of-dls-argus-cluster">Brief Overview of DLS Argus cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hostnetwork-true">hostNetwork = true</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#namespaces-and-permissions">Namespaces and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taints-and-tolerances">Taints and Tolerances</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="generic_iocs.html">Run an IOC without Kubernetes</a></li>
@@ -155,8 +159,7 @@
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
     <li><a href="kubernetes_cluster.html">main</a></li>
-    <li><a href="../../0.1.1/how-to/kubernetes_cluster.html">0.1.1</a></li>
-    <li><a href="../../0.1/index.html">0.1</a></li>
+    <li><a href="../../0.2/how-to/kubernetes_cluster.html">0.2</a></li>
   </ul>
   
 
@@ -204,7 +207,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Central Kubernetes Cluster Config</li>
+      <li>Kubernetes Cluster Config</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -223,25 +226,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="central-kubernetes-cluster-config">
-<h1>Central Kubernetes Cluster Config<a class="headerlink" href="#central-kubernetes-cluster-config" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="kubernetes-cluster-config">
+<h1>Kubernetes Cluster Config<a class="headerlink" href="#kubernetes-cluster-config" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cluster-options">
+<h2>Cluster Options<a class="headerlink" href="#cluster-options" title="Permalink to this headline">¶</a></h2>
+<p>Three cluster topology approaches were considered for this project.</p>
+<ul class="simple">
+<li><p><strong>Separate Kubernetes cluster per beamline</strong>. This could be as simple as
+a single server and the K3S installation described in
+<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup Experimental Kubernetes</span></a> may be sufficient. The documentation at
+<a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
+cluster, requiring a minimum of 4 servers.</p></li>
+<li><p><strong>A Central Facility Cluster</strong>. A central facility cluster that runs
+all IOCs on its own nodes would keep everything centralized and provide
+economy of scale. However, there are significant issues with routing
+Channel Access, PVA and some device protocols to IOCs running in a
+different subnet to the beamline. DLS spent some time working around these
+issues but eventually abandoned this approach.</p></li>
+<li><p><strong>Central Cluster with Beamline nodes</strong>. This approach uses the central
+cluster but adds beamline nodes that sit in the beamline itself,
+connected to the beamline subnet. This has all the benefits of central
+management but is able to overcome the problems with protocol routing.
+The DLS argus cluster configuration described below is an example of
+how to achieve this.</p></li>
+</ul>
+</div>
+<div class="section" id="dls-argus-cluster">
+<h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this headline">¶</a></h2>
 <p><strong>TODO</strong> this section will give details of the topology and special
 configuration used by the DLS argus cluster to enable running
 IOCs on a Beamline.</p>
 <div class="section" id="brief-overview-of-dls-argus-cluster">
-<h2>Brief Overview of DLS Argus cluster<a class="headerlink" href="#brief-overview-of-dls-argus-cluster" title="Permalink to this headline">¶</a></h2>
+<h3>Brief Overview of DLS Argus cluster<a class="headerlink" href="#brief-overview-of-dls-argus-cluster" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="beamline-local-cluster-nodes">
-<h2>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this headline">¶</a></h2>
+<h3>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="hostnetwork-true">
-<h2>hostNetwork = true<a class="headerlink" href="#hostnetwork-true" title="Permalink to this headline">¶</a></h2>
+<h3>hostNetwork = true<a class="headerlink" href="#hostnetwork-true" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="namespaces-and-permissions">
-<h2>Namespaces and Permissions<a class="headerlink" href="#namespaces-and-permissions" title="Permalink to this headline">¶</a></h2>
+<h3>Namespaces and Permissions<a class="headerlink" href="#namespaces-and-permissions" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="taints-and-tolerances">
-<h2>Taints and Tolerances<a class="headerlink" href="#taints-and-tolerances" title="Permalink to this headline">¶</a></h2>
+<h3>Taints and Tolerances<a class="headerlink" href="#taints-and-tolerances" title="Permalink to this headline">¶</a></h3>
+</div>
 </div>
 </div>
 
