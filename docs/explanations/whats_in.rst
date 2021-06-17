@@ -61,6 +61,15 @@ Naming Convention for Repositories
 
 The following naming conventions help identify the source repositories. Note
 that where a repository generates an image the image will have the same name.
+e.g.
+
+- the repo
+
+  - https://github.com/epics-containers/epics-base
+- generates the image
+
+  - https://github.com/epics-containers/epics-base/pkgs/container/epics-base
+
 
 :epics:
     this prefix is for images that are nodes in the network of
