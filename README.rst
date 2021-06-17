@@ -20,6 +20,16 @@ Documentation  https://epics-containers.github.io
     :target: https://opensource.org/licenses/Apache-2.0
     :alt: Apache License
 
+
+**TODO** include a nice diagram and brief overview
+
+
+*Placeholder:*
+
+.. image:: images/example.png
+    :width: 1500px
+    :align: center
+
 ..
     Anything below this line is used when viewing README.rst and will be replaced
     when included in index.rst
