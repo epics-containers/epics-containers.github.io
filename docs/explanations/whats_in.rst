@@ -73,4 +73,7 @@ that where a repository generates an image the image will have the same name.
     containers from. e.g. ioc-pmac, ioc-adaravis
 
 :k8s:
-    this prefix is for utilities and documentation repos.
+    this prefix is for utilities and documentation repositories.
+
+:helm:
+    this prefix is for definitions of helm charts or helm chart libraries
