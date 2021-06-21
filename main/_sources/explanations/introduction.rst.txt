@@ -91,20 +91,24 @@ and the tags of their built resources.
 
 There are these types of CI:
 
-:Generic IOC repos:
+:Generic IOC repositories:
     - builds a generic IOC container image
     - runs some tests against that image
     - publishes the image to github packages (only if the commit is tagged)
 
-:beamline repos:
+:beamline repositories:
     - builds a helm chart from each ioc definition
       (TODO ibek will do this - at present the charts are hand coded)
     - TODO: IOCs which are unchanged should not be published again
     - publishes the charts to github packages (only if the commit is tagged)
 
-:helm library repo:
+:helm library repositories:
     - builds the helm chart
     - publishes it to github packages (only if the commit is tagged)
+
+:documentation repository:
+    - builds the sphinx docs
+    - publishes it to github.io pages
 
 Industry Standard Technologies
 ------------------------------

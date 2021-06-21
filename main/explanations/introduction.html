@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+1.g2f94b64 documentation</title>
+  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+2.g19eafc5 documentation</title>
   
 
   
@@ -312,14 +312,14 @@ integrity and also to maintain a direct relationship between source code tags
 and the tags of their built resources.</p>
 <p>There are these types of CI:</p>
 <dl class="field-list simple">
-<dt class="field-odd">Generic IOC repos</dt>
+<dt class="field-odd">Generic IOC repositories</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds a generic IOC container image</p></li>
 <li><p>runs some tests against that image</p></li>
 <li><p>publishes the image to github packages (only if the commit is tagged)</p></li>
 </ul>
 </dd>
-<dt class="field-even">beamline repos</dt>
+<dt class="field-even">beamline repositories</dt>
 <dd class="field-even"><ul class="simple">
 <li><p>builds a helm chart from each ioc definition
 (TODO ibek will do this - at present the charts are hand coded)</p></li>
@@ -327,10 +327,16 @@ and the tags of their built resources.</p>
 <li><p>publishes the charts to github packages (only if the commit is tagged)</p></li>
 </ul>
 </dd>
-<dt class="field-odd">helm library repo</dt>
+<dt class="field-odd">helm library repositories</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds the helm chart</p></li>
 <li><p>publishes it to github packages (only if the commit is tagged)</p></li>
+</ul>
+</dd>
+<dt class="field-even">documentation repository</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>builds the sphinx docs</p></li>
+<li><p>publishes it to github.io pages</p></li>
 </ul>
 </dd>
 </dl>
