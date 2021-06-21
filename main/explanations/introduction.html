@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+2.g19eafc5 documentation</title>
+  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+3.g9c30f35 documentation</title>
   
 
   
@@ -117,18 +117,19 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Essential Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#generic-iocs-and-instances">Generic IOCs and instances</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#repositories">Repositories</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="#industry-standard-technologies">Industry Standard Technologies</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#images-and-containers">Images and Containers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#helm">Helm</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generic-iocs-and-instances">Generic IOCs and instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repositories">Repositories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#additional-tools">Additional Tools</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#k8s-epics-utils">k8s-epics-utils</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ibek">Ibek</a></li>
@@ -237,8 +238,70 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>Kubernetes for EPICS IOCs provides the means to deploy and manage IOCs using
-modern industry standard approaches.</p>
+modern industry standard approaches. The same approaches used by the large
+majority of micro-service and SOA applications.</p>
 <p>This page briefly describes the required concepts and technologies.</p>
+</div>
+<div class="section" id="industry-standard-technologies">
+<h2>Industry Standard Technologies<a class="headerlink" href="#industry-standard-technologies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="images-and-containers">
+<h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline">¶</a></h3>
+<p>Containers provide the means to package up IOC software and execute it
+in a lightweight virtual environment. This includes saving the packages
+into public or private image registries such as DockerHub or Google Cloud
+Registry.</p>
+<p>The Open Container Initiative (OCI) defines the set container services
+and their APIs such that container images can be interchanged between
+different frameworks.</p>
+<p>Thus, in this project we develop, build and test our container images
+using docker or podman but the images can be run under Kubernetes’ own
+container runtime.</p>
+<p>This article does a good job of explaining the relationship between docker /
+containers and Kubernetes <a class="reference external" href="https://semaphoreci.com/blog/kubernetes-vs-docker">https://semaphoreci.com/blog/kubernetes-vs-docker</a></p>
+<p>Perhaps the best outcome of using containers is that you can alter the
+environment inside the container to suit the IOC code, instead of altering the
+code to suit your infrastructure. At DLS, this means that we are able to use
+vanilla EPICS base and support modules. We no longer require our own
+forks of these repositories.</p>
+</div>
+<div class="section" id="kubernetes">
+<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://kubernetes.io/">https://kubernetes.io/</a></p>
+<p>Kubernetes easily and efficiently manages containers across clusters of hosts.​</p>
+<p>It builds upon 15 years of experience of running production workloads at
+Google, combined with best-of-breed ideas and practices from the community​,
+since it was open-sourced in 2014.</p>
+<p>Today it is by far the dominant orchestration technology for containers.</p>
+<p>In this project we use Kubernetes to provide a standard way of implementing
+these features:</p>
+<ul class="simple">
+<li><p>Auto start IOCs when servers come up​</p></li>
+<li><p>Manually Start and Stop IOCs​</p></li>
+<li><p>Monitor IOC status and versions​</p></li>
+<li><p>Deploy versioned IOCs to the beamline​</p></li>
+<li><p>Rollback to a previous IOC version​</p></li>
+<li><p>Allocate the server which runs an IOC​</p></li>
+<li><p>View the current log ​</p></li>
+<li><p>View historical logs (via graylog)​</p></li>
+<li><p>Connect to an IOC and interact with its shell</p></li>
+<li><p>debug an ioc by starting a bash shell inside it’s container</p></li>
+<li><p>etc.</p></li>
+</ul>
+</div>
+<div class="section" id="helm">
+<h3>Helm<a class="headerlink" href="#helm" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://helm.sh/">https://helm.sh/</a></p>
+<p>Helm is the most popular package manager for Kubernetes applications​.</p>
+<p>The packages are called Helm Charts​. They contain templated YAML files to
+define a set of resources to apply to a Kubernetes cluster​.</p>
+<p>Helm has functions to deploy Charts to a cluster and manage multiple versions
+of the chart within the cluster​.</p>
+<p>It also supports registries for storing version history of charts,
+much like docker.</p>
+<p>In this project we use Helm Charts to define and deploy IOC instances. Each
+beamline has its own Helm Repository which stores current and historical
+version of its IOC instances.</p>
+</div>
 </div>
 <div class="section" id="concepts">
 <h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
@@ -342,30 +405,33 @@ and the tags of their built resources.</p>
 </dl>
 </div>
 </div>
-<div class="section" id="industry-standard-technologies">
-<h2>Industry Standard Technologies<a class="headerlink" href="#industry-standard-technologies" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="images-and-containers">
-<h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
-</div>
-<div class="section" id="kubernetes">
-<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
-</div>
-<div class="section" id="helm">
-<h3>Helm<a class="headerlink" href="#helm" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
-</div>
+<div class="section" id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+<p>This project currently targets the low hanging fruit of x86_64 Linux Soft
+IOCs only.</p>
+<p>Other linux architectures could be added to the Kubernetes cluster.</p>
+<p>In future it is entirely possible that Windows IOCs could also be supported
+since Kubernetes supports mixed OS clusters. This would be needed
+because windows containers require a windows host.</p>
+<p>Hard IOCs will not be supported in their current form. Perhaps there is a
+future possibility of turning hard IOCs remote devices.</p>
 </div>
 <div class="section" id="additional-tools">
 <h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="k8s-epics-utils">
 <h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
+<p>The project k9s-epics utils contains a script to add simple command
+line functions for deploying and monitoring IOCs.</p>
+<p>It also provides a Dockerfile for building a personal developer image
+allowing a developer to work on support modules or IOCs anywhere.</p>
+<p>See the repository documentation (TODO)</p>
 </div>
 <div class="section" id="ibek">
 <h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
+<p>IOC Builder for EPICS and Kubernetes provides a way to generate an IOC
+helm chart from a YAML description of the IOC.</p>
+<p>TODO: this is in early development and not yet included in the epics-containers
+Organization.</p>
 </div>
 </div>
 </div>
