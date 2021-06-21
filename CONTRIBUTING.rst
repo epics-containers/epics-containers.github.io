@@ -7,7 +7,7 @@ organization are handled through github on the `k8s-epics-docs repository`_.
 
 Report issues for generic iocs etc. in their own repos.
 
-.. _k8s-epics-docs repository: https://github.com/epics-containers/k8s-epics-docs/issues
+.. _k8s-epics-docs repository: https://github.com/epics-containers/epics-containers.github.io/issues
 
 Running the tests
 -----------------
@@ -17,8 +17,8 @@ documentation.
 
 To get the source source code and run the unit tests, run::
 
-    $ git clone git://github.com/epics-containers/k8s-epics-docs.git
-    $ cd k8s-epics-docs
+    $ git clone https://github.com/epics-containers/epics-containers.github.io
+    $ cd epics-containers.github.io
     $ pipenv install --dev
     $ pipenv run tests
 
@@ -70,5 +70,5 @@ You can build the docs from the project directory by running::
 The documentation is automatically built and published on github pages when
 this repo is pushed to main or with a tag.
 
-See https://epics-containers.github.io/k8s-epics-docs/
+See https://github.com/epics-containers/epics-containers.github.io
 
