@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+3.g9c30f35 documentation</title>
+  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+4.g6cebee4 documentation</title>
   
 
   
@@ -117,14 +117,13 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Essential Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#industry-standard-technologies">Industry Standard Technologies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#images-and-containers">Images and Containers</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#helm">Helm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#images-and-containers">Images and Containers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generic-iocs-and-instances">Generic IOCs and instances</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#generic-iocs-and-instances">Generic IOCs and instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helm">Helm</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#repositories">Repositories</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
 </ul>
@@ -237,13 +236,31 @@
 <h1>Essential Concepts<a class="headerlink" href="#essential-concepts" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>Kubernetes for EPICS IOCs provides the means to deploy and manage IOCs using
-modern industry standard approaches. The same approaches used by the large
-majority of micro-service and SOA applications.</p>
-<p>This page briefly describes the required concepts and technologies.</p>
+<p>Kubernetes for EPICS IOCs applies modern industry standards to the management
+of IOCs. The same standards used by the majority of micro-service and
+SOA applications today.</p>
+<p>There are 5 themes to this strategy:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Containers​</dt>
+<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment​.</p>
+</dd>
+<dt class="field-even">Kubernetes​</dt>
+<dd class="field-even"><p>Centrally orchestrate all IOCs at a facility.</p>
+</dd>
+<dt class="field-odd">Helm Charts​</dt>
+<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management​.</p>
+</dd>
+<dt class="field-even">Repositories​</dt>
+<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets. No shared file systems required.​</p>
+</dd>
+<dt class="field-odd">Continuous Integration / Deployment​</dt>
+<dd class="field-odd"><p>Source repositories automatically build assets from source when it is updated. And potentially deploy to Kubernetes.​</p>
+</dd>
+</dl>
+<p>See below for more detail on each of these.</p>
 </div>
-<div class="section" id="industry-standard-technologies">
-<h2>Industry Standard Technologies<a class="headerlink" href="#industry-standard-technologies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="images-and-containers">
 <h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline">¶</a></h3>
 <p>Containers provide the means to package up IOC software and execute it
@@ -258,11 +275,26 @@ using docker or podman but the images can be run under Kubernetes’ own
 container runtime.</p>
 <p>This article does a good job of explaining the relationship between docker /
 containers and Kubernetes <a class="reference external" href="https://semaphoreci.com/blog/kubernetes-vs-docker">https://semaphoreci.com/blog/kubernetes-vs-docker</a></p>
-<p>Perhaps the best outcome of using containers is that you can alter the
+<p>An important outcome of using containers is that you can alter the
 environment inside the container to suit the IOC code, instead of altering the
 code to suit your infrastructure. At DLS, this means that we are able to use
 vanilla EPICS base and support modules. We no longer require our own
 forks of these repositories.</p>
+<div class="section" id="generic-iocs-and-instances">
+<h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Permalink to this headline">¶</a></h4>
+<p>An important principal of the approach presented here is that an IOC container
+image represents a ‘generic’ IOC. The generic IOC image is used for all
+IOC instances that connect to a given class of device.</p>
+<p>An IOC instance runs in a container that bases its
+filesystem on a generic IOC image.
+In addition the instance has configuration mapped into the
+container that will bootstrap the unique properties of that instance.
+In most cases the configuration need only be a single IOC boot script.</p>
+<p>This approach reduces the number of images required and saves disk. It also
+makes for simple configuration management.</p>
+<p>Throughout this documentation we will use the terms Generic IOC and
+IOC Instance. The word IOC without this context is ambiguous.</p>
+</div>
 </div>
 <div class="section" id="kubernetes">
 <h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
@@ -302,69 +334,61 @@ much like docker.</p>
 beamline has its own Helm Repository which stores current and historical
 version of its IOC instances.</p>
 </div>
-</div>
-<div class="section" id="concepts">
-<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="generic-iocs-and-instances">
-<h3>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Permalink to this headline">¶</a></h3>
-<p>An important principal of the approach presented here is that an IOC container
-image represents a ‘generic’ IOC. The generic IOC image is used for all
-IOC instances that connect to a given class of device.</p>
-<p>An IOC instance runs in a container that bases its
-filesystem on a generic IOC image.
-In addition the instance has configuration mapped into the
-container that will bootstrap the unique properties of that instance.
-In most cases the configuration need only be a single IOC boot script.</p>
-<p>This approach reduces the number of images required and saves disk. It also
-makes for simple configuration management.</p>
-<p>Throughout this documentation we will use the terms Generic IOC and
-IOC Instance. The word IOC without this context is ambiguous.</p>
-</div>
 <div class="section" id="repositories">
 <h3>Repositories<a class="headerlink" href="#repositories" title="Permalink to this headline">¶</a></h3>
-<p>Another important principal is that all of the assets required to manage a
+<p>All of the assets required to manage a
 set of IOCs for a beamline are held in repositories.</p>
-<p>These repositories all maintain their own history and version information.</p>
-<p>Thus all configuration management is done
+<p>Thus all version control is done
 via these repositories and no special locations in
-the local filesystem are required
+a shared filesystem are required
 (The legacy approach at DLS relied heavily on
-know locations in the filesystem).</p>
-<p>In the epics-containers examples all 3 repositories are held in the same
+know locations in a shared filesystem).</p>
+<p>In the epics-containers examples all repositories are held in the same
 github organization. This is nicely contained and means that only one set
 of credentials is required to access all the resources.</p>
 <p>There are many alternative services for storing these repositories, both
 in the cloud and on premises. Below we list the choices we have tested
-during proof of concept.</p>
-<p>The 3 repositories are as follows:</p>
-<ul class="simple">
-<li><p><strong>Source Repository</strong> This not only holds the source but also provides the
+during the POC.</p>
+<p>The 3 classes of repository are as follows:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Source Repository</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>Holds the source code but also provides the
 Continuous Integration actions for testing, building and publishing to
-the following 2 repositories. These have been tested
-during proof of concept:</p>
+the following 2 repositories. These have been tested:</p>
 <ul>
 <li><p>github</p></li>
 <li><p>gitlab (on prem)</p></li>
 </ul>
 </li>
-<li><p><strong>An image registry</strong> that holds the generic IOC container images and their
-dependencies. The following have been tested during proof of concept:</p>
+</ul>
+</dd>
+<dt class="field-even">An image repository</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>Holds the generic IOC container images and their
+dependencies. The following have been tested:</p>
 <ul>
 <li><p>github packages</p></li>
 <li><p>dockerhub</p></li>
 <li><p>Google Cloud Container Registry</p></li>
 </ul>
 </li>
-<li><p><strong>A helm chart registry</strong>. This is where the definitions of IOC instances
+</ul>
+</dd>
+<dt class="field-odd">A helm chart repository</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>This is where the definitions of IOC instances
 are stored. They are in the form of a helm chart which describes to
 Kubernetes the resources needed to spin up the IOC.
-The following have been tested during proof of concept:</p>
+These have been tested:</p>
 <ul>
 <li><p>github packages</p></li>
 <li><p>Google Cloud Artifact Registry</p></li>
 </ul>
 </li>
 </ul>
+</dd>
+</dl>
 </div>
 <div class="section" id="continuous-integration">
 <h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h3>
@@ -375,14 +399,14 @@ integrity and also to maintain a direct relationship between source code tags
 and the tags of their built resources.</p>
 <p>There are these types of CI:</p>
 <dl class="field-list simple">
-<dt class="field-odd">Generic IOC repositories</dt>
+<dt class="field-odd">Generic IOC source</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds a generic IOC container image</p></li>
 <li><p>runs some tests against that image</p></li>
 <li><p>publishes the image to github packages (only if the commit is tagged)</p></li>
 </ul>
 </dd>
-<dt class="field-even">beamline repositories</dt>
+<dt class="field-even">beamline definition source</dt>
 <dd class="field-even"><ul class="simple">
 <li><p>builds a helm chart from each ioc definition
 (TODO ibek will do this - at present the charts are hand coded)</p></li>
@@ -390,13 +414,13 @@ and the tags of their built resources.</p>
 <li><p>publishes the charts to github packages (only if the commit is tagged)</p></li>
 </ul>
 </dd>
-<dt class="field-odd">helm library repositories</dt>
+<dt class="field-odd">helm library source</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds the helm chart</p></li>
 <li><p>publishes it to github packages (only if the commit is tagged)</p></li>
 </ul>
 </dd>
-<dt class="field-even">documentation repository</dt>
+<dt class="field-even">documentation source</dt>
 <dd class="field-even"><ul class="simple">
 <li><p>builds the sphinx docs</p></li>
 <li><p>publishes it to github.io pages</p></li>

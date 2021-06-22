@@ -4,15 +4,31 @@ Essential Concepts
 Overview
 --------
 
-Kubernetes for EPICS IOCs provides the means to deploy and manage IOCs using
-modern industry standard approaches. The same approaches used by the large
-majority of micro-service and SOA applications.
+Kubernetes for EPICS IOCs applies modern industry standards to the management
+of IOCs. The same standards used by the majority of micro-service and
+SOA applications today.
 
-This page briefly describes the required concepts and technologies.
+There are 5 themes to this strategy:
 
+:Containers​:
+  Package IOC software and execute it in a lightweight virtual environment​.
 
-Industry Standard Technologies
-------------------------------
+:Kubernetes​:
+  Centrally orchestrate all IOCs at a facility.
+
+:Helm Charts​:
+  Deploy IOCs into Kubernetes with version management​.
+
+:Repositories​:
+  Source, container and helm repositories manage all of the above assets. No shared file systems required.​
+
+:Continuous Integration / Deployment​:
+  Source repositories automatically build assets from source when it is updated. And potentially deploy to Kubernetes.​
+
+See below for more detail on each of these.
+
+Concepts
+--------
 
 Images and Containers
 ~~~~~~~~~~~~~~~~~~~~~
@@ -32,11 +48,30 @@ container runtime.
 This article does a good job of explaining the relationship between docker /
 containers and Kubernetes https://semaphoreci.com/blog/kubernetes-vs-docker
 
-Perhaps the best outcome of using containers is that you can alter the
+An important outcome of using containers is that you can alter the
 environment inside the container to suit the IOC code, instead of altering the
 code to suit your infrastructure. At DLS, this means that we are able to use
 vanilla EPICS base and support modules. We no longer require our own
 forks of these repositories.
+
+Generic IOCs and instances
+""""""""""""""""""""""""""
+
+An important principal of the approach presented here is that an IOC container
+image represents a 'generic' IOC. The generic IOC image is used for all
+IOC instances that connect to a given class of device.
+
+An IOC instance runs in a container that bases its
+filesystem on a generic IOC image.
+In addition the instance has configuration mapped into the
+container that will bootstrap the unique properties of that instance.
+In most cases the configuration need only be a single IOC boot script.
+
+This approach reduces the number of images required and saves disk. It also
+makes for simple configuration management.
+
+Throughout this documentation we will use the terms Generic IOC and
+IOC Instance. The word IOC without this context is ambiguous.
 
 
 Kubernetes
@@ -86,75 +121,52 @@ In this project we use Helm Charts to define and deploy IOC instances. Each
 beamline has its own Helm Repository which stores current and historical
 version of its IOC instances.
 
-
-Concepts
---------
-
-Generic IOCs and instances
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-An important principal of the approach presented here is that an IOC container
-image represents a 'generic' IOC. The generic IOC image is used for all
-IOC instances that connect to a given class of device.
-
-An IOC instance runs in a container that bases its
-filesystem on a generic IOC image.
-In addition the instance has configuration mapped into the
-container that will bootstrap the unique properties of that instance.
-In most cases the configuration need only be a single IOC boot script.
-
-This approach reduces the number of images required and saves disk. It also
-makes for simple configuration management.
-
-Throughout this documentation we will use the terms Generic IOC and
-IOC Instance. The word IOC without this context is ambiguous.
-
 Repositories
 ~~~~~~~~~~~~
 
-Another important principal is that all of the assets required to manage a
+All of the assets required to manage a
 set of IOCs for a beamline are held in repositories.
 
-These repositories all maintain their own history and version information.
-
-Thus all configuration management is done
+Thus all version control is done
 via these repositories and no special locations in
-the local filesystem are required
+a shared filesystem are required
 (The legacy approach at DLS relied heavily on
-know locations in the filesystem).
+know locations in a shared filesystem).
 
-In the epics-containers examples all 3 repositories are held in the same
+In the epics-containers examples all repositories are held in the same
 github organization. This is nicely contained and means that only one set
 of credentials is required to access all the resources.
 
 There are many alternative services for storing these repositories, both
 in the cloud and on premises. Below we list the choices we have tested
-during proof of concept.
+during the POC.
 
-The 3 repositories are as follows:
+The 3 classes of repository are as follows:
 
-- **Source Repository** This not only holds the source but also provides the
-  Continuous Integration actions for testing, building and publishing to
-  the following 2 repositories. These have been tested
-  during proof of concept:
+:Source Repository:
+  - Holds the source code but also provides the
+    Continuous Integration actions for testing, building and publishing to
+    the following 2 repositories. These have been tested:
 
-  - github
-  - gitlab (on prem)
+    - github
+    - gitlab (on prem)
 
-- **An image registry** that holds the generic IOC container images and their
-  dependencies. The following have been tested during proof of concept:
+:An image repository:
+  - Holds the generic IOC container images and their
+    dependencies. The following have been tested:
 
-  - github packages
-  - dockerhub
-  - Google Cloud Container Registry
+    - github packages
+    - dockerhub
+    - Google Cloud Container Registry
 
-- **A helm chart registry**. This is where the definitions of IOC instances
-  are stored. They are in the form of a helm chart which describes to
-  Kubernetes the resources needed to spin up the IOC.
-  The following have been tested during proof of concept:
+:A helm chart repository:
+  - This is where the definitions of IOC instances
+    are stored. They are in the form of a helm chart which describes to
+    Kubernetes the resources needed to spin up the IOC.
+    These have been tested:
 
-  - github packages
-  - Google Cloud Artifact Registry
+    - github packages
+    - Google Cloud Artifact Registry
 
 Continuous Integration
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -168,22 +180,22 @@ and the tags of their built resources.
 
 There are these types of CI:
 
-:Generic IOC repositories:
+:Generic IOC source:
     - builds a generic IOC container image
     - runs some tests against that image
     - publishes the image to github packages (only if the commit is tagged)
 
-:beamline repositories:
+:beamline definition source:
     - builds a helm chart from each ioc definition
       (TODO ibek will do this - at present the charts are hand coded)
     - TODO: IOCs which are unchanged should not be published again
     - publishes the charts to github packages (only if the commit is tagged)
 
-:helm library repositories:
+:helm library source:
     - builds the helm chart
     - publishes it to github packages (only if the commit is tagged)
 
-:documentation repository:
+:documentation source:
     - builds the sphinx docs
     - publishes it to github.io pages
 
