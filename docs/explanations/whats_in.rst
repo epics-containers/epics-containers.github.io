@@ -17,7 +17,8 @@ The downside is that it will only serve as an example; those without access
 to the beamline will not be able to run the code without getting errors.
 
 **TODO**: supply a demo beamline that is based purely on simulated devices
-so that anyone can experiment with Kubernetes for EPICS IOCs.
+so that anyone can experiment with Kubernetes for EPICS IOCs, this will be
+used in the tutorials to walk through deployment.
 
 
 Production generic IOCs
@@ -25,7 +26,7 @@ Production generic IOCs
 
 The generic IOC container images supplied here are intended for general use.
 All EPICS modules included in these images are vanilla versions direct from
-their official repositories with no changes as far as possible.
+their official repositories with the absolute minimum of changes.
 
 A great benefit of using containers is that you can adjust the container
 environment to suit the software instead of needing to modify the software to
