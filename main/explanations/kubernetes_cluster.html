@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.4+5.g498f0f9 documentation</title>
+  <title>Kubernetes Cluster Config &mdash; k8s_epics_docs 0.4+5.g498f0f9 documentation</title>
   
 
   
@@ -46,8 +46,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Kubernetes Cluster Config" href="kubernetes_cluster.html" />
-    <link rel="prev" title="epics-containers Contents" href="whats_in.html" /> 
+    <link rel="next" title="Create a new generic IOC image" href="../how-to/create_ioc.html" />
+    <link rel="prev" title="Channel Access and Other Protocols" href="net_protocols.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -118,8 +118,19 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Kubernetes Cluster Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cluster-options">Cluster Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dls-argus-cluster">DLS Argus Cluster</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#brief-overview-of-dls-argus-cluster">Brief Overview of DLS Argus cluster</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hostnetwork-true">hostNetwork = true</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#namespaces-and-permissions">Namespaces and Permissions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taints-and-tolerances">Taints and Tolerances</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
@@ -142,10 +153,10 @@
   
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
-    <li><a href="net_protocols.html">main</a></li>
-    <li><a href="../../0.4/explanations/net_protocols.html">0.4</a></li>
-    <li><a href="../../0.3/explanations/net_protocols.html">0.3</a></li>
-    <li><a href="../../0.2/explanations/net_protocols.html">0.2</a></li>
+    <li><a href="kubernetes_cluster.html">main</a></li>
+    <li><a href="../../0.4/index.html">0.4</a></li>
+    <li><a href="../../0.3/index.html">0.3</a></li>
+    <li><a href="../../0.2/index.html">0.2</a></li>
   </ul>
   
 
@@ -193,13 +204,13 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Channel Access and Other Protocols</li>
+      <li>Kubernetes Cluster Config</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/explanations/net_protocols.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/explanations/kubernetes_cluster.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -212,10 +223,63 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="channel-access-and-other-protocols">
-<h1>Channel Access and Other Protocols<a class="headerlink" href="#channel-access-and-other-protocols" title="Permalink to this headline">¶</a></h1>
-<p>explanations of the challenges and solutions</p>
-<p><strong>TODO</strong></p>
+  <div class="section" id="kubernetes-cluster-config">
+<h1>Kubernetes Cluster Config<a class="headerlink" href="#kubernetes-cluster-config" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cluster-options">
+<h2>Cluster Options<a class="headerlink" href="#cluster-options" title="Permalink to this headline">¶</a></h2>
+<p>Three cluster topology approaches were considered for this project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Cluster per beamline</dt>
+<dd class="field-odd"><p>This could be as simple as
+a single server: the K3S installation described in
+<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
+<a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
+cluster, requiring a minimum of 4 servers.
+This approach keeps the configuration of the clusters quite straightforward
+but at the cost of having multiple separate clusters to maintain. Also
+it requires control plane servers for every beamline, whereas a centralized
+approach would only need a handful of control plane servers for the entire
+facility.</p>
+</dd>
+<dt class="field-even">Central Facility Cluster</dt>
+<dd class="field-even"><p>A central facility cluster that runs
+all IOCs on its own nodes would keep everything centralized and provide
+economy of scale. However, there are significant issues with routing
+Channel Access, PVA and some device protocols to IOCs running in a
+different subnet to the beamline. DLS spent some time working around these
+issues but eventually abandoned this approach.</p>
+</dd>
+<dt class="field-odd">Beamline Worker Nodes</dt>
+<dd class="field-odd"><p>This approach uses the central
+cluster but adds remote beamline nodes located in the beamline itself,
+connected to the beamline subnet. This has all the benefits of central
+management but is able to overcome the problems with protocol routing.
+The DLS argus cluster configuration described below is an example of
+how to achieve this.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="dls-argus-cluster">
+<h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this headline">¶</a></h2>
+<p><strong>TODO</strong> this section will give details of the topology and special
+configuration used by the DLS argus cluster to enable running
+IOCs on a Beamline.</p>
+<div class="section" id="brief-overview-of-dls-argus-cluster">
+<h3>Brief Overview of DLS Argus cluster<a class="headerlink" href="#brief-overview-of-dls-argus-cluster" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="beamline-local-cluster-nodes">
+<h3>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hostnetwork-true">
+<h3>hostNetwork = true<a class="headerlink" href="#hostnetwork-true" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="namespaces-and-permissions">
+<h3>Namespaces and Permissions<a class="headerlink" href="#namespaces-and-permissions" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="taints-and-tolerances">
+<h3>Taints and Tolerances<a class="headerlink" href="#taints-and-tolerances" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
 </div>
 
 
@@ -224,8 +288,8 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="kubernetes_cluster.html" class="btn btn-neutral float-right" title="Kubernetes Cluster Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="whats_in.html" class="btn btn-neutral float-left" title="epics-containers Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../how-to/create_ioc.html" class="btn btn-neutral float-right" title="Create a new generic IOC image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="net_protocols.html" class="btn btn-neutral float-left" title="Channel Access and Other Protocols" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
