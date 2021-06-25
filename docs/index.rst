@@ -58,6 +58,7 @@ About the documentation
     explanations/strategy
     explanations/whats_in
     explanations/net_protocols
+    explanations/kubernetes_cluster
 
 .. toctree::
     :caption: How-to Guides
@@ -67,7 +68,6 @@ About the documentation
     how-to/create_ioc
     how-to/generic_iocs
     how-to/debug
-    how-to/kubernetes_cluster
 
 .. rst-class:: no-margin-after-ul
 
