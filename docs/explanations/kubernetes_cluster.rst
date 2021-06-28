@@ -4,7 +4,7 @@ Kubernetes Cluster Config
 Cluster Options
 ---------------
 
-Three cluster topology approaches were considered for this project.
+Three cluster topologies were considered for this project.
 
 :Cluster per beamline:
   This could be as simple as
@@ -35,6 +35,7 @@ Three cluster topology approaches were considered for this project.
   how to achieve this.
 
 
+.. _argus:
 
 DLS Argus Cluster
 -----------------

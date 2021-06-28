@@ -3,13 +3,17 @@ epics-containers
 
 |docs_ci| |license|
 
-epics-containers is an experimental GitHub organizaion to try out ideas
+epics-containers is an experimental GitHub organization to try out ideas
 for managing EPICS IOCs in a Kubernetes cluster.
 
+Please contribute with comments and suggestions in the wiki or issues pages:
+
 ============== ==============================================================
-Organization   https://github.com/epics-containers
 Documentation  https://epics-containers.github.io
+Wiki           https://github.com/epics-containers/epics-containers.github.io/wiki
+Issues         https://github.com/epics-containers/epics-containers.github.io/issues
 Docs Source    https://github.com/epics-containers/epics-containers.github.io
+Organization   https://github.com/epics-containers
 ============== ==============================================================
 
 
@@ -22,14 +26,20 @@ Docs Source    https://github.com/epics-containers/epics-containers.github.io
     :alt: Apache License
 
 
-**TODO** include a nice diagram and brief overview
+Overview
+========
 
+.. include:: overview.rst
 
-*Placeholder:*
+This diagram shows how the assets combine to create a running IOC on a
+Kubernetes worker node.
 
 .. image:: images/example.png
     :width: 1500px
     :align: center
+
+- The Helm Chart defines an IOC instance: IMAGE + STARTUP SCRIPT + K8S DEPLOYMENT​
+- The entire definition of the P45 beamline is held in https://github.com/orgs/epics-containers/packages
 
 ..
     Anything below this line is used when viewing README.rst and will be replaced

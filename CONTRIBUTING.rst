@@ -1,13 +1,18 @@
 Contributing
 ============
 
-Contributions and issues are most welcome! All issues and pull requests for
+Contributions and issues are most welcome!
+
+For general comments and ideas please use the `Wiki`_
+
+All issues and pull requests for
 the documentation or for the ideas expressed in the epics-containers
-organization are handled through github on the `k8s-epics-docs repository`_.
+organization are handled in the `epics-containers.github.io repository`_.
 
-Report issues for generic iocs etc. in their own repos.
+Please report issues for generic iocs etc. in their own source repos.
 
-.. _k8s-epics-docs repository: https://github.com/epics-containers/epics-containers.github.io/issues
+.. _Wiki: https://github.com/epics-containers/k8s-epics-utils/wiki
+.. _epics-containers.github.io repository: https://github.com/epics-containers/epics-containers.github.io/issues
 
 Running the tests
 -----------------

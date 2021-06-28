@@ -10,13 +10,13 @@ By way of example we will include a full implementation of the
 test beamline BL45P at Diamond Light Source.
 
 The benefit of this is that it will be live and constantly kept up to date with
-the latest developments. Also proven to work (**TODO** ref documentation on the
-DLS beamline Kubernetes infrastructure)
+the latest developments. Also proven to work, see `argus` for details of the
+DLS cluster which hosts this beamline.
 
 The downside is that it will only serve as an example; those without access
 to the beamline will not be able to run the code without getting errors.
 
-**TODO**: supply a demo beamline that is based purely on simulated devices
+**TODO**: we will supply a demo beamline that is based purely on simulated devices
 so that anyone can experiment with Kubernetes for EPICS IOCs, this will be
 used in the tutorials to walk through deployment.
 
@@ -75,7 +75,7 @@ e.g.
 :epics:
     this prefix is for images that are nodes in the network of
     image dependencies.
-    e.g. epics-base, epics-adcore
+    e.g. epics-base, epics-areadetector
 
 :iocs:
     this prefix is for images that are leaves in the network of
