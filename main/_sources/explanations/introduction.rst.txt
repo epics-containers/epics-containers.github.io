@@ -18,7 +18,7 @@ in a lightweight virtual environment. This includes saving the packages
 into public or private image registries such as DockerHub or Google Cloud
 Registry.
 
-The Open Container Initiative (OCI) defines the set container services
+The Open Container Initiative (OCI) defines the set of container services
 and their APIs such that container images can be interchanged between
 different frameworks.
 
