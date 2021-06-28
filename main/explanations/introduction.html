@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Essential Concepts &mdash; k8s_epics_docs 0.4+5.g5a2d0ed documentation</title>
+  <title>Essential Concepts &mdash; k8s_epics_docs 0.4 documentation</title>
   
 
   
@@ -46,7 +46,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Kubernetes for EPICS IOCs" href="strategy.html" />
+    <link rel="next" title="epics-containers Contents" href="whats_in.html" />
     <link rel="prev" title="Deploy and Manage IOCs" href="../tutorials/manage_iocs.html" /> 
 </head>
 
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                main
+                0.4
               </div>
             
           
@@ -136,7 +136,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
@@ -251,10 +250,12 @@ SOA applications today.</p>
 <dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management​.</p>
 </dd>
 <dt class="field-even">Repositories​</dt>
-<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets. No shared file systems required.​</p>
+<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
+No shared file systems required.​</p>
 </dd>
-<dt class="field-odd">Continuous Integration / Deployment​</dt>
-<dd class="field-odd"><p>Source repositories automatically build assets from source when it is updated. And potentially deploy to Kubernetes.​</p>
+<dt class="field-odd">Continuous Integration / Delivery</dt>
+<dd class="field-odd"><p>Source repositories automatically build containers, helm charts and
+deliver them to repositories.</p>
 </dd>
 </dl>
 <p>See below for more detail on each of these.</p>
@@ -355,7 +356,7 @@ during the POC.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p>Holds the source code but also provides the
 Continuous Integration actions for testing, building and publishing to
-the following 2 repositories. These have been tested:</p>
+the image / helm repositories. These have been tested:</p>
 <ul>
 <li><p>github</p></li>
 <li><p>gitlab (on prem)</p></li>
@@ -431,7 +432,7 @@ and the tags of their built resources.</p>
 </div>
 <div class="section" id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
-<p>This project currently targets the low hanging fruit of x86_64 Linux Soft
+<p>This project initially targets the low hanging fruit of x86_64 Linux Soft
 IOCs only.</p>
 <p>Other linux architectures could be added to the Kubernetes cluster.</p>
 <p>In future it is entirely possible that Windows IOCs could also be supported
@@ -439,6 +440,8 @@ since Kubernetes supports mixed OS clusters. This would be needed
 because windows containers require a windows host.</p>
 <p>Hard IOCs will not be supported in their current form. Perhaps there is a
 future possibility of turning hard IOCs remote devices.</p>
+<p>Note that OPI is also out of scope for this initial phase. See
+<a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a></p>
 </div>
 <div class="section" id="additional-tools">
 <h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline">¶</a></h2>
@@ -446,9 +449,10 @@ future possibility of turning hard IOCs remote devices.</p>
 <h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this headline">¶</a></h3>
 <p>The project k9s-epics utils contains a script to add simple command
 line functions for deploying and monitoring IOCs.</p>
+<p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for details.</p>
 <p>It also provides a Dockerfile for building a personal developer image
 allowing a developer to work on support modules or IOCs anywhere.</p>
-<p>See the repository documentation (TODO)</p>
+<p>TODO provide documentation for the developer image.</p>
 </div>
 <div class="section" id="ibek">
 <h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this headline">¶</a></h3>
@@ -466,7 +470,7 @@ Organization.</p>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="strategy.html" class="btn btn-neutral float-right" title="Kubernetes for EPICS IOCs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="whats_in.html" class="btn btn-neutral float-right" title="epics-containers Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="../tutorials/manage_iocs.html" class="btn btn-neutral float-left" title="Deploy and Manage IOCs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>epics-containers Contents &mdash; k8s_epics_docs 0.4+5.g5a2d0ed documentation</title>
+  <title>epics-containers Contents &mdash; k8s_epics_docs 0.4 documentation</title>
   
 
   
@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Channel Access and Other Protocols" href="net_protocols.html" />
-    <link rel="prev" title="Kubernetes for EPICS IOCs" href="strategy.html" /> 
+    <link rel="prev" title="Essential Concepts" href="introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -74,7 +74,7 @@
             
             
               <div class="version">
-                main
+                0.4
               </div>
             
           
@@ -116,7 +116,6 @@
 <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="strategy.html">Kubernetes for EPICS IOCs</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">epics-containers Contents</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#example-beamline">Example Beamline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#production-generic-iocs">Production generic IOCs</a></li>
@@ -227,11 +226,11 @@
 <p>By way of example we will include a full implementation of the
 test beamline BL45P at Diamond Light Source.</p>
 <p>The benefit of this is that it will be live and constantly kept up to date with
-the latest developments. Also proven to work (<strong>TODO</strong> ref documentation on the
-DLS beamline Kubernetes infrastructure)</p>
+the latest developments. Also proven to work, see <a class="reference internal" href="kubernetes_cluster.html#argus"><span class="std std-ref">DLS Argus Cluster</span></a> for details of the
+DLS cluster which hosts this beamline.</p>
 <p>The downside is that it will only serve as an example; those without access
 to the beamline will not be able to run the code without getting errors.</p>
-<p><strong>TODO</strong>: supply a demo beamline that is based purely on simulated devices
+<p><strong>TODO</strong>: we will supply a demo beamline that is based purely on simulated devices
 so that anyone can experiment with Kubernetes for EPICS IOCs, this will be
 used in the tutorials to walk through deployment.</p>
 </div>
@@ -283,7 +282,7 @@ e.g.</p>
 <dt class="field-odd">epics</dt>
 <dd class="field-odd"><p>this prefix is for images that are nodes in the network of
 image dependencies.
-e.g. epics-base, epics-adcore</p>
+e.g. epics-base, epics-areadetector</p>
 </dd>
 <dt class="field-even">iocs</dt>
 <dd class="field-even"><p>this prefix is for images that are leaves in the network of
@@ -317,7 +316,7 @@ e.g.</p>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="net_protocols.html" class="btn btn-neutral float-right" title="Channel Access and Other Protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="strategy.html" class="btn btn-neutral float-left" title="Kubernetes for EPICS IOCs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Essential Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -4,26 +4,7 @@ Essential Concepts
 Overview
 --------
 
-Kubernetes for EPICS IOCs applies modern industry standards to the management
-of IOCs. The same standards used by the majority of micro-service and
-SOA applications today.
-
-There are 5 themes to this strategy:
-
-:Containers​:
-  Package IOC software and execute it in a lightweight virtual environment​.
-
-:Kubernetes​:
-  Centrally orchestrate all IOCs at a facility.
-
-:Helm Charts​:
-  Deploy IOCs into Kubernetes with version management​.
-
-:Repositories​:
-  Source, container and helm repositories manage all of the above assets. No shared file systems required.​
-
-:Continuous Integration / Deployment​:
-  Source repositories automatically build assets from source when it is updated. And potentially deploy to Kubernetes.​
+.. include:: overview.rst
 
 See below for more detail on each of these.
 
@@ -146,7 +127,7 @@ The 3 classes of repository are as follows:
 :Source Repository:
   - Holds the source code but also provides the
     Continuous Integration actions for testing, building and publishing to
-    the following 2 repositories. These have been tested:
+    the image / helm repositories. These have been tested:
 
     - github
     - gitlab (on prem)
@@ -201,7 +182,7 @@ There are these types of CI:
 
 Scope
 -----
-This project currently targets the low hanging fruit of x86_64 Linux Soft
+This project initially targets the low hanging fruit of x86_64 Linux Soft
 IOCs only.
 
 Other linux architectures could be added to the Kubernetes cluster.
@@ -213,6 +194,8 @@ because windows containers require a windows host.
 Hard IOCs will not be supported in their current form. Perhaps there is a
 future possibility of turning hard IOCs remote devices.
 
+Note that OPI is also out of scope for this initial phase. See
+`no_opi`
 
 Additional Tools
 ----------------
@@ -222,10 +205,13 @@ k8s-epics-utils
 The project k9s-epics utils contains a script to add simple command
 line functions for deploying and monitoring IOCs.
 
+See `CLI` for details.
+
 It also provides a Dockerfile for building a personal developer image
 allowing a developer to work on support modules or IOCs anywhere.
 
-See the repository documentation (TODO)
+TODO provide documentation for the developer image.
+
 
 Ibek
 ~~~~

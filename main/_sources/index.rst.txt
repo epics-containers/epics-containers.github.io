@@ -2,7 +2,7 @@
     :end-before: when included in index.rst
 
 How the documentation is structured
------------------------------------
+===================================
 
 .. rst-class:: columns
 
@@ -55,7 +55,6 @@ About the documentation
     :maxdepth: 1
 
     explanations/introduction
-    explanations/strategy
     explanations/whats_in
     explanations/net_protocols
     explanations/kubernetes_cluster

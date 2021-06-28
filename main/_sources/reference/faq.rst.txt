@@ -1,6 +1,8 @@
 Frequently Asked Questions
 ==========================
 
+.. _no_opi:
+
 Why no mention of Operator Interfaces?
 --------------------------------------
 OPI was out of scope for the proof of concept. That is because we
