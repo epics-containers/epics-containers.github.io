@@ -81,6 +81,7 @@ receive broadcasts. It can also open new ephemeral ports and a client that
 knows the port number can connect because no NAT is in the way.
 
 The downside of this approach is that Pods need elevated privileges in order
-to be allowed to use this setting. At DLS the K8S team has crafted a
-set of restrictions that mitigate this issue. see `argus` for details.
+to be allowed to use hostNetwork. At DLS the K8S team has crafted a
+set of restrictions that mitigate this issue. See `argus` for details
+of the
 
