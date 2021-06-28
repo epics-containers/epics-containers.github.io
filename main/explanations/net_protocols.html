@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.4+1.g579918a documentation</title>
+  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.4+1.g4c29311 documentation</title>
   
 
   
@@ -276,9 +276,9 @@ listens on a port it is listening on the IP address of its host and can
 receive broadcasts. It can also open new ephemeral ports and a client that
 knows the port number can connect because no NAT is in the way.</p>
 <p>The downside of this approach is that Pods need elevated privileges in order
-to be allowed to use hostNetwork. At DLS the K8S team has crafted a
+to be allowed to use hostNetwork. At DLS the K8S team has implemented a
 set of restrictions that mitigate this issue. See <a class="reference internal" href="kubernetes_cluster.html#argus"><span class="std std-ref">DLS Argus Cluster</span></a> for details
-of the</p>
+of the remote worker nodes and suggestions for secure configuration.</p>
 </div>
 </div>
 
