@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Channel Access and Other Protocols &mdash; k8s_epics_docs 0.4+1.g4c29311 documentation</title>
+  <title>Channel Access and Other Protocols &mdash; epics_containers 0.4+3.g08d8dea documentation</title>
   
 
   
@@ -21,7 +21,7 @@
 
   
   
-    <link rel="shortcut icon" href="../_static/dls-favicon.ico"/>
+    <link rel="shortcut icon" href="../_static/k8s-epics.ico"/>
   
 
   
@@ -61,12 +61,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> k8s_epics_docs
+            <a href="../index.html" class="icon icon-home"> epics_containers
           
 
           
             
-            <img src="../_static/dls-logo.svg" class="logo" alt="Logo"/>
+            <img src="../_static/k8s-epics.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -147,9 +147,6 @@
   <p class="caption"><span class="caption-text">Versions</span></p>
   <ul>
     <li><a href="net_protocols.html">main</a></li>
-    <li><a href="../../0.4/explanations/net_protocols.html">0.4</a></li>
-    <li><a href="../../0.3/explanations/net_protocols.html">0.3</a></li>
-    <li><a href="../../0.2/explanations/net_protocols.html">0.2</a></li>
   </ul>
   
 
@@ -164,7 +161,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">k8s_epics_docs</a>
+          <a href="../index.html">epics_containers</a>
         
       </nav>
 
@@ -225,7 +222,6 @@ from IOCs running under Kubernetes.</p>
 <p>A Kubernetes cluster will have a CNI (Container Network Interface) that
 provides some form of virtual network within which Pods communicate.</p>
 <p>For a useful discussion of this subject see <a class="reference external" href="https://rancher.com/blog/2019/2019-03-21-comparing-kubernetes-cni-providers-flannel-calico-canal-and-weave/">Kubernetes CNI providers</a></p>
-<p>At DLS the Argus cluster uses Weave.</p>
 <p>In order to connect to a Pod from outside of the cluster you must configure
 a Service. A Service can provide an external IP and port to external clients
 and will typically load balance between multiple instances of a given Pod.</p>

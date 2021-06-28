@@ -12,8 +12,6 @@ provides some form of virtual network within which Pods communicate.
 
 For a useful discussion of this subject see `Kubernetes CNI providers`_
 
-At DLS the Argus cluster uses Weave.
-
 In order to connect to a Pod from outside of the cluster you must configure
 a Service. A Service can provide an external IP and port to external clients
 and will typically load balance between multiple instances of a given Pod.

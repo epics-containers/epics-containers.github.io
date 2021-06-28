@@ -1,6 +1,5 @@
 Kubernetes for EPICS IOCs applies modern industry standards to the management
-of IOCs. The same standards used by the majority of micro-service and
-SOA applications today.
+of IOCs.
 
 There are 5 themes to this strategy:
 
