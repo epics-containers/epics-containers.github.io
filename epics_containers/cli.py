@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from k8s_epics_docs import __version__
+from epics_containers import __version__
 
 
 def main(args=None):

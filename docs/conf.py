@@ -12,7 +12,7 @@
 import os
 import sys
 
-import k8s_epics_docs  # noqa
+import epics_containers  # noqa
 
 sys.path.insert(0, os.path.abspath(os.path.join(__file__, "..", "..")))
 
@@ -20,12 +20,12 @@ sys.path.insert(0, os.path.abspath(os.path.join(__file__, "..", "..")))
 # -- General configuration ------------------------------------------------
 
 # General information about the project.
-project = "k8s_epics_docs"
+project = "epics_containers"
 copyright = "2021, Diamond Light Source"
 author = "Giles Knap"
 
 # The full version, including alpha/beta/rc tags.
-release = k8s_epics_docs.__version__
+release = epics_containers.__version__
 
 # The short X.Y version.
 if "+" in release:
@@ -131,8 +131,9 @@ html_show_copyright = True
 html_css_files = ["theme_overrides.css"]
 
 # Logo
-html_logo = "images/dls-logo.svg"
-html_favicon = "images/dls-favicon.ico"
+html_logo = "images/k8s-epics.png"
+html_favicon = "images/k8s-epics.ico"
+
 
 # sphinx-multiversion config
 smv_rebuild_tags = False
