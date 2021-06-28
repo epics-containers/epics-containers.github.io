@@ -113,7 +113,7 @@ rst_epilog = """
 #
 html_theme = "sphinx_rtd_theme"
 
-# Options for the sphinx rtd theme, use DLS blue
+# Options for the sphinx rtd theme
 html_theme_options = dict(style_nav_header_background="rgb(7, 43, 93)")
 
 # Add any paths that contain custom static files (such as style sheets) here,

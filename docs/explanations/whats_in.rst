@@ -35,10 +35,6 @@ suit your organizations infrastructure.
 Therefore there is a real possibility that multiple facilities can use the
 same images with all the economies of scale that this implies.
 
-These generic images are intended to be used in production at DLS once the
-Beamline Kubernetes infrastructure is rolled out.
-
-
 Utilities
 ---------
 

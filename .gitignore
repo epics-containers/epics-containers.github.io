@@ -59,9 +59,3 @@ docs/_build/
 # PyBuilder
 target/
 
-# DLS build dir and virtual environment
-/prefix/
-/venv/
-/lightweight-venv/
-/installed.files
-
