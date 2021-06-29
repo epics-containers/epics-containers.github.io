@@ -131,8 +131,8 @@ html_show_copyright = True
 html_css_files = ["theme_overrides.css"]
 
 # Logo
-html_logo = "images/k8s-epics.png"
-html_favicon = "images/k8s-epics.ico"
+html_logo = "images/k8s-epics2.png"
+html_favicon = "images/k8s-epics2.ico"
 
 
 # sphinx-multiversion config
