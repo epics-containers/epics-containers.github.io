@@ -29,17 +29,35 @@ Organization   https://github.com/epics-containers
 Overview
 ========
 
-.. include:: overview.rst
+Kubernetes for EPICS IOCs applies modern industry standards to the
+management of IOCs.
 
-This diagram shows how the assets combine to create a running IOC on a
+- Containers package generic IOC code and dependencies.
+- Kubernetes orchestrates the **Containers**.
+- Helm deploys IOCs to **Kubernetes**.
+- Repositories hold **container** images and **helm** charts
+- CI / CD generates the images, charts from source and delivers them
+  to **Repositories**
+
+Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.
 
 .. image:: images/example.png
     :width: 1500px
     :align: center
 
-- The Helm Chart defines an IOC instance: IMAGE + STARTUP SCRIPT + K8S DEPLOYMENT​
-- The entire definition of the P45 beamline is held in https://github.com/orgs/epics-containers/packages
+- The Helm Chart defines an IOC instance as:
+
+  - An image reference for generic IOC binaries
+  - A startup Script for the unique IOC instance
+  - K8S resource YAML to describe resources to the Kubernetes cluster
+
+- The entire definition of the the example P45 beamline is held in this
+  github organization:
+
+  - Helm Charts: https://github.com/orgs/epics-containers/packages
+  - IOC Images: https://github.com/orgs/epics-containers/packages
+  - BL45P IOC sources: https://github.com/epics-containers/bl45p
 
 ..
     Anything below this line is used when viewing README.rst and will be replaced
