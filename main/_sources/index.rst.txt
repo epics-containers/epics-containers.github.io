@@ -45,6 +45,7 @@ About the documentation
     :maxdepth: 1
 
     tutorials/setup_k8s
+    tutorials/useful_k8s
     tutorials/create_beamline
     tutorials/add_ioc
     tutorials/manage_iocs

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>epics-containers &mdash; epics_containers 0.4+4.ge1601f9 documentation</title>
+  <title>epics-containers &mdash; epics_containers 0.4+5.g25d2f9a documentation</title>
   
 
   
@@ -108,6 +108,7 @@
               <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/create_beamline.html">Create a beamline repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html">Deploy and Manage IOCs</a></li>
@@ -239,34 +240,35 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 </div>
 <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>Kubernetes for EPICS IOCs applies modern industry standards to the management
-of IOCs.</p>
-<p>There are 5 themes to this strategy:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Containers​</dt>
-<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment​.</p>
-</dd>
-<dt class="field-even">Kubernetes​</dt>
-<dd class="field-even"><p>Centrally orchestrate all IOCs at a facility.</p>
-</dd>
-<dt class="field-odd">Helm Charts​</dt>
-<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management​.</p>
-</dd>
-<dt class="field-even">Repositories​</dt>
-<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
-No shared file systems required.​</p>
-</dd>
-<dt class="field-odd">Continuous Integration / Delivery</dt>
-<dd class="field-odd"><p>Source repositories automatically build containers, helm charts and
-deliver them to repositories.</p>
-</dd>
-</dl>
-<p>This diagram shows how the assets combine to create a running IOC on a
+<p>Kubernetes for EPICS IOCs applies modern industry standards to the
+management of IOCs.</p>
+<ul class="simple">
+<li><p>Containers package generic IOC code and dependencies.</p></li>
+<li><p>Kubernetes orchestrates the <strong>Containers</strong>.</p></li>
+<li><p>Helm deploys IOCs to <strong>Kubernetes</strong>.</p></li>
+<li><p>Repositories hold <strong>container</strong> images and <strong>helm</strong> charts</p></li>
+<li><p>CI / CD generates the images, charts from source and delivers them
+to <strong>Repositories</strong></p></li>
+</ul>
+<p>Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.</p>
 <a class="reference internal image-reference" href="_images/example.png"><img alt="_images/example.png" class="align-center" src="_images/example.png" style="width: 1500px;" /></a>
 <ul class="simple">
-<li><p>The Helm Chart defines an IOC instance: IMAGE + STARTUP SCRIPT + K8S DEPLOYMENT​</p></li>
-<li><p>The entire definition of the P45 beamline is held in <a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
+<li><p>The Helm Chart defines an IOC instance as:</p>
+<ul>
+<li><p>An image reference for generic IOC binaries</p></li>
+<li><p>A startup Script for the unique IOC instance</p></li>
+<li><p>K8S resource YAML to describe resources to the Kubernetes cluster</p></li>
+</ul>
+</li>
+<li><p>The entire definition of the the example P45 beamline is held in this
+github organization:</p>
+<ul>
+<li><p>Helm Charts: <a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
+<li><p>IOC Images: <a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
+<li><p>BL45P IOC sources: <a class="reference external" href="https://github.com/epics-containers/bl45p">https://github.com/epics-containers/bl45p</a></p></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="how-the-documentation-is-structured">
@@ -294,6 +296,7 @@ Kubernetes worker node.</p>
 <p class="caption"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/create_beamline.html">Create a beamline repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html">Deploy and Manage IOCs</a></li>

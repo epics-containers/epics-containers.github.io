@@ -4,7 +4,7 @@ Essential Concepts
 Overview
 --------
 
-.. include:: overview.rst
+.. include:: ../overview.rst
 
 See below for more detail on each of these.
 
