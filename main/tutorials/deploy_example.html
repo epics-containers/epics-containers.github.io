@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Deploy The Example IOC &mdash; epics_containers 0.4+6.g0397d1d documentation</title>
+  <title>Deploy The Example IOC &mdash; epics_containers 0.4+7.g9e10ccd documentation</title>
   
 
   
@@ -114,8 +114,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Deploy The Example IOC</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initial-setup">Initial Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#deploy-an-ioc-version">Deploy an IOC Version</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#learning-about-helm-and-kubernetes-manifests">Learning about Helm and Kubernetes Manifests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#launching-a-gui-to-interact-with-your-ioc">Launching a GUI to interact with your IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#learning-about-helm-and-kubernetes-manifests">Learning about Helm and Kubernetes Manifests</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
@@ -247,11 +247,47 @@ generated a helm chart at ghcr.io/gilesknap with tags 0.1 and latest.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">deploy</span> <span class="n">example</span> <span class="mf">0.1</span>
 </pre></div>
 </div>
+<p>It may take a while for the first launch because Kubernetes needs to pull
+the generic IOC image from the repository. The following command will give
+details of the resources associated with the example IOC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="nb">list</span> <span class="n">example</span>
+</pre></div>
+</div>
+<p>When the output looks like this, your IOC is running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span>                          <span class="n">READY</span>   <span class="n">STATUS</span>    <span class="n">RESTARTS</span>   <span class="n">AGE</span>
+<span class="n">pod</span><span class="o">/</span><span class="n">example</span><span class="o">-</span><span class="mi">6779</span><span class="n">d4dcf</span><span class="o">-</span><span class="n">g2cpm</span>   <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>     <span class="n">Running</span>   <span class="mi">0</span>          <span class="mi">50</span><span class="n">s</span>
+
+<span class="n">NAME</span>                      <span class="n">READY</span>   <span class="n">UP</span><span class="o">-</span><span class="n">TO</span><span class="o">-</span><span class="n">DATE</span>   <span class="n">AVAILABLE</span>   <span class="n">AGE</span>
+<span class="n">deployment</span><span class="o">.</span><span class="n">apps</span><span class="o">/</span><span class="n">example</span>   <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>     <span class="mi">1</span>            <span class="mi">1</span>           <span class="mi">50</span><span class="n">s</span>
+
+<span class="n">NAME</span>                                <span class="n">DESIRED</span>   <span class="n">CURRENT</span>   <span class="n">READY</span>   <span class="n">AGE</span>
+<span class="n">replicaset</span><span class="o">.</span><span class="n">apps</span><span class="o">/</span><span class="n">example</span><span class="o">-</span><span class="mi">6779</span><span class="n">d4dcf</span>   <span class="mi">1</span>         <span class="mi">1</span>         <span class="mi">1</span>       <span class="mi">50</span><span class="n">s</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="launching-a-gui-to-interact-with-your-ioc">
+<h2>Launching a GUI to interact with your IOC<a class="headerlink" href="#launching-a-gui-to-interact-with-your-ioc" title="Permalink to this headline">¶</a></h2>
+<p>OPI screens are outside of the scope of this project for the moment see
+<a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a>.</p>
+<p>However to make this example usable we have supplied some edm screens and
+will use a local edm container to display these. For this purpose you will
+require docker (or podman) installed on your workstation and your user
+will need to be in the docker group.</p>
+<p>See here <a class="reference external" href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a> for instructions for
+installing docker.</p>
+<p>To launch the GUI for the example IOC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">bl00i</span>
+<span class="o">./</span><span class="n">opi</span><span class="o">/</span><span class="n">stexample</span><span class="o">-</span><span class="n">gui</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>The IOC is a simulated detector with a PVA plugin. It will be possible to
+run a PVA viewer to see the output of this IOC.</p>
+<p>The main screen of the edm OPI should look like this.</p>
+<img alt="../_images/edm_pco.png" class="align-center" src="../_images/edm_pco.png" />
 </div>
 <div class="section" id="learning-about-helm-and-kubernetes-manifests">
 <h2>Learning about Helm and Kubernetes Manifests<a class="headerlink" href="#learning-about-helm-and-kubernetes-manifests" title="Permalink to this headline">¶</a></h2>
-<p>It is instructive to see what helm is doing when you execute the above
-command.</p>
+<p>It is instructive to see what helm is doing when you deploy the example IOC.</p>
 <p>Helm uses templates to generate a set of YAML resources and applies them
 to the cluster using kubectl.</p>
 <p>We are using a helm library defined in
@@ -275,26 +311,6 @@ command:</p>
 </div>
 <p>This is recommended for testing only since you won’t easily be able to track
 versions deployed in this way.</p>
-</div>
-<div class="section" id="launching-a-gui-to-interact-with-your-ioc">
-<h2>Launching a GUI to interact with your IOC<a class="headerlink" href="#launching-a-gui-to-interact-with-your-ioc" title="Permalink to this headline">¶</a></h2>
-<p>OPI screens are outside of the scope of this project for the moment see
-<a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a>.</p>
-<p>However to make this example usable we have supplied some edm screens and
-will use a local edm container to display these. For this purpose you will
-require docker (or podman) installed on your workstation and your user
-will need to be in the docker group.</p>
-<p>See here <a class="reference external" href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a> for instructions for
-installing docker.</p>
-<p>To launch the GUI for the example IOC:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">bl00i</span>
-<span class="o">./</span><span class="n">opi</span><span class="o">/</span><span class="n">stexample</span><span class="o">-</span><span class="n">gui</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-<p>The IOC is a simulated detector with a PVA plugin. It will be possible to
-run a PVA viewer to see the output of this IOC.</p>
-<p>The main screen of the edm OPI should look like this.</p>
-<img alt="../_images/edm_pco.png" class="align-center" src="../_images/edm_pco.png" />
 </div>
 </div>
 

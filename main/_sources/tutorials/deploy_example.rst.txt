@@ -36,39 +36,23 @@ To deploy the helm chart into your cluster::
 
     k8s-ioc deploy example 0.1
 
+It may take a while for the first launch because Kubernetes needs to pull
+the generic IOC image from the repository. The following command will give
+details of the resources associated with the example IOC::
 
-Learning about Helm and Kubernetes Manifests
---------------------------------------------
+    k8s-ioc list example
 
-It is instructive to see what helm is doing when you execute the above
-command.
+When the output looks like this, your IOC is running::
 
-Helm uses templates to generate a set of YAML resources and applies them
-to the cluster using kubectl.
+    NAME                          READY   STATUS    RESTARTS   AGE
+    pod/example-6779d4dcf-g2cpm   1/1     Running   0          50s
 
-We are using a helm library defined in
-https://github.com/epics-containers/helm-ioc-lib. You can see the templates
-it is using in its templates folder.
+    NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/example   1/1     1            1           50s
 
-The example ioc folder itself has a templates folder containing the ioc.yaml
-template. This includes all of the templates from helm-ioc-lib and
-also generates a ConfigMap resource from the files in the config folder.
+    NAME                                DESIRED   CURRENT   READY   AGE
+    replicaset.apps/example-6779d4dcf   1         1         1       50s
 
-To see the YAML that helm is generating you can use the following commands::
-
-    cd bl00i
-    helm dependency update iocs/example/
-    helm template example iocs/example
-
-This is using the helm chart in your local filesystem rather than the one
-that we pushed to the registry so this is useful for your inner dev loop
-testing. You can also deploy directly from the local copy with this
-command::
-
-    helm upgrade --install example iocs/example
-
-This is recommended for testing only since you won't easily be able to track
-versions deployed in this way.
 
 Launching a GUI to interact with your IOC
 -----------------------------------------
@@ -97,3 +81,35 @@ The main screen of the edm OPI should look like this.
 
 .. image:: ../images/edm_pco.png
     :align: center
+
+Learning about Helm and Kubernetes Manifests
+--------------------------------------------
+
+It is instructive to see what helm is doing when you deploy the example IOC.
+
+Helm uses templates to generate a set of YAML resources and applies them
+to the cluster using kubectl.
+
+We are using a helm library defined in
+https://github.com/epics-containers/helm-ioc-lib. You can see the templates
+it is using in its templates folder.
+
+The example ioc folder itself has a templates folder containing the ioc.yaml
+template. This includes all of the templates from helm-ioc-lib and
+also generates a ConfigMap resource from the files in the config folder.
+
+To see the YAML that helm is generating you can use the following commands::
+
+    cd bl00i
+    helm dependency update iocs/example/
+    helm template example iocs/example
+
+This is using the helm chart in your local filesystem rather than the one
+that we pushed to the registry so this is useful for your inner dev loop
+testing. You can also deploy directly from the local copy with this
+command::
+
+    helm upgrade --install example iocs/example
+
+This is recommended for testing only since you won't easily be able to track
+versions deployed in this way.
