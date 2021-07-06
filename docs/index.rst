@@ -47,7 +47,7 @@ About the documentation
     tutorials/setup_k8s
     tutorials/useful_k8s
     tutorials/create_beamline
-    tutorials/add_ioc
+    tutorials/deploy_example
     tutorials/manage_iocs
 
 .. toctree::
@@ -65,6 +65,7 @@ About the documentation
     :name: how-to
     :maxdepth: 1
 
+    how-to/add_ioc
     how-to/create_ioc
     how-to/generic_iocs
     how-to/debug

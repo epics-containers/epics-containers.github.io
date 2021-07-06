@@ -11,7 +11,9 @@ live with K8s IOCs. Kubernetes is very well suited to running web
 servers so this is a natural fit.
 
 There are a number of ways to support the current OPI solutions without
-breaking the repositories-only model. TODO: add a brief description of these.
+breaking the repositories-only model. The simplest approach is to extract
+the OPI files from the container running in Kubernetes with **kubectl cp**.
+Then keep a local cache and run the OPI code locally.
 
 
 Why have ioc-XXX repositories?

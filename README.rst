@@ -35,7 +35,7 @@ management of IOCs.
 - Containers package generic IOC code and dependencies.
 - Kubernetes orchestrates the **Containers**.
 - Helm deploys IOCs to **Kubernetes**.
-- Repositories hold **container** images and **helm** charts
+- Repositories hold **Container** images and **Helm** charts
 - CI / CD generates the images, charts from source and delivers them
   to **Repositories**
 
