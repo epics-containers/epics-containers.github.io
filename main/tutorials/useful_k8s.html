@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+5.g25d2f9a documentation</title>
+  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+6.g0397d1d documentation</title>
   
 
   
@@ -111,12 +111,12 @@
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Useful Kubernetes Additions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-kubernetes-dashboard">Install the Kubernetes Dashboard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#add-a-raspberry-pi-to-the-cluster">Add a Raspberry Pi to the cluster</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-on-a-raspberry-pi">Installing on a Raspberry Pi</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_ioc.html">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Deploy and Manage IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul>
@@ -127,6 +127,7 @@
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
@@ -215,6 +216,9 @@
             
   <div class="section" id="useful-kubernetes-additions">
 <h1>Useful Kubernetes Additions<a class="headerlink" href="#useful-kubernetes-additions" title="Permalink to this headline">¶</a></h1>
+<p>For the quickest path through the tutorial use an x86 linux machine
+and follow the instructions here <a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a>. For additional
+non-essential features use this page.</p>
 <div class="section" id="install-the-kubernetes-dashboard">
 <h2>Install the Kubernetes Dashboard<a class="headerlink" href="#install-the-kubernetes-dashboard" title="Permalink to this headline">¶</a></h2>
 <p>The dashboard gives you a nice GUI for exploring and controlling your cluster.
@@ -226,30 +230,31 @@ has to offer.</p>
 kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/<span class="si">${</span><span class="nv">VERSION_KUBE_DASHBOARD</span><span class="si">}</span>/aio/deploy/recommended.yaml
 </pre></div>
 </div>
-<p>Then create the admin user and role by creating dashboard-admin.yaml containing:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">admin-user</span>
-<span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kubernetes-dashboard</span>
-<span class="nn">---</span>
-<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
-<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterRoleBinding</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">admin-user</span>
-<span class="nt">roleRef</span><span class="p">:</span>
-<span class="nt">apiGroup</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
-<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
-<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cluster-admin</span>
-<span class="nt">subjects</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
-<span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">admin-user</span>
-<span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kubernetes-dashboard</span>
+<p>Then create the admin user and role by executing the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl apply -f - <span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: ServiceAccount</span>
+<span class="s">metadata:</span>
+<span class="s">  name: admin-user</span>
+<span class="s">  namespace: kubernetes-dashboard</span>
+<span class="s">---</span>
+<span class="s">apiVersion: rbac.authorization.k8s.io/v1</span>
+<span class="s">kind: ClusterRoleBinding</span>
+<span class="s">metadata:</span>
+<span class="s">  name: admin-user</span>
+<span class="s">roleRef:</span>
+<span class="s">  apiGroup: rbac.authorization.k8s.io</span>
+<span class="s">  kind: ClusterRole</span>
+<span class="s">  name: cluster-admin</span>
+<span class="s">subjects:</span>
+<span class="s">- kind: ServiceAccount</span>
+<span class="s">  name: admin-user</span>
+<span class="s">  namespace: kubernetes-dashboard</span>
+<span class="s">EOF</span>
 </pre></div>
 </div>
 <p>get a token for the user:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">create</span> <span class="o">-</span><span class="n">f</span> <span class="n">dashboard</span><span class="o">-</span><span class="n">admin</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">kubectl</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">describe</span> <span class="n">secret</span> <span class="n">admin</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">token</span> <span class="o">|</span> <span class="n">grep</span> <span class="s1">&#39;^token&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">describe</span> <span class="n">secret</span> <span class="n">admin</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">token</span> <span class="o">|</span> <span class="n">grep</span> <span class="s1">&#39;^token&#39;</span>
 </pre></div>
 </div>
 <p>Finally, start a proxy and goto the Dashboard URL, use the above token to log in:</p>
@@ -258,10 +263,9 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/<span c
 </pre></div>
 </div>
 </div>
-<div class="section" id="add-a-raspberry-pi-to-the-cluster">
-<h2>Add a Raspberry Pi to the cluster<a class="headerlink" href="#add-a-raspberry-pi-to-the-cluster" title="Permalink to this headline">¶</a></h2>
-<p>For a Raspberry Pi you need a couple of extra settings to get K3S running.</p>
-<p>You need the following changes before installing:</p>
+<div class="section" id="installing-on-a-raspberry-pi">
+<h2>Installing on a Raspberry Pi<a class="headerlink" href="#installing-on-a-raspberry-pi" title="Permalink to this headline">¶</a></h2>
+<p>For a Raspberry Pi you need a couple of extra settings to get K3S running:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">update</span><span class="o">-</span><span class="n">alternatives</span> <span class="o">--</span><span class="nb">set</span> <span class="n">iptables</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">iptables</span><span class="o">-</span><span class="n">legacy</span>
 <span class="c1"># edit /boot/cmdline and make sure the single line contains:</span>
 <span class="c1">#  cgroup_memory=1 cgroup_enable=memory</span>

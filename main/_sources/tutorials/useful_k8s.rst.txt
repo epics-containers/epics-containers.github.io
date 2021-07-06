@@ -2,6 +2,10 @@
 Useful Kubernetes Additions
 ===========================
 
+For the quickest path through the tutorial use an x86 linux machine
+and follow the instructions here `setup_kubernetes`. For additional
+non-essential features use this page.
+
 Install the Kubernetes Dashboard
 --------------------------------
 
@@ -17,32 +21,33 @@ Execute this on your workstation:
     VERSION_KUBE_DASHBOARD=$(curl -w '%{url_effective}' -I -L -s -S ${GITHUB_URL}/latest -o /dev/null | sed -e 's|.*/||')
     kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/${VERSION_KUBE_DASHBOARD}/aio/deploy/recommended.yaml
 
-Then create the admin user and role by creating dashboard-admin.yaml containing:
+Then create the admin user and role by executing the following:
 
-.. code-block:: yaml
+.. code-block:: bash
 
+    kubectl apply -f - <<EOF
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-    name: admin-user
-    namespace: kubernetes-dashboard
+      name: admin-user
+      namespace: kubernetes-dashboard
     ---
     apiVersion: rbac.authorization.k8s.io/v1
     kind: ClusterRoleBinding
     metadata:
-    name: admin-user
+      name: admin-user
     roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: cluster-admin
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: cluster-admin
     subjects:
     - kind: ServiceAccount
-    name: admin-user
-    namespace: kubernetes-dashboard
+      name: admin-user
+      namespace: kubernetes-dashboard
+    EOF
 
 get a token for the user::
 
-    kubectl create -f dashboard-admin.yaml
     kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token'
 
 Finally, start a proxy and goto the Dashboard URL, use the above token to log in::
@@ -51,12 +56,10 @@ Finally, start a proxy and goto the Dashboard URL, use the above token to log in
     browse to http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy
 
 
-Add a Raspberry Pi to the cluster
----------------------------------
+Installing on a Raspberry Pi
+----------------------------
 
-For a Raspberry Pi you need a couple of extra settings to get K3S running.
-
-You need the following changes before installing::
+For a Raspberry Pi you need a couple of extra settings to get K3S running::
 
     sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
     # edit /boot/cmdline and make sure the single line contains:

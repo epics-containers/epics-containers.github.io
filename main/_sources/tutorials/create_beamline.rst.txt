@@ -53,24 +53,13 @@ In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step::
 
 
-    [giles@gklinux2 tmp]$ git clone git@github.com:gilesknap/bl00i.git
-    Cloning into 'bl00i'...
-    remote: Enumerating objects: 22, done.
-    remote: Counting objects: 100% (22/22), done.
-    remote: Compressing objects: 100% (18/18), done.
-    remote: Total 22 (delta 0), reused 21 (delta 0), pack-reused 0
-    Receiving objects: 100% (22/22), 15.28 KiB | 15.28 MiB/s, done.
-    [giles@gklinux2 tmp]$
+    git clone git@github.com:gilesknap/bl00i.git
 
 Now test that CI is working by tagging the repo and pushing it back to github::
 
-
-    [giles@gklinux2 tmp]$ cd bl00i
-    (main) [giles@gklinux2 bl00i]$ git tag 0.1
-    (main) [giles@gklinux2 bl00i]$ git push origin 0.1
-    Total 0 (delta 0), reused 0 (delta 0)
-    To github.com:gilesknap/bl00i.git
-    * [new tag]         0.1 -> 0.1
+    cd bl00i
+    git tag 0.1
+    git push origin 0.1
 
 This will cause github CI to generate a helm chart for the example IOC and
 deliver it to the account packages repository.
@@ -87,3 +76,11 @@ Go to the code pane and click on the example Package circled below to see it.
 .. image:: ../images/github_package.png
     :align: center
 
+There will be one version of the package, with two tags:
+
+- the tag you set on the source
+- and the 'latest' tag
+
+
+.. image:: ../images/github_example_package.png
+    :align: center

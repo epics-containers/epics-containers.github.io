@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+5.g25d2f9a documentation</title>
+  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+6.g0397d1d documentation</title>
   
 
   
@@ -112,7 +112,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-steps">Installation Steps</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-k3s-lightweight-kubernetes">Install K3S lightweight Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-kubectl">Install kubectl</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#create-an-epics-iocs-namespace-and-context">Create an epics IOCs namespace and context</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-service-account-to-run-the-iocs">Create a service account to run the IOCs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install-helm">Install helm</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#completed">Completed</a></li>
 </ul>
@@ -121,8 +123,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Useful Kubernetes Additions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_ioc.html">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Deploy and Manage IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Explanations</span></p>
 <ul>
@@ -133,6 +135,7 @@
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
@@ -237,6 +240,7 @@ if you decide to back out.</p>
 <li><p>minikube <a class="reference external" href="https://minikube.sigs.k8s.io/docs/start/">https://minikube.sigs.k8s.io/docs/start/</a></p></li>
 </ul>
 </div></blockquote>
+<p>For k3s documentation see <a class="reference external" href="https://k3s.io/">https://k3s.io/</a>.</p>
 </div>
 <div class="section" id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this headline">¶</a></h2>
@@ -247,18 +251,25 @@ if you decide to back out.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">sfL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">get</span><span class="o">.</span><span class="n">k3s</span><span class="o">.</span><span class="n">io</span> <span class="o">|</span> <span class="n">sh</span> <span class="o">-</span>
 </pre></div>
 </div>
-<p>Install kubectl on the workstation from which you will be managing the cluster
-(workstation==server if you have one machine only):</p>
+</div>
+<div class="section" id="install-kubectl">
+<h3>Install kubectl<a class="headerlink" href="#install-kubectl" title="Permalink to this headline">¶</a></h3>
+<p>Kubectl is the command line tool for interacting with your cluster. If you
+have a separate workstation then you can install it there. If you only have one
+machine then server==workstation.</p>
+<p>On the workstation install the binary:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">LO</span> <span class="s2">&quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;</span>
 <span class="n">sudo</span> <span class="n">install</span> <span class="o">-</span><span class="n">o</span> <span class="n">root</span> <span class="o">-</span><span class="n">g</span> <span class="n">root</span> <span class="o">-</span><span class="n">m</span> <span class="mi">0755</span> <span class="n">kubectl</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">kubectl</span>
+<span class="n">source</span> <span class="o">&lt;</span><span class="p">(</span><span class="n">kubectl</span> <span class="n">completion</span> <span class="n">bash</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Go to the server machine and copy over the kubectl configuration to your
-workstation:</p>
+<p>The last step adds command line completion and is worth adding to your profile.</p>
+<p>From the server machine copy over the k3s kubectl configuration:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">scp</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rancher</span><span class="o">/</span><span class="n">k3s</span><span class="o">/</span><span class="n">k3s</span><span class="o">.</span><span class="n">yaml</span> <span class="o">&lt;</span><span class="n">YOUR_ACCOUNT</span><span class="o">&gt;@&lt;</span><span class="n">YOUR_WORKSTATION</span><span class="o">&gt;</span><span class="p">:</span><span class="o">.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
-<span class="c1"># edit the file .kube/config replacing 127.0.0.1 with your server IP Address</span>
 </pre></div>
 </div>
+<p>If you do have separate workstation then edit the file .kube/config replacing
+127.0.0.1 with your server’s IP Address.</p>
 </div>
 <div class="section" id="create-an-epics-iocs-namespace-and-context">
 <h3>Create an epics IOCs namespace and context<a class="headerlink" href="#create-an-epics-iocs-namespace-and-context" title="Permalink to this headline">¶</a></h3>
@@ -269,8 +280,32 @@ workstation:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="create-a-service-account-to-run-the-iocs">
+<h3>Create a service account to run the IOCs<a class="headerlink" href="#create-a-service-account-to-run-the-iocs" title="Permalink to this headline">¶</a></h3>
+<p>Create the account:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
+<span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>
+<span class="n">kind</span><span class="p">:</span> <span class="n">ServiceAccount</span>
+<span class="n">metadata</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">epics</span><span class="o">-</span><span class="n">iocs</span><span class="o">-</span><span class="n">priv</span>
+<span class="n">EOF</span>
+</pre></div>
+</div>
+<p>Generate a login token for the account:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">f</span> <span class="o">-</span> <span class="o">&lt;&lt;</span><span class="n">EOF</span>
+<span class="n">apiVersion</span><span class="p">:</span> <span class="n">v1</span>
+<span class="n">kind</span><span class="p">:</span> <span class="n">Secret</span>
+<span class="n">metadata</span><span class="p">:</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">epics</span><span class="o">-</span><span class="n">iocs</span><span class="o">-</span><span class="n">priv</span><span class="o">-</span><span class="n">secret</span>
+    <span class="n">annotations</span><span class="p">:</span>
+        <span class="n">kubernetes</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">service</span><span class="o">-</span><span class="n">account</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">epics</span><span class="o">-</span><span class="n">iocs</span><span class="o">-</span><span class="n">priv</span>
+<span class="nb">type</span><span class="p">:</span> <span class="n">kubernetes</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">service</span><span class="o">-</span><span class="n">account</span><span class="o">-</span><span class="n">token</span>
+<span class="n">EOF</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="install-helm">
-<h3>Install helm<a class="headerlink" href="#install-helm" title="Permalink to this headline">¶</a></h3>
+<span id="setup-helm"></span><h3>Install helm<a class="headerlink" href="#install-helm" title="Permalink to this headline">¶</a></h3>
 <p>Execute this on the workstation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">fsSL</span> <span class="o">-</span><span class="n">o</span> <span class="n">get_helm</span><span class="o">.</span><span class="n">sh</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">helm</span><span class="o">/</span><span class="n">helm</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">helm</span><span class="o">-</span><span class="mi">3</span>
 <span class="n">bash</span> <span class="n">get_helm</span><span class="o">.</span><span class="n">sh</span>
@@ -281,6 +316,12 @@ workstation:</p>
 <h3>Completed<a class="headerlink" href="#completed" title="Permalink to this headline">¶</a></h3>
 <p>That’s it. You now have installed the necessary software to start experimenting
 with IOCs on Kubernetes.</p>
+<p>To remove everything you have installed above and clean up the disk space
+simply use this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k3s</span><span class="o">-</span><span class="n">uninstall</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>If you are interested in looking at the k3s files see <strong>/var/lib/rancher/k3s/</strong>.</p>
 </div>
 </div>
 </div>
