@@ -50,7 +50,7 @@ To get the current logs for the example IOC::
 
     k8s-ioc log example
 
-Monitor your beamline IOCs
+Monitor your beamline IOCs::
 
     k8s-ioc monitor blxxi
 
