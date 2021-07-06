@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+7.g9e10ccd documentation</title>
+  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+8.g8ce62e4 documentation</title>
   
 
   
@@ -244,6 +244,9 @@ if you decide to back out.</p>
 </div>
 <div class="section" id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this headline">¶</a></h2>
+<p>These instructions work with a single machine or with a server running k3s
+and a workstation running the kubectl client CLI. If you only have a single
+machine then server==workstation for all instructions.</p>
 <div class="section" id="install-k3s-lightweight-kubernetes">
 <h3>Install K3S lightweight Kubernetes<a class="headerlink" href="#install-k3s-lightweight-kubernetes" title="Permalink to this headline">¶</a></h3>
 <p>Execute this command on your server to set up the cluster master
@@ -254,9 +257,7 @@ if you decide to back out.</p>
 </div>
 <div class="section" id="install-kubectl">
 <h3>Install kubectl<a class="headerlink" href="#install-kubectl" title="Permalink to this headline">¶</a></h3>
-<p>Kubectl is the command line tool for interacting with your cluster. If you
-have a separate workstation then you can install it there. If you only have one
-machine then server==workstation.</p>
+<p>Kubectl is the command line tool for interacting with your cluster.</p>
 <p>On the workstation install the binary:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">LO</span> <span class="s2">&quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;</span>
 <span class="n">sudo</span> <span class="n">install</span> <span class="o">-</span><span class="n">o</span> <span class="n">root</span> <span class="o">-</span><span class="n">g</span> <span class="n">root</span> <span class="o">-</span><span class="n">m</span> <span class="mi">0755</span> <span class="n">kubectl</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">kubectl</span>
@@ -268,8 +269,11 @@ machine then server==workstation.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">scp</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rancher</span><span class="o">/</span><span class="n">k3s</span><span class="o">/</span><span class="n">k3s</span><span class="o">.</span><span class="n">yaml</span> <span class="o">&lt;</span><span class="n">YOUR_ACCOUNT</span><span class="o">&gt;@&lt;</span><span class="n">YOUR_WORKSTATION</span><span class="o">&gt;</span><span class="p">:</span><span class="o">.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
 </pre></div>
 </div>
+<p>(Note the above command does work for a single machine too and ensures that
+the permissions are correct on the target file.)</p>
 <p>If you do have separate workstation then edit the file .kube/config replacing
-127.0.0.1 with your server’s IP Address.</p>
+127.0.0.1 with your server’s IP Address. For a single machine the file is left
+as is.</p>
 </div>
 <div class="section" id="create-an-epics-iocs-namespace-and-context">
 <h3>Create an epics IOCs namespace and context<a class="headerlink" href="#create-an-epics-iocs-namespace-and-context" title="Permalink to this headline">¶</a></h3>
