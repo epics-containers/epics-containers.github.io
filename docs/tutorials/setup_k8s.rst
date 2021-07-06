@@ -25,6 +25,11 @@ For k3s documentation see https://k3s.io/.
 Installation Steps
 ------------------
 
+These instructions work with a single machine or with a server running k3s
+and a workstation running the kubectl client CLI. If you only have a single
+machine then server==workstation for all instructions.
+
+
 Install K3S lightweight Kubernetes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -36,9 +41,7 @@ Execute this command on your server to set up the cluster master
 Install kubectl
 ~~~~~~~~~~~~~~~
 
-Kubectl is the command line tool for interacting with your cluster. If you
-have a separate workstation then you can install it there. If you only have one
-machine then server==workstation.
+Kubectl is the command line tool for interacting with your cluster.
 
 On the workstation install the binary::
 
@@ -52,8 +55,12 @@ From the server machine copy over the k3s kubectl configuration::
 
     sudo scp  /etc/rancher/k3s/k3s.yaml <YOUR_ACCOUNT>@<YOUR_WORKSTATION>:.kube/config
 
+(Note the above command does work for a single machine too and ensures that
+the permissions are correct on the target file.)
+
 If you do have separate workstation then edit the file .kube/config replacing
-127.0.0.1 with your server's IP Address.
+127.0.0.1 with your server's IP Address. For a single machine the file is left
+as is.
 
 
 Create an epics IOCs namespace and context
