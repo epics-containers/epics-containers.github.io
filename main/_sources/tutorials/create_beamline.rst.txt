@@ -1,3 +1,5 @@
+.. _create_beamline:
+
 Create a beamline repository
 ============================
 

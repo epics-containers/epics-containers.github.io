@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>epics-containers &mdash; epics_containers 0.4+9.g08cc09d documentation</title>
+  <title>epics-containers &mdash; epics_containers 0.4+10.g00d17b5 documentation</title>
   
 
   
@@ -265,71 +265,50 @@ Kubernetes worker node.</p>
 <li><p>The entire definition of the the example P45 beamline is held in this
 github organization:</p>
 <ul>
-<li><p>Helm Charts: <a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
-<li><p>IOC Images: <a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
-<li><p>BL45P IOC sources: <a class="reference external" href="https://github.com/epics-containers/bl45p">https://github.com/epics-containers/bl45p</a></p></li>
+<li><p>Helm Charts and IOC Images:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
+</ul>
+</li>
+<li><p>BL45P IOC sources:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/epics-containers/bl45p">https://github.com/epics-containers/bl45p</a></p></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="how-the-documentation-is-structured">
 <h1>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this headline">¶</a></h1>
+<p>Documentation is split into four categories, accessible from links in the side-bar.</p>
 <div class="columns section" id="tutorials">
-<h2><a class="reference internal" href="#id1"><span class="std std-ref">Tutorials</span></a><a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h2>
 <p>Tutorials for setting up a test cluster, and deploying an IOC.</p>
 </div>
 <div class="columns section" id="explanations">
-<h2><a class="reference internal" href="#id2"><span class="std std-ref">Explanations</span></a><a class="headerlink" href="#explanations" title="Permalink to this headline">¶</a></h2>
+<h2>Explanations<a class="headerlink" href="#explanations" title="Permalink to this headline">¶</a></h2>
 <p>Explanation of the principal ideas for deploying IOCs in Kubernetes.</p>
 </div>
-<div class="columns section" id="how-to">
-<h2><a class="reference internal" href="#id3"><span class="std std-ref">How-to Guides</span></a><a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h2>
+<div class="columns section" id="how-to-guides">
+<h2>How-to Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this headline">¶</a></h2>
 <p>Practical step-by-step guides for the more experienced user.</p>
 </div>
 <div class="columns section" id="reference">
-<h2><a class="reference internal" href="#id4"><span class="std std-ref">Reference</span></a><a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
 <p>Technical reference material.</p>
+<div class="toctree-wrapper endcolumns compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper no-margin-after-ul compound">
+</div>
 </div>
 <div class="endcolumns section" id="about-the-documentation">
 <h2>About the documentation<a class="headerlink" href="#about-the-documentation" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://documentation.divio.com">Why is the documentation structured this way?</a></p>
-<div class="toctree-wrapper compound" id="id1">
-<p class="caption"><span class="caption-text">Tutorials</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html">Manage IOCs</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound" id="id2">
-<p class="caption"><span class="caption-text">Explanations</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="explanations/introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper compound" id="id3">
-<p class="caption"><span class="caption-text">How-to Guides</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="how-to/create_ioc.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="how-to/generic_iocs.html">Run an IOC without Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="how-to/debug.html">Debug an IOC instance locally</a></li>
-<li class="toctree-l1"><a class="reference internal" href="how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
-</ul>
-</div>
-<div class="toctree-wrapper no-margin-after-ul compound" id="id4">
-<p class="caption"><span class="caption-text">Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="reference/faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference/cli.html">Command Line Interface for IOC Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reference/contributing.html">Contributing</a></li>
-</ul>
-</div>
 </div>
 </div>
 

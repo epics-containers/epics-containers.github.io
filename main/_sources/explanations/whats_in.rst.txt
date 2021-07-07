@@ -16,9 +16,9 @@ DLS cluster which hosts this beamline.
 The downside is that it will only serve as an example; those without access
 to the beamline will not be able to run the code without getting errors.
 
-**TODO**: we will supply a demo beamline that is based purely on simulated devices
-so that anyone can experiment with Kubernetes for EPICS IOCs, this will be
-used in the tutorials to walk through deployment.
+The tutorial `create_beamline` supplies a demo beamline
+with an IOC that is based purely on a simulated Area Detector
+so that anyone can experiment with Kubernetes for EPICS IOCs.
 
 
 Production generic IOCs
