@@ -4,45 +4,41 @@
 How the documentation is structured
 ===================================
 
+Documentation is split into four categories, accessible from links in the side-bar.
+
 .. rst-class:: columns
 
-:ref:`tutorials`
-~~~~~~~~~~~~~~~~
+Tutorials
+~~~~~~~~~
 
 Tutorials for setting up a test cluster, and deploying an IOC.
 
 .. rst-class:: columns
 
-:ref:`explanations`
-~~~~~~~~~~~~~~~~~~~
+Explanations
+~~~~~~~~~~~~
 
 Explanation of the principal ideas for deploying IOCs in Kubernetes.
 
 .. rst-class:: columns
 
-:ref:`how-to`
+How-to Guides
 ~~~~~~~~~~~~~
 
 Practical step-by-step guides for the more experienced user.
 
 .. rst-class:: columns
 
-:ref:`reference`
-~~~~~~~~~~~~~~~~
+Reference
+~~~~~~~~~
 
 Technical reference material.
 
 .. rst-class:: endcolumns
 
-About the documentation
-~~~~~~~~~~~~~~~~~~~~~~~
-
-`Why is the documentation structured this way? <https://documentation.divio.com>`_
-
 .. toctree::
     :caption: Tutorials
-    :name: tutorials
-    :maxdepth: 1
+    :hidden:
 
     tutorials/setup_k8s
     tutorials/useful_k8s
@@ -52,8 +48,7 @@ About the documentation
 
 .. toctree::
     :caption: Explanations
-    :name: explanations
-    :maxdepth: 1
+    :hidden:
 
     explanations/introduction
     explanations/whats_in
@@ -62,8 +57,7 @@ About the documentation
 
 .. toctree::
     :caption: How-to Guides
-    :name: how-to
-    :maxdepth: 1
+    :hidden:
 
     how-to/add_ioc
     how-to/create_ioc
@@ -74,10 +68,15 @@ About the documentation
 
 .. toctree::
     :caption: Reference
-    :name: reference
-    :maxdepth: 1
+    :hidden:
 
     reference/faq
     reference/cli
     reference/contributing
 
+.. rst-class:: endcolumns
+
+About the documentation
+~~~~~~~~~~~~~~~~~~~~~~~
+
+`Why is the documentation structured this way? <https://documentation.divio.com>`_

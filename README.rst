@@ -55,9 +55,13 @@ Kubernetes worker node.
 - The entire definition of the the example P45 beamline is held in this
   github organization:
 
-  - Helm Charts: https://github.com/orgs/epics-containers/packages
-  - IOC Images: https://github.com/orgs/epics-containers/packages
-  - BL45P IOC sources: https://github.com/epics-containers/bl45p
+  - Helm Charts and IOC Images:
+
+    - https://github.com/orgs/epics-containers/packages
+
+  - BL45P IOC sources:
+
+    - https://github.com/epics-containers/bl45p
 
 ..
     Anything below this line is used when viewing README.rst and will be replaced
