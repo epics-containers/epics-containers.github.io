@@ -46,6 +46,33 @@ generic IOC image then see `create_ioc`.
 For the moment you will have to implement your own approach to providing a GUI,
 see `no_opi`.
 
+Testing and Deploying
+~~~~~~~~~~~~~~~~~~~~~
+
+Assuming you have created a new IOC in iocs/example2 you can take a look at
+what helm will generate with the following command::
+
+    helm template example2 iocs/example2
+
+The first parameter is the 'release name' for best results this should
+match the folder name you have your new helm chart.
+
+To make a test deployment of your new IOC instance::
+
+    helm upgrade --install example2 iocs/example2
+    k8s-ioc list example2 # repeat until this reports the pod is running
+
+To publish a version of your new IOC instance::
+
+    git add --all
+    git commit -m 'Added new IOC example2'
+    git tag 0.2
+    git push origin 0.2 main
+
+Then monitor the Actions page of your github project until it completes the CI.
+You are now ready to deploy the released version
+
+
 Production Deployment
 ~~~~~~~~~~~~~~~~~~~~~
 
