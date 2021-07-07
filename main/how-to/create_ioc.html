@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Create a new generic IOC image &mdash; epics_containers 0.4+13.g0c47661 documentation</title>
+  <title>Create a new generic IOC image &mdash; epics_containers 0.4+14.g5fbdd80 documentation</title>
   
 
   
@@ -124,7 +124,12 @@
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="add_ioc.html">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a new generic IOC image</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a new generic IOC image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-to-the-template-project">Changes to The Template Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-and-publish-the-generic-ioc-image">Build and Publish the Generic IOC Image</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="run_iocs.html">Run an IOC without Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
@@ -212,7 +217,96 @@
             
   <div class="section" id="create-a-new-generic-ioc-image">
 <h1>Create a new generic IOC image<a class="headerlink" href="#create-a-new-generic-ioc-image" title="Permalink to this headline">¶</a></h1>
-<p>Todo - will have a template repo for this</p>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>You may need to create an IOC instance that depends on support modules
+that have not yet been published in a generic IOC image. In this case
+you will need to publish a new generic IOC image that provides the
+additional support.</p>
+<p>This requires building a new Dockerfile that describes the image. The
+Dockerfile will be hosted in a new source repository that includes any
+additional files for the image context. In epics-containers
+these repos are all called ioc-XXX where XXX is the name of the primary
+support module being containerized.</p>
+<p>To start a new ioc-XXX repo you can use the ioc-template project at
+<a class="reference external" href="https://github.com/epics-containers/ioc-template">https://github.com/epics-containers/ioc-template</a> and click <strong>Use Template</strong>.</p>
+<p>If you search the resulting project for TODO this will give you hints
+on how to create your new generic IOC.</p>
+<p>All images will follow a very similar pattern, here is an example which builds
+the ADAravis support module for GigE cameras.</p>
+<div class="highlight-docker notranslate"><div class="highlight"><pre><span></span><span class="c"># Add support for GigE cameras with the ADAravis support module</span>
+<span class="k">ARG</span> <span class="nv">REGISTRY</span><span class="o">=</span>ghcr.io/epics-containers
+<span class="k">ARG</span> <span class="nv">ADCORE_VERSION</span><span class="o">=</span><span class="m">3</span>.10r2.0
+
+<span class="k">FROM</span> <span class="s">${REGISTRY}/epics-areadetector:${ADCORE_VERSION}</span>
+
+<span class="c"># install additional tools and libs</span>
+<span class="k">USER</span><span class="s"> root</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade -y <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    apt-get install -y --no-install-recommends <span class="se">\</span>
+    libglib2.0-dev <span class="se">\</span>
+    meson <span class="se">\</span>
+    intltool <span class="se">\</span>
+    pkg-config <span class="se">\</span>
+    xz-utils <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+
+<span class="c"># build aravis library</span>
+<span class="k">RUN</span> <span class="nb">cd</span> /usr/local <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone -b ARAVIS_0_8_1 --depth <span class="m">1</span> https://github.com/AravisProject/aravis <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> aravis <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    meson build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ninja <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ninja install <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">echo</span> /usr/local/lib64 &gt; /etc/ld.so.conf.d/usr.conf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ldconfig <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    rm -fr /usr/local/aravis
+
+<span class="k">USER</span><span class="s"> ${USERNAME}</span>
+
+<span class="c"># get additional support modules</span>
+<span class="k">ARG</span> <span class="nv">ADARAVIS_VERSION</span><span class="o">=</span>R2-2-1
+<span class="k">ARG</span> <span class="nv">ADGENICAM_VERSION</span><span class="o">=</span>R1-8
+
+<span class="k">RUN</span> python3 module.py add areaDetector ADGenICam ADGENICAM <span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span>
+<span class="k">RUN</span> python3 module.py add areaDetector ADAravis ADARAVIS <span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span>
+
+<span class="c"># add CONFIG_SITE.linux and RELEASE.local</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> configure <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADGenICam-<span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span>/configure
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> configure <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADAravis-<span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span>/configure
+
+<span class="c"># update the generic IOC Makefile to include the new support</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> Makefile <span class="si">${</span><span class="nv">EPICS_ROOT</span><span class="si">}</span>/ioc/iocApp/src
+
+<span class="c"># update dependencies and build the support modules and the ioc</span>
+<span class="k">RUN</span> python3 module.py dependencies
+<span class="k">RUN</span> make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADGenICam-<span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADAravis-<span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j -C  <span class="si">${</span><span class="nv">EPICS_ROOT</span><span class="si">}</span>/ioc <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j clean
+</pre></div>
+</div>
+</div>
+<div class="section" id="changes-to-the-template-project">
+<h2>Changes to The Template Project<a class="headerlink" href="#changes-to-the-template-project" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">TODO</dt>
+<dd class="field-odd"><p>cover details of what is needed and how module.py works
+don’t forget to include RELEASE.shell</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="build-and-publish-the-generic-ioc-image">
+<h2>Build and Publish the Generic IOC Image<a class="headerlink" href="#build-and-publish-the-generic-ioc-image" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">TODO</dt>
+<dd class="field-odd"><p>test build locally with docker build
+use CI to build and Publish on GitHub</p>
+</dd>
+</dl>
+</div>
 </div>
 
 
