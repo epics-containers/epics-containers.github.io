@@ -61,7 +61,7 @@ Technical reference material.
 
     how-to/add_ioc
     how-to/create_ioc
-    how-to/generic_iocs
+    how-to/run_iocs
     how-to/debug
 
 .. rst-class:: no-margin-after-ul
