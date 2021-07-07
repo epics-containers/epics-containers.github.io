@@ -9,7 +9,13 @@ This is a very easy set of instructions for setting up an experimental
 Kubernetes 'cluster' containing a single server and
 ready to deploy EPICS IOCs.
 
-It has been tested on Ubuntu 20.10 and Raspberry Pi OS 2021-05-07.
+It has been tested on the following:
+
+========================== ============================================
+Ubuntu 20.10               any modern linux distro should also work
+Raspberry Pi OS 2021-05-07 See `raspberry`
+Windows WSL2               See `wsl`
+========================== ============================================
 
 Give it a try, K3S provides a good uninstaller that will clean up your system
 if you decide to back out.
@@ -37,6 +43,8 @@ Execute this command on your server to set up the cluster master
 (aka K3S Server node)::
 
     curl -sfL https://get.k3s.io | sh -
+
+.. _install_kubectl:
 
 Install kubectl
 ~~~~~~~~~~~~~~~

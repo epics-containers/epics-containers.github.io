@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+8.g8ce62e4 documentation</title>
+  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+9.g08cc09d documentation</title>
   
 
   
@@ -229,7 +229,24 @@
 <p>This is a very easy set of instructions for setting up an experimental
 Kubernetes ‘cluster’ containing a single server and
 ready to deploy EPICS IOCs.</p>
-<p>It has been tested on Ubuntu 20.10 and Raspberry Pi OS 2021-05-07.</p>
+<p>It has been tested on the following:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 63%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Ubuntu 20.10</p></td>
+<td><p>any modern linux distro should also work</p></td>
+</tr>
+<tr class="row-even"><td><p>Raspberry Pi OS 2021-05-07</p></td>
+<td><p>See <a class="reference internal" href="useful_k8s.html#raspberry"><span class="std std-ref">Installing on a Raspberry Pi</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Windows WSL2</p></td>
+<td><p>See <a class="reference internal" href="useful_k8s.html#wsl"><span class="std std-ref">Installing on Windows Subsystem for Linux</span></a></p></td>
+</tr>
+</tbody>
+</table>
 <p>Give it a try, K3S provides a good uninstaller that will clean up your system
 if you decide to back out.</p>
 <p>If you prefer to investigate other implementations there are also:</p>
@@ -256,7 +273,7 @@ machine then server==workstation for all instructions.</p>
 </div>
 </div>
 <div class="section" id="install-kubectl">
-<h3>Install kubectl<a class="headerlink" href="#install-kubectl" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3>Install kubectl<a class="headerlink" href="#install-kubectl" title="Permalink to this headline">¶</a></h3>
 <p>Kubectl is the command line tool for interacting with your cluster.</p>
 <p>On the workstation install the binary:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">LO</span> <span class="s2">&quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;</span>
