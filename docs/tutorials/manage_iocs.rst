@@ -50,6 +50,10 @@ To get the current logs for the example IOC::
 
     k8s-ioc log example
 
+Or stream the IOC log until you hit ^C::
+
+    k8s-ioc log example -f
+
 Monitor your beamline IOCs::
 
     k8s-ioc monitor blxxi
@@ -57,6 +61,7 @@ Monitor your beamline IOCs::
 Note that the beamline is called blxxi rather than bl00i. To change the
 beamline name that your IOC deploys to you would need to edit
 bl00i/iocs/example/values.yaml, push the changes and execute deploy again.
+See `../how-to/add_ioc` for more details on values.yaml.
 
 
 

@@ -47,19 +47,19 @@ and password for all transactions. To setup SSH authentication see `about ssh`_
 Clone and Tag the Repository
 ----------------------------
 
-For the remainder of the tutorial the examples will use the ssh URL for
-the account gilesknap and the repository name bl00i. Please substitute in
-your own details.
+NOTE: For the remainder of the tutorial you will use the project you
+created in `deploy_example`. You need to substitute in your account
+details to the commands listed here.
 
 In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step::
 
+    git clone git@github.com:<your account or organization>/bl00i.git
 
-    git clone git@github.com:gilesknap/bl00i.git
+Now test that CI is working by tagging the repo and pushing it back to github.
 
-Now test that CI is working by tagging the repo and pushing it back to github::
+cd to the root of the project you created in `deploy_example`, then::
 
-    cd bl00i
     git tag 0.1
     git push origin 0.1
 
