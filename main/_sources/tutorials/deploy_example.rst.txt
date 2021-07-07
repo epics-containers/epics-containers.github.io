@@ -73,9 +73,10 @@ will need to be in the docker group.
 See here https://docs.docker.com/engine/install/ for instructions for
 installing docker.
 
-To launch the GUI for the example IOC::
+To launch the GUI for the example IOC:
 
-    cd bl00i
+cd to the root of the project you created in `deploy_example`, then::
+
     ./opi/stexample-gui.sh
 
 The IOC is a simulated detector with a PVA plugin. It will be possible to

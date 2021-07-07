@@ -125,9 +125,9 @@ The networking for docker on WSL will not broadcast between containers so
 you need to use EPICS_CA_ADDR_LIST to get edm to see the example IOC
 PVs. To do this perform the following steps to get the name of the
 example IOC pod and discover its IP address, then pass that to the
-edm container::
+edm container:
 
-    cd bl00i
+cd to the root of the project you created in `deploy_example`, then::
 
     kubectl get pods
         NAME                      READY   STATUS    RESTARTS   AGE

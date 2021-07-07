@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+12.g9b96163 documentation</title>
+  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+12.gf7a03f7 documentation</title>
   
 
   
@@ -321,9 +321,8 @@ you need to use EPICS_CA_ADDR_LIST to get edm to see the example IOC
 PVs. To do this perform the following steps to get the name of the
 example IOC pod and discover its IP address, then pass that to the
 edm container:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd bl00i
-
-kubectl get pods
+<p>cd to the root of the project you created in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kubectl get pods
     NAME                      READY   STATUS    RESTARTS   AGE
     example-6779d4dcf-g2cpm   1/1     Running   2          19h
 
