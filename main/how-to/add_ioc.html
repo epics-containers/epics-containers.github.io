@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Add an IOC instance to a beamline &mdash; epics_containers 0.4+10.g00d17b5 documentation</title>
+  <title>Add an IOC instance to a beamline &mdash; epics_containers 0.4+11.g21aeb57 documentation</title>
   
 
   
@@ -123,9 +123,15 @@
 </ul>
 <p class="caption"><span class="caption-text">How-to Guides</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Add an IOC instance to a beamline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#production-deployment">Production Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-improvements">Future Improvements</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="generic_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_iocs.html">Run an IOC without Kubernetes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
@@ -212,7 +218,113 @@
             
   <div class="section" id="add-an-ioc-instance-to-a-beamline">
 <h1>Add an IOC instance to a beamline<a class="headerlink" href="#add-an-ioc-instance-to-a-beamline" title="Permalink to this headline">¶</a></h1>
-<p>Todo</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In the tutorials section we created a beamline repository that contains
+a single IOC called example. Here we discuss how to create your own IOCs
+using this example as a template.</p>
+</div>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>At present this discussion is around copying and modifying the Helm Chart
+definition for the IOC. In future the tool <strong>ibek</strong> will generate the Helm
+Chart from a YAML description of the IOC.</p>
+<p>Inside the beamline repo the folder iocs/example holds a Helm Chart. Much of
+the contents is boilerplate so creating a new IOC involves:</p>
+<ul class="simple">
+<li><p>making a copy of the example IOC folder, giving it the name of your new IOC.</p></li>
+<li><p>Then the modifying a few files as follows:</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Chart.yaml</dt>
+<dd class="field-odd"><p>change the name and description fields</p>
+</dd>
+<dt class="field-even">values.yaml</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>update the name of the beamline for this IOC instance</p></li>
+<li><p>choose a base image for the generic IOC</p></li>
+<li><p>for production deployment you may want to change other fields discussed later</p></li>
+</ul>
+</dd>
+<dt class="field-odd">config/ioc.boot</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>replace this with your IOC startup script</p></li>
+<li><p>you can also put any other files needed by the startup script in this folder</p></li>
+<li><p>but the total size cannot exceed 1MB</p></li>
+</ul>
+</dd>
+<dt class="field-even">config/start.sh</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>this is the script called on container startup</p></li>
+<li><p>it is intended to be generic but can be altered if special startup is needed</p></li>
+</ul>
+</dd>
+</dl>
+<p>The generic IOC base image needs to contain all of the support modules required
+by your IOC. A selection of such images is available at
+<a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a>. If you need an additional
+generic IOC image then see <a class="reference internal" href="create_ioc.html"><span class="doc">Create a new generic IOC image</span></a>.</p>
+<p>For the moment you will have to implement your own approach to providing a GUI,
+see <a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a>.</p>
+</div>
+<div class="section" id="production-deployment">
+<h2>Production Deployment<a class="headerlink" href="#production-deployment" title="Permalink to this headline">¶</a></h2>
+<p>For a more complete deployment there are a few more fields in values.yaml
+that may be useful. Below is the default template value.yaml from example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">beamline</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blxxi</span>
+<span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">epics-iocs</span>
+<span class="nt">base_image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector:2.10r2.0</span>
+
+<span class="c1"># root folder of generic ioc source - not expected to change</span>
+<span class="nt">iocFolder</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/epics/ioc</span>
+
+<span class="c1"># when autosave is true: create PVC and mount at /autosave</span>
+<span class="nt">autosave</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="c1"># when useAffinity is true: only run on nodes with label beamline:blxxi</span>
+<span class="nt">useAffinity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="c1"># resource limits</span>
+<span class="nt">memory</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2048Mi</span>
+<span class="nt">cpu</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4</span>
+</pre></div>
+</div>
+<dl class="field-list">
+<dt class="field-odd">autosave</dt>
+<dd class="field-odd"><p>If set to true then Kubernetes is instructed to create a Persistent
+Volume Claim and mount it at /autosave. You should configure autosave in
+your startup script to save its files in /autosave. The PVC will be
+persisted even through IOC upgrades. NOTE: this requires that your cluster
+has PVC dynamic provisioning. See <a class="reference external" href="https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/">storage provisioning</a>.</p>
+</dd>
+<dt class="field-even">useAffinity</dt>
+<dd class="field-even"><p>This allows us to target the worker nodes on which the IOC instance will
+run. At DLS we have beamline worker nodes remote from the central cluster
+that reside on the beamline’s own subnet. This is a very useful way to
+solve network protocol issues.</p>
+<p>When useAffinity is true the IOC pod will only run on nodes with the label
+beamline:blxxi (where blxxi is the beamline name supplied at he top of
+values.yaml)</p>
+<p>Also the pod will be given a tolerance for the taint nodetype=blxxi ,
+effect=NoSchedule. This means that you can create a taint on the
+beamline worker nodes so they only run beamline IOCs. For details of
+configuring your nodes like this see <a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">taints and tolerations</a>.</p>
+</dd>
+<dt class="field-odd">memory</dt>
+<dd class="field-odd"><p>This specifies a resource limit and helps Kubernetes balance resources
+across available nodes. This limit will be enforced on your IOC instance.</p>
+</dd>
+<dt class="field-even">cpu</dt>
+<dd class="field-even"><p>This is also a resource limit and is in units of whole cores. May be
+specified in milli-CPU e.g. 500m is half a CPU. The IOC instance will be
+throttled if it exceeds this limit.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="future-improvements">
+<h2>Future Improvements<a class="headerlink" href="#future-improvements" title="Permalink to this headline">¶</a></h2>
+<p>This is the full set of options that the helm library supports at present.
+It is only a first pass implementation and much finer control of the
+Kubernetes deployment could be exposed in future.</p>
+</div>
 </div>
 
 

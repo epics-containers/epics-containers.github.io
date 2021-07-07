@@ -30,10 +30,10 @@ Answers:
 
 - The lifecycle of a support module will often differ from a generic IOC.
   The version number of the image is tied to the ioc-XXX source repo that
-  generates, so we can have separate versions for support and IOC.
+  it generates, so we can have separate versions for support and IOC.
 
-- Not all users of a support module will need images generated and it is
-  counter productive for them to be required to fix the Dockerfile when
+- Not all users of a support module will need images generated and it may be
+  counter productive for them to be required to update the Dockerfile when
   they are working on changes to a support module.
 
 
