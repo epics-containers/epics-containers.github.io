@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Create a beamline repository &mdash; epics_containers 0.4+11.g21aeb57 documentation</title>
+  <title>Create a beamline repository &mdash; epics_containers 0.4+12.g9b96163 documentation</title>
   
 
   
@@ -243,17 +243,17 @@ and password for all transactions. To setup SSH authentication see <a class="ref
 </div>
 <div class="section" id="clone-and-tag-the-repository">
 <h2>Clone and Tag the Repository<a class="headerlink" href="#clone-and-tag-the-repository" title="Permalink to this headline">¶</a></h2>
-<p>For the remainder of the tutorial the examples will use the ssh URL for
-the account gilesknap and the repository name bl00i. Please substitute in
-your own details.</p>
+<p>NOTE: For the remainder of the tutorial you will use the project you
+created in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>. You need to substitute in your account
+details to the commands listed here.</p>
 <p>In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">gilesknap</span><span class="o">/</span><span class="n">bl00i</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">your</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">organization</span><span class="o">&gt;/</span><span class="n">bl00i</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
-<p>Now test that CI is working by tagging the repo and pushing it back to github:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">bl00i</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="mf">0.1</span>
+<p>Now test that CI is working by tagging the repo and pushing it back to github.</p>
+<p>cd to the root of the project you created in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="mf">0.1</span>
 <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="mf">0.1</span>
 </pre></div>
 </div>

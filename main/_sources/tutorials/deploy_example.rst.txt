@@ -20,17 +20,22 @@ functions which are simply wrappers for kubectl and helm commands. To
 learn about the commands take a look at the script.
 
 Source kube-functions.sh into your shell as follows. NOTE: replace
-gilesknap with your account::
+the K8S_HELM_REGISTRY reference with your account details::
 
-    export K8S_HELM_REGISTRY=ghcr.io/gilesknap
+    # point helm at your registry
+    export K8S_HELM_REGISTRY=ghcr.io/<your account or organization goes here>
+
+    # get the helper functions
     wget -q https://raw.githubusercontent.com/epics-containers/k8s-epics-utils/main/epics-dev-image/home/bin/kube-functions.sh
     source kube-functions.sh
 
 Deploy an IOC Version
 ---------------------
 
-In the previous tutorial we pushed tag 0.1 to gilesknap/bl00i and this
-generated a helm chart at ghcr.io/gilesknap with tags 0.1 and latest.
+In the previous tutorial we pushed tag 0.1 to
+<your account or organization>/bl00i and this
+generated a helm chart at ghcr.io/<your account or organization>
+with tags 0.1 and latest.
 
 To deploy the helm chart into your cluster::
 
@@ -98,9 +103,10 @@ The example ioc folder itself has a templates folder containing the ioc.yaml
 template. This includes all of the templates from helm-ioc-lib and
 also generates a ConfigMap resource from the files in the config folder.
 
-To see the YAML that helm is generating you can use the following commands::
+To see the YAML that helm is generating you can use the following commands:
 
-    cd bl00i
+cd to the root of the project you created in `deploy_example`, then::
+
     helm dependency update iocs/example/
     helm template example iocs/example
 

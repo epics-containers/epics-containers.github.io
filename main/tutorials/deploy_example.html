@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Deploy The Example IOC &mdash; epics_containers 0.4+11.g21aeb57 documentation</title>
+  <title>Deploy The Example IOC &mdash; epics_containers 0.4+12.g9b96163 documentation</title>
   
 
   
@@ -232,8 +232,11 @@ see <a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span c
 functions which are simply wrappers for kubectl and helm commands. To
 learn about the commands take a look at the script.</p>
 <p>Source kube-functions.sh into your shell as follows. NOTE: replace
-gilesknap with your account:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">K8S_HELM_REGISTRY</span><span class="o">=</span><span class="n">ghcr</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">gilesknap</span>
+the K8S_HELM_REGISTRY reference with your account details:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># point helm at your registry</span>
+<span class="n">export</span> <span class="n">K8S_HELM_REGISTRY</span><span class="o">=</span><span class="n">ghcr</span><span class="o">.</span><span class="n">io</span><span class="o">/&lt;</span><span class="n">your</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">organization</span> <span class="n">goes</span> <span class="n">here</span><span class="o">&gt;</span>
+
+<span class="c1"># get the helper functions</span>
 <span class="n">wget</span> <span class="o">-</span><span class="n">q</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">epics</span><span class="o">-</span><span class="n">containers</span><span class="o">/</span><span class="n">k8s</span><span class="o">-</span><span class="n">epics</span><span class="o">-</span><span class="n">utils</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">epics</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="n">image</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">kube</span><span class="o">-</span><span class="n">functions</span><span class="o">.</span><span class="n">sh</span>
 <span class="n">source</span> <span class="n">kube</span><span class="o">-</span><span class="n">functions</span><span class="o">.</span><span class="n">sh</span>
 </pre></div>
@@ -241,8 +244,10 @@ gilesknap with your account:</p>
 </div>
 <div class="section" id="deploy-an-ioc-version">
 <h2>Deploy an IOC Version<a class="headerlink" href="#deploy-an-ioc-version" title="Permalink to this headline">¶</a></h2>
-<p>In the previous tutorial we pushed tag 0.1 to gilesknap/bl00i and this
-generated a helm chart at ghcr.io/gilesknap with tags 0.1 and latest.</p>
+<p>In the previous tutorial we pushed tag 0.1 to
+&lt;your account or organization&gt;/bl00i and this
+generated a helm chart at ghcr.io/&lt;your account or organization&gt;
+with tags 0.1 and latest.</p>
 <p>To deploy the helm chart into your cluster:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">deploy</span> <span class="n">example</span> <span class="mf">0.1</span>
 </pre></div>
@@ -297,8 +302,8 @@ it is using in its templates folder.</p>
 template. This includes all of the templates from helm-ioc-lib and
 also generates a ConfigMap resource from the files in the config folder.</p>
 <p>To see the YAML that helm is generating you can use the following commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">bl00i</span>
-<span class="n">helm</span> <span class="n">dependency</span> <span class="n">update</span> <span class="n">iocs</span><span class="o">/</span><span class="n">example</span><span class="o">/</span>
+<p>cd to the root of the project you created in <a class="reference internal" href="#"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">dependency</span> <span class="n">update</span> <span class="n">iocs</span><span class="o">/</span><span class="n">example</span><span class="o">/</span>
 <span class="n">helm</span> <span class="n">template</span> <span class="n">example</span> <span class="n">iocs</span><span class="o">/</span><span class="n">example</span>
 </pre></div>
 </div>

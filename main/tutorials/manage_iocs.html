@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Manage IOCs &mdash; epics_containers 0.4+11.g21aeb57 documentation</title>
+  <title>Manage IOCs &mdash; epics_containers 0.4+12.g9b96163 documentation</title>
   
 
   
@@ -271,13 +271,18 @@ use the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">log</span> <span class="n">example</span>
 </pre></div>
 </div>
+<p>Or stream the IOC log until you hit ^C:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">log</span> <span class="n">example</span> <span class="o">-</span><span class="n">f</span>
+</pre></div>
+</div>
 <p>Monitor your beamline IOCs:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">monitor</span> <span class="n">blxxi</span>
 </pre></div>
 </div>
 <p>Note that the beamline is called blxxi rather than bl00i. To change the
 beamline name that your IOC deploys to you would need to edit
-bl00i/iocs/example/values.yaml, push the changes and execute deploy again.</p>
+bl00i/iocs/example/values.yaml, push the changes and execute deploy again.
+See <a class="reference internal" href="../how-to/add_ioc.html"><span class="doc">Add an IOC instance to a beamline</span></a> for more details on values.yaml.</p>
 </div>
 </div>
 
