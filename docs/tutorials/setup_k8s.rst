@@ -59,12 +59,16 @@ On the workstation install the binary::
 
 The last step adds command line completion and is worth adding to your profile.
 
-From the server machine copy over the k3s kubectl configuration::
+If you have one machine only then copy the k3s kubectl configuration::
 
+    mkdir ~/.kube
+    sudo cp  /etc/rancher/k3s/k3s.yaml ~/.kube/config
+    sudo chown <YOUR USER> ~/.kube/config
+
+If you have a separate server then from the server machine copy over the k3s kubectl configuration::
+
+    mkdir ~/.kube
     sudo scp  /etc/rancher/k3s/k3s.yaml <YOUR_ACCOUNT>@<YOUR_WORKSTATION>:.kube/config
-
-(Note the above command does work for a single machine too and ensures that
-the permissions are correct on the target file.)
 
 If you do have separate workstation then edit the file .kube/config replacing
 127.0.0.1 with your server's IP Address. For a single machine the file is left
