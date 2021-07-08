@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+14.g5fbdd80 documentation</title>
+  <title>Setup a Kubernetes Server &mdash; epics_containers 0.4+15.g207dfc4 documentation</title>
   
 
   
@@ -282,12 +282,17 @@ machine then server==workstation for all instructions.</p>
 </pre></div>
 </div>
 <p>The last step adds command line completion and is worth adding to your profile.</p>
-<p>From the server machine copy over the k3s kubectl configuration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">scp</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rancher</span><span class="o">/</span><span class="n">k3s</span><span class="o">/</span><span class="n">k3s</span><span class="o">.</span><span class="n">yaml</span> <span class="o">&lt;</span><span class="n">YOUR_ACCOUNT</span><span class="o">&gt;@&lt;</span><span class="n">YOUR_WORKSTATION</span><span class="o">&gt;</span><span class="p">:</span><span class="o">.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
+<p>If you have one machine only then copy the k3s kubectl configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/.</span><span class="n">kube</span>
+<span class="n">sudo</span> <span class="n">cp</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rancher</span><span class="o">/</span><span class="n">k3s</span><span class="o">/</span><span class="n">k3s</span><span class="o">.</span><span class="n">yaml</span> <span class="o">~/.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
+<span class="n">sudo</span> <span class="n">chown</span> <span class="o">&lt;</span><span class="n">YOUR</span> <span class="n">USER</span><span class="o">&gt;</span> <span class="o">~/.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
 </pre></div>
 </div>
-<p>(Note the above command does work for a single machine too and ensures that
-the permissions are correct on the target file.)</p>
+<p>If you have a separate server then from the server machine copy over the k3s kubectl configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/.</span><span class="n">kube</span>
+<span class="n">sudo</span> <span class="n">scp</span>  <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rancher</span><span class="o">/</span><span class="n">k3s</span><span class="o">/</span><span class="n">k3s</span><span class="o">.</span><span class="n">yaml</span> <span class="o">&lt;</span><span class="n">YOUR_ACCOUNT</span><span class="o">&gt;@&lt;</span><span class="n">YOUR_WORKSTATION</span><span class="o">&gt;</span><span class="p">:</span><span class="o">.</span><span class="n">kube</span><span class="o">/</span><span class="n">config</span>
+</pre></div>
+</div>
 <p>If you do have separate workstation then edit the file .kube/config replacing
 127.0.0.1 with your server’s IP Address. For a single machine the file is left
 as is.</p>
