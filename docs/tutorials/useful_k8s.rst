@@ -46,14 +46,18 @@ Then create the admin user and role by executing the following:
       namespace: kubernetes-dashboard
     EOF
 
-get a token for the user::
+get a token for the user and copy the token into your clipboard::
 
     kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token'
 
-Finally, start a proxy and goto the Dashboard URL, use the above token to log in::
+Use kubectl to start a proxy that will forward HTTP requests to your cluster::
 
     kubectl proxy &
-    browse to http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy
+
+Finally, browse to `Dashboard Screen URL`_ and paste the Token that you copied above:
+
+.. _Dashboard Screen URL: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/workloads?namespace=epics-iocs
+
 
 .. _raspberry:
 
