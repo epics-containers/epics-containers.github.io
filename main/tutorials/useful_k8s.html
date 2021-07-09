@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+16.g634311d documentation</title>
+  <title>Useful Kubernetes Additions &mdash; epics_containers 0.4+17.g5ba056e documentation</title>
   
 
   
@@ -258,15 +258,15 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/<span c
 <span class="s">EOF</span>
 </pre></div>
 </div>
-<p>get a token for the user:</p>
+<p>get a token for the user and copy the token into your clipboard:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">describe</span> <span class="n">secret</span> <span class="n">admin</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">token</span> <span class="o">|</span> <span class="n">grep</span> <span class="s1">&#39;^token&#39;</span>
 </pre></div>
 </div>
-<p>Finally, start a proxy and goto the Dashboard URL, use the above token to log in:</p>
+<p>Use kubectl to start a proxy that will forward HTTP requests to your cluster:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">proxy</span> <span class="o">&amp;</span>
-<span class="n">browse</span> <span class="n">to</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8001</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">namespaces</span><span class="o">/</span><span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span><span class="o">/</span><span class="n">services</span><span class="o">/</span><span class="n">https</span><span class="p">:</span><span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span><span class="p">:</span><span class="o">/</span><span class="n">proxy</span>
 </pre></div>
 </div>
+<p>Finally, browse to <a class="reference external" href="http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/workloads?namespace=epics-iocs">Dashboard Screen URL</a> and paste the Token that you copied above:</p>
 </div>
 <div class="section" id="installing-on-a-raspberry-pi">
 <span id="raspberry"></span><h2>Installing on a Raspberry Pi<a class="headerlink" href="#installing-on-a-raspberry-pi" title="Permalink to this headline">¶</a></h2>
