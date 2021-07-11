@@ -76,7 +76,7 @@ the ADAravis support module for GigE cameras.
     RUN python3 module.py dependencies
     RUN make -j -C  ${SUPPORT}/ADGenICam-${ADGENICAM_VERSION} && \
         make -j -C  ${SUPPORT}/ADAravis-${ADARAVIS_VERSION} && \
-        make -j -C  ${EPICS_ROOT}/ioc && \
+        make -j -C  ${IOC} && \
         make -j clean
 
 Changes to The Template Project
