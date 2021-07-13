@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Create a new generic IOC image &mdash; epics_containers 0.4+17.g5ba056e documentation</title>
+  <title>Create a new generic IOC image &mdash; epics_containers 0.4+19.g37c90c2 documentation</title>
   
 
   
@@ -284,7 +284,7 @@ the ADAravis support module for GigE cameras.</p>
 <span class="k">RUN</span> python3 module.py dependencies
 <span class="k">RUN</span> make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADGenICam-<span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
     make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADAravis-<span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-    make -j -C  <span class="si">${</span><span class="nv">EPICS_ROOT</span><span class="si">}</span>/ioc <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j -C  <span class="si">${</span><span class="nv">IOC</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
     make -j clean
 </pre></div>
 </div>

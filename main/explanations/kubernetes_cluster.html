@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Kubernetes Cluster Config &mdash; epics_containers 0.4+17.g5ba056e documentation</title>
+  <title>Kubernetes Cluster Config &mdash; epics_containers 0.4+19.g37c90c2 documentation</title>
   
 
   
@@ -122,13 +122,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Kubernetes Cluster Config</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cluster-options">Cluster Options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dls-argus-cluster">DLS Argus Cluster</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#brief-overview-of-dls-argus-cluster">Brief Overview of DLS Argus cluster</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hostnetwork-true">hostNetwork = true</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#namespaces-and-permissions">Namespaces and Permissions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#taints-and-tolerances">Taints and Tolerances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#metallb-pools">Metallb Pools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#node-labelling-and-taints">Node Labelling and Taints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#host-network">Host Network</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uses-for-argus">Uses for Argus</a></li>
 </ul>
 </li>
 </ul>
@@ -259,24 +262,64 @@ how to achieve this.</p>
 </div>
 <div class="section" id="dls-argus-cluster">
 <span id="argus"></span><h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong> this section will give details of the topology and special
+<p>This section gives details of the topology and special
 configuration used by the DLS argus cluster to enable running
 IOCs on a Beamline.</p>
-<div class="section" id="brief-overview-of-dls-argus-cluster">
-<h3>Brief Overview of DLS Argus cluster<a class="headerlink" href="#brief-overview-of-dls-argus-cluster" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>Argus is the production DLS cluster. It comprises 22 bare metal worker nodes, with a 3 node control plane that runs in VMs. The control plane nodes run the K8s master processes such as the API server, controller manager etc. Each control plane node runs an etcd backend.</p>
+<img alt="../_images/clusterHA.png" src="../_images/clusterHA.png" />
+<p>To load balance across the K8s API running on the control plane nodes, there is a haproxy load balancer. The DNS endpoint argus.api.diamond.ac.uk (which all nodes use as the main API endpoint) points to a single haproxy IP. The IP is HA by virtue of a pair of VMs that both run haproxy, bind on all IPs, and use VRRP/keepalived to make sure the IP is always up. Haproxy has the 3 control plane nodes as a target backend.</p>
+<img alt="../_images/kubeadm-ha-topology-stacked-etcd.png" src="../_images/kubeadm-ha-topology-stacked-etcd.png" />
+<p>The cluster uses Kubeadm to deploy the K8s control plane in containers. It is provided by K8s upstream, and is architecturally similar to Rancher Kubernetes Engine (RKE). Kubeadm supports upgrades/downgrades and easy provisioning of nodes. The cluster is connected using Weave as the CNI. Weave is the only CNI tested that passes Broadcast/Unicast/Multicast (BUM) traffic through the iptables that control network access for pods. Metallb is used as a component to support K8s loadBalancer Service objects. Ingress nginx from nginxinc is used as an ingress controller. Logs are collected from the stdout of all pods using a fluentd daemonset which ships logs to a centralized graylog server. Cluster authentication is via KeyCloak.</p>
+<p>The cluster sits in one rack, with a top of rack (TOR) switch/router connecting it to the rest of the network. The cluster nodes sit on the same /22 network which is routable via the TOR router (this router routes the /22 subnet to other racks via OSPF). Metallb pool IPs are allocated from within this /22 to ensure they are globally routable by the OSPF network; the metallb speaker pods respond to ARP requests originating from the TOR router looking for load balanced Service IPs.</p>
+<p><strong>One of the Argus racks</strong></p>
+<img alt="../_images/argus3.jpg" src="../_images/argus3.jpg" />
+<p>The cluster is built and managed using Ansible. Heavy use of the k8s module enables direct installation of K8s components by talking directly to the K8s API using the k8s module. Ansible also configures the haproxy API load balancer. Prometheus_operator provides the monitoring stack.</p>
+<p>Argus is a multi-tenant cluster. Namespaces are used to enforce multi-tenancy. A namespace is created on demand for each user, acting as a sandbox for them to get familiar with K8s. Applications deployed in production get their own “project” namespace. The project namespace has some associated policy that determines who can run pods in the namespace, what data can be accessed, and if pods can run with elevated privileges. This is enforced by a combination of RBAC and Pod Security Policy (PSP). The latter is a deprecated feature in K8s 1.21 and will soon be replaced with Open Policy Agent.</p>
 </div>
 <div class="section" id="beamline-local-cluster-nodes">
 <h3>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this headline">¶</a></h3>
+<p>As part of the investigation work some worker nodes in Argus have been connected that are physically located at the beamline. These nodes do not share the same rack as Argus, and hence are part of a different routed subnet to the /22 that the control plane and main workers are within. This model assumes one centralised control plane (and some generic workers), and a set of beamline cluster nodes that may be distributed across the network (in different subnets).</p>
+<p>The beamline cluster nodes require a few interesting sets of configuration to make this architecture work. See the following subheadings for details.</p>
+<div class="section" id="metallb-pools">
+<h4>Metallb Pools<a class="headerlink" href="#metallb-pools" title="Permalink to this headline">¶</a></h4>
+<p>Metallb cannot be used to provide loadBalancer services for pods running on the beamline cluster nodes. This is because metallb currently only supports a single pool of IPs to allocate from. In the case of Argus, the pool is allocated from within the /22 in which the control plane (and a few generic workers) sit. Should a pod with a loadBalancer Service IP get brought up on a beamline cluster node, the traffic would not be routable because the beamline TOR switch does not send ARP messages for subnets that it is not directly connected to. This is not an issue running IOCs since they do not make use of loadBalancer Services. There is a feature request for Metallb to support address pools that is currently pending.</p>
 </div>
-<div class="section" id="hostnetwork-true">
-<h3>hostNetwork = true<a class="headerlink" href="#hostnetwork-true" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="node-labelling-and-taints">
+<h4>Node Labelling and Taints<a class="headerlink" href="#node-labelling-and-taints" title="Permalink to this headline">¶</a></h4>
+<p>The beamline cluster worker nodes are labelled and tainted with the name of the beamline. This ensures that only pods running IOCs that are relevant to that beamline can be started on the beamline worker nodes. Pods that are to be scheduled there must tolerate the taint, and use node selection based on the label.</p>
+<p>Certain utility pods must also tolerate the beamline name taint. Pods such as fluentd (which provides pod log aggregation and shipping to a centralised graylog) need additional tolerations of the taint. However most standard utilities such as Prometheus, Weave (the CNI itself runs in a pod) and kube-proxy all have a toleration of all “noSchedule” taints built in.</p>
 </div>
-<div class="section" id="namespaces-and-permissions">
-<h3>Namespaces and Permissions<a class="headerlink" href="#namespaces-and-permissions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="host-network">
+<h4>Host Network<a class="headerlink" href="#host-network" title="Permalink to this headline">¶</a></h4>
+<p>In order for IOCs to work within K8s pods, they typically need to see BUM traffic. This is because EPICS uses UDP Broadcast for IOC discovery. There are also other interesting network quirks that IOCs exhibit that make use of the CNI network overlay unsuitable. To get around this, pods running IOCs make use of the host network namespace. In other words, they see the interfaces on the underlying worker nodes, rather than a virtual interface that is connected to the cluster internal network that normal pods see. This is done by setting hostNetwork =  true in the pod spec. Access to the host network namespace requires privileged pods. Whilst this is allowed (Argus uses pod security policy to enforce the attributes of the pods that are scheduled), we do drop the capabilities that are not needed. This reduces the attack surface somewhat. We drop everything except NET_ADMIN and NET_BROADCAST.</p>
 </div>
-<div class="section" id="taints-and-tolerances">
-<h3>Taints and Tolerances<a class="headerlink" href="#taints-and-tolerances" title="Permalink to this headline">¶</a></h3>
 </div>
+</div>
+<div class="section" id="uses-for-argus">
+<h2>Uses for Argus<a class="headerlink" href="#uses-for-argus" title="Permalink to this headline">¶</a></h2>
+<p>The central cluster is used for many services other than EPICS IOCs. Below is
+a list of current and potential use cases:</p>
+<ul class="simple">
+<li><p>Controls IOCs</p></li>
+<li><p>Kafka and Spark</p></li>
+<li><p>Jenkins</p></li>
+<li><p>Sonarqube</p></li>
+<li><p>Zocalo</p></li>
+<li><p>Jupyterhub</p></li>
+<li><p>Business apps (Confluence, Jira etc)</p></li>
+<li><p>Monitoring stacks (ElasticSearch, Graylog, Graphite, Nagdash etc)</p></li>
+<li><p>Core services (LDAP, Kerberos, Gitlab etc)</p></li>
+<li><p>Netbox</p></li>
+<li><p>MariaDB</p></li>
+<li><p>HT Condor</p></li>
+<li><p>Machine Learning toolkits (Kubeflow)</p></li>
+<li><p>VM orchestration (Kubevirt/Virtlet)</p></li>
+<li><p>Relion</p></li>
+<li><p>Storage Systems deployment (Ceph-rook, Portworkx etc)</p></li>
+<li><p>XChem Fragalysis</p></li>
+</ul>
 </div>
 </div>
 
