@@ -39,9 +39,11 @@ management of IOCs.
 - CI / CD generates the images, charts from source and delivers them
   to **Repositories**
 
-Here is the presentation on this work from the
-Spring 2021 EPICS Collaboration Meeting
-:download:`Spring 2021 EPICS Collaboration Meeting<images/kei.pdf>`
+Here is the paper on this work from the
+ICALEPCS 2021 Meeting
+:download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<images/THBL04.PDF>`
+And the slides from the associated talk
+:download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<images/THBL04_talk.PDF>`
 
 Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.
