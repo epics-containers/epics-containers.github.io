@@ -11,7 +11,8 @@ mypy = "*"
 atomicwrites = "*"
 typing-extensions = "*"
 importlib-metadata = "*"
-
+# List wheel here to make sure we make the same version to make wheels on gitlab and github CI
+wheel = "0.33.1"
 # Test and docs dependencies
 pytest-cov = "*"
 pytest-mypy = "*"
