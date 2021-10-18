@@ -131,4 +131,3 @@ html_css_files = ["theme_overrides.css"]
 # Logo
 html_logo = "images/k8s-epics2.png"
 html_favicon = "images/k8s-epics2.ico"
-
