@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage IOCs &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Essential Concepts" href="../explanations/introduction.html" />
+    <link rel="prev" title="Deploy The Example IOC" href="deploy_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
+            <a href="../index.html" class="icon icon-home"> epics_containers
+            <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.6
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <style>
+    /* style mobile top nav to look like main nav */
+    .wy-nav-top {
+        background: rgb(7, 43, 93)
+    }
+  </style>
+  
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Useful Kubernetes Additions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Manage IOCs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#starting-and-stopping-iocs">Starting and Stopping IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
+</ul>
+
+  <!-- Include all versions of the docs -->
+  <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
+  
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">epics_containers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Manage IOCs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/manage_iocs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="manage-iocs">
+<h1>Manage IOCs<a class="headerlink" href="#manage-iocs" title="Permalink to this headline"></a></h1>
+<p>IOCs running in Kubernetes can be managed using the kubectl command.</p>
+<p>The script kube-functions.sh that we used in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy The Example IOC</span></a> provides some
+shortcuts for common operations. Look inside the script to learn the
+underlying kubectl commands being used.</p>
+<section id="starting-and-stopping-iocs">
+<h2>Starting and Stopping IOCs<a class="headerlink" href="#starting-and-stopping-iocs" title="Permalink to this headline"></a></h2>
+<p>To stop / start  the example IOC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">stop</span> <span class="n">example</span>
+<span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">start</span> <span class="n">example</span>
+</pre></div>
+</div>
+</section>
+<section id="monitoring-and-interacting-with-an-ioc-shell">
+<h2>Monitoring and interacting with an IOC shell<a class="headerlink" href="#monitoring-and-interacting-with-an-ioc-shell" title="Permalink to this headline"></a></h2>
+<p>To attach to the ioc shell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">attach</span> <span class="n">example</span>
+</pre></div>
+</div>
+<p>Use the command sequence ^P^Q to detach or ^D to detach and restart the IOC.</p>
+<p>To run a bash shell inside the IOC container:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">exec</span> <span class="n">example</span>
+</pre></div>
+</div>
+<p>This is a minimal ubuntu distribution. To get access to useful utility commands
+use the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">busybox</span> <span class="n">sh</span>
+<span class="n">busybox</span>  <span class="c1"># shows the set of commands now available</span>
+</pre></div>
+</div>
+<p>Also note that the following folders may be of interest:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 81%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>ioc code</p></td>
+<td><p>/epics/ioc</p></td>
+</tr>
+<tr class="row-even"><td><p>support modules</p></td>
+<td><p>/epics/support</p></td>
+</tr>
+<tr class="row-odd"><td><p>epics binaries</p></td>
+<td><p>/epics/epics-base</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline"></a></h2>
+<p>To get the current logs for the example IOC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">log</span> <span class="n">example</span>
+</pre></div>
+</div>
+<p>Or stream the IOC log until you hit ^C:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">log</span> <span class="n">example</span> <span class="o">-</span><span class="n">f</span>
+</pre></div>
+</div>
+<p>Monitor your beamline IOCs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">k8s</span><span class="o">-</span><span class="n">ioc</span> <span class="n">monitor</span> <span class="n">blxxi</span>
+</pre></div>
+</div>
+<p>Note that the beamline is called blxxi rather than bl00i. To change the
+beamline name that your IOC deploys to you would need to edit
+bl00i/iocs/example/values.yaml, push the changes and execute deploy again.
+See <a class="reference internal" href="../how-to/add_ioc.html"><span class="doc">Add an IOC instance to a beamline</span></a> for more details on values.yaml.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="deploy_example.html" class="btn btn-neutral float-left" title="Deploy The Example IOC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../explanations/introduction.html" class="btn btn-neutral float-right" title="Essential Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

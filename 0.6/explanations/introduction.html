@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Essential Concepts &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="epics-containers Contents" href="whats_in.html" />
+    <link rel="prev" title="Manage IOCs" href="../tutorials/manage_iocs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
+            <a href="../index.html" class="icon icon-home"> epics_containers
+            <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.6
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <style>
+    /* style mobile top nav to look like main nav */
+    .wy-nav-top {
+        background: rgb(7, 43, 93)
+    }
+  </style>
+  
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Essential Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#images-and-containers">Images and Containers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generic-iocs-and-instances">Generic IOCs and instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kubernetes">Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#helm">Helm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repositories">Repositories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuous-integration">Continuous Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-tools">Additional Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#k8s-epics-utils">k8s-epics-utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ibek">Ibek</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
+</ul>
+
+  <!-- Include all versions of the docs -->
+  <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
+  
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">epics_containers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Essential Concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/explanations/introduction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="essential-concepts">
+<h1>Essential Concepts<a class="headerlink" href="#essential-concepts" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>Kubernetes for EPICS IOCs applies modern industry standards to the management
+of IOCs.</p>
+<p>There are 5 themes to this strategy:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Containers​</dt>
+<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment​.</p>
+</dd>
+<dt class="field-even">Kubernetes​</dt>
+<dd class="field-even"><p>Centrally orchestrate all IOCs at a facility.</p>
+</dd>
+<dt class="field-odd">Helm Charts​</dt>
+<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management​.</p>
+</dd>
+<dt class="field-even">Repositories​</dt>
+<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
+No shared file systems required.​</p>
+</dd>
+<dt class="field-odd">Continuous Integration / Delivery</dt>
+<dd class="field-odd"><p>Source repositories automatically build containers, helm charts and
+deliver them to repositories.</p>
+</dd>
+</dl>
+<p>See below for more detail on each of these.</p>
+</section>
+<section id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<section id="images-and-containers">
+<h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline"></a></h3>
+<p>Containers provide the means to package up IOC software and execute it
+in a lightweight virtual environment. This includes saving the packages
+into public or private image registries such as DockerHub or Google Cloud
+Registry.</p>
+<p>The Open Container Initiative (OCI) defines the set of container services
+and their APIs such that container images can be interchanged between
+different frameworks.</p>
+<p>Thus, in this project we develop, build and test our container images
+using docker or podman but the images can be run under Kubernetes’ own
+container runtime.</p>
+<p>This article does a good job of explaining the relationship between docker /
+containers and Kubernetes <a class="reference external" href="https://semaphoreci.com/blog/kubernetes-vs-docker">https://semaphoreci.com/blog/kubernetes-vs-docker</a></p>
+<p>An important outcome of using containers is that you can alter the
+environment inside the container to suit the IOC code, instead of altering the
+code to suit your infrastructure. At DLS, this means that we are able to use
+vanilla EPICS base and support modules. We no longer require our own
+forks of these repositories.</p>
+<section id="generic-iocs-and-instances">
+<h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Permalink to this headline"></a></h4>
+<p>An important principal of the approach presented here is that an IOC container
+image represents a ‘generic’ IOC. The generic IOC image is used for all
+IOC instances that connect to a given class of device.</p>
+<p>An IOC instance runs in a container that bases its
+filesystem on a generic IOC image.
+In addition the instance has configuration mapped into the
+container that will bootstrap the unique properties of that instance.
+In most cases the configuration need only be a single IOC boot script.</p>
+<p>This approach reduces the number of images required and saves disk. It also
+makes for simple configuration management.</p>
+<p>Throughout this documentation we will use the terms Generic IOC and
+IOC Instance. The word IOC without this context is ambiguous.</p>
+</section>
+</section>
+<section id="kubernetes">
+<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://kubernetes.io/">https://kubernetes.io/</a></p>
+<p>Kubernetes easily and efficiently manages containers across clusters of hosts.​</p>
+<p>It builds upon 15 years of experience of running production workloads at
+Google, combined with best-of-breed ideas and practices from the community​,
+since it was open-sourced in 2014.</p>
+<p>Today it is by far the dominant orchestration technology for containers.</p>
+<p>In this project we use Kubernetes to provide a standard way of implementing
+these features:</p>
+<ul class="simple">
+<li><p>Auto start IOCs when servers come up​</p></li>
+<li><p>Manually Start and Stop IOCs​</p></li>
+<li><p>Monitor IOC status and versions​</p></li>
+<li><p>Deploy versioned IOCs to the beamline​</p></li>
+<li><p>Rollback to a previous IOC version​</p></li>
+<li><p>Allocate the server which runs an IOC​</p></li>
+<li><p>View the current log ​</p></li>
+<li><p>View historical logs (via graylog)​</p></li>
+<li><p>Connect to an IOC and interact with its shell</p></li>
+<li><p>debug an ioc by starting a bash shell inside it’s container</p></li>
+<li><p>etc.</p></li>
+</ul>
+</section>
+<section id="helm">
+<h3>Helm<a class="headerlink" href="#helm" title="Permalink to this headline"></a></h3>
+<p><a class="reference external" href="https://helm.sh/">https://helm.sh/</a></p>
+<p>Helm is the most popular package manager for Kubernetes applications​.</p>
+<p>The packages are called Helm Charts​. They contain templated YAML files to
+define a set of resources to apply to a Kubernetes cluster​.</p>
+<p>Helm has functions to deploy Charts to a cluster and manage multiple versions
+of the chart within the cluster​.</p>
+<p>It also supports registries for storing version history of charts,
+much like docker.</p>
+<p>In this project we use Helm Charts to define and deploy IOC instances. Each
+beamline has its own Helm Repository which stores current and historical
+version of its IOC instances.</p>
+</section>
+<section id="repositories">
+<h3>Repositories<a class="headerlink" href="#repositories" title="Permalink to this headline"></a></h3>
+<p>All of the assets required to manage a
+set of IOCs for a beamline are held in repositories.</p>
+<p>Thus all version control is done
+via these repositories and no special locations in
+a shared filesystem are required
+(The legacy approach at DLS relied heavily on
+know locations in a shared filesystem).</p>
+<p>In the epics-containers examples all repositories are held in the same
+github organization. This is nicely contained and means that only one set
+of credentials is required to access all the resources.</p>
+<p>There are many alternative services for storing these repositories, both
+in the cloud and on premises. Below we list the choices we have tested
+during the POC.</p>
+<p>The 3 classes of repository are as follows:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Source Repository</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>Holds the source code but also provides the
+Continuous Integration actions for testing, building and publishing to
+the image / helm repositories. These have been tested:</p>
+<ul>
+<li><p>github</p></li>
+<li><p>gitlab (on prem)</p></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt class="field-even">An image repository</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>Holds the generic IOC container images and their
+dependencies. The following have been tested:</p>
+<ul>
+<li><p>github packages</p></li>
+<li><p>dockerhub</p></li>
+<li><p>Google Cloud Container Registry</p></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt class="field-odd">A helm chart repository</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>This is where the definitions of IOC instances
+are stored. They are in the form of a helm chart which describes to
+Kubernetes the resources needed to spin up the IOC.
+These have been tested:</p>
+<ul>
+<li><p>github packages</p></li>
+<li><p>Google Cloud Artifact Registry</p></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="continuous-integration">
+<h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline"></a></h3>
+<p>Our examples all use continuous integration to get from pushed source
+to the published images / helm charts.</p>
+<p>This allows us to maintain a clean code base that is continually tested for
+integrity and also to maintain a direct relationship between source code tags
+and the tags of their built resources.</p>
+<p>There are these types of CI:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Generic IOC source</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>builds a generic IOC container image</p></li>
+<li><p>runs some tests against that image</p></li>
+<li><p>publishes the image to github packages (only if the commit is tagged)</p></li>
+</ul>
+</dd>
+<dt class="field-even">beamline definition source</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>builds a helm chart from each ioc definition
+(TODO ibek will do this - at present the charts are hand coded)</p></li>
+<li><p>TODO: IOCs which are unchanged should not be published again</p></li>
+<li><p>publishes the charts to github packages (only if the commit is tagged)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">helm library source</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>builds the helm chart</p></li>
+<li><p>publishes it to github packages (only if the commit is tagged)</p></li>
+</ul>
+</dd>
+<dt class="field-even">documentation source</dt>
+<dd class="field-even"><ul class="simple">
+<li><p>builds the sphinx docs</p></li>
+<li><p>publishes it to github.io pages</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline"></a></h2>
+<p>This project initially targets the low hanging fruit of x86_64 Linux Soft
+IOCs only.</p>
+<p>Other linux architectures could be added to the Kubernetes cluster.</p>
+<p>In future it is entirely possible that Windows IOCs could also be supported
+since Kubernetes supports mixed OS clusters. This would be needed
+because windows containers require a windows host.</p>
+<p>Hard IOCs will not be supported in their current form. Perhaps there is a
+future possibility of turning hard IOCs remote devices.</p>
+<p>Note that OPI is also out of scope for this initial phase. See
+<a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a></p>
+</section>
+<section id="additional-tools">
+<h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline"></a></h2>
+<section id="k8s-epics-utils">
+<h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this headline"></a></h3>
+<p>The project k9s-epics utils contains a script to add simple command
+line functions for deploying and monitoring IOCs.</p>
+<p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for details.</p>
+<p>It also provides a Dockerfile for building a personal developer image
+allowing a developer to work on support modules or IOCs anywhere.</p>
+<p>TODO provide documentation for the developer image.</p>
+</section>
+<section id="ibek">
+<h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this headline"></a></h3>
+<p>IOC Builder for EPICS and Kubernetes provides a way to generate an IOC
+helm chart from a YAML description of the IOC.</p>
+<p>TODO: this is in early development and not yet included in the epics-containers
+Organization.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials/manage_iocs.html" class="btn btn-neutral float-left" title="Manage IOCs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="whats_in.html" class="btn btn-neutral float-right" title="epics-containers Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

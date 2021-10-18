@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create a new generic IOC image &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Run an IOC without Kubernetes" href="run_iocs.html" />
+    <link rel="prev" title="Add an IOC instance to a beamline" href="add_ioc.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
+            <a href="../index.html" class="icon icon-home"> epics_containers
+            <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.6
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  <style>
+    /* style mobile top nav to look like main nav */
+    .wy-nav-top {
+        background: rgb(7, 43, 93)
+    }
+  </style>
+  
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a new generic IOC image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changes-to-the-template-project">Changes to The Template Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-and-publish-the-generic-ioc-image">Build and Publish the Generic IOC Image</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
+</ul>
+
+  <!-- Include all versions of the docs -->
+  <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
+  
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">epics_containers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Create a new generic IOC image</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/how-to/create_ioc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="create-a-new-generic-ioc-image">
+<h1>Create a new generic IOC image<a class="headerlink" href="#create-a-new-generic-ioc-image" title="Permalink to this headline"></a></h1>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline"></a></h2>
+<p>You may need to create an IOC instance that depends on support modules
+that have not yet been published in a generic IOC image. In this case
+you will need to publish a new generic IOC image that provides the
+additional support.</p>
+<p>This requires building a new Dockerfile that describes the image. The
+Dockerfile will be hosted in a new source repository that includes any
+additional files for the image context. In epics-containers
+these repos are all called ioc-XXX where XXX is the name of the primary
+support module being containerized.</p>
+<p>To start a new ioc-XXX repo you can use the ioc-template project at
+<a class="reference external" href="https://github.com/epics-containers/ioc-template">https://github.com/epics-containers/ioc-template</a> and click <strong>Use Template</strong>.</p>
+<p>If you search the resulting project for TODO this will give you hints
+on how to create your new generic IOC.</p>
+<p>All images will follow a very similar pattern, here is an example which builds
+the ADAravis support module for GigE cameras.</p>
+<div class="highlight-docker notranslate"><div class="highlight"><pre><span></span><span class="c"># Add support for GigE cameras with the ADAravis support module</span>
+<span class="k">ARG</span> <span class="nv">REGISTRY</span><span class="o">=</span>ghcr.io/epics-containers
+<span class="k">ARG</span> <span class="nv">ADCORE_VERSION</span><span class="o">=</span><span class="m">3</span>.10r2.0
+
+<span class="k">FROM</span> <span class="s">${REGISTRY}/epics-areadetector:${ADCORE_VERSION}</span>
+
+<span class="c"># install additional tools and libs</span>
+<span class="k">USER</span><span class="s"> root</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get upgrade -y <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    apt-get install -y --no-install-recommends <span class="se">\</span>
+    libglib2.0-dev <span class="se">\</span>
+    meson <span class="se">\</span>
+    intltool <span class="se">\</span>
+    pkg-config <span class="se">\</span>
+    xz-utils <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+
+<span class="c"># build aravis library</span>
+<span class="k">RUN</span> <span class="nb">cd</span> /usr/local <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone -b ARAVIS_0_8_1 --depth <span class="m">1</span> https://github.com/AravisProject/aravis <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> aravis <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    meson build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ninja <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ninja install <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">echo</span> /usr/local/lib64 &gt; /etc/ld.so.conf.d/usr.conf <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    ldconfig <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    rm -fr /usr/local/aravis
+
+<span class="k">USER</span><span class="s"> ${USERNAME}</span>
+
+<span class="c"># get additional support modules</span>
+<span class="k">ARG</span> <span class="nv">ADARAVIS_VERSION</span><span class="o">=</span>R2-2-1
+<span class="k">ARG</span> <span class="nv">ADGENICAM_VERSION</span><span class="o">=</span>R1-8
+
+<span class="k">RUN</span> python3 module.py add areaDetector ADGenICam ADGENICAM <span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span>
+<span class="k">RUN</span> python3 module.py add areaDetector ADAravis ADARAVIS <span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span>
+
+<span class="c"># add CONFIG_SITE.linux and RELEASE.local</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> configure <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADGenICam-<span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span>/configure
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> configure <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADAravis-<span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span>/configure
+
+<span class="c"># update the generic IOC Makefile to include the new support</span>
+<span class="k">COPY</span> --chown<span class="o">=</span><span class="si">${</span><span class="nv">USER_UID</span><span class="si">}</span>:<span class="si">${</span><span class="nv">USER_GID</span><span class="si">}</span> Makefile <span class="si">${</span><span class="nv">EPICS_ROOT</span><span class="si">}</span>/ioc/iocApp/src
+
+<span class="c"># update dependencies and build the support modules and the ioc</span>
+<span class="k">RUN</span> python3 module.py dependencies
+<span class="k">RUN</span> make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADGenICam-<span class="si">${</span><span class="nv">ADGENICAM_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j -C  <span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/ADAravis-<span class="si">${</span><span class="nv">ADARAVIS_VERSION</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j -C  <span class="si">${</span><span class="nv">IOC</span><span class="si">}</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make -j clean
+</pre></div>
+</div>
+</section>
+<section id="changes-to-the-template-project">
+<h2>Changes to The Template Project<a class="headerlink" href="#changes-to-the-template-project" title="Permalink to this headline"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">TODO</dt>
+<dd class="field-odd"><p>cover details of what is needed and how module.py works
+don’t forget to include RELEASE.shell</p>
+</dd>
+</dl>
+</section>
+<section id="build-and-publish-the-generic-ioc-image">
+<h2>Build and Publish the Generic IOC Image<a class="headerlink" href="#build-and-publish-the-generic-ioc-image" title="Permalink to this headline"></a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">TODO</dt>
+<dd class="field-odd"><p>test build locally with docker build
+use CI to build and Publish on GitHub</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="add_ioc.html" class="btn btn-neutral float-left" title="Add an IOC instance to a beamline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="run_iocs.html" class="btn btn-neutral float-right" title="Run an IOC without Kubernetes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
