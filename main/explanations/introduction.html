@@ -1,85 +1,42 @@
 
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Essential Concepts &mdash; epics_containers 0.4+19.g37c90c2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
-
-  
-  
+  <title>Essential Concepts &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="epics-containers Contents" href="whats_in.html" />
     <link rel="prev" title="Manage IOCs" href="../tutorials/manage_iocs.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> epics_containers
-          
-
-          
-            
             <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                main
+                0.6
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -87,13 +44,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
   <style>
     /* style mobile top nav to look like main nav */
     .wy-nav-top {
@@ -101,12 +52,7 @@
     }
   </style>
   
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
@@ -114,7 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Explanations</span></p>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Essential Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -141,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 </ul>
-<p class="caption"><span class="caption-text">How-to Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
@@ -149,91 +95,45 @@
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
 </ul>
 
-            
-          
   <!-- Include all versions of the docs -->
   <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
   
-  <p class="caption"><span class="caption-text">Versions</span></p>
-  <ul>
-    <li><a href="introduction.html">main</a></li>
-  </ul>
-  
 
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">epics_containers</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Essential Concepts</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/explanations/introduction.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="essential-concepts">
-<h1>Essential Concepts<a class="headerlink" href="#essential-concepts" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="essential-concepts">
+<h1>Essential Concepts<a class="headerlink" href="#essential-concepts" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
 <p>Kubernetes for EPICS IOCs applies modern industry standards to the management
 of IOCs.</p>
 <p>There are 5 themes to this strategy:</p>
@@ -257,11 +157,11 @@ deliver them to repositories.</p>
 </dd>
 </dl>
 <p>See below for more detail on each of these.</p>
-</div>
-<div class="section" id="concepts">
-<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="images-and-containers">
-<h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="concepts">
+<h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<section id="images-and-containers">
+<h3>Images and Containers<a class="headerlink" href="#images-and-containers" title="Permalink to this headline"></a></h3>
 <p>Containers provide the means to package up IOC software and execute it
 in a lightweight virtual environment. This includes saving the packages
 into public or private image registries such as DockerHub or Google Cloud
@@ -279,8 +179,8 @@ environment inside the container to suit the IOC code, instead of altering the
 code to suit your infrastructure. At DLS, this means that we are able to use
 vanilla EPICS base and support modules. We no longer require our own
 forks of these repositories.</p>
-<div class="section" id="generic-iocs-and-instances">
-<h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Permalink to this headline">¶</a></h4>
+<section id="generic-iocs-and-instances">
+<h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Permalink to this headline"></a></h4>
 <p>An important principal of the approach presented here is that an IOC container
 image represents a ‘generic’ IOC. The generic IOC image is used for all
 IOC instances that connect to a given class of device.</p>
@@ -293,10 +193,10 @@ In most cases the configuration need only be a single IOC boot script.</p>
 makes for simple configuration management.</p>
 <p>Throughout this documentation we will use the terms Generic IOC and
 IOC Instance. The word IOC without this context is ambiguous.</p>
-</div>
-</div>
-<div class="section" id="kubernetes">
-<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="kubernetes">
+<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this headline"></a></h3>
 <p><a class="reference external" href="https://kubernetes.io/">https://kubernetes.io/</a></p>
 <p>Kubernetes easily and efficiently manages containers across clusters of hosts.​</p>
 <p>It builds upon 15 years of experience of running production workloads at
@@ -318,9 +218,9 @@ these features:</p>
 <li><p>debug an ioc by starting a bash shell inside it’s container</p></li>
 <li><p>etc.</p></li>
 </ul>
-</div>
-<div class="section" id="helm">
-<h3>Helm<a class="headerlink" href="#helm" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="helm">
+<h3>Helm<a class="headerlink" href="#helm" title="Permalink to this headline"></a></h3>
 <p><a class="reference external" href="https://helm.sh/">https://helm.sh/</a></p>
 <p>Helm is the most popular package manager for Kubernetes applications​.</p>
 <p>The packages are called Helm Charts​. They contain templated YAML files to
@@ -332,9 +232,9 @@ much like docker.</p>
 <p>In this project we use Helm Charts to define and deploy IOC instances. Each
 beamline has its own Helm Repository which stores current and historical
 version of its IOC instances.</p>
-</div>
-<div class="section" id="repositories">
-<h3>Repositories<a class="headerlink" href="#repositories" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="repositories">
+<h3>Repositories<a class="headerlink" href="#repositories" title="Permalink to this headline"></a></h3>
 <p>All of the assets required to manage a
 set of IOCs for a beamline are held in repositories.</p>
 <p>Thus all version control is done
@@ -388,9 +288,9 @@ These have been tested:</p>
 </ul>
 </dd>
 </dl>
-</div>
-<div class="section" id="continuous-integration">
-<h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="continuous-integration">
+<h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this headline"></a></h3>
 <p>Our examples all use continuous integration to get from pushed source
 to the published images / helm charts.</p>
 <p>This allows us to maintain a clean code base that is continually tested for
@@ -426,10 +326,10 @@ and the tags of their built resources.</p>
 </ul>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="scope">
-<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this headline"></a></h2>
 <p>This project initially targets the low hanging fruit of x86_64 Linux Soft
 IOCs only.</p>
 <p>Other linux architectures could be added to the Kubernetes cluster.</p>
@@ -440,66 +340,54 @@ because windows containers require a windows host.</p>
 future possibility of turning hard IOCs remote devices.</p>
 <p>Note that OPI is also out of scope for this initial phase. See
 <a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a></p>
-</div>
-<div class="section" id="additional-tools">
-<h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="k8s-epics-utils">
-<h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="additional-tools">
+<h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this headline"></a></h2>
+<section id="k8s-epics-utils">
+<h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this headline"></a></h3>
 <p>The project k9s-epics utils contains a script to add simple command
 line functions for deploying and monitoring IOCs.</p>
 <p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for details.</p>
 <p>It also provides a Dockerfile for building a personal developer image
 allowing a developer to work on support modules or IOCs anywhere.</p>
 <p>TODO provide documentation for the developer image.</p>
-</div>
-<div class="section" id="ibek">
-<h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="ibek">
+<h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this headline"></a></h3>
 <p>IOC Builder for EPICS and Kubernetes provides a way to generate an IOC
 helm chart from a YAML description of the IOC.</p>
 <p>TODO: this is in early development and not yet included in the epics-containers
 Organization.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="whats_in.html" class="btn btn-neutral float-right" title="epics-containers Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../tutorials/manage_iocs.html" class="btn btn-neutral float-left" title="Manage IOCs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="whats_in.html" class="btn btn-neutral float-right" title="epics-containers Contents" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Diamond Light Source.
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
 
-    </p>
-  </div> 
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

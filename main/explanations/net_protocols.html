@@ -1,85 +1,42 @@
 
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Channel Access and Other Protocols &mdash; epics_containers 0.4+19.g37c90c2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
-
-  
-  
+  <title>Channel Access and Other Protocols &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Kubernetes Cluster Config" href="kubernetes_cluster.html" />
     <link rel="prev" title="epics-containers Contents" href="whats_in.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> epics_containers
-          
-
-          
-            
             <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                main
+                0.6
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -87,13 +44,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
   <style>
     /* style mobile top nav to look like main nav */
     .wy-nav-top {
@@ -101,12 +52,7 @@
     }
   </style>
   
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
@@ -114,7 +60,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Explanations</span></p>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
@@ -126,7 +72,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 </ul>
-<p class="caption"><span class="caption-text">How-to Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
@@ -134,93 +80,47 @@
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
 </ul>
 
-            
-          
   <!-- Include all versions of the docs -->
   <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
   
-  <p class="caption"><span class="caption-text">Versions</span></p>
-  <ul>
-    <li><a href="net_protocols.html">main</a></li>
-  </ul>
-  
 
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">epics_containers</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Channel Access and Other Protocols</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/explanations/net_protocols.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="channel-access-and-other-protocols">
-<h1>Channel Access and Other Protocols<a class="headerlink" href="#channel-access-and-other-protocols" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="channel-access-and-other-protocols">
+<h1>Channel Access and Other Protocols<a class="headerlink" href="#channel-access-and-other-protocols" title="Permalink to this headline"></a></h1>
 <p>Explanations of the challenges and solutions to routing protocols to and
 from IOCs running under Kubernetes.</p>
-<div class="section" id="container-network-interface">
-<h2>Container Network Interface<a class="headerlink" href="#container-network-interface" title="Permalink to this headline">¶</a></h2>
+<section id="container-network-interface">
+<h2>Container Network Interface<a class="headerlink" href="#container-network-interface" title="Permalink to this headline"></a></h2>
 <p>A Kubernetes cluster will have a CNI (Container Network Interface) that
 provides some form of virtual network within which Pods communicate.</p>
 <p>For a useful discussion of this subject see <a class="reference external" href="https://rancher.com/blog/2019/2019-03-21-comparing-kubernetes-cni-providers-flannel-calico-canal-and-weave/">Kubernetes CNI providers</a></p>
@@ -232,9 +132,9 @@ required to configure a service to proxy a connection to our IOC.</p>
 <p>The service provides Network Address Translation and routes packets to and
 from the Pod and the external client.</p>
 <p>Typically CNIs do not support broadcast traffic within their virtual LAN.</p>
-</div>
-<div class="section" id="problems-with-cni">
-<h2>Problems with CNI<a class="headerlink" href="#problems-with-cni" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="problems-with-cni">
+<h2>Problems with CNI<a class="headerlink" href="#problems-with-cni" title="Permalink to this headline"></a></h2>
 <p>The following two behaviours for network protocols are not suitable for use
 between an external client and a kubernetes Pod:</p>
 <ul class="simple">
@@ -259,9 +159,9 @@ the cluster itself.</p>
 <p>The conclusion of this study was that workarounds were fiddly and needed to be
 implemented on a per protocol basis, plus there is no guarantee that there
 is a solution for all protocols we will need.</p>
-</div>
-<div class="section" id="solution-hostnetwork">
-<h2>Solution - hostNetwork<a class="headerlink" href="#solution-hostnetwork" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="solution-hostnetwork">
+<h2>Solution - hostNetwork<a class="headerlink" href="#solution-hostnetwork" title="Permalink to this headline"></a></h2>
 <p>To get round these issues and all possible future network issues we:</p>
 <ul class="simple">
 <li><p>Use remote worker nodes that sit in the beamline subnet</p></li>
@@ -277,47 +177,35 @@ knows the port number can connect because no NAT is in the way.</p>
 to be allowed to use hostNetwork. At DLS the K8S team has implemented a
 set of restrictions that mitigate this issue. See <a class="reference internal" href="kubernetes_cluster.html#argus"><span class="std std-ref">DLS Argus Cluster</span></a> for details
 of the remote worker nodes and suggestions for secure configuration.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="kubernetes_cluster.html" class="btn btn-neutral float-right" title="Kubernetes Cluster Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="whats_in.html" class="btn btn-neutral float-left" title="epics-containers Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kubernetes_cluster.html" class="btn btn-neutral float-right" title="Kubernetes Cluster Config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Diamond Light Source.
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
 
-    </p>
-  </div> 
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

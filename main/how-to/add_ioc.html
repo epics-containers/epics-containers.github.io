@@ -1,85 +1,42 @@
 
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Add an IOC instance to a beamline &mdash; epics_containers 0.4+19.g37c90c2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
-
-  
-  
+  <title>Add an IOC instance to a beamline &mdash; epics_containers 0.6 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
     <link rel="shortcut icon" href="../_static/k8s-epics2.ico"/>
-  
-
-  
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-    
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Create a new generic IOC image" href="create_ioc.html" />
     <link rel="prev" title="Kubernetes Cluster Config" href="../explanations/kubernetes_cluster.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
-          
-
-          
             <a href="../index.html" class="icon icon-home"> epics_containers
-          
-
-          
-            
             <img src="../_static/k8s-epics2.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
               <div class="version">
-                main
+                0.6
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -87,13 +44,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
   <style>
     /* style mobile top nav to look like main nav */
     .wy-nav-top {
@@ -101,12 +52,7 @@
     }
   </style>
   
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
@@ -114,14 +60,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Explanations</span></p>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 </ul>
-<p class="caption"><span class="caption-text">How-to Guides</span></p>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Add an IOC instance to a beamline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -136,97 +82,51 @@
 <li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/contributing.html">Contributing</a></li>
 </ul>
 
-            
-          
   <!-- Include all versions of the docs -->
   <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
   
-  <p class="caption"><span class="caption-text">Versions</span></p>
-  <ul>
-    <li><a href="add_ioc.html">main</a></li>
-  </ul>
-  
 
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">epics_containers</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Add an IOC instance to a beamline</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../_sources/how-to/add_ioc.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="add-an-ioc-instance-to-a-beamline">
-<h1>Add an IOC instance to a beamline<a class="headerlink" href="#add-an-ioc-instance-to-a-beamline" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="add-an-ioc-instance-to-a-beamline">
+<h1>Add an IOC instance to a beamline<a class="headerlink" href="#add-an-ioc-instance-to-a-beamline" title="Permalink to this headline"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline"></a></h2>
 <p>In the tutorials section we created a beamline repository that contains
 a single IOC called example. Here we discuss how to create your own IOCs
 using this example as a template.</p>
-</div>
-<div class="section" id="quick-start">
-<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h2>
 <p>At present this discussion is around copying and modifying the Helm Chart
 definition for the IOC. In future the tool <strong>ibek</strong> will generate the Helm
 Chart from a YAML description of the IOC.</p>
@@ -267,9 +167,9 @@ by your IOC. A selection of such images is available at
 generic IOC image then see <a class="reference internal" href="create_ioc.html"><span class="doc">Create a new generic IOC image</span></a>.</p>
 <p>For the moment you will have to implement your own approach to providing a GUI,
 see <a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a>.</p>
-</div>
-<div class="section" id="testing-and-deploying">
-<h2>Testing and Deploying<a class="headerlink" href="#testing-and-deploying" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="testing-and-deploying">
+<h2>Testing and Deploying<a class="headerlink" href="#testing-and-deploying" title="Permalink to this headline"></a></h2>
 <p>Assuming you have created a new IOC in iocs/example2 you can take a look at
 what helm will generate with the following command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">template</span> <span class="n">example2</span> <span class="n">iocs</span><span class="o">/</span><span class="n">example2</span>
@@ -291,9 +191,9 @@ match the folder name you have your new helm chart.</p>
 </div>
 <p>Then monitor the Actions page of your github project until it completes the CI.
 You are now ready to deploy the released version</p>
-</div>
-<div class="section" id="production-deployment">
-<h2>Production Deployment<a class="headerlink" href="#production-deployment" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="production-deployment">
+<h2>Production Deployment<a class="headerlink" href="#production-deployment" title="Permalink to this headline"></a></h2>
 <p>For a more complete deployment there are a few more fields in values.yaml
 that may be useful. Below is the default template value.yaml from example:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">beamline</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">blxxi</span>
@@ -343,53 +243,41 @@ specified in milli-CPU e.g. 500m is half a CPU. The IOC instance will be
 throttled if it exceeds this limit.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="future-improvements">
-<h2>Future Improvements<a class="headerlink" href="#future-improvements" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="future-improvements">
+<h2>Future Improvements<a class="headerlink" href="#future-improvements" title="Permalink to this headline"></a></h2>
 <p>This is the full set of options that the helm library supports at present.
 It is only a first pass implementation and much finer control of the
 Kubernetes deployment could be exposed in future.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="create_ioc.html" class="btn btn-neutral float-right" title="Create a new generic IOC image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../explanations/kubernetes_cluster.html" class="btn btn-neutral float-left" title="Kubernetes Cluster Config" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="create_ioc.html" class="btn btn-neutral float-right" title="Create a new generic IOC image" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Diamond Light Source.
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
 
-    </p>
-  </div> 
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
