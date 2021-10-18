@@ -45,8 +45,6 @@ extensions = [
     "sphinx.ext.viewcode",
     # Adds the inheritance-diagram generation directive
     "sphinx.ext.inheritance_diagram",
-    # Add multiple versions of documentation on CI
-    "sphinx_multiversion",
 ]
 
 # If true, Sphinx will warn about all references where the target cannot
@@ -134,11 +132,3 @@ html_css_files = ["theme_overrides.css"]
 html_logo = "images/k8s-epics2.png"
 html_favicon = "images/k8s-epics2.ico"
 
-
-# sphinx-multiversion config
-smv_rebuild_tags = False
-smv_tag_whitelist = r"^\d+\.\d+.*$"  # only document tags with form 0.9*
-smv_branch_whitelist = r"^main$"  # only branch to document is main
-smv_outputdir_format = "{ref.name}"
-smv_prefer_remote_refs = False
-smv_remote_whitelist = "origin|github"

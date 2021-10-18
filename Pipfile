@@ -11,10 +11,7 @@ mypy = "*"
 atomicwrites = "*"
 typing-extensions = "*"
 importlib-metadata = "*"
-# Switch to main repo after PR https://github.com/Holzhaus/sphinx-multiversion/pull/64 is merged
-sphinx-multiversion = {editable = true,git = "https://github.com/dls-controls/sphinx-multiversion.git",ref = "only-arg"}
-# List wheel here to make sure we make the same version to make wheels on gitlab and github CI
-wheel = "0.33.1"
+
 # Test and docs dependencies
 pytest-cov = "*"
 pytest-mypy = "*"
