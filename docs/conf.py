@@ -83,10 +83,9 @@ source_suffix = ".rst"
 # The master toctree document.
 master_doc = "index"
 
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# These patterns also affect html_static_path and html_extra_path
-exclude_patterns = ["_build"]
+# List of directories, relative to source directory, that shouldn't be searched
+# for source files.
+exclude_trees = ["_build"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "sphinx"
@@ -108,12 +107,17 @@ rst_epilog = """
 # Sphinx are currently "default" and "sphinxdoc".
 try:
     import sphinx_rtd_theme_github_versions
+
     html_theme = "sphinx_rtd_theme_github_versions"
 except ImportError:
     html_theme = "default"
 
 # Options for the sphinx rtd theme
-html_theme_options = dict(style_nav_header_background="rgb(7, 43, 93)")
+html_theme_options = {
+    "style_nav_header_background": "rgb(7, 43, 93)",
+    "versions_branches": "main master",
+    "github_org": "dls-controls",
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

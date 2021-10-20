@@ -10,7 +10,5 @@ softioc = {editable = true, extras = ["dev"], path = "."}
 softioc = {editable = true, extras = ["useful"], path = "."}
 
 [scripts]
-# Do flake8 here so it doesn't happen in the container in CI
-tests = "python -m pytest --flake8"
 docs = "sphinx-build -EWT --keep-going docs build/html"
 gitclean = "git clean -fdX"
