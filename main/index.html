@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>epics-containers &mdash; epics_containers 0.6 documentation</title>
+  <title>epics-containers &mdash; epics_containers 0.6+1.g047260f documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -34,7 +33,7 @@
             <img src="_static/k8s-epics2.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.6
+                main
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -44,12 +43,6 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-  <style>
-    /* style mobile top nav to look like main nav */
-    .wy-nav-top {
-        background: rgb(7, 43, 93)
-    }
-  </style>
   
               <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
@@ -81,9 +74,41 @@
 <li class="toctree-l1"><a class="reference internal" href="reference/contributing.html">Contributing</a></li>
 </ul>
 
-  <!-- Include all versions of the docs -->
-  <!-- https://holzhaus.github.io/sphinx-multiversion/master/templates.html -->
-  
+  <!-- Add versions for selected branches + tags -->
+  <p class="caption">
+    <span class="caption-text">Versions</span>
+  </p>
+  <ul id="versions"/>
+  <script>
+    // Add any branches to appear in the side pane here, tags will be added below
+    // Will only appear if docs are built and pushed in gh-pages
+    var versions = ['main', 'master'];
+    var dirs = new Set();
+    function addVersion(name) {
+      if (dirs.has(name)) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = 'https://dls-controls.github.io/epics_containers/' + name;
+        a.innerText = name;
+        li.appendChild(a)
+        document.getElementById('versions').appendChild(li);
+      }
+    }
+    Promise.all([
+      // Find gh-pages directories and populate `dirs`
+      fetch("https://api.github.com/repos/dls-controls/epics_containers/contents?ref=gh-pages")
+      .then(response => response.json())
+      .then(data => data.forEach(function(e) {
+        if (e.type == "dir") dirs.add(e.name);
+      })),
+      // Add tags to `versions`
+      fetch('https://api.github.com/repos/dls-controls/epics_containers/tags')
+        .then(response => response.json())
+        .then(data => data.forEach(function(e) {
+          versions.push(e.name);
+        }))
+      ]).then(_ => versions.forEach(addVersion))
+  </script>
 
         </div>
       </div>
@@ -139,6 +164,16 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 </tbody>
 </table>
 </section>
+<section id="materials">
+<h1>Materials<a class="headerlink" href="#materials" title="Permalink to this headline"></a></h1>
+<p>The following links are to materials presented at the ICALEPCS 2021 Meeting:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference download internal" download="" href="_downloads/e9fa1f1d7c1ca3f06f4523e12df132ae/THBL04.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Paper:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/6fc8d51a901259cbf018fa6502db9027/THBL04_talk.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Talk:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
+</ul>
+</div></blockquote>
+</section>
 <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h1>
 <p>Kubernetes for EPICS IOCs applies modern industry standards to the
@@ -151,13 +186,6 @@ management of IOCs.</p>
 <li><p>CI / CD generates the images, charts from source and delivers them
 to <strong>Repositories</strong></p></li>
 </ul>
-<p>The following links are to materials presented at the ICALEPCS 2021 Meeting:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><a class="reference download internal" download="" href="_downloads/e9fa1f1d7c1ca3f06f4523e12df132ae/THBL04.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Paper:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/6fc8d51a901259cbf018fa6502db9027/THBL04_talk.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Talk:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
-</ul>
-</div></blockquote>
 <p>Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.</p>
 <a class="reference internal image-reference" href="_images/example.png"><img alt="_images/example.png" class="align-center" src="_images/example.png" style="width: 1500px;" /></a>
@@ -185,6 +213,13 @@ github organization:</p>
 </ul>
 </li>
 </ul>
+<p>The Generic IOC container images are built using a hierarchy with the most
+common elements shared as shown in the following diagram:</p>
+<a class="reference internal image-reference" href="_images/image-hierarchy.png"><img alt="_images/image-hierarchy.png" class="align-center" src="_images/image-hierarchy.png" style="width: 350px;" /></a>
+<p>EPICS base and essential tools are compiled inside one image; the most commonly
+used support modules(primarily Asyn) and the AreaDetector framework
+also have their own images. Generic IOC images are then
+leaves in the hierarchy and are based upon the appropriate dependencies.</p>
 </section>
 <section id="how-the-documentation-is-structured">
 <h1>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this headline"></a></h1>
