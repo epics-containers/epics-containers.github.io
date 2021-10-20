@@ -26,6 +26,14 @@ Organization   https://github.com/epics-containers
     :alt: Apache License
 
 
+Materials
+=========
+
+The following links are to materials presented at the ICALEPCS 2021 Meeting:
+
+  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<images/THBL04.PDF>`
+  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<images/THBL04_talk.PDF>`
+
 Overview
 ========
 
@@ -38,11 +46,6 @@ management of IOCs.
 - Repositories hold **Container** images and **Helm** charts
 - CI / CD generates the images, charts from source and delivers them
   to **Repositories**
-
-The following links are to materials presented at the ICALEPCS 2021 Meeting:
-
-  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<images/THBL04.PDF>`
-  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<images/THBL04_talk.PDF>`
 
 Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.
@@ -67,6 +70,18 @@ Kubernetes worker node.
   - BL45P IOC sources:
 
     - https://github.com/epics-containers/bl45p
+
+The Generic IOC container images are built using a hierarchy with the most
+common elements shared as shown in the following diagram:
+
+.. image:: images/image-hierarchy.png
+    :width: 350px
+    :align: center
+
+EPICS base and essential tools are compiled inside one image; the most commonly
+used support modules(primarily Asyn) and the AreaDetector framework
+also have their own images. Generic IOC images are then
+leaves in the hierarchy and are based upon the appropriate dependencies.
 
 ..
     Anything below this line is used when viewing README.rst and will be replaced
