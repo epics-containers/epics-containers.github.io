@@ -116,7 +116,7 @@ except ImportError:
 html_theme_options = {
     "style_nav_header_background": "rgb(7, 43, 93)",
     "versions_branches": "main master",
-    "github_org": "dls-controls",
+    "github_org": "epics-containers",
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
