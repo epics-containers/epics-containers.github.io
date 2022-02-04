@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>epics-containers &mdash; epics_containers 0.8 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/k8s-epics2.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Setup a Kubernetes Server" href="tutorials/setup_k8s.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: rgb(7, 43, 93)" >
+            <a href="#" class="icon icon-home"> epics_containers
+            <img src="_static/k8s-epics2.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+  
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/manage_iocs.html">Manage IOCs</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to/debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how-to/debug.html#debug-an-ioc-instance-in-kubernetes">Debug an IOC instance in Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/contributing.html">Contributing</a></li>
+</ul>
+
+  <!-- Add versions for selected branches + tags -->
+  <p class="caption">
+    <span class="caption-text">Versions</span>
+  </p>
+  <ul id="versions"/>
+  <script>
+    // Add any branches to appear in the side pane here, tags will be added below
+    // Will only appear if docs are built and pushed in gh-pages
+    var versions = ['main', 'master'];
+    var dirs = new Set();
+    function addVersion(name) {
+      if (dirs.has(name)) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = 'https://epics-containers.github.io/epics_containers/' + name;
+        a.innerText = name;
+        li.appendChild(a)
+        document.getElementById('versions').appendChild(li);
+      }
+    }
+    Promise.all([
+      // Find gh-pages directories and populate `dirs`
+      fetch("https://api.github.com/repos/epics-containers/epics_containers/contents?ref=gh-pages")
+      .then(response => response.json())
+      .then(data => data.forEach(function(e) {
+        if (e.type == "dir") dirs.add(e.name);
+      })),
+      // Add tags to `versions`
+      fetch('https://api.github.com/repos/epics-containers/epics_containers/tags')
+        .then(response => response.json())
+        .then(data => data.forEach(function(e) {
+          versions.push(e.name);
+        }))
+      ]).then(_ => versions.forEach(addVersion))
+  </script>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: rgb(7, 43, 93)" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">epics_containers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>epics-containers</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="epics-containers">
+<h1>epics-containers<a class="headerlink" href="#epics-containers" title="Permalink to this headline"></a></h1>
+<p><a class="reference external" href="https://github.com/epics-containers/k8s-epics-docs/actions?query=workflow%3A%22Docs+CI%22"><img alt="Docs CI" src="https://github.com/epics-containers/k8s-epics-docs/workflows/Docs%20CI/badge.svg?branch=main" /></a> <a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="Apache License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a></p>
+<p>epics-containers is an experimental GitHub organization to try out ideas
+for managing EPICS IOCs in a Kubernetes cluster.</p>
+<p>Please contribute with comments and suggestions in the wiki or issues pages:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 83%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Documentation</p></td>
+<td><p><a class="reference external" href="https://epics-containers.github.io">https://epics-containers.github.io</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Wiki</p></td>
+<td><p><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/wiki">https://github.com/epics-containers/epics-containers.github.io/wiki</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Issues</p></td>
+<td><p><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/issues">https://github.com/epics-containers/epics-containers.github.io/issues</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Docs Source</p></td>
+<td><p><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io">https://github.com/epics-containers/epics-containers.github.io</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Organization</p></td>
+<td><p><a class="reference external" href="https://github.com/epics-containers">https://github.com/epics-containers</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="communication">
+<h1>Communication<a class="headerlink" href="#communication" title="Permalink to this headline"></a></h1>
+<p>If you are interested in discussing containers for control systems, please:</p>
+<ul class="simple">
+<li><p>Add a brief description of your project and the status of it’s use of containers to:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls">https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls</a></p></li>
+</ul>
+</li>
+<li><p>Join in the discussion at <a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/discussions">https://github.com/epics-containers/epics-containers.github.io/discussions</a></p></li>
+</ul>
+</section>
+<section id="materials">
+<h1>Materials<a class="headerlink" href="#materials" title="Permalink to this headline"></a></h1>
+<p>The following links are to materials presented at the ICALEPCS 2021 Meeting:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference download internal" download="" href="_downloads/e9fa1f1d7c1ca3f06f4523e12df132ae/THBL04.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Paper:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/6fc8d51a901259cbf018fa6502db9027/THBL04_talk.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Talk:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h1>
+<p>Kubernetes for EPICS IOCs applies modern industry standards to the
+management of IOCs.</p>
+<ul class="simple">
+<li><p>Containers package generic IOC code and dependencies.</p></li>
+<li><p>Kubernetes orchestrates the <strong>Containers</strong>.</p></li>
+<li><p>Helm deploys IOCs to <strong>Kubernetes</strong>.</p></li>
+<li><p>Repositories hold <strong>Container</strong> images and <strong>Helm</strong> charts</p></li>
+<li><p>CI / CD generates the images, charts from source and delivers them
+to <strong>Repositories</strong></p></li>
+</ul>
+<p>Below we show how these assets combine to create a running IOC on a
+Kubernetes worker node.</p>
+<a class="reference internal image-reference" href="_images/example.png"><img alt="_images/example.png" class="align-center" src="_images/example.png" style="width: 1500px;" /></a>
+<ul class="simple">
+<li><p>The Helm Chart defines an IOC instance as:</p>
+<ul>
+<li><p>An image reference for generic IOC binaries</p></li>
+<li><p>A startup Script for the unique IOC instance</p></li>
+<li><p>K8S resource YAML to describe resources to the Kubernetes cluster</p></li>
+</ul>
+</li>
+<li><p>The entire definition of the the example P45 beamline is held in this
+github organization:</p>
+<ul>
+<li><p>Helm Charts and IOC Images:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/orgs/epics-containers/packages">https://github.com/orgs/epics-containers/packages</a></p></li>
+</ul>
+</li>
+<li><p>BL45P IOC sources:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/epics-containers/bl45p">https://github.com/epics-containers/bl45p</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The Generic IOC container images are built using a hierarchy with the most
+common elements shared as shown in the following diagram:</p>
+<a class="reference internal image-reference" href="_images/image-hierarchy.png"><img alt="_images/image-hierarchy.png" class="align-center" src="_images/image-hierarchy.png" style="width: 350px;" /></a>
+<p>EPICS base and essential tools are compiled inside one image; the most commonly
+used support modules(primarily Asyn) and the AreaDetector framework
+also have their own images. Generic IOC images are then
+leaves in the hierarchy and are based upon the appropriate dependencies.</p>
+</section>
+<section id="how-the-documentation-is-structured">
+<h1>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this headline"></a></h1>
+<p>Documentation is split into four categories, accessible from links in the side-bar.</p>
+<section class="columns" id="tutorials">
+<h2>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline"></a></h2>
+<p>Tutorials for setting up a test cluster, and deploying an IOC.</p>
+</section>
+<section class="columns" id="explanations">
+<h2>Explanations<a class="headerlink" href="#explanations" title="Permalink to this headline"></a></h2>
+<p>Explanation of the principal ideas for deploying IOCs in Kubernetes.</p>
+</section>
+<section class="columns" id="how-to-guides">
+<h2>How-to Guides<a class="headerlink" href="#how-to-guides" title="Permalink to this headline"></a></h2>
+<p>Practical step-by-step guides for the more experienced user.</p>
+</section>
+<section class="columns" id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline"></a></h2>
+<p>Technical reference material.</p>
+<div class="toctree-wrapper endcolumns compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper no-margin-after-ul compound">
+</div>
+</section>
+<section class="endcolumns" id="about-the-documentation">
+<h2>About the documentation<a class="headerlink" href="#about-the-documentation" title="Permalink to this headline"></a></h2>
+<p><a class="reference external" href="https://documentation.divio.com">Why is the documentation structured this way?</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials/setup_k8s.html" class="btn btn-neutral float-right" title="Setup a Kubernetes Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Diamond Light Source.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
