@@ -26,7 +26,7 @@ the K8S_HELM_REGISTRY reference with your account details::
     export K8S_HELM_REGISTRY=ghcr.io/<your account or organization goes here>
 
     # get the helper functions
-    wget -q https://raw.githubusercontent.com/epics-containers/k8s-epics-utils/main/epics-dev-image/home/bin/kube-functions.sh
+    wget -q https://raw.githubusercontent.com/epics-containers/k8s-epics-utils/main/kube-functions.sh
     source kube-functions.sh
 
 Deploy an IOC Version
