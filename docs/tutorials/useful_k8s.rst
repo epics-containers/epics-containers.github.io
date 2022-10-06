@@ -46,9 +46,15 @@ Then create the admin user and role by executing the following:
       namespace: kubernetes-dashboard
     EOF
 
-get a token for the user and copy the token into your clipboard::
+Get a token for the user and copy the token into your clipboard.
+
+On k3s v1.23 and older::
 
     kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token'
+
+On k3s v1.24 and newer::
+
+    kubectl -n kubernetes-dashboard create token admin-user
 
 Use kubectl to start a proxy that will forward HTTP requests to your cluster::
 
