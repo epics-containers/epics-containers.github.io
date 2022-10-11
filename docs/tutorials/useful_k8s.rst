@@ -151,3 +151,69 @@ cd to the root of the project you created in `deploy_example`, then::
 .. _WSL2 instructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 .. _docker for WSL: https://docs.docker.com/docker-for-windows/wsl/
 .. _X11 Server for Windows: https://sourceforge.net/projects/vcxsrv/
+
+.. _macos:
+
+Installing on MacOS
+-------------------
+
+These instructions have been developed and tested on MacOS version 12.6 Monterey. 
+
+A fundamental requirement is to have the XCode commandline tools installed. This is most easily done by
+installing the free XCode App from from the App Store.
+Since XCode is a major installation and includes far more that what is strictly required, you can `just`
+install the CLI tools with the following Terminal command::
+
+    xcode-select --install
+
+There will be a licece agreement prompt. When installation is complete, verify with ``xcode-select -p`` 
+which should return something like ``/Library/Developer/CommandLineTools``.
+
+The relevant tools including docker, K3S, Helm, and others can all be easily installed
+and maintained using the `Homebrew`_ package manager. Install ``brew`` with the following Terminal
+command::
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+The `Rancher Desktop`_ application is a free alternative to Docker Desktop which packages up
+docker and a kubernetes installation in one easy to install app. This also provides a
+convenient desktop dashboard where you can monitor and control your kubernetes environment.
+Rancher Desktop can be installed with ``brew``::
+
+    brew install --cask rancher
+
+After installation completes, run up the "Rancher Desktop" GUI app which has been installed
+into the ``Applications`` folder and MacOS Launchpad. When first starting up the app, you will
+be asked to select a "Container Engine" - select the "dockerd (moby)" option in order to use
+compatible docker CLI and kubectl commands from this tutorial.
+
+.. _Homebrew: https://brew.sh
+.. _Rancher Desktop: https://docs.rancherdesktop.io/
+
+Install other dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A few other dependencies are required in order to follow this tutorial. These are also best installed
+and managed by Homebrew::
+
+    brew install coreutils wget
+
+Run commands in bash
+~~~~~~~~~~~~~~~~~~~~
+
+The default shell in the Terminal app is ``zsh``. It is similar and largely compatible with ``bash``
+but there are some scripts referenced in this documentation that don't work directly in ``zsh``. 
+The recommendation for working through the rest of this tutorial/instructions is to start a Terminal
+and immidiately run ``bash`` or setup a Terminal profile that runs ``bash`` by default.
+
+A newer version of bash than the one supplied with MacOS can optionally be installed with ``brew install bash``
+
+X11 GUI applications on MacOS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+X11 GUI applications like EDM can work on MacOS as well. The `XQuartz`_ project provides an X11 server
+for MacOS and can easily be installed with Homebrew::
+
+    brew install --cask xquartz
+
+.. _XQuartz: https://www.xquartz.org

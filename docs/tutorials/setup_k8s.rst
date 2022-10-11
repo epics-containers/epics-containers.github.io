@@ -15,6 +15,8 @@ It has been tested on the following:
 Ubuntu 20.10               any modern linux distro should also work
 Raspberry Pi OS 2021-05-07 See `raspberry`
 Windows WSL2               See `wsl`
+MacOS 12.6 Monterey        See `macos`
+                           (Rancher Desktop provides K3S, kubectl and Helm so skip those installation steps below)
 ========================== ============================================
 
 Give it a try, K3S provides a good uninstaller that will clean up your system
@@ -25,6 +27,7 @@ If you prefer to investigate other implementations there are also:
   - kind https://kind.sigs.k8s.io/docs/user/quick-start/
   - microk8s https://microk8s.io/
   - minikube https://minikube.sigs.k8s.io/docs/start/
+  - Rancher Desktop https://docs.rancherdesktop.io/
 
 For k3s documentation see https://k3s.io/.
 
@@ -78,11 +81,14 @@ as is.
 Create an epics IOCs namespace and context
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-From the workstation execute the following::
+From the workstation execute the following*::
 
     kubectl create namespace epics-iocs
     kubectl config set-context epics-iocs --namespace=epics-iocs --user=default --cluster=default
     kubectl config use-context epics-iocs
+
+\* For Rancher Desktop (i.e. on MacOS) there is no "default" user and cluster. Instead the
+ready-made user and cluster is called "rancher-desktop" (so replace "default" with that)
 
 Create a service account to run the IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
