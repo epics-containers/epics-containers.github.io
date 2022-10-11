@@ -161,8 +161,8 @@ These instructions have been developed and tested on MacOS version 12.6 Monterey
 
 A fundamental requirement is to have the XCode commandline tools installed. This is most easily done by
 installing the free XCode App from from the App Store.
-Since XCode is a major installation and includes far more that what is strictly required, you can `just`
-install the CLI tools with the following Terminal command::
+Since XCode is a major installation and includes far more that what is strictly required, you can install
+*just* the CLI tools with the following Terminal command::
 
     xcode-select --install
 
