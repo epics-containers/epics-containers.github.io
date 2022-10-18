@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Useful Kubernetes Additions &mdash; epics_containers 0.7+1.g649ae5f documentation</title>
+  <title>Useful Kubernetes Additions &mdash; epics_containers 0.8+3.g87b86ec documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
@@ -183,8 +183,13 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/<span c
 <span class="s">EOF</span>
 </pre></div>
 </div>
-<p>get a token for the user and copy the token into your clipboard:</p>
+<p>Get a token for the user and copy the token into your clipboard.</p>
+<p>On k3s v1.23 and older:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">describe</span> <span class="n">secret</span> <span class="n">admin</span><span class="o">-</span><span class="n">user</span><span class="o">-</span><span class="n">token</span> <span class="o">|</span> <span class="n">grep</span> <span class="s1">&#39;^token&#39;</span>
+</pre></div>
+</div>
+<p>On k3s v1.24 and newer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="o">-</span><span class="n">n</span> <span class="n">kubernetes</span><span class="o">-</span><span class="n">dashboard</span> <span class="n">create</span> <span class="n">token</span> <span class="n">admin</span><span class="o">-</span><span class="n">user</span>
 </pre></div>
 </div>
 <p>Use kubectl to start a proxy that will forward HTTP requests to your cluster:</p>
