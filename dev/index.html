@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>epics-containers &#8212; epics_containers 0.9.dev61+gcd3746e documentation</title>
+    <title>epics-containers &#8212; epics_containers 0.9.dev62+ga7923bb documentation</title>
   
   
   
@@ -417,32 +417,8 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 </tbody>
 </table>
 </section>
-<section id="communication">
-<h1>Communication<a class="headerlink" href="#communication" title="Permalink to this heading">#</a></h1>
-<p>If you are interested in discussing containers for control systems, please:</p>
-<ul class="simple">
-<li><p>Add a brief description of your project and the status of it’s use of containers to:</p>
-<ul>
-<li><p><a class="github reference external" href="https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls">epics-containers/epics-containers.github.io</a></p></li>
-</ul>
-</li>
-<li><p>Join in the discussion at <a class="github reference external" href="https://github.com/epics-containers/epics-containers.github.io/discussions">epics-containers/epics-containers.github.io#discussions</a></p></li>
-</ul>
-</section>
-<section id="materials">
-<h1>Materials<a class="headerlink" href="#materials" title="Permalink to this heading">#</a></h1>
-<p>The following links are to materials presented at the ICALEPCS 2021 Meeting:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p><a class="reference download internal" download="" href="_downloads/40056c2fdacaa7f3ef8f609a698d85b1/THBL04.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Paper:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
-<li><p><a class="reference download internal" download="" href="_downloads/00ddc08dee7879e828f8d56b6443500d/THBL04_talk.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Talk:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
-</ul>
-</div></blockquote>
-</section>
 <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
-<p>Kubernetes for EPICS IOCs applies modern industry standards to the
-management of IOCs.</p>
 <p>Kubernetes for EPICS IOCs applies modern industry standards to the management
 of IOCs.</p>
 <p>There are 5 themes to this strategy:</p>
@@ -465,40 +441,29 @@ No shared file systems required.</p>
 delivering them to OCI registries.</p>
 </dd>
 </dl>
-<p>Below we show how these assets combine to create a running IOC on a
-Kubernetes worker node.</p>
-<a class="reference internal image-reference" href="_images/example.png"><img alt="_images/example.png" class="align-center" src="_images/example.png" style="width: 1500px;" /></a>
+<p>For more details see <a class="reference internal" href="user/explanations/introduction.html#essential"><span class="std std-ref">Essential Concepts</span></a></p>
+</section>
+<section id="communication">
+<h1>Communication<a class="headerlink" href="#communication" title="Permalink to this heading">#</a></h1>
+<p>If you are interested in discussing containers for control systems, please:</p>
 <ul class="simple">
-<li><p>The Helm Chart defines an IOC instance as:</p>
+<li><p>Add a brief description of your project and the status of it’s use of containers to:</p>
 <ul>
-<li><p>An image reference for generic IOC binaries</p></li>
-<li><p>A startup Script for the unique IOC instance</p></li>
-<li><p>K8S resource YAML to describe resources to the Kubernetes cluster</p></li>
+<li><p><a class="github reference external" href="https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls">epics-containers/epics-containers.github.io</a></p></li>
 </ul>
 </li>
-<li><p>The entire definition of the the example P45 beamline is held in this
-github organization:</p>
-<ul>
-<li><p>Helm Charts and IOC Images:</p>
-<ul>
-<li><p><a class="github reference external" href="https://github.com/orgs/epics-containers/packages">orgs/epics-containers</a></p></li>
+<li><p>Join in the discussion at <a class="github reference external" href="https://github.com/epics-containers/epics-containers.github.io/discussions">epics-containers/epics-containers.github.io#discussions</a></p></li>
 </ul>
-</li>
-<li><p>BL45P IOC sources:</p>
-<ul>
-<li><p><a class="github reference external" href="https://github.com/epics-containers/bl45p">epics-containers/bl45p</a></p></li>
+</section>
+<section id="materials">
+<h1>Materials<a class="headerlink" href="#materials" title="Permalink to this heading">#</a></h1>
+<p>The following links are to materials presented at the ICALEPCS 2021 Meeting:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference download internal" download="" href="_downloads/40056c2fdacaa7f3ef8f609a698d85b1/THBL04.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Paper:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/00ddc08dee7879e828f8d56b6443500d/THBL04_talk.PDF"><code class="xref download docutils literal notranslate"><span class="pre">ICALEPCS</span> <span class="pre">2021</span> <span class="pre">Talk:</span> <span class="pre">Kubernetes</span> <span class="pre">for</span> <span class="pre">EPICS</span> <span class="pre">IOCs</span></code></a></p></li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>The Generic IOC container images are built using a hierarchy with the most
-common elements shared as shown in the following diagram:</p>
-<a class="reference internal image-reference" href="_images/image-hierarchy.png"><img alt="_images/image-hierarchy.png" class="align-center" src="_images/image-hierarchy.png" style="width: 350px;" /></a>
-<p>EPICS base and essential tools are compiled inside one image; the most commonly
-used support modules(primarily Asyn) and the AreaDetector framework
-also have their own images. Generic IOC images are then
-leaves in the hierarchy and are based upon the appropriate dependencies.</p>
+</div></blockquote>
 <section id="how-the-documentation-is-structured">
 <h2>How the documentation is structured<a class="headerlink" href="#how-the-documentation-is-structured" title="Permalink to this heading">#</a></h2>
 <p>The documentation is split into 2 sections:</p>
@@ -509,7 +474,7 @@ leaves in the hierarchy and are based upon the appropriate dependencies.</p>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 <svg version="4.0.0.63c5cb3" width="4.0em" height="4.0em" class="sd-material-icon sd-material-icon-person" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg></div>
-<p class="sd-card-text">The User Guide contains documentation on how to install and use epics-containers.github.io.</p>
+<p class="sd-card-text">The User Guide contains documentation on how create, deploy and manage containerized IOCs.</p>
 </div>
 <a class="sd-stretched-link reference internal" href="user/index.html"><span class="doc"></span></a></div>
 </div>
@@ -518,7 +483,7 @@ leaves in the hierarchy and are based upon the appropriate dependencies.</p>
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 <svg version="4.0.0.63c5cb3" width="4.0em" height="4.0em" class="sd-material-icon sd-material-icon-code" viewBox="0 0 24 24" aria-hidden="true"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"></path></svg></div>
-<p class="sd-card-text">The Developer Guide contains documentation on how to develop and contribute changes back to epics-containers.github.io.</p>
+<p class="sd-card-text">The Developer Guide contains documentation on how to develop and contribute changes back to the epics-containers organization</p>
 </div>
 <a class="sd-stretched-link reference internal" href="developer/index.html"><span class="doc"></span></a></div>
 </div>
