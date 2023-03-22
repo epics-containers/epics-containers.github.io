@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev64+gf6f18b7 documentation</title>
+    <title>01 Setup a Developer Workstation &#8212; epics_containers 0.9.dev65+gd3e0742 documentation</title>
   
   
   
@@ -55,7 +55,7 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Setup a Kubernetes Server" href="setup_k8s.html" />
+    <link rel="next" title="02 Setup the Devcontainer" href="devcontainer.html" />
     <link rel="prev" title="User Guide" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -379,7 +379,8 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Developer Workstation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">01 Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">02 Setup the Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Useful Kubernetes Additions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
@@ -450,7 +451,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Setup a Developer Workstation</li>
+    <li class="breadcrumb-item active" aria-current="page">01 Setup a Developer Workstation</li>
   </ul>
 </nav>
 </div>
@@ -468,7 +469,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="setup-a-developer-workstation">
-<h1>Setup a Developer Workstation<a class="headerlink" href="#setup-a-developer-workstation" title="Permalink to this heading">#</a></h1>
+<h1>01 Setup a Developer Workstation<a class="headerlink" href="#setup-a-developer-workstation" title="Permalink to this heading">#</a></h1>
 <p>This tutorial will guide you through the steps to setup a developer workstation
 for creating, deploying and managing containerized IOCs.
 The only tools you need to install are:</p>
@@ -484,7 +485,7 @@ devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, WSL2 and more.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: RHEL 8 Workstations in DLS have podman installed by default.
+<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman installed by default.
 You can access vscode with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>. RHEL 7 Workstations
 also have podman but it is an unsupported version.</p>
 </div>
@@ -512,7 +513,7 @@ Ubuntu is recommended as the Linux distribution for WSL2.</p>
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
 <p>First download and install Visual Studio Code.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://code.visualstudio.com/download">Download vscode</a></p></li>
+<li><p><a class="reference external" href="https://code.visualstudio.com/download">Download Visual Studio Code</a></p></li>
 <li><p><a class="reference external" href="https://code.visualstudio.com/learn/get-started/basics">Setup Visual Studio Code</a></p></li>
 </ul>
 <p>Add the following extensions to Visual Studio Code:</p>
@@ -522,17 +523,32 @@ Ubuntu is recommended as the Linux distribution for WSL2.</p>
 <li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a></p></li>
 <li><p>Required for Windows: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">VSCode WSL2</a> (see <a class="reference external" href="https://code.visualstudio.com/blogs/2019/09/03/wsl2">How to use WSL2 and Visual Studio Code</a>)</p></li>
 </ul>
-<p>Next install docker or podman as the your container platform. The author is using
-podman on RHEL8 but docker is also supported. All commands in these tutorials
-will use <code class="docutils literal notranslate"><span class="pre">podman</span></code> cli commands. If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code>
-with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands.</p>
+<p>Next install docker or podman as the your container platform. I am using
+podman 4.2.0 on RHEL8, docker <em>could</em> also be supported but note the warning below.
+All commands in these tutorials will use <code class="docutils literal notranslate"><span class="pre">podman</span></code> cli commands.
+If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code> with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands.</p>
 <p>The podman version required is 4.0 or later. This is not easy to obtain on debian
-distributions at the time of writing, therefore docker may be a better choice.</p>
+distributions at the time of writing, but details of how to compile from source
+are
+<a class="reference external" href="https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile#L58-L77">in this Dockerfile</a>.</p>
 <p>The links below have details of how to install your choice of container platform:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.docker.com/engine/install/">Install docker</a></p></li>
 <li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
 </ul>
+<p>The docker install page encourages you to install Docker Desktop. This is a paid
+for product and is not required for this tutorial. You can install the free linux
+CLI tools by clicking on the appropriate linux distribution link.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To support docker we need to do one of two things: 1) use the docker cli
+in user mode or 2) set the user id and gid when launching the container.
+If we don’t do this then all files written to mounted volumes will be owned
+by root.</p>
+<p><strong>TODO</strong>: write up how to do this. <strong>TODO</strong> the container image may
+need some minor modifications to support docker. (I recently got this
+working <a class="reference external" href="https://github.com/gilesknap/gphotos-sync/issues/279#issuecomment-1475317852">here</a>)</p>
+</div>
 </section>
 </section>
 
@@ -554,11 +570,11 @@ distributions at the time of writing, therefore docker may be a better choice.</
       </div>
     </a>
     <a class="right-next"
-       href="setup_k8s.html"
+       href="devcontainer.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Setup a Kubernetes Server</p>
+        <p class="prev-next-title">02 Setup the Devcontainer</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

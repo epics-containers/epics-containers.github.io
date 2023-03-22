@@ -14,6 +14,7 @@ side-bar.
             :maxdepth: 1
 
             tutorials/setup_workstation
+            tutorials/devcontainer
             tutorials/setup_k8s
             tutorials/useful_k8s
             tutorials/create_beamline
