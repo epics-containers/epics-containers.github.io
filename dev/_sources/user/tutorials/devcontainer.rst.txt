@@ -61,7 +61,8 @@ Things to note:
     the host folder. This means that you can edit files in the container
     and the changes are reflected outside the container and vice versa.
 
-    Your home folder is also mounted in its usual location.
+    Your home folder is also mounted in its usual location. BUT $HOME is set
+    to ``/root``.
 
     Podman users are running as root inside the container but files will be
     written with your user id and group id.
@@ -71,12 +72,15 @@ Configuring the Devcontainer
 
 For epics-containers the most important configuration is held in the ``.bashrc_dev``
 file. You can take a copy of ``.devcontainer/.bashrc_dev`` and place it in your
-home folder to customize it. The devcontainer will source this file when it starts.
+home folder to customize it. The terminals in the devcontainer will source this
+file when they start.
 i.e.:
 
 .. code-block:: bash
 
-    cp .devcontainer/.bashrc_dev ~
+    # important use /home/$USER not $HOME
+    cp .devcontainer/.bashrc_dev /home/${USER}/.bashrc_dev
+    code /home/${USER}/.bashrc_dev
 
 The primary configuration options are the environment variables exported by
 this script. These are listed below and we will cover them in more detail as we
@@ -89,16 +93,24 @@ test beamline bl45p.
 
     # point at your cluster config file
     export KUBECONFIG=/home/${USER}/.kube/config_pollux
+
     # the default beamline for ec commands
     export BEAMLINE=p45 # equivalent to K8S_DOMAIN=bl45p
+
     # where to get HELM charts for ec commands
     export K8S_HELM_REGISTRY=helm-test.diamond.ac.uk/iocs
+
     # set to true to add /$K8S_DOMAIN to the helm registry URL
     export K8S_HELM_REGISTRY_ADD_DOMAIN=true
+
     # where to get container IMAGES for ec commands
     export K8S_IMAGE_REGISTRY=ghcr.io/epics-containers
+
     # the URL for the facility logging system
     export K8S_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&fields=message%2Csource&width=1489&highlightMessage=&relative=172800&q=pod_name%3A{ioc_name}*'
+
+After editing ``/home/$USER/.bashrc_dev`` you will need to close any open terminals and
+restart them to pick up the changes.
 
 
 .. Note::
