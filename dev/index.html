@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>epics-containers &#8212; epics_containers 0.9.dev60+ge9fdcd1 documentation</title>
+    <title>epics-containers &#8212; epics_containers 0.9.dev61+gcd3746e documentation</title>
   
   
   
@@ -443,14 +443,28 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
 <p>Kubernetes for EPICS IOCs applies modern industry standards to the
 management of IOCs.</p>
-<ul class="simple">
-<li><p>Containers package generic IOC code and dependencies.</p></li>
-<li><p>Kubernetes orchestrates the <strong>Containers</strong>.</p></li>
-<li><p>Helm deploys IOCs to <strong>Kubernetes</strong>.</p></li>
-<li><p>Repositories hold <strong>Container</strong> images and <strong>Helm</strong> charts</p></li>
-<li><p>CI / CD generates the images, charts from source and delivers them
-to <strong>Repositories</strong></p></li>
-</ul>
+<p>Kubernetes for EPICS IOCs applies modern industry standards to the management
+of IOCs.</p>
+<p>There are 5 themes to this strategy:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Containers<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment.</p>
+</dd>
+<dt class="field-even">Kubernetes<span class="colon">:</span></dt>
+<dd class="field-even"><p>Centrally orchestrate all IOCs at a facility.</p>
+</dd>
+<dt class="field-odd">Helm Charts<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management.</p>
+</dd>
+<dt class="field-even">Repositories<span class="colon">:</span></dt>
+<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
+No shared file systems required.</p>
+</dd>
+<dt class="field-odd">Continuous Integration / Delivery<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source repositories automatically build container and helm charts
+delivering them to OCI registries.</p>
+</dd>
+</dl>
 <p>Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.</p>
 <a class="reference internal image-reference" href="_images/example.png"><img alt="_images/example.png" class="align-center" src="_images/example.png" style="width: 1500px;" /></a>
