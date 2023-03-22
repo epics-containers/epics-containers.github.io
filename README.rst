@@ -50,12 +50,7 @@ Overview
 Kubernetes for EPICS IOCs applies modern industry standards to the
 management of IOCs.
 
-- Containers package generic IOC code and dependencies.
-- Kubernetes orchestrates the **Containers**.
-- Helm deploys IOCs to **Kubernetes**.
-- Repositories hold **Container** images and **Helm** charts
-- CI / CD generates the images, charts from source and delivers them
-  to **Repositories**
+.. include:: user/overview.rst
 
 Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.
