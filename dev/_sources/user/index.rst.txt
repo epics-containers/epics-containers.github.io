@@ -13,6 +13,7 @@ side-bar.
             :caption: Tutorials
             :maxdepth: 1
 
+            tutorials/setup_workstation
             tutorials/setup_k8s
             tutorials/useful_k8s
             tutorials/create_beamline
@@ -34,6 +35,8 @@ side-bar.
             how-to/run_iocs
             how-to/debug
             how-to/contributing
+            how-to/own_editor
+            how-to/native_tools
 
         +++
 

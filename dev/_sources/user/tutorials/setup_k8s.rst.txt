@@ -9,7 +9,12 @@ This is a very easy set of instructions for setting up an experimental
 Kubernetes 'cluster' containing a single server and
 ready to deploy EPICS IOCs.
 
-It has been tested on the following:
+If you already have the use of an on premise Kubernetes cluster then you
+can skip this section and go straight to
+`./create_beamline`. Cloud services may not be appropriate because you need
+to run your IOCs with network=host to allow channel access routing.
+
+These instructions have been tested on the following:
 
 ========================== ============================================
 Ubuntu 20.10               any modern linux distro should also work

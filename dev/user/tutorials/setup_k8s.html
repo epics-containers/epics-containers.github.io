@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev62+ga7923bb documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev63+gf296c71 documentation</title>
   
   
   
@@ -56,7 +56,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Useful Kubernetes Additions" href="useful_k8s.html" />
-    <link rel="prev" title="User Guide" href="../index.html" />
+    <link rel="prev" title="Setup a Developer Workstation" href="setup_workstation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -379,6 +379,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Setup a Developer Workstation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Useful Kubernetes Additions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
@@ -393,6 +394,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_editor.html">Working with your own code editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/native_tools.html">Working without a Devcontainer</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="nav bd-sidenav">
@@ -471,7 +474,11 @@ document.write(`
 <p>This is a very easy set of instructions for setting up an experimental
 Kubernetes ‘cluster’ containing a single server and
 ready to deploy EPICS IOCs.</p>
-<p>It has been tested on the following:</p>
+<p>If you already have the use of an on premise Kubernetes cluster then you
+can skip this section and go straight to
+<a class="reference internal" href="create_beamline.html"><span class="doc">Create a beamline repository</span></a>. Cloud services may not be appropriate because you need
+to run your IOCs with network=host to allow channel access routing.</p>
+<p>These instructions have been tested on the following:</p>
 <table class="table">
 <tbody>
 <tr class="row-odd"><td><p>Ubuntu 20.10</p></td>
@@ -599,12 +606,12 @@ simply use this command:</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="setup_workstation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">User Guide</p>
+        <p class="prev-next-title">Setup a Developer Workstation</p>
       </div>
     </a>
     <a class="right-next"
