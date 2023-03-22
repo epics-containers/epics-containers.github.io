@@ -1,7 +1,7 @@
 Working without a Devcontainer
 ==============================
 
-Not recommended.
+**Not recommended.**
 
 If you do not want to do development inside of a container then you can
 install all the tools natively on your workstation. You are then responsible
@@ -22,3 +22,4 @@ The tools required are (at least):-
 
 - git
 - build essentials tools
+- EPICS V7 client tools

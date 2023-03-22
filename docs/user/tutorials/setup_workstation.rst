@@ -1,5 +1,5 @@
-Setup a Developer Workstation
-=============================
+01 Setup a Developer Workstation
+================================
 
 This tutorial will guide you through the steps to setup a developer workstation
 for creating, deploying and managing containerized IOCs.
@@ -18,7 +18,7 @@ EPICS, WSL2 and more.
 
 .. Note::
 
-    **DLS Users**: RHEL 8 Workstations in DLS have podman installed by default.
+    **DLS Users**: RHEL 8 Workstations at DLS have podman installed by default.
     You can access vscode with ``module load vscode``. RHEL 7 Workstations
     also have podman but it is an unsupported version.
 
@@ -52,7 +52,7 @@ Setup
 
 First download and install Visual Studio Code.
 
-- `Download vscode`_
+- `Download Visual Studio Code`_
 - `Setup Visual Studio Code`_
 
 Add the following extensions to Visual Studio Code:
@@ -68,22 +68,38 @@ Add the following extensions to Visual Studio Code:
 .. _VSCode EPICS: https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics
 .. _Remote Development: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
 .. _Setup Visual Studio Code: https://code.visualstudio.com/learn/get-started/basics
-.. _Download VSCode: https://code.visualstudio.com/download
+.. _Download Visual Studio Code: https://code.visualstudio.com/download
 
 
-Next install docker or podman as the your container platform. The author is using
-podman on RHEL8 but docker is also supported. All commands in these tutorials
-will use ``podman`` cli commands. If you are using docker, simply replace ``podman``
-with ``docker`` in the commands.
+Next install docker or podman as the your container platform. I am using
+podman 4.2.0 on RHEL8, docker *could* also be supported but note the warning below.
+All commands in these tutorials will use ``podman`` cli commands.
+If you are using docker, simply replace ``podman`` with ``docker`` in the commands.
 
 The podman version required is 4.0 or later. This is not easy to obtain on debian
-distributions at the time of writing, therefore docker may be a better choice.
+distributions at the time of writing, but details of how to compile from source
+are
+`in this Dockerfile <https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile#L58-L77>`_.
 
 The links below have details of how to install your choice of container platform:
 
 - `Install docker`_
 - `Install podman`_
 
+The docker install page encourages you to install Docker Desktop. This is a paid
+for product and is not required for this tutorial. You can install the free linux
+CLI tools by clicking on the appropriate linux distribution link.
+
 .. _Install docker: https://docs.docker.com/engine/install/
 .. _Install podman: https://podman.io/getting-started/installation
 
+.. Warning::
+
+    To support docker we need to do one of two things: 1) use the docker cli
+    in user mode or 2) set the user id and gid when launching the container.
+    If we don't do this then all files written to mounted volumes will be owned
+    by root.
+
+    **TODO**: write up how to do this. **TODO** the container image may
+    need some minor modifications to support docker. (I recently got this
+    working `here <https://github.com/gilesknap/gphotos-sync/issues/279#issuecomment-1475317852>`_)
