@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev63+gf296c71 documentation</title>
+    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev64+gf6f18b7 documentation</title>
   
   
   
@@ -476,11 +476,18 @@ The only tools you need to install are:</p>
 <li><p>Visual Studio Code</p></li>
 <li><p>A container runtime (docker or podman)</p></li>
 </ul>
-<p>That’s it. The reason the list is so short is that epics-containers provides
+<p>That’s it. The reason the list is so short is that we will be using
 a developer container which includes all the tools needed. Thus you only need
-a container runtime to get that up and running.</p>
+docker or podman to get the devcontainer up and running.</p>
 <p>Visual Studio Code is also recommended because it has excellent integration with
-devcontainers.</p>
+devcontainers. It also has useful extensions for working with Kubernetes,
+EPICS, WSL2 and more.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong>: RHEL 8 Workstations in DLS have podman installed by default.
+You can access vscode with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>. RHEL 7 Workstations
+also have podman but it is an unsupported version.</p>
+</div>
 <section id="options">
 <h2>Options<a class="headerlink" href="#options" title="Permalink to this heading">#</a></h2>
 <p>You are not required to use the tools above to develop with epics-containers.
@@ -497,14 +504,35 @@ not to work inside a container to do development that is also a possibility.</p>
 <p>epics-containers can use Linux, Windows or MacOS as the host operating system for
 the developer workstation.</p>
 <p>If you are using Windows then you must first
-install WSL2 and then work within the Linux subsystem. see <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL2 instructions</a>.
+install WSL2 and then work within the Linux subsystem. see
+<a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL2 installation instructions</a>.
 Ubuntu is recommended as the Linux distribution for WSL2.</p>
 </section>
 <section id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
-<p>First install Visual Studio Code.</p>
-<p>and a container runtime. For container runtime
-you can pick podman or docker.</p>
+<p>First download and install Visual Studio Code.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://code.visualstudio.com/download">Download vscode</a></p></li>
+<li><p><a class="reference external" href="https://code.visualstudio.com/learn/get-started/basics">Setup Visual Studio Code</a></p></li>
+</ul>
+<p>Add the following extensions to Visual Studio Code:</p>
+<ul class="simple">
+<li><p>Required: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></p></li>
+<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics">VSCode EPICS</a></p></li>
+<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a></p></li>
+<li><p>Required for Windows: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">VSCode WSL2</a> (see <a class="reference external" href="https://code.visualstudio.com/blogs/2019/09/03/wsl2">How to use WSL2 and Visual Studio Code</a>)</p></li>
+</ul>
+<p>Next install docker or podman as the your container platform. The author is using
+podman on RHEL8 but docker is also supported. All commands in these tutorials
+will use <code class="docutils literal notranslate"><span class="pre">podman</span></code> cli commands. If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code>
+with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands.</p>
+<p>The podman version required is 4.0 or later. This is not easy to obtain on debian
+distributions at the time of writing, therefore docker may be a better choice.</p>
+<p>The links below have details of how to install your choice of container platform:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.docker.com/engine/install/">Install docker</a></p></li>
+<li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
+</ul>
 </section>
 </section>
 
