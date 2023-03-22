@@ -1,0 +1,42 @@
+[
+  {
+    "version": "main",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/main/"
+  },
+  {
+    "version": "0.8",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.8/"
+  },
+  {
+    "version": "0.7",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.7/"
+  },
+  {
+    "version": "0.6",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.6/"
+  },
+  {
+    "version": "0.4",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.4/"
+  },
+  {
+    "version": "0.3",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.3/"
+  },
+  {
+    "version": "0.2",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.2/"
+  },
+  {
+    "version": "0.1",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.1/"
+  },
+  {
+    "version": "0.1.1",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/0.1.1/"
+  },
+  {
+    "version": "dev",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/dev/"
+  }
+]
