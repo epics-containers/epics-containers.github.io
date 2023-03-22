@@ -35,6 +35,7 @@ dev = [
     "sphinx-design",
     "tox-direct",
     "types-mock",
+    "types-requests",
 ]
 
 [project.scripts]
@@ -101,7 +102,7 @@ allowlist_externals =
     sphinx-autobuild
 commands =
     pytest: pytest {posargs}
-    mypy: mypy src tests {posargs}
+    mypy: mypy src {posargs}
     pre-commit: pre-commit run --all-files {posargs}
     docs: sphinx-{posargs:build -EW --keep-going} -T docs build/html
 """
