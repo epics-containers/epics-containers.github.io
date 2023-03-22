@@ -13,7 +13,11 @@ side-bar.
             :caption: Tutorials
             :maxdepth: 1
 
-            tutorials/installation
+            tutorials/setup_k8s
+            tutorials/useful_k8s
+            tutorials/create_beamline
+            tutorials/deploy_example
+            tutorials/manage_iocs
 
         +++
 
@@ -25,7 +29,11 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
-            how-to/run-container
+            how-to/add_ioc
+            how-to/create_ioc
+            how-to/run_iocs
+            how-to/debug
+            how-to/contributing
 
         +++
 
@@ -37,6 +45,10 @@ side-bar.
             :caption: Explanations
             :maxdepth: 1
 
+            explanations/introduction
+            explanations/whats_in
+            explanations/net_protocols
+            explanations/kubernetes_cluster
             explanations/docs-structure
 
         +++
@@ -49,7 +61,8 @@ side-bar.
             :caption: Reference
             :maxdepth: 1
 
-            reference/api
+            reference/faq
+            reference/cli
             ../genindex
 
         +++

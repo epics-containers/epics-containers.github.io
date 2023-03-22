@@ -41,8 +41,8 @@ Materials
 
 The following links are to materials presented at the ICALEPCS 2021 Meeting:
 
-  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<images/THBL04.PDF>`
-  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<images/THBL04_talk.PDF>`
+  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<user/images/THBL04.PDF>`
+  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<user/images/THBL04_talk.PDF>`
 
 Overview
 ========
@@ -60,7 +60,7 @@ management of IOCs.
 Below we show how these assets combine to create a running IOC on a
 Kubernetes worker node.
 
-.. image:: images/example.png
+.. image:: user/images/example.png
     :width: 1500px
     :align: center
 
@@ -84,7 +84,7 @@ Kubernetes worker node.
 The Generic IOC container images are built using a hierarchy with the most
 common elements shared as shown in the following diagram:
 
-.. image:: images/image-hierarchy.png
+.. image:: /user/images/image-hierarchy.png
     :width: 350px
     :align: center
 
