@@ -1,5 +1,5 @@
-01 Setup a Developer Workstation
-================================
+Setup a Developer Workstation
+=============================
 
 This tutorial will guide you through the steps to setup a developer workstation
 for creating, deploying and managing containerized IOCs.
@@ -31,8 +31,8 @@ not to work inside a container to do development that is also a possibility.
 
 See these how-to pages for more information:
 
-- `../how-to/own_editor`
-- `../how-to/native_tools`
+- `own_editor`
+- `no_devcontainer`
 
 Platform Support
 ----------------
