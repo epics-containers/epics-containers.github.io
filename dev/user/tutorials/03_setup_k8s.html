@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Run linting using pre-commit &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'developer/how-to/lint';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/03_setup_k8s';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics_containers/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Update the tools" href="update-tools.html" />
-    <link rel="prev" title="Run static analysis using mypy" href="static-analysis.html" />
+    <link rel="next" title="Create a beamline repository" href="create_beamline.html" />
+    <link rel="prev" title="Setup the Devcontainer" href="02_devcontainer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -146,15 +146,15 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../user/index.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
                         Developer Guide
                       </a>
                     </li>
@@ -286,15 +286,15 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../user/index.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
                         Developer Guide
                       </a>
                     </li>
@@ -378,32 +378,38 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/dev-install.html">Developer install</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-docs.html">Build the docs using sphinx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run-tests.html">Run the tests using pytest</a></li>
-<li class="toctree-l1"><a class="reference internal" href="static-analysis.html">Run static analysis using mypy</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run linting using pre-commit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="update-tools.html">Update the tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="make-release.html">Make a release</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pin-requirements.html">Pinning Requirements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test-container.html">Container Local Build and Test</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../explanations/decisions.html">Architectural Decision Records</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/decisions/0002-switched-to-pip-skeleton.html">2. Adopt epics-containers.github.io for project structure</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../reference/standards.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 </div>
 </nav></div>
@@ -442,9 +448,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Developer Guide</a></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Run linting using pre-commit</li>
+    <li class="breadcrumb-item active" aria-current="page">Setup a Kubernetes Server</li>
   </ul>
 </nav>
 </div>
@@ -461,40 +467,160 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="run-linting-using-pre-commit">
-<h1>Run linting using pre-commit<a class="headerlink" href="#run-linting-using-pre-commit" title="Permalink to this heading">#</a></h1>
-<p>Code linting is handled by <a class="reference external" href="https://github.com/psf/black">black</a>, <a class="reference external" href="https://flake8.pycqa.org/en/latest/">flake8</a> and <a class="reference external" href="https://github.com/PyCQA/isort">isort</a> run under <a class="reference external" href="https://pre-commit.com/">pre-commit</a>.</p>
-<section id="running-pre-commit">
-<h2>Running pre-commit<a class="headerlink" href="#running-pre-commit" title="Permalink to this heading">#</a></h2>
-<p>You can run the above checks on all files with this command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e pre-commit
-</pre></div>
-</div>
-<p>Or you can install a pre-commit hook that will run each time you do a <code class="docutils literal notranslate"><span class="pre">git</span>
-<span class="pre">commit</span></code> on just the files that have changed:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pre-commit install
-</pre></div>
-</div>
-<p>It is also possible to <a class="reference external" href="https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories">automatically enable pre-commit on cloned repositories</a>.
-This will result in pre-commits being enabled on every repo your user clones from now on.</p>
+  <section id="setup-a-kubernetes-server">
+<span id="setup-kubernetes"></span><h1>Setup a Kubernetes Server<a class="headerlink" href="#setup-a-kubernetes-server" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>This is a very easy set of instructions for setting up an experimental
+single-node Kubernetes cluster,
+ready to test deployment of EPICS IOCs.</p>
 </section>
-<section id="fixing-issues">
-<h2>Fixing issues<a class="headerlink" href="#fixing-issues" title="Permalink to this heading">#</a></h2>
-<p>If black reports an issue you can tell it to reformat all the files in the
-repository:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ black .
-</pre></div>
+<section id="bring-your-own-cluster">
+<h2>Bring Your Own Cluster<a class="headerlink" href="#bring-your-own-cluster" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong>: DLS already has the test cluster pollux and further
+beamline and machine clusters are coming soon.</p>
+<p>To use pollux cluster. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">pollux</span></code> outside of the
+devcontainer and then run <code class="docutils literal notranslate"><span class="pre">.devcontainer/dls-copy-k8s-crt.sh</span></code></p>
 </div>
-<p>Likewise with isort:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ isort .
-</pre></div>
-</div>
-<p>If you get any flake8 issues you will have to fix those manually.</p>
+<p>If you already have a Kubernetes cluster then you can skip this section.
+and go straight to <a class="reference internal" href="create_beamline.html"><span class="doc">Create a beamline repository</span></a>.</p>
+<p>IMPORTANT: you will require appropriate permissions on the cluster to work
+with epics-containers. In particular you will need to be able to create
+pods that run with network=host. This is to allow Channel Access traffic
+to be routed to and from the IOCs. You will also need to be able to create
+a namespace and a service account, although you could use an existing
+namespace and service account as long as it has network=host capability.</p>
+<p>Cloud based K8S offerings may not be appropriate because of the Channel Access
+routing requirement.</p>
 </section>
-<section id="vscode-support">
-<h2>VSCode support<a class="headerlink" href="#vscode-support" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">.vscode/settings.json</span></code> will run black and isort formatters as well as
-flake8 checking on save. Issues will be highlighted in the editor window.</p>
+<section id="platform-choice">
+<h2>Platform Choice<a class="headerlink" href="#platform-choice" title="Permalink to this heading">#</a></h2>
+<p>These instructions have been tested on the following platforms. The simplest
+option is to use a linux distribution that is supported by k3s.</p>
+<table class="table">
+<tbody>
+<tr class="row-odd"><td><p>Ubuntu 20.10</p></td>
+<td><p>any modern linux distro should also work</p></td>
+</tr>
+<tr class="row-even"><td><p>Raspberry Pi OS 2021-05-07</p></td>
+<td><p>See <a class="reference internal" href="../how-to/useful_k8s.html#raspberry"><span class="std std-ref">Installing on a Raspberry Pi</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Windows WSL2</p></td>
+<td><p>See <a class="reference internal" href="../how-to/useful_k8s.html#wsl"><span class="std std-ref">Installing on Windows Subsystem for Linux</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that K3S provides a good uninstaller that will clean up your system
+if you decide to back out. So there is no harm in trying it out.</p>
+<p>If you prefer to investigate other implementations there are also these
+easy to install, lightweight Kubernetes implementations:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>kind <a class="reference external" href="https://kind.sigs.k8s.io/docs/user/quick-start/">https://kind.sigs.k8s.io/docs/user/quick-start/</a></p></li>
+<li><p>microk8s <a class="reference external" href="https://microk8s.io/">https://microk8s.io/</a></p></li>
+<li><p>minikube <a class="reference external" href="https://minikube.sigs.k8s.io/docs/start/">https://minikube.sigs.k8s.io/docs/start/</a></p></li>
+</ul>
+</div></blockquote>
+<p>For k3s documentation see <a class="reference external" href="https://k3s.io/">https://k3s.io/</a>.</p>
+</section>
+<section id="installation-steps">
+<h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this heading">#</a></h2>
+<p>These instructions work with a single machine or with a server running k3s
+and a workstation running the client CLI. The client CLI commands should
+all be run inside the devcontainer (at an [E7] prompt).</p>
+<section id="install-k3s-lightweight-kubernetes">
+<h3>Install K3S lightweight Kubernetes<a class="headerlink" href="#install-k3s-lightweight-kubernetes" title="Permalink to this heading">#</a></h3>
+<p>This command should be run OUTSIDE of the devcontainer.</p>
+<p>Execute this command on your server to set up the cluster master
+(aka K3S Server node):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">sfL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">get</span><span class="o">.</span><span class="n">k3s</span><span class="o">.</span><span class="n">io</span> <span class="o">|</span> <span class="n">sh</span> <span class="o">-</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-kubectl">
+<span id="install-kubectl"></span><h3>Configure kubectl<a class="headerlink" href="#configure-kubectl" title="Permalink to this heading">#</a></h3>
+<p>Kubectl is the command line tool for interacting with Kubernetes Clusters. It is
+already installed inside the devcontainer. It uses a configuration file in
+$HOME/.kube to connect to the cluster. Here we will copy the configuration file
+from the server to the workstation.</p>
+<p>These commands should be run OUTSIDE of the devcontainer.</p>
+<p>If you have one machine only then copy the k3s kubectl configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>~/.kube
+sudo<span class="w"> </span>cp<span class="w">  </span>/etc/rancher/k3s/k3s.yaml<span class="w"> </span>~/.kube/config
+sudo<span class="w"> </span>chown<span class="w"> </span>&lt;YOUR<span class="w"> </span>USER&gt;<span class="w"> </span>~/.kube/config
+</pre></div>
+</div>
+<p>If you have a separate server then from the server machine copy over the k3s
+kubectl configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>~/.kube
+sudo<span class="w"> </span>scp<span class="w">  </span>/etc/rancher/k3s/k3s.yaml<span class="w"> </span>&lt;YOUR_ACCOUNT&gt;@&lt;YOUR_WORKSTATION&gt;:.kube/config
+</pre></div>
+</div>
+<p>If you do have separate workstation then edit the file .kube/config replacing
+127.0.0.1 with your server’s IP Address. For a single machine the file is left
+as is.</p>
+<p>Note that in the previous step  <a class="reference internal" href="02_devcontainer.html#devcontainer-configure"><span class="std std-ref">Configuring the Devcontainer</span></a>
+you already configured the environment variable
+<code class="docutils literal notranslate"><span class="pre">KUBECONFIG</span></code> to point to the cluster configuration file at
+<code class="docutils literal notranslate"><span class="pre">~/.kube/config</span></code>.</p>
+</section>
+<section id="create-an-epics-iocs-namespace-and-context">
+<h3>Create an epics IOCs namespace and context<a class="headerlink" href="#create-an-epics-iocs-namespace-and-context" title="Permalink to this heading">#</a></h3>
+<p>For each beamline or EPICS domain there will be a kubernetes namespace. A
+namespace is a virtual cluster within a Kubernetes cluster. Namespaces allow
+us to isolate a set of cluster resources from each other, epics-containers
+uses a namespace for each beamline or accelerator domain.</p>
+<p>A context is a combination of a cluster, namespace, and user. It tells kubectl
+which cluster and namespace to use when communicating with the Kubernetes API.</p>
+<p>So here we will create a namespace for our first test beamline BEAMLINE TEST 01
+or bl01t for short. We will also create a context for this namespace and set
+it as the default context.</p>
+<p>From the workstation INSIDE the devcontainer execute the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>bl01t
+kubectl<span class="w"> </span>config<span class="w"> </span>set-context<span class="w"> </span>bl01t<span class="w"> </span>--namespace<span class="o">=</span>bl01t<span class="w"> </span>--user<span class="o">=</span>default<span class="w"> </span>--cluster<span class="o">=</span>default
+kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>bl01t
+</pre></div>
+</div>
+</section>
+<section id="create-a-service-account-to-run-the-iocs">
+<h3>Create a service account to run the IOCs<a class="headerlink" href="#create-a-service-account-to-run-the-iocs" title="Permalink to this heading">#</a></h3>
+<p>Inside of our new namespace we will create a service account that will be used
+to run the IOCs.</p>
+<p>Create the account:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: ServiceAccount</span>
+<span class="s">metadata:</span>
+<span class="s">    name: bl01t-priv</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>Generate a login token for the account:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">    name: bl01t-priv-secret</span>
+<span class="s">    annotations:</span>
+<span class="s">        kubernetes.io/service-account.name: bl01t-priv</span>
+<span class="s">type: kubernetes.io/service-account-token</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</section>
+<section id="completed">
+<h3>Completed<a class="headerlink" href="#completed" title="Permalink to this heading">#</a></h3>
+<p>That’s it. You now have installed the necessary software to start experimenting
+with IOCs on Kubernetes.</p>
+<p>To remove everything you have installed above and clean up the disk space
+simply use this command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>k3s-uninstall.sh
+</pre></div>
+</div>
+<p>If you are interested in looking at the k3s files see <strong>/var/lib/rancher/k3s/</strong>.</p>
+</section>
 </section>
 </section>
 
@@ -507,20 +633,20 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="static-analysis.html"
+       href="02_devcontainer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Run static analysis using mypy</p>
+        <p class="prev-next-title">Setup the Devcontainer</p>
       </div>
     </a>
     <a class="right-next"
-       href="update-tools.html"
+       href="create_beamline.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Update the tools</p>
+        <p class="prev-next-title">Create a beamline repository</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -539,16 +665,24 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-pre-commit">Running pre-commit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fixing-issues">Fixing issues</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-support">VSCode support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bring-your-own-cluster">Bring Your Own Cluster</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-choice">Platform Choice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-k3s-lightweight-kubernetes">Install K3S lightweight Kubernetes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-kubectl">Configure kubectl</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-epics-iocs-namespace-and-context">Create an epics IOCs namespace and context</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-service-account-to-run-the-iocs">Create a service account to run the IOCs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#completed">Completed</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/developer/how-to/lint.rst">
+    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/user/tutorials/03_setup_k8s.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -562,7 +696,7 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/developer/how-to/lint.rst.txt">
+    <a href="../../_sources/user/tutorials/03_setup_k8s.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

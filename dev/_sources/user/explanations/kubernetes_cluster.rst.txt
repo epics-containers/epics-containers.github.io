@@ -34,6 +34,15 @@ Three cluster topologies were considered for this project.
   The DLS argus cluster configuration described below is an example of
   how to achieve this.
 
+Current Approach
+----------------
+
+DLS is currently investigating Cluster per Beamline as the preferred. We
+will continue to have a central cluster for shared services but in addition will
+have a cluster per beamline and a cluster for the accelerator.
+
+TODO: add some details from Chris' presentation to the beamline controls meeting.
+
 
 .. _argus:
 

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Cluster Config &#8212; epics_containers 0.9.dev66+g48c771b documentation</title>
+    <title>Kubernetes Cluster Config &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
   
   
   
@@ -379,10 +379,9 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_workstation.html">01 Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/devcontainer.html">02 Setup the Devcontainer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/useful_k8s.html">Useful Kubernetes Additions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a beamline repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
@@ -395,8 +394,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/own_editor.html">Working with your own code editor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/native_tools.html">Working without a Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="current nav bd-sidenav">
@@ -477,7 +476,7 @@ document.write(`
 <dt class="field-odd">Cluster per beamline<span class="colon">:</span></dt>
 <dd class="field-odd"><p>This could be as simple as
 a single server: the K3S installation described in
-<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
+<a class="reference internal" href="../tutorials/03_setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
 <a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
 cluster, requiring a minimum of 4 servers.
 This approach keeps the configuration of the clusters quite straightforward
@@ -503,6 +502,13 @@ The DLS argus cluster configuration described below is an example of
 how to achieve this.</p>
 </dd>
 </dl>
+</section>
+<section id="current-approach">
+<h2>Current Approach<a class="headerlink" href="#current-approach" title="Permalink to this heading">#</a></h2>
+<p>DLS is currently investigating Cluster per Beamline as the preferred. We
+will continue to have a central cluster for shared services but in addition will
+have a cluster per beamline and a cluster for the accelerator.</p>
+<p>TODO: add some details from Chris’ presentation to the beamline controls meeting.</p>
 </section>
 <section id="dls-argus-cluster">
 <span id="argus"></span><h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this heading">#</a></h2>
@@ -609,6 +615,7 @@ a list of current and potential use cases:</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-options">Cluster Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-approach">Current Approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dls-argus-cluster">DLS Argus Cluster</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a><ul class="nav section-nav flex-column">

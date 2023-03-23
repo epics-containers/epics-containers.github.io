@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Run linting using pre-commit &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
+    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'developer/how-to/lint';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/01_setup_workstation';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics_containers/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Update the tools" href="update-tools.html" />
-    <link rel="prev" title="Run static analysis using mypy" href="static-analysis.html" />
+    <link rel="next" title="Setup the Devcontainer" href="02_devcontainer.html" />
+    <link rel="prev" title="User Guide" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -146,15 +146,15 @@
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../user/index.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
                         Developer Guide
                       </a>
                     </li>
@@ -286,15 +286,15 @@ document.write(`
   </p>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../user/index.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
                         User Guide
                       </a>
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
                         Developer Guide
                       </a>
                     </li>
@@ -378,32 +378,38 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/dev-install.html">Developer install</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="build-docs.html">Build the docs using sphinx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run-tests.html">Run the tests using pytest</a></li>
-<li class="toctree-l1"><a class="reference internal" href="static-analysis.html">Run static analysis using mypy</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run linting using pre-commit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="update-tools.html">Update the tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="make-release.html">Make a release</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pin-requirements.html">Pinning Requirements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test-container.html">Container Local Build and Test</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../explanations/decisions.html">Architectural Decision Records</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../explanations/decisions/0002-switched-to-pip-skeleton.html">2. Adopt epics-containers.github.io for project structure</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../reference/standards.html">Standards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 </div>
 </nav></div>
@@ -442,9 +448,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Developer Guide</a></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Run linting using pre-commit</li>
+    <li class="breadcrumb-item active" aria-current="page">Setup a Developer Workstation</li>
   </ul>
 </nav>
 </div>
@@ -461,40 +467,87 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="run-linting-using-pre-commit">
-<h1>Run linting using pre-commit<a class="headerlink" href="#run-linting-using-pre-commit" title="Permalink to this heading">#</a></h1>
-<p>Code linting is handled by <a class="reference external" href="https://github.com/psf/black">black</a>, <a class="reference external" href="https://flake8.pycqa.org/en/latest/">flake8</a> and <a class="reference external" href="https://github.com/PyCQA/isort">isort</a> run under <a class="reference external" href="https://pre-commit.com/">pre-commit</a>.</p>
-<section id="running-pre-commit">
-<h2>Running pre-commit<a class="headerlink" href="#running-pre-commit" title="Permalink to this heading">#</a></h2>
-<p>You can run the above checks on all files with this command:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -e pre-commit
-</pre></div>
+  <section id="setup-a-developer-workstation">
+<h1>Setup a Developer Workstation<a class="headerlink" href="#setup-a-developer-workstation" title="Permalink to this heading">#</a></h1>
+<p>This tutorial will guide you through the steps to setup a developer workstation
+for creating, deploying and managing containerized IOCs.
+The only tools you need to install are:</p>
+<ul class="simple">
+<li><p>Visual Studio Code</p></li>
+<li><p>A container runtime (docker or podman)</p></li>
+</ul>
+<p>That’s it. The reason the list is so short is that we will be using
+a developer container which includes all the tools needed. Thus you only need
+docker or podman to get the devcontainer up and running.</p>
+<p>Visual Studio Code is also recommended because it has excellent integration with
+devcontainers. It also has useful extensions for working with Kubernetes,
+EPICS, WSL2 and more.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman installed by default.
+You can access vscode with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>. RHEL 7 Workstations
+also have podman but it is an unsupported version.</p>
 </div>
-<p>Or you can install a pre-commit hook that will run each time you do a <code class="docutils literal notranslate"><span class="pre">git</span>
-<span class="pre">commit</span></code> on just the files that have changed:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pre-commit install
-</pre></div>
-</div>
-<p>It is also possible to <a class="reference external" href="https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories">automatically enable pre-commit on cloned repositories</a>.
-This will result in pre-commits being enabled on every repo your user clones from now on.</p>
+<section id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this heading">#</a></h2>
+<p>You are not required to use the tools above to develop with epics-containers.
+If you have your own preferred code editor you can use that. If you prefer
+not to work inside a container to do development that is also a possibility.</p>
+<p>See these how-to pages for more information:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../how-to/own_tools.html#own-editor"><span class="std std-ref">Working with your own code editor</span></a></p></li>
+<li><p><a class="reference internal" href="../how-to/own_tools.html#no-devcontainer"><span class="std std-ref">Working without a Devcontainer</span></a></p></li>
+</ul>
 </section>
-<section id="fixing-issues">
-<h2>Fixing issues<a class="headerlink" href="#fixing-issues" title="Permalink to this heading">#</a></h2>
-<p>If black reports an issue you can tell it to reformat all the files in the
-repository:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ black .
-</pre></div>
-</div>
-<p>Likewise with isort:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ isort .
-</pre></div>
-</div>
-<p>If you get any flake8 issues you will have to fix those manually.</p>
+<section id="platform-support">
+<h2>Platform Support<a class="headerlink" href="#platform-support" title="Permalink to this heading">#</a></h2>
+<p>epics-containers can use Linux, Windows or MacOS as the host operating system for
+the developer workstation.</p>
+<p>If you are using Windows then you must first
+install WSL2 and then work within the Linux subsystem. see
+<a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL2 installation instructions</a>.
+Ubuntu is recommended as the Linux distribution for WSL2.</p>
 </section>
-<section id="vscode-support">
-<h2>VSCode support<a class="headerlink" href="#vscode-support" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">.vscode/settings.json</span></code> will run black and isort formatters as well as
-flake8 checking on save. Issues will be highlighted in the editor window.</p>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
+<p>First download and install Visual Studio Code.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://code.visualstudio.com/download">Download Visual Studio Code</a></p></li>
+<li><p><a class="reference external" href="https://code.visualstudio.com/learn/get-started/basics">Setup Visual Studio Code</a></p></li>
+</ul>
+<p>Add the following extensions to Visual Studio Code:</p>
+<ul class="simple">
+<li><p>Required: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></p></li>
+<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics">VSCode EPICS</a></p></li>
+<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a></p></li>
+<li><p>Required for Windows: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">VSCode WSL2</a> (see <a class="reference external" href="https://code.visualstudio.com/blogs/2019/09/03/wsl2">How to use WSL2 and Visual Studio Code</a>)</p></li>
+</ul>
+<p>Next install docker or podman as the your container platform. I am using
+podman 4.2.0 on RHEL8, docker <em>could</em> also be supported but note the warning below.
+All commands in these tutorials will use <code class="docutils literal notranslate"><span class="pre">podman</span></code> cli commands.
+If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code> with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands.</p>
+<p>The podman version required is 4.0 or later. This is not easy to obtain on debian
+distributions at the time of writing, but details of how to compile from source
+are
+<a class="reference external" href="https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile#L58-L77">in this Dockerfile</a>.</p>
+<p>The links below have details of how to install your choice of container platform:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.docker.com/engine/install/">Install docker</a></p></li>
+<li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
+</ul>
+<p>The docker install page encourages you to install Docker Desktop. This is a paid
+for product and is not required for this tutorial. You can install the free linux
+CLI tools by clicking on the appropriate linux distribution link.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To support docker we need to do one of two things: 1) use the docker cli
+in user mode or 2) set the user id and gid when launching the container.
+If we don’t do this then all files written to mounted volumes will be owned
+by root.</p>
+<p><strong>TODO</strong>: write up how to do this. <strong>TODO</strong> the container image may
+need some minor modifications to support docker. (I recently got this
+working <a class="reference external" href="https://github.com/gilesknap/gphotos-sync/issues/279#issuecomment-1475317852">here</a>)</p>
+</div>
 </section>
 </section>
 
@@ -507,20 +560,20 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="static-analysis.html"
+       href="../index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Run static analysis using mypy</p>
+        <p class="prev-next-title">User Guide</p>
       </div>
     </a>
     <a class="right-next"
-       href="update-tools.html"
+       href="02_devcontainer.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Update the tools</p>
+        <p class="prev-next-title">Setup the Devcontainer</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -539,16 +592,16 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-pre-commit">Running pre-commit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fixing-issues">Fixing issues</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-support">VSCode support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options">Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-support">Platform Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/developer/how-to/lint.rst">
+    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/user/tutorials/01_setup_workstation.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -562,7 +615,7 @@ flake8 checking on save. Issues will be highlighted in the editor window.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/developer/how-to/lint.rst.txt">
+    <a href="../../_sources/user/tutorials/01_setup_workstation.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
