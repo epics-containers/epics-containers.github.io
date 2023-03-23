@@ -1,8 +1,16 @@
-Developer install
-=================
+Developer Contributing
+======================
+
+This project is documentation only. However the below steps set up a virtual
+python environment with the required tools to generate the sphinx documentation.
+
+Other projects in this repository do contain code and will have their own
+details on how to build and test them.
 
 These instructions will take you through the minimal steps required to get a dev
-environment setup, so you can run the tests locally.
+environment setup, so you can build the documentation locally.
+
+Once completed see `../how-to/build-docs` for how to build the documentation.
 
 Clone the repository
 --------------------
@@ -45,16 +53,10 @@ To see a graph of the python package dependency tree type::
 
     $ pipdeptree
 
-Build and test
---------------
+Build and check
+---------------
 
-Now you have a development environment you can run the tests in a terminal::
+Now you have a development environment you can run checks in a terminal::
 
     $ tox -p
 
-This will run in parallel the following checks:
-
-- `../how-to/build-docs`
-- `../how-to/run-tests`
-- `../how-to/static-analysis`
-- `../how-to/lint`

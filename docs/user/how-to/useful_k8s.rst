@@ -2,6 +2,8 @@
 Kubernetes Additional How To's
 ==============================
 
+.. _install_dashboard:
+
 Install the Kubernetes Dashboard
 --------------------------------
 
@@ -119,6 +121,10 @@ At this point you can return to the main instructions at `install_kubectl`.
 Get X11 GUI to Work with WSL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Update: if you have Windows 11 you can use the new WSL GUI support as
+described in `WSL GUI Support`_. Essentially, if you have Windows 11 and
+installed WSL2, X11 GUI apps should work out of the box.
+
 When you come to launch the GUI later on you will need some additional steps
 as follows.
 
@@ -156,3 +162,4 @@ cd to the root of the project you created in `../tutorials/deploy_example`, then
 .. _WSL2 instructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 .. _docker for WSL: https://docs.docker.com/docker-for-windows/wsl/
 .. _X11 Server for Windows: https://sourceforge.net/projects/vcxsrv/
+.. _WSL GUI Support: https://docs.microsoft.com/en-us/windows/wsl/tutorials/gui-apps

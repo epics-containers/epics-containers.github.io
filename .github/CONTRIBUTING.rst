@@ -18,18 +18,12 @@ raise it as a discussion instead.
 
 .. _discussions: https://github.com/epics-containers/epics-containers.github.io/discussions
 
-Code coverage
--------------
-
-While 100% code coverage does not make a library bug-free, it significantly
-reduces the number of easily caught bugs! Please make sure coverage remains the
-same or is improved by a pull request!
 
 Developer guide
 ---------------
 
 The `Developer Guide`_ contains information on setting up a development
-environment, running the tests and what standards the code and documentation
+environment, building docs and what standards the documentation
 should follow.
 
 .. _Developer Guide: https://diamondlightsource.github.io/epics-containers.github.io/main/developer/how-to/contribute.html

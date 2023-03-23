@@ -4,19 +4,6 @@ Standards
 This document defines the code and documentation standards used in this
 repository.
 
-Code Standards
---------------
-
-The code in this repository conforms to standards set by the following tools:
-
-- black_ for code formatting
-- flake8_ for style checks
-- isort_ for import ordering
-- mypy_ for static type checking
-
-.. seealso::
-
-    How-to guides `../how-to/lint` and `../how-to/static-analysis`
 
 .. _documentation_standards:
 

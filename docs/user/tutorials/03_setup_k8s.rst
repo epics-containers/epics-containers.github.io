@@ -183,3 +183,6 @@ simply use this command:
     k3s-uninstall.sh
 
 If you are interested in looking at the k3s files see **/var/lib/rancher/k3s/**.
+
+If you want to have a nice web interface to your cluster then see
+`install_dashboard`.
