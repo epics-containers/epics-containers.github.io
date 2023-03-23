@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Developer install &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
+    <title>Developer Contributing &#8212; epics_containers 0.9.dev68+gb67911c documentation</title>
   
   
   
@@ -379,19 +379,14 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer install</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Contributing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../how-to/contribute.html">Contributing to the project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/build-docs.html">Build the docs using sphinx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/run-tests.html">Run the tests using pytest</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/static-analysis.html">Run static analysis using mypy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/lint.html">Run linting using pre-commit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/update-tools.html">Update the tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/make-release.html">Make a release</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/pin-requirements.html">Pinning Requirements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../how-to/test-container.html">Container Local Build and Test</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="nav bd-sidenav">
@@ -444,7 +439,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Developer Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Developer install</li>
+    <li class="breadcrumb-item active" aria-current="page">Developer Contributing</li>
   </ul>
 </nav>
 </div>
@@ -461,10 +456,15 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="developer-install">
-<h1>Developer install<a class="headerlink" href="#developer-install" title="Permalink to this heading">#</a></h1>
+  <section id="developer-contributing">
+<h1>Developer Contributing<a class="headerlink" href="#developer-contributing" title="Permalink to this heading">#</a></h1>
+<p>This project is documentation only. However the below steps set up a virtual
+python environment with the required tools to generate the sphinx documentation.</p>
+<p>Other projects in this repository do contain code and will have their own
+details on how to build and test them.</p>
 <p>These instructions will take you through the minimal steps required to get a dev
-environment setup, so you can run the tests locally.</p>
+environment setup, so you can build the documentation locally.</p>
+<p>Once completed see <a class="reference internal" href="../how-to/build-docs.html"><span class="doc">Build the docs using sphinx</span></a> for how to build the documentation.</p>
 <section id="clone-the-repository">
 <h2>Clone the repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this heading">#</a></h2>
 <p>First clone the repository locally using <a class="reference external" href="https://git-scm.com/downloads">Git</a>:</p>
@@ -505,19 +505,12 @@ VSCode devcontainer</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </section>
-<section id="build-and-test">
-<h2>Build and test<a class="headerlink" href="#build-and-test" title="Permalink to this heading">#</a></h2>
-<p>Now you have a development environment you can run the tests in a terminal:</p>
+<section id="build-and-check">
+<h2>Build and check<a class="headerlink" href="#build-and-check" title="Permalink to this heading">#</a></h2>
+<p>Now you have a development environment you can run checks in a terminal:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tox -p
 </pre></div>
 </div>
-<p>This will run in parallel the following checks:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../how-to/build-docs.html"><span class="doc">Build the docs using sphinx</span></a></p></li>
-<li><p><a class="reference internal" href="../how-to/run-tests.html"><span class="doc">Run the tests using pytest</span></a></p></li>
-<li><p><a class="reference internal" href="../how-to/static-analysis.html"><span class="doc">Run static analysis using mypy</span></a></p></li>
-<li><p><a class="reference internal" href="../how-to/lint.html"><span class="doc">Run linting using pre-commit</span></a></p></li>
-</ul>
 </section>
 </section>
 
@@ -565,7 +558,7 @@ VSCode devcontainer</label><div class="sd-tab-content docutils">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-repository">Clone the repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dependencies">Install dependencies</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-what-was-installed">See what was installed</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-test">Build and test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-check">Build and check</a></li>
 </ul>
   </nav></div>
 

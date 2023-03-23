@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Cluster Config &#8212; epics_containers 0.9.dev67+g59a0aa5 documentation</title>
+    <title>Kubernetes Cluster Config &#8212; epics_containers 0.9.dev68+gb67911c documentation</title>
   
   
   
@@ -505,10 +505,20 @@ how to achieve this.</p>
 </section>
 <section id="current-approach">
 <h2>Current Approach<a class="headerlink" href="#current-approach" title="Permalink to this heading">#</a></h2>
-<p>DLS is currently investigating Cluster per Beamline as the preferred. We
+<p>DLS is currently investigating Cluster per Beamline as the preferred topology. We
 will continue to have a central cluster for shared services but in addition will
 have a cluster per beamline and a cluster for the accelerator.</p>
-<p>TODO: add some details from Chris’ presentation to the beamline controls meeting.</p>
+<p>The separate clusters allow us to have separate:</p>
+<ul class="simple">
+<li><p>failure domain</p></li>
+<li><p>security domain</p></li>
+<li><p>administrative domain</p></li>
+<li><p>performance domain</p></li>
+</ul>
+<p>The down side is that we have to manage multiple clusters. There is a lot of
+tooling available to help with this, as multi-cluster using cloud providers is
+quite a common pattern. We are currently investigating approaches to multi-cluster
+management.</p>
 </section>
 <section id="dls-argus-cluster">
 <span id="argus"></span><h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this heading">#</a></h2>

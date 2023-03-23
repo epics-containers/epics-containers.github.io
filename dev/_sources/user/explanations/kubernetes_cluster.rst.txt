@@ -37,11 +37,21 @@ Three cluster topologies were considered for this project.
 Current Approach
 ----------------
 
-DLS is currently investigating Cluster per Beamline as the preferred. We
+DLS is currently investigating Cluster per Beamline as the preferred topology. We
 will continue to have a central cluster for shared services but in addition will
 have a cluster per beamline and a cluster for the accelerator.
 
-TODO: add some details from Chris' presentation to the beamline controls meeting.
+The separate clusters allow us to have separate:
+
+- failure domain
+- security domain
+- administrative domain
+- performance domain
+
+The down side is that we have to manage multiple clusters. There is a lot of
+tooling available to help with this, as multi-cluster using cloud providers is
+quite a common pattern. We are currently investigating approaches to multi-cluster
+management.
 
 
 .. _argus:
