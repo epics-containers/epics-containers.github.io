@@ -5,6 +5,14 @@ Create a beamline repository
 
 In this tutorial we will create a new beamline source repository on github.
 
+The IOCs that we deploy to the cluster will be grouped into domains and each
+domain will have its own repository for the source code of the IOC instances.
+
+In the case of Beamlines the domain is the beamline itself. Here
+we use the naming convention ``blxxt`` where ``xx`` is the beamline number,
+and t is the type of beamline. For example ``bl01t`` is the beamline 1,
+type test.
+
 This is where the definitions of IOCs for a beamline will be held. Continuous
 integration will generate helm charts for each IOC and push them to
 your account's package repository.
@@ -24,6 +32,9 @@ Log in to your account by going here https://github.com/login.
 
 .. _instructions: https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account
 
+You will also need to setup ssh keys to authenticate to github from git. See
+`about ssh`_.
+
 Create a repository
 -------------------
 
@@ -37,9 +48,7 @@ Click 'Create Repository From Template'.
 
 This will create your new repository and take you to its Code panel.
 
-Now Click on 'Code' and copy the SSH or HTTPS link presented. This depends on
-how you will authenticate to github. HTTPS will ask you for your user name
-and password for all transactions. To setup SSH authentication see `about ssh`_
+Now Click on 'Code' and copy the SSH link presented.
 
 .. _about ssh: https://docs.github.com/en/enterprise-server@3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh
 
@@ -48,13 +57,13 @@ Clone and Tag the Repository
 ----------------------------
 
 NOTE: For the remainder of the tutorial you will use the project you
-created in `deploy_example`. You need to substitute in your account
+created in `Create a repository`_. You need to substitute in your account
 details to the commands listed here.
 
 In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step::
 
-    git clone git@github.com:<your account or organization>/bl00i.git
+    git clone git@github.com:<your account or organization>/bl01t.git
 
 Now test that CI is working by tagging the repo and pushing it back to github.
 
@@ -86,3 +95,10 @@ There will be one version of the package, with two tags:
 
 .. image:: ../images/github_example_package.png
     :align: center
+
+
+
+
+
+
+

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a beamline repository &#8212; epics_containers 0.9.dev68+gb67911c documentation</title>
+    <title>Create a beamline repository &#8212; epics_containers 0.9.dev69+g41a97c7 documentation</title>
   
   
   
@@ -470,6 +470,12 @@ document.write(`
   <section id="create-a-beamline-repository">
 <span id="create-beamline"></span><h1>Create a beamline repository<a class="headerlink" href="#create-a-beamline-repository" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial we will create a new beamline source repository on github.</p>
+<p>The IOCs that we deploy to the cluster will be grouped into domains and each
+domain will have its own repository for the source code of the IOC instances.</p>
+<p>In the case of Beamlines the domain is the beamline itself. Here
+we use the naming convention <code class="docutils literal notranslate"><span class="pre">blxxt</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
+and t is the type of beamline. For example <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is the beamline 1,
+type test.</p>
 <p>This is where the definitions of IOCs for a beamline will be held. Continuous
 integration will generate helm charts for each IOC and push them to
 your account’s package repository.</p>
@@ -481,6 +487,8 @@ tutorial will teach you how to add your own.</p>
 which to place the new repo. If you do not have one then follow GitHub’s
 <a class="reference external" href="https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account">instructions</a>.</p>
 <p>Log in to your account by going here <a class="github reference external" href="https://github.com/login">login</a>.</p>
+<p>You will also need to setup ssh keys to authenticate to github from git. See
+<a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a>.</p>
 </section>
 <section id="create-a-repository">
 <h2>Create a repository<a class="headerlink" href="#create-a-repository" title="Permalink to this heading">#</a></h2>
@@ -489,18 +497,16 @@ which to place the new repo. If you do not have one then follow GitHub’s
 Click ‘Create Repository From Template’.</p>
 <img alt="../../_images/create_repo.png" class="align-center" src="../../_images/create_repo.png" />
 <p>This will create your new repository and take you to its Code panel.</p>
-<p>Now Click on ‘Code’ and copy the SSH or HTTPS link presented. This depends on
-how you will authenticate to github. HTTPS will ask you for your user name
-and password for all transactions. To setup SSH authentication see <a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a></p>
+<p>Now Click on ‘Code’ and copy the SSH link presented.</p>
 </section>
 <section id="clone-and-tag-the-repository">
 <h2>Clone and Tag the Repository<a class="headerlink" href="#clone-and-tag-the-repository" title="Permalink to this heading">#</a></h2>
 <p>NOTE: For the remainder of the tutorial you will use the project you
-created in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>. You need to substitute in your account
+created in <a class="reference internal" href="#create-a-repository">Create a repository</a>. You need to substitute in your account
 details to the commands listed here.</p>
 <p>In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">your</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">organization</span><span class="o">&gt;/</span><span class="n">bl00i</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">your</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">organization</span><span class="o">&gt;/</span><span class="n">bl01t</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
 <p>Now test that CI is working by tagging the repo and pushing it back to github.</p>

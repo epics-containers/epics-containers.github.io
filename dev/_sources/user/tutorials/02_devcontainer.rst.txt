@@ -90,8 +90,8 @@ Configuring the Devcontainer
 .. note::
 
     **DLS users**: the settings in the default ``.bashrc_dev`` are already
-    configured for interacting with the test beamline bl45p on the test
-    cluster pollux.
+    configured for interacting with the test beamline bl01t on the test
+    cluster Pollux.
 
 For epics-containers the most important configuration is held in the
 ``.bashrc_dev`` file. The terminals in the devcontainer will source this

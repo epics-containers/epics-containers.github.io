@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev68+gb67911c documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev69+g41a97c7 documentation</title>
   
   
   
@@ -477,13 +477,6 @@ ready to test deployment of EPICS IOCs.</p>
 </section>
 <section id="bring-your-own-cluster">
 <h2>Bring Your Own Cluster<a class="headerlink" href="#bring-your-own-cluster" title="Permalink to this heading">#</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: DLS already has the test cluster pollux and further
-beamline and machine clusters are coming soon.</p>
-<p>To use pollux cluster. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">pollux</span></code> outside of the
-devcontainer and then run <code class="docutils literal notranslate"><span class="pre">.devcontainer/dls-copy-k8s-crt.sh</span></code></p>
-</div>
 <p>If you already have a Kubernetes cluster then you can skip this section.
 and go straight to <a class="reference internal" href="create_beamline.html"><span class="doc">Create a beamline repository</span></a>.</p>
 <p>IMPORTANT: you will require appropriate permissions on the cluster to work
@@ -494,6 +487,23 @@ a namespace and a service account, although you could use an existing
 namespace and service account as long as it has network=host capability.</p>
 <p>Cloud based K8S offerings may not be appropriate because of the Channel Access
 routing requirement.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong>: DLS already has the test cluster Pollux and further
+beamline and machine clusters are coming soon.</p>
+<p>To use the Pollux cluster, run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">pollux</span></code> outside of the
+devcontainer and then run the script <code class="docutils literal notranslate"><span class="pre">.devcontainer/dls-copy-k8s-crt.sh</span></code></p>
+<p>The Pollux Cluster already has a beamline namespace <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>
+for you to use as a training area. <em>You will need
+to ask SciComp to add you as a user of this namespace.</em>
+Please be aware that this is a shared resource so others might be using
+it at the same time.</p>
+<p>The Pollux Cluster already has the Kubernetes dashboard installed.
+To access it go to <a class="reference external" href="http://pollux.diamond.ac.uk">http://pollux.diamond.ac.uk</a> and click
+<code class="docutils literal notranslate"><span class="pre">Pollux</span> <span class="pre">K8S</span> <span class="pre">Dashboard</span></code>.</p>
+<p>Then select <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> from the namespace drop down menu in the top left,
+to see the training namespace.</p>
+</div>
 </section>
 <section id="platform-choice">
 <h2>Platform Choice<a class="headerlink" href="#platform-choice" title="Permalink to this heading">#</a></h2>
@@ -620,8 +630,6 @@ simply use this command:</p>
 </pre></div>
 </div>
 <p>If you are interested in looking at the k3s files see <strong>/var/lib/rancher/k3s/</strong>.</p>
-<p>If you want to have a nice web interface to your cluster then see
-<a class="reference internal" href="../how-to/useful_k8s.html#install-dashboard"><span class="std std-ref">Install the Kubernetes Dashboard</span></a>.</p>
 </section>
 </section>
 </section>

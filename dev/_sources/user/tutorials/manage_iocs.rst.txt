@@ -58,9 +58,9 @@ Monitor your beamline IOCs::
 
     k8s-ioc monitor blxxi
 
-Note that the beamline is called blxxi rather than bl00i. To change the
+Note that the beamline is called blxxi rather than bl01t. To change the
 beamline name that your IOC deploys to you would need to edit
-bl00i/iocs/example/values.yaml, push the changes and execute deploy again.
+bl01t/iocs/example/values.yaml, push the changes and execute deploy again.
 See `../how-to/add_ioc` for more details on values.yaml.
 
 

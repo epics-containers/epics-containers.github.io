@@ -33,7 +33,7 @@ Deploy an IOC Version
 ---------------------
 
 In the previous tutorial we pushed tag 0.1 to
-<your account or organization>/bl00i and this
+<your account or organization>/bl01t and this
 generated a helm chart at ghcr.io/<your account or organization>
 with tags 0.1 and latest.
 
