@@ -33,7 +33,7 @@ Below is pasted the current version of help for the CLI.
         │ --version                           Log the version of ec and │
         │                                     exit                      │
         │ --domain              -d      TEXT  Domain namespace to use   │
-        │                                     [default: bl00t]          │
+        │                                     [default: bl01t]          │
         │ --image-registry              TEXT  Image registry to pull    │
         │                                     from                      │
         │                                     [default:                 │
