@@ -12,13 +12,6 @@ ready to test deployment of EPICS IOCs.
 Bring Your Own Cluster
 ----------------------
 
-.. Note::
-
-    **DLS Users**: DLS already has the test cluster pollux and further
-    beamline and machine clusters are coming soon.
-
-    To use pollux cluster. Run ``module load pollux`` outside of the
-    devcontainer and then run ``.devcontainer/dls-copy-k8s-crt.sh``
 
 If you already have a Kubernetes cluster then you can skip this section.
 and go straight to `./create_beamline`.
@@ -33,6 +26,26 @@ namespace and service account as long as it has network=host capability.
 Cloud based K8S offerings may not be appropriate because of the Channel Access
 routing requirement.
 
+.. Note::
+
+    **DLS Users**: DLS already has the test cluster Pollux and further
+    beamline and machine clusters are coming soon.
+
+    To use the Pollux cluster, run ``module load pollux`` outside of the
+    devcontainer and then run the script ``.devcontainer/dls-copy-k8s-crt.sh``
+
+    The Pollux Cluster already has a beamline namespace ``bl01t``
+    for you to use as a training area. *You will need
+    to ask SciComp to add you as a user of this namespace.*
+    Please be aware that this is a shared resource so others might be using
+    it at the same time.
+
+    The Pollux Cluster already has the Kubernetes dashboard installed.
+    To access it go to http://pollux.diamond.ac.uk and click
+    ``Pollux K8S Dashboard``.
+
+    Then select ``bl01t`` from the namespace drop down menu in the top left,
+    to see the training namespace.
 
 Platform Choice
 ---------------
@@ -183,6 +196,3 @@ simply use this command:
     k3s-uninstall.sh
 
 If you are interested in looking at the k3s files see **/var/lib/rancher/k3s/**.
-
-If you want to have a nice web interface to your cluster then see
-`install_dashboard`.
