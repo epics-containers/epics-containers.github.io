@@ -16,7 +16,7 @@ side-bar.
             tutorials/01_setup_workstation
             tutorials/02_devcontainer
             tutorials/03_setup_k8s
-            tutorials/create_beamline
+            tutorials/04_create_beamline
             tutorials/deploy_example
             tutorials/manage_iocs
 

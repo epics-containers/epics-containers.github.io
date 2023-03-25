@@ -21,6 +21,32 @@ The beamline will come with an example IOC and further steps in the
 tutorial will teach you how to add your own.
 
 
+Notes For Writing this Tutorial
+-------------------------------
+
+I deployed and ran blxxi as follows:
+
+.. code-block:: bash
+
+    # get the source (for the edm gui only - not needed for deployment)
+    git clone git@github.com:epics-containers/blxxi-template.git
+    cd blxxi-template/opi
+
+    # deploy to the currently configured default beamline
+    ec ioc deploy blxxi-ea-ioc-01 23.3.2
+
+    # find the ip address of the pod if its not in your subnet
+    ec ps -w
+
+    # launch edm
+    export EPICS_CA_ADDR_LIST=172.23.168.23
+    ./blxxi-ea-ioc-01-gui.sh
+
+    # launch PVA image viewer
+    export EPICS_PVA_ADDR_LIST=172.23.168.23
+    c2dv --pv BLXXI-EA-TST-01:IMAGE
+
+
 To Start
 --------
 
