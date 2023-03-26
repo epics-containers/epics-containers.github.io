@@ -1,12 +1,12 @@
 Setup a Developer Workstation
 =============================
 
-This tutorial will guide you through the steps to setup a developer workstation
-for creating, deploying and managing containerized IOCs.
+This page will guide you through the steps to setup a developer workstation
+in readiness for the remaining tutorials.
 The only tools you need to install are:
 
 - Visual Studio Code
-- A container runtime (docker or podman)
+- a container platform, either podman or docker
 
 That's it. The reason the list is so short is that we will be using
 a developer container which includes all the tools needed. Thus you only need
@@ -20,7 +20,7 @@ EPICS, WSL2 and more.
 
     **DLS Users**: RHEL 8 Workstations at DLS have podman installed by default.
     You can access vscode with ``module load vscode``. RHEL 7 Workstations
-    also have podman but it is an unsupported version.
+    are not supported.
 
 Options
 -------

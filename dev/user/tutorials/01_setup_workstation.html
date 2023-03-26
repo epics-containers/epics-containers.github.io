@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev70+ga16358a documentation</title>
+    <title>Setup a Developer Workstation &#8212; epics_containers 0.9.dev72+ga090858 documentation</title>
   
   
   
@@ -56,7 +56,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Setup the Devcontainer" href="02_devcontainer.html" />
-    <link rel="prev" title="User Guide" href="../index.html" />
+    <link rel="prev" title="Prerequisites" href="00_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -379,12 +379,16 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Prerequisites</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Developer Workstation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -469,12 +473,12 @@ document.write(`
                   
   <section id="setup-a-developer-workstation">
 <h1>Setup a Developer Workstation<a class="headerlink" href="#setup-a-developer-workstation" title="Permalink to this heading">#</a></h1>
-<p>This tutorial will guide you through the steps to setup a developer workstation
-for creating, deploying and managing containerized IOCs.
+<p>This page will guide you through the steps to setup a developer workstation
+in readiness for the remaining tutorials.
 The only tools you need to install are:</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p></li>
-<li><p>A container runtime (docker or podman)</p></li>
+<li><p>a container platform, either podman or docker</p></li>
 </ul>
 <p>That’s it. The reason the list is so short is that we will be using
 a developer container which includes all the tools needed. Thus you only need
@@ -486,7 +490,7 @@ EPICS, WSL2 and more.</p>
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman installed by default.
 You can access vscode with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>. RHEL 7 Workstations
-also have podman but it is an unsupported version.</p>
+are not supported.</p>
 </div>
 <section id="options">
 <h2>Options<a class="headerlink" href="#options" title="Permalink to this heading">#</a></h2>
@@ -560,12 +564,12 @@ working <a class="reference external" href="https://github.com/gilesknap/gphotos
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="00_intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">User Guide</p>
+        <p class="prev-next-title">Prerequisites</p>
       </div>
     </a>
     <a class="right-next"

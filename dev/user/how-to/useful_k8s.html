@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Additional How To’s &#8212; epics_containers 0.9.dev70+ga16358a documentation</title>
+    <title>Kubernetes Additional How To’s &#8212; epics_containers 0.9.dev72+ga090858 documentation</title>
   
   
   
@@ -379,12 +379,16 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_intro.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/01_setup_workstation.html">Setup a Developer Workstation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/02_devcontainer.html">Setup the Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/manage_iocs.html">Manage IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="current nav bd-sidenav">
@@ -576,7 +580,7 @@ you need to use EPICS_CA_ADDR_LIST to get edm to see the example IOC
 PVs. To do this perform the following steps to get the name of the
 example IOC pod and discover its IP address, then pass that to the
 edm container:</p>
-<p>cd to the root of the project you created in <a class="reference internal" href="../tutorials/deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
+<p>cd to the root of the project you created in <a class="reference internal" href="../tutorials/05_deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>kubectl get pods
     NAME                      READY   STATUS    RESTARTS   AGE
     example-6779d4dcf-g2cpm   1/1     Running   2          19h

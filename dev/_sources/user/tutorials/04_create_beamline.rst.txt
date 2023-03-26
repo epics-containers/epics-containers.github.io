@@ -1,0 +1,131 @@
+.. _create_beamline:
+
+Create a beamline repository
+============================
+
+In this tutorial we will create a new beamline source repository.
+
+The IOCs that we deploy to the cluster will be grouped into domains and each
+domain will have its own repository for the source code of the IOC instances.
+
+In the case of Beamlines the domain is the beamline itself. Here
+we use the naming convention ``blxxt`` where ``xx`` is the beamline number,
+and t is the type of beamline. For example ``bl01t`` is the beamline 1,
+type test.
+
+This is where the definitions of IOCs for a beamline will be held. Continuous
+integration will generate helm charts for each IOC and push them to
+your account's package repository.
+
+The beamline will come with an example IOC and further steps in the
+tutorial will teach you how to add your own.
+
+TODO TODO TODO
+
+Notes For Writing this Tutorial
+-------------------------------
+
+I deployed and ran blxxi as follows:
+
+.. code-block:: bash
+
+    # get the source (for the edm gui only - not needed for deployment)
+    git clone git@github.com:epics-containers/blxxi-template.git
+    cd blxxi-template/opi
+
+    # deploy to the currently configured default beamline
+    ec ioc deploy blxxi-ea-ioc-01 23.3.2
+
+    # find the ip address of the pod if its not in your subnet
+    ec ps -w
+
+    # launch edm
+    export EPICS_CA_ADDR_LIST=172.23.168.23
+    ./blxxi-ea-ioc-01-gui.sh
+
+    # launch PVA image viewer
+    export EPICS_PVA_ADDR_LIST=172.23.168.23
+    c2dv --pv BLXXI-EA-TST-01:IMAGE
+
+
+To Start
+--------
+
+For this exercise you will require a github user account or organization in
+which to place the new repo. If you do not have one then follow GitHub's
+`instructions`_.
+
+Log in to your account by going here https://github.com/login.
+
+.. _instructions: https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account
+
+You will also need to setup ssh keys to authenticate to github from git. See
+`about ssh`_.
+
+Create a repository
+-------------------
+
+Navigate to the beamline template repo here https://github.com/epics-containers/blxx-template
+
+Click on 'Use This Template'. Choose a name and description for your repo.
+Click 'Create Repository From Template'.
+
+.. image:: ../images/create_repo.png
+    :align: center
+
+This will create your new repository and take you to its Code panel.
+
+Now Click on 'Code' and copy the SSH link presented.
+
+.. _about ssh: https://docs.github.com/en/enterprise-server@3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh
+
+
+Clone and Tag the Repository
+----------------------------
+
+NOTE: For the remainder of the tutorial you will use the project you
+created in `Create a repository`_. You need to substitute in your account
+details to the commands listed here.
+
+In a terminal use git to clone the repository by pasting in the URL you copied
+in the previous step::
+
+    git clone git@github.com:<your account or organization>/bl01t.git
+
+Now test that CI is working by tagging the repo and pushing it back to github.
+
+cd to the root of the project you created in `05_deploy_example`, then::
+
+    git tag 0.1
+    git push origin 0.1
+
+This will cause github CI to generate a helm chart for the example IOC and
+deliver it to the account packages repository.
+
+To watch the progress go to the Actions Panel for your project.
+
+.. image:: ../images/github_actions.png
+    :align: center
+
+Once the CI completes you should have a helm chart delivered in your packages.
+Go to the code pane and click on the example Package circled below to see it.
+
+
+.. image:: ../images/github_package.png
+    :align: center
+
+There will be one version of the package, with two tags:
+
+- the tag you set on the source
+- and the 'latest' tag
+
+
+.. image:: ../images/github_example_package.png
+    :align: center
+
+
+
+
+
+
+

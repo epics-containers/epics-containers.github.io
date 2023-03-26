@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev70+ga16358a documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics_containers 0.9.dev72+ga090858 documentation</title>
   
   
   
@@ -55,7 +55,7 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Create a beamline repository" href="create_beamline.html" />
+    <link rel="next" title="Create a beamline repository" href="04_create_beamline.html" />
     <link rel="prev" title="Setup the Devcontainer" href="02_devcontainer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -379,12 +379,16 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a beamline repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manage_iocs.html">Manage IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a beamline repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -478,7 +482,7 @@ ready to test deployment of EPICS IOCs.</p>
 <section id="bring-your-own-cluster">
 <h2>Bring Your Own Cluster<a class="headerlink" href="#bring-your-own-cluster" title="Permalink to this heading">#</a></h2>
 <p>If you already have a Kubernetes cluster then you can skip this section.
-and go straight to <a class="reference internal" href="create_beamline.html"><span class="doc">Create a beamline repository</span></a>.</p>
+and go straight to <a class="reference internal" href="04_create_beamline.html"><span class="doc">Create a beamline repository</span></a>.</p>
 <p>IMPORTANT: you will require appropriate permissions on the cluster to work
 with epics-containers. In particular you will need to be able to create
 pods that run with network=host. This is to allow Channel Access traffic
@@ -652,7 +656,7 @@ simply use this command:</p>
       </div>
     </a>
     <a class="right-next"
-       href="create_beamline.html"
+       href="04_create_beamline.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
