@@ -184,8 +184,7 @@ There are these types of CI:
 
 Scope
 -----
-This project initially targets the low hanging fruit of x86_64 Linux Soft
-IOCs only.
+This project initially targets x86_64 Linux Soft IOCs and RTEMS IOCs.
 
 Other linux architectures could be added to the Kubernetes cluster.
 
@@ -193,26 +192,23 @@ In future it is entirely possible that Windows IOCs could also be supported
 since Kubernetes supports mixed OS clusters. This would be needed
 because windows containers require a windows host.
 
-Hard IOCs will not be supported in their current form. Perhaps there is a
-future possibility of turning hard IOCs remote devices.
-
 Note that OPI is also out of scope for this initial phase. See
 `no_opi`
 
 Additional Tools
 ----------------
 
-k8s-epics-utils
-~~~~~~~~~~~~~~~
-The project k9s-epics utils contains a script to add simple command
-line functions for deploying and monitoring IOCs.
+epics-containers-cli
+~~~~~~~~~~~~~~~~~~~~
+The project epics-containers-cli implements simple
+line functions for deploying and monitoring IOCs. It is just a wrapper
+around the tools kubectl, podman and helm, but saves typing and provides
+help and command line completion.
 
 See `CLI` for details.
 
 It also provides a Dockerfile for building a personal developer image
 allowing a developer to work on support modules or IOCs anywhere.
-
-TODO provide documentation for the developer image.
 
 
 Ibek
@@ -220,5 +216,4 @@ Ibek
 IOC Builder for EPICS and Kubernetes provides a way to generate an IOC
 helm chart from a YAML description of the IOC.
 
-TODO: this is in early development and not yet included in the epics-containers
-Organization.
+See https://github.com/epics-containers/ibek.

@@ -155,6 +155,9 @@ restart them to pick up the changes.
     ``.devcontainer/devcontainer.json`` file.
     `See here for details <https://containers.dev/implementors/json_reference/>`_
 
+    You can also alter the system packages installed in the container or make
+    any other changes to the Dockerfile and regenerate your own container image.
+
     If you wish to persist these changes
     then it is suggested that you make your own github repo of .devcontainer and
     push the changes there.

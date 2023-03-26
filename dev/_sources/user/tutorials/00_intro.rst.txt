@@ -22,8 +22,8 @@ some background in the following topics.
 - Introduction to EPICS
   https://docs.epics-controls.org/en/latest/guides/EPICS_Intro.html
 
-The the above background in hand you should read the overview of
-epics-containers architecture: `../explanations/introduction`
+With the above background in hand you should then read the overview of
+epics-containers architecture here: `../explanations/introduction`
 
 To work through the tutorials you will need a workstation which can be
 Linux, Mac or Windows. All the software required is open source and available

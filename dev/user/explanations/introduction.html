@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Essential Concepts &#8212; epics_containers 0.9.dev72+ga090858 documentation</title>
+    <title>Essential Concepts &#8212; epics_containers 0.9.dev73+gb60c8a7 documentation</title>
   
   
   
@@ -671,34 +671,31 @@ and the tags of their built resources.</p>
 </section>
 <section id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading">#</a></h2>
-<p>This project initially targets the low hanging fruit of x86_64 Linux Soft
-IOCs only.</p>
+<p>This project initially targets x86_64 Linux Soft IOCs and RTEMS IOCs.</p>
 <p>Other linux architectures could be added to the Kubernetes cluster.</p>
 <p>In future it is entirely possible that Windows IOCs could also be supported
 since Kubernetes supports mixed OS clusters. This would be needed
 because windows containers require a windows host.</p>
-<p>Hard IOCs will not be supported in their current form. Perhaps there is a
-future possibility of turning hard IOCs remote devices.</p>
 <p>Note that OPI is also out of scope for this initial phase. See
 <a class="reference internal" href="../reference/faq.html#no-opi"><span class="std std-ref">Why no mention of Operator Interfaces?</span></a></p>
 </section>
 <section id="additional-tools">
 <h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Permalink to this heading">#</a></h2>
-<section id="k8s-epics-utils">
-<h3>k8s-epics-utils<a class="headerlink" href="#k8s-epics-utils" title="Permalink to this heading">#</a></h3>
-<p>The project k9s-epics utils contains a script to add simple command
-line functions for deploying and monitoring IOCs.</p>
+<section id="epics-containers-cli">
+<h3>epics-containers-cli<a class="headerlink" href="#epics-containers-cli" title="Permalink to this heading">#</a></h3>
+<p>The project epics-containers-cli implements simple
+line functions for deploying and monitoring IOCs. It is just a wrapper
+around the tools kubectl, podman and helm, but saves typing and provides
+help and command line completion.</p>
 <p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for details.</p>
 <p>It also provides a Dockerfile for building a personal developer image
 allowing a developer to work on support modules or IOCs anywhere.</p>
-<p>TODO provide documentation for the developer image.</p>
 </section>
 <section id="ibek">
 <h3>Ibek<a class="headerlink" href="#ibek" title="Permalink to this heading">#</a></h3>
 <p>IOC Builder for EPICS and Kubernetes provides a way to generate an IOC
 helm chart from a YAML description of the IOC.</p>
-<p>TODO: this is in early development and not yet included in the epics-containers
-Organization.</p>
+<p>See <a class="github reference external" href="https://github.com/epics-containers/ibek">epics-containers/ibek</a>.</p>
 </section>
 </section>
 </section>
@@ -758,7 +755,7 @@ Organization.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-tools">Additional Tools</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#k8s-epics-utils">k8s-epics-utils</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#epics-containers-cli">epics-containers-cli</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek">Ibek</a></li>
 </ul>
 </li>
