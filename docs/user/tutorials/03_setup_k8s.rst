@@ -14,7 +14,7 @@ Bring Your Own Cluster
 
 
 If you already have a Kubernetes cluster then you can skip this section.
-and go straight to `./create_beamline`.
+and go straight to `./04_create_beamline`.
 
 IMPORTANT: you will require appropriate permissions on the cluster to work
 with epics-containers. In particular you will need to be able to create

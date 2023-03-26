@@ -3,7 +3,7 @@
 Create a beamline repository
 ============================
 
-In this tutorial we will create a new beamline source repository on github.
+In this tutorial we will create a new beamline source repository.
 
 The IOCs that we deploy to the cluster will be grouped into domains and each
 domain will have its own repository for the source code of the IOC instances.
@@ -20,6 +20,7 @@ your account's package repository.
 The beamline will come with an example IOC and further steps in the
 tutorial will teach you how to add your own.
 
+TODO TODO TODO
 
 Notes For Writing this Tutorial
 -------------------------------
@@ -93,7 +94,7 @@ in the previous step::
 
 Now test that CI is working by tagging the repo and pushing it back to github.
 
-cd to the root of the project you created in `deploy_example`, then::
+cd to the root of the project you created in `05_deploy_example`, then::
 
     git tag 0.1
     git push origin 0.1
