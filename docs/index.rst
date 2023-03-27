@@ -3,12 +3,12 @@
 .. include:: ../README.rst
     :end-before: when included in index.rst
 
-Overview
-========
+Quick Start
+===========
 
-.. include:: user/overview.rst
-
-For more details see `essential`
+For a set of tutorials to introduce the concepts of epics-containers see
+`user/tutorials/00_intro`. For a description of the architecture see
+`essential`.
 
 Communication
 =============

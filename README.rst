@@ -3,8 +3,9 @@ epics-containers
 
 |docs_ci| |license|
 
-epics-containers is an experimental GitHub organization to try out ideas
-for managing EPICS IOCs in a Kubernetes cluster.
+The epics-containers GitHub organization holds a collection of tools and
+documentation for building, deploying and managing containerized EPICS IOCs
+in a Kubernetes cluster.
 
 Please contribute with comments and suggestions in the wiki or issues pages:
 

@@ -56,6 +56,7 @@ side-bar.
             explanations/net_protocols
             explanations/kubernetes_cluster
             explanations/docs-structure
+            explanations/repositories
 
         +++
 
