@@ -17,7 +17,8 @@ Configure Visual Studio Code
 ----------------------------
 
 For podman users, you must first tell vscode to use podman instead of docker.
-Hit "ctrl ," (control-comma) to open the user settings editor and search for
+Open a vscode window and hit "ctrl ," (control-comma) to open the user
+settings editor and search for
 "dev.containers.dockerPath", change its value from "docker" to "podman".
 
 
@@ -87,10 +88,29 @@ Configuring the Devcontainer
 
     **DLS users**: the settings in the default ``.bashrc_dev`` are already
     configured for interacting with the test beamline bl01t on the test
-    cluster Pollux. The only change to .devcontainer/.bashrc_dev required
-    is making the GITHUB_ORG variable your personal github user name.
+    cluster Pollux. HOWEVER: for this exercise we will use your personal
+    GitHub account to avoid clashes with other users of this tutorial.
+    Therefore follow the instructions below and for the KUBECONFIG setting
+    use the following:
 
-The most important configuration is held in the
+    .. code-block:: bash
+
+        # point at your cluster configuration file
+        export KUBECONFIG=/home/${USER}/.kube/config_pollux
+
+    To enable access to the pollux cluster, execute the following commands
+    from outside of the dev container:
+
+    .. code-block:: bash
+
+        module load pollux
+        .devcontainer/dls-copy-k8s-crt.sh # a script in the .devcontainer repo
+        kubectl get nodes
+
+    The last command will ask for your fed-id and password and then show A
+    list of nodes in the pollux cluster.
+
+You devcontainer environment is configured by a file called
 ``.bashrc_dev`` file. The terminals in the devcontainer will source this
 file when they start.
 
@@ -98,11 +118,16 @@ You can take a copy of ``.devcontainer/.bashrc_dev`` and place it in your
 home folder to customize it.
 i.e.:
 
-.. code-block:: bash
 
     # IMPORTANT: use /home/$USER not $HOME
     cp .devcontainer/.bashrc_dev /home/${USER}/.bashrc_dev
     code /home/${USER}/.bashrc_dev
+
+Alternatively you can take a fork of the .devcontainer repo and make your
+own version of the .bashrc_dev file in place.
+
+Much of this file is setting up convenience features like prompt and bash
+history. You can change these to suit your own preferences.
 
 The primary configuration options are the environment variables exported by
 this script. These are listed below with some recommended values for running
@@ -124,9 +149,6 @@ change GITHUB_ORG to your GitHub organization or user.
 
     # where to get HELM charts for ec commands
     export K8S_HELM_REGISTRY=ghcr.io/${GITHUB_ORG}
-
-    # set to true to add /$K8S_DOMAIN to the helm registry URL
-    unset K8S_HELM_REGISTRY_ADD_DOMAIN
 
     # where to get container IMAGES for ec commands
     export K8S_IMAGE_REGISTRY=ghcr.io/${GITHUB_ORG}

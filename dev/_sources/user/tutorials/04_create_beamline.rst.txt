@@ -1,6 +1,6 @@
 .. _create_beamline:
 
-Create a beamline repository
+Create a Beamline Repository
 ============================
 
 In this tutorial we will create a new beamline source repository.
@@ -43,10 +43,13 @@ which to place the new repo. If you do not have one then follow GitHub's
 
 Log in to your account by going here https://github.com/login.
 
-.. _instructions: https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account
 
 You will also need to setup ssh keys to authenticate to github from git. See
 `about ssh`_.
+
+.. _instructions: https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account
+.. _about ssh: https://docs.github.com/en/enterprise-server@3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh
+
 
 Create a New Repository
 -----------------------
@@ -62,111 +65,91 @@ assets. See `../explanations/repositories`.
 TODO: these steps could be automated in an epics-containers-cli command for
 generating new domain repos (also do one for new generic ioc repos).
 
-STEPS::
+STEPS
+~~~~~
 
-    1. Create a new, completely blank repository in your GitHub account, this
-       should be called ``bl01t``.
+These steps ensure that your new repo shares its git history with the
+template repo, so that you can easily pull in changes from the template
+repo in the future.
 
-    2. Clone the repo locally and rename from blxxi-template to bl01t
+#.  Create a new, completely blank repository in your GitHub account
+    called ``bl01t``. To do this got to https://github.com/new
+    and fill in the details as per the image below. Click
+    ``Create repository``.
+
+#.  Clone the template repo locally and rename from blxxi-template to bl01t
 
     .. code-block:: bash
 
         git clone git@github.com:epics-containers/blxxi-template.git
-        mv blxxi-template.git bl01t
+        mv blxxi-template bl01t
         cd bl01t
         mv iocs/blxxi-ea-ioc-01/ iocs/bl01t-ea-ioc-01
-        sed -i 's/blxxi/bl01t/g' $(find *)
+        mv opi/blxxi-ea-ioc-01/ opi/bl01t-ea-ioc-01
+        # careful to use find *, NOT find . or you will change the .git folder
+        sed -i 's/BLXXI/BL01T/g' $(find * -type f)
+        sed -i 's/blxxi/bl01t/g' $(find * -type f)
 
-First create a new, completely blank repository in your GitHub account, this
-should be called ``bl01t``.
+#.  Add your new repo to your vscode workspace and take a look at what you
+    have.
 
+    From the VSCode menus: File->Add Folder to Workspace
+    then select the folder bl01t
 
-Navigate to the beamline template repo here
-https://github.com/epics-containers/blxxi-template
-Click on 'Use This Template'. Choose a name and description for your repo.
-Click 'Create Repository From Template'.
+#.  Push the new repo back to a the new repo on github
+
+    .. code-block:: bash
+
+        git remote rm origin
+        git remote add origin git@github.com:<YOUR USER NAME>/bl01t.git
+        git add .
+        git commit -m "rename blxxi to bl01t"
+        git push origin main
 
 .. image:: ../images/create_repo.png
     :align: center
 
-This will create your new repository and take you to its Code panel.
 
-Now Click on 'Code' and copy the SSH link presented.
+Make a Release of Example Beamline bl01t
+----------------------------------------
 
-.. _about ssh: https://docs.github.com/en/enterprise-server@3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh
+cd to the root of the project bl01t you created in `05_deploy_example`, then
+tag your repo with a calendar based version number see (https://calver.org/).
 
+We use YY.MM.MINOR for versioning things like beamlines and generic IOCs. You
+can choose your own scheme, but because these projects do not have APIs as
+such it is more instructive to use a date based scheme.
 
-Clone and Tag the Repository
-----------------------------
+The example version below was the first revision in the month of April 2023.
 
-NOTE: For the remainder of the tutorial you will use the project you
-created in `Create a New Repository`_. You need to substitute in your account
-details to the commands listed here.
+.. code-block:: bash
 
-In a terminal use git to clone the repository by pasting in the URL you copied
-in the previous step::
+    git tag 23.4.1
+    git push origin 23.4.1
 
-    git clone git@github.com:<your account or organization>/bl01t.git
+This will cause GitHub CI to generate a helm chart for the example IOC and
+deliver it to your account's OCI registry.
 
-Now test that CI is working by tagging the repo and pushing it back to github.
-
-cd to the root of the project you created in `05_deploy_example`, then::
-
-    git tag 0.1
-    git push origin 0.1
-
-This will cause github CI to generate a helm chart for the example IOC and
-deliver it to the account packages repository.
-
-To watch the progress go to the Actions Panel for your project.
+To watch the progress go to the Actions Panel for your project at
+https://github.com/<YOUR USER NAME>/bl01t/actions
 
 .. image:: ../images/github_actions.png
     :align: center
 
-Once the CI completes you should have a helm chart delivered in your packages.
-Go to the code pane and click on the example Package circled below to see it.
+Once the CI completes you should have a helm chart delivered in your project
+packages. You will see a link to the package on the right hand side of your
+project page. The name of the helm chart
+package will be ghcr.io/<YOUR USER NAME>/bl01t/bl01t-ea-ioc-01:23.4.1.
 
+Go to the code pane and click on the example package circled below to see it.
 
 .. image:: ../images/github_package.png
     :align: center
 
-There will be one version of the package, with two tags:
+You have now completed this tutorial. Here you have created a new beamline
+repository and made a release of it. The release includes the example IOCs
+instance called ``bl01t-ea-ioc-01``. This IOC has had a helm chart generated
+for it and published ready for deployment to your cluster.
 
-- the tag you set on the source
-- and the 'latest' tag
-
-
-.. image:: ../images/github_example_package.png
-    :align: center
-
-
-
-
-
-
-
-
-Notes For Writing this Tutorial
--------------------------------
-
-I deployed and ran blxxi as follows:
-
-.. code-block:: bash
-
-    # get the source (for the edm gui only - not needed for deployment)
-    git clone git@github.com:epics-containers/blxxi-template.git
-    cd blxxi-template/opi
-
-    # deploy to the currently configured default beamline
-    ec ioc deploy blxxi-ea-ioc-01 23.3.2
-
-    # find the ip address of the pod if its not in your subnet
-    ec ps -w
-
-    # launch edm
-    export EPICS_CA_ADDR_LIST=172.23.168.23
-    ./blxxi-ea-ioc-01-gui.sh
-
-    # launch PVA image viewer
-    export EPICS_PVA_ADDR_LIST=172.23.168.23
-    c2dv --pv BLXXI-EA-TST-01:IMAGE
+In the next tutorial we will look into what we have created in more detail
+and we will deploy and test the new example IOC.

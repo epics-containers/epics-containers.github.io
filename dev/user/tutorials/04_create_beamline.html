@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a beamline repository &#8212; epics_containers 0.9.dev74+g0cb6d0c documentation</title>
+    <title>Create a Beamline Repository &#8212; epics_containers 0.9.dev75+g6c2bd49 documentation</title>
   
   
   
@@ -383,7 +383,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a beamline repository</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
@@ -455,7 +455,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Create a beamline repository</li>
+    <li class="breadcrumb-item active" aria-current="page">Create a Beamline Repository</li>
   </ul>
 </nav>
 </div>
@@ -473,7 +473,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="create-a-beamline-repository">
-<span id="create-beamline"></span><h1>Create a beamline repository<a class="headerlink" href="#create-a-beamline-repository" title="Permalink to this heading">#</a></h1>
+<span id="create-beamline"></span><h1>Create a Beamline Repository<a class="headerlink" href="#create-a-beamline-repository" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial we will create a new beamline source repository.</p>
 <p>All IOCs that we deploy to the cluster will be grouped into domains and each
 domain will have its own repository for the source code of the IOC instances
@@ -517,83 +517,75 @@ production, each facility will need its own policy for where to store these
 assets. See <a class="reference internal" href="../explanations/repositories.html"><span class="doc">Source and Registry Locations</span></a>.</p>
 <p>TODO: these steps could be automated in an epics-containers-cli command for
 generating new domain repos (also do one for new generic ioc repos).</p>
-<p>STEPS:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Create a new, completely blank repository in your GitHub account, this
-   should be called ``bl01t``.
-
-2. Clone the repo locally and rename from blxxi-template to bl01t
-
-.. code-block:: bash
-
-    git clone git@github.com:epics-containers/blxxi-template.git
-    mv blxxi-template.git bl01t
-    cd bl01t
-    mv iocs/blxxi-ea-ioc-01/ iocs/bl01t-ea-ioc-01
-    sed -i &#39;s/blxxi/bl01t/g&#39; $(find *)
+<section id="steps">
+<h3>STEPS<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
+<p>These steps ensure that your new repo shares its git history with the
+template repo, so that you can easily pull in changes from the template
+repo in the future.</p>
+<ol class="arabic">
+<li><p>Create a new, completely blank repository in your GitHub account
+called <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>. To do this got to <a class="github reference external" href="https://github.com/new">new</a>
+and fill in the details as per the image below. Click
+<code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">repository</span></code>.</p></li>
+<li><p>Clone the template repo locally and rename from blxxi-template to bl01t</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/blxxi-template.git
+mv<span class="w"> </span>blxxi-template<span class="w"> </span>bl01t
+<span class="nb">cd</span><span class="w"> </span>bl01t
+mv<span class="w"> </span>iocs/blxxi-ea-ioc-01/<span class="w"> </span>iocs/bl01t-ea-ioc-01
+mv<span class="w"> </span>opi/blxxi-ea-ioc-01/<span class="w"> </span>opi/bl01t-ea-ioc-01
+<span class="c1"># careful to use find *, NOT find . or you will change the .git folder</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/BLXXI/BL01T/g&#39;</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>*<span class="w"> </span>-type<span class="w"> </span>f<span class="k">)</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/blxxi/bl01t/g&#39;</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>*<span class="w"> </span>-type<span class="w"> </span>f<span class="k">)</span>
 </pre></div>
 </div>
-<p>First create a new, completely blank repository in your GitHub account, this
-should be called <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>.</p>
-<p>Navigate to the beamline template repo here
-<a class="github reference external" href="https://github.com/epics-containers/blxxi-template">epics-containers/blxxi-template</a>
-Click on ‘Use This Template’. Choose a name and description for your repo.
-Click ‘Create Repository From Template’.</p>
+</li>
+<li><p>Add your new repo to your vscode workspace and take a look at what you
+have.</p>
+<p>From the VSCode menus: File-&gt;Add Folder to Workspace
+then select the folder bl01t</p>
+</li>
+<li><p>Push the new repo back to a the new repo on github</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>rm<span class="w"> </span>origin
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:&lt;YOUR<span class="w"> </span>USER<span class="w"> </span>NAME&gt;/bl01t.git
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;rename blxxi to bl01t&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</li>
+</ol>
 <img alt="../../_images/create_repo.png" class="align-center" src="../../_images/create_repo.png" />
-<p>This will create your new repository and take you to its Code panel.</p>
-<p>Now Click on ‘Code’ and copy the SSH link presented.</p>
 </section>
-<section id="clone-and-tag-the-repository">
-<h2>Clone and Tag the Repository<a class="headerlink" href="#clone-and-tag-the-repository" title="Permalink to this heading">#</a></h2>
-<p>NOTE: For the remainder of the tutorial you will use the project you
-created in <a class="reference internal" href="#create-a-new-repository">Create a New Repository</a>. You need to substitute in your account
-details to the commands listed here.</p>
-<p>In a terminal use git to clone the repository by pasting in the URL you copied
-in the previous step:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">&lt;</span><span class="n">your</span> <span class="n">account</span> <span class="ow">or</span> <span class="n">organization</span><span class="o">&gt;/</span><span class="n">bl01t</span><span class="o">.</span><span class="n">git</span>
+</section>
+<section id="make-a-release-of-example-beamline-bl01t">
+<h2>Make a Release of Example Beamline bl01t<a class="headerlink" href="#make-a-release-of-example-beamline-bl01t" title="Permalink to this heading">#</a></h2>
+<p>cd to the root of the project bl01t you created in <a class="reference internal" href="05_deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then
+tag your repo with a calendar based version number see (<a class="reference external" href="https://calver.org/">https://calver.org/</a>).</p>
+<p>We use YY.MM.MINOR for versioning things like beamlines and generic IOCs. You
+can choose your own scheme, but because these projects do not have APIs as
+such it is more instructive to use a date based scheme.</p>
+<p>The example version below was the first revision in the month of April 2023.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">23</span>.4.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">23</span>.4.1
 </pre></div>
 </div>
-<p>Now test that CI is working by tagging the repo and pushing it back to github.</p>
-<p>cd to the root of the project you created in <a class="reference internal" href="05_deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">tag</span> <span class="mf">0.1</span>
-<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="mf">0.1</span>
-</pre></div>
-</div>
-<p>This will cause github CI to generate a helm chart for the example IOC and
-deliver it to the account packages repository.</p>
-<p>To watch the progress go to the Actions Panel for your project.</p>
+<p>This will cause GitHub CI to generate a helm chart for the example IOC and
+deliver it to your account’s OCI registry.</p>
+<p>To watch the progress go to the Actions Panel for your project at
+<a class="github reference external" href="https://github.com">github</a>/&lt;YOUR USER NAME&gt;/bl01t/actions</p>
 <img alt="../../_images/github_actions.png" class="align-center" src="../../_images/github_actions.png" />
-<p>Once the CI completes you should have a helm chart delivered in your packages.
-Go to the code pane and click on the example Package circled below to see it.</p>
+<p>Once the CI completes you should have a helm chart delivered in your project
+packages. You will see a link to the package on the right hand side of your
+project page. The name of the helm chart
+package will be ghcr.io/&lt;YOUR USER NAME&gt;/bl01t/bl01t-ea-ioc-01:23.4.1.</p>
+<p>Go to the code pane and click on the example package circled below to see it.</p>
 <img alt="../../_images/github_package.png" class="align-center" src="../../_images/github_package.png" />
-<p>There will be one version of the package, with two tags:</p>
-<ul class="simple">
-<li><p>the tag you set on the source</p></li>
-<li><p>and the ‘latest’ tag</p></li>
-</ul>
-<img alt="../../_images/github_example_package.png" class="align-center" src="../../_images/github_example_package.png" />
-</section>
-<section id="notes-for-writing-this-tutorial">
-<h2>Notes For Writing this Tutorial<a class="headerlink" href="#notes-for-writing-this-tutorial" title="Permalink to this heading">#</a></h2>
-<p>I deployed and ran blxxi as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the source (for the edm gui only - not needed for deployment)</span>
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/blxxi-template.git
-<span class="nb">cd</span><span class="w"> </span>blxxi-template/opi
-
-<span class="c1"># deploy to the currently configured default beamline</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>blxxi-ea-ioc-01<span class="w"> </span><span class="m">23</span>.3.2
-
-<span class="c1"># find the ip address of the pod if its not in your subnet</span>
-ec<span class="w"> </span>ps<span class="w"> </span>-w
-
-<span class="c1"># launch edm</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
-./blxxi-ea-ioc-01-gui.sh
-
-<span class="c1"># launch PVA image viewer</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_PVA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
-c2dv<span class="w"> </span>--pv<span class="w"> </span>BLXXI-EA-TST-01:IMAGE
-</pre></div>
-</div>
+<p>You have now completed this tutorial. Here you have created a new beamline
+repository and made a release of it. The release includes the example IOCs
+instance called <code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-01</span></code>. This IOC has had a helm chart generated
+for it and published ready for deployment to your cluster.</p>
+<p>In the next tutorial we will look into what we have created in more detail
+and we will deploy and test the new example IOC.</p>
 </section>
 </section>
 
@@ -639,9 +631,11 @@ c2dv<span class="w"> </span>--pv<span class="w"> </span>BLXXI-EA-TST-01:IMAGE
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-start">To Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-repository">Create a New Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-and-tag-the-repository">Clone and Tag the Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-for-writing-this-tutorial">Notes For Writing this Tutorial</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-repository">Create a New Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">STEPS</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-a-release-of-example-beamline-bl01t">Make a Release of Example Beamline bl01t</a></li>
 </ul>
   </nav></div>
 
