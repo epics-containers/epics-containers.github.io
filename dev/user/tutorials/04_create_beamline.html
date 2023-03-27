@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a beamline repository &#8212; epics_containers 0.9.dev73+gb60c8a7 documentation</title>
+    <title>Create a beamline repository &#8212; epics_containers 0.9.dev74+g0cb6d0c documentation</title>
   
   
   
@@ -379,7 +379,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
@@ -408,6 +408,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -474,41 +475,29 @@ document.write(`
   <section id="create-a-beamline-repository">
 <span id="create-beamline"></span><h1>Create a beamline repository<a class="headerlink" href="#create-a-beamline-repository" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial we will create a new beamline source repository.</p>
-<p>The IOCs that we deploy to the cluster will be grouped into domains and each
-domain will have its own repository for the source code of the IOC instances.</p>
-<p>In the case of Beamlines the domain is the beamline itself. Here
-we use the naming convention <code class="docutils literal notranslate"><span class="pre">blxxt</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
-and t is the type of beamline. For example <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is the beamline 1,
+<p>All IOCs that we deploy to the cluster will be grouped into domains and each
+domain will have its own repository for the source code of the IOC instances
+that it contains.</p>
+<p>In the case of Beamlines, the domain is the beamline itself. Here
+we use the naming convention <code class="docutils literal notranslate"><span class="pre">blxxc</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
+and c is the class of beamline. For example <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is the beamline 1,
 type test.</p>
-<p>This is where the definitions of IOCs for a beamline will be held. Continuous
-integration will generate helm charts for each IOC and push them to
-your account’s package repository.</p>
-<p>The beamline will come with an example IOC and further steps in the
-tutorial will teach you how to add your own.</p>
-<p>TODO TODO TODO</p>
-<section id="notes-for-writing-this-tutorial">
-<h2>Notes For Writing this Tutorial<a class="headerlink" href="#notes-for-writing-this-tutorial" title="Permalink to this heading">#</a></h2>
-<p>I deployed and ran blxxi as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the source (for the edm gui only - not needed for deployment)</span>
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/blxxi-template.git
-<span class="nb">cd</span><span class="w"> </span>blxxi-template/opi
-
-<span class="c1"># deploy to the currently configured default beamline</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>blxxi-ea-ioc-01<span class="w"> </span><span class="m">23</span>.3.2
-
-<span class="c1"># find the ip address of the pod if its not in your subnet</span>
-ec<span class="w"> </span>ps<span class="w"> </span>-w
-
-<span class="c1"># launch edm</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
-./blxxi-ea-ioc-01-gui.sh
-
-<span class="c1"># launch PVA image viewer</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_PVA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
-c2dv<span class="w"> </span>--pv<span class="w"> </span>BLXXI-EA-TST-01:IMAGE
-</pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may choose your own naming convention, but lower case letters,
+numbers and hyphens only are recommended for both domain names and
+IOC names. This is a restriction that helm introduces for package names.</p>
 </div>
-</section>
+<p>In this tutorial we will create the test beamline repository <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>.
+When the project <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is pushed to GitHub, continuous integration will
+generate helm charts for each IOC instance it defines
+and push them to your GitHub account’s OCI registry.</p>
+<p>The beamline will come with a single example IOC and further steps in the
+following tutorials will teach you how to add your own.</p>
+<p>For accelerator domains the approach described here will be identical. The
+only difference is that IOCs are split by domain rather than by beamline.
+A different naming convention will be used for accelerator domains (to be
+determined).</p>
 <section id="to-start">
 <h2>To Start<a class="headerlink" href="#to-start" title="Permalink to this heading">#</a></h2>
 <p>For this exercise you will require a github user account or organization in
@@ -518,10 +507,36 @@ which to place the new repo. If you do not have one then follow GitHub’s
 <p>You will also need to setup ssh keys to authenticate to github from git. See
 <a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a>.</p>
 </section>
-<section id="create-a-repository">
-<h2>Create a repository<a class="headerlink" href="#create-a-repository" title="Permalink to this heading">#</a></h2>
-<p>Navigate to the beamline template repo here <a class="github reference external" href="https://github.com/epics-containers/blxx-template">epics-containers/blxx-template</a></p>
-<p>Click on ‘Use This Template’. Choose a name and description for your repo.
+<section id="create-a-new-repository">
+<h2>Create a New Repository<a class="headerlink" href="#create-a-new-repository" title="Permalink to this heading">#</a></h2>
+<p>Here we will copy the beamline template repository, change it’s name (and the
+name of the example IOC) and push it back to our own new GitHub repo.</p>
+<p>IMPORTANT: for this tutorial we will use your personal GitHub Account to
+store everything we do, including the helm charts and container images. For
+production, each facility will need its own policy for where to store these
+assets. See <a class="reference internal" href="../explanations/repositories.html"><span class="doc">Source and Registry Locations</span></a>.</p>
+<p>TODO: these steps could be automated in an epics-containers-cli command for
+generating new domain repos (also do one for new generic ioc repos).</p>
+<p>STEPS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. Create a new, completely blank repository in your GitHub account, this
+   should be called ``bl01t``.
+
+2. Clone the repo locally and rename from blxxi-template to bl01t
+
+.. code-block:: bash
+
+    git clone git@github.com:epics-containers/blxxi-template.git
+    mv blxxi-template.git bl01t
+    cd bl01t
+    mv iocs/blxxi-ea-ioc-01/ iocs/bl01t-ea-ioc-01
+    sed -i &#39;s/blxxi/bl01t/g&#39; $(find *)
+</pre></div>
+</div>
+<p>First create a new, completely blank repository in your GitHub account, this
+should be called <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>.</p>
+<p>Navigate to the beamline template repo here
+<a class="github reference external" href="https://github.com/epics-containers/blxxi-template">epics-containers/blxxi-template</a>
+Click on ‘Use This Template’. Choose a name and description for your repo.
 Click ‘Create Repository From Template’.</p>
 <img alt="../../_images/create_repo.png" class="align-center" src="../../_images/create_repo.png" />
 <p>This will create your new repository and take you to its Code panel.</p>
@@ -530,7 +545,7 @@ Click ‘Create Repository From Template’.</p>
 <section id="clone-and-tag-the-repository">
 <h2>Clone and Tag the Repository<a class="headerlink" href="#clone-and-tag-the-repository" title="Permalink to this heading">#</a></h2>
 <p>NOTE: For the remainder of the tutorial you will use the project you
-created in <a class="reference internal" href="#create-a-repository">Create a repository</a>. You need to substitute in your account
+created in <a class="reference internal" href="#create-a-new-repository">Create a New Repository</a>. You need to substitute in your account
 details to the commands listed here.</p>
 <p>In a terminal use git to clone the repository by pasting in the URL you copied
 in the previous step:</p>
@@ -556,6 +571,29 @@ Go to the code pane and click on the example Package circled below to see it.</p
 <li><p>and the ‘latest’ tag</p></li>
 </ul>
 <img alt="../../_images/github_example_package.png" class="align-center" src="../../_images/github_example_package.png" />
+</section>
+<section id="notes-for-writing-this-tutorial">
+<h2>Notes For Writing this Tutorial<a class="headerlink" href="#notes-for-writing-this-tutorial" title="Permalink to this heading">#</a></h2>
+<p>I deployed and ran blxxi as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the source (for the edm gui only - not needed for deployment)</span>
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/blxxi-template.git
+<span class="nb">cd</span><span class="w"> </span>blxxi-template/opi
+
+<span class="c1"># deploy to the currently configured default beamline</span>
+ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>blxxi-ea-ioc-01<span class="w"> </span><span class="m">23</span>.3.2
+
+<span class="c1"># find the ip address of the pod if its not in your subnet</span>
+ec<span class="w"> </span>ps<span class="w"> </span>-w
+
+<span class="c1"># launch edm</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
+./blxxi-ea-ioc-01-gui.sh
+
+<span class="c1"># launch PVA image viewer</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_PVA_ADDR_LIST</span><span class="o">=</span><span class="m">172</span>.23.168.23
+c2dv<span class="w"> </span>--pv<span class="w"> </span>BLXXI-EA-TST-01:IMAGE
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -600,10 +638,10 @@ Go to the code pane and click on the example Package circled below to see it.</p
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-for-writing-this-tutorial">Notes For Writing this Tutorial</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-start">To Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-repository">Create a repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-repository">Create a New Repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-and-tag-the-repository">Clone and Tag the Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-for-writing-this-tutorial">Notes For Writing this Tutorial</a></li>
 </ul>
   </nav></div>
 

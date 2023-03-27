@@ -17,13 +17,9 @@ Configure Visual Studio Code
 ----------------------------
 
 For podman users, you must first tell vscode to use podman instead of docker.
-Edit the file ``~/.config/Code/User/settings.json`` and add the following:
+Hit "ctrl ," (control-comma) to open the user settings editor and search for
+"dev.containers.dockerPath", change its value from "docker" to "podman".
 
-.. code-block:: json
-
-    {
-        "dev.containers.dockerPath": "podman"
-    }
 
 Launching the Devcontainer
 --------------------------
@@ -91,9 +87,10 @@ Configuring the Devcontainer
 
     **DLS users**: the settings in the default ``.bashrc_dev`` are already
     configured for interacting with the test beamline bl01t on the test
-    cluster Pollux.
+    cluster Pollux. The only change to .devcontainer/.bashrc_dev required
+    is making the GITHUB_ORG variable your personal github user name.
 
-For epics-containers the most important configuration is held in the
+The most important configuration is held in the
 ``.bashrc_dev`` file. The terminals in the devcontainer will source this
 file when they start.
 
@@ -103,14 +100,14 @@ i.e.:
 
 .. code-block:: bash
 
-    # important use /home/$USER not $HOME
+    # IMPORTANT: use /home/$USER not $HOME
     cp .devcontainer/.bashrc_dev /home/${USER}/.bashrc_dev
     code /home/${USER}/.bashrc_dev
 
 The primary configuration options are the environment variables exported by
 this script. These are listed below with some recommended values for running
 these tutorials. Paste the following into the ``.bashrc_dev`` file and
-update change GITHUB_ORG to your organization or user.
+change GITHUB_ORG to your GitHub organization or user.
 
 .. code-block:: bash
 
@@ -119,10 +116,10 @@ update change GITHUB_ORG to your organization or user.
     # Github organization or user name
     export GITHUB_ORG=<YOUR GITHUB ORGANIZATION OR USER GOES HERE>
 
-    # point at your cluster config file
+    # point at your cluster configuration file
     export KUBECONFIG=/home/${USER}/.kube/config
 
-    # the default beamline for ec commands
+    # the default beamline or domain for ec commands
     export BEAMLINE=t01 # equivalent to K8S_DOMAIN=bl01t
 
     # where to get HELM charts for ec commands
@@ -155,7 +152,7 @@ restart them to pick up the changes.
     ``.devcontainer/devcontainer.json`` file.
     `See here for details <https://containers.dev/implementors/json_reference/>`_
 
-    You can also alter the system packages installed in the container or make
+    In addition, you can alter the system packages installed in the container or make
     any other changes to the Dockerfile and regenerate your own container image.
 
     If you wish to persist these changes

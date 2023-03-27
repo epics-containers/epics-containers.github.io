@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>epics-containers &#8212; epics_containers 0.9.dev73+gb60c8a7 documentation</title>
+    <title>epics-containers &#8212; epics_containers 0.9.dev74+g0cb6d0c documentation</title>
   
   
   
@@ -394,8 +394,9 @@ document.write(`
   <section id="epics-containers">
 <h1>epics-containers<a class="headerlink" href="#epics-containers" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://github.com/epics-containers/k8s-epics-docs/actions?query=workflow%3A%22Docs+CI%22"><img alt="Docs CI" src="https://github.com/epics-containers/k8s-epics-docs/workflows/Docs%20CI/badge.svg?branch=main" /></a> <a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="Apache License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a></p>
-<p>epics-containers is an experimental GitHub organization to try out ideas
-for managing EPICS IOCs in a Kubernetes cluster.</p>
+<p>The epics-containers GitHub organization holds a collection of tools and
+documentation for building, deploying and managing containerized EPICS IOCs
+in a Kubernetes cluster.</p>
 <p>Please contribute with comments and suggestions in the wiki or issues pages:</p>
 <table class="table">
 <tbody>
@@ -417,31 +418,11 @@ for managing EPICS IOCs in a Kubernetes cluster.</p>
 </tbody>
 </table>
 </section>
-<section id="overview">
-<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
-<p>Kubernetes for EPICS IOCs applies modern industry standards to the management
-of IOCs.</p>
-<p>There are 5 themes to this strategy:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Containers<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment.</p>
-</dd>
-<dt class="field-even">Kubernetes<span class="colon">:</span></dt>
-<dd class="field-even"><p>Centrally orchestrate all IOCs at a facility.</p>
-</dd>
-<dt class="field-odd">Helm Charts<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management.</p>
-</dd>
-<dt class="field-even">Repositories<span class="colon">:</span></dt>
-<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
-No shared file systems required.</p>
-</dd>
-<dt class="field-odd">Continuous Integration / Delivery<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Source repositories automatically build container and helm charts
-delivering them to OCI registries.</p>
-</dd>
-</dl>
-<p>For more details see <a class="reference internal" href="user/explanations/introduction.html#essential"><span class="std std-ref">Essential Concepts</span></a></p>
+<section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h1>
+<p>For a set of tutorials to introduce the concepts of epics-containers see
+<a class="reference internal" href="user/tutorials/00_intro.html"><span class="doc">Tutorials Introduction</span></a>. For a description of the architecture see
+<a class="reference internal" href="user/explanations/introduction.html#essential"><span class="std std-ref">Essential Concepts</span></a>.</p>
 </section>
 <section id="communication">
 <h1>Communication<a class="headerlink" href="#communication" title="Permalink to this heading">#</a></h1>
