@@ -1,195 +1,246 @@
 Deploy The Example IOC
 ======================
 
-Initial Setup
--------------
+Examine the Example IOC Instance
+--------------------------------
 
-In this tutorial step we will deploy and interact with the example ioc
-that came with the beamline source template we used in the previous step.
+In the previous tutorial we created an example beamline source project called
+``bl01t`` and added it to our VSCode workspace. Go into VSCode and take
+a look at the files in the project.
 
-TODO TODO TODO
+Take a look in the folder iocs/bl0t-ea-ioc-01. This contains a helm chart
+that defines the example IOC instance. To add a new IOC instance you could
+copy this folder and rename it to bl0t-ea-ioc-02 for example. You would then
+need to make a few changes, so here is a description of the files in this
+folder:
 
-For this step it is assumed that you have Kubernetes set up and kubectl
-installed on your workstation. Also there is an epics-iocs namespace
-configured and your context is setup to default into that namespace. Finally
-helm must also be installed.
+-   ``Chart.yaml`` - this is the helm chart definition file. It contains
+    metadata about the chart and a list of dependencies. Most of this file
+    can be left as is for all IOC instances. But you do need to change these
+    fields:
 
-For instructions on how to set up Kubernetes, kubectl and helm
-see `setup_kubernetes`.
+    - ``name`` - the unique name for the chart and the IOC instance it represents.
+    - ``Description`` - a short description of the IOC instance.
 
-To save on typing the script kube-functions.sh provides some shell
-functions which are simply wrappers for kubectl and helm commands. To
-learn about the commands take a look at the script.
+-   ``values.yaml`` - this is the helm values file. It contains the values that
+    are substituted in to the helm templates when the helm chart is built. Most
+    of the values that go into an IOC instance chart will be drawn from
+    domain defaults which can be found in the folder ``beamline-chart``. Values
+    you need to supply here are:
 
-Source kube-functions.sh into your shell as follows. NOTE: replace
-the K8S_HELM_REGISTRY reference with your account details::
+    -   ``base_image`` - the generic IOC image to use for this IOC instance. A
+        generic IOC image contains all the necessary support modules for a
+        given class of device and a compiled IOC binary with all those modules
+        linked. The IOC instance we are defining in a helm chart provides the startup
+        script and possibly database that makes this IOC instance unique. In this
+        case the generic IOC is for the area-detector simulator device.
 
-    # point helm at your registry
-    export K8S_HELM_REGISTRY=ghcr.io/<your account or organization goes here>
+    -   ``prefix`` - the EPICS PV prefix for this IOC instance. This will set an
+        environment variable IOC_PREFIX which declares the prefix for the IOC's
+        devIOCStats records. You can leave this value out if you use the ioc
+        name as the prefix, but in this case we have used an uppercase version of
+        IOC name as the prefix.
 
-    # get the helper functions
-    wget -q https://raw.githubusercontent.com/epics-containers/k8s-epics-utils/main/kube-functions.sh
-    source kube-functions.sh
+-   ``templates/ioc.yaml`` this is the master template for this helm chart,
+    it pulls in all the other templates from our dependencies. This file
+    has to appear here but is boilerplate and should not need to be changed.
 
-Deploy an IOC Version
----------------------
+-   ``config`` this folder contains any files unique to this IOC instance. At
+    runtime on the cluster when the generic IOC image is running it will see
+    these files as mounted into the folder ``/repos/epics/ioc/config``.
+    In this case we have an EPICS startup script ``st.cmd`` only
+    and the default behaviour is just to run the IOC binary and pass it
+    ``st.cmd``.
 
-In the previous tutorial we pushed tag 0.1 to
-<your account or organization>/bl01t and this
-generated a helm chart at ghcr.io/<your account or organization>
-with tags 0.1 and latest.
-
-To deploy the helm chart into your cluster::
-
-    k8s-ioc deploy example 0.1
-
-It may take a while for the first launch because Kubernetes needs to pull
-the generic IOC image from the repository. The following command will give
-details of the resources associated with the example IOC::
-
-    k8s-ioc list example
-
-When the output looks like this, your IOC is running::
-
-    NAME                          READY   STATUS    RESTARTS   AGE
-    pod/example-6779d4dcf-g2cpm   1/1     Running   0          50s
-
-    NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
-    deployment.apps/example   1/1     1            1           50s
-
-    NAME                                DESIRED   CURRENT   READY   AGE
-    replicaset.apps/example-6779d4dcf   1         1         1       50s
+    To see how the Generic IOC makes use of the config folder take a look
+    at `this bash script`_ which runs on Generic IOC startup.
 
 
-Launching a GUI to interact with your IOC
------------------------------------------
+.. _this bash script:  https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh
 
-OPI screens are outside of the scope of this project for the moment see
-`no_opi`.
+Deploy the IOC Instance to Kubernetes
+-------------------------------------
 
-However to make this example usable we have supplied some edm screens and
-will use a local edm container to display these. For this purpose you will
-require docker (or podman) installed on your workstation and your user
-will need to be in the docker group.
+For the moment we are going to work with the original bl01t-ea-ioc-01 as is and
+have a go at deploying and interacting with it.
 
-See here https://docs.docker.com/engine/install/ for instructions for
-installing docker.
+For this section we will be making use of the epics-containers-cli tool. This makes
+it easier to interact with kubernetes and helm from the command line and is
+described in more detail here: `CLI`.
 
-To launch the GUI for the example IOC:
+You will need a working Kubernetes cluster for most of the rest of the
+tutorials. You can verify that it is working by asking for a list of IOCs
+running in your default domain as follows:
 
-cd to the root of the project you created in `05_deploy_example`, then::
+.. code-block:: bash
 
-    ./opi/stexample-gui.sh
+    ec ps
 
-The IOC is a simulated detector with a PVA plugin. It will be possible to
-run a PVA viewer to see the output of this IOC.
+You should see some headings and an empty list as you have not yet started an
+IOC Instance.
 
-The main screen of the edm OPI should look like this.
+The following command will deploy the example IOC instance to your cluster:
+
+.. code-block:: bash
+
+    ec ioc deploy bl01t-ea-ioc-01 23.4.1
+
+Note that this is looking for the IOC's helm chart in your OCI helm registry
+you delivered the IOC helm chart to the registry when you made a release of
+the beamline repo in the previous tutorial. You must supply a version number
+that exists. If you do not recall the version number you used,
+you can use the following command to list the versions available in your
+registry:
+
+.. code-block:: bash
+
+    ec ioc versions bl01t-ea-ioc-01
+
+As the deployment is progressing you could use the following command to
+monitor the progress (hit ctrl-C to stop following the logs):
+
+.. code-block:: bash
+
+    ec ioc logs bl01t-ea-ioc-01 -f
+
+Note there may be a little delay while the cluster pulls the generic IOC
+image from the GitHub container registry.
+
+Once the IOC is running you can find out the IP address of the pod it is
+running in with:
+
+.. code-block:: bash
+
+    ec ps -w
+
+This will show you the status of the IOC instance and the IP address of the
+pod it is running in. In a real beamline setup the IOCs would run in the same
+subnet as your workstation so you would not care about the IP address. But
+for the example you may need to do the following to let our EPICS clients
+know where to look for PVs:
+
+.. code-block:: bash
+
+    export EPICS_CA_ADDR_LIST=ip_address_of_pod
+    export EPICS_PVA_ADDR_LIST=ip_address_of_pod
+
+epics-containers does not yet have any provision for EPICS operator interfaces.
+For this example we have hand crafted some EDM screens to control and monitor
+the test IOC.
+
+You can now launch the client applications as follows:
+
+.. code-block:: bash
+
+    ./blxxi-ea-ioc-01-gui.sh
+    c2dv --pv BL01T-EA-TST-01:IMAGE
+
+Now make sure the AreaDetector is Acquiring by clicking Start if needed on
+the CAM screen. Next click on Auto to scale the
+black and white thresholds on the C2D viewer. You should see something like the
+following images.
+
+.. note::
+
+    When you launch edm or c2dv for the first time you
+    will see container images downloading, for an explanation of this see
+    `../explanations/cli-tools`
 
 
-.. image:: ../images/edm_pco.png
+.. image:: ../images/edm_sim.png
     :align: center
+
+.. image:: ../images/c2dv.png
+    :align: center
+
 
 Learning about Helm and Kubernetes Manifests
 --------------------------------------------
 
 It is instructive to see what helm is doing when you deploy the example IOC.
 
-Helm uses templates to generate a set of YAML resources and applies them
-to the cluster using kubectl.
+Helm uses templates to generate YAML Kubernetes Manifest which defines a set
+of resources. It applies this manifest to the cluster using kubectl.
 
-We are using a helm library defined in
-https://github.com/epics-containers/helm-ioc-lib. You can see the templates
-it is using in its templates folder.
+To inspect the kubernetes manifest that is created when we deploy the example
+IOC you can use the following command:
 
-The example ioc folder itself has a templates folder containing the ioc.yaml
-template. This includes all of the templates from helm-ioc-lib and
-also generates a ConfigMap resource from the files in the config folder.
+.. code-block:: bash
 
-To see the YAML that helm is generating you can use the following commands:
+    ec ioc template iocs/bl01t-ea-ioc-01
 
-cd to the root of the project you created in `05_deploy_example`, then::
+This is expanding the local helm chart in the iocs folder and using
+its ``templates/ioc.yaml`` plus the templates in helm-ioc-lib. These templates
+are expanded using the values in the ``values.yaml`` file and also
+``beamline-chart/values.yaml`` and finally the default ``values.yaml`` file
+in the helm-ioc-lib.
 
-    helm dependency update iocs/example/
-    helm template example iocs/example
-
-This is using the helm chart in your local filesystem rather than the one
-that we pushed to the registry so this is useful for your inner dev loop
-testing. You can also deploy directly from the local copy with this
-command::
-
-    helm upgrade --install example iocs/example
-
-This is recommended for testing only since you won't easily be able to track
-versions deployed in this way.
+For a description of the key resources we create in this Kubernetes manifest
+see `../explanations/k8s-resources`.
 
 
-TODO TODO TODO
+Managing IOCs
+--------------
 
-Manage IOCs
-===========
-
-IOCs running in Kubernetes can be managed using the kubectl command.
-
-The script kube-functions.sh that we used in `05_deploy_example` provides some
-shortcuts for common operations. Look inside the script to learn the
-underlying kubectl commands being used.
+IOCs running in Kubernetes can be managed using the ``ec`` command.
 
 Starting and Stopping IOCs
---------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To stop / start  the example IOC::
+To stop / start  the example IOC:
 
-    k8s-ioc stop example
-    k8s-ioc start example
+.. code-block:: bash
+
+    ec ioc stop bl01t-ea-ioc-01
+    ec ioc start bl01t-ea-ioc-01
 
 Monitoring and interacting with an IOC shell
---------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To attach to the ioc shell::
+To attach to the ioc shell:
 
-    k8s-ioc attach example
+.. code-block:: bash
 
-Use the command sequence ^P^Q to detach or ^D to detach and restart the IOC.
+    ec ioc attach bl01t-ea-ioc-01
 
-To run a bash shell inside the IOC container::
+Use the command sequence ctrl-P then ctrl-Q to detach or ctrl-D to restart the
+IOC and detach.
 
-    k8s-ioc exec example
+TODO: I'm having issues with the shell eating the ^P^Q sequences so
+at present you can only detach from the IOC by killing the terminal or
+using ^D.
 
-This is a minimal ubuntu distribution. To get access to useful utility commands
-use the following::
+To run a bash shell inside the IOC container:
 
-    busybox sh
-    busybox  # shows the set of commands now available
+.. code-block:: bash
 
-Also note that the following folders may be of interest:
+    ec ioc exec bl01t-ea-ioc-01
+
+Once you have a shell inside the container you can inspect the following
+folders:
 
 =============== ==============================================================
-ioc code        /epics/ioc
-support modules /epics/support
-epics binaries  /epics/epics-base
+ioc code        repos/epics/ioc
+support modules repos/epics/support
+epics binaries  repos/epics/epics-base
 =============== ==============================================================
 
 
 Logging
--------
+~~~~~~~
 
-To get the current logs for the example IOC::
+To get the current logs for the example IOC:
 
-    k8s-ioc log example
+.. code-block:: bash
 
-Or stream the IOC log until you hit ^C::
+    ec ioc logs bl01t-ea-ioc-01
 
-    k8s-ioc log example -f
+Or follow the IOC log until you hit ctrl-C:
 
-Monitor your beamline IOCs::
+.. code-block:: bash
 
-    k8s-ioc monitor blxxi
+    ec ioc logs bl01t-ea-ioc-01 -f
 
-Note that the beamline is called blxxi rather than bl01t. To change the
-beamline name that your IOC deploys to you would need to edit
-bl01t/iocs/example/values.yaml, push the changes and execute deploy again.
-See `../how-to/add_ioc` for more details on values.yaml.
 
 
 

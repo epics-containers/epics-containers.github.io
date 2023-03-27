@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a Beamline Repository &#8212; epics_containers 0.9.dev75+g6c2bd49 documentation</title>
+    <title>Create a Beamline Repository &#8212; epics_containers 0.9.dev76+gc9a9928 documentation</title>
   
   
   
@@ -385,7 +385,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC instances</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_new_support.html">Creating a New Support Module</a></li>
@@ -409,6 +409,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/k8s-resources.html">Kubernetes Resources in an IOC Instance</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -559,33 +561,42 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </section>
 <section id="make-a-release-of-example-beamline-bl01t">
 <h2>Make a Release of Example Beamline bl01t<a class="headerlink" href="#make-a-release-of-example-beamline-bl01t" title="Permalink to this heading">#</a></h2>
-<p>cd to the root of the project bl01t you created in <a class="reference internal" href="05_deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>, then
+<p>To make a release of the project we defined in <a class="reference internal" href="05_deploy_example.html"><span class="doc">Deploy The Example IOC</span></a>,
+we will
 tag your repo with a calendar based version number see (<a class="reference external" href="https://calver.org/">https://calver.org/</a>).</p>
 <p>We use YY.MM.MINOR for versioning things like beamlines and generic IOCs. You
 can choose your own scheme, but because these projects do not have APIs as
 such it is more instructive to use a date based scheme.</p>
 <p>The example version below was the first revision in the month of April 2023.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">23</span>.4.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">23</span>.4.1
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">23</span>.4.1
 </pre></div>
 </div>
-<p>This will cause GitHub CI to generate a helm chart for the example IOC and
-deliver it to your account’s OCI registry.</p>
+<p>This will cause GitHub to create a release of the project and trigger
+continuous integration. The continuous integration will look at all of
+the IOCs in the beamline and generate helm charts for each one. If the helm
+chart has changed since the last release then a new version of the helm chart
+is delivered to your GitHub account’s OCI registry.</p>
 <p>To watch the progress go to the Actions Panel for your project at
 <a class="github reference external" href="https://github.com">github</a>/&lt;YOUR USER NAME&gt;/bl01t/actions</p>
 <img alt="../../_images/github_actions.png" class="align-center" src="../../_images/github_actions.png" />
 <p>Once the CI completes you should have a helm chart delivered in your project
-packages. You will see a link to the package on the right hand side of your
-project page. The name of the helm chart
-package will be ghcr.io/&lt;YOUR USER NAME&gt;/bl01t/bl01t-ea-ioc-01:23.4.1.</p>
+OCI registry. You can see this listed in project ‘packages’.
+Look for a link to the package on the right hand side of your
+project page.</p>
 <p>Go to the code pane and click on the example package circled below to see it.</p>
 <img alt="../../_images/github_package.png" class="align-center" src="../../_images/github_package.png" />
+<p>The OCI registry name of the helm chart will be
+ghcr.io/&lt;YOUR USER NAME&gt;/bl01t/bl01t-ea-ioc-01:23.4.1.</p>
 <p>You have now completed this tutorial. Here you have created a new beamline
 repository and made a release of it. The release includes the example IOCs
 instance called <code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-01</span></code>. This IOC has had a helm chart generated
 for it and published ready for deployment to your cluster.</p>
 <p>In the next tutorial we will look into what we have created in more detail
 and we will deploy and test the new example IOC.</p>
+<p>TODO: I need to describe the contents of beamline-chart folder somewhere and
+this might be a good place to do that.</p>
 </section>
 </section>
 

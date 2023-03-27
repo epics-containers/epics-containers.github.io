@@ -19,6 +19,7 @@ side-bar.
             tutorials/03_setup_k8s
             tutorials/04_create_beamline
             tutorials/05_deploy_example
+            tutorials/05a_ioc_changes
             tutorials/06_generic_ioc
             tutorials/07_support_module
             tutorials/08_new_support
@@ -57,6 +58,8 @@ side-bar.
             explanations/kubernetes_cluster
             explanations/docs-structure
             explanations/repositories
+            explanations/cli-tools
+            explanations/k8s-resources
 
         +++
 

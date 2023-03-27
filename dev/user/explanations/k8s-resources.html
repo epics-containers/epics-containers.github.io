@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Contributing to the project &#8212; epics_containers 0.9.dev76+gc9a9928 documentation</title>
+    <title>Kubernetes Resources in an IOC Instance &#8212; epics_containers 0.9.dev76+gc9a9928 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/how-to/contributing';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/k8s-resources';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics_containers/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Choose Your Developer Environment" href="own_tools.html" />
-    <link rel="prev" title="Debug an IOC instance locally" href="debug.html" />
+    <link rel="next" title="Frequently Asked Questions" href="../reference/faq.html" />
+    <link rel="prev" title="CLI Tools" href="cli-tools.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -391,26 +391,26 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="add_ioc.html">Add an IOC instance to a beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create a new generic IOC image</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run_iocs.html">Run an IOC without Kubernetes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/add_ioc.html">Add an IOC instance to a beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/create_ioc.html">Create a new generic IOC image</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributing to the project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Kubernetes Additional How To’s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/whats_in.html">epics-containers Contents</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/k8s-resources.html">Kubernetes Resources in an IOC Instance</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="whats_in.html">epics-containers Contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Resources in an IOC Instance</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -457,7 +457,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Contributing to the project</li>
+    <li class="breadcrumb-item active" aria-current="page">Kubernetes Resources in an IOC Instance</li>
   </ul>
 </nav>
 </div>
@@ -474,25 +474,16 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="contributing-to-the-project">
-<h1>Contributing to the project<a class="headerlink" href="#contributing-to-the-project" title="Permalink to this heading">#</a></h1>
-<p>Contributions and issues are most welcome! All issues and pull requests are
-handled through <a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/issues">GitHub</a>. Also, please check for any existing issues before
-filing a new one. If you have a great idea but it involves big changes, please
-file a ticket before making a pull request! We want to make sure you don’t spend
-your time coding something that might not fit the scope of the project.</p>
-<section id="issue-or-discussion">
-<h2>Issue or Discussion?<a class="headerlink" href="#issue-or-discussion" title="Permalink to this heading">#</a></h2>
-<p>Github also offers <a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/discussions">discussions</a> as a place to ask questions and share ideas. If
-your issue is open ended and it is not obvious when it can be “closed”, please
-raise it as a discussion instead.</p>
-</section>
-<section id="developer-guide">
-<h2>Developer guide<a class="headerlink" href="#developer-guide" title="Permalink to this heading">#</a></h2>
-<p>The <a class="reference external" href="https://diamondlightsource.github.io/epics-containers.github.io/main/developer/how-to/contribute.html">Developer Guide</a> contains information on setting up a development
-environment, building docs and what standards the documentation
-should follow.</p>
-</section>
+  <section id="kubernetes-resources-in-an-ioc-instance">
+<h1>Kubernetes Resources in an IOC Instance<a class="headerlink" href="#kubernetes-resources-in-an-ioc-instance" title="Permalink to this heading">#</a></h1>
+<p>TODO - This is a work in progress.</p>
+<p>The key resources that we are asking Kubernetes to create are:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Deployment</span></code>. Tells Kubernetes to run one and only one generic IOC
+container. See deployments:</p>
+<p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
+</li>
+</ul>
 </section>
 
 
@@ -504,20 +495,20 @@ should follow.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="debug.html"
+       href="cli-tools.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Debug an IOC instance locally</p>
+        <p class="prev-next-title">CLI Tools</p>
       </div>
     </a>
     <a class="right-next"
-       href="own_tools.html"
+       href="../reference/faq.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Choose Your Developer Environment</p>
+        <p class="prev-next-title">Frequently Asked Questions</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -531,20 +522,9 @@ should follow.</p>
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-or-discussion">Issue or Discussion?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-guide">Developer guide</a></li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/user/how-to/contributing.rst">
+    <a href="https://github.com/epics-containers/epics_containers/edit/dev/docs/user/explanations/k8s-resources.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -558,7 +538,7 @@ should follow.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/how-to/contributing.rst.txt">
+    <a href="../../_sources/user/explanations/k8s-resources.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
