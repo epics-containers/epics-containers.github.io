@@ -3,8 +3,9 @@ epics-containers
 
 |docs_ci| |license|
 
-epics-containers is an experimental GitHub organization to try out ideas
-for managing EPICS IOCs in a Kubernetes cluster.
+The epics-containers GitHub organization holds a collection of tools and
+documentation for building, deploying and managing containerized EPICS IOCs
+in a Kubernetes cluster.
 
 Please contribute with comments and suggestions in the wiki or issues pages:
 
@@ -25,73 +26,6 @@ Organization   https://github.com/epics-containers
     :target: https://opensource.org/licenses/Apache-2.0
     :alt: Apache License
 
-Communication
-=============
-
-If you are interested in discussing containers for control systems, please:
-
-- Add a brief description of your project and the status of it's use of containers to:
-
-  - https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls
-- Join in the discussion at https://github.com/epics-containers/epics-containers.github.io/discussions
-
-
-Materials
-=========
-
-The following links are to materials presented at the ICALEPCS 2021 Meeting:
-
-  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<user/images/THBL04.PDF>`
-  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<user/images/THBL04_talk.PDF>`
-
-Overview
-========
-
-Kubernetes for EPICS IOCs applies modern industry standards to the
-management of IOCs.
-
-- Containers package generic IOC code and dependencies.
-- Kubernetes orchestrates the **Containers**.
-- Helm deploys IOCs to **Kubernetes**.
-- Repositories hold **Container** images and **Helm** charts
-- CI / CD generates the images, charts from source and delivers them
-  to **Repositories**
-
-Below we show how these assets combine to create a running IOC on a
-Kubernetes worker node.
-
-.. image:: user/images/example.png
-    :width: 1500px
-    :align: center
-
-- The Helm Chart defines an IOC instance as:
-
-  - An image reference for generic IOC binaries
-  - A startup Script for the unique IOC instance
-  - K8S resource YAML to describe resources to the Kubernetes cluster
-
-- The entire definition of the the example P45 beamline is held in this
-  github organization:
-
-  - Helm Charts and IOC Images:
-
-    - https://github.com/orgs/epics-containers/packages
-
-  - BL45P IOC sources:
-
-    - https://github.com/epics-containers/bl45p
-
-The Generic IOC container images are built using a hierarchy with the most
-common elements shared as shown in the following diagram:
-
-.. image:: /user/images/image-hierarchy.png
-    :width: 350px
-    :align: center
-
-EPICS base and essential tools are compiled inside one image; the most commonly
-used support modules(primarily Asyn) and the AreaDetector framework
-also have their own images. Generic IOC images are then
-leaves in the hierarchy and are based upon the appropriate dependencies.
 
 ..
     Anything below this line is used when viewing README.rst and will be replaced

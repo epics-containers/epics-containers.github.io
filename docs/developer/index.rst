@@ -27,13 +27,8 @@ side-bar.
 
             how-to/contribute
             how-to/build-docs
-            how-to/run-tests
-            how-to/static-analysis
-            how-to/lint
             how-to/update-tools
             how-to/make-release
-            how-to/pin-requirements
-            how-to/test-container
 
         +++
 

@@ -13,11 +13,16 @@ side-bar.
             :caption: Tutorials
             :maxdepth: 1
 
-            tutorials/setup_k8s
-            tutorials/useful_k8s
-            tutorials/create_beamline
-            tutorials/deploy_example
-            tutorials/manage_iocs
+            tutorials/00_intro
+            tutorials/01_setup_workstation
+            tutorials/02_devcontainer
+            tutorials/03_setup_k8s
+            tutorials/04_create_beamline
+            tutorials/05_deploy_example
+            tutorials/05a_ioc_changes
+            tutorials/06_generic_ioc
+            tutorials/07_support_module
+            tutorials/08_new_support
 
         +++
 
@@ -34,6 +39,8 @@ side-bar.
             how-to/run_iocs
             how-to/debug
             how-to/contributing
+            how-to/own_tools
+            how-to/useful_k8s
 
         +++
 
@@ -50,6 +57,9 @@ side-bar.
             explanations/net_protocols
             explanations/kubernetes_cluster
             explanations/docs-structure
+            explanations/repositories
+            explanations/cli-tools
+            explanations/k8s-resources
 
         +++
 

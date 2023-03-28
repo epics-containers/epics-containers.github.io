@@ -1,10 +1,8 @@
 
-Useful Kubernetes Additions
-===========================
+Kubernetes Additional How To's
+==============================
 
-For the quickest path through the tutorial use an x86 linux machine
-and follow the instructions here `setup_kubernetes`. For additional
-options and non-essential features use this page.
+.. _install_dashboard:
 
 Install the Kubernetes Dashboard
 --------------------------------
@@ -12,6 +10,8 @@ Install the Kubernetes Dashboard
 The dashboard gives you a nice GUI for exploring and controlling your cluster.
 It is very useful for new users to get an understanding of what Kubernetes
 has to offer.
+
+These commands should be run INSIDE the devcontainer.
 
 Execute this on your workstation:
 
@@ -73,10 +73,11 @@ Installing on a Raspberry Pi
 Raspberry Pi3 and Pi4 can run the k3s server. The more memory installed the
 better.
 
-We have not worked out how to run the client tools kubectl and helm on the Pi
-as yet. You can run these on a separate linux or Windows workstation. There
-are arm64 versions of helm and kubectl so we expect that the
-`64bit Raspberry Pi OS`_ would be able to run these, but this is untested.
+NOTE: the developer container is not supported on the Raspberry Pi yet, so
+you can run the k3s server on the Pi, but you will need to run the client
+tools on a separate linux or Windows workstation. ALSO: you would need
+to compile IOC containers for the arm64 architecture. TODO: provide
+documentation on how to do this.
 
 For a Raspberry Pi you need a couple of extra settings to get K3S running::
 
@@ -120,6 +121,10 @@ At this point you can return to the main instructions at `install_kubectl`.
 Get X11 GUI to Work with WSL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Update: if you have Windows 11 you can use the new WSL GUI support as
+described in `WSL GUI Support`_. Essentially, if you have Windows 11 and
+installed WSL2, X11 GUI apps should work out of the box.
+
 When you come to launch the GUI later on you will need some additional steps
 as follows.
 
@@ -137,7 +142,7 @@ PVs. To do this perform the following steps to get the name of the
 example IOC pod and discover its IP address, then pass that to the
 edm container:
 
-cd to the root of the project you created in `deploy_example`, then::
+cd to the root of the project you created in `../tutorials/05_deploy_example`, then::
 
     kubectl get pods
         NAME                      READY   STATUS    RESTARTS   AGE
@@ -157,3 +162,4 @@ cd to the root of the project you created in `deploy_example`, then::
 .. _WSL2 instructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 .. _docker for WSL: https://docs.docker.com/docker-for-windows/wsl/
 .. _X11 Server for Windows: https://sourceforge.net/projects/vcxsrv/
+.. _WSL GUI Support: https://docs.microsoft.com/en-us/windows/wsl/tutorials/gui-apps

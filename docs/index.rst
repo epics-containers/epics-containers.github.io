@@ -3,6 +3,33 @@
 .. include:: ../README.rst
     :end-before: when included in index.rst
 
+Quick Start
+===========
+
+For a set of tutorials to introduce the concepts of epics-containers see
+`user/tutorials/00_intro`. For a description of the architecture see
+`essential`.
+
+Communication
+=============
+
+If you are interested in discussing containers for control systems, please:
+
+- Add a brief description of your project and the status of it's use of containers to:
+
+  - https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls
+- Join in the discussion at https://github.com/epics-containers/epics-containers.github.io/discussions
+
+
+Materials
+=========
+
+The following links are to materials presented at the ICALEPCS 2021 Meeting:
+
+  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<user/images/THBL04.PDF>`
+  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<user/images/THBL04_talk.PDF>`
+
+
 How the documentation is structured
 -----------------------------------
 
@@ -14,13 +41,13 @@ The documentation is split into 2 sections:
         :link: user/index
         :link-type: doc
 
-        The User Guide contains documentation on how to install and use epics-containers.github.io.
+        The User Guide contains documentation on how create, deploy and manage containerized IOCs.
 
     .. grid-item-card:: :material-regular:`code;4em`
         :link: developer/index
         :link-type: doc
 
-        The Developer Guide contains documentation on how to develop and contribute changes back to epics-containers.github.io.
+        The Developer Guide contains documentation on how to develop and contribute changes back to the epics-containers organization
 
 .. toctree::
     :hidden:
