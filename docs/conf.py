@@ -15,8 +15,8 @@ import epics_containers
 # -- General configuration ------------------------------------------------
 
 # General information about the project.
-project = "epics_containers"
-copyright = "2021, Diamond Light Source"
+project = "epics-containers.github.io"
+copyright = "2023, Diamond Light Source"
 author = "Giles Knap"
 
 # The full version, including alpha/beta/rc tags.
