@@ -19,9 +19,9 @@ side-bar.
             tutorials/03_setup_k8s
             tutorials/04_create_beamline
             tutorials/05_deploy_example
-            tutorials/05a_ioc_changes
-            tutorials/06_generic_ioc
-            tutorials/07_support_module
+            tutorials/06_ioc_changes
+            tutorials/07_generic_ioc
+            tutorials/08_support_module
 
         +++
 

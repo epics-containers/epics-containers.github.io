@@ -48,7 +48,7 @@ thing as the above podman command:
 
 .. code-block:: bash
 
-    ec ioc-launch iocs/bl01t-ea-ioc-01 --tag 23.3.3
+    ec dev ioc-launch iocs/bl01t-ea-ioc-01 --tag 23.3.3
 
 That is because ``ioc-launch`` is intended for locally testing an IOC instance
 that is destined for Kubernetes.
