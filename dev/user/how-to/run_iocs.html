@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Run an IOC without Kubernetes &#8212; epics-containers.github.io 0.9.dev85+g792cfb5 documentation</title>
+    <title>Run an IOC without Kubernetes &#8212; epics-containers.github.io 0.9.dev86+gce19861 documentation</title>
   
   
   
@@ -56,7 +56,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Debug an IOC instance locally" href="debug.html" />
-    <link rel="prev" title="Working with Support Modules" href="../tutorials/07_support_module.html" />
+    <link rel="prev" title="Working with Support Modules" href="../tutorials/08_support_module.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -385,9 +385,10 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/04_create_beamline.html">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/05a_ioc_changes.html">Testing Changes to IOC Instances</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_generic_ioc.html">Working with Generic IOCs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/08_support_module.html">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="current nav bd-sidenav">
@@ -506,7 +507,7 @@ yourself using whatever mechanism you prefer. Probably docker compose or
 docker swarm would be the most likely candidates.</p>
 <p>It may be worth noting that this <code class="docutils literal notranslate"><span class="pre">ec</span></code> command does exactly the same
 thing as the above podman command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc-launch<span class="w"> </span>iocs/bl01t-ea-ioc-01<span class="w"> </span>--tag<span class="w"> </span><span class="m">23</span>.3.3
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>ioc-launch<span class="w"> </span>iocs/bl01t-ea-ioc-01<span class="w"> </span>--tag<span class="w"> </span><span class="m">23</span>.3.3
 </pre></div>
 </div>
 <p>That is because <code class="docutils literal notranslate"><span class="pre">ioc-launch</span></code> is intended for locally testing an IOC instance
@@ -522,7 +523,7 @@ that is destined for Kubernetes.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../tutorials/07_support_module.html"
+       href="../tutorials/08_support_module.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
