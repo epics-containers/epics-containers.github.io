@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>CLI Tools &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
+    <title>Testing Changes to IOC Instances &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/cli-tools';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/06_ioc_changes';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Frequently Asked Questions" href="../reference/faq.html" />
-    <link rel="prev" title="Source and Registry Locations" href="repositories.html" />
+    <link rel="next" title="Working with Generic IOCs" href="07_generic_ioc.html" />
+    <link rel="prev" title="Deploy The Example IOC" href="05_deploy_example.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -378,17 +378,17 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_intro.html">Tutorials Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_devcontainer.html">Setup the Devcontainer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Working with Generic IOCs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/08_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_support_module.html">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -400,13 +400,13 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">CLI Tools</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -454,7 +454,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">CLI Tools</li>
+    <li class="breadcrumb-item active" aria-current="page">Testing Changes to IOC Instances</li>
   </ul>
 </nav>
 </div>
@@ -471,35 +471,140 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="cli-tools">
-<h1>CLI Tools<a class="headerlink" href="#cli-tools" title="Permalink to this heading">#</a></h1>
-<p>Experimental feature.</p>
-<p>It is possible to install every single tool you might need into one big devcontainer
-image.</p>
-<p>However to keep container bloat down we are experimenting with using
-‘cli tools’ instead. This adds a folder into your path <code class="docutils literal notranslate"><span class="pre">/cli-tools/tools</span></code>.</p>
-<p>If here you can place launch scripts that pull a containerized version of a
-tool and run that instead.</p>
-<p>It is very simple to add new tools to this folder. Just create a script with
-the same names as the tool you want to execute and drop it in <code class="docutils literal notranslate"><span class="pre">/cli-tools/tools</span></code>.
-This requires that the tool is packaged in a container already, many vendors
-already do this anyway.</p>
-<p>If the tool is not packaged already you could make your own container using
-the pattern here <a class="github reference external" href="https://github.com/epics-containers/pytools">epics-containers/pytools</a>.</p>
-<p>Below is the example launch script for the PVA viewer tool.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">podarg</span><span class="o">=</span><span class="s2">&quot;</span>
-<span class="s2">-e EPICS_PVA_ADDR_LIST</span>
-<span class="s2">-e EPICS_PVA_AUTO_ADDR_LIST</span>
-<span class="s2">&quot;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$EPICS_PVA_ADDR_LIST</span>
-_execute<span class="w"> </span>ghcr.io/epics-containers/pytools-linux-runtime:23.3.1<span class="w"> </span>c2dv<span class="w"> </span><span class="si">${</span><span class="p">@</span><span class="si">}</span>
+  <section id="testing-changes-to-ioc-instances">
+<h1>Testing Changes to IOC Instances<a class="headerlink" href="#testing-changes-to-ioc-instances" title="Permalink to this heading">#</a></h1>
+<section id="types-of-changes">
+<h2>Types of Changes<a class="headerlink" href="#types-of-changes" title="Permalink to this heading">#</a></h2>
+<p>Containerized IOCs can be modified in 3 distinct places:</p>
+<ol class="arabic simple">
+<li><p>The IOC instance: this means making changes to the IOC instance helm chart
+which appears in the <code class="docutils literal notranslate"><span class="pre">iocs</span></code> folder of a beamline or accelerator domain
+source repository. This includes things like:</p>
+<ul class="simple">
+<li><p>changing the EPICS DB (or files that generate it)</p></li>
+<li><p>altering the iocShell boot script (or files that generate it)</p></li>
+<li><p>changing parameters in the values file for the chart - e.g. increasing
+the memory limit for the IOC container</p></li>
+</ul>
+</li>
+<li><p>The Generic IOC - alter the details of how the Generic IOC container image
+is built. This means making changes to an <code class="docutils literal notranslate"><span class="pre">ioc-XXX</span></code> source repo and
+publishing a new version of the Generic IOC container image.
+This includes things like:</p>
+<ul class="simple">
+<li><p>changing the EPICS base version</p></li>
+<li><p>changing the versions of EPICS support modules compiled into the IOC binary</p></li>
+<li><p>adding new support modules</p></li>
+<li><p>altering the system dependencies installed into the container image</p></li>
+</ul>
+</li>
+<li><p>The dependencies - Support modules used by the generic IOC. Changes to support
+module repos. This means publishing a new release of the support module.</p></li>
+</ol>
+<p>As far as possible the epics-containers approach to all of the above allows
+local testing of the changes before publishing. This allows us to have a
+fast ‘inner loop’ of development and testing.</p>
+<p>Also, epics-containers provides a mechanism for creating a separate workspace for
+working on all of the above elements in one place.</p>
+</section>
+<section id="changing-the-ioc-instance">
+<h2>Changing the IOC Instance<a class="headerlink" href="#changing-the-ioc-instance" title="Permalink to this heading">#</a></h2>
+<p>This tutorial will make a very simple change to the example IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-01</span></code>.
+This is a type 1. change from the above list, types 2, 3 will be covered in the
+following 2 tutorials.</p>
+<p>We are going to add a hand crafted EPICS DB file to the IOC instance. This will
+be a simple record that we will be able to query to verify that the change
+is working.</p>
+<p>Make the following changes in your test IOC config folder
+(<code class="docutils literal notranslate"><span class="pre">bl01t/iocs/bl01t-ea-ioc-01/config</span></code>):</p>
+<ol class="arabic">
+<li><p>Add a file called <code class="docutils literal notranslate"><span class="pre">extra.db</span></code> with the following contents:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, &quot;BL01T-EA-IOC-01:TEST&quot;) {
+   field(DESC, &quot;Test record&quot;)
+   field(DTYP, &quot;Soft Channel&quot;)
+   field(SCAN, &quot;Passive&quot;)
+   field(VAL, &quot;1&quot;)
+}
 </pre></div>
 </div>
-<p>_execute does the actual work of pulling the container and running it.
-The environment variable <code class="docutils literal notranslate"><span class="pre">podarg</span></code> is used to pass additional arguments to the
-podman invocation. In this case we are passing two environment variables to the
-container.</p>
+</li>
+<li><p>Add the following line to the <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> file after the last <code class="docutils literal notranslate"><span class="pre">dbLoadRecords</span></code>
+line:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>dbLoadRecords(config/extra.db)
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="locally-testing-your-changes">
+<h2>Locally Testing Your changes<a class="headerlink" href="#locally-testing-your-changes" title="Permalink to this heading">#</a></h2>
+<p>You can immediately test your changes by running the IOC locally. The following
+command will run the IOC locally using the config files in your test IOC config
+folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>ioc-launch<span class="w"> </span>iocs/bl01t-ea-ioc-01<span class="w"> </span>--tag<span class="w"> </span><span class="m">23</span>.3.4
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--tag</span></code> option specifies the version of the Generic IOC container to use
+and this means it will be pulled from the container registry (or come from
+the cache if it has already been pulled).
+If you do not supply a tag then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will look for a local copy of the
+container to use, we will cover this in <a class="reference internal" href="07_generic_ioc.html"><span class="doc">Working with Generic IOCs</span></a>.</p>
+<p>If all is well you should see your iocShell prompt and you can test your change
+from another terminal (VSCode menus -&gt; Terminal -&gt; New Terminal) like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-EA-IOC-01:TEST
+</pre></div>
+</div>
+<p>If you see the value 1 then your change is working.</p>
+<p>Note you can see your running IOC in podman using this command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>ps
+</pre></div>
+</div>
+<p>You should see a container named bl01t-ea-ioc-01 and also a another one with a
+random name and an image called <code class="docutils literal notranslate"><span class="pre">localhost/vsc-work...</span></code>. The latter is the
+container that is running your developer environment.</p>
+<p>If you would like to take a look inside the container you can run a bash shell
+in the container like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span>bash
+</pre></div>
+</div>
+<p>When you type exit on the iocShell the container will stop and and be removed.</p>
+</section>
+</section>
+<section id="deploying-a-beta-ioc-instance-to-the-cluster">
+<h1>Deploying a Beta IOC Instance to The Cluster<a class="headerlink" href="#deploying-a-beta-ioc-instance-to-the-cluster" title="Permalink to this heading">#</a></h1>
+<p>In <code class="docutils literal notranslate"><span class="pre">05_deploy_example</span></code> we deployed a tagged version of the IOC instance to
+the cluster. This the correct way to deploy a production IOC instance as it
+means there is a record of version of the IOC instance in the Helm Chart
+OCI registry and you can always roll back to that version if needed.</p>
+<p>However, it is also possible to directly deploy a version of the IOC instance
+from your local machine to the cluster.
+This is useful for testing changes to the IOC instance
+before publishing a new version. In this case
+your IOC will be given a beta tag in the cluster, indicating that it has
+not yet been released.</p>
+<p>To deploy your changes direct to the cluster use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-01
+</pre></div>
+</div>
+<p>You will get a warning that this is a temporary deployment and you will see that
+the version number will look something like <code class="docutils literal notranslate"><span class="pre">2023.3.29-b14.29</span></code> this
+indicates that this is a beta deployment made at 14:29 on 29th March 2023.</p>
+<p>Now when you ask for the IOCs running in your domain you should see your IOC
+with beta version listed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ps<span class="w"> </span>-w
+POD<span class="w">                                </span>VERSION<span class="w">            </span>STATE<span class="w">     </span>RESTARTS<span class="w">   </span>STARTED<span class="w">                </span>IP<span class="w">             </span>GENERIC_IOC_IMAGE
+bl01t-ea-ioc-01-7d7c5bc759-5bjsr<span class="w">   </span><span class="m">2023</span>.3.29-b14.29<span class="w">   </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span><span class="m">2023</span>-03-29T14:29:18Z<span class="w">   </span><span class="m">192</span>.168.0.32<span class="w">   </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:23.3.4
+</pre></div>
+</div>
+<p>You can check it is working as before (replace the IP with yours
+from the above command):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">192</span>.168.0.32
+caget<span class="w"> </span>BL01T-EA-IOC-01:TEST
+</pre></div>
+</div>
+<p>Once you are happy with your changes you can push and tag your beamline repo.
+This will publish a new version of the IOC instance helm chart to the OCI helm
+registry. You can then deploy the versioned IOC instance to the cluster.</p>
 </section>
 
 
@@ -511,20 +616,20 @@ container.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="repositories.html"
+       href="05_deploy_example.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Source and Registry Locations</p>
+        <p class="prev-next-title">Deploy The Example IOC</p>
       </div>
     </a>
     <a class="right-next"
-       href="../reference/faq.html"
+       href="07_generic_ioc.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Frequently Asked Questions</p>
+        <p class="prev-next-title">Working with Generic IOCs</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -538,9 +643,26 @@ container.</p>
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Testing Changes to IOC Instances</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-changes">Types of Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-ioc-instance">Changing the IOC Instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#locally-testing-your-changes">Locally Testing Your changes</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-a-beta-ioc-instance-to-the-cluster">Deploying a Beta IOC Instance to The Cluster</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/explanations/cli-tools.rst">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/tutorials/06_ioc_changes.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -554,7 +676,7 @@ container.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/explanations/cli-tools.rst.txt">
+    <a href="../../_sources/user/tutorials/06_ioc_changes.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

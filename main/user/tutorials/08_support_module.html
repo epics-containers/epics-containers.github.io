@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>CLI Tools &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
+    <title>Working with Support Modules &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/cli-tools';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/08_support_module';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Frequently Asked Questions" href="../reference/faq.html" />
-    <link rel="prev" title="Source and Registry Locations" href="repositories.html" />
+    <link rel="next" title="Run an IOC without Kubernetes" href="../how-to/run_iocs.html" />
+    <link rel="prev" title="Working with Generic IOCs" href="07_generic_ioc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -378,17 +378,17 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_intro.html">Tutorials Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_devcontainer.html">Setup the Devcontainer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00_intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Working with Generic IOCs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/08_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -400,13 +400,13 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">CLI Tools</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -454,7 +454,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">CLI Tools</li>
+    <li class="breadcrumb-item active" aria-current="page">Working with Support Modules</li>
   </ul>
 </nav>
 </div>
@@ -471,35 +471,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="cli-tools">
-<h1>CLI Tools<a class="headerlink" href="#cli-tools" title="Permalink to this heading">#</a></h1>
-<p>Experimental feature.</p>
-<p>It is possible to install every single tool you might need into one big devcontainer
-image.</p>
-<p>However to keep container bloat down we are experimenting with using
-‘cli tools’ instead. This adds a folder into your path <code class="docutils literal notranslate"><span class="pre">/cli-tools/tools</span></code>.</p>
-<p>If here you can place launch scripts that pull a containerized version of a
-tool and run that instead.</p>
-<p>It is very simple to add new tools to this folder. Just create a script with
-the same names as the tool you want to execute and drop it in <code class="docutils literal notranslate"><span class="pre">/cli-tools/tools</span></code>.
-This requires that the tool is packaged in a container already, many vendors
-already do this anyway.</p>
-<p>If the tool is not packaged already you could make your own container using
-the pattern here <a class="github reference external" href="https://github.com/epics-containers/pytools">epics-containers/pytools</a>.</p>
-<p>Below is the example launch script for the PVA viewer tool.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">podarg</span><span class="o">=</span><span class="s2">&quot;</span>
-<span class="s2">-e EPICS_PVA_ADDR_LIST</span>
-<span class="s2">-e EPICS_PVA_AUTO_ADDR_LIST</span>
-<span class="s2">&quot;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$EPICS_PVA_ADDR_LIST</span>
-_execute<span class="w"> </span>ghcr.io/epics-containers/pytools-linux-runtime:23.3.1<span class="w"> </span>c2dv<span class="w"> </span><span class="si">${</span><span class="p">@</span><span class="si">}</span>
-</pre></div>
-</div>
-<p>_execute does the actual work of pulling the container and running it.
-The environment variable <code class="docutils literal notranslate"><span class="pre">podarg</span></code> is used to pass additional arguments to the
-podman invocation. In this case we are passing two environment variables to the
-container.</p>
+  <section id="working-with-support-modules">
+<h1>Working with Support Modules<a class="headerlink" href="#working-with-support-modules" title="Permalink to this heading">#</a></h1>
+<p>Here we will see how to create a new support module for new hardware. This
+will include creating a new generic IOC to make use of this support.</p>
+<p>We will also see how to locally test changes to a support module.</p>
+<p>TODO: suggest that we will make a new Stream Device that will be a
+simple echo server.</p>
 </section>
 
 
@@ -511,20 +489,20 @@ container.</p>
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="repositories.html"
+       href="07_generic_ioc.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Source and Registry Locations</p>
+        <p class="prev-next-title">Working with Generic IOCs</p>
       </div>
     </a>
     <a class="right-next"
-       href="../reference/faq.html"
+       href="../how-to/run_iocs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Frequently Asked Questions</p>
+        <p class="prev-next-title">Run an IOC without Kubernetes</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -540,7 +518,7 @@ container.</p>
   <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/explanations/cli-tools.rst">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/tutorials/08_support_module.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -554,7 +532,7 @@ container.</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/explanations/cli-tools.rst.txt">
+    <a href="../../_sources/user/tutorials/08_support_module.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

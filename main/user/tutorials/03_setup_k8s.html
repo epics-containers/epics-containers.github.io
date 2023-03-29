@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.9.dev91+g8b5f79b documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
   
   
   
@@ -385,9 +385,10 @@ document.write(`
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC Instances</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_support_module.html">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -479,7 +480,7 @@ Kubernetes and Helm to deploy your EPICS IOCs.</p>
 <p>However:</p>
 <p>The approach of creating generic IOC’s in containers and then deploying
 IOC instances as generic IOC’s + some configuration will also work
-standalone, or with other orchestration tools. e.g. In <a class="reference internal" href="05a_ioc_changes.html"><span class="doc">Testing Changes to IOC Instances</span></a>
+standalone, or with other orchestration tools. e.g. In <a class="reference internal" href="06_ioc_changes.html"><span class="doc">Testing Changes to IOC Instances</span></a>
 we will demonstrate running an IOC locally using podman alone.</p>
 <p>If you want to take advantage of containers for IOCs but do not want to
 take on Kubernetes then there are some hints as to how to achieve this
