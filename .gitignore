@@ -8,6 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+.venv
 build/
 develop-eggs/
 dist/
@@ -22,6 +23,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+**/_version.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -41,10 +43,9 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
-*,cover
-*.mypy_cache
-*.pytest_cache
 cov.xml
+.pytest_cache/
+.mypy_cache/
 
 # Translations
 *.mo
@@ -58,4 +59,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# likely venv names
+.venv*
+venv*
+
+# further build artifacts
+lockfiles/
 

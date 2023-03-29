@@ -1,11 +1,10 @@
 {
-    "editor.defaultFormatter": "ms-python.python",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
     "python.testing.pytestArgs": [],
     "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.formatting.provider": "black",
     "python.languageServer": "Pylance",
@@ -13,5 +12,11 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
     },
-    "python.pythonPath": "/home/giles/.local/share/virtualenvs/k8s-epics-docs-jjNZuJbx",
+    "cSpell.words": [
+        "Beamlines",
+        "blxxi",
+        "blxxt",
+        "klogout",
+        "MVME"
+    ]
 }
