@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Run an IOC without Kubernetes &#8212; epics-containers.github.io 0.9.dev87+g30af53c documentation</title>
+    <title>Run an IOC without Kubernetes &#8212; epics-containers.github.io 0.9.dev89+g48bbd58 documentation</title>
   
   
   
@@ -472,7 +472,39 @@ document.write(`
                   
   <section id="run-an-ioc-without-kubernetes">
 <h1>Run an IOC without Kubernetes<a class="headerlink" href="#run-an-ioc-without-kubernetes" title="Permalink to this heading">#</a></h1>
-<p><strong>TODO</strong></p>
+<p>When we run a containerized IOC we are selecting a generic IOC container image
+to launch and some configuration to pass to the IOC.  The configuration we
+pass is what makes the IOC a unique instance instead of a generic IOC.</p>
+<p>In the tutorials we are running the IOC in a Kubernetes cluster and we
+use a Kubernetes ConfigMap to pass the configuration to the IOC.</p>
+<p>However it is perfectly possible to do this without Kubernetes. To demonstrate
+this easily, first create the test beamline repo as described in
+<a class="reference internal" href="../tutorials/04_create_beamline.html"><span class="doc">Create a Beamline Repository</span></a>.</p>
+<p>Now if you cd into the test beamline repo and run the following command you
+will see the IOC running in a container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/iocs/bl01t-ea-ioc-01/config:/repos/epics/ioc/config<span class="w">  </span>ghcr.io/epics-containers/ioc-template-linux-runtime:23.3.3
+</pre></div>
+</div>
+<p>What you have done here is pull down the generic <code class="docutils literal notranslate"><span class="pre">ioc-template-linux-runtime</span></code>
+container image from the GitHub Container Registry and run it.
+The -it means it is an interactive terminal session.</p>
+<p>The -v mounts the local directory <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01/config</span></code> into the
+container at <code class="docutils literal notranslate"><span class="pre">/repos/epics/ioc/config</span></code>.  This is where the IOC expects to
+find its configuration. The leading $(pwd) means the current working directory
+is appended to the path and that is required because the path for mounting
+into a container must be absolute.</p>
+<p><code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01/config</span></code> contains a simple iocShell boot script and the
+default behaviour is to pass that to the generic IOC binary.</p>
+<p>Using this approach you could manage your config folders and IOC launches
+yourself using whatever mechanism you prefer. Probably docker compose or
+docker swarm would be the most likely candidates.</p>
+<p>It may be worth noting that this <code class="docutils literal notranslate"><span class="pre">ec</span></code> command does exactly the same
+thing as the above podman command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc-launch<span class="w"> </span>iocs/bl01t-ea-ioc-01<span class="w"> </span>--tag<span class="w"> </span><span class="m">23</span>.3.3
+</pre></div>
+</div>
+<p>That is because <code class="docutils literal notranslate"><span class="pre">ioc-launch</span></code> is intended for locally testing an IOC instance
+that is destined for Kubernetes.</p>
 </section>
 
 
