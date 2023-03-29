@@ -12,7 +12,7 @@ Setup a Kubernetes Server
 
     The approach of creating generic IOC's in containers and then deploying
     IOC instances as generic IOC's + some configuration will also work
-    standalone, or with other orchestration tools. e.g. In `05a_ioc_changes`
+    standalone, or with other orchestration tools. e.g. In `06_ioc_changes`
     we will demonstrate running an IOC locally using podman alone.
 
     If you want to take advantage of containers for IOCs but do not want to
