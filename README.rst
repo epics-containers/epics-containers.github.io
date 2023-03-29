@@ -32,27 +32,3 @@ Organization   https://github.com/epics-containers
     when included in index.rst
 
 See https://epics-containers.github.io for more detailed documentation.
-
-Update for March 2023
-=====================
-
-Since the documentation for epics-containers was first published in Oct 2021,
-there have been significant updates to the projects in this organization.
-
-The documentation is now being updated to reflect these changes.
-
-Notable improvements are:
-
-- The developer experience has now been improved.
-
-  - Addition of a developer container with all the tools needed to build
-    and test the epics-containers projects included.
-  - Addition of a CLI tool to assist building deploying and managing
-    containerize EPICS IOCs.
-
-- overhaul of the container build approach to minimize cache busting and
-  improve build times.
-
-- Addition of support for IOCS running on MVME5500 with RTEMS 5. (this
-  could be extended to any cross-compiled architectures that use a
-  telnet shell and get their binaries from share file-systems (such as TFTP))
