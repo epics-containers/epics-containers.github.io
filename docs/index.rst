@@ -23,17 +23,17 @@ Notable improvements are:
 
 - The developer experience has now been improved.
 
-  - Addition of a developer container with all the tools needed to build
-    and test the epics-containers projects included.
+  - Addition of a developer container with all the necessary tools included
   - Addition of a CLI tool to assist building deploying and managing
     containerize EPICS IOCs.
 
-- overhaul of the container build approach to minimize cache busting and
-  improve build times.
+- simplified container build approach which minimizes cache busting and
+  improves build times.
 
 - Addition of support for IOCS running on MVME5500 with RTEMS 5. (this
   could be extended to any cross-compiled architectures that use a
-  telnet shell and get their binaries from share file-systems (such as TFTP))
+  telnet shell and get their binaries from share file-systems (such as TFTP
+  or NFS))
 
 
 Communication
