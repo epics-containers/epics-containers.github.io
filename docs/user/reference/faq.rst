@@ -47,7 +47,7 @@ That is because Helm keeps track of several versions of each chart it
 deploys, they are stored in the cluster itself (as ReplicaSets). By
 default the last 10 are saved.
 
-It is also necessary Kubernetes to be able to pull the generic IOC image. If
+It is also necessary for Kubernetes to be able to pull the generic IOC image. If
 the beamline has only one Kubernetes worker node then the previous image will
 be in the node's local cache. If you have more than one then you will need
 a global image cache which is useful anyway for reducing traffic to the

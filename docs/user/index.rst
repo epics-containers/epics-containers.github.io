@@ -33,8 +33,6 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
-            how-to/add_ioc
-            how-to/create_ioc
             how-to/run_iocs
             how-to/debug
             how-to/contributing
@@ -52,7 +50,6 @@ side-bar.
             :maxdepth: 1
 
             explanations/introduction
-            explanations/whats_in
             explanations/net_protocols
             explanations/kubernetes_cluster
             explanations/docs-structure
@@ -73,7 +70,6 @@ side-bar.
             reference/cli
             reference/ioc_helm_chart
             reference/k8s_resources
-            ../genindex
 
         +++
 
