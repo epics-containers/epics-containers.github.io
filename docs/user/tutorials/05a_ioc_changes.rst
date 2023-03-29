@@ -1,4 +1,4 @@
-Testing Changes to IOC instances
+Testing Changes to IOC Instances
 ================================
 
 TODO - work in progress

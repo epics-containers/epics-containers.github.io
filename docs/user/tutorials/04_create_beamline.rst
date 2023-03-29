@@ -90,7 +90,7 @@ repo in the future.
         sed -i 's/BLXXI/BL01T/g' $(find * -type f)
         sed -i 's/blxxi/bl01t/g' $(find * -type f)
 
-#.  Add your new repo to your vscode workspace and take a look at what you
+#.  Add your new repo to your VSCode workspace and take a look at what you
     have.
 
     From the VSCode menus: File->Add Folder to Workspace

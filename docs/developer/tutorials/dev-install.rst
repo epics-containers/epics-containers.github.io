@@ -42,7 +42,7 @@ requires python 3.8 or later) or to run in a container under `VSCode
 
         .. code::
 
-            $ vscode epics-containers.github.io
+            $ code epics-containers.github.io
             # Click on 'Reopen in Container' when prompted
             # Open a new terminal
 

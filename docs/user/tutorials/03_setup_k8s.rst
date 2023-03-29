@@ -3,6 +3,22 @@
 Setup a Kubernetes Server
 =========================
 
+.. note::
+
+    From this point onward the tutorials assume that you are using
+    Kubernetes and Helm to deploy your EPICS IOCs.
+
+    However:
+
+    The approach of creating generic IOC's in containers and then deploying
+    IOC instances as generic IOC's + some configuration will also work
+    standalone, or with other orchestration tools. e.g. In `05a_ioc_changes`
+    we will demonstrate running an IOC locally using podman alone.
+
+    If you want to take advantage of containers for IOCs but do not want to
+    take on Kubernetes then there are some hints as to how to achieve this
+    here: `../how-to/run_iocs`.
+
 Introduction
 ------------
 This is a very easy set of instructions for setting up an experimental
@@ -11,7 +27,6 @@ ready to test deployment of EPICS IOCs.
 
 Bring Your Own Cluster
 ----------------------
-
 
 If you already have a Kubernetes cluster then you can skip this section.
 and go straight to `./04_create_beamline`.
