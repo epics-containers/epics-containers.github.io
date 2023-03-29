@@ -19,7 +19,7 @@ EPICS, WSL2 and more.
 .. Note::
 
     **DLS Users**: RHEL 8 Workstations at DLS have podman installed by default.
-    You can access vscode with ``module load vscode``. RHEL 7 Workstations
+    You can access VSCode with ``module load vscode``. RHEL 7 Workstations
     are not supported.
 
 Options

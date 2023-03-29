@@ -22,7 +22,6 @@ side-bar.
             tutorials/05a_ioc_changes
             tutorials/06_generic_ioc
             tutorials/07_support_module
-            tutorials/08_new_support
 
         +++
 
@@ -59,7 +58,6 @@ side-bar.
             explanations/docs-structure
             explanations/repositories
             explanations/cli-tools
-            explanations/k8s-resources
 
         +++
 
@@ -73,6 +71,8 @@ side-bar.
 
             reference/faq
             reference/cli
+            reference/ioc_helm_chart
+            reference/k8s_resources
             ../genindex
 
         +++

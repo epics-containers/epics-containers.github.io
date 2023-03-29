@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup the Devcontainer &#8212; epics-containers.github.io 0.9.dev78+ga566af9 documentation</title>
+    <title>Setup the Devcontainer &#8212; epics-containers.github.io 0.9.dev79+g5245053 documentation</title>
   
   
   
@@ -385,10 +385,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="03_setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -410,12 +409,13 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/k8s-resources.html">Kubernetes Resources in an IOC Instance</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/ioc_helm_chart.html">IOC Helm Chart Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 </div>
@@ -486,8 +486,8 @@ container definition is in <a class="github reference external" href="https://gi
 </section>
 <section id="configure-visual-studio-code">
 <h2>Configure Visual Studio Code<a class="headerlink" href="#configure-visual-studio-code" title="Permalink to this heading">#</a></h2>
-<p>For podman users, you must first tell vscode to use podman instead of docker.
-Open a vscode window and hit “ctrl ,” (control-comma) to open the user
+<p>For podman users, you must first tell VSCode to use podman instead of docker.
+Open a VSCode window and hit “ctrl ,” (control-comma) to open the user
 settings editor and search for
 “dev.containers.dockerPath”, change its value from “docker” to “podman”.</p>
 </section>
@@ -514,9 +514,9 @@ to reopen the folder in a container. Click on the <code class="docutils literal 
 <p><span class="caption-text">reopen in container dialogue</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Now all of your vscode terminals and file explorer will be running inside of
+<p>Now all of your VSCode terminals and file explorer will be running inside of
 the devcontainer and have access to all the tools installed there.</p>
-<p>To verify things are working as expected, open a terminal in vscode from
+<p>To verify things are working as expected, open a terminal in VSCode from
 the menus <code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">&gt;</span> <span class="pre">New</span> <span class="pre">Terminal</span></code>. You should see a prompt like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>E7<span class="o">][</span>work-ec<span class="o">]</span>$
 </pre></div>
@@ -536,7 +536,8 @@ vice versa.</p></li>
 <li><p>Your home folder is also mounted in its usual location. BUT $HOME is set
 to <code class="docutils literal notranslate"><span class="pre">/root</span></code>.</p></li>
 <li><p>Podman users are running as root inside the container but files will be
-written with your user id and group id.</p></li>
+written with your user id and group id when writing to the mounted
+workspace folder (or your home directory).</p></li>
 </ul>
 </section>
 <section id="configuring-the-devcontainer">
@@ -547,69 +548,48 @@ written with your user id and group id.</p></li>
 configured for interacting with the test beamline bl01t on the test
 cluster Pollux. HOWEVER: for this exercise we will use your personal
 GitHub account to avoid clashes with other users of this tutorial.
-Therefore follow the instructions below and for the KUBECONFIG setting
-use the following:</p>
+Therefore follow the instructions below and set KUBECONFIG as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># point at your cluster configuration file</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/home/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.kube/config_pollux
 </pre></div>
 </div>
 <p>To enable access to the pollux cluster, execute the following commands
-from outside of the dev container:</p>
+from OUTSIDE of the dev container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>pollux
+klogout
 .devcontainer/dls-copy-k8s-crt.sh<span class="w"> </span><span class="c1"># a script in the .devcontainer repo</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </pre></div>
 </div>
-<p>The last command will ask for your fed-id and password and then show A
-list of nodes in the pollux cluster.</p>
+<p>The last command will ask for your fed-id and password and then show a
+list of nodes in the pollux cluster. Your credentials are cached for a
+week after which you will see authentication errors. To fix this
+repeat the above steps.</p>
 </div>
 <p>You devcontainer environment is configured by a file called
 <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> file. The terminals in the devcontainer will source this
 file when they start.</p>
-<p>You can take a copy of <code class="docutils literal notranslate"><span class="pre">.devcontainer/.bashrc_dev</span></code> and place it in your
-home folder to customize it.
-i.e.:</p>
-<blockquote>
-<div><p># IMPORTANT: use /home/$USER not $HOME
-cp .devcontainer/.bashrc_dev /home/${USER}/.bashrc_dev
-code /home/${USER}/.bashrc_dev</p>
-</div></blockquote>
-<p>Alternatively you can take a fork of the .devcontainer repo and make your
-own version of the .bashrc_dev file in place.</p>
-<p>Much of this file is setting up convenience features like prompt and bash
+<p>Much of this file is setting up convenience features like the prompt and bash
 history. You can change these to suit your own preferences.</p>
 <p>The primary configuration options are the environment variables exported by
 this script. These are listed below with some recommended values for running
 these tutorials. Paste the following into the <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> file and
-change GITHUB_ORG to your GitHub organization or user.</p>
+add your GitHub organization or user to K8S_HELM_REGISTRY.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">############ REPLACE all environment below with your details ###################</span>
 
-<span class="c1"># Github organization or user name</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_ORG</span><span class="o">=</span>&lt;YOUR<span class="w"> </span>GITHUB<span class="w"> </span>ORGANIZATION<span class="w"> </span>OR<span class="w"> </span>USER<span class="w"> </span>GOES<span class="w"> </span>HERE&gt;
-
-<span class="c1"># point at your cluster configuration file</span>
+<span class="c1"># point at your cluster config file</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/home/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.kube/config
 
-<span class="c1"># the default beamline or domain for ec commands</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">BEAMLINE</span><span class="o">=</span>t01<span class="w"> </span><span class="c1"># equivalent to K8S_DOMAIN=bl01t</span>
+<span class="c1"># the default domain for ec commands (REMOVE if this is supplied by the host)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_DOMAIN</span><span class="o">=</span>bl01t
 
 <span class="c1"># where to get HELM charts for ec commands</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_HELM_REGISTRY</span><span class="o">=</span>ghcr.io/<span class="si">${</span><span class="nv">GITHUB_ORG</span><span class="si">}</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_HELM_REGISTRY</span><span class="o">=</span>ghcr.io/&lt;YOUR<span class="w"> </span>GITHUB<span class="w"> </span>USER<span class="w"> </span>OR<span class="w"> </span>ORGANIZATION&gt;
 
-<span class="c1"># where to get container IMAGES for ec commands</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_IMAGE_REGISTRY</span><span class="o">=</span>ghcr.io/<span class="si">${</span><span class="nv">GITHUB_ORG</span><span class="si">}</span>
-
-<span class="c1"># the URL for the facility logging system</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_LOG_URL</span><span class="o">=</span><span class="s1">&#39;none&#39;</span>
-
-<span class="c1"># set this to True to suppress output of commands in &#39;ec&#39; CLI</span>
-<span class="nb">unset</span><span class="w"> </span>K8S_QUIET
-
-<span class="c1"># extra arguments to supply to containerized CLI commands</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_CLI_ARGS</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="c1">################################################################################</span>
 </pre></div>
 </div>
-<p>After editing <code class="docutils literal notranslate"><span class="pre">/home/$USER/.bashrc_dev</span></code> you will need to close any open terminals and
+<p>After editing <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> you will need to close any open terminals and
 restart them to pick up the changes.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -619,6 +599,8 @@ restart them to pick up the changes.</p>
 <a class="reference external" href="https://containers.dev/implementors/json_reference/">See here for details</a></p>
 <p>In addition, you can alter the system packages installed in the container or make
 any other changes to the Dockerfile and regenerate your own container image.</p>
+<p>To pick up such changes to <code class="docutils literal notranslate"><span class="pre">.devcontainer</span></code> run the <code class="docutils literal notranslate"><span class="pre">Rebuild</span> <span class="pre">Container</span></code>
+command from VSCode command pallette (accessed via ctrl-shift-P).</p>
 <p>If you wish to persist these changes
 then it is suggested that you make your own github repo of .devcontainer and
 push the changes there.</p>

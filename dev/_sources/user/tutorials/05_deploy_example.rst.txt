@@ -1,68 +1,19 @@
 Deploy The Example IOC
 ======================
 
-Examine the Example IOC Instance
---------------------------------
-
-In the previous tutorial we created an example beamline source project called
-``bl01t`` and added it to our VSCode workspace. Go into VSCode and take
-a look at the files in the project.
-
-Take a look in the folder iocs/bl0t-ea-ioc-01. This contains a helm chart
-that defines the example IOC instance. To add a new IOC instance you could
-copy this folder and rename it to bl0t-ea-ioc-02 for example. You would then
-need to make a few changes, so here is a description of the files in this
-folder:
-
--   ``Chart.yaml`` - this is the helm chart definition file. It contains
-    metadata about the chart and a list of dependencies. Most of this file
-    can be left as is for all IOC instances. But you do need to change these
-    fields:
-
-    - ``name`` - the unique name for the chart and the IOC instance it represents.
-    - ``Description`` - a short description of the IOC instance.
-
--   ``values.yaml`` - this is the helm values file. It contains the values that
-    are substituted in to the helm templates when the helm chart is built. Most
-    of the values that go into an IOC instance chart will be drawn from
-    domain defaults which can be found in the folder ``beamline-chart``. Values
-    you need to supply here are:
-
-    -   ``base_image`` - the generic IOC image to use for this IOC instance. A
-        generic IOC image contains all the necessary support modules for a
-        given class of device and a compiled IOC binary with all those modules
-        linked. The IOC instance we are defining in a helm chart provides the startup
-        script and possibly database that makes this IOC instance unique. In this
-        case the generic IOC is for the area-detector simulator device.
-
-    -   ``prefix`` - the EPICS PV prefix for this IOC instance. This will set an
-        environment variable IOC_PREFIX which declares the prefix for the IOC's
-        devIOCStats records. You can leave this value out if you use the ioc
-        name as the prefix, but in this case we have used an uppercase version of
-        IOC name as the prefix.
-
--   ``templates/ioc.yaml`` this is the master template for this helm chart,
-    it pulls in all the other templates from our dependencies. This file
-    has to appear here but is boilerplate and should not need to be changed.
-
--   ``config`` this folder contains any files unique to this IOC instance. At
-    runtime on the cluster when the generic IOC image is running it will see
-    these files as mounted into the folder ``/repos/epics/ioc/config``.
-    In this case we have an EPICS startup script ``st.cmd`` only
-    and the default behaviour is just to run the IOC binary and pass it
-    ``st.cmd``.
-
-    To see how the Generic IOC makes use of the config folder take a look
-    at `this bash script`_ which runs on Generic IOC startup.
-
-
-.. _this bash script:  https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh
-
 Deploy the IOC Instance to Kubernetes
 -------------------------------------
 
-For the moment we are going to work with the original bl01t-ea-ioc-01 as is and
-have a go at deploying and interacting with it.
+For this tutorial we are going to work with the example IOC bl01t-ea-ioc-01
+that came with our beamline repository from the previous tutorial.
+Here we will deploy the IOC into our cluster and then learn how to interact
+with it.
+
+If you are interested in the detail of what is in the bl01t-ea-ioc-01 folder
+that describes this IOC instance then see: `../reference/ioc_helm_chart`.
+
+Also, if you are interested in how the helm chart manifests itself in your
+cluster when deployed then see: `../reference/k8s_resources`.
 
 For this section we will be making use of the epics-containers-cli tool. This makes
 it easier to interact with kubernetes and helm from the command line and is
@@ -85,10 +36,10 @@ The following command will deploy the example IOC instance to your cluster:
 
     ec ioc deploy bl01t-ea-ioc-01 23.4.1
 
-Note that this is looking for the IOC's helm chart in your OCI helm registry
-you delivered the IOC helm chart to the registry when you made a release of
+Note that this is looking for the IOC's helm chart in your OCI helm registry.
+You delivered the IOC helm chart to the registry when you made a release of
 the beamline repo in the previous tutorial. You must supply a version number
-that exists. If you do not recall the version number you used,
+that exists. If you do not recall the version number you used in the last tutorial,
 you can use the following command to list the versions available in your
 registry:
 
@@ -126,7 +77,8 @@ know where to look for PVs:
 
 epics-containers does not yet have any provision for EPICS operator interfaces.
 For this example we have hand crafted some EDM screens to control and monitor
-the test IOC.
+the test IOC. These EDM screens are supplied in the template so you will
+have them in the ``opi`` folder in your beamline repository.
 
 You can now launch the client applications as follows:
 
@@ -152,31 +104,6 @@ following images.
 
 .. image:: ../images/c2dv.png
     :align: center
-
-
-Learning about Helm and Kubernetes Manifests
---------------------------------------------
-
-It is instructive to see what helm is doing when you deploy the example IOC.
-
-Helm uses templates to generate YAML Kubernetes Manifest which defines a set
-of resources. It applies this manifest to the cluster using kubectl.
-
-To inspect the kubernetes manifest that is created when we deploy the example
-IOC you can use the following command:
-
-.. code-block:: bash
-
-    ec ioc template iocs/bl01t-ea-ioc-01
-
-This is expanding the local helm chart in the iocs folder and using
-its ``templates/ioc.yaml`` plus the templates in helm-ioc-lib. These templates
-are expanded using the values in the ``values.yaml`` file and also
-``beamline-chart/values.yaml`` and finally the default ``values.yaml`` file
-in the helm-ioc-lib.
-
-For a description of the key resources we create in this Kubernetes manifest
-see `../explanations/k8s-resources`.
 
 
 Managing IOCs

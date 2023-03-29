@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.9.dev78+ga566af9 documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.9.dev79+g5245053 documentation</title>
   
   
   
@@ -385,10 +385,9 @@ document.write(`
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_create_beamline.html">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_generic_ioc.html">Working with Generic IOCs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07_support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="08_new_support.html">Creating a New Support Module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -410,12 +409,13 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../explanations/k8s-resources.html">Kubernetes Resources in an IOC Instance</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/ioc_helm_chart.html">IOC Helm Chart Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 </div>
@@ -476,6 +476,19 @@ document.write(`
                   
   <section id="setup-a-kubernetes-server">
 <span id="setup-kubernetes"></span><h1>Setup a Kubernetes Server<a class="headerlink" href="#setup-a-kubernetes-server" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>From this point onward the tutorials assume that you are using
+Kubernetes and Helm to deploy your EPICS IOCs.</p>
+<p>However:</p>
+<p>The approach of creating generic IOC’s in containers and then deploying
+IOC instances as generic IOC’s + some configuration will also work
+standalone, or with other orchestration tools. e.g. In <a class="reference internal" href="05a_ioc_changes.html"><span class="doc">Testing Changes to IOC Instances</span></a>
+we will demonstrate running an IOC locally using podman alone.</p>
+<p>If you want to take advantage of containers for IOCs but do not want to
+take on Kubernetes then there are some hints as to how to achieve this
+here: <a class="reference internal" href="../how-to/run_iocs.html"><span class="doc">Run an IOC without Kubernetes</span></a>.</p>
+</div>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>This is a very easy set of instructions for setting up an experimental
