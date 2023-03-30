@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Working with Generic IOCs &#8212; epics-containers.github.io 0.9.dev93+g0f81100 documentation</title>
+    <title>Working with Generic IOCs &#8212; epics-containers.github.io 0.9.dev97+g102d075 documentation</title>
   
   
   
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -35,8 +35,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -473,10 +473,288 @@ document.write(`
                   
   <section id="working-with-generic-iocs">
 <h1>Working with Generic IOCs<a class="headerlink" href="#working-with-generic-iocs" title="Permalink to this heading">#</a></h1>
-<p>In this tutorial we will learn how modify a generic IOC container image and
-test our changes locally before updating an IOC instance and deploying it.</p>
-<p>TODO: cover creating a ADUrl based Area detector generic IOC based
-on the ADSimDetector one. (point at a public web cam)</p>
+<p>In this tutorial we will learn how to create a generic IOC container image and
+test our changes locally before deploying it.</p>
+<p>The example IOC used ADSimDetector, we will make a similar IOC that uses
+ADUrl to get images from a web cam.</p>
+<section id="create-a-new-generic-ioc-project">
+<h2>Create a New Generic IOC project<a class="headerlink" href="#create-a-new-generic-ioc-project" title="Permalink to this heading">#</a></h2>
+<p>By convention generic IOC projects are named <code class="docutils literal notranslate"><span class="pre">ioc-XXX</span></code> where <code class="docutils literal notranslate"><span class="pre">XXX</span></code> is the
+name of the primary support module used by the IOC. Here we will be building
+<code class="docutils literal notranslate"><span class="pre">ioc-adurl</span></code>.</p>
+<p>Much like creating a new beamline we have a template project that can be used
+as the starting point for a new generic IOC. Again we will create this in
+your personal GitHub user space.</p>
+<p>TODO: the following steps to create a new generic IOC project will be automated
+using an <code class="docutils literal notranslate"><span class="pre">ec</span></code> command.</p>
+<ol class="arabic">
+<li><p>Create a new, completely blank repository in your GitHub account
+called <code class="docutils literal notranslate"><span class="pre">ioc-adurl</span></code>. To do this got to <a class="github reference external" href="https://github.com/new">new</a>
+and fill in the details as per the image below. Click
+<code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">repository</span></code>.</p></li>
+<li><p>Clone the template repo locally and rename from ioc-template to ioc-adurl</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ioc-template.git
+mv<span class="w"> </span>ioc-template<span class="w"> </span>ioc-adurl
+<span class="nb">cd</span><span class="w"> </span>ioc-adurl
+</pre></div>
+</div>
+</li>
+<li><p>Add your new repo to your VSCode workspace and take a look at what you
+have.</p>
+<p>From the VSCode menus: File-&gt;Add Folder to Workspace
+then select the folder ioc-adurl</p>
+</li>
+<li><p>Push the new repo back to a the new repo on github</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>rm<span class="w"> </span>origin
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:&lt;YOUR<span class="w"> </span>USER<span class="w"> </span>NAME&gt;/ioc-adurl.git
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="configure-the-ibek-defs-submodule">
+<h2>Configure the ibek-defs Submodule<a class="headerlink" href="#configure-the-ibek-defs-submodule" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ibek-defs</span></code> submodule is used to share information about how to build
+support modules. It contains two kinds of files:</p>
+<ol class="arabic simple">
+<li><p>Patch Files: these are used to update a support module so that it will
+build correctly in the container environment. These should typically only
+add one or both of these files:</p>
+<ul class="simple">
+<li><p>configure/RELEASE.local</p></li>
+<li><p>configure/CONFIG_SITE.linux-x86_64.Common</p></li>
+</ul>
+</li>
+<li><p>IBEK support module definitions: These are used to help IOCs build their
+iocShell boot scripts from YAML descriptions. They are not used in this
+tutorial as we are supplying a hand crafted boot script. For information
+on IBEK see <a class="github reference external" href="https://github.com/epics-containers/ibek">epics-containers/ibek</a>.</p></li>
+</ol>
+<p>ibek-defs is curated for security reasons, therefore we need to work with
+a fork of it so we can add our own definitions for ADUrl. If you make changes
+to ibek-defs that are generally useful you can use a pull request to get them
+merged into the main repo.</p>
+<p>Perform the following steps to create a fork and update the submodule:</p>
+<ul>
+<li><p>goto <a class="github reference external" href="https://github.com/epics-containers/ibek-defs/fork">epics-containers/ibek-defs</a></p></li>
+<li><p>uncheck <code class="docutils literal notranslate"><span class="pre">Copy</span> <span class="pre">the</span> <span class="pre">main</span> <span class="pre">branch</span> <span class="pre">only</span></code></p></li>
+<li><p>click <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">Fork</span></code></p></li>
+<li><p>click on <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span> <span class="pre">Code</span></code> and COPY the ssh URL</p></li>
+<li><p>cd to the ioc-adurl directory</p></li>
+<li><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>submodule<span class="w"> </span>set-url<span class="w"> </span>ibek-defs<span class="w"> </span>&lt;PASTE<span class="w"> </span>URL<span class="w"> </span>HERE&gt;
+git<span class="w"> </span>submodule<span class="w"> </span>init
+git<span class="w"> </span>submodule<span class="w"> </span>update
+<span class="nb">cd</span><span class="w"> </span>ibek-defs
+git<span class="w"> </span>checkout<span class="w"> </span>tutorial
+<span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+</div>
+</li>
+</ul>
+<p>We are using the <code class="docutils literal notranslate"><span class="pre">tutorial</span></code> branch which has a snapshot of the ibek-defs state
+appropriate for this tutorial. Normally you would use the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and
+therefore omit <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">tutorial</span></code>.</p>
+<p>The git submodule allows us to share the ibek-defs definitions between all
+ioc-XXX projects but also allows each project to have its copy fixed to
+a particular commit (until updated with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>) see
+<a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a> for more information.</p>
+</section>
+<section id="modify-the-dockerfile">
+<h2>Modify the Dockerfile<a class="headerlink" href="#modify-the-dockerfile" title="Permalink to this heading">#</a></h2>
+<p>The heart of every ioc-XXX project is the Dockerfile. This is a text file
+that contains a set of instructions that are used to build a container image.
+See <a class="reference external" href="https://docs.docker.com/engine/reference/builder/">https://docs.docker.com/engine/reference/builder/</a> for details of how
+to make Dockerfiles.</p>
+<p>All ioc-XXX projects will have the same pattern of Dockerfile instructions
+and will all be based upon the epics base images named:</p>
+<ul class="simple">
+<li><p>ghcr.io/epics-containers/epics-base-&lt;ARCH&gt;-&lt;TARGET&gt;</p></li>
+</ul>
+<p>Where ARCH is currently <code class="docutils literal notranslate"><span class="pre">linux</span></code> or <code class="docutils literal notranslate"><span class="pre">rtems</span></code> and TARGET will always be <code class="docutils literal notranslate"><span class="pre">developer</span></code>
+and <code class="docutils literal notranslate"><span class="pre">runtime</span></code>. Support for further architectures will be added in the future.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">developer</span></code> image contains all the tools needed to build support modules
+and is used for building and debugging the generic IOC. The <code class="docutils literal notranslate"><span class="pre">runtime</span></code> image
+is a minimal image that holds the minimum required to run the generic IOC.</p>
+<p>The changes we will make to the template Dockerfile are as follows:</p>
+<section id="add-more-support-modules">
+<h3>Add more support modules<a class="headerlink" href="#add-more-support-modules" title="Permalink to this heading">#</a></h3>
+<p>After the make of <code class="docutils literal notranslate"><span class="pre">busy</span></code> add 3 more support module fetch and make steps
+like this:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-defs/adsupport/<span class="w"> </span>/ctools/adsupport/
+<span class="k">RUN</span><span class="w"> </span>python3<span class="w"> </span>modules.py<span class="w"> </span>install<span class="w"> </span>ADSUPPORT<span class="w"> </span>R1-10<span class="w"> </span>github.com/areaDetector/adsupport.git<span class="w"> </span>--patch<span class="w"> </span>adsupport/adsupport.sh
+<span class="k">RUN</span><span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/adsupport<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
+
+<span class="k">COPY</span><span class="w"> </span>ibek-defs/adcore/<span class="w"> </span>/ctools/adcore/
+<span class="k">RUN</span><span class="w"> </span>python3<span class="w"> </span>modules.py<span class="w"> </span>install<span class="w"> </span>ADCORE<span class="w"> </span>R3-12-1<span class="w"> </span>github.com/areaDetector/adcore.git<span class="w"> </span>--patch<span class="w"> </span>adcore/adcore.sh
+<span class="k">RUN</span><span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/adcore<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
+
+<span class="k">COPY</span><span class="w"> </span>ibek-defs/adurl/<span class="w"> </span>/ctools/adurl/
+<span class="k">RUN</span><span class="w"> </span>python3<span class="w"> </span>modules.py<span class="w"> </span>install<span class="w"> </span>ADURL<span class="w"> </span>R2-3<span class="w"> </span>github.com/areaDetector/adurl.git<span class="w"> </span>--patch<span class="w"> </span>adurl/adurl.sh
+<span class="k">RUN</span><span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span><span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/adurl<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+<p>This instructs the build to fetch the support module source code from GitHub
+for ADURL and its two dependencies ADSUPPORT and ADCORE. It also makes each
+module after fetching.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may think that there is a lot of duplication here but this is explicitly
+done to make the build cache more efficient and speed up development.
+For example we could copy everything out of the ibek-defs directory
+in a single command but then if I changed the ADURL patch file the
+build would have to re-fetch and re-make all the support modules.</p>
+</div>
+</section>
+<section id="add-system-dependencies">
+<h3>Add System Dependencies<a class="headerlink" href="#add-system-dependencies" title="Permalink to this heading">#</a></h3>
+<p>If you tried to build the container image at this point you would find that
+it is missing the boost libraries which are required by areaDetector. You
+can use <code class="docutils literal notranslate"><span class="pre">apt</span></code> to install anything you need inside the container. Replace
+the commented out <code class="docutils literal notranslate"><span class="pre">apt-get</span></code> lines with:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>upgrade<span class="w"> </span>-y<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>--no-install-recommends<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>libboost-all-dev
+</pre></div>
+</div>
+</section>
+</section>
+<section id="add-ibek-defs-patch-file-for-adurl">
+<h2>Add ibek-defs Patch file for ADURL<a class="headerlink" href="#add-ibek-defs-patch-file-for-adurl" title="Permalink to this heading">#</a></h2>
+<p>In the above we referred to a patch file for ADURL. Add this in the <code class="docutils literal notranslate"><span class="pre">ibek-defs</span></code>
+folder by creating directory called <code class="docutils literal notranslate"><span class="pre">ibek-defs/adurl</span></code> and adding a file called
+<code class="docutils literal notranslate"><span class="pre">adurl.sh</span></code> with the following contents:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">CROSS_COMPILER_TARGET_ARCHS =</span>
+
+<span class="s1"># Enable file plugins and source them all from ADSupport</span>
+
+<span class="s1">WITH_GRAPHICSMAGICK = YES</span>
+<span class="s1">GRAPHICSMAGICK_EXTERNAL = NO</span>
+
+<span class="s1">WITH_JPEG     = YES</span>
+<span class="s1">JPEG_EXTERNAL = NO</span>
+
+<span class="s1">WITH_PVA      = YES</span>
+<span class="s1">WITH_BOOST    = YES</span>
+<span class="s1">&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>configure/CONFIG_SITE.linux-x86_64.Common
+
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1"># Generic RELEASE.local file that should work for all Support modules and IOCs</span>
+
+<span class="s1">SUPPORT=NotYetSet</span>
+<span class="s1">AREA_DETECTOR=$(SUPPORT)</span>
+<span class="s1">include $(SUPPORT)/configure/RELEASE</span>
+<span class="s1">&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>configure/RELEASE.local
+</pre></div>
+</div>
+<p>This is a pretty standard patch file and most support modules will need
+something similar.
+It creates two files in the ADURL support module’s configure folder as
+follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CONFIG_SITE.linux-x86_64.Common</span></code> - This tells the ADURL build
+to use the GraphicsMagick and JPEG libraries that are built by ADSUPPORT.
+For details of what to put in CONFIG_SITE for AreaDetector modules see
+<a class="reference external" href="https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch">CONFIG_SITE.local</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RELEASE.local</span></code> - This tells the ADURL build where to find
+the support modules that it depends on. epics-containers maintains a
+global release file that is used by all support modules and IOCs. It
+located at <code class="docutils literal notranslate"><span class="pre">/repos/epics/support/configure/RELEASE</span></code>. Therefore we
+place a reference to this file in the RELEASE.local file. Whenever
+<code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">modules.py</span> <span class="pre">install</span></code> is run it will update the global release
+file and also fixup any <code class="docutils literal notranslate"><span class="pre">SUPPORT=</span></code> lines in all <code class="docutils literal notranslate"><span class="pre">configure/RELEASE*</span></code>
+files.</p></li>
+</ul>
+<p>ADCore and ADSupport already have ibek-defs files as they were previously created
+when making <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>.</p>
+</section>
+<section id="update-the-ioc-makefile">
+<h2>Update the IOC Makefile<a class="headerlink" href="#update-the-ioc-makefile" title="Permalink to this heading">#</a></h2>
+<p>The IOC Makefile tells the IOC which modules to link against. We need to update
+it to pull in ADUrl and dependencies. Replace the file <code class="docutils literal notranslate"><span class="pre">ioc/iocApp/src/Makefile</span></code>
+with the following:</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">TOP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>../..
+<span class="cp">include $(TOP)/configure/CONFIG</span>
+
+<span class="nv">PROD_IOC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ioc
+<span class="nv">DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>ioc.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>base.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>devIocStats.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>asyn.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>busySupport.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>ADSupport.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDPluginSupport.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDFileHDF5.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDFileJPEG.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDFileTIFF.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDFileNull.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDPosPlugin.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>URLDriverSupport.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>PVAServerRegister.dbd
+<span class="nv">ioc_DBD</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDPluginPva.dbd
+
+<span class="nv">ioc_SRCS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>ioc_registerRecordDeviceDriver.cpp
+
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>ntndArrayConverter
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>nt
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>pvData
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>pvDatabase
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>pvAccessCA
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>pvAccessIOC
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>pvAccess
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>URLDriver
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>NDPlugin
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>ADBase
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>cbfad
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>busy
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>asyn
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>devIocStats
+<span class="nv">ioc_LIBS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>EPICS_BASE_IOC_LIBS<span class="k">)</span>
+<span class="nv">ioc_SRCS</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>iocMain.cpp
+
+<span class="cp">include $(TOP)/configure/RULES</span>
+</pre></div>
+</div>
+<p>TODO: in future the IBEK tool will generate the Makefile for you based on the
+ibek support YAML supplied with each module in ibek-defs.</p>
+</section>
+<section id="build-the-generic-ioc">
+<h2>Build the Generic IOC<a class="headerlink" href="#build-the-generic-ioc" title="Permalink to this heading">#</a></h2>
+<p>Now we can build the IOC. Run the following command from the ioc-adurl
+directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>build
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will FAIL. There is a deliberate error which we will fix in the next
+step.</p>
+<p>You should see this error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">URLDriver</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span> <span class="n">fatal</span> <span class="n">error</span><span class="p">:</span> <span class="n">Magick</span><span class="o">++.</span><span class="n">h</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="investigate-the-build-failure">
+<h2>Investigate the Build Failure<a class="headerlink" href="#investigate-the-build-failure" title="Permalink to this heading">#</a></h2>
+<p>When a container build fails the container image is created up to the point
+where the last successful Dockerfile command was run. This means that we can
+investigate the build failure by running a shell in the container. <code class="docutils literal notranslate"><span class="pre">ec</span></code>
+provides us with the following convenience command to do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>debug-last
+</pre></div>
+</div>
+<p>Now we have a prompt inside the part build container and can retry the failed
+command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/repos/epics/support/adurl
+make
+</pre></div>
+</div>
+<p>You should see the same error again.</p>
+</section>
 </section>
 
 
@@ -485,7 +763,10 @@ on the ADSimDetector one. (point at a public web cam)</p>
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="06_ioc_changes.html"
@@ -505,7 +786,10 @@ on the ADSimDetector one. (point at a public web cam)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -513,6 +797,26 @@ on the ADSimDetector one. (point at a public web cam)</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-generic-ioc-project">Create a New Generic IOC project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-ibek-defs-submodule">Configure the ibek-defs Submodule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-the-dockerfile">Modify the Dockerfile</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-more-support-modules">Add more support modules</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-system-dependencies">Add System Dependencies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-ibek-defs-patch-file-for-adurl">Add ibek-defs Patch file for ADURL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-ioc-makefile">Update the IOC Makefile</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-generic-ioc">Build the Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-the-build-failure">Investigate the Build Failure</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   
@@ -542,7 +846,7 @@ on the ADSimDetector one. (point at a public web cam)</p>
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner"></div>
+            
           </footer>
         
       </main>
@@ -550,8 +854,8 @@ on the ADSimDetector one. (point at a public web cam)</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -560,7 +864,7 @@ on the ADSimDetector one. (point at a public web cam)</p>
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.2.
 </p></div>
       
     </div>
