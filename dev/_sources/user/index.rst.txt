@@ -21,7 +21,9 @@ side-bar.
             tutorials/05_deploy_example
             tutorials/06_ioc_changes
             tutorials/07_generic_ioc
-            tutorials/08_support_module
+            tutorials/08_debug_generic_ioc
+            tutorials/09_test_generic_ioc
+            tutorials/10_support_module
 
         +++
 

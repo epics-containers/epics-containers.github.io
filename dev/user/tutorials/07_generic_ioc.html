@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Working with Generic IOCs &#8212; epics-containers.github.io 0.9.dev89+gc79cf0c documentation</title>
+    <title>Working with Generic IOCs &#8212; epics-containers.github.io 0.9.dev90+g2ca1693 documentation</title>
   
   
   
@@ -55,7 +55,7 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Working with Support Modules" href="08_support_module.html" />
+    <link rel="next" title="Debugging Generic IOC Builds" href="08_debug_generic_ioc.html" />
     <link rel="prev" title="Testing Changes to IOC Instances" href="06_ioc_changes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -388,7 +388,9 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Generic IOCs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="08_support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_support_module.html">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -731,29 +733,12 @@ directory:</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This will FAIL. There is a deliberate error which we will fix in the next
-step.</p>
+Tutorial.</p>
 <p>You should see this error:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">../</span><span class="n">URLDriver</span><span class="o">.</span><span class="n">cpp</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span> <span class="n">fatal</span> <span class="n">error</span><span class="p">:</span> <span class="n">Magick</span><span class="o">++.</span><span class="n">h</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
 </pre></div>
 </div>
 </div>
-</section>
-<section id="investigate-the-build-failure">
-<h2>Investigate the Build Failure<a class="headerlink" href="#investigate-the-build-failure" title="Permalink to this heading">#</a></h2>
-<p>When a container build fails the container image is created up to the point
-where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container. <code class="docutils literal notranslate"><span class="pre">ec</span></code>
-provides us with the following convenience command to do this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>debug-last
-</pre></div>
-</div>
-<p>Now we have a prompt inside the part build container and can retry the failed
-command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/repos/epics/support/adurl
-make
-</pre></div>
-</div>
-<p>You should see the same error again.</p>
 </section>
 </section>
 
@@ -778,11 +763,11 @@ make
       </div>
     </a>
     <a class="right-next"
-       href="08_support_module.html"
+       href="08_debug_generic_ioc.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Support Modules</p>
+        <p class="prev-next-title">Debugging Generic IOC Builds</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -814,7 +799,6 @@ make
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-ibek-defs-patch-file-for-adurl">Add ibek-defs Patch file for ADURL</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-ioc-makefile">Update the IOC Makefile</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-generic-ioc">Build the Generic IOC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-the-build-failure">Investigate the Build Failure</a></li>
 </ul>
   </nav></div>
 
@@ -864,7 +848,7 @@ make
     <div class="footer-items__end">
       
         <div class="footer-item"><p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.2.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
 </p></div>
       
     </div>
