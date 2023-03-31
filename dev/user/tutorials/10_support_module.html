@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Working with Support Modules &#8212; epics-containers.github.io 0.9.dev92+gcbad047 documentation</title>
+    <title>Working with Support Modules &#8212; epics-containers.github.io 0.9.dev93+gc271106 documentation</title>
   
   
   
@@ -476,11 +476,18 @@ document.write(`
                   
   <section id="working-with-support-modules">
 <h1>Working with Support Modules<a class="headerlink" href="#working-with-support-modules" title="Permalink to this heading">#</a></h1>
-<p>Here we will see how to create a new support module for new hardware. This
-will include creating a new generic IOC to make use of this support.</p>
-<p>We will also see how to locally test changes to a support module.</p>
+<p>If you are starting a new support module then the preceding tutorials
+have covered all of the skills you will need.</p>
+<p>To work on a new support module you will need a generic IOC project to
+work inside. You could choose to create two new projects, MyNewDeviceSupport
+and ioc-MyNewDeviceSupport, or you could create a single project which looks
+like a traditional EPICS Support module and merge in the files from
+ioc-template.</p>
+<p>Once you have created the project(s), working on the support module will
+look very similar to the procedures set out here <a class="reference internal" href="08_debug_generic_ioc.html"><span class="doc">Debugging Generic IOC Builds</span></a></p>
 <p>TODO: suggest that we will make a new Stream Device that will be a
-simple echo server.</p>
+simple echo server. Use this to step through the process of creating a
+new support module.</p>
 </section>
 
 
