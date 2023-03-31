@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Working with Generic IOCs &#8212; epics-containers.github.io 0.9.dev90+g2ca1693 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 0.9.dev91+g3ca577a documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Generic IOCs</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_support_module.html">Working with Support Modules</a></li>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -456,7 +457,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Working with Generic IOCs</li>
+    <li class="breadcrumb-item active" aria-current="page">Create a Generic IOC</li>
   </ul>
 </nav>
 </div>
@@ -473,8 +474,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="working-with-generic-iocs">
-<h1>Working with Generic IOCs<a class="headerlink" href="#working-with-generic-iocs" title="Permalink to this heading">#</a></h1>
+  <section id="create-a-generic-ioc">
+<h1>Create a Generic IOC<a class="headerlink" href="#create-a-generic-ioc" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial we will learn how to create a generic IOC container image and
 test our changes locally before deploying it.</p>
 <p>The example IOC used ADSimDetector, we will make a similar IOC that uses
@@ -672,6 +673,12 @@ files.</p></li>
 </ul>
 <p>ADCore and ADSupport already have ibek-defs files as they were previously created
 when making <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The folder /repos is where all externally fetched source code is stored
+inside our containers. For a detailed explanation see
+<a class="reference internal" href="../explanations/repos.html"><span class="doc">What is the /repos Folder?</span></a></p>
+</div>
 </section>
 <section id="update-the-ioc-makefile">
 <h2>Update the IOC Makefile<a class="headerlink" href="#update-the-ioc-makefile" title="Permalink to this heading">#</a></h2>

@@ -133,8 +133,7 @@ First you will need install `docker for WSL`_.
 You will also require an `X11 Server for Windows`_. When you run the server
 choose the option **Disable Access Control** as follows:
 
-.. image:: ../images/vcxsrv.png
-    :align: center
+.. figure:: ../images/vcxsrv.png
 
 The networking for docker on WSL will not broadcast between containers so
 you need to use EPICS_CA_ADDR_LIST to get edm to see the example IOC

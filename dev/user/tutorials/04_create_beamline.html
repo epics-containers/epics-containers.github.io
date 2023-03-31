@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers.github.io 0.9.dev90+g2ca1693 documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers.github.io 0.9.dev91+g3ca577a documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_support_module.html">Working with Support Modules</a></li>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -555,7 +556,9 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </div>
 </li>
 </ol>
-<img alt="../../_images/create_repo.png" class="align-center" src="../../_images/create_repo.png" />
+<figure class="align-default">
+<img alt="../../_images/create_repo.png" src="../../_images/create_repo.png" />
+</figure>
 </section>
 </section>
 <section id="make-a-release-of-example-beamline-bl01t">
@@ -579,13 +582,17 @@ chart has changed since the last release then a new version of the helm chart
 is delivered to your GitHub account’s OCI registry.</p>
 <p>To watch the progress go to the Actions Panel for your project at
 <a class="github reference external" href="https://github.com">github</a>/&lt;YOUR USER NAME&gt;/bl01t/actions</p>
-<img alt="../../_images/github_actions.png" class="align-center" src="../../_images/github_actions.png" />
+<figure class="align-default">
+<img alt="../../_images/github_actions.png" src="../../_images/github_actions.png" />
+</figure>
 <p>Once the CI completes you should have a helm chart delivered in your project
 OCI registry. You can see this listed in project ‘packages’.
 Look for a link to the package on the right hand side of your
 project page.</p>
 <p>Go to the code pane and click on the example package circled below to see it.</p>
-<img alt="../../_images/github_package.png" class="align-center" src="../../_images/github_package.png" />
+<figure class="align-default">
+<img alt="../../_images/github_package.png" src="../../_images/github_package.png" />
+</figure>
 <p>The OCI registry name of the helm chart will be
 ghcr.io/&lt;YOUR USER NAME&gt;/bl01t/bl01t-ea-ioc-01:23.4.1.</p>
 <p>You have now completed this tutorial. Here you have created a new beamline

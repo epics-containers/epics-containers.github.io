@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Testing Changes to IOC Instances &#8212; epics-containers.github.io 0.9.dev90+g2ca1693 documentation</title>
+    <title>Testing Changes to IOC Instances &#8212; epics-containers.github.io 0.9.dev91+g3ca577a documentation</title>
   
   
   
@@ -55,7 +55,7 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Working with Generic IOCs" href="07_generic_ioc.html" />
+    <link rel="next" title="Create a Generic IOC" href="07_generic_ioc.html" />
     <link rel="prev" title="Deploy The Example IOC" href="05_deploy_example.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -387,7 +387,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="05_deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_support_module.html">Working with Support Modules</a></li>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -550,7 +551,7 @@ folder:</p>
 and this means it will be pulled from the container registry (or come from
 the cache if it has already been pulled).
 If you do not supply a tag then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will look for a local copy of the
-container to use, we will cover this in <a class="reference internal" href="07_generic_ioc.html"><span class="doc">Working with Generic IOCs</span></a>.</p>
+container to use, we will cover this in <a class="reference internal" href="07_generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
 <p>If all is well you should see your iocShell prompt and you can test your change
 from another terminal (VSCode menus -&gt; Terminal -&gt; New Terminal) like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-EA-IOC-01:TEST
@@ -634,7 +635,7 @@ registry. You can then deploy the versioned IOC instance to the cluster.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Generic IOCs</p>
+        <p class="prev-next-title">Create a Generic IOC</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

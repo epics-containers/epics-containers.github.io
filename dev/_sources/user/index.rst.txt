@@ -57,6 +57,7 @@ side-bar.
             explanations/docs-structure
             explanations/repositories
             explanations/cli-tools
+            explanations/repos
 
         +++
 

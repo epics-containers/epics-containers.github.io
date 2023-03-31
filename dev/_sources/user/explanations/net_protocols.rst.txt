@@ -48,17 +48,13 @@ Initially we looked into workarounds to these issues. For example the
 diagram below shows a 'ca-forwarder' that sits on the EPICS client subnet
 and forwards requests to IOCs in the cluster.
 
-.. image:: ../images/caforwarder.png
-    :width: 1500px
-    :align: center
+.. figure:: ../images/caforwarder.png
 
 However this 2nd diagram shows why this approach fails when the client is in
 the cluster itself.
 
 
-.. image:: ../images/cabackwarder.png
-    :width: 1500px
-    :align: center
+.. figure:: ../images/cabackwarder.png
 
 The conclusion of this study was that workarounds were fiddly and needed to be
 implemented on a per protocol basis, plus there is no guarantee that there

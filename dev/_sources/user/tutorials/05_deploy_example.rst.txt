@@ -99,11 +99,13 @@ following images.
     `../explanations/cli-tools`
 
 
-.. image:: ../images/edm_sim.png
-    :align: center
+.. figure:: ../images/edm_sim.png
 
-.. image:: ../images/c2dv.png
-    :align: center
+    edm screen for the example IOC
+
+.. figure:: ../images/c2dv.png
+
+    the c2dv viewer showing an image from the example IOC
 
 
 Managing IOCs

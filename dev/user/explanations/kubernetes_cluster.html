@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Cluster Config &#8212; epics-containers.github.io 0.9.dev90+g2ca1693 documentation</title>
+    <title>Kubernetes Cluster Config &#8212; epics-containers.github.io 0.9.dev91+g3ca577a documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/10_support_module.html">Working with Support Modules</a></li>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -534,13 +535,19 @@ IOCs on a Beamline.</p>
 <section id="overview">
 <h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h3>
 <p>Argus is the production DLS cluster. It comprises 22 bare metal worker nodes, with a 3 node control plane that runs in VMs. The control plane nodes run the K8s master processes such as the API server, controller manager etc. Each control plane node runs an etcd backend.</p>
+<figure class="align-default">
 <img alt="../../_images/clusterHA.png" src="../../_images/clusterHA.png" />
+</figure>
 <p>To load balance across the K8s API running on the control plane nodes, there is a haproxy load balancer. The DNS endpoint argus.api.diamond.ac.uk (which all nodes use as the main API endpoint) points to a single haproxy IP. The IP is HA by virtue of a pair of VMs that both run haproxy, bind on all IPs, and use VRRP/keepalived to make sure the IP is always up. Haproxy has the 3 control plane nodes as a target backend.</p>
+<figure class="align-default">
 <img alt="../../_images/kubeadm-ha-topology-stacked-etcd.png" src="../../_images/kubeadm-ha-topology-stacked-etcd.png" />
+</figure>
 <p>The cluster uses Kubeadm to deploy the K8s control plane in containers. It is provided by K8s upstream, and is architecturally similar to Rancher Kubernetes Engine (RKE). Kubeadm supports upgrades/downgrades and easy provisioning of nodes. The cluster is connected using Weave as the CNI. Weave is the only CNI tested that passes Broadcast/Unicast/Multicast (BUM) traffic through the iptables that control network access for pods. Metallb is used as a component to support K8s loadBalancer Service objects. Ingress nginx from nginxinc is used as an ingress controller. Logs are collected from the stdout of all pods using a fluentd daemonset which ships logs to a centralized graylog server. Cluster authentication is via KeyCloak.</p>
 <p>The cluster sits in one rack, with a top of rack (TOR) switch/router connecting it to the rest of the network. The cluster nodes sit on the same /22 network which is routable via the TOR router (this router routes the /22 subnet to other racks via OSPF). Metallb pool IPs are allocated from within this /22 to ensure they are globally routable by the OSPF network; the metallb speaker pods respond to ARP requests originating from the TOR router looking for load balanced Service IPs.</p>
 <p><strong>One of the Argus racks</strong></p>
+<figure class="align-default">
 <img alt="../../_images/argus3.jpg" src="../../_images/argus3.jpg" />
+</figure>
 <p>The cluster is built and managed using Ansible. Heavy use of the k8s module enables direct installation of K8s components by talking directly to the K8s API using the k8s module. Ansible also configures the haproxy API load balancer. Prometheus_operator provides the monitoring stack.</p>
 <p>Argus is a multi-tenant cluster. Namespaces are used to enforce multi-tenancy. A namespace is created on demand for each user, acting as a sandbox for them to get familiar with K8s. Applications deployed in production get their own “project” namespace. The project namespace has some associated policy that determines who can run pods in the namespace, what data can be accessed, and if pods can run with elevated privileges. This is enforced by a combination of RBAC and Pod Security Policy (PSP). The latter is a deprecated feature in K8s 1.21 and will soon be replaced with Open Policy Agent.</p>
 </section>

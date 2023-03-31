@@ -106,8 +106,7 @@ repo in the future.
         git commit -m "rename blxxi to bl01t"
         git push origin main
 
-.. image:: ../images/create_repo.png
-    :align: center
+.. figure:: ../images/create_repo.png
 
 
 Make a Release of Example Beamline bl01t
@@ -138,8 +137,7 @@ is delivered to your GitHub account's OCI registry.
 To watch the progress go to the Actions Panel for your project at
 https://github.com/<YOUR USER NAME>/bl01t/actions
 
-.. image:: ../images/github_actions.png
-    :align: center
+.. figure:: ../images/github_actions.png
 
 Once the CI completes you should have a helm chart delivered in your project
 OCI registry. You can see this listed in project 'packages'.
@@ -148,8 +146,7 @@ project page.
 
 Go to the code pane and click on the example package circled below to see it.
 
-.. image:: ../images/github_package.png
-    :align: center
+.. figure:: ../images/github_package.png
 
 The OCI registry name of the helm chart will be
 ghcr.io/<YOUR USER NAME>/bl01t/bl01t-ea-ioc-01:23.4.1.
