@@ -18,6 +18,9 @@ Much like creating a new beamline we have a template project that can be used
 as the starting point for a new generic IOC. Again we will create this in
 your personal GitHub user space.
 
+Create a new ioc-XXX repo
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 TODO: the following steps to create a new generic IOC project will be automated
 using an ``ec`` command.
 
@@ -40,13 +43,37 @@ using an ``ec`` command.
     From the VSCode menus: File->Add Folder to Workspace
     then select the folder ioc-adurl
 
-#.  Push the new repo back to a the new repo on github
+#.  Push the repo back to a the new repo on github
 
     .. code-block:: bash
 
         git remote rm origin
         git remote add origin git@github.com:<YOUR USER NAME>/ioc-adurl.git
-        git push origin main
+        git push --set-upstream origin main
+
+Prepare the New Repo for Development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are a few things that all new ioc-XXX repos need to do:
+
+:Choose Architecture:
+
+    Update the file ``.github/workflows/build.yml`` to choose the architectures
+    you are targeting find the ``architecture:`` line and change it accordingly.
+    For this project we want ``linux`` only.
+
+:Fix the tests:
+
+    ioc-template comes with some tests and they will continue to work. This is
+    because they rely a default EPICS db. Specified in ``ioc/config/ioc.db``.
+    You should update default example files in ``ioc/config/ioc.db`` to be
+    relevant to your IOC and change the script in ``tests`` to match.
+
+For now leave the tests alone as we will be working with them in
+`09_test_generic_ioc`.
+
+Now we will go ahead and make the specific changes to the template
+needed for our ioc-adurl project.
 
 Configure the ibek-defs Submodule
 ---------------------------------
@@ -302,3 +329,4 @@ directory:
 
         ../URLDriver.cpp:22:10: fatal error: Magick++.h: No such file or directory
 
+In the next tutorial we will look at how to fix build errors like this.

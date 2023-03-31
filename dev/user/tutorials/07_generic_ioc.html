@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 0.9.dev91+g3ca577a documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 0.9.dev92+gcbad047 documentation</title>
   
   
   
@@ -488,6 +488,8 @@ name of the primary support module used by the IOC. Here we will be building
 <p>Much like creating a new beamline we have a template project that can be used
 as the starting point for a new generic IOC. Again we will create this in
 your personal GitHub user space.</p>
+<section id="create-a-new-ioc-xxx-repo">
+<h3>Create a new ioc-XXX repo<a class="headerlink" href="#create-a-new-ioc-xxx-repo" title="Permalink to this heading">#</a></h3>
 <p>TODO: the following steps to create a new generic IOC project will be automated
 using an <code class="docutils literal notranslate"><span class="pre">ec</span></code> command.</p>
 <ol class="arabic">
@@ -507,14 +509,36 @@ have.</p>
 <p>From the VSCode menus: File-&gt;Add Folder to Workspace
 then select the folder ioc-adurl</p>
 </li>
-<li><p>Push the new repo back to a the new repo on github</p>
+<li><p>Push the repo back to a the new repo on github</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>rm<span class="w"> </span>origin
 git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:&lt;YOUR<span class="w"> </span>USER<span class="w"> </span>NAME&gt;/ioc-adurl.git
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+git<span class="w"> </span>push<span class="w"> </span>--set-upstream<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
 </li>
 </ol>
+</section>
+<section id="prepare-the-new-repo-for-development">
+<h3>Prepare the New Repo for Development<a class="headerlink" href="#prepare-the-new-repo-for-development" title="Permalink to this heading">#</a></h3>
+<p>There are a few things that all new ioc-XXX repos need to do:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Choose Architecture<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Update the file <code class="docutils literal notranslate"><span class="pre">.github/workflows/build.yml</span></code> to choose the architectures
+you are targeting find the <code class="docutils literal notranslate"><span class="pre">architecture:</span></code> line and change it accordingly.
+For this project we want <code class="docutils literal notranslate"><span class="pre">linux</span></code> only.</p>
+</dd>
+<dt class="field-even">Fix the tests<span class="colon">:</span></dt>
+<dd class="field-even"><p>ioc-template comes with some tests and they will continue to work. This is
+because they rely a default EPICS db. Specified in <code class="docutils literal notranslate"><span class="pre">ioc/config/ioc.db</span></code>.
+You should update default example files in <code class="docutils literal notranslate"><span class="pre">ioc/config/ioc.db</span></code> to be
+relevant to your IOC and change the script in <code class="docutils literal notranslate"><span class="pre">tests</span></code> to match.</p>
+</dd>
+</dl>
+<p>For now leave the tests alone as we will be working with them in
+<a class="reference internal" href="09_test_generic_ioc.html"><span class="doc">Testing and Deploying a Generic IOC</span></a>.</p>
+<p>Now we will go ahead and make the specific changes to the template
+needed for our ioc-adurl project.</p>
+</section>
 </section>
 <section id="configure-the-ibek-defs-submodule">
 <h2>Configure the ibek-defs Submodule<a class="headerlink" href="#configure-the-ibek-defs-submodule" title="Permalink to this heading">#</a></h2>
@@ -746,6 +770,7 @@ Tutorial.</p>
 </pre></div>
 </div>
 </div>
+<p>In the next tutorial we will look at how to fix build errors like this.</p>
 </section>
 </section>
 
@@ -796,7 +821,11 @@ Tutorial.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-generic-ioc-project">Create a New Generic IOC project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-generic-ioc-project">Create a New Generic IOC project</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-ioc-xxx-repo">Create a new ioc-XXX repo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-new-repo-for-development">Prepare the New Repo for Development</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-ibek-defs-submodule">Configure the ibek-defs Submodule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-the-dockerfile">Modify the Dockerfile</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-more-support-modules">Add more support modules</a></li>
