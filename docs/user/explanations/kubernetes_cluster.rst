@@ -68,11 +68,11 @@ Overview
 
 Argus is the production DLS cluster. It comprises 22 bare metal worker nodes, with a 3 node control plane that runs in VMs. The control plane nodes run the K8s master processes such as the API server, controller manager etc. Each control plane node runs an etcd backend.
 
-.. image:: ../images/clusterHA.png
+.. figure:: ../images/clusterHA.png
 
 To load balance across the K8s API running on the control plane nodes, there is a haproxy load balancer. The DNS endpoint argus.api.diamond.ac.uk (which all nodes use as the main API endpoint) points to a single haproxy IP. The IP is HA by virtue of a pair of VMs that both run haproxy, bind on all IPs, and use VRRP/keepalived to make sure the IP is always up. Haproxy has the 3 control plane nodes as a target backend.
 
-.. image:: ../images/kubeadm-ha-topology-stacked-etcd.png
+.. figure:: ../images/kubeadm-ha-topology-stacked-etcd.png
 
 The cluster uses Kubeadm to deploy the K8s control plane in containers. It is provided by K8s upstream, and is architecturally similar to Rancher Kubernetes Engine (RKE). Kubeadm supports upgrades/downgrades and easy provisioning of nodes. The cluster is connected using Weave as the CNI. Weave is the only CNI tested that passes Broadcast/Unicast/Multicast (BUM) traffic through the iptables that control network access for pods. Metallb is used as a component to support K8s loadBalancer Service objects. Ingress nginx from nginxinc is used as an ingress controller. Logs are collected from the stdout of all pods using a fluentd daemonset which ships logs to a centralized graylog server. Cluster authentication is via KeyCloak.
 
@@ -81,7 +81,7 @@ The cluster sits in one rack, with a top of rack (TOR) switch/router connecting 
 
 **One of the Argus racks**
 
-.. image:: ../images/argus3.jpg
+.. figure:: ../images/argus3.jpg
 
 The cluster is built and managed using Ansible. Heavy use of the k8s module enables direct installation of K8s components by talking directly to the K8s API using the k8s module. Ansible also configures the haproxy API load balancer. Prometheus_operator provides the monitoring stack.
 

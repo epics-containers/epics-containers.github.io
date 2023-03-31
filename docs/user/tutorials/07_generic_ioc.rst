@@ -1,5 +1,5 @@
-Working with Generic IOCs
-=========================
+Create a Generic IOC
+====================
 
 In this tutorial we will learn how to create a generic IOC container image and
 test our changes locally before deploying it.
@@ -221,6 +221,12 @@ follows:
 ADCore and ADSupport already have ibek-defs files as they were previously created
 when making ``ioc-adsimdetector``.
 
+.. note::
+
+    The folder /repos is where all externally fetched source code is stored
+    inside our containers. For a detailed explanation see
+    `../explanations/repos`
+
 .. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
 
 Update the IOC Makefile
@@ -296,38 +302,3 @@ directory:
 
         ../URLDriver.cpp:22:10: fatal error: Magick++.h: No such file or directory
 
-
-
-
-.. git submodule init
-.. git submodule update
-.. cd ibek ibek-defs TODO - do they need a fork of this??
-.. checkout main
-.. push --set-upstream origin main
-.. mkdir adurl
-
-.. ec dev build
-
-
-.. copy steps from ADSimDetector
-.. copy makefile from ADSimDetector/ioc/iocApp/Makefile
-
-.. Update this but discuss how we could have changed ADSupport to build GraphicsMagick
-.. configure/CONFIG_SITE.linux-x86_64.Common
-..     WITH_GRAPHICSMAGICK = YES
-..     GRAPHICSMAGICK_INCLUDE=/usr/include/GraphicsMagick
-
-..     # THIS COULD GO INTO ADSUPPORT AND THEN WE DONT NEED INCLUDE OR apt-install
-..     # GRAPHICSMAGICK_EXTERNAL = NO
-
-.. apt update
-.. apt install apt-file
-.. apt-file find Magick++.h
-.. add boost lib apt install
-.. AND libgraphicsmagick++1-dev
-.. change last step to adurl from ADSimDetector
-.. cp ibek-defs/adcore/adcore.sh ibek-defs/adurl/adurl.sh
-
-
-.. Once running:-
-.. caput -S BL01T-EA-TST-02:CAM:URL1

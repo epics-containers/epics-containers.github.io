@@ -16,7 +16,9 @@
         "Beamlines",
         "blxxi",
         "blxxt",
+        "GRAPHICSMAGICK",
         "klogout",
+        "Magick",
         "MVME"
     ]
 }
