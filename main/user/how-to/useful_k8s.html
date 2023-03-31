@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Additional How To’s &#8212; epics-containers.github.io 0.9.dev99+ge669d22 documentation</title>
+    <title>Kubernetes Additional How To’s &#8212; epics-containers.github.io 0.9.dev103+g41ebc1c documentation</title>
   
   
   
@@ -387,7 +387,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Working with Generic IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/10_support_module.html">Working with Support Modules</a></li>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -576,7 +577,9 @@ as follows.</p>
 <p>First you will need install <a class="reference external" href="https://docs.docker.com/docker-for-windows/wsl/">docker for WSL</a>.</p>
 <p>You will also require an <a class="reference external" href="https://sourceforge.net/projects/vcxsrv/">X11 Server for Windows</a>. When you run the server
 choose the option <strong>Disable Access Control</strong> as follows:</p>
-<img alt="../../_images/vcxsrv.png" class="align-center" src="../../_images/vcxsrv.png" />
+<figure class="align-default">
+<img alt="../../_images/vcxsrv.png" src="../../_images/vcxsrv.png" />
+</figure>
 <p>The networking for docker on WSL will not broadcast between containers so
 you need to use EPICS_CA_ADDR_LIST to get edm to see the example IOC
 PVs. To do this perform the following steps to get the name of the
