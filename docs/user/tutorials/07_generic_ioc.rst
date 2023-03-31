@@ -1,5 +1,5 @@
-Working with Generic IOCs
-=========================
+Create a Generic IOC
+====================
 
 In this tutorial we will learn how to create a generic IOC container image and
 test our changes locally before deploying it.
@@ -17,6 +17,9 @@ name of the primary support module used by the IOC. Here we will be building
 Much like creating a new beamline we have a template project that can be used
 as the starting point for a new generic IOC. Again we will create this in
 your personal GitHub user space.
+
+Create a new ioc-XXX repo
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 TODO: the following steps to create a new generic IOC project will be automated
 using an ``ec`` command.
@@ -40,13 +43,37 @@ using an ``ec`` command.
     From the VSCode menus: File->Add Folder to Workspace
     then select the folder ioc-adurl
 
-#.  Push the new repo back to a the new repo on github
+#.  Push the repo back to a the new repo on github
 
     .. code-block:: bash
 
         git remote rm origin
         git remote add origin git@github.com:<YOUR USER NAME>/ioc-adurl.git
-        git push origin main
+        git push --set-upstream origin main
+
+Prepare the New Repo for Development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are a few things that all new ioc-XXX repos need to do:
+
+:Choose Architecture:
+
+    Update the file ``.github/workflows/build.yml`` to choose the architectures
+    you are targeting find the ``architecture:`` line and change it accordingly.
+    For this project we want ``linux`` only.
+
+:Fix the tests:
+
+    ioc-template comes with some tests and they will continue to work. This is
+    because they rely a default EPICS db. Specified in ``ioc/config/ioc.db``.
+    You should update default example files in ``ioc/config/ioc.db`` to be
+    relevant to your IOC and change the script in ``tests`` to match.
+
+For now leave the tests alone as we will be working with them in
+`09_test_generic_ioc`.
+
+Now we will go ahead and make the specific changes to the template
+needed for our ioc-adurl project.
 
 Configure the ibek-defs Submodule
 ---------------------------------
@@ -221,6 +248,12 @@ follows:
 ADCore and ADSupport already have ibek-defs files as they were previously created
 when making ``ioc-adsimdetector``.
 
+.. note::
+
+    The folder /repos is where all externally fetched source code is stored
+    inside our containers. For a detailed explanation see
+    `../explanations/repos`
+
 .. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
 
 Update the IOC Makefile
@@ -296,38 +329,4 @@ directory:
 
         ../URLDriver.cpp:22:10: fatal error: Magick++.h: No such file or directory
 
-
-
-
-.. git submodule init
-.. git submodule update
-.. cd ibek ibek-defs TODO - do they need a fork of this??
-.. checkout main
-.. push --set-upstream origin main
-.. mkdir adurl
-
-.. ec dev build
-
-
-.. copy steps from ADSimDetector
-.. copy makefile from ADSimDetector/ioc/iocApp/Makefile
-
-.. Update this but discuss how we could have changed ADSupport to build GraphicsMagick
-.. configure/CONFIG_SITE.linux-x86_64.Common
-..     WITH_GRAPHICSMAGICK = YES
-..     GRAPHICSMAGICK_INCLUDE=/usr/include/GraphicsMagick
-
-..     # THIS COULD GO INTO ADSUPPORT AND THEN WE DONT NEED INCLUDE OR apt-install
-..     # GRAPHICSMAGICK_EXTERNAL = NO
-
-.. apt update
-.. apt install apt-file
-.. apt-file find Magick++.h
-.. add boost lib apt install
-.. AND libgraphicsmagick++1-dev
-.. change last step to adurl from ADSimDetector
-.. cp ibek-defs/adcore/adcore.sh ibek-defs/adurl/adurl.sh
-
-
-.. Once running:-
-.. caput -S BL01T-EA-TST-02:CAM:URL1
+In the next tutorial we will look at how to fix build errors like this.
