@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Command Line Interface for IOC Management &#8212; epics-containers.github.io 0.9.dev106+g4578aa1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/reference/cli';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'gilesknap-patch-2';
+        </script>
+    <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="IOC Helm Chart Details" href="ioc_helm_chart.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faq.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/k8s-epics2.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/k8s-epics2.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">epics-containers.github.io</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://github.com/epics-containers/epics-containers.github.io/releases">
+                    Release Notes
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      gilesknap-patch-2  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://github.com/epics-containers/epics-containers.github.io/releases">
+                    Release Notes
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      gilesknap-patch-2  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/00_intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/01_setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/02_devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/03_setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/04_create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/05_deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/06_ioc_changes.html">Testing Changes to IOC Instances</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/07_generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/10_support_module.html">Working with Support Modules</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/run_iocs.html">Run an IOC without Kubernetes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Command Line Interface for IOC Management</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="command-line-interface-for-ioc-management">
+<span id="cli"></span><h1>Command Line Interface for IOC Management<a class="headerlink" href="#command-line-interface-for-ioc-management" title="Permalink to this heading">#</a></h1>
+<p>Built in to the devcontainer is epics-containers-cli, a command line interface
+for assisting with building and managing IOCs in the cluster.</p>
+<p>The CLI is just a thin wrapper around these tools:-</p>
+<ul class="simple">
+<li><p>kubectl</p></li>
+<li><p>helm</p></li>
+<li><p>podman (or docker)</p></li>
+</ul>
+<p>To help with learning the above tools. The CLI will print out the commands it
+executes before running them. This can be suppressed with the <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> flag,
+or by setting the <code class="docutils literal notranslate"><span class="pre">K8S_QUIET=true</span></code> in your environment.</p>
+<p>The CLI entrypoint is <code class="docutils literal notranslate"><span class="pre">ec</span></code>. To see the available commands, run <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.
+Much of the functionality is available through subcommands dev and ioc.
+Below is pasted the current version of help for the CLI.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[E7][work-ec]$ ec --help
+
+Usage: ec [OPTIONS] COMMAND [ARGS]...
+
+EPICS Containers assistant CLI
+
+╭─ Options ─────────────────────────────────────────────────────╮
+│ --version                           Log the version of ec and │
+│                                     exit                      │
+│ --domain              -d      TEXT  Domain namespace to use   │
+│                                     [default: bl01t]          │
+│ --image-registry              TEXT  Image registry to pull    │
+│                                     from                      │
+│                                     [default:                 │
+│                                     ghcr.io/gilesknap]        │
+│ --helm-registry               TEXT  Helm registry to pull     │
+│                                     from                      │
+│                                     [default:                 │
+│                                     ghcr.io/gilesknap]        │
+│ --quiet               -q            Suppress printing of      │
+│                                     commands executed         │
+│ --log-level                   TEXT  Log level (DEBUG, INFO,   │
+│                                     WARNING, ERROR, CRITICAL) │
+│                                     [default: WARN]           │
+│ --install-completion                Install completion for    │
+│                                     the current shell.        │
+│ --show-completion                   Show completion for the   │
+│                                     current shell, to copy it │
+│                                     or customize the          │
+│                                     installation.             │
+│ --help                              Show this message and     │
+│                                     exit.                     │
+╰───────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────╮
+│ dev        Commands for building, debugging containers. See   │
+│            &#39;ec dev --help&#39;                                    │
+│ ioc        Commands for managing IOCs in the cluster. See &#39;ec │
+│            ioc --help&#39;                                        │
+│ monitor    Monitor the status of IOCs in a domain             │
+│ ps         List the IOCs running in the current domain        │
+│ resources  Output information about a domain&#39;s cluster        │
+│            resources                                          │
+╰───────────────────────────────────────────────────────────────╯
+
+[E7][work-ec]$ ec dev --help
+
+Usage: ec dev [OPTIONS] COMMAND [ARGS]...
+
+Commands for building, debugging containers. See &#39;ec dev
+--help&#39;
+
+╭─ Options ─────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                   │
+╰───────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────╮
+│ build       Build a container locally from a container        │
+│             project.                                          │
+│ debug-last  Launches a container with the most recent image   │
+│             build. Useful for debugging failed builds         │
+│ ioc-launch  Launch an IOC instance using a local helm chart   │
+│             definition. Set folder for a locally editable     │
+│             generic IOC or tag to choose any version from the │
+│             registry.                                         │
+│ launch      Launch a bash prompt in a container               │
+│ make        make the generic IOC source code inside its       │
+│             container                                         │
+╰───────────────────────────────────────────────────────────────╯
+
+[E7][work-ec]$ ec ioc --help
+
+Usage: ec ioc [OPTIONS] COMMAND [ARGS]...
+
+Commands for managing IOCs in the cluster. See &#39;ec ioc --help&#39;
+
+╭─ Options ─────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                   │
+╰───────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────╮
+│ attach        Attach to the IOC shell of a live IOC           │
+│ delete        Remove an IOC helm deployment from the cluster  │
+│ deploy        Pull an IOC helm chart and deploy it to the     │
+│               cluster                                         │
+│ deploy-local  Deploy a local IOC helm chart directly to the   │
+│               cluster with dated beta version                 │
+│ exec          Execute a bash prompt in a live IOC&#39;s container │
+│ log-history   Open historical logs for an IOC                 │
+│ logs          Show logs for current and previous instances of │
+│               an IOC                                          │
+│ restart       Restart an IOC                                  │
+│ start         Start an IOC                                    │
+│ stop          Stop an IOC                                     │
+│ template      print out the helm template generated from a    │
+│               local ioc helm chart                            │
+│ versions      List all versions of the IOC available in the   │
+│               helm registry                                   │
+╰───────────────────────────────────────────────────────────────╯
+</pre></div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="faq.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Frequently Asked Questions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ioc_helm_chart.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">IOC Helm Chart Details</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/gilesknap-patch-2/docs/user/reference/cli.rst">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/user/reference/cli.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
