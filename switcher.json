@@ -44,6 +44,10 @@
     "url": "https://epics-containers.github.io/epics-containers.github.io/gilesknap-patch-1/"
   },
   {
+    "version": "gilesknap-patch-2",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/gilesknap-patch-2/"
+  },
+  {
     "version": "review01",
     "url": "https://epics-containers.github.io/epics-containers.github.io/review01/"
   }

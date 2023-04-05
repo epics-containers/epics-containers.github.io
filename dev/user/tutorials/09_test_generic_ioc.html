@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Testing and Deploying a Generic IOC &#8212; epics-containers.github.io 0.9.dev93+gc271106 documentation</title>
+    <title>Testing and Deploying a Generic IOC &#8212; epics-containers.github.io 0.9.dev107+gb6bf66b documentation</title>
   
   
   
@@ -506,12 +506,11 @@ and click on the latest build you should see something like this:</p>
 </section>
 <section id="publishing-the-generic-ioc-container-to-ghcr">
 <h2>Publishing the Generic IOC Container to GHCR<a class="headerlink" href="#publishing-the-generic-ioc-container-to-ghcr" title="Permalink to this heading">#</a></h2>
-<p>Now give your genericIOC a version tag and push it to GitHub.
-.. code-block:: bash</p>
-<blockquote>
-<div><p>git tag 23.4.1
-git push origin 23.4.1</p>
-</div></blockquote>
+<p>Now give your genericIOC a version tag and push it to GitHub.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">23</span>.4.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">23</span>.4.1
+</pre></div>
+</div>
 <p>You will see the CI rebuild the container and push it to the GitHub container
 registry at github.io/&lt;YOUR GITHUB USER&gt;/ioc-adurl:&lt;YOUR TAG&gt;.</p>
 <p>This time the build will take 2 minutes. Last time it took 10 minutes
@@ -592,7 +591,7 @@ fully working version of the ioc-adurl project from the following link:</p>
 </section>
 <section id="try-out-some-gui">
 <h2>Try out some GUI<a class="headerlink" href="#try-out-some-gui" title="Permalink to this heading">#</a></h2>
-<p>To make the example more interesting I have provided an edm screen for it.</p>
+<p>Now let us verify that this is really working other than serving a single PV. For this purpose I have made some edm screens to try out. Using these screens you could attach ADUrl to your own video stream. A still image example is supplied as well. Unfortunately ADUrl dies not support HTTPS so there are no public feeds we could use to demo this.</p>
 <p>After running the tests in the previous section you should have a running
 container still active. You can see this using <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">ps</span></code>. You should
 see that <code class="docutils literal notranslate"><span class="pre">ioc-template-test-container</span></code> is still running. You can start it
