@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers.github.io 0.9.dev107+gb6bf66b documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers.github.io 0.9.dev108+gf3181c6 documentation</title>
   
   
   
@@ -539,6 +539,14 @@ mv<span class="w"> </span>opi/blxxi-ea-ioc-01/<span class="w"> </span>opi/bl01t-
 sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/BLXXI/BL01T/g&#39;</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>*<span class="w"> </span>-type<span class="w"> </span>f<span class="k">)</span>
 sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/blxxi/bl01t/g&#39;</span><span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>*<span class="w"> </span>-type<span class="w"> </span>f<span class="k">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are sharing the bl01t namespace on a cluster with other users
+(e.g. if you are at DLS) then consider changing the name of your IOC
+to something unique. To do this rename the folder iocs/bl01t-ea-ioc-01
+to your unique name and edit the <code class="docutils literal notranslate"><span class="pre">name:</span></code> field at the top of
+<code class="docutils literal notranslate"><span class="pre">Chart.yaml</span></code> to match the folder name.</p>
 </div>
 </li>
 <li><p>Add your new repo to your VSCode workspace and take a look at what you

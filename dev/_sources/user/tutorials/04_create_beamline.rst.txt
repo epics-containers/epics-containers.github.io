@@ -90,6 +90,14 @@ repo in the future.
         sed -i 's/BLXXI/BL01T/g' $(find * -type f)
         sed -i 's/blxxi/bl01t/g' $(find * -type f)
 
+    .. note::
+
+        If you are sharing the bl01t namespace on a cluster with other users
+        (e.g. if you are at DLS) then consider changing the name of your IOC
+        to something unique. To do this rename the folder iocs/bl01t-ea-ioc-01
+        to your unique name and edit the ``name:`` field at the top of
+        ``Chart.yaml`` to match the folder name.
+
 #.  Add your new repo to your VSCode workspace and take a look at what you
     have.
 
