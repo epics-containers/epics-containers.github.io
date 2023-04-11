@@ -35,6 +35,8 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
+            how-to/rtems_setup
+            how-to/rtems_ioc
             how-to/run_iocs
             how-to/debug
             how-to/contributing
