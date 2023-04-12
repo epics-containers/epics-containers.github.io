@@ -55,14 +55,14 @@ changes:
   and not already in use by another service. At the moment you have to try
   deploying and see if it works. If it doesn't work then try another IP.
 
-  Also note that `bl01t` is a shared resource so if there is already a
+  Also note that ``bl01t`` is a shared resource so if there is already a
   ``bl01t-nfsv2-tftp`` service running then you will have to choose a different
   IP address (or just use the existing one)
 
 You can verify if the service is already running using kubectl. The command
 shown below will list all the services in the ``bl01t`` namespace, and the
 example output shows that there is already a ``bl01t-nfsv2-tftp`` service
-using the IP address `172.23.168.220`:
+using the IP address ``172.23.168.220``:
 
 .. code-block:: bash
 
