@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Testing and Deploying a Generic IOC &#8212; epics-containers.github.io 0.10.dev6+g7833ed0 documentation</title>
+    <title>RTEMS - Creating a File Server &#8212; epics-containers.github.io 0.10.dev6+g7833ed0 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/09_test_generic_ioc';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/11_rtems_setup';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
@@ -55,8 +55,8 @@
     <link rel="shortcut icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Working with Support Modules" href="10_support_module.html" />
-    <link rel="prev" title="Debugging Generic IOC Builds" href="08_debug_generic_ioc.html" />
+    <link rel="next" title="RTEMS - Deploying an IOC" href="12_rtems_ioc.html" />
+    <link rel="prev" title="Working with Support Modules" href="10_support_module.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -389,9 +389,9 @@ document.write(`
 
 <li class="toctree-l1"><a class="reference internal" href="07_generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Testing and Deploying a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="11_rtems_setup.html">RTEMS - Creating a File Server</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">RTEMS - Creating a File Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="12_rtems_ioc.html">RTEMS - Deploying an IOC</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
@@ -459,7 +459,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Testing and Deploying a Generic IOC</li>
+    <li class="breadcrumb-item active" aria-current="page">RTEMS - Creating a File Server</li>
   </ul>
 </nav>
 </div>
@@ -476,143 +476,75 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="testing-and-deploying-a-generic-ioc">
-<h1>Testing and Deploying a Generic IOC<a class="headerlink" href="#testing-and-deploying-a-generic-ioc" title="Permalink to this heading">#</a></h1>
-<section id="continuous-integration">
-<h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Permalink to this heading">#</a></h2>
-<p>An important feature of epics-containers is CI. The ioc-template that we
-based ioc-adurl upon has built-in CI for GitHub (and DLS internal GitLab).</p>
-<p>The first thing we will do is get the project pushed up to GitHub and
-verify that the CI is working.</p>
-<p>Before pushing the project we must push our changes to the submodule ibek-defs,
-then we can push the main project to GitHub too:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ibek-defs
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Added ADURL&quot;</span>
-git<span class="w"> </span>push
-<span class="nb">cd</span><span class="w"> </span>..
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;update the template to ADUrl&quot;</span>
-git<span class="w"> </span>push
-</pre></div>
-</div>
-<p>If you now go up to the GitHub page for the project and click on <code class="docutils literal notranslate"><span class="pre">Actions</span></code>
-and click on the latest build you should see something like this:</p>
-<figure class="align-default" id="id1">
-<img alt="../../_images/github_actions2.png" src="../../_images/github_actions2.png" />
-<figcaption>
-<p><span class="caption-text">GitHub Actions for ioc-adurl</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>This build should succeed.</p>
+  <section id="rtems-creating-a-file-server">
+<h1>RTEMS - Creating a File Server<a class="headerlink" href="#rtems-creating-a-file-server" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>RTEMS IOCs are an example of a ‘hard’ IOC. Each IOC is a physical crate that
+contains a number of I/O cards and a processor card.</p>
+<p>For these types of
+IOC, the Kubernetes cluster runs a pod that represents the individual IOC.
+However, the IOC code itself runs on the processor card instead of the pod.
+The pod provides the following features:</p>
+<ul class="simple">
+<li><p>Sets up the files to serve to the RTEMS OS</p></li>
+<li><p>Provides a connection to the IOC console just like a linux IOC</p></li>
+<li><p>Pauses, unpauses, restarts the IOC as necessary - thus the IOC is controlled
+by the Kubernetes cluster in the same way as a linux IOC</p></li>
+<li><p>Provides logging of the IOC console in the same way as linux IOCs</p></li>
+<li><p>Monitors the IOC and restarts it if it crashes - using the same mechanism
+as linux IOCs</p></li>
+</ul>
+<p>At present epics-containers supports the MVVME5500 processor card running
+RTEMS 5. The same model as described above can be used for other ‘hard’ IOC
+types in future.</p>
 </section>
-<section id="publishing-the-generic-ioc-container-to-ghcr">
-<h2>Publishing the Generic IOC Container to GHCR<a class="headerlink" href="#publishing-the-generic-ioc-container-to-ghcr" title="Permalink to this heading">#</a></h2>
-<p>Now give your genericIOC a version tag and push it to GitHub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">23</span>.4.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">23</span>.4.1
+<section id="create-a-file-server-service">
+<h2>Create a File Server Service<a class="headerlink" href="#create-a-file-server-service" title="Permalink to this heading">#</a></h2>
+<p>When an RTEMS 5 IOC boots the bootloader loads the IOC binary from a TFTP
+address, this binary is then given access to a filesystem over NFS V2, this is
+where the IOC startup script and other configuration is loaded.</p>
+<p>Therefore we need a TFTP server and an NFS V2 server to serve the files to
+the IOC. For each EPICS domain a single service running in Kubernetes will
+supply a TFTP and NFS V2 server for all the IOCs in that domain.</p>
+<p>In the tutorial <a class="reference internal" href="04_create_beamline.html"><span class="doc">Create a Beamline Repository</span></a> we created a beamline repository that
+defines the IOC instances in the beamline <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>. The template project
+that we copied contains a folder called <code class="docutils literal notranslate"><span class="pre">services/nfsv2-tftp</span></code>. The folder
+is a helm chart that will deploy a TFTP and NFS V2 server to Kubernetes.</p>
+<p>Before deploying the service we need to configure it. Make the following
+changes:</p>
+<ul class="simple">
+<li><p>Change the <code class="docutils literal notranslate"><span class="pre">name</span></code> value in <code class="docutils literal notranslate"><span class="pre">Chart.yaml</span></code> to <code class="docutils literal notranslate"><span class="pre">bl01t-nfsv2-tftp</span></code></p></li>
+<li><p>Change the <code class="docutils literal notranslate"><span class="pre">loadBalancerIP</span></code> value in <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> to a free IP address
+in your cluster’s Static Load Balancer range. This IP address will be used
+to access the TFTP and NFS V2 servers from the IOC.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong> The load balancer IP range is on Pollux is
+<code class="docutils literal notranslate"><span class="pre">172.23.168.201-172.23.168.222</span></code>. The IP address you choose must be free
+and not already in use by another service. At the moment you have to try
+deploying and see if it works. If it doesn’t work then try another IP.</p>
+<p>Also note that <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is a shared resource so if there is already a
+<code class="docutils literal notranslate"><span class="pre">bl01t-nfsv2-tftp</span></code> service running then you will have to choose a different
+IP address (or just use the existing one)</p>
+</div>
+<p>You can verify if the service is already running using kubectl. The command
+shown below will list all the services in the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> namespace, and the
+example output shows that there is already a <code class="docutils literal notranslate"><span class="pre">bl01t-nfsv2-tftp</span></code> service
+using the IP address <code class="docutils literal notranslate"><span class="pre">172.23.168.220</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>services<span class="w"> </span>-n<span class="w"> </span>bl01t
+get<span class="w"> </span>services<span class="w"> </span>-n<span class="w"> </span>bl45p
+NAME<span class="w">                </span>TYPE<span class="w">           </span>CLUSTER-IP<span class="w">       </span>EXTERNAL-IP<span class="w">      </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">                                                                        </span>AGE
+bl01t-nfsv2-tftp<span class="w">    </span>LoadBalancer<span class="w">   </span><span class="m">10</span>.108.219.193<span class="w">   </span><span class="m">172</span>.23.168.220<span class="w">   </span><span class="m">111</span>:31491/UDP,2049:30944/UDP,20048:32277/UDP,69:32740/UDP<span class="w">                      </span>32d
 </pre></div>
 </div>
-<p>You will see the CI rebuild the container and push it to the GitHub container
-registry at github.io/&lt;YOUR GITHUB USER&gt;/ioc-adurl:&lt;YOUR TAG&gt;.</p>
-<p>This time the build will take 2 minutes. Last time it took 10 minutes
-(because we were building areaDetector and graphicsMagick). The speed up
-is because we keep a build cache in GitHub actions.</p>
-<p>Once the build is complete, if you go to your project page on GitHub
-<a class="github reference external" href="https://github.com">github</a>/&lt;YOUR GITHUB ACCOUNT&gt;/ioc-adurl you should now see a
-<code class="docutils literal notranslate"><span class="pre">Packages</span></code> tab. Click on the developer package and and you should see
-something like this:</p>
-<figure class="align-default" id="id2">
-<img alt="../../_images/ghcr.png" src="../../_images/ghcr.png" />
-<figcaption>
-<p><span class="caption-text">The ioc-adurl container on GHCR</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>This means that the container is now available for anyone to use with a
-<code class="docutils literal notranslate"><span class="pre">podman/docker</span> <span class="pre">pull</span></code> command as described in the <code class="docutils literal notranslate"><span class="pre">Installation</span></code> tab.</p>
-</section>
-<section id="making-the-tests-relevant-to-our-generic-ioc">
-<h2>Making the Tests Relevant to our Generic IOC<a class="headerlink" href="#making-the-tests-relevant-to-our-generic-ioc" title="Permalink to this heading">#</a></h2>
-<p>You may notice that some tests were run as part of the CI. These generic
-tests are used by the ioc-template and are defined in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory.
-We need to update them to be relevant to our new generic IOC.</p>
-<p>TODO: I just noticed that the tests do not use the build cache (but also
-they are not required to push the built container so don’t hold up
-development).</p>
-<p>In the <code class="docutils literal notranslate"><span class="pre">ioc/config</span></code> folder we have some default config that is used by the
-generic IOC if no config is provided. We can use this for testing and need
-to update the tests to use it too.</p>
-<p>To do this remove the file <code class="docutils literal notranslate"><span class="pre">ioc/config/ioc.db</span></code> and replace the contents
-of <code class="docutils literal notranslate"><span class="pre">ioc/config/st.cmd</span></code> with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="s2">&quot;$(TOP)&quot;</span>
-
-<span class="n">dbLoadDatabase</span> <span class="s2">&quot;dbd/ioc.dbd&quot;</span>
-<span class="n">ioc_registerRecordDeviceDriver</span><span class="p">(</span><span class="n">pdbbase</span><span class="p">)</span>
-
-<span class="n">URLDriverConfig</span><span class="p">(</span><span class="s2">&quot;EXAMPLE.CAM&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-
-<span class="c1"># NDPvaConfigure(portName, queueSize, blockingCallbacks, NDArrayPort, NDArrayAddr, pvName, maxMemory, priority, stackSize)</span>
-<span class="n">NDPvaConfigure</span><span class="p">(</span><span class="s2">&quot;EXAMPLE.PVA&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE.CAM&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:IMAGE&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">startPVAServer</span>
-
-<span class="c1"># instantiate Database records for Url Detector</span>
-<span class="n">dbLoadRecords</span><span class="p">(</span><span class="s2">&quot;URLDriver.template&quot;</span><span class="p">,</span><span class="s2">&quot;P=EXAMPLE, R=:CAM:, PORT=EXAMPLE.CAM, TIMEOUT=1, ADDR=0&quot;</span><span class="p">)</span>
-<span class="n">dbLoadRecords</span><span class="p">(</span><span class="s2">&quot;NDPva.template&quot;</span><span class="p">,</span> <span class="s2">&quot;P=EXAMPLE, R=:PVA:, PORT=EXAMPLE.PVA, ADDR=0, TIMEOUT=1, NDARRAY_PORT=EXAMPLE.CAM, NDARRAY_ADR=0, ENABLED=1&quot;</span><span class="p">)</span>
-
-<span class="c1"># start IOC shell</span>
-<span class="n">iocInit</span>
-
-<span class="c1"># poke some records</span>
-<span class="n">dbpf</span> <span class="s2">&quot;EXAMPLE:CAM:AcquirePeriod&quot;</span><span class="p">,</span> <span class="s2">&quot;0.1&quot;</span>
+<p>Once you have made the changes to the helm chart you can deploy it to the
+cluster using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>bl01t-nfsv2-tftp<span class="w"> </span>services/nfsv2-tftp<span class="w"> </span>-n<span class="w"> </span>bl01t
 </pre></div>
 </div>
-<p>Next, remove the folders <code class="docutils literal notranslate"><span class="pre">tests/example-config</span></code> and <code class="docutils literal notranslate"><span class="pre">tests/example-ibek-config</span></code>.</p>
-<p>Then edit the <code class="docutils literal notranslate"><span class="pre">tests/run_tests.sh</span></code> file. Remove the test blocks titled
-<code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">an</span> <span class="pre">ibek</span> <span class="pre">IOC</span></code> and <code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">a</span> <span class="pre">hand</span> <span class="pre">coded</span> <span class="pre">st.cmd</span> <span class="pre">IOC</span></code> leaving just the
-block called <code class="docutils literal notranslate"><span class="pre">Test</span> <span class="pre">the</span> <span class="pre">default</span> <span class="pre">example</span> <span class="pre">IOC</span></code>. Finally edit the block to
-look like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
-<span class="k">fi</span>
-podman<span class="w"> </span>run<span class="w"> </span><span class="si">${</span><span class="nv">ioc_args</span><span class="si">}</span>
-check_pv<span class="w"> </span><span class="s1">&#39;EXAMPLE:CAM:AcquirePeriod&#39;</span><span class="w"> </span><span class="s1">&#39;0.1&#39;</span>
-</pre></div>
-</div>
-<p>Now try out the test with the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./tests/run_tests.sh
-</pre></div>
-</div>
-<p>We have made a very simple test that only checks one PV value, but that is
-good enough to validate that the IOC is running and that the config is
-being loaded. You can add more sophisticated tests as needed to your
-own generic IOCs.</p>
-<p>If you had any issues with getting this tutorial working, you can get a
-fully working version of the ioc-adurl project from the following link:</p>
-<blockquote>
-<div><p><a class="github reference external" href="https://github.com/epics-containers/ioc-adurl">epics-containers/ioc-adurl</a></p>
-</div></blockquote>
-</section>
-<section id="try-out-some-gui">
-<h2>Try out some GUI<a class="headerlink" href="#try-out-some-gui" title="Permalink to this heading">#</a></h2>
-<p>Now let us verify that this is really working other than serving a single PV. For this purpose I have made some edm screens to try out. Using these screens you could attach ADUrl to your own video stream. A still image example is supplied as well. Unfortunately ADUrl dies not support HTTPS so there are no public feeds we could use to demo this.</p>
-<p>After running the tests in the previous section you should have a running
-container still active. You can see this using <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">ps</span></code>. You should
-see that <code class="docutils literal notranslate"><span class="pre">ioc-template-test-container</span></code> is still running. You can start it
-again with <code class="docutils literal notranslate"><span class="pre">tests/run_tests.sh</span></code> if it is not.</p>
-<p>Now get the edm screens and launch them as follows.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ioc-adurl.git
-<span class="nb">cd</span><span class="w"> </span>ioc-adurl
-opi/example.sh
-</pre></div>
-</div>
-<p>You should see the C2DataViewer. Click on auto button and you should see:</p>
-<figure class="align-default" id="id3">
-<img alt="../../_images/millie.png" src="../../_images/millie.png" />
-<figcaption>
-<p><span class="caption-text">Millie the Labradoodle</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>To work out how Millie got into the viewer, take a look at example.sh.</p>
 </section>
 </section>
 
@@ -628,20 +560,20 @@ opi/example.sh
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="08_debug_generic_ioc.html"
+       href="10_support_module.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Debugging Generic IOC Builds</p>
+        <p class="prev-next-title">Working with Support Modules</p>
       </div>
     </a>
     <a class="right-next"
-       href="10_support_module.html"
+       href="12_rtems_ioc.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Support Modules</p>
+        <p class="prev-next-title">RTEMS - Deploying an IOC</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -663,17 +595,15 @@ opi/example.sh
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous Integration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#publishing-the-generic-ioc-container-to-ghcr">Publishing the Generic IOC Container to GHCR</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-the-tests-relevant-to-our-generic-ioc">Making the Tests Relevant to our Generic IOC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-out-some-gui">Try out some GUI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-file-server-service">Create a File Server Service</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/dev/docs/user/tutorials/09_test_generic_ioc.rst">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/dev/docs/user/tutorials/11_rtems_setup.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -687,7 +617,7 @@ opi/example.sh
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/tutorials/09_test_generic_ioc.rst.txt">
+    <a href="../../_sources/user/tutorials/11_rtems_setup.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

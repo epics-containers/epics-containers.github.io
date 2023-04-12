@@ -24,6 +24,8 @@ side-bar.
             tutorials/08_debug_generic_ioc
             tutorials/09_test_generic_ioc
             tutorials/10_support_module
+            tutorials/11_rtems_setup
+            tutorials/12_rtems_ioc
 
         +++
 
@@ -35,8 +37,6 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
-            how-to/rtems_setup
-            how-to/rtems_ioc
             how-to/run_iocs
             how-to/debug
             how-to/contributing
