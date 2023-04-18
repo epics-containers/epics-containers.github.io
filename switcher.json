@@ -52,6 +52,10 @@
     "url": "https://epics-containers.github.io/epics-containers.github.io/gilesknap-patch-2/"
   },
   {
+    "version": "remove-tutorial-numbers",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/remove-tutorial-numbers/"
+  },
+  {
     "version": "review01",
     "url": "https://epics-containers.github.io/epics-containers.github.io/review01/"
   }
