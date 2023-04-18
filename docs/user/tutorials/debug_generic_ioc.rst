@@ -1,7 +1,7 @@
 Debugging Generic IOC Builds
 ============================
 
-This tutorial is a continuation of `07_generic_ioc`. Here we will look into
+This tutorial is a continuation of `generic_ioc`. Here we will look into
 debugging failed builds and fix the issue we saw in the  previous tutorial.
 
 There are two ways to debug a failed build:

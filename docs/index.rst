@@ -7,7 +7,7 @@ Quick Start
 ===========
 
 For a set of tutorials to introduce the concepts of epics-containers see
-`user/tutorials/00_intro`. For a description of the architecture see
+`user/tutorials/intro`. For a description of the architecture see
 `essential`.
 
 

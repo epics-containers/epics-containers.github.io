@@ -83,7 +83,7 @@ The ``--tag`` option specifies the version of the Generic IOC container to use
 and this means it will be pulled from the container registry (or come from
 the cache if it has already been pulled).
 If you do not supply a tag then ``ec`` will look for a local copy of the
-container to use, we will cover this in `07_generic_ioc`.
+container to use, we will cover this in `generic_ioc`.
 
 If all is well you should see your iocShell prompt and you can test your change
 from another terminal (VSCode menus -> Terminal -> New Terminal) like so:

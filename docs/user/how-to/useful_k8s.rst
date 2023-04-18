@@ -141,7 +141,7 @@ PVs. To do this perform the following steps to get the name of the
 example IOC pod and discover its IP address, then pass that to the
 edm container:
 
-cd to the root of the project you created in `../tutorials/05_deploy_example`, then::
+cd to the root of the project you created in `../tutorials/deploy_example`, then::
 
     kubectl get pods
         NAME                      READY   STATUS    RESTARTS   AGE
