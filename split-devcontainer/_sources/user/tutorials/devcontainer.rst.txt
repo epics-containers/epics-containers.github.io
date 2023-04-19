@@ -5,8 +5,8 @@ Setup a Devcontainer
 Introduction
 ------------
 
-The devcontainer provides the environment in which you will do all your development. 
-This is a basic tutorial that introduces the concept in preaparation for the
+The devcontainer provides the environment in which you will do all your development.
+This is a basic tutorial that introduces the concept in preparation for the
 epics devcontainer tutorial.
 
 .. seealso:: `epics_devcontainer`
@@ -50,7 +50,7 @@ able to follow the instructions inside and launch a container.
     cd <repo>
     code .
 
-This will open the workspace folder in Visual Studio Code. You will be prompted
+This will open the project folder in Visual Studio Code. You will be prompted
 to reopen the folder in a container. Click on the ``Reopen in Container`` button.
 
 .. figure:: ../images/vscode-reopen-in-container.png

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>The EPICS Devcontainer &#8212; epics-containers.github.io 0.10.dev7+g11daa4b documentation</title>
+    <title>The EPICS Devcontainer &#8212; epics-containers.github.io 0.10.dev10+gef36ddd documentation</title>
   
   
   
@@ -476,14 +476,13 @@ document.write(`
 <h1>The EPICS Devcontainer<a class="headerlink" href="#the-epics-devcontainer" title="Permalink to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
-<p>You can setup a single devcontainer for managing all of your IOCs.</p>
+<p>You can setup a single devcontainer for managing all of your IOCs. In
+<a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a> we launched a devcontainer for a single project. Here we
+will create a workspace that is managed by a devcontainer. This will allow
+you to manage multiple projects in a single devcontainer.</p>
 <p>The base container is defined in <a class="github reference external" href="https://github.com/epics-containers/dev-e7">epics-containers/dev-e7</a>
 but we will use a customizable image derived from that. The customizable
 container definition is in <a class="github reference external" href="https://github.com/epics-containers/.devcontainer">epics-containers/.devcontainer</a>.</p>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>Basic devcontainer setup: <a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a></p>
-</div>
 </section>
 <section id="launching-the-devcontainer">
 <h2>Launching the Devcontainer<a class="headerlink" href="#launching-the-devcontainer" title="Permalink to this heading">#</a></h2>
@@ -527,6 +526,9 @@ to <code class="docutils literal notranslate"><span class="pre">/root</span></co
 <li><p>Podman users are running as root inside the container but files will be
 written with your user id and group id when writing to the mounted
 workspace folder (or your home directory).</p></li>
+<li><p>In the following tutorials we will create further project folders and add
+them to the workspace that you have just created. These projects will
+all be managed inside the devcontainer we have just set up.</p></li>
 </ul>
 </section>
 <section id="configuring-the-devcontainer">
