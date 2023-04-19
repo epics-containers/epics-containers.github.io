@@ -1,25 +1,18 @@
 
-Setup the Devcontainer
+The EPICS Devcontainer
 ======================
 
 Introduction
 ------------
 
-The devcontainer provides the environment in which you will do all your development
-and management of IOCs.
+You can setup a single devcontainer for managing all of your IOCs. In
+`devcontainer` we launched a container for a single project. Here we
+will create a workspace that will allow
+you to manage multiple projects in a single devcontainer.
 
 The base container is defined in https://github.com/epics-containers/dev-e7
 but we will use a customizable image derived from that. The customizable
 container definition is in https://github.com/epics-containers/.devcontainer.
-
-
-Configure Visual Studio Code
-----------------------------
-
-For podman users, you must first tell VSCode to use podman instead of docker.
-Open a VSCode window and hit "ctrl ," (control-comma) to open the user
-settings editor and search for
-"dev.containers.dockerPath", change its value from "docker" to "podman".
 
 
 Launching the Devcontainer
@@ -40,20 +33,11 @@ for example:
     git clone git@github.com:epics-containers/.devcontainer.git
     code .
 
-This will open the workspace folder in Visual Studio Code. You will be prompted
-to reopen the folder in a container. Click on the ``Reopen in Container`` button.
+.. seealso:: `./devcontainer`
 
-.. figure:: ../images/vscode-reopen-in-container.png
-    :width: 600px
-    :align: center
-
-    reopen in container dialogue
-
-Now all of your VSCode terminals and file explorer will be running inside of
-the devcontainer and have access to all the tools installed there.
-
-To verify things are working as expected, open a terminal in VSCode from
-the menus ``Terminal > New Terminal``. You should see a prompt like this:
+Having setup your devcontainer, to verify things are working as expected,
+open a terminal in VSCode from the menus ``Terminal > New Terminal``.
+You should see a prompt like this:
 
 .. code-block:: bash
 
@@ -79,6 +63,10 @@ Things to note:
 - Podman users are running as root inside the container but files will be
   written with your user id and group id when writing to the mounted
   workspace folder (or your home directory).
+
+- In the following tutorials we will create further project folders and add
+  them to the workspace that you have just created. These projects will
+  all be managed inside the devcontainer we have just set up.
 
 .. _devcontainer-configure:
 
@@ -161,4 +149,3 @@ restart them to pick up the changes.
     If you wish to persist these changes
     then it is suggested that you make your own github repo of .devcontainer and
     push the changes there.
-

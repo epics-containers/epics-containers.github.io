@@ -12,7 +12,7 @@ Setup a Kubernetes Server
 
     The approach of creating generic IOC's in containers and then deploying
     IOC instances as generic IOC's + some configuration will also work
-    standalone, or with other orchestration tools. e.g. In `06_ioc_changes`
+    standalone, or with other orchestration tools. e.g. In `ioc_changes`
     we will demonstrate running an IOC locally using podman alone.
 
     If you want to take advantage of containers for IOCs but do not want to
@@ -29,7 +29,7 @@ Bring Your Own Cluster
 ----------------------
 
 If you already have a Kubernetes cluster then you can skip this section.
-and go straight to `./04_create_beamline`.
+and go straight to `./create_beamline`.
 
 IMPORTANT: you will require appropriate permissions on the cluster to work
 with epics-containers. In particular you will need to be able to create

@@ -120,7 +120,7 @@ repo in the future.
 Make a Release of Example Beamline bl01t
 ----------------------------------------
 
-To make a release of the project we defined in `05_deploy_example`,
+To make a release of the project we defined in `deploy_example`,
 we will
 tag your repo with a calendar based version number see (https://calver.org/).
 

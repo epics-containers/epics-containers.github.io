@@ -35,7 +35,7 @@ Therefore we need a TFTP server and an NFS V2 server to serve the files to
 the IOC. For each EPICS domain a single service running in Kubernetes will
 supply a TFTP and NFS V2 server for all the IOCs in that domain.
 
-In the tutorial `04_create_beamline` we created a beamline repository that
+In the tutorial :doc:`create_beamline` we created a beamline repository that
 defines the IOC instances in the beamline ``bl01t``. The template project
 that we copied contains a folder called ``services/nfsv2-tftp``. The folder
 is a helm chart that will deploy a TFTP and NFS V2 server to Kubernetes.
@@ -43,33 +43,36 @@ is a helm chart that will deploy a TFTP and NFS V2 server to Kubernetes.
 Before deploying the service we need to configure it. Make the following
 changes:
 
-- Change the ``name`` value in ``Chart.yaml`` to ``bl01t-nfsv2-tftp``
+- Change the ``name`` value in ``Chart.yaml`` to ``bl01t-ioc-files``
 - Change the ``loadBalancerIP`` value in ``values.yaml`` to a free IP address
   in your cluster's Static Load Balancer range. This IP address will be used
   to access the TFTP and NFS V2 servers from the IOC.
 
 .. note::
 
-  **DLS Users** The load balancer IP range is on Pollux is
+  **DLS Users** The load balancer IP range on Pollux is
   ``172.23.168.201-172.23.168.222``. The IP address you choose must be free
   and not already in use by another service. At the moment you have to try
   deploying and see if it works. If it doesn't work then try another IP.
 
   Also note that ``bl01t`` is a shared resource so if there is already a
-  ``bl01t-nfsv2-tftp`` service running then you will have to choose a different
-  IP address (or just use the existing one)
+  ``bl01t-ioc-files`` service running then you will have to choose a different
+  IP address (or just use the existing service and don't bother with this step)
+
+  **Recommendation**: use ``172.23.168.203`` and if it is already in use and the
+  service is already running then just use that one. There are a limited number
+  of fixed IPs available so we should only use one for training purposes.
 
 You can verify if the service is already running using kubectl. The command
 shown below will list all the services in the ``bl01t`` namespace, and the
-example output shows that there is already a ``bl01t-nfsv2-tftp`` service
+example output shows that there is already a ``bl01t-ioc-files`` service
 using the IP address ``172.23.168.220``:
 
 .. code-block:: bash
 
   $ kubectl get services -n bl01t
-  get services -n bl45p
   NAME                TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                        AGE
-  bl01t-nfsv2-tftp    LoadBalancer   10.108.219.193   172.23.168.220   111:31491/UDP,2049:30944/UDP,20048:32277/UDP,69:32740/UDP                      32d
+  bl01t-ioc-files     LoadBalancer   10.108.219.193   172.23.168.220   111:31491/UDP,2049:30944/UDP,20048:32277/UDP,69:32740/UDP                      32d
 
 Once you have made the changes to the helm chart you can deploy it to the
 cluster using the following command:
@@ -77,4 +80,18 @@ cluster using the following command:
 .. code-block:: bash
 
   cd bl01t
-  helm upgrade --install bl01t-nfsv2-tftp services/nfsv2-tftp -n bl01t
+  helm upgrade --install bl01t-ioc-files services/nfsv2-tftp -n bl01t
+
+Now if you run the ``kubectl get services`` command again you should see the
+new service.
+
+Once you have this service up and running you can leave it alone. It will
+serve the files to the IOCs using the IP address you configured over both
+TFTP and NFS V2. It uses a persistent volume to store the files and this
+persistent volume is shared with hard IOC pods so that they can place the
+files they need to serve to the IOC.
+
+See the next tutorial for how to deploy a hard IOC pod to the cluster.
+
+
+
