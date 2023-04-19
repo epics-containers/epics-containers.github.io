@@ -10,7 +10,7 @@ use a Kubernetes ConfigMap to pass the configuration to the IOC.
 
 However it is perfectly possible to do this without Kubernetes. To demonstrate
 this easily, first create the test beamline repo as described in
-`../tutorials/04_create_beamline`.
+`../tutorials/create_beamline`.
 
 Now if you cd into the test beamline repo and run the following command you
 will see the IOC running in a container:
