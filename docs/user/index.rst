@@ -13,17 +13,17 @@ side-bar.
             :caption: Tutorials
             :maxdepth: 1
 
-            tutorials/00_intro
-            tutorials/01_setup_workstation
-            tutorials/02_devcontainer
-            tutorials/03_setup_k8s
-            tutorials/04_create_beamline
-            tutorials/05_deploy_example
-            tutorials/06_ioc_changes
-            tutorials/07_generic_ioc
-            tutorials/08_debug_generic_ioc
-            tutorials/09_test_generic_ioc
-            tutorials/10_support_module
+            tutorials/intro
+            tutorials/setup_workstation
+            tutorials/devcontainer
+            tutorials/setup_k8s
+            tutorials/create_beamline
+            tutorials/deploy_example
+            tutorials/ioc_changes
+            tutorials/generic_ioc
+            tutorials/debug_generic_ioc
+            tutorials/test_generic_ioc
+            tutorials/support_module
 
         +++
 

@@ -70,7 +70,7 @@ There are a few things that all new ioc-XXX repos need to do:
     relevant to your IOC and change the script in ``tests`` to match.
 
 For now leave the tests alone as we will be working with them in
-`09_test_generic_ioc`.
+`test_generic_ioc`.
 
 Now we will go ahead and make the specific changes to the template
 needed for our ioc-adurl project.

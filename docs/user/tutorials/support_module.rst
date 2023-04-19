@@ -11,7 +11,7 @@ like a traditional EPICS Support module and merge in the files from
 ioc-template.
 
 Once you have created the project(s), working on the support module will
-look very similar to the procedures set out here `08_debug_generic_ioc`
+look very similar to the procedures set out here `debug_generic_ioc`
 
 
 TODO: suggest that we will make a new Stream Device that will be a
