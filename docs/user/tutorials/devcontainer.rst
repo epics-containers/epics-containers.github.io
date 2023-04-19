@@ -5,7 +5,11 @@ Setup a Devcontainer
 Introduction
 ------------
 
-The devcontainer provides the environment in which you will do all your development.
+The devcontainer provides the environment in which you will do all your development. 
+This is a basic tutorial that introduces the concept in preaparation for the
+epics devcontainer tutorial.
+
+.. seealso:: `epics_devcontainer`
 
 
 Configure Visual Studio Code
