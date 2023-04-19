@@ -16,6 +16,7 @@ side-bar.
             tutorials/intro
             tutorials/setup_workstation
             tutorials/devcontainer
+            tutorials/epics_devcontainer
             tutorials/setup_k8s
             tutorials/create_beamline
             tutorials/deploy_example

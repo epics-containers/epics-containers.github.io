@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.10.dev2+gd70eb57 documentation</title>
+    <title>Setup a Kubernetes Server &#8212; epics-containers.github.io 0.10.dev11+g3449bcf documentation</title>
   
   
   
@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Create a Beamline Repository" href="create_beamline.html" />
-    <link rel="prev" title="Setup the Devcontainer" href="devcontainer.html" />
+    <link rel="prev" title="The EPICS Devcontainer" href="epics_devcontainer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -378,7 +378,8 @@ document.write(`
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">Setup a Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epics_devcontainer.html">The EPICS Devcontainer</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
 <li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
@@ -588,7 +589,7 @@ sudo<span class="w"> </span>scp<span class="w">  </span>/etc/rancher/k3s/k3s.yam
 <p>If you do have separate workstation then edit the file .kube/config replacing
 127.0.0.1 with your server’s IP Address. For a single machine the file is left
 as is.</p>
-<p>Note that in the previous step  <a class="reference internal" href="devcontainer.html#devcontainer-configure"><span class="std std-ref">Configuring the Devcontainer</span></a>
+<p>Note that in the previous step  <a class="reference internal" href="epics_devcontainer.html#devcontainer-configure"><span class="std std-ref">Configuring the Devcontainer</span></a>
 you already configured the environment variable
 <code class="docutils literal notranslate"><span class="pre">KUBECONFIG</span></code> to point to the cluster configuration file at
 <code class="docutils literal notranslate"><span class="pre">~/.kube/config</span></code>.</p>
@@ -663,12 +664,12 @@ simply use this command:</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="devcontainer.html"
+       href="epics_devcontainer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Setup the Devcontainer</p>
+        <p class="prev-next-title">The EPICS Devcontainer</p>
       </div>
     </a>
     <a class="right-next"

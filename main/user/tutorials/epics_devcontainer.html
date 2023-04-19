@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Kubernetes Cluster Config &#8212; epics-containers.github.io 0.10.dev11+g3449bcf documentation</title>
+    <title>The EPICS Devcontainer &#8212; epics-containers.github.io 0.10.dev11+g3449bcf documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/kubernetes_cluster';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/epics_devcontainer';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
@@ -52,8 +52,8 @@
     <link rel="icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="About the documentation" href="docs-structure.html" />
-    <link rel="prev" title="Channel Access and Other Protocols" href="net_protocols.html" />
+    <link rel="next" title="Setup a Kubernetes Server" href="setup_k8s.html" />
+    <link rel="prev" title="Setup a Devcontainer" href="devcontainer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -375,20 +375,20 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Tutorials Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/devcontainer.html">Setup a Devcontainer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/epics_devcontainer.html">The EPICS Devcontainer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploy The Example IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/ioc_changes.html">Testing Changes to IOC Instances</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Setup a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">Setup a Devcontainer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The EPICS Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy The Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes.html">Testing Changes to IOC Instances</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/generic_ioc.html">Create a Generic IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
 <ul class="nav bd-sidenav">
@@ -400,14 +400,14 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli-tools.html">CLI Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repos.html">What is the /repos Folder?</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../explanations/introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/cli-tools.html">CLI Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanations/repos.html">What is the /repos Folder?</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -455,7 +455,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Kubernetes Cluster Config</li>
+    <li class="breadcrumb-item active" aria-current="page">The EPICS Devcontainer</li>
   </ul>
 </nav>
 </div>
@@ -472,125 +472,130 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="kubernetes-cluster-config">
-<h1>Kubernetes Cluster Config<a class="headerlink" href="#kubernetes-cluster-config" title="Permalink to this heading">#</a></h1>
-<section id="cluster-options">
-<h2>Cluster Options<a class="headerlink" href="#cluster-options" title="Permalink to this heading">#</a></h2>
-<p>Three cluster topologies were considered for this project.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Cluster per beamline<span class="colon">:</span></dt>
-<dd class="field-odd"><p>This could be as simple as
-a single server: the K3S installation described in
-<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
-<a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
-cluster, requiring a minimum of 4 servers.
-This approach keeps the configuration of the clusters quite straightforward
-but at the cost of having multiple separate clusters to maintain. Also
-it requires control plane servers for every beamline, whereas a centralized
-approach would only need a handful of control plane servers for the entire
-facility.</p>
-</dd>
-<dt class="field-even">Central Facility Cluster<span class="colon">:</span></dt>
-<dd class="field-even"><p>A central facility cluster that runs
-all IOCs on its own nodes would keep everything centralized and provide
-economy of scale. However, there are significant issues with routing
-Channel Access, PVA and some device protocols to IOCs running in a
-different subnet to the beamline. DLS spent some time working around these
-issues but eventually abandoned this approach.</p>
-</dd>
-<dt class="field-odd">Beamline Worker Nodes<span class="colon">:</span></dt>
-<dd class="field-odd"><p>This approach uses the central
-cluster but adds remote beamline nodes located in the beamline itself,
-connected to the beamline subnet. This has all the benefits of central
-management but is able to overcome the problems with protocol routing.
-The DLS argus cluster configuration described below is an example of
-how to achieve this.</p>
-</dd>
-</dl>
+  <section id="the-epics-devcontainer">
+<h1>The EPICS Devcontainer<a class="headerlink" href="#the-epics-devcontainer" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>You can setup a single devcontainer for managing all of your IOCs. In
+<a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a> we launched a devcontainer for a single project. Here we
+will create a workspace that is managed by a devcontainer. This will allow
+you to manage multiple projects in a single devcontainer.</p>
+<p>The base container is defined in <a class="github reference external" href="https://github.com/epics-containers/dev-e7">epics-containers/dev-e7</a>
+but we will use a customizable image derived from that. The customizable
+container definition is in <a class="github reference external" href="https://github.com/epics-containers/.devcontainer">epics-containers/.devcontainer</a>.</p>
 </section>
-<section id="current-approach">
-<h2>Current Approach<a class="headerlink" href="#current-approach" title="Permalink to this heading">#</a></h2>
-<p>DLS is currently investigating Cluster per Beamline as the preferred topology. We
-will continue to have a central cluster for shared services but in addition will
-have a cluster per beamline and a cluster for the accelerator.</p>
-<p>The separate clusters allow us to have separate:</p>
+<section id="launching-the-devcontainer">
+<h2>Launching the Devcontainer<a class="headerlink" href="#launching-the-devcontainer" title="Permalink to this heading">#</a></h2>
+<p>To setup your devcontainer, perform the following steps:</p>
 <ul class="simple">
-<li><p>failure domain</p></li>
-<li><p>security domain</p></li>
-<li><p>administrative domain</p></li>
-<li><p>performance domain</p></li>
+<li><p>create a workspace folder</p></li>
+<li><p>clone the .devcontainer repository into the workspace folder</p></li>
+<li><p>open the workspace folder with Visual Studio Code.</p></li>
 </ul>
-<p>The down side is that we have to manage multiple clusters. There is a lot of
-tooling available to help with this, as multi-cluster using cloud providers is
-quite a common pattern. We are currently investigating approaches to multi-cluster
-management.</p>
-</section>
-<section id="dls-argus-cluster">
-<span id="argus"></span><h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Permalink to this heading">#</a></h2>
-<p>This section gives details of the topology and special
-configuration used by the DLS argus cluster to enable running
-IOCs on a Beamline.</p>
-<section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h3>
-<p>Argus is the production DLS cluster. It comprises 22 bare metal worker nodes, with a 3 node control plane that runs in VMs. The control plane nodes run the K8s master processes such as the API server, controller manager etc. Each control plane node runs an etcd backend.</p>
-<figure class="align-default">
-<img alt="../../_images/clusterHA.png" src="../../_images/clusterHA.png" />
-</figure>
-<p>To load balance across the K8s API running on the control plane nodes, there is a haproxy load balancer. The DNS endpoint argus.api.diamond.ac.uk (which all nodes use as the main API endpoint) points to a single haproxy IP. The IP is HA by virtue of a pair of VMs that both run haproxy, bind on all IPs, and use VRRP/keepalived to make sure the IP is always up. Haproxy has the 3 control plane nodes as a target backend.</p>
-<figure class="align-default">
-<img alt="../../_images/kubeadm-ha-topology-stacked-etcd.png" src="../../_images/kubeadm-ha-topology-stacked-etcd.png" />
-</figure>
-<p>The cluster uses Kubeadm to deploy the K8s control plane in containers. It is provided by K8s upstream, and is architecturally similar to Rancher Kubernetes Engine (RKE). Kubeadm supports upgrades/downgrades and easy provisioning of nodes. The cluster is connected using Weave as the CNI. Weave is the only CNI tested that passes Broadcast/Unicast/Multicast (BUM) traffic through the iptables that control network access for pods. Metallb is used as a component to support K8s loadBalancer Service objects. Ingress nginx from nginxinc is used as an ingress controller. Logs are collected from the stdout of all pods using a fluentd daemonset which ships logs to a centralized graylog server. Cluster authentication is via KeyCloak.</p>
-<p>The cluster sits in one rack, with a top of rack (TOR) switch/router connecting it to the rest of the network. The cluster nodes sit on the same /22 network which is routable via the TOR router (this router routes the /22 subnet to other racks via OSPF). Metallb pool IPs are allocated from within this /22 to ensure they are globally routable by the OSPF network; the metallb speaker pods respond to ARP requests originating from the TOR router looking for load balanced Service IPs.</p>
-<p><strong>One of the Argus racks</strong></p>
-<figure class="align-default">
-<img alt="../../_images/argus3.jpg" src="../../_images/argus3.jpg" />
-</figure>
-<p>The cluster is built and managed using Ansible. Heavy use of the k8s module enables direct installation of K8s components by talking directly to the K8s API using the k8s module. Ansible also configures the haproxy API load balancer. Prometheus_operator provides the monitoring stack.</p>
-<p>Argus is a multi-tenant cluster. Namespaces are used to enforce multi-tenancy. A namespace is created on demand for each user, acting as a sandbox for them to get familiar with K8s. Applications deployed in production get their own “project” namespace. The project namespace has some associated policy that determines who can run pods in the namespace, what data can be accessed, and if pods can run with elevated privileges. This is enforced by a combination of RBAC and Pod Security Policy (PSP). The latter is a deprecated feature in K8s 1.21 and will soon be replaced with Open Policy Agent.</p>
-</section>
-<section id="beamline-local-cluster-nodes">
-<h3>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Permalink to this heading">#</a></h3>
-<p>As part of the investigation work some worker nodes in Argus have been connected that are physically located at the beamline. These nodes do not share the same rack as Argus, and hence are part of a different routed subnet to the /22 that the control plane and main workers are within. This model assumes one centralised control plane (and some generic workers), and a set of beamline cluster nodes that may be distributed across the network (in different subnets).</p>
-<p>The beamline cluster nodes require a few interesting sets of configuration to make this architecture work. See the following subheadings for details.</p>
-<section id="metallb-pools">
-<h4>Metallb Pools<a class="headerlink" href="#metallb-pools" title="Permalink to this heading">#</a></h4>
-<p>Metallb cannot be used to provide loadBalancer services for pods running on the beamline cluster nodes. This is because metallb currently only supports a single pool of IPs to allocate from. In the case of Argus, the pool is allocated from within the /22 in which the control plane (and a few generic workers) sit. Should a pod with a loadBalancer Service IP get brought up on a beamline cluster node, the traffic would not be routable because the beamline TOR switch does not send ARP messages for subnets that it is not directly connected to. This is not an issue running IOCs since they do not make use of loadBalancer Services. There is a feature request for Metallb to support address pools that is currently pending.</p>
-</section>
-<section id="node-labelling-and-taints">
-<h4>Node Labelling and Taints<a class="headerlink" href="#node-labelling-and-taints" title="Permalink to this heading">#</a></h4>
-<p>The beamline cluster worker nodes are labelled and tainted with the name of the beamline. This ensures that only pods running IOCs that are relevant to that beamline can be started on the beamline worker nodes. Pods that are to be scheduled there must tolerate the taint, and use node selection based on the label.</p>
-<p>Certain utility pods must also tolerate the beamline name taint. Pods such as fluentd (which provides pod log aggregation and shipping to a centralised graylog) need additional tolerations of the taint. However most standard utilities such as Prometheus, Weave (the CNI itself runs in a pod) and kube-proxy all have a toleration of all “noSchedule” taints built in.</p>
-</section>
-<section id="host-network">
-<h4>Host Network<a class="headerlink" href="#host-network" title="Permalink to this heading">#</a></h4>
-<p>In order for IOCs to work within K8s pods, they typically need to see BUM traffic. This is because EPICS uses UDP Broadcast for IOC discovery. There are also other interesting network quirks that IOCs exhibit that make use of the CNI network overlay unsuitable. To get around this, pods running IOCs make use of the host network namespace. In other words, they see the interfaces on the underlying worker nodes, rather than a virtual interface that is connected to the cluster internal network that normal pods see. This is done by setting hostNetwork =  true in the pod spec. Access to the host network namespace requires privileged pods. Whilst this is allowed (Argus uses pod security policy to enforce the attributes of the pods that are scheduled), we do drop the capabilities that are not needed. This reduces the attack surface somewhat. We drop everything except NET_ADMIN and NET_BROADCAST.</p>
-</section>
-</section>
-</section>
-<section id="uses-for-argus">
-<h2>Uses for Argus<a class="headerlink" href="#uses-for-argus" title="Permalink to this heading">#</a></h2>
-<p>The central cluster is used for many services other than EPICS IOCs. Below is
-a list of current and potential use cases:</p>
+<p>for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>work-ec
+<span class="nb">cd</span><span class="w"> </span>work-ec
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/.devcontainer.git
+code<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a></p>
+</div>
+<p>Having setup your devcontainer, to verify things are working as expected,
+open a terminal in VSCode from the menus <code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">&gt;</span> <span class="pre">New</span> <span class="pre">Terminal</span></code>.
+You should see a prompt like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>E7<span class="o">][</span>work-ec<span class="o">]</span>$
+</pre></div>
+</div>
+<p>The E7 is used to indicate that you are running inside the
+<code class="docutils literal notranslate"><span class="pre">dev-e7</span></code> developer container.
+<code class="docutils literal notranslate"><span class="pre">work-ec</span></code> is the name of the current working directory. You are
+welcome to alter the prompt by changing PS1 in <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> (see next
+section), but it is a good idea to keep an indication of the container
+name in the prompt.</p>
+<p>Things to note:</p>
 <ul class="simple">
-<li><p>Controls IOCs</p></li>
-<li><p>Kafka and Spark</p></li>
-<li><p>Jenkins</p></li>
-<li><p>Sonarqube</p></li>
-<li><p>Zocalo</p></li>
-<li><p>Jupyterhub</p></li>
-<li><p>Business apps (Confluence, Jira etc)</p></li>
-<li><p>Monitoring stacks (ElasticSearch, Graylog, Graphite, Nagdash etc)</p></li>
-<li><p>Core services (LDAP, Kerberos, Gitlab etc)</p></li>
-<li><p>Netbox</p></li>
-<li><p>MariaDB</p></li>
-<li><p>HT Condor</p></li>
-<li><p>Machine Learning toolkits (Kubeflow)</p></li>
-<li><p>VM orchestration (Kubevirt/Virtlet)</p></li>
-<li><p>Relion</p></li>
-<li><p>Storage Systems deployment (Ceph-rook, Portworkx etc)</p></li>
-<li><p>XChem Fragalysis</p></li>
+<li><p>Your workspace folder is mounted inside the container at the same path as
+the host folder it is mapped to. This means that you can edit files in
+the container and the changes are reflected outside the container and
+vice versa.</p></li>
+<li><p>Your home folder is also mounted in its usual location. BUT $HOME is set
+to <code class="docutils literal notranslate"><span class="pre">/root</span></code>.</p></li>
+<li><p>Podman users are running as root inside the container but files will be
+written with your user id and group id when writing to the mounted
+workspace folder (or your home directory).</p></li>
+<li><p>In the following tutorials we will create further project folders and add
+them to the workspace that you have just created. These projects will
+all be managed inside the devcontainer we have just set up.</p></li>
 </ul>
+</section>
+<section id="configuring-the-devcontainer">
+<span id="devcontainer-configure"></span><h2>Configuring the Devcontainer<a class="headerlink" href="#configuring-the-devcontainer" title="Permalink to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users</strong>: the settings in the default <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> are already
+configured for interacting with the test beamline bl01t on the test
+cluster Pollux. HOWEVER: for this exercise we will use your personal
+GitHub account to avoid clashes with other users of this tutorial.
+Therefore follow the instructions below and set KUBECONFIG as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># point at your cluster configuration file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/home/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.kube/config_pollux
+</pre></div>
+</div>
+<p>To enable access to the pollux cluster, execute the following commands
+from OUTSIDE of the dev container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>pollux
+klogout
+.devcontainer/dls-copy-k8s-crt.sh<span class="w"> </span><span class="c1"># a script in the .devcontainer repo</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</pre></div>
+</div>
+<p>The last command will ask for your fed-id and password and then show a
+list of nodes in the pollux cluster. Your credentials are cached for a
+week after which you will see authentication errors. To fix this
+repeat the above steps.</p>
+</div>
+<p>You devcontainer environment is configured by a file called
+<code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> file. The terminals in the devcontainer will source this
+file when they start.</p>
+<p>Much of this file is setting up convenience features like the prompt and bash
+history. You can change these to suit your own preferences.</p>
+<p>The primary configuration options are the environment variables exported by
+this script. These are listed below with some recommended values for running
+these tutorials. Paste the following into the <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> file and
+add your GitHub organization or user to K8S_HELM_REGISTRY.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">############ REPLACE all environment below with your details ###################</span>
+
+<span class="c1"># point at your cluster config file</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/home/<span class="si">${</span><span class="nv">USER</span><span class="si">}</span>/.kube/config
+
+<span class="c1"># the default domain for ec commands (REMOVE if this is supplied by the host)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_DOMAIN</span><span class="o">=</span>bl01t
+
+<span class="c1"># where to get HELM charts for ec commands</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">K8S_HELM_REGISTRY</span><span class="o">=</span>ghcr.io/&lt;YOUR<span class="w"> </span>GITHUB<span class="w"> </span>USER<span class="w"> </span>OR<span class="w"> </span>ORGANIZATION&gt;
+
+<span class="c1">################################################################################</span>
+</pre></div>
+</div>
+<p>After editing <code class="docutils literal notranslate"><span class="pre">.bashrc_dev</span></code> you will need to close any open terminals and
+restart them to pick up the changes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For advanced users with knowledge of docker or podman.</p>
+<p>You can also alter the parameters for launch of the container by editing the
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code> file.
+<a class="reference external" href="https://containers.dev/implementors/json_reference/">See here for details</a></p>
+<p>In addition, you can alter the system packages installed in the container or make
+any other changes to the Dockerfile and regenerate your own container image.</p>
+<p>To pick up such changes to <code class="docutils literal notranslate"><span class="pre">.devcontainer</span></code> run the <code class="docutils literal notranslate"><span class="pre">Rebuild</span> <span class="pre">Container</span></code>
+command from VSCode command pallette (accessed via ctrl-shift-P).</p>
+<p>If you wish to persist these changes
+then it is suggested that you make your own github repo of .devcontainer and
+push the changes there.</p>
+</div>
 </section>
 </section>
 
@@ -606,20 +611,20 @@ a list of current and potential use cases:</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="net_protocols.html"
+       href="devcontainer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Channel Access and Other Protocols</p>
+        <p class="prev-next-title">Setup a Devcontainer</p>
       </div>
     </a>
     <a class="right-next"
-       href="docs-structure.html"
+       href="setup_k8s.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">About the documentation</p>
+        <p class="prev-next-title">Setup a Kubernetes Server</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -641,26 +646,16 @@ a list of current and potential use cases:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-options">Cluster Options</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-approach">Current Approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dls-argus-cluster">DLS Argus Cluster</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metallb-pools">Metallb Pools</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#node-labelling-and-taints">Node Labelling and Taints</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#host-network">Host Network</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uses-for-argus">Uses for Argus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-devcontainer">Launching the Devcontainer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-devcontainer">Configuring the Devcontainer</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/explanations/kubernetes_cluster.rst">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/tutorials/epics_devcontainer.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -674,7 +669,7 @@ a list of current and potential use cases:</p>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/explanations/kubernetes_cluster.rst.txt">
+    <a href="../../_sources/user/tutorials/epics_devcontainer.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
