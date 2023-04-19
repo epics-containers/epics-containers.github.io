@@ -5,7 +5,7 @@ The EPICS Devcontainer
 Introduction
 ------------
 
-Youc can setup a single devcontainer for managing all of your IOCs.
+You can setup a single devcontainer for managing all of your IOCs.
 
 The base container is defined in https://github.com/epics-containers/dev-e7
 but we will use a customizable image derived from that. The customizable
@@ -18,7 +18,7 @@ Launching the Devcontainer
 --------------------------
 
 Having setup your devcontainer, to verify things are working as expected,
-open a terminal in VSCode from the menus ``Terminal > New Terminal``. 
+open a terminal in VSCode from the menus ``Terminal > New Terminal``.
 You should see a prompt like this:
 
 .. code-block:: bash
