@@ -5,17 +5,35 @@ The EPICS Devcontainer
 Introduction
 ------------
 
-You can setup a single devcontainer for managing all of your IOCs.
+You can setup a single devcontainer for managing all of your IOCs. In
+`devcontainer` we launched a devcontainer for a single project. Here we
+will create a workspace that is managed by a devcontainer. This will allow
+you to manage multiple projects in a single devcontainer.
 
 The base container is defined in https://github.com/epics-containers/dev-e7
 but we will use a customizable image derived from that. The customizable
 container definition is in https://github.com/epics-containers/.devcontainer.
 
-.. seealso:: Basic devcontainer setup: `./devcontainer`
-
 
 Launching the Devcontainer
 --------------------------
+
+To setup your devcontainer, perform the following steps:
+
+-  create a workspace folder
+-  clone the .devcontainer repository into the workspace folder
+-  open the workspace folder with Visual Studio Code.
+
+for example:
+
+.. code-block:: bash
+
+    mkdir work-ec
+    cd work-ec
+    git clone git@github.com:epics-containers/.devcontainer.git
+    code .
+
+.. seealso:: `./devcontainer`
 
 Having setup your devcontainer, to verify things are working as expected,
 open a terminal in VSCode from the menus ``Terminal > New Terminal``.
@@ -45,6 +63,10 @@ Things to note:
 - Podman users are running as root inside the container but files will be
   written with your user id and group id when writing to the mounted
   workspace folder (or your home directory).
+
+- In the following tutorials we will create further project folders and add
+  them to the workspace that you have just created. These projects will
+  all be managed inside the devcontainer we have just set up.
 
 .. _devcontainer-configure:
 

@@ -1,11 +1,15 @@
 
-Setup the Devcontainer
-======================
+Setup a Devcontainer
+====================
 
 Introduction
 ------------
 
 The devcontainer provides the environment in which you will do all your development.
+This is a basic tutorial that introduces the concept in preparation for the
+epics devcontainer tutorial.
+
+.. seealso:: `epics_devcontainer`
 
 
 Configure Visual Studio Code
@@ -37,22 +41,16 @@ settings editor and search for
 Launching the Devcontainer
 --------------------------
 
-To setup your devcontainer, perform the following steps:
-
--  create a workspace folder
--  clone the .devcontainer repository into the workspace folder
--  open the workspace folder with Visual Studio Code.
-
-for example:
+If your repository contains a ``.devcontainer`` directory, vscode will be
+able to follow the instructions inside and launch a container.
 
 .. code-block:: bash
 
-    mkdir work-ec
-    cd work-ec
-    git clone git@github.com:epics-containers/.devcontainer.git
+    git clone <repo>
+    cd <repo>
     code .
 
-This will open the workspace folder in Visual Studio Code. You will be prompted
+This will open the project folder in Visual Studio Code. You will be prompted
 to reopen the folder in a container. Click on the ``Reopen in Container`` button.
 
 .. figure:: ../images/vscode-reopen-in-container.png
