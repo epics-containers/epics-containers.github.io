@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Setup the Devcontainer &#8212; epics-containers.github.io 0.10.dev4+gb6128d5 documentation</title>
+    <title>Setup a Devcontainer &#8212; epics-containers.github.io 0.10.dev6+gc7af5c9 documentation</title>
   
   
   
@@ -378,7 +378,7 @@ document.write(`
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup the Devcontainer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup a Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epics_devcontainer.html">The EPICS Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
@@ -455,7 +455,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Setup the Devcontainer</li>
+    <li class="breadcrumb-item active" aria-current="page">Setup a Devcontainer</li>
   </ul>
 </nav>
 </div>
@@ -472,8 +472,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="setup-the-devcontainer">
-<h1>Setup the Devcontainer<a class="headerlink" href="#setup-the-devcontainer" title="Permalink to this heading">#</a></h1>
+  <section id="setup-a-devcontainer">
+<h1>Setup a Devcontainer<a class="headerlink" href="#setup-a-devcontainer" title="Permalink to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>The devcontainer provides the environment in which you will do all your development.</p>
@@ -500,16 +500,10 @@ settings editor and search for
 </section>
 <section id="launching-the-devcontainer">
 <h2>Launching the Devcontainer<a class="headerlink" href="#launching-the-devcontainer" title="Permalink to this heading">#</a></h2>
-<p>To setup your devcontainer, perform the following steps:</p>
-<ul class="simple">
-<li><p>create a workspace folder</p></li>
-<li><p>clone the .devcontainer repository into the workspace folder</p></li>
-<li><p>open the workspace folder with Visual Studio Code.</p></li>
-</ul>
-<p>for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>work-ec
-<span class="nb">cd</span><span class="w"> </span>work-ec
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/.devcontainer.git
+<p>If your repository contains a <code class="docutils literal notranslate"><span class="pre">.devcontainer</span></code> directory, vscode will be
+able to follow the instructions inside and launch a container.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repo&gt;
+<span class="nb">cd</span><span class="w"> </span>&lt;repo&gt;
 code<span class="w"> </span>.
 </pre></div>
 </div>

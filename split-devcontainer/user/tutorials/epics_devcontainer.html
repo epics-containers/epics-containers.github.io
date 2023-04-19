@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>The EPICS Devcontainer &#8212; epics-containers.github.io 0.10.dev4+gb6128d5 documentation</title>
+    <title>The EPICS Devcontainer &#8212; epics-containers.github.io 0.10.dev6+gc7af5c9 documentation</title>
   
   
   
@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Setup a Kubernetes Server" href="setup_k8s.html" />
-    <link rel="prev" title="Setup the Devcontainer" href="devcontainer.html" />
+    <link rel="prev" title="Setup a Devcontainer" href="devcontainer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -378,7 +378,7 @@ document.write(`
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Setup a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">Setup the Devcontainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devcontainer.html">Setup a Devcontainer</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The EPICS Devcontainer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
@@ -482,11 +482,28 @@ but we will use a customizable image derived from that. The customizable
 container definition is in <a class="github reference external" href="https://github.com/epics-containers/.devcontainer">epics-containers/.devcontainer</a>.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>Basic devcontainer setup: <a class="reference internal" href="devcontainer.html"><span class="doc">Setup the Devcontainer</span></a></p>
+<p>Basic devcontainer setup: <a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a></p>
 </div>
 </section>
 <section id="launching-the-devcontainer">
 <h2>Launching the Devcontainer<a class="headerlink" href="#launching-the-devcontainer" title="Permalink to this heading">#</a></h2>
+<p>To setup your devcontainer, perform the following steps:</p>
+<ul class="simple">
+<li><p>create a workspace folder</p></li>
+<li><p>clone the .devcontainer repository into the workspace folder</p></li>
+<li><p>open the workspace folder with Visual Studio Code.</p></li>
+</ul>
+<p>for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>work-ec
+<span class="nb">cd</span><span class="w"> </span>work-ec
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/.devcontainer.git
+code<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="devcontainer.html"><span class="doc">Setup a Devcontainer</span></a></p>
+</div>
 <p>Having setup your devcontainer, to verify things are working as expected,
 open a terminal in VSCode from the menus <code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">&gt;</span> <span class="pre">New</span> <span class="pre">Terminal</span></code>.
 You should see a prompt like this:</p>
@@ -597,7 +614,7 @@ push the changes there.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Setup the Devcontainer</p>
+        <p class="prev-next-title">Setup a Devcontainer</p>
       </div>
     </a>
     <a class="right-next"

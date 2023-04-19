@@ -17,6 +17,23 @@ container definition is in https://github.com/epics-containers/.devcontainer.
 Launching the Devcontainer
 --------------------------
 
+To setup your devcontainer, perform the following steps:
+
+-  create a workspace folder
+-  clone the .devcontainer repository into the workspace folder
+-  open the workspace folder with Visual Studio Code.
+
+for example:
+
+.. code-block:: bash
+
+    mkdir work-ec
+    cd work-ec
+    git clone git@github.com:epics-containers/.devcontainer.git
+    code .
+
+.. seealso:: `./devcontainer`
+
 Having setup your devcontainer, to verify things are working as expected,
 open a terminal in VSCode from the menus ``Terminal > New Terminal``.
 You should see a prompt like this:
