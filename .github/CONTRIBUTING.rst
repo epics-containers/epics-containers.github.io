@@ -26,4 +26,4 @@ The `Developer Guide`_ contains information on setting up a development
 environment, building docs and what standards the documentation
 should follow.
 
-.. _Developer Guide: https://diamondlightsource.github.io/epics-containers.github.io/main/developer/how-to/contribute.html
+.. _Developer Guide: https://epics-containers.github.io/main/developer/how-to/contribute.html

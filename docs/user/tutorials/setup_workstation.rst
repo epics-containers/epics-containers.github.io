@@ -78,8 +78,10 @@ If you are using docker, simply replace ``podman`` with ``docker`` in the comman
 
 The podman version required is 4.0 or later. This is not easy to obtain on debian
 distributions at the time of writing, but details of how to compile from source
-are
-`in this Dockerfile <https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile#L58-L77>`_.
+are contained
+`in this Dockerfile <https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile>`_
+under the heading  ``Stage to add a recent podman client``
+
 
 The links below have details of how to install your choice of container platform:
 

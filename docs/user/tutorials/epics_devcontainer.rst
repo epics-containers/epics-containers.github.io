@@ -5,10 +5,13 @@ The EPICS Devcontainer
 Introduction
 ------------
 
-You can setup a single devcontainer for managing all of your IOCs. In
-`devcontainer` we launched a devcontainer for a single project. Here we
-will create a workspace that is managed by a devcontainer. This will allow
-you to manage multiple projects in a single devcontainer.
+For working with epics-containers we provide a developer container with
+all the tools you need to build and deploy EPICS IOCs already installed.
+In this tutorial we will install and configure this devcontainer.
+
+In `devcontainer` we demonstrated launching a container for a single project.
+Here we will create a workspace that will allow
+you to manage multiple projects within a single devcontainer.
 
 The base container is defined in https://github.com/epics-containers/dev-e7
 but we will use a customizable image derived from that. The customizable

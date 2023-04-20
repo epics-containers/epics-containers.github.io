@@ -160,8 +160,7 @@ You should see the C2DataViewer. Click on auto button and you should see:
 
     Millie the Labradoodle
 
-To work out how Millie got into the viewer, take a look at example.sh, I leave
-this as an exercise for the reader.
+To work out how Millie got into the viewer, take a look at example.sh.
 
 
 

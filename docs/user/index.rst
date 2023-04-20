@@ -25,8 +25,8 @@ side-bar.
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
             tutorials/support_module
-
-        +++
+            tutorials/rtems_setup
+            tutorials/rtems_ioc
 
         Tutorials for installation and typical usage. New users start here.
 
