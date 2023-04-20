@@ -9,11 +9,17 @@ now will look at the differences for this architecture. Further
 architectures will be supported in future.
 
 Each beamline or accelerator domain will require a server for
-serving the IOC binaries and instance files. For details of how to set this
-up see `rtems_setup`.
+serving the IOC binaries and instance files to the RTEMS devices. This
+needs to be set up for your test beamline before proceeding,
+see `rtems_setup`.
 
 Once you have the file server set up, deploying an IOC instance that uses
 an RTEMS Generic IOC is very similar to `deploy_example`.
+
+We will be adding
+a new IOC instance to the ``bl01t`` beamline that we created in the previous
+tutorials. You will need to have worked through the previous tutorials in
+order to complete this one.
 
 Preparing the RTEMS Boot loader
 -------------------------------
@@ -32,6 +38,8 @@ using a terminal server or similar.
 
     :console: ts0001 7007
     :crate monitor: ts0001 7008
+
+    It is likely already set up as per the example below.
 
 Use telnet to connect to the console of your target IOC. e.g.
 ``telnet ts0001 7007``. We want to get to the MOTLoad prompt which should look
@@ -81,14 +89,126 @@ Meaning of the parameters:
 Note that the IP parameters to the tftpGet command are respectively:
 net mask, gateway, server address, client address.
 
-Once you have the correct configuration you can restart the IOC with
-the ``reset`` command. But you need the kubernetes pod for this IOC to be
-up and running first so that it places the necessary files on the file server.
-See the next section for setting up the kubernetes pod.
 
+Creating an RTEMS IOC Instance
+------------------------------
 
-Creating an RTEMS Generic IOC
------------------------------
+We will be adding a new IOC instance to the ``bl01t`` beamline that we created in
+:doc:`create_beamline`. The first step is to make a copy of our existing IOC instance
+and make some modifications to it. We will call this new IOC instance
+``bl01t-ea-ioc-02``.
+
+.. code-block:: bash
+
+    cd bl01t
+    cp -r iocs/bl01t-ea-ioc-01 iocs/bl01t-ea-ioc-02
+    # don't need this file for the new IOC
+    rm iocs/bl01t-ea-ioc-02/config/extra.db
+
+We are going to make a very basic IOC with some hand coded database with
+a couple of simple records. Therefore the generic IOC that we use can just
+be ioc-template.
+
+Generic IOCs have multiple targets, they always have a
+``developer`` target which is used for building and debugging the generic IOC and
+a ``runtime`` target which is lightweight and usually used when running the IOC
+in the cluster. The matrix of targets also includes an architecture dimension,
+at present the ioc-template supports two architectures, ``linux`` and
+``rtems``, thus there are 4 targets in total as follows:
+
+- ghcr.io/epics-containers/ioc-template-linux-runtime
+- ghcr.io/epics-containers/ioc-template-linux-developer
+- ghcr.io/epics-containers/ioc-template-rtems-runtime
+- ghcr.io/epics-containers/ioc-template-rtems-developer
+
+We want to run the RTEMS runtime target on the cluster so this will appear
+at the top of the ``values.yaml`` file. In addition there are a number of
+environment variables required for the RTEMS target that we also specify in
+``values.yaml``.
+Edit the file
+``iocs/bl01t-ea-ioc-02/values.yaml`` to look like this:
+
+.. code-block:: yaml
+
+If you are not at DLS you will need to change the above to match the
+parameters of your RTEMS IOC. The environment variables are:
+
+:K8S_IOC_ADDRESS: The IP address of the IOC (mot-/dev/enet0-cipa above)
+:RTEMS_VME_CONSOLE_ADDR: Address of terminal server for console access
+:RTEMS_VME_CONSOLE_PORT: Port of terminal server for console access
+:RTEMS_VME_AUTO_REBOOT: true to reboot the hard IOC when the IOC container changes
+:RTEMS_VME_AUTO_PAUSE: true to pause/unpause when the IOC container stops/starts
+
+Edit the file ``iocs/bl01t-ea-ioc-02/Chart.yaml`` and change the 1st 4 lines
+to represent this new IOC (the rest of the file is boilerplate):
+
+.. code-block:: yaml
+
+    apiVersion: v2
+    name: bl01t-ea-ioc-02
+    description: |
+        example RTEMS IOC for bl01t
+
+For configuration we will create a simple database with a few of records and
+a basic startup script. Add the following files to the
+``iocs/bl01t-ea-ioc-02/config`` directory.
+
+.. code-block::  :caption: bl01t-ea-ioc-02.db
+
+    record(calc, "bl01t-ea-ioc-02:SUM") {
+        field(DESC, "Sum A and B")
+        field(CALC, "A+B")
+        field(SCAN, ".1 second")
+        field(INPA, "bl01t-ea-ioc-02:A")
+        field(INPB, "bl01t-ea-ioc-02:B")
+    }
+
+    record(ao, "bl01t-ea-ioc-02:A") {
+        field(DESC, "A voltage")
+        field(EGU,  "Volts")
+        field(VAL,  "0.0")
+    }
+
+    record(ao, "bl01t-ea-ioc-02:B") {
+        field(DESC, "B voltage")
+        field(EGU,  "Volts")
+        field(VAL,  "0.0")
+    }
+
+.. code-block::  :caption: st.cmd
+
+    # RTEMS Test IOC bl01t-ea-ioc-02
+
+    dbLoadDatabase "/iocs/bl01t/bl01t-ea-ioc-02/dbd/ioc.dbd"
+    ioc_registerRecordDeviceDriver(pdbbase)
+
+    # db files from the support modules are all held in this folder
+    epicsEnvSet(EPICS_DB_INCLUDE_PATH, "/iocs/bl01t/bl01t-ea-ioc-02/support/db")
+
+    # load our hand crafted database
+    dbLoadRecords("/iocs/bl01t/bl01t-ea-ioc-02/config/bl01t-ea-ioc-02.db")
+    # also make Database records for DEVIOCSTATS
+    dbLoadRecords(iocAdminSoft.db, "IOC=bl01t-ea-ioc-02")
+    dbLoadRecords(iocAdminScanMon.db, "IOC=bl01t-ea-ioc-02")
+
+    iocInit
+
+You now have a new helm chart in iocs/bl01t-ea-ioc-02 that describes an IOC
+instance for your RTEMS device. Recall that this is not literally where the IOC
+runs, it deploys a kubernetes pod that manages the RTEMS IOC. It does contain
+the IOC's configuration and the IOC's binary code, which it will copy to the
+file-server on startup.
+
+You are now ready to deploy the IOC instance to the cluster and test it out.
+
 
 Deploying an RTEMS IOC Instance
 -------------------------------
+
+TODO:
+
+Once you have the correct configuration in your RTEMS boot-loader and you have
+deployed the kubernetes IOC instance, you can restart the IOC with
+the ``reset`` command. This will cause it to reboot and it should pick
+up your binary from the network and start the IOC. You should see the
+iocShell fire up and run

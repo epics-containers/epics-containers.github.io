@@ -3,44 +3,6 @@
 Setup a Kubernetes Server
 =========================
 
-.. note::
-
-    From this point onward the tutorials assume that you are using
-    Kubernetes and Helm to deploy your EPICS IOCs.
-
-    However:
-
-    The approach of creating generic IOC's in containers and then deploying
-    IOC instances as generic IOC's + some configuration will also work
-    standalone, or with other orchestration tools. e.g. In `ioc_changes`
-    we will demonstrate running an IOC locally using podman alone.
-
-    If you want to take advantage of containers for IOCs but do not want to
-    take on Kubernetes then there are some hints as to how to achieve this
-    here: `../how-to/run_iocs`.
-
-Introduction
-------------
-This is a very easy set of instructions for setting up an experimental
-single-node Kubernetes cluster,
-ready to test deployment of EPICS IOCs.
-
-Bring Your Own Cluster
-----------------------
-
-If you already have a Kubernetes cluster then you can skip this section.
-and go straight to `./create_beamline`.
-
-IMPORTANT: you will require appropriate permissions on the cluster to work
-with epics-containers. In particular you will need to be able to create
-pods that run with network=host. This is to allow Channel Access traffic
-to be routed to and from the IOCs. You will also need to be able to create
-a namespace and a service account, although you could use an existing
-namespace and service account as long as it has network=host capability.
-
-Cloud based K8S offerings may not be appropriate because of the Channel Access
-routing requirement.
-
 .. Note::
 
     **DLS Users**: DLS already has the test cluster Pollux and further
@@ -61,6 +23,44 @@ routing requirement.
 
     Then select ``bl01t`` from the namespace drop down menu in the top left,
     to see the training namespace.
+
+Introduction
+------------
+This is a very easy set of instructions for setting up an experimental
+single-node Kubernetes cluster,
+ready to test deployment of EPICS IOCs.
+
+.. note::
+
+    From this point onward the tutorials assume that you are using
+    Kubernetes and Helm to deploy your EPICS IOCs.
+
+    However:
+
+    The approach of creating generic IOC's in containers and then deploying
+    IOC instances as generic IOC's + some configuration will also work
+    standalone, or with other orchestration tools. e.g. In `ioc_changes`
+    we will demonstrate running an IOC locally using podman alone.
+
+    If you want to take advantage of containers for IOCs but do not want to
+    take on Kubernetes then there are some hints as to how to achieve this
+    here: `../how-to/run_iocs`.
+
+Bring Your Own Cluster
+----------------------
+
+If you already have a Kubernetes cluster then you can skip this section.
+and go straight to `./create_beamline`.
+
+IMPORTANT: you will require appropriate permissions on the cluster to work
+with epics-containers. In particular you will need to be able to create
+pods that run with network=host. This is to allow Channel Access traffic
+to be routed to and from the IOCs. You will also need to be able to create
+a namespace and a service account, although you could use an existing
+namespace and service account as long as it has network=host capability.
+
+Cloud based K8S offerings may not be appropriate because of the Channel Access
+routing requirement.
 
 Platform Choice
 ---------------

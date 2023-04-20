@@ -51,28 +51,25 @@ changes:
 .. note::
 
   **DLS Users** The load balancer IP range on Pollux is
-  ``172.23.168.201-172.23.168.222``. The IP address you choose must be free
-  and not already in use by another service. At the moment you have to try
-  deploying and see if it works. If it doesn't work then try another IP.
+  ``172.23.168.201-172.23.168.222``. Please use ``172.23.168.203``. The test
+  RTEMS crate is likely to already be set up to point at this address. There
+  are a limited number of addresses available, hence we have reserved a single
+  address for the training purposes.
 
   Also note that ``bl01t`` is a shared resource so if there is already a
-  ``bl01t-ioc-files`` service running then you will have to choose a different
-  IP address (or just use the existing service and don't bother with this step)
-
-  **Recommendation**: use ``172.23.168.203`` and if it is already in use and the
-  service is already running then just use that one. There are a limited number
-  of fixed IPs available so we should only use one for training purposes.
+  ``bl01t-ioc-files`` service running then you could just use the existing
+  service.
 
 You can verify if the service is already running using kubectl. The command
 shown below will list all the services in the ``bl01t`` namespace, and the
 example output shows that there is already a ``bl01t-ioc-files`` service
-using the IP address ``172.23.168.220``:
+using the IP address ``172.23.168.203``.
 
 .. code-block:: bash
 
   $ kubectl get services -n bl01t
   NAME                TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                                                                        AGE
-  bl01t-ioc-files     LoadBalancer   10.108.219.193   172.23.168.220   111:31491/UDP,2049:30944/UDP,20048:32277/UDP,69:32740/UDP                      32d
+  bl01t-ioc-files     LoadBalancer   10.108.219.193   172.23.168.203   111:31491/UDP,2049:30944/UDP,20048:32277/UDP,69:32740/UDP                      32d
 
 Once you have made the changes to the helm chart you can deploy it to the
 cluster using the following command:
