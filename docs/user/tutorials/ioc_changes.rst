@@ -1,6 +1,7 @@
 Testing Changes to IOC Instances
 ================================
 
+.. _ioc_change_types:
 
 Types of Changes
 ----------------

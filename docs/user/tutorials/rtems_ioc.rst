@@ -130,14 +130,44 @@ Edit the file
 
 .. code-block:: yaml
 
-If you are not at DLS you will need to change the above to match the
-parameters of your RTEMS IOC. The environment variables are:
+    base_image: ghcr.io/epics-containers/ioc-template-rtems-runtime:23.4.2
 
-:K8S_IOC_ADDRESS: The IP address of the IOC (mot-/dev/enet0-cipa above)
-:RTEMS_VME_CONSOLE_ADDR: Address of terminal server for console access
-:RTEMS_VME_CONSOLE_PORT: Port of terminal server for console access
-:RTEMS_VME_AUTO_REBOOT: true to reboot the hard IOC when the IOC container changes
-:RTEMS_VME_AUTO_PAUSE: true to pause/unpause when the IOC container stops/starts
+    env:
+    # This is used to set EPICS_IOC_ADDR_LIST in the liveness probe client
+    # It is only needed if auto addr list discovery would fail
+    - name: K8S_IOC_ADDRESS
+        value: 172.23.250.15
+
+    # RTEMS console connection details
+    - name: RTEMS_VME_CONSOLE_ADDR
+        value: ts0001.cs.diamond.ac.uk
+    - name: RTEMS_VME_CONSOLE_PORT
+        value: "7007"
+    - name: RTEMS_VME_AUTO_REBOOT
+        value: true
+    - name: RTEMS_VME_AUTO_PAUSE
+        value: true
+
+If you are not at DLS you will need to change the above to match the
+parameters of your RTEMS Crate. The environment variables are:
+
+
+.. list-table:: RTEMS Environment Variables
+    :widths: 30 70
+    :header-rows: 1
+
+    * - Variable
+      - Description
+    * - K8S_IOC_ADDRESS
+      - The IP address of the IOC (mot-/dev/enet0-cipa above)
+    * - RTEMS_VME_CONSOLE_ADDR
+      - Address of terminal server for console access
+    * - RTEMS_VME_CONSOLE_PORT
+      - Port of terminal server for console access
+    * - RTEMS_VME_AUTO_REBOOT
+      - true to reboot the hard IOC when the IOC container changes
+    * - RTEMS_VME_AUTO_PAUSE
+      - true to pause/unpause when the IOC container stops/starts
 
 Edit the file ``iocs/bl01t-ea-ioc-02/Chart.yaml`` and change the 1st 4 lines
 to represent this new IOC (the rest of the file is boilerplate):

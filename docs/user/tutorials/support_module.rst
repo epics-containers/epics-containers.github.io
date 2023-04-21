@@ -1,6 +1,8 @@
 Working with Support Modules
 =============================
 
+This is a type 3. change from the list at `ioc_change_types`.
+
 If you are starting a new support module then the preceding tutorials
 have covered all of the skills you will need.
 
