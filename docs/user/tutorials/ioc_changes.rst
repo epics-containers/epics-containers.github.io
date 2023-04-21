@@ -114,6 +114,8 @@ in the container like this:
 
 When you type exit on the iocShell the container will stop and and be removed.
 
+.. _local_deploy_ioc:
+
 Deploying a Beta IOC Instance to The Cluster
 ============================================
 
