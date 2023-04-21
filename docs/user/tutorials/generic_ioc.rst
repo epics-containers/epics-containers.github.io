@@ -4,6 +4,8 @@ Create a Generic IOC
 In this tutorial we will learn how to create a generic IOC container image and
 test our changes locally before deploying it.
 
+This is a type 2. change from the list at `ioc_change_types`.
+
 The example IOC used ADSimDetector, we will make a similar IOC that uses
 ADUrl to get images from a web cam.
 
