@@ -30,6 +30,12 @@ running in your default domain as follows:
 You should see some headings and an empty list as you have not yet started an
 IOC Instance.
 
+.. note::
+
+    The command ``ec`` is the epics-containers command line utilities entry
+    point. For more information see `CLI` or try ``ec --help``.
+
+
 The following command will deploy the example IOC instance to your cluster:
 
 .. code-block:: bash
