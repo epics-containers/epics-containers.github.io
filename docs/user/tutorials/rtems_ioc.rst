@@ -235,10 +235,59 @@ You are now ready to deploy the IOC instance to the cluster and test it out.
 Deploying an RTEMS IOC Instance
 -------------------------------
 
-TODO:
+To deploy an IOC instance to the cluster you can use one of two approaches:
 
-Once you have the correct configuration in your RTEMS boot-loader and you have
-deployed the kubernetes IOC instance, you can restart the IOC with
-the ``reset`` command. This will cause it to reboot and it should pick
-up your binary from the network and start the IOC. You should see the
-iocShell fire up and run
+- push your beamline repo to GitHub and tag it. Then use ``ec ioc deploy`` to
+  deploy the resulting versioned IOC instance. This was covered for linux IOCs
+  in `deploy_example`.
+
+- use ``ec ioc deploy-local`` to directly deploy the local copy of the IOC
+  instance helm chart to kubernetes as a beta version. This was covered for
+  linux IOCs in `local_deploy_ioc`.
+
+Both types of deployment of IOC instances above work exactly the same for
+linux and RTEMS IOCs. We will do the latter as it is quicker for
+the purposes of the tutorial.
+
+Execute the following commands:
+
+.. code-block:: bash
+
+    cd bl01t
+    ec ioc deploy-local iocs/bl01t-ea-ioc-02
+
+When an RTEMS Kubernetes pod runs up it will make a telnet connection to
+the hard IOC's console and present the console as stdin/stdout of the
+container. This means once you have done the above deployment the command:
+
+
+.. code-block:: bash
+
+    ec logs bl01t-ea-ioc-02 -f
+
+will show the RTEMS console output, and follow it along (``-f``) as the IOC
+starts up. You can hit ``^C`` to stop following the logs.
+
+You can also attach to the container and interact with the RTEMS console via
+the telnet connection with:
+
+.. code-block:: bash
+
+    ec attach bl01t-ea-ioc-02
+
+Most likely for the first deploy your IOC will still be sitting at the
+``MVME5500>`` prompt. If you see this prompt when you attach then you need
+to type ``reset`` to restart the boot-loader. This should then go through
+the boot-loader startup and eventually start the IOC.
+
+Checking your RTEMS IOC
+-----------------------
+
+To verify that your RTEMS IOC is working you should be able to execute the
+following commands and get correct sum of the A and B values:
+
+.. code-block:: bash
+
+    caput bl01t-ea-ioc-02:A 12
+    caput get bl01t-ea-ioc-02:B 13
+    caget get bl01t-ea-ioc-02:SUM

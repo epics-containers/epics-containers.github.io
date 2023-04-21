@@ -98,6 +98,9 @@ repo in the future.
         to your unique name and edit the ``name:`` field at the top of
         ``Chart.yaml`` to match the folder name.
 
+        If you do this - remember to substitute in your own name in the
+        following steps, replacing bl01t-ea-ioc-01.
+
 #.  Add your new repo to your VSCode workspace and take a look at what you
     have.
 
@@ -167,6 +170,5 @@ for it and published ready for deployment to your cluster.
 In the next tutorial we will look into what we have created in more detail
 and we will deploy and test the new example IOC.
 
-
-TODO: I need to describe the contents of beamline-chart folder somewhere and
-this might be a good place to do that.
+For details of what goes into the helm chart of an IOC instance see
+`../reference/ioc_helm_chart`.

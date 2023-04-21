@@ -3,7 +3,7 @@ IOC Helm Chart Details
 
 IOC instances are described using a helm chart which in turn generates
 a Kubernetes manifest to tell Kubernetes what resources to create in order
-to run for the IOC instance.
+to run the IOC instance.
 
 Here we will look inside the template IOC instance in the template
 domain repository blxxi-template.
