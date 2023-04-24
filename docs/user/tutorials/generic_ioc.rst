@@ -53,6 +53,10 @@ using an ``ec`` command.
         git remote add origin git@github.com:<YOUR USER NAME>/ioc-adurl.git
         git push --set-upstream origin main
 
+Note that creating your project in this way means it is possible to
+synchronize changes from the original ioc-template project.
+See `../how-to/update_templated`.
+
 Prepare the New Repo for Development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
