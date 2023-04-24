@@ -119,6 +119,10 @@ repo in the future.
 
 .. figure:: ../images/create_repo.png
 
+Note that creating your project in this way means it is possible to
+synchronize changes from the original blxxi-template project.
+See `../how-to/update_templated`.
+
 
 Make a Release of Example Beamline bl01t
 ----------------------------------------
