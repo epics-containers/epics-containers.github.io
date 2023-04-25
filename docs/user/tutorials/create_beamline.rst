@@ -73,7 +73,7 @@ template repo, so that you can easily pull in changes from the template
 repo in the future.
 
 #.  Create a new, completely blank repository in your GitHub account
-    called ``bl01t``. To do this got to https://github.com/new
+    called ``bl01t``. To do this go to https://github.com/new
     and fill in the details as per the image below. Click
     ``Create repository``.
 
@@ -117,6 +117,14 @@ repo in the future.
         git commit -m "rename blxxi to bl01t"
         git push origin main
 
+    As this is your first commit you may find that you need to set your
+    username and email address for git. If so, follow the instructions
+    that git gives you. In theory this should be handled for you by
+    vscode devcontainers but this does not always work.
+    See `git in vscode`_.
+
+.. _git in vscode: https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
+
 .. figure:: ../images/create_repo.png
 
 Note that creating your project in this way means it is possible to
@@ -141,6 +149,7 @@ The example version below was the first revision in the month of April 2023.
 
     cd bl01t
     git tag 23.4.1
+    # push the tag
     git push origin 23.4.1
 
 This will cause GitHub to create a release of the project and trigger
