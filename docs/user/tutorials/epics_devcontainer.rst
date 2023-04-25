@@ -82,12 +82,8 @@ Configuring the Devcontainer
     configured for interacting with the test beamline bl01t on the test
     cluster Pollux. HOWEVER: for this exercise we will use your personal
     GitHub account to avoid clashes with other users of this tutorial.
-    Therefore follow the instructions below and set KUBECONFIG as follows:
-
-    .. code-block:: bash
-
-        # point at your cluster configuration file
-        export KUBECONFIG=/home/${USER}/.kube/config_pollux
+    Therefore the ``K8S_HELM_REGISTRY`` variable must be set to your
+    GitHub user name and the other variables left as is.
 
     To enable access to the pollux cluster, execute the following commands
     from OUTSIDE of the dev container:
