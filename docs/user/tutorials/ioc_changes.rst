@@ -51,11 +51,12 @@ is working.
 Make the following changes in your test IOC config folder
 (``bl01t/iocs/bl01t-ea-ioc-01/config``):
 
-1. Add a file called ``extra.db`` with the following contents:
+1. Add a file called ``extra.db`` with the following contents.
+   IMPORTANT replace [$USER] with your username:
 
    .. code-block:: text
 
-      record(ai, "BL01T-EA-IOC-01:TEST") {
+      record(ai, "[$USER]-EA-IOC-01:TEST") {
          field(DESC, "Test record")
          field(DTYP, "Soft Channel")
          field(SCAN, "Passive")
@@ -78,22 +79,39 @@ folder:
 
 .. code-block:: bash
 
-    ec dev ioc-launch iocs/bl01t-ea-ioc-01 --tag 23.3.4
+    ec dev ioc-launch iocs/bl01t-ea-ioc-01
 
-The ``--tag`` option specifies the version of the Generic IOC container to use
-and this means it will be pulled from the container registry (or come from
-the cache if it has already been pulled).
-If you do not supply a tag then ``ec`` will look for a local copy of the
-container to use, we will cover this in `generic_ioc`.
+This will launch Generic IOC container specified in the ``bl01t-ea-ioc-01``
+helm chart and mount into it the local config specified in
+``/iocs/bl01t-ea-ioc-01/config``.
 
 If all is well you should see your iocShell prompt and you can test your change
 from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 .. code-block:: bash
 
-   caget BL01T-EA-IOC-01:TEST
+   caget $USER-EA-IOC-01:TEST
 
 If you see the value 1 then your change is working.
+
+.. note::
+
+   If you also wanted to make local changes
+   to the generic IOC itself you could clone the generic IOC source repo,
+   locally build the container image and then use ``ec dev ioc-launch`` as
+   follows:
+
+   .. code-block:: bash
+
+      # advanced example - not part of this tutorial
+      cd <root of your workspace>
+      git clone git@github.com:epics-containers/ioc-adsimdetector.git
+      cd ioc-adsimdetector
+      # this makes a local image with tag :local
+      ec dev build
+      cd ../bl01t
+      ec dev ioc-launch iocs/bl01t-ea-ioc-01 ../ioc-adsimdetector
+
 
 Note you can see your running IOC in podman using this command:
 
@@ -156,7 +174,7 @@ from the above command):
 .. code-block:: bash
 
     export EPICS_CA_ADDR_LIST=192.168.0.32
-    caget BL01T-EA-IOC-01:TEST
+    caget $USER-EA-IOC-01:TEST
 
 Once you are happy with your changes you can push and tag your beamline repo.
 This will publish a new version of the IOC instance helm chart to the OCI helm

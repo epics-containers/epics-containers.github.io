@@ -229,6 +229,16 @@ runs, it deploys a kubernetes pod that manages the RTEMS IOC. It does contain
 the IOC's configuration and the IOC's binary code, which it will copy to the
 file-server on startup.
 
+Finally you will need to tell the IOC to mount the Persistent Volume Claim
+that the bl01t-ioc-files service is serving over NFS and TFTP. To do this
+add the following lines to ``iocs/bl01t-ea-ioc-02/values.yaml``:
+
+.. code-block:: yaml
+
+    # for RTEMS IOCS this is the PVC name for the filesystem where RTEMS
+    # IOCs look for their files - enable this in RTEMS IOCs only
+    nfsv2TftpClaim: bl01t-ioc-files-claim
+
 You are now ready to deploy the IOC instance to the cluster and test it out.
 
 

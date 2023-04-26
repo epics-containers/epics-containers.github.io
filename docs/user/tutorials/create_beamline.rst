@@ -73,7 +73,7 @@ template repo, so that you can easily pull in changes from the template
 repo in the future.
 
 #.  Create a new, completely blank repository in your GitHub account
-    called ``bl01t``. To do this got to https://github.com/new
+    called ``bl01t``. To do this go to https://github.com/new
     and fill in the details as per the image below. Click
     ``Create repository``.
 
@@ -87,16 +87,19 @@ repo in the future.
         mv iocs/blxxi-ea-ioc-01/ iocs/bl01t-ea-ioc-01
         mv opi/blxxi-ea-ioc-01/ opi/bl01t-ea-ioc-01
         # careful to use find *, NOT find . or you will change the .git folder
-        sed -i 's/BLXXI/BL01T/g' $(find * -type f)
-        sed -i 's/blxxi/bl01t/g' $(find * -type f)
+        sed -i s/blxxi/bl01t/g $(find * -type f)
+        # use your username as the prefix to all PV names
+        # this ensures multiple simultaneous users do not clash
+        sed -i s/BLXXI/$USER/g $(find * -type f)
 
     .. note::
 
         If you are sharing the bl01t namespace on a cluster with other users
-        (e.g. if you are at DLS) then consider changing the name of your IOC
+        (e.g. if you are at **DLS**) then change the name of your IOC
         to something unique. To do this rename the folder iocs/bl01t-ea-ioc-01
         to your unique name and edit the ``name:`` field at the top of
-        ``Chart.yaml`` to match the folder name.
+        ``Chart.yaml`` to match the folder name. The suggested name is your
+        username as the prefix e.g. hgv27681-ea-ioc-01.
 
         If you do this - remember to substitute in your own name in the
         following steps, replacing bl01t-ea-ioc-01.
@@ -115,7 +118,15 @@ repo in the future.
         git remote add origin git@github.com:<YOUR USER NAME>/bl01t.git
         git add .
         git commit -m "rename blxxi to bl01t"
-        git push origin main
+        git push --set-upstream origin main
+
+    As this is your first commit you may find that you need to set your
+    username and email address for git. If so, follow the instructions
+    that git gives you. In theory this should be handled for you by
+    vscode devcontainers but this does not always work.
+    See `git in vscode`_.
+
+.. _git in vscode: https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
 
 .. figure:: ../images/create_repo.png
 
@@ -141,6 +152,7 @@ The example version below was the first revision in the month of April 2023.
 
     cd bl01t
     git tag 23.4.1
+    # push the tag
     git push origin 23.4.1
 
 This will cause GitHub to create a release of the project and trigger

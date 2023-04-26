@@ -15,7 +15,8 @@ epics devcontainer tutorial.
 Configure Visual Studio Code
 ----------------------------
 
-You must ensure you have the devcontainer plugin:
+You must ensure you have the devcontainer plugin. This is installed as part
+of `Remote Development`_ in the previous tutorial:
 
 
 .. figure:: ../images/dev-container-plugin.png
@@ -24,6 +25,7 @@ You must ensure you have the devcontainer plugin:
 
     devcontainer plugin
 
+.. _Remote Development: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
 
 For podman users, you must first tell VSCode to use podman instead of docker.
 Open a VSCode window and hit "ctrl ," (control-comma) to open the user

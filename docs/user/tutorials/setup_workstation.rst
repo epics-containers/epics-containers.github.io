@@ -55,12 +55,18 @@ First download and install Visual Studio Code.
 - `Download Visual Studio Code`_
 - `Setup Visual Studio Code`_
 
-Add the following extensions to Visual Studio Code:
+VSCode has an huge library of extensions. The following list of extensions are
+useful for working with epics-containers. You will need to install the *Required*
+extensions before proceeding to the next tutorial. See the links for instructions
+on how to do this.
+
+The recommended extensions will be installed for you when you launch the
+devcontainer in the next tutorial.
 
 - Required: `Remote Development`_
+- Required for Windows: `VSCode WSL2`_ (see `How to use WSL2 and Visual Studio Code`_)
 - Recommended: `VSCode EPICS`_
 - Recommended: `Kubernetes`_
-- Required for Windows: `VSCode WSL2`_ (see `How to use WSL2 and Visual Studio Code`_)
 
 .. _VSCode WSL2: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
 .. _How to use WSL2 and Visual Studio Code: https://code.visualstudio.com/blogs/2019/09/03/wsl2
