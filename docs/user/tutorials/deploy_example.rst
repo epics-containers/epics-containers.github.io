@@ -63,7 +63,9 @@ monitor the progress (hit ctrl-C to stop following the logs):
     ec ioc logs bl01t-ea-ioc-01 -f
 
 Note there may be a little delay while the cluster pulls the generic IOC
-image from the GitHub container registry.
+image from the GitHub container registry. The error
+"recGblRecordError: devStringinEnvVar (init_record) Illegal INP parm field Illegal field value PV: BL01T-EA-IOC-01:TIMEZONE"
+is benign, TODO: take a look at the cause of this error.
 
 Once the IOC is running you can find out the IP address of the pod it is
 running in with:
