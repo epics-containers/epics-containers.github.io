@@ -36,7 +36,9 @@ IOC Instance.
     point. For more information see `CLI` or try ``ec --help``.
 
 
-The following command will deploy the example IOC instance to your cluster:
+The following command will deploy the example IOC instance to your cluster
+(if you changed the ioc name in the previous tutorial then
+remember to change bl01t-ea-ioc-01 to your unique name here):
 
 .. code-block:: bash
 
@@ -91,7 +93,7 @@ You can now launch the client applications as follows:
 .. code-block:: bash
 
     ./blxxi-ea-ioc-01-gui.sh
-    c2dv --pv BL01T-EA-TST-01:IMAGE
+    c2dv --pv $USER-EA-TST-01:IMAGE
 
 Now make sure the AreaDetector is Acquiring by clicking Start if needed on
 the CAM screen. Next click on Auto to scale the

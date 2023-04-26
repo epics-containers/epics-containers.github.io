@@ -51,11 +51,12 @@ is working.
 Make the following changes in your test IOC config folder
 (``bl01t/iocs/bl01t-ea-ioc-01/config``):
 
-1. Add a file called ``extra.db`` with the following contents:
+1. Add a file called ``extra.db`` with the following contents.
+   IMPORTANT replace [$USER] with your username:
 
    .. code-block:: text
 
-      record(ai, "BL01T-EA-IOC-01:TEST") {
+      record(ai, "[$USER]-EA-IOC-01:TEST") {
          field(DESC, "Test record")
          field(DTYP, "Soft Channel")
          field(SCAN, "Passive")
@@ -91,7 +92,7 @@ from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 .. code-block:: bash
 
-   caget BL01T-EA-IOC-01:TEST
+   caget $USER-EA-IOC-01:TEST
 
 If you see the value 1 then your change is working.
 
@@ -156,7 +157,7 @@ from the above command):
 .. code-block:: bash
 
     export EPICS_CA_ADDR_LIST=192.168.0.32
-    caget BL01T-EA-IOC-01:TEST
+    caget $USER-EA-IOC-01:TEST
 
 Once you are happy with your changes you can push and tag your beamline repo.
 This will publish a new version of the IOC instance helm chart to the OCI helm

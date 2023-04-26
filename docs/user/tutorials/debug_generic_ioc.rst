@@ -231,4 +231,4 @@ the image to a container registry so that it can run in Kubernetes.
 
 
 .. Once running:-
-.. caput -S BL01T-EA-TST-02:CAM:URL1
+.. caput -S $USER-EA-TST-02:CAM:URL1
