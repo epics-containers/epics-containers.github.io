@@ -42,6 +42,7 @@ side-bar.
             how-to/own_tools
             how-to/useful_k8s
             how-to/update_templated
+            how-to/ibek-defs
 
         +++
 
