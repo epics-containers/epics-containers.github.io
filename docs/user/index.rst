@@ -27,6 +27,7 @@ side-bar.
             tutorials/support_module
             tutorials/rtems_setup
             tutorials/rtems_ioc
+            tutorials/ibek
 
         Tutorials for installation and typical usage. New users start here.
 
