@@ -76,6 +76,12 @@ STEPS:
   - cd /repos/epics/ioc
   - start.sh
 
+.. figure:: ../images/ibek-defs-notes.png
+   :align: center
+   :width: 100%
+   :alt: ibek-defs
+
+   ibek-defs
 
 
 
