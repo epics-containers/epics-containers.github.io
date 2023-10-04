@@ -11,6 +11,14 @@ For a set of tutorials to introduce the concepts of epics-containers see
 `essential`.
 
 
+Update for October 2023
+=======================
+The final round of improvements are under way. The latest framework has
+become much simpler and has a good developer experience.
+
+The Tutorials are currently out of date and won't work. These should be
+updated to the new Epics Containers Framework by end of Nov 2023.
+
 Update for March 2023
 =====================
 
