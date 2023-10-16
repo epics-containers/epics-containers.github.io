@@ -1,0 +1,11 @@
+{
+    "name": "Local developer environment configuration",
+    "id": "developer_environment",
+    "version": "1.0.0",
+    "description": "Null feature - placeholder for user customization",
+    "options": {}
+    // ,
+    // "installsAfter": [
+    //     "ghcr.io/devcontainers/features/common-utils"
+    // ]
+}
