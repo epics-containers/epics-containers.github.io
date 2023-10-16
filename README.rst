@@ -4,10 +4,14 @@ epics-containers
 |docs_ci| |license|
 
 The epics-containers GitHub organization holds a collection of tools and
-documentation for building, deploying and managing containerized EPICS IOCs
-in a Kubernetes cluster.
+documentation for building, deploying and managing containerized EPICS IOCs.
+
+See `Essential Concepts`_ and the `Getting Started Guide`_ .
 
 Please contribute with comments and suggestions in the wiki or issues pages:
+
+.. _Essential Concepts: https://epics-containers.github.io/user/explanations/introduction.html
+.. _Getting Started Guide: https://epics-containers.github.io/user/tutorials/intro.html
 
 ============== ==============================================================
 Documentation  https://epics-containers.github.io
@@ -16,7 +20,6 @@ Issues         https://github.com/epics-containers/epics-containers.github.io/is
 Docs Source    https://github.com/epics-containers/epics-containers.github.io
 Organization   https://github.com/epics-containers
 ============== ==============================================================
-
 
 .. |docs_ci| image:: https://github.com/epics-containers/k8s-epics-docs/workflows/Docs%20CI/badge.svg?branch=main
     :target: https://github.com/epics-containers/k8s-epics-docs/actions?query=workflow%3A%22Docs+CI%22
