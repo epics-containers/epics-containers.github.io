@@ -10,7 +10,7 @@ The tutorials use two template projects as follows:
     * - Template Project
       - Purpose
     * - ioc-template
-      - create a new generic IOC container project
+      - create a new Generic IOC container project
     * - blxxi-template
       - create a new IOC Instance Domain project
 

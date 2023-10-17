@@ -27,7 +27,7 @@ Containerized IOCs can be modified in 3 distinct places:
    - adding new support modules
    - altering the system dependencies installed into the container image
 
-#. The dependencies - Support modules used by the generic IOC. Changes to support
+#. The dependencies - Support modules used by the Generic IOC. Changes to support
    module repos. This means publishing a new release of the support module.
 
 As far as possible the epics-containers approach to all of the above allows
@@ -97,7 +97,7 @@ If you see the value 1 then your change is working.
 .. note::
 
    If you also wanted to make local changes
-   to the generic IOC itself you could clone the generic IOC source repo,
+   to the Generic IOC itself you could clone the Generic IOC source repo,
    locally build the container image and then use ``ec dev ioc-launch`` as
    follows:
 

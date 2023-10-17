@@ -59,14 +59,14 @@ with the ``[E7]`` prompt and run the following commands:
         libmagick++-6-headers: /usr/include/ImageMagick-6/Magick++.h
 
 The middle result looks most promising so we will install it (back *inside*
-the generic IOC container now):
+the Generic IOC container now):
 
 .. code-block:: bash
 
     apt-get install -y libgraphicsmagick++1-dev
 
-The reason using apt-file outside of the generic IOC works is because
-the generic IOC and the devcontainer are built upon the same version of
+The reason using apt-file outside of the Generic IOC works is because
+the Generic IOC and the devcontainer are built upon the same version of
 Ubuntu and have the same packages available.
 
 If we try the build again now it will still fail. We need to tell the
@@ -76,7 +76,7 @@ need to set the variable ``GRAPHICSMAGICK_INCLUDE`` in
 ``CONFIG_SITE.linux-x86_64.Common``.
 We can see from the ``apt-file`` output that the header file is in
 ``/usr/include/GraphicsMagick`` which is not a default include path.
-Therefore we need to edit this file inside our generic IOC container:
+Therefore we need to edit this file inside our Generic IOC container:
 ``/repos/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common``
 
 .. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
@@ -224,7 +224,7 @@ container from scratch because we changed the first command in the Dockerfile.
 Wrapping Up
 -----------
 
-You now have a new generic IOC that can be used to test the ADUrl plugin.
+You now have a new Generic IOC that can be used to test the ADUrl plugin.
 
 The next tutorial will discuss how to test this IOC, including publishing
 the image to a container registry so that it can run in Kubernetes.
