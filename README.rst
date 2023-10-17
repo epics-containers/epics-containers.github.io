@@ -1,12 +1,18 @@
-epics-containers
-================
+**epics-containers**
+====================
 
 |docs_ci| |license|
 
 The epics-containers GitHub organization holds a collection of tools and
 documentation for building, deploying and managing containerized EPICS IOCs.
 
+Quick Start
+-----------
+
 See `Essential Concepts`_ and the `Getting Started Guide`_ .
+
+Useful Links
+------------
 
 Please contribute with comments and suggestions in the wiki or issues pages:
 
@@ -33,5 +39,3 @@ Organization   https://github.com/epics-containers
 ..
     Anything below this line is used when viewing README.rst and will be replaced
     when included in index.rst
-
-See https://epics-containers.github.io for more detailed documentation.

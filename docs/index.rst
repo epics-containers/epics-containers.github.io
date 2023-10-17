@@ -13,14 +13,6 @@ become much simpler and has a good developer experience.
 The Tutorials are currently out of date and won't work. These are
 being updated now and will be available by end of November 2023.
 
-Quick Start
-===========
-
-For a set of tutorials to introduce the concepts of epics-containers see
-`user/tutorials/intro`. For a description of the architecture see
-`essential`.
-
-
 
 Communication
 =============
