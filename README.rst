@@ -10,8 +10,8 @@ See `Essential Concepts`_ and the `Getting Started Guide`_ .
 
 Please contribute with comments and suggestions in the wiki or issues pages:
 
-.. _Essential Concepts: https://epics-containers.github.io/user/explanations/introduction.html
-.. _Getting Started Guide: https://epics-containers.github.io/user/tutorials/intro.html
+.. _Essential Concepts: https://epics-containers.github.io/main/user/explanations/introduction.html
+.. _Getting Started Guide: https://epics-containers.github.io/main/user/tutorials/intro.html
 
 ============== ==============================================================
 Documentation  https://epics-containers.github.io

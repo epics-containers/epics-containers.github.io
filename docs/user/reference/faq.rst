@@ -5,15 +5,8 @@ Frequently Asked Questions
 
 Why no mention of Operator Interfaces?
 --------------------------------------
-OPI was out of scope for the proof of concept. That is because we
-expect there to be a web based EPICS OPI available by the time we go
-live with K8s IOCs. Kubernetes is very well suited to running web
-servers so this is a natural fit.
-
-There are a number of ways to support the current OPI solutions without
-breaking the repositories-only model. The simplest approach is to extract
-the OPI files from the container running in Kubernetes with **kubectl cp**.
-Then keep a local cache and run the OPI code locally.
+UPDATE: with the introduction of PVI we are providing auto generated
+engineering screens. TODO: more details will be added to a new section.
 
 
 Why have ioc-XXX repositories?
@@ -51,10 +44,9 @@ It is also necessary for Kubernetes to be able to pull the Generic IOC image. If
 the beamline has only one Kubernetes worker node then the previous image will
 be in the node's local cache. If you have more than one then you will need
 a global image cache which is useful anyway for reducing traffic to the
-registries (JetStack have performed a POC for DLS that demonstrates such a
-global cache)
+registries. At DLS we have a global cache for all container registry
+interactions, it uses Harbour. See https://goharbor.io/ for more details.
 
 Note that making changes to an IOC and spinning them up would not be possible
-if all registries were in the cloud. However it is recommended that the 'work'
-registries are on prem. The production helm registry is also likely to be on
-prem since there is little benefit in sharing a facility's IOC instances.
+if all registries were in the cloud and the internet connection had failed.
+However it is recommended that the 'work' registries are on premises.
