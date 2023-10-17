@@ -8,9 +8,8 @@ import sys
 from pathlib import Path
 from subprocess import check_output
 
-import requests
-
 import epics_containers
+import requests
 
 # -- General configuration ------------------------------------------------
 

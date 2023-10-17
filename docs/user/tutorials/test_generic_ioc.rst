@@ -36,7 +36,7 @@ This build should succeed.
 Publishing the Generic IOC Container to GHCR
 --------------------------------------------
 
-Now give your genericIOC a version tag and push it to GitHub.
+Now give your GenericIOC a version tag and push it to GitHub.
 
 .. code-block:: bash
 
@@ -66,16 +66,16 @@ This means that the container is now available for anyone to use with a
 Making the Tests Relevant to our Generic IOC
 --------------------------------------------
 
-You may notice that some tests were run as part of the CI. These generic
+You may notice that some tests were run as part of the CI. These Generic
 tests are used by the ioc-template and are defined in the ``tests`` directory.
-We need to update them to be relevant to our new generic IOC.
+We need to update them to be relevant to our new Generic IOC.
 
 TODO: I just noticed that the tests do not use the build cache (but also
 they are not required to push the built container so don't hold up
 development).
 
 In the ``ioc/config`` folder we have some default config that is used by the
-generic IOC if no config is provided. We can use this for testing and need
+Generic IOC if no config is provided. We can use this for testing and need
 to update the tests to use it too.
 
 To do this remove the file ``ioc/config/ioc.db`` and replace the contents
@@ -128,7 +128,7 @@ Now try out the test with the following command:
 We have made a very simple test that only checks one PV value, but that is
 good enough to validate that the IOC is running and that the config is
 being loaded. You can add more sophisticated tests as needed to your
-own generic IOCs.
+own Generic IOCs.
 
 If you had any issues with getting this tutorial working, you can get a
 fully working version of the ioc-adurl project from the following link:

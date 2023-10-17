@@ -35,12 +35,12 @@ in this folder and what you would need to change in your new IOC instance:
     domain defaults which can be found in the folder ``beamline-chart``. Values
     you need to supply here are:
 
-    -   ``base_image`` - the generic IOC image to use for this IOC instance. A
-        generic IOC image contains all the necessary support modules for a
+    -   ``base_image`` - the Generic IOC image to use for this IOC instance. A
+        Generic IOC image contains all the necessary support modules for a
         given class of device and a compiled IOC binary with all those modules
         linked. The IOC instance we are defining in a helm chart provides the startup
         script and possibly database that makes this IOC instance unique. In this
-        case the generic IOC is for the area-detector simulator device.
+        case the Generic IOC is for the area-detector simulator device.
 
     -   ``prefix`` - the EPICS PV prefix for this IOC instance. This will set an
         environment variable IOC_PREFIX which declares the prefix for the IOC's
@@ -53,7 +53,7 @@ in this folder and what you would need to change in your new IOC instance:
     has to appear here but is boilerplate and should not need to be changed.
 
 -   ``config`` this folder contains any files unique to this IOC instance. At
-    runtime on the cluster when the generic IOC image is running it will see
+    runtime on the cluster when the Generic IOC image is running it will see
     these files as mounted into the folder ``/repos/epics/ioc/config``.
     In this case we have an EPICS startup script ``st.cmd`` only
     and the default behaviour is just to run the IOC binary and pass it

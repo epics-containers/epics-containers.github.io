@@ -5,10 +5,10 @@ Source and Registry Locations
 
     **DLS Users** DLS is currently using these locations for assets:
 
-    - Generic IOC Source: ``https://github.com/epics-containers<generic ioc>``
+    - Generic IOC Source: ``https://github.com/epics-containers<Generic ioc>``
     - Beamline Source repos: ``https://gitlab.diamond.ac.uk/controls/containers/beamline/<beamline>``
     - Accelerator Source repos: ``https://gitlab.diamond.ac.uk/controls/containers/accelerator/<domain>``
-    - Generic IOC Container Images: ``ghcr.io/epics-containers/<generic ioc>``
+    - Generic IOC Container Images: ``ghcr.io/epics-containers/<Generic ioc>``
     - IOC Instance Helm Charts: ``helm-test.diamond.ac.uk/iocs/<domain>/<ioc instance>``
 
 Where to Keep Source Code
@@ -28,11 +28,11 @@ also contribute to the development of the IOC.
 
 The intention is that a Generic IOC container image is a reusable component
 that can be used by multiple IOC instances in multiple domains. Because
-generic IOCs are containerized and not facility specific, they should work
+Generic IOCs are containerized and not facility specific, they should work
 anywhere. Therefore these make sense as public repositories.
 
 There may be cases where the this is not possible, for example if the
-generic IOC relies on proprietary support modules with restricted licensing.
+Generic IOC relies on proprietary support modules with restricted licensing.
 
 The existing Continuous
 Integration files for Generic IOCs work with GitHub actions, but also

@@ -1,5 +1,5 @@
-Kubernetes for EPICS IOCs applies modern industry standards to the management
-of IOCs.
+**epics-containers** applies modern industry best practice for software
+delivery to the management of EPICS IOCs.
 
 There are 5 themes to this strategy:
 

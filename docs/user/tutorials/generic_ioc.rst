@@ -1,7 +1,7 @@
 Create a Generic IOC
 ====================
 
-In this tutorial we will learn how to create a generic IOC container image and
+In this tutorial we will learn how to create a Generic IOC container image and
 test our changes locally before deploying it.
 
 This is a type 2. change from the list at `ioc_change_types`.
@@ -12,18 +12,18 @@ ADUrl to get images from a web cam.
 Create a New Generic IOC project
 --------------------------------
 
-By convention generic IOC projects are named ``ioc-XXX`` where ``XXX`` is the
+By convention Generic IOC projects are named ``ioc-XXX`` where ``XXX`` is the
 name of the primary support module used by the IOC. Here we will be building
 ``ioc-adurl``.
 
 Much like creating a new beamline we have a template project that can be used
-as the starting point for a new generic IOC. Again we will create this in
+as the starting point for a new Generic IOC. Again we will create this in
 your personal GitHub user space.
 
 Create a new ioc-XXX repo
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: the following steps to create a new generic IOC project will be automated
+TODO: the following steps to create a new Generic IOC project will be automated
 using an ``ec`` command.
 
 #.  Create a new, completely blank repository in your GitHub account
@@ -148,8 +148,8 @@ Where ARCH is currently ``linux`` or ``rtems`` and TARGET will always be ``devel
 and ``runtime``. Support for further architectures will be added in the future.
 
 The ``developer`` image contains all the tools needed to build support modules
-and is used for building and debugging the generic IOC. The ``runtime`` image
-is a minimal image that holds the minimum required to run the generic IOC.
+and is used for building and debugging the Generic IOC. The ``runtime`` image
+is a minimal image that holds the minimum required to run the Generic IOC.
 
 The changes we will make to the template Dockerfile are as follows:
 

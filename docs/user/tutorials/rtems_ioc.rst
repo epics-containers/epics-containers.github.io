@@ -1,8 +1,8 @@
 RTEMS - Deploying an Example IOC
 ================================
 
-The previous tutorials walked through how to create a generic linux soft
-IOC and how to deploy an IOC instance using that generic IOC.
+The previous tutorials walked through how to create a Generic linux soft
+IOC and how to deploy an IOC instance using that Generic IOC.
 
 epics-containers also supports RTEMS 5 running on MVVME5500. We will
 now will look at the differences for this architecture. Further
@@ -106,11 +106,11 @@ and make some modifications to it. We will call this new IOC instance
     rm iocs/bl01t-ea-ioc-02/config/extra.db
 
 We are going to make a very basic IOC with some hand coded database with
-a couple of simple records. Therefore the generic IOC that we use can just
+a couple of simple records. Therefore the Generic IOC that we use can just
 be ioc-template.
 
 Generic IOCs have multiple targets, they always have a
-``developer`` target which is used for building and debugging the generic IOC and
+``developer`` target which is used for building and debugging the Generic IOC and
 a ``runtime`` target which is lightweight and usually used when running the IOC
 in the cluster. The matrix of targets also includes an architecture dimension,
 at present the ioc-template supports two architectures, ``linux`` and

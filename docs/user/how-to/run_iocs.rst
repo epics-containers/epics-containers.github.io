@@ -1,9 +1,9 @@
 Run an IOC without Kubernetes
 =============================
 
-When we run a containerized IOC we are selecting a generic IOC container image
+When we run a containerized IOC we are selecting a Generic IOC container image
 to launch and some configuration to pass to the IOC.  The configuration we
-pass is what makes the IOC a unique instance instead of a generic IOC.
+pass is what makes the IOC a unique instance instead of a Generic IOC.
 
 In the tutorials we are running the IOC in a Kubernetes cluster and we
 use a Kubernetes ConfigMap to pass the configuration to the IOC.
@@ -19,7 +19,7 @@ will see the IOC running in a container:
 
     podman run --net host -it --rm -v $(pwd)/iocs/bl01t-ea-ioc-01/config:/repos/epics/ioc/config  ghcr.io/epics-containers/ioc-template-linux-runtime:23.3.3
 
-What you have done here is pull down the generic ``ioc-template-linux-runtime``
+What you have done here is pull down the Generic ``ioc-template-linux-runtime``
 container image from the GitHub Container Registry and run it.
 The ``-it`` means it is an interactive terminal session.  ``--rm`` means the
 container is removed when it exits, best for keeping your cache tidy.
@@ -37,7 +37,7 @@ is appended to the path and that is required because the path for mounting
 into a container must be absolute.
 
 ``iocs/bl01t-ea-ioc-01/config`` contains a simple iocShell boot script and the
-default behaviour is to pass that to the generic IOC binary.
+default behaviour is to pass that to the Generic IOC binary.
 
 Using this approach you could manage your config folders and IOC launches
 yourself using whatever mechanism you prefer. Probably docker compose or

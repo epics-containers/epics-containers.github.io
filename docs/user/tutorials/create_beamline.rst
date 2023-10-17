@@ -63,7 +63,7 @@ production, each facility will need its own policy for where to store these
 assets. See `../explanations/repositories`.
 
 TODO: these steps could be automated in an epics-containers-cli command for
-generating new domain repos (also do one for new generic ioc repos).
+generating new domain repos (also do one for new Generic ioc repos).
 
 STEPS
 ~~~~~
@@ -142,7 +142,7 @@ To make a release of the project we defined in `deploy_example`,
 we will
 tag your repo with a calendar based version number see (https://calver.org/).
 
-We use YY.MM.MINOR for versioning things like beamlines and generic IOCs. You
+We use YY.MM.MINOR for versioning things like beamlines and Generic IOCs. You
 can choose your own scheme, but because these projects do not have APIs as
 such it is more instructive to use a date based scheme.
 

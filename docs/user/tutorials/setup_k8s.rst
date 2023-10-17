@@ -37,8 +37,8 @@ ready to test deployment of EPICS IOCs.
 
     However:
 
-    The approach of creating generic IOC's in containers and then deploying
-    IOC instances as generic IOC's + some configuration will also work
+    The approach of creating Generic IOC's in containers and then deploying
+    IOC instances as Generic IOC's + some configuration will also work
     standalone, or with other orchestration tools. e.g. In `ioc_changes`
     we will demonstrate running an IOC locally using podman alone.
 
