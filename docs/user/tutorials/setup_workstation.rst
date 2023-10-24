@@ -7,12 +7,10 @@ The only tools you need to install are:
 
 - Visual Studio Code
 - a container platform, either podman or docker
+- Python 3.9 or later
+- a Python virtual environment
 
-That's it. The reason the list is so short is that we will be using
-a developer container which includes all the tools needed. Thus you only need
-docker or podman to get the devcontainer up and running.
-
-Visual Studio Code is also recommended because it has excellent integration with
+Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, WSL2 and more.
 
@@ -26,13 +24,11 @@ Options
 -------
 
 You are not required to use the tools above to develop with epics-containers.
-If you have your own preferred code editor you can use that. If you prefer
-not to work inside a container to do development that is also a possibility.
+If you have your own preferred code editor you can use that.
 
 See these how-to pages for more information:
 
 - `own_editor`
-- `no_devcontainer`
 
 Platform Support
 ----------------
@@ -77,9 +73,8 @@ devcontainer in the next tutorial.
 .. _Download Visual Studio Code: https://code.visualstudio.com/download
 
 
-Next install docker or podman as the your container platform. I am using
-podman 4.2.0 on RHEL8, docker *could* also be supported but note the warning below.
-All commands in these tutorials will use ``podman`` cli commands.
+Next install docker or podman as the your container platform. epics-containers
+has been tested with podman 4.4.1 on RedHat 8, and docker is also be supported.
 If you are using docker, simply replace ``podman`` with ``docker`` in the commands.
 
 The podman version required is 4.0 or later. This is not easy to obtain on debian
@@ -101,13 +96,3 @@ CLI tools by clicking on the appropriate linux distribution link.
 .. _Install docker: https://docs.docker.com/engine/install/
 .. _Install podman: https://podman.io/getting-started/installation
 
-.. Warning::
-
-    To support docker we need to do one of two things: 1) use the docker cli
-    in user mode or 2) set the user id and gid when launching the container.
-    If we don't do this then all files written to mounted volumes will be owned
-    by root.
-
-    **TODO**: write up how to do this. **TODO** the container image may
-    need some minor modifications to support docker. (I recently got this
-    working `here <https://github.com/gilesknap/gphotos-sync/issues/279#issuecomment-1475317852>`_)

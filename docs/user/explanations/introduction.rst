@@ -46,25 +46,26 @@ An important principal of the approach presented here is that an IOC container
 image represents a 'Generic' IOC. The Generic IOC image is used for all
 IOC instances that connect to a given class of device. For example the
 Generic IOC image here:
-ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.1
+`ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.1
+<https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime>`_
 uses the AreaDetector driver ADAravis to connect to GigE cameras.
 
 An IOC instance runs in a container runtime by loading two things:
 
 - The Generic IOC image passed to the container runtime.
 - The IOC instance configuration. This is mapped into the container at
-  runtime by mounting it into the filesystem at runtime. The mount point
-  for this configuration is alway /epics/ioc/config.
+  runtime by mounting it into the filesystem. The mount point
+  for this configuration is always /epics/ioc/config.
 
 The configuration will bootstrap the unique properties of that instance.
 The following contents for the configuration are supported:
 
 - ioc.yaml: an **ibek** IOC description file which **ibek** will use to generate
-  st.cmd and ioc.subst
-- st.cmd, ioc.subst: an IOC shell startup script and an optional substitution file
-  st.cmd can refer any additional files in the configuration directory
+  st.cmd and ioc.subst.
+- st.cmd, ioc.subst: an IOC shell startup script and an optional substitution file.
+  st.cmd can refer any additional files in the configuration directory.
 - start.sh a bash script to fully override the startup of the IOC. start.sh
-  can refer to any additional files in the configuration directory
+  can refer to any additional files in the configuration directory.
 
 
 This approach reduces the number of images required and saves disk. It also
@@ -79,6 +80,8 @@ Kubernetes
 https://kubernetes.io/
 
 Kubernetes easily and efficiently manages containers across clusters of hosts.
+When deploying an IOC into a Kubernetes cluster, you request the resources
+required by the IOC and Kubernetes will then schedule the IOC onto a suitable host.
 
 It builds upon 15 years of experience of running production workloads at
 Google, combined with best-of-breed ideas and practices from the community,
@@ -106,12 +109,22 @@ Kubernetes Alternative
 ~~~~~~~~~~~~~~~~~~~~~~
 
 If you do not have the resources to maintain a Kubernetes cluster then this project
-is experimentally supporing the use of podman-compose or docker-compose to deploy
-IOCs to a single server. Where a beamline has multiple servers the distribution of
+supports installing IOC instances directly into the local docker or podman runtime
+on the current server. Where a beamline has multiple servers the distribution of
 IOCs across those servers is managed by the user. These tools would replace
 Kubernetes and Helm in the technology stack.
 
-TODO: more on this once we have a working example.
+If you choose to use this approach then you may find it useful to have another
+tool for viewing and managing the set of containers you have deployed across
+your beamline servers. There are various solutions for this, one that has
+been tested with **epics-containers** is Portainer https://www.portainer.io/.
+Portainer is a paid for product
+that provides excellent visibility and control of your containers through a
+web interface. It is very easy to install.
+
+The downside of this approach is that you will need to manually manage the
+resources available to each IOC instance and manually decide which server to
+run each IOC on.
 
 Helm
 ~~~~
@@ -130,9 +143,9 @@ much like docker.
 
 In this project we use Helm Charts to define and deploy IOC instances.
 Each beamline (or accelerator domain) has its own git repository that holds
-the beamline Helm Chart for its IOCs. Each IOC instance need only provide a
-values.yaml file to override the default values in the Helm Chart and a config folder
-as described in `generic iocs`.
+the domain Helm Chart for its IOC Instances. Each IOC instance need only
+provide a values.yaml file to override the default values in the domain
+Helm Chart and a config folder as described in `generic iocs`.
 
 **epics-containers** does not use helm repositories for storing IOC instances.
 Such repositories only hold a zipped version of the chart and a values.yaml file,
@@ -154,13 +167,12 @@ Repositories
 ~~~~~~~~~~~~
 
 All of the assets required to manage a
-set of IOCs for a beamline are held in repositories.
+set of IOC Instances for a beamline are held in repositories.
 
-Thus all version control is done
-via these repositories and no special locations in
-a shared filesystem are required
-(The legacy approach at DLS relied heavily on
-know locations in a shared filesystem).
+Thus all version control is done via these repositories and no special
+locations in a shared filesystem are required.
+(The legacy approach at DLS relied heavily on know locations in a
+shared filesystem).
 
 In the **epics-containers** examples all repositories are held in the same
 github organization. This is nicely contained and means that only one set
@@ -176,7 +188,9 @@ The 2 classes of repository are as follows:
 
   - Holds the source code but also provides the
     Continuous Integration actions for testing, building and publishing to
-    the image / helm repositories. These have been tested:
+    the image / helm repositories.
+
+    These have been tested:
 
     - github
     - gitlab (on premises)
@@ -185,9 +199,13 @@ The 2 classes of repository are as follows:
 
     - Generic IOC source. Defines how a Generic IOC image is built, this does
       not typically include source code, but instead is a set of instructions
-      for building the Generic IOC image.
+      for building the Generic IOC image by compiling source from a number
+      of upstream support module repositories. Boilerplate IOC source code
+      is also included in the Generic IOC source repository and can be
+      customized if needed.
+
     - Beamline / Accelerator Domain source. Defines the IOC instances for a
-      beamline or Accelerator Domain. This includes the IOC boot scripts and
+      Domain. This includes the IOC boot scripts and
       any other configuration required to make the IOC instance unique.
       For **ibek** based IOCs, each IOC instance is defined by an **ibek**
       yaml file only.
@@ -195,7 +213,10 @@ The 2 classes of repository are as follows:
 :An OCI image repository:
 
   - Holds the Generic IOC container images and their
-    dependencies. The following have been tested:
+    dependencies. Also used to hold the helm charts that define the shared
+    elements between all domains.
+
+    The following have been tested:
 
     - Github Container Registry
     - DockerHub
@@ -206,26 +227,27 @@ Continuous Integration
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Our examples all use continuous integration to get from pushed source
-to the published images.
+to the published images, IOC instances helm charts and documentation.
 
 This allows us to maintain a clean code base that is continually tested for
-integrity and also to maintain a direct relationship between source code tags
-and the tags of their built resources.
+integrity and also to maintain a direct relationship between source code version
+tags and the tags of their built resources.
 
 There are these types of CI:
 
 :Generic IOC source:
     - builds a Generic IOC container image
-    - runs some tests against that image
+    - runs some tests against that image - these will eventually include
+      system tests that talk to simulated hardware
     - publishes the image to github packages (only if the commit is tagged)
       or other OCI registry
 
 :beamline definition source:
-    - builds a helm chart from each ioc definition
+    - prepares a helm chart from each ioc instance definition
     - tests that the helm chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
       verify that the configuration is valid (no system tests because this
-      would require talking to beamline hardware).
+      would require talking to real hardware instances).
 
 :documentation source:
     - builds the sphinx docs
@@ -236,11 +258,16 @@ Scope
 This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running
 on MVME5500 hardware. Soft IOCs that require access to hardware on the
 server (e.g. USB or PCIe) will be supported by mounting the hardware into
-the container (theses IOCS will not support failover).
+the container (theses IOCS will not support Kubernetes failover).
 
 Other linux architectures could be added to the Kubernetes cluster. We have
 tested arm64 native builds and will add this as a supported architecture
 in the future.
+
+Python soft IOCs are also supported.
+
+GUI generation for engineering screens will be supported via the PVI project.
+See https://github.com/epics-containers/pvi.
 
 
 Additional Tools
@@ -248,14 +275,16 @@ Additional Tools
 
 epics-containers-cli
 ~~~~~~~~~~~~~~~~~~~~
-This define the developer's 'outside of the container' helper tool. The command
+This is the developer's 'outside of the container' helper tool. The command
 line entry point is **ec**.
 
 The project is a python package featuring simple command
 line functions for deploying, monitoring building and debugging
 Generic IOCs and IOC instances. It is a wrapper
 around the standard command line tools kubectl, podman/docker, helm, and git
-but saves typing and provides help and command line completion.
+but saves typing and provides help and command line completion. It also
+can teach you how to use these tools by showing you the commands it is
+running.
 
 See `CLI` for details.
 
@@ -266,20 +295,23 @@ IOC Builder for EPICS and Kubernetes is the developer's 'inside the container'
 helper tool. It is a python package that is installed into the Generic IOC
 container images. It is used:
 
-- at container build time to fetch and build EPICS support modules
-- to generate the IOC source code and compile it
-- to extract all useful build artifacts into a runtime image
+- at container build time: to fetch and build EPICS support modules
+- at container build time: to generate the IOC source code and compile it
+- at container run time: to extract all useful build artifacts into a
+  runtime image
 
 See https://github.com/epics-containers/ibek.
 
 PVI
 ~~~
-Process Variables Interface is a python package that is installed into the
-Generic IOC container images. It is used to give structure to the IOC's PVI
-interface allowing us to:
+The Process Variables Interface project is a python package that is installed
+inside Generic IOC container images. It is used to give structure to the IOC's
+Process Variables allowing us to:
 
-- add metadata to the IOCs DB records for use by bluesky
+- add metadata to the IOCs DB records for use by `Bluesky`_ and `Ophyd`_
 - auto generate screens for the device (as bob, adl or edm files)
 
+.. _Bluesky: https://blueskyproject.io/
+.. _Ophyd: https://github.com/bluesky/ophyd-async
 
 
