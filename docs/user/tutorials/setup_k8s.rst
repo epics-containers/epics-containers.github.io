@@ -1,7 +1,12 @@
 .. _setup_kubernetes:
 
+
 Setup a Kubernetes Server
 =========================
+
+.. Warning ::
+
+    This information is out of date. It will be updated soon.
 
 .. Note::
 
@@ -135,11 +140,6 @@ kubectl configuration:
 If you do have separate workstation then edit the file .kube/config replacing
 127.0.0.1 with your server's IP Address. For a single machine the file is left
 as is.
-
-Note that in the previous step  `devcontainer-configure`
-you already configured the environment variable
-``KUBECONFIG`` to point to the cluster configuration file at
-``~/.kube/config``.
 
 
 Create an epics IOCs namespace and context

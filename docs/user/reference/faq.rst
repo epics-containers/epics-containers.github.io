@@ -33,7 +33,7 @@ Answers:
 How can I do IOC rollback if the internet is down?
 --------------------------------------------------
 The examples all use cloud registries for storing the Generic IOC images and
-IOC instance Helm Charts. However it is still possible to roll back an IOC
+IOC instances. However it is still possible to roll back an IOC
 version when the internet is not available.
 
 That is because Helm keeps track of several versions of each chart it

@@ -5,14 +5,15 @@ Create a Beamline Repository
 
 In this tutorial we will create a new beamline source repository.
 
-All IOCs that we deploy to the cluster will be grouped into domains and each
-domain will have its own repository for the source code of the IOC instances
-that it contains.
+All IOC Instances that we deploy will be grouped into domains and each
+domain will have its own repository which defines those Instances.
+Typically each beamline would have its own domain and
+the accelerator would be split into a few functional domains.
 
-In the case of Beamlines, the domain is the beamline itself. Here
+In the case of Beamlines, the domain named after the beamline itself. At DLS
 we use the naming convention ``blxxc`` where ``xx`` is the beamline number,
 and c is the class of beamline. For example ``bl01t`` is the beamline 1,
-type test.
+type ``test``.
 
 .. note::
 
@@ -22,14 +23,19 @@ type test.
 
 In this tutorial we will create the test beamline repository ``bl01t``.
 When the project ``bl01t`` is pushed to GitHub, continuous integration will
-generate helm charts for each IOC instance it defines
-and push them to your GitHub account's OCI registry.
+verify that each of the IOCs in the beamline are valid by launching them
+with basic configuration.
+
+Each of these instances will be using a
+Generic IOC image. Ideally the CI for each Generic IOC should have already run
+system tests against simulated hardware. (this is something we aspire to
+using simulated hardware provided by `Tickit <https://github.com/dls-controls/tickit>`_)
 
 The beamline will come with a single example IOC and further steps in the
 following tutorials will teach you how to add your own.
 
 For accelerator domains the approach described here will be identical. The
-only difference is that IOCs are split by domain rather than by beamline.
+only difference is that IOC repos are split by domain rather than by beamline.
 A different naming convention will be used for accelerator domains (to be
 determined).
 
