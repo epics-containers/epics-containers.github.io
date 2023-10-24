@@ -74,15 +74,17 @@ devcontainer in the next tutorial.
 
 
 Next install docker or podman as the your container platform. epics-containers
-has been tested with podman 4.4.1 on RedHat 8, and docker is also be supported.
-If you are using docker, simply replace ``podman`` with ``docker`` in the commands.
+has been tested with podman 4.4.1 on RedHat 8, and the current version of Docker
+for Ubuntu 22.04.
+If you are using docker, simply replace ``podman`` with ``docker`` in the
+commands listed in these tutorials.
 
-The podman version required is 4.0 or later. This is not easy to obtain on debian
-distributions at the time of writing, but details of how to compile from source
-are contained
-`in this Dockerfile <https://github.com/epics-containers/dev-e7/blob/main/docker/Dockerfile>`_
-under the heading  ``Stage to add a recent podman client``
-
+The podman version required is 4.0 or later. Any version of docker since 20.10
+will also work. Pick the tool that has the most recent version for your platform.
+RedHat 8 and above have recent podman versions. Debian platforms don't yet
+have recent podman versions available. If you have a choice then podman is
+preferred because it does not require root access and it is the tool with
+which epics-containers has had the most testing.
 
 The links below have details of how to install your choice of container platform:
 
@@ -95,4 +97,18 @@ CLI tools by clicking on the appropriate linux distribution link.
 
 .. _Install docker: https://docs.docker.com/engine/install/
 .. _Install podman: https://podman.io/getting-started/installation
+
+Kubernetes
+----------
+
+The following tutorials will take you through creating, deploying and
+debugging IOC instances, generic IOCs and support modules.
+
+For simplicity we don't encourage using Kubernetes at this stage. Instead we
+will deploy containers to the local workstations docker or podman instance.
+
+However, everything in these tutorials would also work with Kubernetes. If you
+are particularly interested in Kubernetes then you can jump to
+`setup_kubernetes` and follow the instructions there. Then come back to this
+point and continue with the tutorials.
 
