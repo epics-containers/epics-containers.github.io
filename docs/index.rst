@@ -5,7 +5,7 @@
 
 Update for October 2023
 =======================
-The final round of improvements done. The latest framework has
+The final round of improvements are done. The latest framework has
 become much simpler and has a good developer experience.
 
 **WARNING**
