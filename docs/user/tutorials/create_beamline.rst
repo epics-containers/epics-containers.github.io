@@ -5,14 +5,14 @@ Create a Beamline Repository
 
 In this tutorial we will create a new beamline source repository.
 
-All IOCs that we deploy to the cluster will be grouped into domains and each
-domain will have its own repository for the source code of the IOC instances
-that it contains.
+All IOC Instances that we deploy will be grouped into domains and each
+domain will have its own repository which defines those Instances.
+Typically each beamline would have its own domain and
+the accelerator would be split into a few functional domains.
 
-In the case of Beamlines, the domain is the beamline itself. Here
+In the case of Beamlines, the domain is named after the beamline itself. At DLS
 we use the naming convention ``blxxc`` where ``xx`` is the beamline number,
-and c is the class of beamline. For example ``bl01t`` is the beamline 1,
-type test.
+and c is the class of beamline.
 
 .. note::
 
@@ -20,18 +20,23 @@ type test.
     numbers and hyphens only are recommended for both domain names and
     IOC names. This is a restriction that helm introduces for package names.
 
-In this tutorial we will create the test beamline repository ``bl01t``.
+We are going to create the test beamline repository ``bl01t``.
 When the project ``bl01t`` is pushed to GitHub, continuous integration will
-generate helm charts for each IOC instance it defines
-and push them to your GitHub account's OCI registry.
+verify that each of the IOCs in the beamline are valid by launching them
+with basic configuration.
 
-The beamline will come with a single example IOC and further steps in the
-following tutorials will teach you how to add your own.
+It's not feasible to run full system tests with these IOCs Instances
+because they are configured to run with real hardware on a beamline.
+But note that each of these IOC instances will be launched using a
+Generic IOC image. Ideally the CI for each Generic IOC should have already run
+system tests against simulated hardware. (this is something we aspire to
+using simulations provided by `Tickit <https://github.com/dls-controls/tickit>`_)
+
+This beamline repo will be taken from a template that comes with a single example
+IOC and further steps in the following tutorials will teach you how to add your own.
 
 For accelerator domains the approach described here will be identical. The
-only difference is that IOCs are split by domain rather than by beamline.
-A different naming convention will be used for accelerator domains (to be
-determined).
+only difference is that IOC repos are split by domain rather than by beamline.
 
 
 To Start
@@ -43,7 +48,6 @@ which to place the new repo. If you do not have one then follow GitHub's
 
 Log in to your account by going here https://github.com/login.
 
-
 You will also need to setup ssh keys to authenticate to github from git. See
 `about ssh`_.
 
@@ -54,137 +58,138 @@ You will also need to setup ssh keys to authenticate to github from git. See
 Create a New Repository
 -----------------------
 
-Here we will copy the beamline template repository, change it's name (and the
-name of the example IOC) and push it back to our own new GitHub repo.
+Here we will copy the beamline template repository and change it's name to bl01t.
+We will then step through the changes that are required to make it your own.
 
-IMPORTANT: for this tutorial we will use your personal GitHub Account to
-store everything we do, including the helm charts and container images. For
+NOTE: for these tutorials we will use your personal GitHub Account to
+store everything we do, all source repositories and container images. For
 production, each facility will need its own policy for where to store these
 assets. See `../explanations/repositories`.
 
-TODO: these steps could be automated in an epics-containers-cli command for
-generating new domain repos (also do one for new Generic ioc repos).
+Steps
+-----
 
-STEPS
-~~~~~
+#.  Go to the template repository here:
+    https://github.com/epics-containers/blxxi-template. Click on the green
+    button ``Use this template`` and follow the instructions to create a new
+    repository in your own account and give it the name bl01t.
 
-These steps ensure that your new repo shares its git history with the
-template repo, so that you can easily pull in changes from the template
-repo in the future.
+    If you are using an alternative to GitHub for your repositories then
+    see `these instructions`_ for an alternative approach.
 
-#.  Create a new, completely blank repository in your GitHub account
-    called ``bl01t``. To do this go to https://github.com/new
-    and fill in the details as per the image below. Click
-    ``Create repository``.
+.. _these instructions: https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project
 
-#.  Clone the template repo locally and rename from blxxi-template to bl01t
+#.  Clone the template repo locally.
 
     .. code-block:: bash
 
-        git clone git@github.com:epics-containers/blxxi-template.git
-        mv blxxi-template bl01t
+        git clone git@github.com:**YOUR GITHUB ACCOUNT**/bl01t.git
+
+
+#.  Open the project in vscode.
+
+    .. code-block:: bash
+
         cd bl01t
-        mv iocs/blxxi-ea-ioc-01/ iocs/bl01t-ea-ioc-01
-        mv opi/blxxi-ea-ioc-01/ opi/bl01t-ea-ioc-01
-        # careful to use find *, NOT find . or you will change the .git folder
-        sed -i s/blxxi/bl01t/g $(find * -type f)
-        # use your username as the prefix to all PV names
-        # this ensures multiple simultaneous users do not clash
-        sed -i s/BLXXI/$USER/g $(find * -type f)
+        # DLS users make sure you have done: module load vscode
+        code .
 
-    .. note::
+#.  Now make the necessary changes to the template to make the project your
+    own. These changes will be covered in more detail in the remaining
+    sections of this page.
 
-        If you are sharing the bl01t namespace on a cluster with other users
-        (e.g. if you are at **DLS**) then change the name of your IOC
-        to something unique. To do this rename the folder iocs/bl01t-ea-ioc-01
-        to your unique name and edit the ``name:`` field at the top of
-        ``Chart.yaml`` to match the folder name. The suggested name is your
-        username as the prefix e.g. hgv27681-ea-ioc-01.
+    #. Replace README.md with your own README.md as you see fit.
 
-        If you do this - remember to substitute in your own name in the
-        following steps, replacing bl01t-ea-ioc-01.
+    #. edit ``environment.sh``
 
-#.  Add your new repo to your VSCode workspace and take a look at what you
-    have.
+    #. change the name of the example ioc from ``iocs/blxxi-ea-ioc-01`` to
+       ``iocs/bl01t-ea-ioc-01``
 
-    From the VSCode menus: File->Add Folder to Workspace
-    then select the folder bl01t
+    #. change the beamline name in the two bash scripts in the ``services``
+       directory.
 
-#.  Push the new repo back to a the new repo on github
+    #. add some meaningful configuration to the example IOCs config folder
+       ``iocs/bl01t-ea-ioc-01/config/ioc.yaml``. We will do this in the
+       next tutorial.
 
-    .. code-block:: bash
+Environment.sh
+~~~~~~~~~~~~~~
 
-        git remote rm origin
-        git remote add origin git@github.com:<YOUR USER NAME>/bl01t.git
-        git add .
-        git commit -m "rename blxxi to bl01t"
-        git push --set-upstream origin main
+Environment.sh is a bash script that is sourced by a beamline user or developer
+in order to setup their environment to work with the beamline.
 
-    As this is your first commit you may find that you need to set your
-    username and email address for git. If so, follow the instructions
-    that git gives you. In theory this should be handled for you by
-    vscode devcontainers but this does not always work.
-    See `git in vscode`_.
+The command line tool ``ec`` uses the environment configured by this script
+to determine where to deploy IOCS and where to find container images etc.
 
-.. _git in vscode: https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
+For details of what goes in this file see `../reference/environment`.
+For the purpose of this tutorial for ``bl01t`` you should have the following
+in your environment.sh:
 
-.. figure:: ../images/create_repo.png
+- SECTION 1:
 
-Note that creating your project in this way means it is possible to
-synchronize changes from the original blxxi-template project.
-See `../how-to/update_templated`.
+  - ``export EC_REGISTRY_MAPPING='github.com=ghcr.io'``
+  - ``export EC_K8S_NAMESPACE=``
+  - ``export EC_DOMAIN_REPO=git@github.com:**YOUR GITHUB ACCOUNT**/bl01t``
+
+- SECTION 2:
+
+  - The existing script code in blxxi-template is fine for this tutorial.
+    It checks to see if ``ec`` is available and installs it into a
+    virtual environment if not. It requires that you already have a
+    virtual environment set up. See `python_setup` for details.
+
+- SECTION 3:
+
+    - We are not using Kubernetes for the first few tutorials so you can
+      leave this section blank for now.
+
+Change the IOC Name
+~~~~~~~~~~~~~~~~~~~
+
+The IOC name is
+taken from the folder name under ``iocs``. In this case we want to change
+``blxxi-ea-ioc-01`` to ``bl01t-ea-ioc-01``.
+
+.. code:: bash
+
+    cd iocs
+    mv blxxi-ea-ioc-01 bl01t-ea-ioc-01
+
+Change the Beamline Name in Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are two files in the ``services/`` directory that need to be changed. These
+files are used to set up some beamline wide resources on each beamline domain.
+At present they are only relevant to Kubernetes installations but we will change
+then now so that bl01t is ready for Kubernetes when we get to that tutorial.
+
+Open both files in ``services/`` and replace blxxi with bl01t.
+
+TODO: add support for local docker installations of these services.
+
+Wrapping Up
+-----------
+
+You should now have a working beamline repository. It contains a single
+IOC Instance and that is only a non-functional example. In the following
+tutorials we will investigate the example and then create a real IOC Instance.
+
+You can now push the repository up to GitHub and give it a version tag like this:
+
+.. code:: bash
+
+    git add .
+    git commit -m "changed blxxi to bl01t"
+    git push
+    git tag 2023.11.1
+    git push --tags
 
 
-Make a Release of Example Beamline bl01t
-----------------------------------------
+We use ``CalVer`` version numbers for beamline repositories and Generic IOCs.
+This is a versioning scheme that uses the date of release as the version number.
+The last digit is the number of the release in that month.
 
-To make a release of the project we defined in `deploy_example`,
-we will
-tag your repo with a calendar based version number see (https://calver.org/).
+CalVer is described here: https://calver.org/ and is used where semantic
+versioning is not appropriate because the repository contains a mix of
+dependencies and does not have a clear API.
 
-We use YY.MM.MINOR for versioning things like beamlines and Generic IOCs. You
-can choose your own scheme, but because these projects do not have APIs as
-such it is more instructive to use a date based scheme.
-
-The example version below was the first revision in the month of April 2023.
-
-.. code-block:: bash
-
-    cd bl01t
-    git tag 23.4.1
-    # push the tag
-    git push origin 23.4.1
-
-This will cause GitHub to create a release of the project and trigger
-continuous integration. The continuous integration will look at all of
-the IOCs in the beamline and generate helm charts for each one. If the helm
-chart has changed since the last release then a new version of the helm chart
-is delivered to your GitHub account's OCI registry.
-
-To watch the progress go to the Actions Panel for your project at
-https://github.com/<YOUR USER NAME>/bl01t/actions
-
-.. figure:: ../images/github_actions.png
-
-Once the CI completes you should have a helm chart delivered in your project
-OCI registry. You can see this listed in project 'packages'.
-Look for a link to the package on the right hand side of your
-project page.
-
-Go to the code pane and click on the example package circled below to see it.
-
-.. figure:: ../images/github_package.png
-
-The OCI registry name of the helm chart will be
-ghcr.io/<YOUR USER NAME>/bl01t/bl01t-ea-ioc-01:23.4.1.
-
-You have now completed this tutorial. Here you have created a new beamline
-repository and made a release of it. The release includes the example IOCs
-instance called ``bl01t-ea-ioc-01``. This IOC has had a helm chart generated
-for it and published ready for deployment to your cluster.
-
-In the next tutorial we will look into what we have created in more detail
-and we will deploy and test the new example IOC.
-
-For details of what goes into the helm chart of an IOC instance see
-`../reference/ioc_helm_chart`.

@@ -7,7 +7,7 @@ There are 5 themes to this strategy:
   Package IOC software and execute it in a lightweight virtual environment.
 
 :Kubernetes:
-  Centrally orchestrate all IOCs at a facility.
+  Centrally orchestrates all IOCs at a facility.
 
 :Helm Charts:
   Deploy IOCs into Kubernetes with version management.
@@ -17,5 +17,5 @@ There are 5 themes to this strategy:
   No shared file systems required.
 
 :Continuous Integration / Delivery:
-  Source repositories automatically build container and helm charts
+  Source repositories automatically build containers and helm charts
   delivering them to OCI registries.

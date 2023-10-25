@@ -9,7 +9,7 @@ Source and Registry Locations
     - Beamline Source repos: ``https://gitlab.diamond.ac.uk/controls/containers/beamline/<beamline>``
     - Accelerator Source repos: ``https://gitlab.diamond.ac.uk/controls/containers/accelerator/<domain>``
     - Generic IOC Container Images: ``ghcr.io/epics-containers/<Generic ioc>``
-    - IOC Instance Helm Charts: ``helm-test.diamond.ac.uk/iocs/<domain>/<ioc instance>``
+    - epics-containers Helm Charts: ``https://github.com/orgs/epics-containers/packages?repo_name=ec-helm-charts``
 
 Where to Keep Source Code
 -------------------------
@@ -64,13 +64,13 @@ kept in a public repository as it is a live example of a domain repo.
 Where to put Registries
 -----------------------
 
-Generic IOC Container Images
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generic IOC Container Images and Source Repos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: usually GHCR but internal supported for license e.g. Nexus Repository Manager
+Usually GHCR but internal supported for license e.g. Nexus Repository Manager
 
-IOC Instance Helm Charts
-~~~~~~~~~~~~~~~~~~~~~~~~
+IOC Instance Domain Repos
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: Can be GHCR but internal supported supported e.g. Nexus Repository Manager
+Internal git registry or private GitHub registry.
 

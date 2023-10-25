@@ -1,6 +1,45 @@
 Deploy The Example IOC
 ======================
 
+.. warning::
+
+    This information is out of date and will be updated soon.
+
+Take a Look at Your Project's Continuous Integration
+----------------------------------------------------
+
+TODO
+
+Set up Environment for BL01T Beamline
+-------------------------------------
+
+The standard way to set up your environment for any domain is to get
+the environment.sh script from the domain repository and source it.
+
+First make sure you have the local binaries folder in your path by adding
+the following to the end of you $HOME/.bash_profile file:
+
+.. code-block:: bash
+
+    export PATH="$PATH:~/.local/bin"
+
+Then follow these steps:
+
+.. code-block:: bash
+
+    cd /tmp
+    curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/epics-containers/bl38p/main/environment.sh?token=$(date +%s)
+    . ~/.bash_profile
+    . bl01t
+
+Once you have done this and logged out and back in again to pick up your new
+profile you should be able enable the bl01t environment as follows:
+
+.. code-block:: bash
+
+    . bl01t
+
+
 Deploy the IOC Instance to Kubernetes
 -------------------------------------
 
@@ -101,13 +140,6 @@ Now make sure the AreaDetector is Acquiring by clicking Start if needed on
 the CAM screen. Next click on Auto to scale the
 black and white thresholds on the C2D viewer. You should see something like the
 following images.
-
-.. note::
-
-    When you launch edm or c2dv for the first time you
-    will see container images downloading, for an explanation of this see
-    `../explanations/cli-tools`
-
 
 .. figure:: ../images/edm_sim.png
 
