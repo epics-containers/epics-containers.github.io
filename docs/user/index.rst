@@ -18,6 +18,7 @@ side-bar.
             tutorials/create_beamline
             tutorials/deploy_example
             tutorials/ioc_changes
+            tutorials/release_beamline
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
@@ -58,7 +59,6 @@ side-bar.
             explanations/kubernetes_cluster
             explanations/docs-structure
             explanations/repositories
-            explanations/cli-tools
             explanations/repos
 
         +++
@@ -72,6 +72,7 @@ side-bar.
             :maxdepth: 1
 
             reference/faq
+            reference/environment
             reference/cli
             reference/ioc_helm_chart
             reference/k8s_resources
