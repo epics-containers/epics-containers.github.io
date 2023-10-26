@@ -152,7 +152,7 @@ if not switcher_exists:
 # to complete as the docs build warns and fails.
 html_theme_options = dict(
     logo=dict(
-        text=project,
+        text="EPICS Containers",
     ),
     navigation_with_keys=True,
     use_edit_page_button=True,

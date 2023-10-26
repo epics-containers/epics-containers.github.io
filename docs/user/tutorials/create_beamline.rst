@@ -174,8 +174,8 @@ Wrapping Up
 -----------
 
 You should now have a working beamline repository. It contains a single
-IOC Instance and that is only a non-functional example. In the following
-tutorials we will investigate the example and then create a real IOC Instance.
+IOC Instance which is a non-functional example. In the following
+tutorial we will investigate the example and then create a real IOC Instance.
 
 You can now push the repository up to GitHub and give it a version tag like this:
 
@@ -185,7 +185,7 @@ You can now push the repository up to GitHub and give it a version tag like this
     git commit -m "changed blxxi to bl01t"
     git push
     git tag 2023.11.1
-    git push --tags
+    git push origin 2023.11.1
 
 
 We use ``CalVer`` version numbers for beamline repositories and Generic IOCs.

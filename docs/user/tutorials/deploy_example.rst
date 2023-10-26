@@ -1,29 +1,49 @@
-Deploy The Example IOC
-======================
-
-.. Warning::
-
-    This tutorial is out of date and will be updated soon.
+Deploying and Managing IOC Instances
+====================================
 
 Introduction
 ------------
 
-This tutorial will show you how to deploy some IOC Instances to the test
-beamline bl01t. You will need to have your own bl01t beamline repository
+This tutorial will show you how to deploy and manage the example IOC Instance
+that came with the template beamline repository.
+You will need to have your own ``bl01t`` beamline repository
 from the previous tutorial.
 
 For these early tutorials we are not using Kubernetes and instead are deploying
-IOCs to the local docker or podman instance. So for the this tutorial we
+IOCs to the local docker or podman instance. So for these tutorials we
 shall pretend that your workstation is one of the IOC servers on the fictitious
-beamline BL01T.
+beamline ``BL01T``.
 
-Take a Look at Your Project's Continuous Integration
-----------------------------------------------------
+Continuous Integration
+----------------------
 
-Before we change anything we shall make sure that the beamline repository CI
-is working as expected. To do this go to the following URL:
+Before we change anything, we shall make sure that the beamline repository CI
+is working as expected. To do this go to the following URL (make sure you insert
+your GitHub account name where indicated):
 
--
+.. code::
+
+    git@github.com:**YOUR GITHUB ACCOUNT**/bl01t/actions
+
+You should see something like the following:
+
+.. figure:: ../images/bl01t-actions.png
+
+    the GitHub Actions page for the example beamline repository
+
+This is a list of all the Continuous Integration (CI) jobs that have been
+executed (or are executing) for your beamline repository. There should be
+two jobs listed, one for when you pushed the main branch and one for when you
+tagged with the ``CalVer`` version number.
+
+If you click on the most recent job you can drill in and see the steps that
+were executed. The most interesting step is ``Run bash ./ci_verify.sh``. This
+is executing the script in the root of your beamline repository that verifies
+each IOC instance in the ``iocs`` folder. In future we can make this script
+more sophisticated when we have simulated hardware to test against.
+
+For the moment just check that your CI passed and if not review that you
+have followed the instructions in the previous tutorial correctly.
 
 Set up Environment for BL01T Beamline
 -------------------------------------
@@ -45,38 +65,28 @@ where indicated):
 
     cd /tmp
     curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/**YOUR GITHUB ACCOUNT**/bl01t/main/environment.sh?token=$(date +%s)
-    . ~/.bash_profile
-    . bl01t
+    source ~/.bash_profile
+    source bl01t
 
 Once you have done this and logged out and back in again to pick up your new
-profile you should be able enable the bl01t environment as follows:
+profile you should be able enable the ``bl01t`` environment as follows:
 
 .. code-block:: bash
 
-    . bl01t
+    # first make sure you have loaded your virtual environment
+    source $HOME/ec-venv/bin/activate
+    source bl01t
 
 
-Deploy the IOC Instance to Kubernetes
--------------------------------------
+Deploy the Example IOC Instance
+-------------------------------
 
-For this tutorial we are going to work with the example IOC bl01t-ea-ioc-01
-that came with our beamline repository from the previous tutorial.
-Here we will deploy the IOC into our cluster and then learn how to interact
-with it.
+For this section we will be making use of the epics-containers-cli tool.
+This command line entry point for the tool is ``ec``. For more
+details see: `CLI` or try ``ec --help``.
 
-If you are interested in the detail of what is in the bl01t-ea-ioc-01 folder
-that describes this IOC instance then see: `../reference/ioc_helm_chart`.
-
-Also, if you are interested in how the helm chart manifests itself in your
-cluster when deployed then see: `../reference/k8s_resources`.
-
-For this section we will be making use of the epics-containers-cli tool. This makes
-it easier to interact with kubernetes and helm from the command line and is
-described in more detail here: `CLI`.
-
-You will need a working Kubernetes cluster for most of the rest of the
-tutorials. You can verify that it is working by asking for a list of IOCs
-running in your default domain as follows:
+The simplest command to check that the tool is working is ``ps`` which lists
+the IOC Instances that are currently running:
 
 .. code-block:: bash
 
@@ -85,117 +95,99 @@ running in your default domain as follows:
 You should see some headings and an empty list as you have not yet started an
 IOC Instance.
 
-.. note::
-
-    The command ``ec`` is the epics-containers command line utilities entry
-    point. For more information see `CLI` or try ``ec --help``.
-
-
-The following command will deploy the example IOC instance to your cluster
-(if you changed the ioc name in the previous tutorial then
-remember to change bl01t-ea-ioc-01 to your unique name here):
+The following command will deploy the example IOC instance to your local
+machine (unless you have skipped ahead and set up your Kubernetes config
+in which case the same command  will deploy to your Kubernetes cluster).
 
 .. code-block:: bash
 
-    ec ioc deploy bl01t-ea-ioc-01 23.4.1
+    cd bl01t # (if you are not already in your beamline repo)
+    ec ioc deploy-local iocs/bl01t-ea-ioc-01
 
-Note that this is looking for the IOC's helm chart in your OCI helm registry.
-You delivered the IOC helm chart to the registry when you made a release of
-the beamline repo in the previous tutorial. You must supply a version number
-that exists. If you do not recall the version number you used in the last tutorial,
-you can use the following command to list the versions available in your
-registry:
+You will be prompted to say that this is a *TEMPORARY* deployment. This is
+because we are deploying directly from the local filesystem. You should only
+use this for testing purposes because there is no guarantee that you could
+ever roll back to this version of the IOC (as it is lost as soon as filesystem
+changes are made). Local filesystem deployments are given a beta version
+number to indicate that they are not permanent.
 
-.. code-block:: bash
-
-    ec ioc versions bl01t-ea-ioc-01
-
-As the deployment is progressing you could use the following command to
-monitor the progress (hit ctrl-C to stop following the logs):
+You can now see the beta IOC instance running with:
 
 .. code-block:: bash
 
-    ec ioc logs bl01t-ea-ioc-01 -f
+    $ ec ps
+    IOC NAME            VERSION             STATUS              IMAGE
+    bl01t-ea-ioc-01     2023.10.26-b11.53   Up 6 minutes        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 
-Note there may be a little delay while the cluster pulls the Generic IOC
-image from the GitHub container registry. The error
-"recGblRecordError: devStringinEnvVar (init_record) Illegal INP parm field Illegal field value PV: BL01T-EA-IOC-01:TIMEZONE"
-is benign, TODO: take a look at the cause of this error.
-
-Once the IOC is running you can find out the IP address of the pod it is
-running in with:
-
-.. code-block:: bash
-
-    ec ps -w
-
-This will show you the status of the IOC instance and the IP address of the
-pod it is running in. In a real beamline setup the IOCs would run in the same
-subnet as your workstation so you would not care about the IP address. But
-for the example you may need to do the following to let our EPICS clients
-know where to look for PVs:
+At the end of the last tutorial we tagged the beamline repository with a
+``CalVer`` version number and pushed it up to GitHub. This means that we
+can now release the IOC instance with that same version number. First let's
+check that the IOC instance version is available as expected:
 
 .. code-block:: bash
 
-    export EPICS_CA_ADDR_LIST=ip_address_of_pod
-    export EPICS_PVA_ADDR_LIST=ip_address_of_pod
+    $ ec ioc instances bl01t-ea-ioc-01
+    Available instance versions for bl01t-ea-ioc-01:
+        2023.11.1
 
-epics-containers does not yet have any provision for EPICS operator interfaces.
-For this example we have hand crafted some EDM screens to control and monitor
-the test IOC. These EDM screens are supplied in the template so you will
-have them in the ``opi`` folder in your beamline repository.
 
-You can now launch the client applications as follows:
+Now that we know the latest version number we can deploy a release version.
+This command will extract the IOC instance using the tag from GitHub and deploy
+it to your local machine:
 
 .. code-block:: bash
 
-    ./blxxi-ea-ioc-01-gui.sh
-    c2dv --pv $USER-EA-TST-01:IMAGE
+    $ ec ioc deploy bl01t-ea-ioc-01 2023.11.1
+    bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
-Now make sure the AreaDetector is Acquiring by clicking Start if needed on
-the CAM screen. Next click on Auto to scale the
-black and white thresholds on the C2D viewer. You should see something like the
-following images.
-
-.. figure:: ../images/edm_sim.png
-
-    edm screen for the example IOC
-
-.. figure:: ../images/c2dv.png
-
-    the c2dv viewer showing an image from the example IOC
+    $ ec ps
+    IOC NAME            VERSION             STATUS              IMAGE
+    bl01t-ea-ioc-01     2023.11.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 
 
-Managing IOCs
---------------
-
-IOCs running in Kubernetes can be managed using the ``ec`` command.
+Managing the Example IOC Instance
+---------------------------------
 
 Starting and Stopping IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To stop / start  the example IOC:
+To stop / start  the example IOC try the following commands. Note that
+``ec ps -a`` shows you all IOCs including stopped ones.
 
 .. code-block:: bash
 
+    ec ps -a
     ec ioc stop bl01t-ea-ioc-01
+    ec ps -a
     ec ioc start bl01t-ea-ioc-01
+    ec ps
+
+.. Note::
+
+    Generic IOCs.
+
+    You may have noticed that the IOC instance has is showing that it has
+    an image ``ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5``.
+
+    This is a Generic IOC image and all IOC Instances must be based upon one
+    of these images. This IOC instance has no startup script and is therefore
+    not functional, it could have been based on any Generic IOC.
 
 Monitoring and interacting with an IOC shell
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To attach to the ioc shell:
+To attach to the ioc shell you can use the following command. HOWEVER, this
+will attach you to nothing in the case of this example IOC as it has no
+shell. In the next tutorial we will use this command to interact with
+iocShell.
 
 .. code-block:: bash
 
     ec ioc attach bl01t-ea-ioc-01
 
-Use the command sequence ctrl-P then ctrl-Q to detach or ctrl-D to restart the
-IOC and detach.
-
-TODO: I'm having issues with the shell eating the ^P^Q sequences so
-at present you can only detach from the IOC by killing the terminal or
-using ^D.
+Use the command sequence ctrl-P then ctrl-Q to detach from the IOC
+You can also usually restart and detach from the IOC using ctrl-D or
+ctrl-C.
 
 To run a bash shell inside the IOC container:
 
@@ -203,15 +195,14 @@ To run a bash shell inside the IOC container:
 
     ec ioc exec bl01t-ea-ioc-01
 
-Once you have a shell inside the container you can inspect the following
+Once you have a shell inside the container you could inspect the following
 folders:
 
 =============== ==============================================================
-ioc code        repos/epics/ioc
-support modules repos/epics/support
-epics binaries  repos/epics/epics-base
+ioc code        /epics/ioc
+support modules /epics/support
+EPICS binaries  /epics/epics-base
 =============== ==============================================================
-
 
 Logging
 ~~~~~~~
@@ -228,6 +219,9 @@ Or follow the IOC log until you hit ctrl-C:
 
     ec ioc logs bl01t-ea-ioc-01 -f
 
+You will notice that this IOC simply prints out a message regarding what
+you can place in the /epics/ioc/config folder. In the next tutorial
+we will look at how to configure a real EPICS IOC.
 
 
 
