@@ -1,6 +1,10 @@
 RTEMS - Deploying an Example IOC
 ================================
 
+.. Warning::
+
+    This tutorial is out of date and will be updated in November 2023.
+
 The previous tutorials walked through how to create a Generic linux soft
 IOC and how to deploy an IOC instance using that Generic IOC.
 

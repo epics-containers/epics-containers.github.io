@@ -1,14 +1,29 @@
 Deploy The Example IOC
 ======================
 
-.. warning::
+.. Warning::
 
-    This information is out of date and will be updated soon.
+    This tutorial is out of date and will be updated soon.
+
+Introduction
+------------
+
+This tutorial will show you how to deploy some IOC Instances to the test
+beamline bl01t. You will need to have your own bl01t beamline repository
+from the previous tutorial.
+
+For these early tutorials we are not using Kubernetes and instead are deploying
+IOCs to the local docker or podman instance. So for the this tutorial we
+shall pretend that your workstation is one of the IOC servers on the fictitious
+beamline BL01T.
 
 Take a Look at Your Project's Continuous Integration
 ----------------------------------------------------
 
-TODO
+Before we change anything we shall make sure that the beamline repository CI
+is working as expected. To do this go to the following URL:
+
+-
 
 Set up Environment for BL01T Beamline
 -------------------------------------
@@ -23,12 +38,13 @@ the following to the end of you $HOME/.bash_profile file:
 
     export PATH="$PATH:~/.local/bin"
 
-Then follow these steps:
+Then follow these steps (make sure you insert your GitHub account name
+where indicated):
 
 .. code-block:: bash
 
     cd /tmp
-    curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/epics-containers/bl38p/main/environment.sh?token=$(date +%s)
+    curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/**YOUR GITHUB ACCOUNT**/bl01t/main/environment.sh?token=$(date +%s)
     . ~/.bash_profile
     . bl01t
 

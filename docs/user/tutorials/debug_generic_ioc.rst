@@ -1,6 +1,10 @@
 Debugging Generic IOC Builds
 ============================
 
+.. Warning::
+
+    This tutorial is out of date and will be updated soon.
+
 This tutorial is a continuation of `generic_ioc`. Here we will look into
 debugging failed builds and fix the issue we saw in the  previous tutorial.
 

@@ -1,6 +1,10 @@
 Working with Support Modules
 =============================
 
+.. Warning::
+
+    This tutorial is out of date and will be updated soon.
+
 TODO: this is currently a stub with some pointers.
 
 TODO: suggest that we will make a new Stream Device that will be a
