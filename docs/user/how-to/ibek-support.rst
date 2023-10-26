@@ -1,8 +1,9 @@
-Updating and Testing ibek-defs
-==============================
+Updating and Testing ibek-support
+=================================
 
-TODO: this is draft
-TODO: this uses a Diamond internal repo as an example
+.. Warning::
+
+    This is draft only and out of date. It will be updated soon.
 
 The ibek-defs repository contains ibek support yaml. Here is an example
 procedure for local testing of changes to support yaml in ibek-defs

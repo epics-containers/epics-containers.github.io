@@ -1,6 +1,10 @@
 Create a Generic IOC
 ====================
 
+.. Warning::
+
+    This tutorial is out of date and will be updated soon.
+
 In this tutorial we will learn how to create a Generic IOC container image and
 test our changes locally before deploying it.
 
@@ -53,9 +57,6 @@ using an ``ec`` command.
         git remote add origin git@github.com:<YOUR USER NAME>/ioc-adurl.git
         git push --set-upstream origin main
 
-Note that creating your project in this way means it is possible to
-synchronize changes from the original ioc-template project.
-See `../how-to/update_templated`.
 
 Prepare the New Repo for Development
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,11 +255,6 @@ follows:
 ADCore and ADSupport already have ibek-defs files as they were previously created
 when making ``ioc-adsimdetector``.
 
-.. note::
-
-    The folder /repos is where all externally fetched source code is stored
-    inside our containers. For a detailed explanation see
-    `../explanations/repos`
 
 .. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
 

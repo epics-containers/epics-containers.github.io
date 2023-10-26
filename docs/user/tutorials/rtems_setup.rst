@@ -1,6 +1,10 @@
 RTEMS - Creating a File Server
 ==============================
 
+.. Warning::
+
+    This tutorial is out of date and will be updated in November 2023.
+
 Introduction
 ------------
 

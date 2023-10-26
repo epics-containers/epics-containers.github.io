@@ -25,12 +25,14 @@ When the project ``bl01t`` is pushed to GitHub, continuous integration will
 verify that each of the IOCs in the beamline are valid by launching them
 with basic configuration.
 
-It's not feasible to run full system tests with these IOCs Instances
-because they are configured to run with real hardware on a beamline.
-But note that each of these IOC instances will be launched using a
+The tests on beamline repositories are basic at present. However the intention
+is that eventually each device on a beamline will be simulated using
+`Tickit <https://github.com/dls-controls/tickit>`_ and that the CI so system
+tests of each IOC against simulated hardware.
+
+Also note that each of these IOC instances will be launched using a
 Generic IOC image. Ideally the CI for each Generic IOC should have already run
-system tests against simulated hardware. (this is something we aspire to
-using simulations provided by `Tickit <https://github.com/dls-controls/tickit>`_)
+system tests against simulated (but not beamline specific) hardware.
 
 This beamline repo will be taken from a template that comes with a single example
 IOC and further steps in the following tutorials will teach you how to add your own.
@@ -123,7 +125,8 @@ to determine where to deploy IOCS and where to find container images etc.
 
 For details of what goes in this file see `../reference/environment`.
 For the purpose of this tutorial for ``bl01t`` you should have the following
-in your environment.sh:
+in your environment.sh (make sure you insert your GitHub account name
+where indicated):
 
 - SECTION 1:
 
@@ -171,8 +174,8 @@ Wrapping Up
 -----------
 
 You should now have a working beamline repository. It contains a single
-IOC Instance and that is only a non-functional example. In the following
-tutorials we will investigate the example and then create a real IOC Instance.
+IOC Instance which is a non-functional example. In the following
+tutorial we will investigate the example and then create a real IOC Instance.
 
 You can now push the repository up to GitHub and give it a version tag like this:
 
@@ -182,7 +185,7 @@ You can now push the repository up to GitHub and give it a version tag like this
     git commit -m "changed blxxi to bl01t"
     git push
     git tag 2023.11.1
-    git push --tags
+    git push origin 2023.11.1
 
 
 We use ``CalVer`` version numbers for beamline repositories and Generic IOCs.

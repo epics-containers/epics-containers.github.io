@@ -17,8 +17,8 @@ side-bar.
             tutorials/setup_workstation
             tutorials/create_beamline
             tutorials/deploy_example
+            tutorials/create_ioc
             tutorials/ioc_changes
-            tutorials/release_beamline
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
@@ -36,13 +36,11 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
-            how-to/run_iocs
             how-to/debug
             how-to/contributing
             how-to/own_tools
             how-to/useful_k8s
-            how-to/update_templated
-            how-to/ibek-defs
+            how-to/ibek-support
 
         +++
 
@@ -59,7 +57,6 @@ side-bar.
             explanations/kubernetes_cluster
             explanations/docs-structure
             explanations/repositories
-            explanations/repos
 
         +++
 

@@ -47,9 +47,6 @@ ready to test deployment of EPICS IOCs.
     standalone, or with other orchestration tools. e.g. In `ioc_changes`
     we will demonstrate running an IOC locally using podman alone.
 
-    If you want to take advantage of containers for IOCs but do not want to
-    take on Kubernetes then there are some hints as to how to achieve this
-    here: `../how-to/run_iocs`.
 
 Bring Your Own Cluster
 ----------------------
