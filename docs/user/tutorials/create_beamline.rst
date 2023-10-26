@@ -27,8 +27,8 @@ with basic configuration.
 
 The tests on beamline repositories are basic at present. However the intention
 is that eventually each device on a beamline will be simulated using
-`Tickit <https://github.com/dls-controls/tickit>`_ and that the CI so system
-tests of each IOC against simulated hardware.
+`Tickit <https://github.com/dls-controls/tickit>`_ . Then Continuous
+Integration will perform system tests for each IOC against simulated hardware.
 
 Also note that each of these IOC instances will be launched using a
 Generic IOC image. Ideally the CI for each Generic IOC should have already run
@@ -81,7 +81,7 @@ Steps
 
 .. _these instructions: https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project
 
-#.  Clone the template repo locally.
+#.  Clone the template repo locally (substituting in your own GitHub Account).
 
     .. code-block:: bash
 
