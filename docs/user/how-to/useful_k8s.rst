@@ -11,7 +11,8 @@ The dashboard gives you a nice GUI for exploring and controlling your cluster.
 It is very useful for new users to get an understanding of what Kubernetes
 has to offer.
 
-These commands should be run INSIDE the devcontainer.
+These commands should be run after you have set up your Kubernetes cluster and
+setup the environment variables as described in `../tutorials/setup_k8s`.
 
 Execute this on your workstation:
 
@@ -47,10 +48,6 @@ Then create the admin user and role by executing the following:
     EOF
 
 Get a token for the user and copy the token into your clipboard.
-
-On k3s v1.23 and older::
-
-    kubectl -n kubernetes-dashboard describe secret admin-user-token | grep '^token'
 
 On k3s v1.24 and newer::
 

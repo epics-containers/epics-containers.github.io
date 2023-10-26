@@ -5,13 +5,9 @@
 
 Update for October 2023
 =======================
-The final round of improvements are done. The latest framework has
-become much simpler and has a good developer experience.
-
-**WARNING**
-
-The Tutorials are currently out of date and won't work. These are
-being updated now and will be available by end of November 2023.
+The tutorials are being updated to work with the improved framework.
+The first few are available now, take note of warnings about out of
+date tutorials.
 
 
 Communication

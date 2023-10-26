@@ -37,7 +37,7 @@ Three cluster topologies were considered for this project.
 Current Approach
 ----------------
 
-DLS is currently investigating Cluster per Beamline as the preferred topology. We
+DLS is using Cluster per Beamline as the preferred topology. We
 will continue to have a central cluster for shared services but in addition will
 have a cluster per beamline and a cluster for the accelerator.
 

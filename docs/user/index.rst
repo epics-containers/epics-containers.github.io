@@ -36,13 +36,11 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
-            how-to/run_iocs
             how-to/debug
             how-to/contributing
             how-to/own_tools
             how-to/useful_k8s
-            how-to/update_templated
-            how-to/ibek-defs
+            how-to/ibek-support
 
         +++
 
@@ -59,7 +57,6 @@ side-bar.
             explanations/kubernetes_cluster
             explanations/docs-structure
             explanations/repositories
-            explanations/repos
 
         +++
 

@@ -66,7 +66,7 @@ TODO: this will become a concrete example for walking through as a tutorial with
 NOTE: these steps are for building and testing the example IOC that comes with
 the Generic ioc template. This will break the system test and that would need
 to be updated accordingly. To just work on ibek support files using an external
-ioc instance YAML file see `../how-to/ibek-defs` (I probably need to combine
+ioc instance YAML file see `../how-to/ibek-support` (I probably need to combine
 these two pages into something coherent).
 
 
