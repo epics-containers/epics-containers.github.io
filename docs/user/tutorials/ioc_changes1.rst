@@ -1,48 +1,11 @@
-Testing Changes to IOC Instances
-================================
+Changing the IOC Instance
+=========================
+
 
 .. Warning::
 
-    This tutorial is out of date and will be updated soon.
+    This tutorial is out of date and will be updated in November 2023.
 
-.. _ioc_change_types:
-
-Types of Changes
-----------------
-
-Containerized IOCs can be modified in 3 distinct places:
-
-#. The IOC instance: this means making changes to the IOC instance helm chart
-   which appears in the ``iocs`` folder of a beamline or accelerator domain
-   source repository. This includes things like:
-
-   - changing the EPICS DB (or files that generate it)
-   - altering the iocShell boot script (or files that generate it)
-   - changing parameters in the values file for the chart - e.g. increasing
-     the memory limit for the IOC container
-
-#. The Generic IOC - alter the details of how the Generic IOC container image
-   is built. This means making changes to an ``ioc-XXX`` source repo and
-   publishing a new version of the Generic IOC container image.
-   This includes things like:
-
-   - changing the EPICS base version
-   - changing the versions of EPICS support modules compiled into the IOC binary
-   - adding new support modules
-   - altering the system dependencies installed into the container image
-
-#. The dependencies - Support modules used by the Generic IOC. Changes to support
-   module repos. This means publishing a new release of the support module.
-
-As far as possible the epics-containers approach to all of the above allows
-local testing of the changes before publishing. This allows us to have a
-fast 'inner loop' of development and testing.
-
-Also, epics-containers provides a mechanism for creating a separate workspace for
-working on all of the above elements in one place.
-
-Changing the IOC Instance
--------------------------
 
 This tutorial will make a very simple change to the example IOC ``bl01t-ea-ioc-01``.
 This is a type 1. change from the above list, types 2, 3 will be covered in the
@@ -183,7 +146,6 @@ from the above command):
 Once you are happy with your changes you can push and tag your beamline repo.
 This will publish a new version of the IOC instance helm chart to the OCI helm
 registry. You can then deploy the versioned IOC instance to the cluster.
-
 
 
 

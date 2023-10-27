@@ -18,7 +18,8 @@ side-bar.
             tutorials/create_beamline
             tutorials/deploy_example
             tutorials/create_ioc
-            tutorials/ioc_changes
+            tutorials/dev_container
+            tutorials/ioc_changes1
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
