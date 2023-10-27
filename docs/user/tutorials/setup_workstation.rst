@@ -138,6 +138,8 @@ Note that each time you open a new shell you will need to activate the virtual
 environment again. (Or place it's bin folder in your path permanently).
 
 
+.. _ec:
+
 epics-containers-cli
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -153,6 +155,17 @@ line entry point is ``ec``. We will be using many ``ec`` command line
 functions in the next tutorial.
 
 See `CLI` for more details.
+
+.. note::
+
+    DLS Users: ``ec`` is already installed for you on ``dls_sw`` just do the
+    following to make sure it is always available:
+
+    .. code:: bash
+
+        # use the ec version from dls_sw/work/python3
+        mkdir -p $HOME/.local/bin
+        ln -fs /dls_sw/work/python3/ec-venv/bin/ec $HOME/.local/bin/ec
 
 Git
 ---
