@@ -143,8 +143,13 @@ where indicated):
 
 - SECTION 3:
 
-    - We are not using Kubernetes for the first few tutorials so you can
-      leave this section blank for now.
+  - We are not using Kubernetes for the first few tutorials so you can
+    leave this section blank for now.
+
+.. note::
+
+    DLS Users: ``ec`` is already installed for you. So leave SECTION 2
+    blank. See `ec` for details.
 
 Change the IOC Name
 ~~~~~~~~~~~~~~~~~~~
