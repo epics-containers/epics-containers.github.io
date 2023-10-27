@@ -36,6 +36,7 @@ side-bar.
             :caption: How-to Guides
             :maxdepth: 1
 
+            how-to/phoebus
             how-to/debug
             how-to/contributing
             how-to/own_tools

@@ -173,7 +173,7 @@ will deploy containers to the local workstation's docker or podman instance.
 
 However, everything in these tutorials would also work with Kubernetes. If you
 are particularly interested in Kubernetes then you can jump to
-`setup_kubernetes` and follow the instructions there. Then '{{(index (index .NetworkSettings.Ports "8787/tcp") 0).HostPort}}'come back to this
+`setup_kubernetes` and follow the instructions there. Then come back to this
 point and continue with the tutorials.
 
 If you are planning not to use Kubernetes at all then now might be

@@ -4,7 +4,7 @@
 Setup a Kubernetes Server
 =========================
 
-.. Warning ::
+.. Warning::
 
     This information is out of date. It will be updated soon.
 
