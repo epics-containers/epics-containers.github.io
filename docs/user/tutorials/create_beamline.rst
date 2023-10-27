@@ -174,8 +174,8 @@ Wrapping Up
 -----------
 
 You should now have a working beamline repository. It contains a single
-IOC Instance which is a non-functional example. In the following
-tutorial we will investigate the example and then create a real IOC Instance.
+IOC Instance which is a non-functional example. In the following two
+tutorials we will investigate the example and then create a real IOC Instance.
 
 You can now push the repository up to GitHub and give it a version tag like this:
 
