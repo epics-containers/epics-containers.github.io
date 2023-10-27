@@ -32,20 +32,7 @@ Setup a Kubernetes Server
 Introduction
 ------------
 This is a very easy set of instructions for setting up an experimental
-single-node Kubernetes cluster,
-ready to test deployment of EPICS IOCs.
-
-.. note::
-
-    From this point onward the tutorials assume that you are using
-    Kubernetes and Helm to deploy your EPICS IOCs.
-
-    However:
-
-    The approach of creating Generic IOC's in containers and then deploying
-    IOC instances as Generic IOC's + some configuration will also work
-    standalone, or with other orchestration tools. e.g. In `ioc_changes`
-    we will demonstrate running an IOC locally using podman alone.
+single-node Kubernetes cluster, ready to test deployment of EPICS IOCs.
 
 
 Bring Your Own Cluster
