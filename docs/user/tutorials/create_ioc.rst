@@ -342,7 +342,7 @@ Raw Startup Script and Database
 -------------------------------
 
 This section demonstrates how to use your own startup assets. This involves
-placing your own ``st.cmd`` and ``ioc.substitutions`` files in the ``config``
+placing your own ``st.cmd`` and ``ioc.subst`` files in the ``config``
 folder. Or alternatively you could override behaviour completely by placing
 ``start.sh`` in the ``config`` folder, this can contain any script you like.
 
@@ -370,7 +370,7 @@ docker if that is what you are using):
 .. code-block:: bash
 
     podman cp bl01t-ea-ioc-02:/tmp/st.cmd iocs/bl01t-ea-ioc-02/config
-    podman cp bl01t-ea-ioc-02:/tmp/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.substitutions
+    podman cp bl01t-ea-ioc-02:/tmp/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.subst
     # no longer need an ibek ioc yaml file
     rm iocs/bl01t-ea-ioc-02/config/ioc.yaml
     # re-deploy from local filesystem

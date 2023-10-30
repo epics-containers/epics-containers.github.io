@@ -133,7 +133,7 @@ modules at Generic IOC build time.
 
 It can be instructive to look at these files to see what entities are available
 to *IOC instances*. For example the global support yaml file
-``/epics/ibek/ibek.yaml`` contains the following:
+``/epics/ibek/epics.ibek.support.yaml`` contains the following:
 
 .. code:: yaml
 
