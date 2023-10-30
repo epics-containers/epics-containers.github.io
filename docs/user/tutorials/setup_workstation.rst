@@ -7,7 +7,7 @@ The tools you need to install are:
 
 - Visual Studio Code
 - a container platform, either podman or docker
-- Python 3.9 or later + a Python virtual environment
+- Python 3.10 or later + a Python virtual environment
 - git client for version control
 
 Visual Studio Code is recommended because it has excellent integration with
@@ -115,9 +115,9 @@ Install Python
 
 .. Note::
 
-    **DLS Users**: RHEL 8 Workstations at DLS have Python 3.9 installed by default.
+    **DLS Users**: use ``module load python/3.11``
 
-Go ahead and install Python 3.9 or later. 3.11 is recommended as this is the
+Go ahead and install Python 3.10 or later. 3.11 is recommended as this is the
 highest version that epics-containers has been tested with.
 
 There are instructions for installing Python on all platforms here:

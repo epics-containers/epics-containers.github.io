@@ -125,7 +125,7 @@ this tutorial:
 
     # starting from folder bl01t so that the clone is next to bl01t
     cd ..
-    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git -b 2023.10.6b1
+    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git -b 2023.10.7
     cd ioc-adsimdetector
     ec dev build
 

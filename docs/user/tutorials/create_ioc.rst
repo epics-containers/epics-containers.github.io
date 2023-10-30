@@ -42,7 +42,7 @@ This should launch vscode and open the values.yaml file. Add the following:
 
 .. code-block:: yaml
 
-    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.6b1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.7
 
 This tells the IOC Instance to run in the ``ioc-adsimdetector-linux-runtime``
 container. This container was built by the Generic IOC source repo here
@@ -180,7 +180,7 @@ detector as follows:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.6b1/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.7/ibek.ioc.schema.json
 
     ioc_name: bl01t-ea-ioc-02
     description: Example simulated camera for BL01T
@@ -189,7 +189,7 @@ detector as follows:
 
     - type: ADSimDetector.simDetector
       PORT: DET.DET
-      P: BL01T-EA-TST-01
+      P: BL01T-EA-TST-02
       R: ":DET:"
 
 .. note::
@@ -205,7 +205,7 @@ detector as follows:
 
 
 This will create us a simulation detector driver with PV prefix
-``BL01T-EA-TST-01:DET:`` that publishes its output on the Asyn port ``DET.DET``.
+``BL01T-EA-TST-02:DET:`` that publishes its output on the Asyn port ``DET.DET``.
 
 Note that the Generic IOC includes all of the support modules that are dependencies
 of ``ADSimDetector`` and each of those contributes its own set of definitions in its
@@ -216,13 +216,13 @@ it to our simulation detector by adding this to our *IOC yaml* file:
 
   - type: ADCore.NDPvaPlugin
     PORT: DET.PVA
-    PVNAME: BL01T-EA-TST-01:PVA:OUTPUT
-    P: BL01T-EA-TST-01
+    PVNAME: BL01T-EA-TST-02:PVA:OUTPUT
+    P: BL01T-EA-TST-02
     R: ":PVA:"
     NDARRAY_PORT: DET.DET
 
 This adds a PVA plugin to the IOC that will publish the output of the simulation
-detector over a PVAccess channel called ``BL01T-EA-TST-01:PVA:OUTPUT``. The
+detector over a PVAccess channel called ``BL01T-EA-TST-02:PVA:OUTPUT``. The
 *Support yaml* that declared that plugin came from the ADCore module. This is
 a dependency of ADSimDetector and so is included in the Generic IOC container.
 
@@ -273,14 +273,14 @@ and launch it to view the IOC output:
 .. code-block:: bash
 
     pip install c2dataviewer
-    c2dv --pv BL01T-EA-TST-01:PVA:OUTPUT &
+    c2dv --pv BL01T-EA-TST-02:PVA:OUTPUT &
 
 Now we can start our simulation detector like this:
 
 .. code-block:: bash
 
     ec ioc exec bl01t-ea-ioc-02
-    caput BL01T-EA-TST-01:DET:Acquire 1
+    caput BL01T-EA-TST-02:DET:Acquire 1
 
 You should see a moving image appear in the ``c2dv`` window. For smoothest
 results you may want to hit ``Auto`` in the ``Image and Zoom`` section of the
@@ -307,7 +307,7 @@ That is because every Generic IOC publishes an *IOC schema* that describes
 the set of entities that an instance of that IOC may instantiate.
 
 The Generic IOC we used was released at this location:
-https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2023.10.6b1.
+https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2023.10.7.
 This page includes the assets that are published as part of the release and
 one of those is ``ibek.ioc.schema.json``. This is the *IOC schema* for the
 ``ioc-adsimdetector`` Generic IOC. This is what we referred to at the top of
@@ -315,7 +315,7 @@ our *IOC yaml* file like this:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.6b1/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.7/ibek.ioc.schema.json
 
 When editing with a YAML aware editor like VSCode this will enable auto
 completion and validation of the *IOC yaml* file. To enable this in VSCode
@@ -342,7 +342,7 @@ Raw Startup Script and Database
 -------------------------------
 
 This section demonstrates how to use your own startup assets. This involves
-placing your own ``st.cmd`` and ``ioc.substitutions`` files in the ``config``
+placing your own ``st.cmd`` and ``ioc.subst`` files in the ``config``
 folder. Or alternatively you could override behaviour completely by placing
 ``start.sh`` in the ``config`` folder, this can contain any script you like.
 
@@ -370,7 +370,7 @@ docker if that is what you are using):
 .. code-block:: bash
 
     podman cp bl01t-ea-ioc-02:/tmp/st.cmd iocs/bl01t-ea-ioc-02/config
-    podman cp bl01t-ea-ioc-02:/tmp/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.substitutions
+    podman cp bl01t-ea-ioc-02:/tmp/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.subst
     # no longer need an ibek ioc yaml file
     rm iocs/bl01t-ea-ioc-02/config/ioc.yaml
     # re-deploy from local filesystem
