@@ -145,6 +145,17 @@ for working on Generic IOCs from *outside* of the container. These commands
 are useful for debugging container builds: although most work is done inside
 the container, you will need these commands if it fails to build.
 
+
+.. note::
+
+   Before continuing this tutorial make sure you have not left the IOC
+   bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+   outside of the devcontainer to stop it:
+
+   .. code-block:: bash
+
+      ec ioc stop bl01t-ea-ioc-02
+
 Once built, open the project in VSCode:
 
 .. code-block:: bash

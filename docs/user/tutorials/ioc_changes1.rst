@@ -6,13 +6,23 @@ This is a type 1 change from `ioc_change_types`, types 2, 3 will be covered in t
 following 2 tutorials.
 
 Strictly speaking, Type 1 changes do not require a devcontainer. You created
-and deployed the IOC instance a previous tutorial without one. It is up to
+and deployed the IOC instance in a previous tutorial without one. It is up to
 you how you choose to make these types of changes. Types 2,3 do require a
 devcontainer because they involve compiling Generic IOC / support module code.
 
 We are going to add a hand crafted EPICS DB file to the IOC instance. This will
 be a simple record that we will be able to query to verify that the change
 is working.
+
+.. note::
+
+   Before doing this tutorial make sure you have not left the IOC
+   bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+   outside of the devcontainer to stop it:
+
+   .. code-block:: bash
+
+      ec ioc stop bl01t-ea-ioc-02
 
 Make the following changes in your test IOC config folder
 (``bl01t/iocs/bl01t-ea-ioc-02/config``):
@@ -21,7 +31,7 @@ Make the following changes in your test IOC config folder
 
    .. code-block:: text
 
-      record(ai, "BL01T-EA-IOC-01:TEST") {
+      record(ai, "BL02T-EA-IOC-01:TEST") {
          field(DESC, "Test record")
          field(DTYP, "Soft Channel")
          field(SCAN, "Passive")
@@ -45,7 +55,7 @@ folder:
 
 .. code-block:: bash
 
-    # stop the first IOC shell by hitting Ctrl-D or typing exit
+    # stop any existing IOC shell by hitting Ctrl-D or typing exit
     cd /epics/ioc
     ./start.sh
 
@@ -57,7 +67,7 @@ from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 .. code-block:: bash
 
-   caget $USER-EA-IOC-01:TEST
+   caget BL02T-EA-IOC-02:TEST
 
 If you see the value 1 then your change is working.
 
@@ -82,7 +92,7 @@ committed and pushed to the bl01t repo. i.e.:
 
 .. code-block:: bash
 
-    # Do this from the host terminal (not the devcontainer terminal)
+    # Do this from a host terminal (not a devcontainer terminal)
     cd bl01t
     git add .
     git commit -m "Added extra.db"
@@ -90,16 +100,20 @@ committed and pushed to the bl01t repo. i.e.:
     # tag a new version of the beamline repo
     git tag 2023.11.2
     git push origin 2023.11.2
+    # deploy the new version of the IOC to the local docker / podman instance
     ec deploy bl01t-ea-ioc-02 2023.11.2
 
-The above steps were performed on a host terminal because we are using ``ec``
-but all of the previous steps could have been done *inside* the devcontainer
-starting with ``cd /repos/bl01t``.
+The above steps were performed on a host terminal because we are using ``ec``.
+However all of the steps except for the ``ec`` command could have been done
+*inside* the devcontainer starting with ``cd /repos/bl01t``.
+
+We choose not to have ``ec`` installed inside of the devcontainer because
+that would involve containers in containers which adds too much complexity.
 
 Raw Startup Assets
 ------------------
 
-If you plan not to use `ibek` runtime asset creation you could use the raw
+If you plan not to use ``ibek`` runtime asset creation you could use the raw
 startup assets from the previous tutorial. If you do this then the process
 above is identical except that you will add the ``dbLoadRecords`` command to
 the end of ``st.cmd``.
@@ -113,5 +127,55 @@ The schema is in turn defined by the set of support modules that were compiled
 into the Generic IOC (ioc-adsimdetector). Each support module has an
 ``ibek`` *support YAML* file that contributes to the schema.
 
-The *Support yaml* files are in the folder ``/epics/ibek``
+The *Support yaml* files are in the folder ``/epics/ibek`` inside of the
+container. They were placed their during the compilation of the support
+modules at Generic IOC build time.
 
+It can be instructive to look at these files to see what entities are available
+to *IOC instances*. For example the global support yaml file
+``/epics/ibek/ibek.yaml`` contains the following:
+
+.. code:: yaml
+
+  - name: StartupCommand
+    description: Adds an arbitrary command in the startup script before iocInit
+    args:
+      - type: str
+        name: command
+        description: command string
+        default: ""
+    pre_init:
+      - type: text
+        value: "{{ command }}"
+
+  - name: PostStartupCommand
+    description: Adds an arbitrary command in the startup script after iocInit
+    args:
+      - type: str
+        name: command
+        description: command string
+        default: ""
+    post_init:
+      - type: text
+        value: "{{ command }}"
+
+These two definitions allow you to add arbitrary commands to the startup script
+before and after iocInit. This is how we added the ``dbLoadRecords`` command.
+
+If you want to specify multiple lines in a command you can use the following
+syntax for multi-line stings:
+
+   .. code-block:: yaml
+
+      - type: epics.StartupCommand
+        command: |
+          # loading extra records
+          dbLoadRecords(config/extra.db)
+          # loading even more records
+          dbLoadRecords(config/extra2.db)
+
+This would place the 4 lines verbatim into the startup script (except that
+they would not be indented - the nesting whitespace is stripped).
+
+In later tutorials we will see where the *Support yaml* files come from and
+how to add your own.
