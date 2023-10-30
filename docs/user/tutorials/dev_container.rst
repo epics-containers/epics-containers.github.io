@@ -85,6 +85,33 @@ simply launch the developer container in a shell and use it via CLI only.
 Starting a Developer Container
 ------------------------------
 
+.. Warning::
+
+  DLS Users and Redhat Users:
+
+  There is a
+  `bug in VSCode devcontainers extension <https://github.com/microsoft/vscode-remote-release/issues/8557>`_
+  at the time of writing
+  that makes it incompatible with podman and an SELinux enabled /tmp directory.
+  This will affect most Redhat users and you will see an error regarding
+  permissions on the /tmp folder when VSCode is building your devcontainer.
+
+  Here is a temporary workaround, paste this into a terminal:
+
+  .. code-block:: bash
+
+    echo '
+    #!/bin/bash
+    if [[  "${@}" == "buildx build"* ]] ; then
+      shift 2
+      /usr/bin/podman buildx build --security-opt=label=disable "${@}"
+    else
+      /usr/bin/podman "${@}"
+    fi
+    ' > $HOME/.local/bin/podman
+    chmod +x $HOME/.local/bin/podman
+
+
 For this section we will work with the ADSimDetector Generic IOC that we
 used in previous tutorials. Let's go and fetch a version of the Generic IOC
 source and build it locally.
@@ -117,6 +144,17 @@ The ``ec dev`` commands are a set of convenience commands
 for working on Generic IOCs from *outside* of the container. These commands
 are useful for debugging container builds: although most work is done inside
 the container, you will need these commands if it fails to build.
+
+
+.. note::
+
+   Before continuing this tutorial make sure you have not left the IOC
+   bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+   outside of the devcontainer to stop it:
+
+   .. code-block:: bash
+
+      ec ioc stop bl01t-ea-ioc-02
 
 Once built, open the project in VSCode:
 

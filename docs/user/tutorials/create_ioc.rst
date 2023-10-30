@@ -188,9 +188,21 @@ detector as follows:
     entities:
 
     - type: ADSimDetector.simDetector
-        PORT: DET.DET
-        P: BL01T-EA-TST-01
-        R: ":DET:"
+      PORT: DET.DET
+      P: BL01T-EA-TST-01
+      R: ":DET:"
+
+.. note::
+
+    If you are unfamiliar with YAML then you could take a look at
+    the YAML spec here: https://yaml.org/spec/1.2/spec.html#id2759963.
+
+    Be aware that white space is significant. i.e. indentation represents
+    nesting. Above we have a list of entities, each list item is denoted by
+    ``-``. There is currently a single entry in the list which is a dictionary
+    of key value pairs. The first key is ``type`` and the value is
+    ``ADSimDetector.simDetector``.
+
 
 This will create us a simulation detector driver with PV prefix
 ``BL01T-EA-TST-01:DET:`` that publishes its output on the Asyn port ``DET.DET``.

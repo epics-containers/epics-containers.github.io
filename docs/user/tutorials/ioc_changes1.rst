@@ -1,41 +1,50 @@
 Changing the IOC Instance
 =========================
 
-
-.. Warning::
-
-    This tutorial is out of date and will be updated in November 2023.
-
-
-This tutorial will make a very simple change to the example IOC ``bl01t-ea-ioc-01``.
-This is a type 1. change from the above list, types 2, 3 will be covered in the
+This tutorial will make a very simple change to the example IOC ``bl01t-ea-ioc-02``.
+This is a type 1 change from `ioc_change_types`, types 2, 3 will be covered in the
 following 2 tutorials.
+
+Strictly speaking, Type 1 changes do not require a devcontainer. You created
+and deployed the IOC instance in a previous tutorial without one. It is up to
+you how you choose to make these types of changes. Types 2,3 do require a
+devcontainer because they involve compiling Generic IOC / support module code.
 
 We are going to add a hand crafted EPICS DB file to the IOC instance. This will
 be a simple record that we will be able to query to verify that the change
 is working.
 
+.. note::
+
+   Before doing this tutorial make sure you have not left the IOC
+   bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+   outside of the devcontainer to stop it:
+
+   .. code-block:: bash
+
+      ec ioc stop bl01t-ea-ioc-02
+
 Make the following changes in your test IOC config folder
-(``bl01t/iocs/bl01t-ea-ioc-01/config``):
+(``bl01t/iocs/bl01t-ea-ioc-02/config``):
 
 1. Add a file called ``extra.db`` with the following contents.
-   IMPORTANT replace [$USER] with your username:
 
    .. code-block:: text
 
-      record(ai, "[$USER]-EA-IOC-01:TEST") {
+      record(ai, "BL02T-EA-IOC-01:TEST") {
          field(DESC, "Test record")
          field(DTYP, "Soft Channel")
          field(SCAN, "Passive")
          field(VAL, "1")
       }
 
-2. Add the following line to the ``st.cmd`` file after the last ``dbLoadRecords``
-   line:
+2. Add the following lines to the end ``ioc.yaml`` (verify that the indentation
+   matches the above entry so that ``- type:`` statements line up):
 
-   .. code-block:: text
+   .. code-block:: yaml
 
-      dbLoadRecords(config/extra.db)
+      - type: epics.StartupCommand
+        command: dbLoadRecords(config/extra.db)
 
 Locally Testing Your changes
 ----------------------------
@@ -46,106 +55,127 @@ folder:
 
 .. code-block:: bash
 
-    ec dev ioc-launch iocs/bl01t-ea-ioc-01
+    # stop any existing IOC shell by hitting Ctrl-D or typing exit
+    cd /epics/ioc
+    ./start.sh
 
-This will launch Generic IOC container specified in the ``bl01t-ea-ioc-01``
-helm chart and mount into it the local config specified in
-``/iocs/bl01t-ea-ioc-01/config``.
+If all is well you should see your iocShell prompt and the output should
+show ``dbLoadRecords(config/extra.db)``.
 
-If all is well you should see your iocShell prompt and you can test your change
+Test your change
 from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 .. code-block:: bash
 
-   caget $USER-EA-IOC-01:TEST
+   caget BL02T-EA-IOC-02:TEST
 
 If you see the value 1 then your change is working.
 
-.. note::
+.. Note::
 
-   If you also wanted to make local changes
-   to the Generic IOC itself you could clone the Generic IOC source repo,
-   locally build the container image and then use ``ec dev ioc-launch`` as
-   follows:
+    You are likely to see
+    *"Identical process variable names on multiple servers"* warnings. This is
+    because caget can see the PV on the host network and the container network,
+    but as these are the same IOC this is not a problem.
 
-   .. code-block:: bash
+    You can change this and make your devcontainer network isolated by removing
+    the line ``"--net=host",`` from ``.devcontainer/devcontainer.json``, but
+    it is convenient to leave it if you want to run OPI tools locally on the
+    host. You may want to isolate your development network if multiple
+    developers are working on the same subnet. In this case some other solution
+    is required for running OPI tools on the host (TODO add link to solution).
 
-      # advanced example - not part of this tutorial
-      cd <root of your workspace>
-      git clone git@github.com:epics-containers/ioc-adsimdetector.git
-      cd ioc-adsimdetector
-      # this makes a local image with tag :local
-      ec dev build
-      cd ../bl01t
-      ec dev ioc-launch iocs/bl01t-ea-ioc-01 ../ioc-adsimdetector
-
-
-Note you can see your running IOC in podman using this command:
+Because of the symlink between ``/epics/ioc/config`` and
+``/repos/bl01t/iocs/bl01t-ea-ioc-02/config`` the same files you are testing
+by launching the ioc inside of the devcontainer are also ready to be
+committed and pushed to the bl01t repo. i.e.:
 
 .. code-block:: bash
 
-    podman ps
+    # Do this from a host terminal (not a devcontainer terminal)
+    cd bl01t
+    git add .
+    git commit -m "Added extra.db"
+    git push
+    # tag a new version of the beamline repo
+    git tag 2023.11.2
+    git push origin 2023.11.2
+    # deploy the new version of the IOC to the local docker / podman instance
+    ec deploy bl01t-ea-ioc-02 2023.11.2
 
-You should see a container named bl01t-ea-ioc-01 and also a another one with a
-random name and an image called ``localhost/vsc-work...``. The latter is the
-container that is running your developer environment.
+The above steps were performed on a host terminal because we are using ``ec``.
+However all of the steps except for the ``ec`` command could have been done
+*inside* the devcontainer starting with ``cd /repos/bl01t``.
 
-If you would like to take a look inside the container you can run a bash shell
-in the container like this:
+We choose not to have ``ec`` installed inside of the devcontainer because
+that would involve containers in containers which adds too much complexity.
 
-.. code-block:: bash
+Raw Startup Assets
+------------------
 
-    podman exec -it bl01t-ea-ioc-01 bash
+If you plan not to use ``ibek`` runtime asset creation you could use the raw
+startup assets from the previous tutorial. If you do this then the process
+above is identical except that you will add the ``dbLoadRecords`` command to
+the end of ``st.cmd``.
 
-When you type exit on the iocShell the container will stop and and be removed.
+More about ibek Runtime Asset Creation
+--------------------------------------
 
-.. _local_deploy_ioc:
+The set of ``entities`` that you may create in your ioc.yaml is defined by the
+``ibek`` IOC schema that we reference at the top of ``ioc.yaml``.
+The schema is in turn defined by the set of support modules that were compiled
+into the Generic IOC (ioc-adsimdetector). Each support module has an
+``ibek`` *support YAML* file that contributes to the schema.
 
-Deploying a Beta IOC Instance to The Cluster
-============================================
+The *Support yaml* files are in the folder ``/epics/ibek`` inside of the
+container. They were placed their during the compilation of the support
+modules at Generic IOC build time.
 
-In ``05_deploy_example`` we deployed a tagged version of the IOC instance to
-the cluster. This the correct way to deploy a production IOC instance as it
-means there is a record of version of the IOC instance in the Helm Chart
-OCI registry and you can always roll back to that version if needed.
+It can be instructive to look at these files to see what entities are available
+to *IOC instances*. For example the global support yaml file
+``/epics/ibek/ibek.yaml`` contains the following:
 
-However, it is also possible to directly deploy a version of the IOC instance
-from your local machine to the cluster.
-This is useful for testing changes to the IOC instance
-before publishing a new version. In this case
-your IOC will be given a beta tag in the cluster, indicating that it has
-not yet been released.
+.. code:: yaml
 
-To deploy your changes direct to the cluster use the following command:
+  - name: StartupCommand
+    description: Adds an arbitrary command in the startup script before iocInit
+    args:
+      - type: str
+        name: command
+        description: command string
+        default: ""
+    pre_init:
+      - type: text
+        value: "{{ command }}"
 
-.. code-block:: bash
+  - name: PostStartupCommand
+    description: Adds an arbitrary command in the startup script after iocInit
+    args:
+      - type: str
+        name: command
+        description: command string
+        default: ""
+    post_init:
+      - type: text
+        value: "{{ command }}"
 
-    ec ioc deploy-local iocs/bl01t-ea-ioc-01
+These two definitions allow you to add arbitrary commands to the startup script
+before and after iocInit. This is how we added the ``dbLoadRecords`` command.
 
-You will get a warning that this is a temporary deployment and you will see that
-the version number will look something like ``2023.3.29-b14.29`` this
-indicates that this is a beta deployment made at 14:29 on 29th March 2023.
+If you want to specify multiple lines in a command you can use the following
+syntax for multi-line stings:
 
-Now when you ask for the IOCs running in your domain you should see your IOC
-with beta version listed:
+   .. code-block:: yaml
 
-.. code-block:: bash
+      - type: epics.StartupCommand
+        command: |
+          # loading extra records
+          dbLoadRecords(config/extra.db)
+          # loading even more records
+          dbLoadRecords(config/extra2.db)
 
-   $ ec ps -w
-   POD                                VERSION            STATE     RESTARTS   STARTED                IP             GENERIC_IOC_IMAGE
-   bl01t-ea-ioc-01-7d7c5bc759-5bjsr   2023.3.29-b14.29   Running   0          2023-03-29T14:29:18Z   192.168.0.32   ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:23.3.4
+This would place the 4 lines verbatim into the startup script (except that
+they would not be indented - the nesting whitespace is stripped).
 
-You can check it is working as before (replace the IP with yours
-from the above command):
-
-.. code-block:: bash
-
-    export EPICS_CA_ADDR_LIST=192.168.0.32
-    caget $USER-EA-IOC-01:TEST
-
-Once you are happy with your changes you can push and tag your beamline repo.
-This will publish a new version of the IOC instance helm chart to the OCI helm
-registry. You can then deploy the versioned IOC instance to the cluster.
-
-
-
+In later tutorials we will see where the *Support yaml* files come from and
+how to add your own.

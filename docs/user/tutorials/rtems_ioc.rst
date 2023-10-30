@@ -257,7 +257,7 @@ To deploy an IOC instance to the cluster you can use one of two approaches:
 
 - use ``ec ioc deploy-local`` to directly deploy the local copy of the IOC
   instance helm chart to kubernetes as a beta version. This was covered for
-  linux IOCs in `local_deploy_ioc`.
+  linux IOCs in --local_deploy_ioc--.
 
 Both types of deployment of IOC instances above work exactly the same for
 linux and RTEMS IOCs. We will do the latter as it is quicker for
