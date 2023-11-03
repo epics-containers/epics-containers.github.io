@@ -230,8 +230,8 @@ Also take this opportunity to add the folder ``/epics`` to the workspace.
 
 You can now easily browse around the ``/epics`` folder and see all the
 support modules and epics-base. This will give you a feel for the layout of
-files in the container. Here is a summary (where WS is the root
-of your host folders):
+files in the container. Here is a summary (where WS is your workspace on your
+host. i.e. the root folder under which your projects are all cloned):
 
 .. _container-layout:
 
