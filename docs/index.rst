@@ -18,16 +18,18 @@ If you are interested in discussing containers for control systems, please:
 - Add a brief description of your project and the status of it's use of containers to:
 
   - https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls
-- Join in the discussion at https://github.com/epics-containers/epics-containers.github.io/discussions
+
+- Join in the discussion at:
+
+  -  https://github.com/epics-containers/epics-containers.github.io/discussions
 
 
 Materials
 =========
 
-The following links are to materials presented at the ICALEPCS 2021 Meeting:
-
-  - :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<user/images/THBL04.PDF>`
-  - :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<user/images/THBL04_talk.PDF>`
+- `Oxfordshire EPICS Meeting Nov 2023 <https://dlsltd-my.sharepoint.com/:p:/g/personal/giles_knap_diamond_ac_uk/Ee7SPC_39blEu4Pilgqul7IBiCi4GM9_cgMzONV2ALHIsw?e=U02gHd>`_
+- :download:`ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs<user/images/THBL04.PDF>`
+- :download:`ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs<user/images/THBL04_talk.PDF>`
 
 
 How the documentation is structured
