@@ -170,7 +170,7 @@ baked into the container:
             # simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)
             simDetectorConfig("{{PORT}}", {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})
 
-You can see that this lists a a number of arguments that it expects. It then
+You can see that this lists a number of arguments that it expects. It then
 declares how these will be used to substitute values into the simDetector
 database template. Finally it declares some lines to go into the startup script
 (before iocInit).
