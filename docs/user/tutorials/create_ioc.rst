@@ -30,6 +30,9 @@ This folder needs to contain these two items:
     can take a number of forms
     `listed here <https://github.com/epics-containers/ibek/blob/ea9da7e1cfe88f2a300ad236f820221837dd9dcf/src/ibek/templates/ioc/config/start.sh>`_.
 
+values.yaml 
+~~~~~~~~~~~~~~~~~~~~~~~
+
 We will start by creating the values.yaml file:
 
 .. code-block:: bash
@@ -80,8 +83,8 @@ To recap, we have two python CLI tools for supporting ``epics-containers``:
 above. So now we will provide some *IOC yaml* files to ``ibek`` so that it
 will generate startup assets for our IOC Instance.
 
-Make an *IOC yaml* File
--------------------------
+config
+~~~~~~~~~~~~~~~~~~~~~~~
 
 *IOC yaml* files are a sequence of ``entities``. Each entity is an instance of
 a ``definition`` declared in the *Support yaml* that one of the support
