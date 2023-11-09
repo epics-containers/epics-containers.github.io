@@ -36,7 +36,7 @@ We will start by creating the values.yaml file:
 
     cd bl01t
     mkdir iocs/bl01t-ea-ioc-02
-    code values.yaml
+    code iocs/bl01t-ea-ioc-02/values.yaml
 
 This should launch vscode and open the values.yaml file. Add the following:
 
