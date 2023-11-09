@@ -178,6 +178,13 @@ database template. Finally it declares some lines to go into the startup script
 Therefore, we can create an *IOC yaml* file that instantiates a simulation
 detector as follows:
 
+.. code-block:: bash
+
+    mkdir iocs/bl01t-ea-ioc-02/config
+    code iocs/bl01t-ea-ioc-02/config/ioc.yaml
+
+This should launch vscode and open the ioc.yaml file. Add the following:
+
 .. code:: yaml
 
     # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.7/ibek.ioc.schema.json
