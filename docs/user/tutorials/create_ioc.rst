@@ -234,7 +234,7 @@ detector over a PVAccess channel called ``BL01T-EA-TST-02:PVA:OUTPUT``. The
 a dependency of ADSimDetector and so is included in the Generic IOC container.
 
 Try putting the two snippets of *IOC yaml* together and saving it as
-``ioc.yaml`` in the ``iocs/bl01t-ea-ioc-02`` folder.
+``ioc.yaml`` in the ``iocs/bl01t-ea-ioc-02/config`` folder.
 
 You have now defined your first IOC instance.
 
