@@ -177,7 +177,7 @@ is mounted into the container as a volume. It is mounted under
 from your local machine and the changes will be visible inside the container and
 outside the container. This is a good thing as you should consider the container
 filesystem to be a temporary filesystem that will be destroyed when the container
-deleted.
+is deleted.
 
 Now that you are *inside* the container you have access to the tools built into
 it, this includes ``ibek``. The first command you should run is:
