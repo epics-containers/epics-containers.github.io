@@ -30,13 +30,16 @@ This folder needs to contain these two items:
     can take a number of forms
     `listed here <https://github.com/epics-containers/ibek/blob/ea9da7e1cfe88f2a300ad236f820221837dd9dcf/src/ibek/templates/ioc/config/start.sh>`_.
 
+values.yaml 
+~~~~~~~~~~~~~~~~~~~~~~~
+
 We will start by creating the values.yaml file:
 
 .. code-block:: bash
 
     cd bl01t
     mkdir iocs/bl01t-ea-ioc-02
-    code values.yaml
+    code iocs/bl01t-ea-ioc-02/values.yaml
 
 This should launch vscode and open the values.yaml file. Add the following:
 
@@ -80,8 +83,8 @@ To recap, we have two python CLI tools for supporting ``epics-containers``:
 above. So now we will provide some *IOC yaml* files to ``ibek`` so that it
 will generate startup assets for our IOC Instance.
 
-Make an *IOC yaml* File
--------------------------
+config
+~~~~~~~~~~~~~~~~~~~~~~~
 
 *IOC yaml* files are a sequence of ``entities``. Each entity is an instance of
 a ``definition`` declared in the *Support yaml* that one of the support
@@ -170,13 +173,20 @@ baked into the container:
             # simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)
             simDetectorConfig("{{PORT}}", {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})
 
-You can see that this lists a a number of arguments that it expects. It then
+You can see that this lists a number of arguments that it expects. It then
 declares how these will be used to substitute values into the simDetector
 database template. Finally it declares some lines to go into the startup script
 (before iocInit).
 
 Therefore, we can create an *IOC yaml* file that instantiates a simulation
 detector as follows:
+
+.. code-block:: bash
+
+    mkdir iocs/bl01t-ea-ioc-02/config
+    code iocs/bl01t-ea-ioc-02/config/ioc.yaml
+
+This should launch vscode and open the ioc.yaml file. Add the following:
 
 .. code:: yaml
 
@@ -227,7 +237,7 @@ detector over a PVAccess channel called ``BL01T-EA-TST-02:PVA:OUTPUT``. The
 a dependency of ADSimDetector and so is included in the Generic IOC container.
 
 Try putting the two snippets of *IOC yaml* together and saving it as
-``ioc.yaml`` in the ``iocs/bl01t-ea-ioc-02`` folder.
+``ioc.yaml`` in the ``iocs/bl01t-ea-ioc-02/config`` folder.
 
 You have now defined your first IOC instance.
 

@@ -79,7 +79,7 @@ Steps
     If you are using an alternative to GitHub for your repositories then
     see `these instructions`_ for an alternative approach.
 
-.. _these instructions: https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project
+    .. _these instructions: https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project
 
 #.  Clone the template repo locally (substituting in your own GitHub Account).
 
