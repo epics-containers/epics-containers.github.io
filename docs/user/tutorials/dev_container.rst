@@ -96,20 +96,12 @@ Starting a Developer Container
   This will affect most Redhat users and you will see an error regarding
   permissions on the /tmp folder when VSCode is building your devcontainer.
 
-  Here is a temporary workaround, paste this into a terminal:
+  Here is a workaround that disables SELinux labels in podman.
+  Paste this into a terminal:
 
   .. code-block:: bash
 
-    echo '
-    #!/bin/bash
-    if [[  "${@}" == "buildx build"* ]] ; then
-      shift 2
-      /usr/bin/podman buildx build --security-opt=label=disable "${@}"
-    else
-      /usr/bin/podman "${@}"
-    fi
-    ' > $HOME/.local/bin/podman
-    chmod +x $HOME/.local/bin/podman
+    sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containers\]$/a label=false'
 
 
 For this section we will work with the ADSimDetector Generic IOC that we
@@ -125,7 +117,7 @@ this tutorial:
 
     # starting from folder bl01t so that the clone is next to bl01t
     cd ..
-    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git -b 2023.10.7
+    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git -b 2023.11.1
     cd ioc-adsimdetector
     ec dev build
 
@@ -228,6 +220,17 @@ clear it.
 
 Also take this opportunity to add the folder ``/epics`` to the workspace.
 
+.. note::
+
+  Docker Users: your account inside the container will not be the owner of
+  /epics files. vscode will try to open the repos in epics-base and support/*
+  and git will complain about ownership. You can cancel out of these errors
+  as you should not edit project folders inside of ``/epics`` - they were
+  built by the container and should be considered immutable. We will learn
+  how to work on support modules in later tuorials. This error should only
+  be seen on first launch. podman users will have no such problem becuase they
+  will be root inside the container and root build the container.
+
 You can now easily browse around the ``/epics`` folder and see all the
 support modules and epics-base. This will give you a feel for the layout of
 files in the container. Here is a summary (where WS is your workspace on your
@@ -282,10 +285,12 @@ Try the following:
 
 .. code::
 
-   cd /epics/ioc-adsimdetector
-   rm -r ioc/config
-   ln -s /repos/bl01t/iocs/bl01t-ea-ioc-02/config ioc
-   ioc/start.sh
+   cd /epics/ioc
+   rm -r config
+   ln -s /repos/bl02t/iocs/bl02t-ea-ioc-02/config .
+   # check the ln worked
+   ls -l config
+   ./start.sh
 
 This removed the boilerplate config and replaced it with the config from
 the IOC instance bl01t-ea-ioc-02. Note that we used a soft link, this

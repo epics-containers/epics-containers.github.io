@@ -30,7 +30,7 @@ This folder needs to contain these two items:
     can take a number of forms
     `listed here <https://github.com/epics-containers/ibek/blob/ea9da7e1cfe88f2a300ad236f820221837dd9dcf/src/ibek/templates/ioc/config/start.sh>`_.
 
-values.yaml 
+values.yaml
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 We will start by creating the values.yaml file:
@@ -45,7 +45,7 @@ This should launch vscode and open the values.yaml file. Add the following:
 
 .. code-block:: yaml
 
-    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.7
+    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.11.1
 
 This tells the IOC Instance to run in the ``ioc-adsimdetector-linux-runtime``
 container. This container was built by the Generic IOC source repo here
@@ -190,7 +190,7 @@ This should launch vscode and open the ioc.yaml file. Add the following:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.7/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.11.1/ibek.ioc.schema.json
 
     ioc_name: bl01t-ea-ioc-02
     description: Example simulated camera for BL01T
@@ -290,6 +290,9 @@ Now we can start our simulation detector like this:
 .. code-block:: bash
 
     ec ioc exec bl01t-ea-ioc-02
+    # enable the PVA plugin that publishes the output
+    caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
+    # start the simulation detector
     caput BL01T-EA-TST-02:DET:Acquire 1
 
 You should see a moving image appear in the ``c2dv`` window. For smoothest
@@ -317,7 +320,7 @@ That is because every Generic IOC publishes an *IOC schema* that describes
 the set of entities that an instance of that IOC may instantiate.
 
 The Generic IOC we used was released at this location:
-https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2023.10.7.
+https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2023.11.1.
 This page includes the assets that are published as part of the release and
 one of those is ``ibek.ioc.schema.json``. This is the *IOC schema* for the
 ``ioc-adsimdetector`` Generic IOC. This is what we referred to at the top of
@@ -325,7 +328,7 @@ our *IOC yaml* file like this:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.10.7/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.11.1/ibek.ioc.schema.json
 
 When editing with a YAML aware editor like VSCode this will enable auto
 completion and validation of the *IOC yaml* file. To enable this in VSCode
@@ -361,16 +364,17 @@ To see what ibek generated you can go and look inside the IOC container:
 .. code:: bash
 
     ec ioc exec bl01t-ea-ioc-02
-    ls /opt/epics/ioc/iocBoot/iocbl01t-ea-ioc-02
-    cat /tmp/ioc.subst
-    cat /tmp/st.cmd
+    cd /epics/runtime/
+    cat ioc.subst
+    cat st.cmd
 
 .. note::
 
         The startup script and database are generated at container run time,
-        by ``ibek``. They are generated in the /tmp folder of the container.
-        This is because this is the only folder that is guaranteed to be
-        writeable due to container security considerations.
+        by ``ibek``. They are generated in the /epics/runtime folder
+        of the container.
+        In Kubernetes this will be a persistent volume so that it can be
+        shared for easy debugging of IOC Instances.
 
 If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
@@ -379,8 +383,8 @@ docker if that is what you are using):
 
 .. code-block:: bash
 
-    podman cp bl01t-ea-ioc-02:/tmp/st.cmd iocs/bl01t-ea-ioc-02/config
-    podman cp bl01t-ea-ioc-02:/tmp/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.subst
+    podman cp bl01t-ea-ioc-02:/epics/runtime/st.cmd iocs/bl01t-ea-ioc-02/config
+    podman cp bl01t-ea-ioc-02:/epics/runtime/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.subst
     # no longer need an ibek ioc yaml file
     rm iocs/bl01t-ea-ioc-02/config/ioc.yaml
     # re-deploy from local filesystem

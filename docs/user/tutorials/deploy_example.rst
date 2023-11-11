@@ -130,6 +130,13 @@ check that the IOC instance version is available as expected:
     Available instance versions for bl01t-ea-ioc-01:
         2023.11.1
 
+.. note::
+
+    The above command is the first one to look at your github repository.
+    This is how it finds out the versions
+    of the IOC instance that are available. If you get an error it may be
+    because you set EC_DOMAIN_REPO incorrectly in environment.sh. Check it
+    and source it again to pick up any changes.
 
 Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
