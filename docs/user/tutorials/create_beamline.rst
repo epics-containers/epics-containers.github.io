@@ -131,7 +131,7 @@ where indicated):
 - SECTION 1:
 
   - ``export EC_REGISTRY_MAPPING='github.com=ghcr.io'``
-  - ``export EC_K8S_NAMESPACE=``
+  - ``export EC_K8S_NAMESPACE=local``
   - ``export EC_DOMAIN_REPO=git@github.com:**YOUR GITHUB ACCOUNT**/bl01t``
 
 - SECTION 2:

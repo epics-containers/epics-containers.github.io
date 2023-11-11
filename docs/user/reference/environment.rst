@@ -38,11 +38,11 @@ Required Variables
 
     You can have multiple mappings if needed by separating them with a space.
 
--   **EC_NAMESPACE**: defines the namespace in a Kubernetes Cluster that your IOC
+-   **EC_K8S_NAMESPACE**: defines the namespace in a Kubernetes Cluster that your IOC
     Instances will be deployed to. When you come to set up a cluster you will
     need to create a namespace for your domain. This is the name you should
     use here. If you are not using Kubernetes then you can leave this as
-    ``EC_NAMESPACE=`` and this will deploy IOC Instances to the local server's
+    ``EC_K8S_NAMESPACE=local`` and this will deploy IOC Instances to the local server's
     docker or podman instance.
 
 -   **EC_DOMAIN_REPO**: this is a link back to the repository that defines this

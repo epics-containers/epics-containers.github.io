@@ -19,10 +19,6 @@
             "upgradePackages": false
         }
     },
-    // Set *default* container specific settings.json values on container create.
-    "settings": {
-        "python.defaultInterpreterPath": "/venv/bin/python"
-    },
     "customizations": {
         "vscode": {
             // Add the IDs of extensions you want installed when the container is created.
