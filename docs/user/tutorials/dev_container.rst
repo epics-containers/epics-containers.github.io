@@ -210,7 +210,10 @@ Adding the Beamline to the Workspace
 ------------------------------------
 
 To meaningfully test the Generic IOC we will need an instance to test it
-against. We will use the ``bl01t`` beamline that you already made.
+against. We will use the ``bl01t`` beamline that you already made. The container 
+has been configured to mount some useful local files from the user's home directory,
+including the parent folder of the workspace as ``/repos`` so we can work on 
+multiple peer projects. 
 
 In VSCode click the ``File`` menu and select ``Add Folder to Workspace``.
 Navigate to ``/repos`` and you will see all the peers of your ``ioc-adsimdetector``
