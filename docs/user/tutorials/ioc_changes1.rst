@@ -101,7 +101,7 @@ committed and pushed to the bl01t repo. i.e.:
     git tag 2023.11.2
     git push origin 2023.11.2
     # deploy the new version of the IOC to the local docker / podman instance
-    ec deploy bl01t-ea-ioc-02 2023.11.2
+    ec ioc deploy bl01t-ea-ioc-02 2023.11.2
 
 The above steps were performed on a host terminal because we are using ``ec``.
 However all of the steps except for the ``ec`` command could have been done
