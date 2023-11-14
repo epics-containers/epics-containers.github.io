@@ -1,7 +1,7 @@
-Setup a Developer Workstation
-=============================
+Set up a Developer Workstation
+==============================
 
-This page will guide you through the steps to setup a developer workstation
+This page will guide you through the steps to set up a developer workstation
 in readiness for the remaining tutorials.
 The tools you need to install are:
 
@@ -45,14 +45,14 @@ Setup VSCode
 
 .. Note::
 
-    **DLS Users**:  You can access VSCode with ``module load vscode``.
+    **DLS Users**: You can access VSCode with ``module load vscode``.
 
 First download and install Visual Studio Code.
 
 - `Download Visual Studio Code`_
 - `Setup Visual Studio Code`_
 
-VSCode has an huge library of extensions. The following list of extensions are
+VSCode has a huge library of extensions. The following list of extensions are
 useful for working with epics-containers. You will need to install the *Required*
 extensions before proceeding to the next tutorial. See the links for instructions
 on how to do this.
@@ -82,7 +82,7 @@ Setup Docker or Podman
     **DLS Users**: RHEL 8 Workstations at DLS have podman 4.4.1 installed by default.
     RHEL 7 Workstations are not supported.
 
-Next install docker or podman as the your container platform. epics-containers
+Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 on RedHat 8, and Docker 24.0.5 on
 for Ubuntu 22.04.
 
@@ -135,7 +135,7 @@ but you can choose any folder.
     python -m pip install --upgrade pip
 
 Note that each time you open a new shell you will need to activate the virtual
-environment again. (Or place it's bin folder in your path permanently).
+environment again. (Or place its bin folder in your path permanently).
 
 
 .. _ec:

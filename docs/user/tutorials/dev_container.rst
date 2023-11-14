@@ -188,7 +188,7 @@ See ``/epics/ioc-adsimdetector/ioc/iocApp/src/Makefile``
 
 You will note that the ``ioc`` folder is greyed out in the VSCode explorer. This
 is because it is in ``.gitignore`` and it is purely generated code. If you
-particularly needed to customize the contents of the ioc source tree then
+particularly needed to customize the contents of the IOC source tree then
 you can remove it from ``.gitignore`` and commit your changes to the repo. These
 changes would then always get loaded for every instance of the Generic IOC.
 
@@ -217,7 +217,7 @@ multiple peer projects.
 
 In VSCode click the ``File`` menu and select ``Add Folder to Workspace``.
 Navigate to ``/repos`` and you will see all the peers of your ``ioc-adsimdetector``
-folder (see `container-layout` below) . Choose the ``bl01t`` folder and add it to the
+folder (see `container-layout` below). Choose the ``bl01t`` folder and add it to the
 workspace - you may see an error but if so clicking "reload window" will
 clear it.
 
@@ -230,8 +230,8 @@ Also take this opportunity to add the folder ``/epics`` to the workspace.
   and git will complain about ownership. You can cancel out of these errors
   as you should not edit project folders inside of ``/epics`` - they were
   built by the container and should be considered immutable. We will learn
-  how to work on support modules in later tuorials. This error should only
-  be seen on first launch. podman users will have no such problem becuase they
+  how to work on support modules in later tutorials. This error should only
+  be seen on first launch. podman users will have no such problem because they
   will be root inside the container and root build the container.
 
 You can now easily browse around the ``/epics`` folder and see all the

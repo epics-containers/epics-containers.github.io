@@ -58,7 +58,7 @@ Optional Variables
 - **EC_LOG_URL**: if you have a centralized logging service with a web UI then
   you can set this variable to the URL of the web UI. This will then be
   displayed when the command ``ec ioc log-history <ioc-name>`` is run. The
-  ioc name is added to the URL using ``{ioc-name}`` as a placeholder e.g.
+  IOC name is added to the URL using ``{ioc-name}`` as a placeholder e.g.
 
   - ``EC_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&fields``
     ``=message%2Csource&width=1489&highlightMessage=&relative=172800&q=pod_name%3A``

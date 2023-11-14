@@ -60,7 +60,7 @@ You will also need to setup ssh keys to authenticate to github from git. See
 Create a New Repository
 -----------------------
 
-Here we will copy the beamline template repository and change it's name to bl01t.
+Here we will copy the beamline template repository and change its name to bl01t.
 We will then step through the changes that are required to make it your own.
 
 NOTE: for these tutorials we will use your personal GitHub Account to
@@ -104,7 +104,7 @@ Steps
 
     #. edit ``environment.sh``
 
-    #. change the name of the example ioc from ``iocs/blxxi-ea-ioc-01`` to
+    #. change the name of the example IOC from ``iocs/blxxi-ea-ioc-01`` to
        ``iocs/bl01t-ea-ioc-01``
 
     #. change the beamline name in the two bash scripts in the ``services``
@@ -118,7 +118,7 @@ Environment.sh
 ~~~~~~~~~~~~~~
 
 Environment.sh is a bash script that is sourced by a beamline user or developer
-in order to setup their environment to work with the beamline.
+in order to set up their environment to work with the beamline.
 
 The command line tool ``ec`` uses the environment configured by this script
 to determine where to deploy IOCS and where to find container images etc.
