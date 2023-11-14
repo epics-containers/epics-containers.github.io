@@ -290,7 +290,7 @@ Try the following:
 
    cd /epics/ioc
    rm -r config
-   ln -s /repos/bl02t/iocs/bl02t-ea-ioc-02/config .
+   ln -s /repos/bl01t/iocs/bl01t-ea-ioc-02/config .
    # check the ln worked
    ls -l config
    ./start.sh
