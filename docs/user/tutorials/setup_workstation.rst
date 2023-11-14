@@ -1,5 +1,5 @@
 Set up a Developer Workstation
-=============================
+==============================
 
 This page will guide you through the steps to set up a developer workstation
 in readiness for the remaining tutorials.
