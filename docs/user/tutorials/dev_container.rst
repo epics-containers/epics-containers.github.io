@@ -265,11 +265,11 @@ host. i.e. the root folder under which your projects are all cloned):
      - WS/ioc-adsimdetector/ioc
      - soft link to IOC source tree
 
-   * - /epics/ibek
+   * - /epics/ibek-defs
      - N/A
      - All ibek *Support yaml* files
 
-   * - /epics/pvi
+   * - /epics/pvi-defs
      - N/A
      - all PVI definitions from support modules
 
