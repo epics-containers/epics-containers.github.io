@@ -31,7 +31,7 @@ Make the following changes in your test IOC config folder
 
    .. code-block:: text
 
-      record(ai, "BL02T-EA-IOC-01:TEST") {
+      record(ai, "BL01T-EA-IOC-02:TEST") {
          field(DESC, "Test record")
          field(DTYP, "Soft Channel")
          field(SCAN, "Passive")
@@ -67,7 +67,7 @@ from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 .. code-block:: bash
 
-   caget BL02T-EA-IOC-02:TEST
+   caget BL01T-EA-IOC-02:TEST
 
 If you see the value 1 then your change is working.
 
