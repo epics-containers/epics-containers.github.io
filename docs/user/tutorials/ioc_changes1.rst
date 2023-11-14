@@ -127,13 +127,13 @@ The schema is in turn defined by the set of support modules that were compiled
 into the Generic IOC (ioc-adsimdetector). Each support module has an
 ``ibek`` *support YAML* file that contributes to the schema.
 
-The *Support yaml* files are in the folder ``/epics/ibek`` inside of the
+The *Support yaml* files are in the folder ``/epics/ibek-defs`` inside of the
 container. They were placed there during the compilation of the support
 modules at Generic IOC build time.
 
 It can be instructive to look at these files to see what entities are available
 to *IOC instances*. For example the global support yaml file
-``/epics/ibek/epics.ibek.support.yaml`` contains the following:
+``/epics/ibek-defs/epics.ibek.support.yaml`` contains the following:
 
 .. code:: yaml
 
