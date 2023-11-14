@@ -6,7 +6,7 @@ Debugging Generic IOC Builds
     This tutorial is out of date and will be updated soon.
 
 This tutorial is a continuation of `generic_ioc`. Here we will look into
-debugging failed builds and fix the issue we saw in the  previous tutorial.
+debugging failed builds and fix the issue we saw in the previous tutorial.
 
 This also comes under the category of type 2. change from the list
 at `ioc_change_types`.

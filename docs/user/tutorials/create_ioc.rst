@@ -277,7 +277,7 @@ Viewing IOC output
 ~~~~~~~~~~~~~~~~~~
 
 Our detector output is available over PVAccess since we added the PVA plugin.
-We can view it using the ``c2dv`` tool. Theses commands will install ``c2dv``
+We can view it using the ``c2dv`` tool. These commands will install ``c2dv``
 and launch it to view the IOC output:
 
 .. code-block:: bash
@@ -392,7 +392,7 @@ docker if that is what you are using):
 
 Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
-changes in the  startup script and substitution file and re-deploy the IOC.
+changes in the startup script and substitution file and re-deploy the IOC.
 
 .. note::
 

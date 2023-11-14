@@ -128,7 +128,7 @@ into the Generic IOC (ioc-adsimdetector). Each support module has an
 ``ibek`` *support YAML* file that contributes to the schema.
 
 The *Support yaml* files are in the folder ``/epics/ibek`` inside of the
-container. They were placed their during the compilation of the support
+container. They were placed there during the compilation of the support
 modules at Generic IOC build time.
 
 It can be instructive to look at these files to see what entities are available

@@ -69,7 +69,7 @@ where indicated):
     source bl01t
 
 Once you have done this and logged out and back in again to pick up your new
-profile you should be able enable the ``bl01t`` environment as follows:
+profile you should be able to enable the ``bl01t`` environment as follows:
 
 .. code-block:: bash
 
@@ -97,7 +97,7 @@ IOC Instance.
 
 The following command will deploy the example IOC instance to your local
 machine (unless you have skipped ahead and set up your Kubernetes config
-in which case the same command  will deploy to your Kubernetes cluster).
+in which case the same command will deploy to your Kubernetes cluster).
 
 .. code-block:: bash
 
@@ -158,7 +158,7 @@ Managing the Example IOC Instance
 Starting and Stopping IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To stop / start  the example IOC try the following commands. Note that
+To stop / start the example IOC try the following commands. Note that
 ``ec ps -a`` shows you all IOCs including stopped ones.
 
 .. code-block:: bash

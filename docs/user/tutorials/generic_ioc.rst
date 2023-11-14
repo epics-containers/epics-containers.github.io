@@ -11,7 +11,7 @@ test our changes locally before deploying it.
 This is a type 2. change from the list at `ioc_change_types`.
 
 The example IOC used ADSimDetector, we will make a similar IOC that uses
-ADUrl to get images from a web cam.
+ADUrl to get images from a webcam.
 
 Create a New Generic IOC project
 --------------------------------
@@ -49,7 +49,7 @@ using an ``ec`` command.
     From the VSCode menus: File->Add Folder to Workspace
     then select the folder ioc-adurl
 
-#.  Push the repo back to a the new repo on github
+#.  Push the repo back to a new repo on github
 
     .. code-block:: bash
 
