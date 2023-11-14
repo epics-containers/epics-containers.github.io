@@ -12,7 +12,7 @@ engineering screens. TODO: more details will be added to a new section.
 Why have ioc-XXX repositories?
 ------------------------------
 Why not put the Dockerfile and image generating in the support module itself
-instead of creating a separate Generic ioc module for each image we
+instead of creating a separate Generic IOC module for each image we
 generate?
 
 Answers:

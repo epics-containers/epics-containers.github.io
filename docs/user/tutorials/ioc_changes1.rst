@@ -87,7 +87,7 @@ If you see the value 1 then your change is working.
 
 Because of the symlink between ``/epics/ioc/config`` and
 ``/repos/bl01t/iocs/bl01t-ea-ioc-02/config`` the same files you are testing
-by launching the ioc inside of the devcontainer are also ready to be
+by launching the IOC inside of the devcontainer are also ready to be
 committed and pushed to the bl01t repo. i.e.:
 
 .. code-block:: bash

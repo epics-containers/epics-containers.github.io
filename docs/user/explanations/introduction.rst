@@ -102,7 +102,7 @@ implementing these features:
 - View the current log
 - View historical logs (via graylog or other centralized logging system)
 - Connect to an IOC and interact with its shell
-- debug an ioc by starting a bash shell inside it's container
+- debug an IOC by starting a bash shell inside it's container
 
 
 Kubernetes Alternative
@@ -243,7 +243,7 @@ There are these types of CI:
       or other OCI registry
 
 :beamline definition source:
-    - prepares a helm chart from each ioc instance definition
+    - prepares a helm chart from each IOC instance definition
     - tests that the helm chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
       verify that the configuration is valid (no system tests because this

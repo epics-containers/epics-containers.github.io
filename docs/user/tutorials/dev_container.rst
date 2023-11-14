@@ -188,7 +188,7 @@ See ``/epics/ioc-adsimdetector/ioc/iocApp/src/Makefile``
 
 You will note that the ``ioc`` folder is greyed out in the VSCode explorer. This
 is because it is in ``.gitignore`` and it is purely generated code. If you
-particularly needed to customize the contents of the ioc source tree then
+particularly needed to customize the contents of the IOC source tree then
 you can remove it from ``.gitignore`` and commit your changes to the repo. These
 changes would then always get loaded for every instance of the Generic IOC.
 

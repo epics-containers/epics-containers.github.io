@@ -104,7 +104,7 @@ Steps
 
     #. edit ``environment.sh``
 
-    #. change the name of the example ioc from ``iocs/blxxi-ea-ioc-01`` to
+    #. change the name of the example IOC from ``iocs/blxxi-ea-ioc-01`` to
        ``iocs/bl01t-ea-ioc-01``
 
     #. change the beamline name in the two bash scripts in the ``services``

@@ -183,7 +183,7 @@ To stop / start  the example IOC try the following commands. Note that
 Monitoring and interacting with an IOC shell
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To attach to the ioc shell you can use the following command. HOWEVER, this
+To attach to the IOC shell you can use the following command. HOWEVER, this
 will attach you to nothing in the case of this example IOC as it has no
 shell. In the next tutorial we will use this command to interact with
 iocShell.
