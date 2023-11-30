@@ -1,4 +1,4 @@
-2. Use Python for scripting inside and outside containers
+5. Use Python for scripting inside and outside containers
 =========================================================
 
 Date: 2022-11-30
@@ -24,7 +24,7 @@ python for the following reasons:
 - python provides for much richer command line arguments
 - it is also much easier to provide rich help
 - managing errors is vastly improved with exception handling
-- the unit testing framework allows for 85% coverage in continuous integration
+- the unit testing framework allows good test coverage in continuous integration
 - complex string handling is a common requirement and is much easier in python
 - there is a clear versioning strategy and packages can be installed with pip,
   meaning that you can check which version of the script you are running and
