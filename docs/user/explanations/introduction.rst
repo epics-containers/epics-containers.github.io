@@ -46,7 +46,7 @@ An important principal of the approach presented here is that an IOC container
 image represents a 'Generic' IOC. The Generic IOC image is used for all
 IOC instances that connect to a given class of device. For example the
 Generic IOC image here:
-`ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.1
+`ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.2
 <https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime>`_
 uses the AreaDetector driver ADAravis to connect to GigE cameras.
 

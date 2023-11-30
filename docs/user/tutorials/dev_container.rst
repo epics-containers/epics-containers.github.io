@@ -109,15 +109,13 @@ used in previous tutorials. Let's go and fetch a version of the Generic IOC
 source and build it locally.
 
 For the purposes of this tutorial we will place the source in a folder right
-next to your test beamline ``bl01t`` folder. We will also be getting a
-specific version of the Generic IOC source so that future changes don't break
-this tutorial:
+next to your test beamline ``bl01t``:
 
 .. code-block:: bash
 
     # starting from folder bl01t so that the clone is next to bl01t
     cd ..
-    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git -b 2023.11.1
+    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git
     cd ioc-adsimdetector
     ec dev build
 
@@ -161,6 +159,17 @@ the green icon in the bottom left of the VSCode window and select
 You should now be *inside* the container. All terminals started in VSCode will
 be inside the container. Every file that you open with the VSCode editor
 will be inside the container.
+
+.. note::
+
+  Troubleshooting: if you are experiencing problems with the devcontainer you
+  can try resetting your vscode and vscode server caches on your host machine.
+  To do this, exit vscode use the following command and restart vscode:
+
+  .. code-block:: bash
+
+    rm -rf ~/.vscode/* ~/.vscode-server/*
+
 
 There are some caveats because some folders are mounted from the host file
 system. For example, the ``ioc-adsimdetector`` project folder
