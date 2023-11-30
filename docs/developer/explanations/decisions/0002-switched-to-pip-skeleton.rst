@@ -1,5 +1,5 @@
-2. Adopt epics-containers.github.io for project structure
-=========================================================
+2. Adopt python3-pip-skeleton for project structure
+===================================================
 
 Date: 2022-02-18
 
@@ -11,7 +11,7 @@ Accepted
 Context
 -------
 
-We should use the following `pip-skeleton <https://github.com/epics-containers/epics-containers.github.io>`_.
+We should use the following `pip-skeleton <https://github.com/DiamondLightSource/python3-pip-skeleton>`_.
 The skeleton will ensure consistency in developer
 environments and package management.
 
