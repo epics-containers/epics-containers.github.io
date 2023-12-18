@@ -103,6 +103,8 @@ Starting a Developer Container
 
     sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containers\]$/a label=false'
 
+Preparation
+~~~~~~~~~~~
 
 For this section we will work with the ADSimDetector Generic IOC that we
 used in previous tutorials. Let's go and fetch a version of the Generic IOC
@@ -146,6 +148,31 @@ the container, you will need these commands if it fails to build.
 
       ec ioc stop bl01t-ea-ioc-02
 
+Launching the Developer Container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the this section we are going to use vscode to launch a developer container.
+This means that all vscode terminals and editors will be running inside a container
+and accessing the container filesystem. This is a very convenient way to work
+because it makes it possible to archive away the development environment
+along side the source code. It also means that you can easily share the
+development environment with other developers.
+
+For epics-containers the generic IOC >>>is<<< the developer container. When
+you build the developer target of the container in CI it will contain all the
+build tools and dependencies needed to build the IOC. It will also contain
+the IOC source code and the support module source code. For this reason
+we can also use the same developer target image to make the developer
+container itself. We then have an environment that encompasses all the
+source you could want to change inside of a Generic IOC, and the
+tools to build and test it.
+
+It is also important to understand that although your vscode session is
+entirely inside the container, some of your host folders have been mounted
+into the container. This is done so that your important changes to source
+code would not be lost if the container were rebuilt. See `container-layout`_
+for details of which host folders are mounted into the container.
+
 Once built, open the project in VSCode:
 
 .. code-block:: bash
@@ -160,6 +187,19 @@ You should now be *inside* the container. All terminals started in VSCode will
 be inside the container. Every file that you open with the VSCode editor
 will be inside the container.
 
+
+There are some caveats because some folders are mounted from the host file
+system. For example, the ``ioc-adsimdetector`` project folder
+is mounted into the container as a volume. It is mounted under
+``/epics/ioc-adsimdetector``. This means that you can edit the source code
+from your local machine and the changes will be visible inside the container and
+outside the container. This is a good thing as you should consider the container
+filesystem to be a temporary filesystem that will be destroyed when the container
+is rebuilt or deleted.
+
+Preparing the IOC for Testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. note::
 
   Troubleshooting: if you are experiencing problems with the devcontainer you
@@ -169,16 +209,6 @@ will be inside the container.
   .. code-block:: bash
 
     rm -rf ~/.vscode/* ~/.vscode-server/*
-
-
-There are some caveats because some folders are mounted from the host file
-system. For example, the ``ioc-adsimdetector`` project folder
-is mounted into the container as a volume. It is mounted under
-``/epics/ioc-adsimdetector``. This means that you can edit the source code
-from your local machine and the changes will be visible inside the container and
-outside the container. This is a good thing as you should consider the container
-filesystem to be a temporary filesystem that will be destroyed when the container
-is deleted.
 
 Now that you are *inside* the container you have access to the tools built into
 it, this includes ``ibek``. The first command you should run is:
