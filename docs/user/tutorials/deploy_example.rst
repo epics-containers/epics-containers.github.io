@@ -23,7 +23,7 @@ your GitHub account name where indicated):
 
 .. code::
 
-    git@github.com:**YOUR GITHUB ACCOUNT**/bl01t/actions
+    https://github.com:**YOUR GITHUB ACCOUNT**/bl01t/actions
 
 You should see something like the following:
 
