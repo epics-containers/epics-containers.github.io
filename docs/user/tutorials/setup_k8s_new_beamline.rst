@@ -125,7 +125,7 @@ on a node unless the pod has a matching toleration.
 For example the test beamline p46 at DLS has the following ``taints`` and
 ``labels``:
 
-.. code block::
+.. code-block::
 
     Labels:         beamline=bl46p
                     nodetype=test-rig
@@ -165,12 +165,12 @@ but here we will configure it to use the beamline cluster.
 For the detail of what goes into ``environment.sh`` see
 `../reference/environment`.
 
-edit ``environment.sh`` make changes as follows:
+Now edit ``environment.sh`` make changes as follows:
 
 Section 1
 ~~~~~~~~~
 
-to set the following variables:
+Change this section to set the following variables:
 
 .. code-block:: bash
 
@@ -192,6 +192,9 @@ useful to set up command line completion up. The simplest way to do this is:
 
     set -e # exit on error
     source <(ec --show-completion ${SHELL})
+
+For a review of how to set up the epics-containers-cli tool ``ec`` see
+`python_setup` and `ec`.
 
 Section 3
 ~~~~~~~~~
@@ -225,8 +228,9 @@ will be asked for your credentials if required.
 Setting up the Beamline Helm Chart Defaults
 -------------------------------------------
 
-The beamline helm chart is used to deploy IOCs to the cluster. Each IOC
-gets to override any of the settings available in the chart. However, all
+The beamline helm chart is used to deploy IOCs to the cluster. Each IOC instance
+gets to override any of the settings available in the chart. This is done
+in ``iocs/<iocname>/values.yaml`` for each IOC instance. However, all
 settings except ``image`` have default values supplied at the beamline level.
 For this reason most IOC instances only need supply the ``image`` setting
 which specifies the Generic IOC container image to use.
@@ -286,6 +290,25 @@ DLS real beamlines
     pvc: true
     # point at the shared filesystem data folder for the beamline
     hostPath: /dls/p46/data
+
+Set Up The One Time Only Beamline Resources
+-------------------------------------------
+
+There are two scripts in the ``services`` directory that set up some initial
+resources. You should run each of these in order:
+
+- ``services/install-pvcs.sh``: this sets up some persistent volume claims for
+   the beamline. PVCS are Kubernetes managed chunks of storage that can be
+   shared between pods if required. The 3 PVCS created here relate to the
+   ``Claim`` entries in the ``beamline-chart/values.yaml`` file. These are
+   places to store:
+   - autosave files
+   - runtime generated startup scripts and EPICS database files
+   - OPI screens (usually auto generated)
+- ``services/install-opi.sh``: this sets up an nginx web server for the
+   beamline. It serves the OPI screens from the ``opisClaim`` PVC. Each IOC
+   instance will place its OPI screens in a subdirectory of this PVC.
+   OPI clients like phoebus can then retrieve these files via HTTP.
 
 Create a Test IOC to Deploy
 ---------------------------
