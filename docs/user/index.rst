@@ -22,11 +22,13 @@ side-bar.
             tutorials/ioc_changes1
             tutorials/ioc_changes2
             tutorials/ioc_changes3
+            tutorials/ioc_changes4
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
             tutorials/support_module
             tutorials/setup_k8s
+            tutorials/setup_k8s_new_beamline
             tutorials/rtems_setup
             tutorials/rtems_ioc
             tutorials/ibek
@@ -61,6 +63,7 @@ side-bar.
             explanations/kubernetes_cluster
             explanations/docs-structure
             explanations/repositories
+            explanations/ioc-source
 
         +++
 

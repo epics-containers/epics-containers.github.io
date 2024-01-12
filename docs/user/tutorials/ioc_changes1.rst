@@ -110,6 +110,11 @@ However all of the steps except for the ``ec`` command could have been done
 We choose not to have ``ec`` installed inside of the devcontainer because
 that would involve containers in containers which adds too much complexity.
 
+If you like working entirely from the vscode window you can open a terminal
+in vscode *outside* of the devcontainer. To do so, press ``Ctrl-Shift-P`` and
+choose the commnd ``Terminal: Create New Integrated Terminal (Local)``.
+This will open a terminal to the host. You can then run ``ec`` from there.
+
 Raw Startup Assets
 ------------------
 

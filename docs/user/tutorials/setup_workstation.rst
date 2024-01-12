@@ -187,7 +187,11 @@ will deploy containers to the local workstation's docker or podman instance.
 However, everything in these tutorials would also work with Kubernetes. If you
 are particularly interested in Kubernetes then you can jump to
 `setup_kubernetes` and follow the instructions there. Then come back to this
-point and continue with the tutorials.
+point and continue with the tutorials. If you do this just be aware that
+we use the beamline name ``bl01t`` for local deployment examples and
+``bl46p`` for Kubernetes examples so you will need to substitute the
+appropriate beamline name for your environment. All the local deployment
+examples should also deploy to a Kubernetes cluster.
 
 If you are planning not to use Kubernetes at all then now might be
 a good time to install an alternative container management platform such
