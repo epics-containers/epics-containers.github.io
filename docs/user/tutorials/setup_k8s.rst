@@ -4,11 +4,10 @@
 Setup a Kubernetes Server
 =========================
 
-
 .. Note::
 
-    **DLS Users**: DLS already has the test cluster Pollux which includes
-    the test beamline p46 and the training beamlines p46 through to p49.
+    **DLS Users**: DLS already has the test cluster ``Pollux`` which includes
+    the test beamline p45 and the training beamlines p46 through to p49.
 
     We have also started to roll out production clusters for some of our
     beamlines. To date we have clusters for p38, i20, i22 and c01.
@@ -125,8 +124,8 @@ uses a namespace for each beamline or accelerator domain.
 A context is a combination of a cluster, namespace, and user. It tells kubectl
 which cluster and namespace to use when communicating with the Kubernetes API.
 
-Here we will create a namespace for our first test beamline bl45p. We are
-using this name because it is the name of the first ever Kubernetes beamline
+Here we will create a namespace for our first test beamline bl46p. We are
+using this name because it is the name of the first test Kubernetes beamline
 at DLS. This just means I can use some of the following tutorials for both
 DLS and non-DLS users.
 
@@ -134,9 +133,9 @@ From the workstation INSIDE the devcontainer execute the following:
 
 .. code-block:: bash
 
-    kubectl create namespace bl45p
-    kubectl config set-context bl45p --namespace=bl45p --user=default --cluster=default
-    kubectl config use-context bl45p
+    kubectl create namespace bl46p
+    kubectl config set-context bl46p --namespace=bl46p --user=default --cluster=default
+    kubectl config use-context bl46p
 
 Create a service account to run the IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,7 +151,7 @@ Create the account:
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-        name: bl45p-priv
+        name: bl46p-priv
     EOF
 
 Generate a login token for the account:
@@ -163,9 +162,9 @@ Generate a login token for the account:
     apiVersion: v1
     kind: Secret
     metadata:
-        name: bl45p-priv-secret
+        name: bl46p-priv-secret
         annotations:
-            kubernetes.io/service-account.name: bl45p-priv
+            kubernetes.io/service-account.name: bl46p-priv
     type: kubernetes.io/service-account-token
     EOF
 
