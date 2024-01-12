@@ -314,3 +314,13 @@ Create a Test IOC to Deploy
 ---------------------------
 
 TODO: WIP (but this looks just like it did in the first IOC deployment tutorial)
+
+.. note::
+
+    At DLS you can get to a Kubernetes Dashboard for your beamline via
+    a landing page ``https://pollux.diamond.ac.uk`` for test beamlines on
+    ``Pollux`` - remember to select the namespace ``p46-iocs`` for example.
+
+    For real beamlines dedicated clusters, you can find the landing page for example:
+    ``https://k8s-i22.diamond.ac.uk/`` for BL22I.
+    ``https://k8s-b01-1.diamond.ac.uk/`` for the 2nd branch of BL01B.
