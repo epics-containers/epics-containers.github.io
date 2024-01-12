@@ -1,11 +1,16 @@
 Changing a Generic IOC Part 1
 =============================
 
+.. warning ::
+
+    This tutorial is a work in progress. It is not yet complete.
+
 This is a type 2 change from `ioc_change_types`.
 
 The changes that you can make in an IOC instance are limited to what
-the author of a generic IOC has made configurable. Therefore you will
-occasionally need to update the generic IOC that your instance is using.
+the author of the associated Generic IOC has made configurable.
+Therefore you will
+occasionally need to update the Generic IOC that your instance is using.
 Some of the reasons for doing this are:
 
 - Update one or more support modules to new versions
@@ -97,6 +102,11 @@ following command will select the example IOC instance:
 .. code-block:: console
 
     ibek dev instance /epics/ioc-adsample/ioc_examples/bl01t-ea-ioc-02
+
+In an earlier tutorial when learning about the dev container, we manually
+performed this step, see `choose-ioc-instance`. The above command does
+exactly the same thing: removes the existing config folder in ``/epics/ioc``
+and symlinks in the chosen IOC instance definition's ``config`` folder.
 
 Now  run the IOC:
 
