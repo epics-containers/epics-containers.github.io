@@ -4,30 +4,18 @@
 Setup a Kubernetes Server
 =========================
 
-.. Warning::
-
-    This information is out of date. It will be updated soon.
 
 .. Note::
 
-    **DLS Users**: DLS already has the test cluster Pollux and further
-    beamline and machine clusters are coming soon.
+    **DLS Users**: DLS already has the test cluster Pollux which includes
+    the test beamline p46 and the training beamlines p46 through to p49.
 
-    To use the Pollux cluster, run ``module load pollux`` outside of the
-    devcontainer and then run the script ``.devcontainer/dls-copy-k8s-crt.sh``
+    We have also started to roll out production clusters for some of our
+    beamlines. To date we have clusters for p38, i20, i22 and c01.
 
-    The Pollux Cluster already has a beamline namespace ``bl01t``
-    for you to use as a training area. *You will need
-    to ask SciComp to add you as a user of this namespace.*
-    Please be aware that this is a shared resource so others might be using
-    it at the same time.
-
-    The Pollux Cluster already has the Kubernetes dashboard installed.
-    To access it go to http://pollux.diamond.ac.uk and click
-    ``Pollux K8S Dashboard``.
-
-    Then select ``bl01t`` from the namespace drop down menu in the top left,
-    to see the training namespace.
+    For this reason DLS users should skip this tutorial unless you have a
+    spare linux machine with root access and an interest in how Clusters
+    are created.
 
 Introduction
 ------------
@@ -39,7 +27,7 @@ Bring Your Own Cluster
 ----------------------
 
 If you already have a Kubernetes cluster then you can skip this section.
-and go straight to `./create_beamline`.
+and go straight to the next tutorial.
 
 IMPORTANT: you will require appropriate permissions on the cluster to work
 with epics-containers. In particular you will need to be able to create
@@ -137,17 +125,18 @@ uses a namespace for each beamline or accelerator domain.
 A context is a combination of a cluster, namespace, and user. It tells kubectl
 which cluster and namespace to use when communicating with the Kubernetes API.
 
-So here we will create a namespace for our first test beamline BEAMLINE TEST 01
-or bl01t for short. We will also create a context for this namespace and set
-it as the default context.
+Here we will create a namespace for our first test beamline bl45p. We are
+using this name because it is the name of the first ever Kubernetes beamline
+at DLS. This just means I can use some of the following tutorials for both
+DLS and non-DLS users.
 
 From the workstation INSIDE the devcontainer execute the following:
 
 .. code-block:: bash
 
-    kubectl create namespace bl01t
-    kubectl config set-context bl01t --namespace=bl01t --user=default --cluster=default
-    kubectl config use-context bl01t
+    kubectl create namespace bl45p
+    kubectl config set-context bl45p --namespace=bl45p --user=default --cluster=default
+    kubectl config use-context bl45p
 
 Create a service account to run the IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,7 +152,7 @@ Create the account:
     apiVersion: v1
     kind: ServiceAccount
     metadata:
-        name: bl01t-priv
+        name: bl45p-priv
     EOF
 
 Generate a login token for the account:
@@ -174,9 +163,9 @@ Generate a login token for the account:
     apiVersion: v1
     kind: Secret
     metadata:
-        name: bl01t-priv-secret
+        name: bl45p-priv-secret
         annotations:
-            kubernetes.io/service-account.name: bl01t-priv
+            kubernetes.io/service-account.name: bl45p-priv
     type: kubernetes.io/service-account-token
     EOF
 
@@ -195,3 +184,4 @@ simply use this command:
     k3s-uninstall.sh
 
 If you are interested in looking at the k3s files see **/var/lib/rancher/k3s/**.
+
