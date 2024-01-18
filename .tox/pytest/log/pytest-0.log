@@ -1,0 +1,70 @@
+action: pytest, msg: parallel pytest
+cwd: /scratch/hgv27681/work/epics-containers.github.io
+cmd: /venv/bin/python3 /venv/lib/python3.10/site-packages/tox/__main__.py -p
+pytest create: /scratch/hgv27681/work/epics-containers.github.io/.tox/pytest
+pytest installed: accessible-pygments==0.0.3,alabaster==0.7.13,attrs==22.2.0,Babel==2.12.1,beautifulsoup4==4.12.0,black==23.1.0,certifi==2022.12.7,cfgv==3.3.1,charset-normalizer==3.1.0,click==8.1.3,colorama==0.4.6,coverage==7.2.2,distlib==0.3.6,docutils==0.19,-e git+ssh://git@github.com/epics-containers/epics-containers.github.io.git@a6d396ff065d5a1aa8e96aacdcf8736bf9cb6fcf#egg=epics_containers,exceptiongroup==1.1.1,filelock==3.10.0,flake8==6.0.0,flake8-isort==6.0.0,Flake8-pyproject==1.2.3,identify==2.5.21,idna==3.4,imagesize==1.4.1,iniconfig==2.0.0,isort==5.12.0,Jinja2==3.1.2,livereload==2.6.3,MarkupSafe==2.1.2,mccabe==0.7.0,mypy==1.1.1,mypy-extensions==1.0.0,nodeenv==1.7.0,packaging==23.0,pathlib2==2.3.7.post1,pathspec==0.11.1,pipdeptree==2.6.0,platformdirs==3.1.1,pluggy==1.0.0,pre-commit==3.2.0,py==1.11.0,pycodestyle==2.10.0,pydata-sphinx-theme==0.13.1,pyflakes==3.0.1,Pygments==2.14.0,pytest==7.2.2,pytest-cov==4.0.0,PyYAML==6.0,requests==2.28.2,six==1.16.0,snowballstemmer==2.2.0,soupsieve==2.4,Sphinx==5.3.0,sphinx-autobuild==2021.3.14,sphinx-copybutton==0.5.1,sphinx_design==0.3.0,sphinxcontrib-applehelp==1.0.4,sphinxcontrib-devhelp==1.0.2,sphinxcontrib-htmlhelp==2.0.1,sphinxcontrib-jsmath==1.0.1,sphinxcontrib-qthelp==1.0.3,sphinxcontrib-serializinghtml==1.1.5,tomli==2.0.1,tornado==6.2,tox==3.28.0,tox-direct==0.4,types-mock==5.0.0.5,typing_extensions==4.5.0,urllib3==1.26.15,virtualenv==20.21.0
+pytest run-test-pre: PYTHONHASHSEED='3595294698'
+pytest run-test: commands[0] | pytest
+============================= test session starts ==============================
+platform linux -- Python 3.10.6, pytest-7.2.2, pluggy-1.0.0 -- /venv/bin/python3
+cachedir: .tox/pytest/.pytest_cache
+rootdir: /scratch/hgv27681/work/epics-containers.github.io, configfile: pyproject.toml, testpaths: docs, src, tests
+plugins: cov-4.0.0
+collecting ... collected 0 items / 3 errors
+
+==================================== ERRORS ====================================
+________________________ ERROR collecting docs/conf.py _________________________
+Traceback (most recent call last):
+  File "/scratch/hgv27681/work/epics-containers.github.io/docs/conf.py", line 13, in <module>
+    import epics_containers
+ModuleNotFoundError: No module named 'epics_containers'
+______________ ERROR collecting src/epics_containers/__init__.py _______________
+Traceback (most recent call last):
+  File "/scratch/hgv27681/work/epics-containers.github.io/src/epics_containers/__init__.py", line 3, in <module>
+    __version__ = version("epics-containers.github.io")
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 984, in version
+    return distribution(distribution_name).version
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 957, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 548, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for epics-containers.github.io
+______________ ERROR collecting src/epics_containers/_version.py _______________
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/scratch/hgv27681/work/epics-containers.github.io/src/epics_containers/__init__.py", line 3, in <module>
+    __version__ = version("epics-containers.github.io")
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 984, in version
+    return distribution(distribution_name).version
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 957, in distribution
+    return Distribution.from_name(distribution_name)
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 548, in from_name
+    raise PackageNotFoundError(name)
+importlib.metadata.PackageNotFoundError: No package metadata was found for epics-containers.github.io
+
+---------- coverage: platform linux, python 3.10.6-final-0 -----------
+Name                               Stmts   Miss  Cover
+------------------------------------------------------
+src/epics_containers/__init__.py       4      2    50%
+------------------------------------------------------
+TOTAL                                  4      2    50%
+Coverage XML written to file cov.xml
+
+=========================== short test summary info ============================
+ERROR docs/conf.py - ModuleNotFoundError: No module named 'epics_containers'
+ERROR src/epics_containers/__init__.py - importlib.metadata.PackageNotFoundEr...
+ERROR src/epics_containers/_version.py - importlib.metadata.PackageNotFoundEr...
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+============================== 3 errors in 0.27s ===============================
+ERROR: InvocationError for command /venv/bin/pytest (exited with code 2)

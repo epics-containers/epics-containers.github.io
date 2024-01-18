@@ -1,0 +1,4 @@
+action: mypy, msg: parallel mypy
+cwd: /scratch/hgv27681/work/epics-containers.github.io
+cmd: /scratch/hgv27681/work/venv/bin/python /scratch/hgv27681/work/venv/lib/python3.11/site-packages/tox/__main__.py -p
+ERROR: got KeyboardInterrupt signal

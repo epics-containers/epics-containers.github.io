@@ -1,0 +1,58 @@
+action: pre-commit, msg: envreport
+cwd: /repos/epics-containers.github.io
+cmd: /venv/bin/python -m pip freeze
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/venv/lib/python3.10/site-packages/pip/__main__.py", line 31, in <module>
+    sys.exit(_main())
+  File "/venv/lib/python3.10/site-packages/pip/_internal/cli/main.py", line 68, in main
+    command = create_command(cmd_name, isolated=("--isolated" in cmd_args))
+  File "/venv/lib/python3.10/site-packages/pip/_internal/commands/__init__.py", line 109, in create_command
+    module = importlib.import_module(module_path)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/venv/lib/python3.10/site-packages/pip/_internal/commands/freeze.py", line 8, in <module>
+    from pip._internal.operations.freeze import freeze
+  File "/venv/lib/python3.10/site-packages/pip/_internal/operations/freeze.py", line 11, in <module>
+    from pip._internal.req.constructors import (
+  File "/venv/lib/python3.10/site-packages/pip/_internal/req/__init__.py", line 9, in <module>
+    from .req_set import RequirementSet
+  File "/venv/lib/python3.10/site-packages/pip/_internal/req/req_set.py", line 8, in <module>
+    from pip._internal.models.wheel import Wheel
+  File "/venv/lib/python3.10/site-packages/pip/_internal/models/wheel.py", line 12, in <module>
+    class Wheel:
+  File "/venv/lib/python3.10/site-packages/pip/_internal/models/wheel.py", line 15, in Wheel
+    wheel_file_re = re.compile(
+  File "/usr/lib/python3.10/re.py", line 251, in compile
+    return _compile(pattern, flags)
+  File "/usr/lib/python3.10/re.py", line 303, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "/usr/lib/python3.10/sre_compile.py", line 788, in compile
+    p = sre_parse.parse(p, flags)
+  File "/usr/lib/python3.10/sre_parse.py", line 955, in parse
+  File "/usr/lib/python3.10/sre_parse.py", line 444, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "/usr/lib/python3.10/sre_parse.py", line 841, in _parse
+    p = _parse_sub(source, state, sub_verbose, nested + 1)
+  File "/usr/lib/python3.10/sre_parse.py", line 444, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "/usr/lib/python3.10/sre_parse.py", line 841, in _parse
+    p = _parse_sub(source, state, sub_verbose, nested + 1)
+  File "/usr/lib/python3.10/sre_parse.py", line 444, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "/usr/lib/python3.10/sre_parse.py", line 841, in _parse
+    p = _parse_sub(source, state, sub_verbose, nested + 1)
+  File "/usr/lib/python3.10/sre_parse.py", line 444, in _parse_sub
+    itemsappend(_parse(source, state, verbose, nested + 1,
+  File "/usr/lib/python3.10/sre_parse.py", line 494, in _parse
+    def _parse(source, state, verbose, nested, first=False):
+KeyboardInterrupt

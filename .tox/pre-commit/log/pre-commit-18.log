@@ -1,0 +1,41 @@
+action: pre-commit, msg: envreport
+cwd: /scratch/hgv27681/work/epics-containers.github.io
+cmd: /scratch/hgv27681/work/venv/bin/python -m pip freeze
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/__main__.py", line 22, in <module>
+    from pip._internal.cli.main import main as _main
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/cli/main.py", line 10, in <module>
+    from pip._internal.cli.autocompletion import autocomplete
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/cli/autocompletion.py", line 10, in <module>
+    from pip._internal.cli.main_parser import create_main_parser
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/cli/main_parser.py", line 9, in <module>
+    from pip._internal.build_env import get_runnable_pip
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/build_env.py", line 19, in <module>
+    from pip._internal.cli.spinners import open_spinner
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/cli/spinners.py", line 9, in <module>
+    from pip._internal.utils.logging import get_indentation
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/utils/logging.py", line 29, in <module>
+    from pip._internal.utils.misc import ensure_dir
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/utils/misc.py", line 43, in <module>
+    from pip._internal.exceptions import CommandError, ExternallyManagedEnvironment
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_internal/exceptions.py", line 18, in <module>
+    from pip._vendor.requests.models import Request, Response
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/requests/__init__.py", line 45, in <module>
+    from .exceptions import RequestsDependencyWarning
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/requests/exceptions.py", line 9, in <module>
+    from .compat import JSONDecodeError as CompatJSONDecodeError
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/requests/compat.py", line 10, in <module>
+    from pip._vendor import chardet
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/chardet/__init__.py", line 24, in <module>
+    from .universaldetector import UniversalDetector
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/chardet/universaldetector.py", line 52, in <module>
+    from .sbcsgroupprober import SBCSGroupProber
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/chardet/sbcsgroupprober.py", line 32, in <module>
+    from .langgreekmodel import ISO_8859_7_GREEK_MODEL, WINDOWS_1253_GREEK_MODEL
+  File "/scratch/hgv27681/work/venv/lib/python3.11/site-packages/pip/_vendor/chardet/langgreekmodel.py", line 4120, in <module>
+    WINDOWS_1253_GREEK_MODEL = SingleByteCharSetModel(
+                               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 1, in <lambda>
+KeyboardInterrupt

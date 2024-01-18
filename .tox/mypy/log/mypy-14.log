@@ -1,0 +1,4 @@
+action: mypy, msg: envreport
+cwd: /scratch/hgv27681/work/epics-containers.github.io
+cmd: /scratch/hgv27681/work/venv/bin/python -m pip freeze
+ERROR: Operation cancelled by user

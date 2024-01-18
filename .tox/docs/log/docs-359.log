@@ -1,0 +1,5 @@
+action: docs, msg: parallel docs
+cwd: /repos/epics-containers.github.io
+cmd: /venv/bin/python3 /venv/lib/python3.10/site-packages/tox/__main__.py -p
+docs recreate: /repos/epics-containers.github.io/.tox/docs
+ERROR: got KeyboardInterrupt signal

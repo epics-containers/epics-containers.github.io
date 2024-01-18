@@ -1,0 +1,5 @@
+action: mypy, msg: parallel mypy
+cwd: /repos/epics-containers.github.io
+cmd: /venv/bin/python3 /venv/lib/python3.10/site-packages/tox/__main__.py -p
+mypy recreate: /repos/epics-containers.github.io/.tox/mypy
+ERROR: got KeyboardInterrupt signal
