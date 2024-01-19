@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev29+g949aafd documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev30+g8659340 documentation</title>
   
   
   
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
@@ -34,11 +34,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
-  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=16ca8fae"></script>
+    <script src="../../_static/documentation_options.js?v=92d603f0"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,7 +46,7 @@
     <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/dev_container';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.1';
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2024-rework';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
@@ -68,7 +68,6 @@
   <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -108,10 +107,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <header>
   
-    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
 <div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
     <span class="fa-solid fa-bars"></span>
@@ -286,9 +283,8 @@ document.write(`
   
 </div>
 
-    </div>
+    </header>
   
-  </header>
 
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
@@ -701,22 +697,31 @@ To do this, exit vscode use the following command and restart vscode:</p>
 </div>
 </div>
 <p>Now that you are <em>inside</em> the container you have access to the tools built into
-it, this includes <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. The first command you should run is:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>ioc<span class="w"> </span>build
+it, this includes <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.</p>
+<p>The first commands you should run are as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
+make
 </pre></div>
 </div>
-<p>This generates an IOC source tree in the <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder under your
-<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> folder and compiles it. Note that the IOC code is
-boilerplate, but that the <code class="docutils literal notranslate"><span class="pre">src/Makefile</span></code> is generated according to the
-support modules this Generic IOC contains. You can go and take a look at
-the Makefile and see that it contains <code class="docutils literal notranslate"><span class="pre">dbd</span></code> and <code class="docutils literal notranslate"><span class="pre">lib</span></code> references for each
-of the support modules in the container.
-See <code class="docutils literal notranslate"><span class="pre">/epics/ioc-adsimdetector/ioc/iocApp/src/Makefile</span></code></p>
-<p>You will note that the <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder is greyed out in the VSCode explorer. This
-is because it is in <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and it is purely generated code. If you
-particularly needed to customize the contents of the IOC source tree then
-you can remove it from <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and commit your changes to the repo. These
-changes would then always get loaded for every instance of the Generic IOC.</p>
+<p>It is useful to understand that /epics/ioc is a soft link to the IOC source
+that came with your generic IOC source code. Therefore if you edit this
+code and recompile it, the changes will be visible inside the container and
+outside the container. Meaning that the repository <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is
+now showing your changes and you could push them up to GitHub if you wanted.</p>
+<p>The above is true because your project folder ioc-adsimdetector is mounted into
+the container’s filesystem with a bind mount at the same place that the
+ioc files were originally placed by the container build.</p>
+<p>epics-containers devcontainers have carefully curated host filesystem mounts
+that allow them to look as similar as possible to the runtime container but
+at the same time preserve any changes that you make in the host file system.
+This is important because the container filesystem is temporary and will be
+destroyed when the container is rebuilt or deleted.</p>
+<p>The IOC code is entirely boilerplate boilerplate, the <code class="docutils literal notranslate"><span class="pre">src/Makefile</span></code>
+determines which dbd and lib files to link by including two files that
+ibek generated during the container build namely
+<code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
+<p>You can go and take a look at the Makefile in
+<code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code> to see how this is done.</p>
 <p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc
 ./start.sh
@@ -935,8 +940,8 @@ cycle.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -947,7 +952,7 @@ cycle.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
 </p></div>
       
     </div>
