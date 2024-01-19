@@ -52,7 +52,7 @@ The standard way to set up your environment for any domain is to get
 the environment.sh script from the domain repository and source it.
 
 First make sure you have the local binaries folder in your path by adding
-the following to the end of you $HOME/.bash_profile file:
+the following to the end of you ``$HOME/.bash_profile`` file:
 
 .. code-block:: bash
 
@@ -63,7 +63,7 @@ where indicated):
 
 .. code-block:: bash
 
-    cd /tmp
+    mkdir -p ~/.local/bin
     curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/**YOUR GITHUB ACCOUNT**/bl01t/main/environment.sh?token=$(date +%s)
     source ~/.bash_profile
     source bl01t
@@ -73,8 +73,8 @@ profile you should be able to enable the ``bl01t`` environment as follows:
 
 .. code-block:: bash
 
-    # first make sure you have loaded your virtual environment
-    source $HOME/ec-venv/bin/activate
+    # first make sure you have loaded your virtual environment for the ec tool
+    source $HOME/ec-venv/bin/activate # DLS users don't need this step
     source bl01t
 
 
@@ -117,18 +117,20 @@ You can now see the beta IOC instance running with:
 
     $ ec ps
     IOC NAME            VERSION             STATUS              IMAGE
-    bl01t-ea-ioc-01     2023.10.26-b11.53   Up 6 minutes        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+    bl01t-ea-ioc-01     2024.1.19-b11.53   Up 6 minutes        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
 
 At the end of the last tutorial we tagged the beamline repository with a
 ``CalVer`` version number and pushed it up to GitHub. This means that we
-can now release the IOC instance with that same version number. First let's
-check that the IOC instance version is available as expected:
+can now use that tagged release of the IOC instance. First let's
+check that the IOC instance version is available as expected. The following
+command lists all of the tagged versions of the IOC instance that are
+available in the GitHub repository.
 
 .. code-block:: bash
 
     $ ec ioc instances bl01t-ea-ioc-01
     Available instance versions for bl01t-ea-ioc-01:
-        2023.11.1
+        2024.1.1
 
 .. note::
 
@@ -144,13 +146,27 @@ it to your local machine:
 
 .. code-block:: bash
 
-    $ ec ioc deploy bl01t-ea-ioc-01 2023.11.1
+    $ ec ioc deploy bl01t-ea-ioc-01 2024.1.1
     bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
     $ ec ps
     IOC NAME            VERSION             STATUS              IMAGE
-    bl01t-ea-ioc-01     2023.11.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+    bl01t-ea-ioc-01     2024.1.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 
+IMPORTANT: deploy-local vs deploy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Be aware of the distinction of ``deploy-local`` vs ``deploy``. Both of these
+commands create a running instance of the IOC in the target environment (currently
+your local machine - later on a Kubernetes Cluster). However, ``deploy-local``
+gets the IOC instance description YAML direct from your local filesystem. This
+means it is not likely to be available for re-deployment later on. ``deploy``
+gets the IOC instance description YAML from the GitHub repository with able
+specific tag and therefore is a known state that can be recovered at a later
+date.
+
+Always strive to have released versions of IOC instances deployed in your
+environments. ``deploy-local`` is only for temporary testing purposes.
 
 Managing the Example IOC Instance
 ---------------------------------
@@ -174,7 +190,7 @@ To stop / start the example IOC try the following commands. Note that
     Generic IOCs.
 
     You may have noticed that the IOC instance has is showing that it has
-    an image ``ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5``.
+    an image ``ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1``.
 
     This is a Generic IOC image and all IOC Instances must be based upon one
     of these images. This IOC instance has no startup script and is therefore
@@ -192,9 +208,11 @@ iocShell.
 
     ec ioc attach bl01t-ea-ioc-01
 
-Use the command sequence ctrl-P then ctrl-Q to detach from the IOC
-You can also usually restart and detach from the IOC using ctrl-D or
-ctrl-C.
+Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However,
+there are issues with both VSCode and IOC shells capturing ctrl-P. until
+this is resolved it may be necessary to close the terminal window to detach.**
+You can also restart and detach from the IOC using ctrl-D or ctrl-C, or
+by typing ``exit``.
 
 To run a bash shell inside the IOC container:
 
@@ -205,11 +223,17 @@ To run a bash shell inside the IOC container:
 Once you have a shell inside the container you could inspect the following
 folders:
 
-=============== ==============================================================
-ioc code        /epics/ioc
-support modules /epics/support
-EPICS binaries  /epics/epics-base
-=============== ==============================================================
+===================    =======================================================
+ioc code               /epics/ioc
+support modules        /epics/support
+EPICS binaries         /epics/epics-base
+IOC instance config    /epics/ioc/config
+IOC startup script     /epics/runtime
+===================    =======================================================
+
+Being at a terminal prompt inside the IOC container can be useful for debugging
+and testing. You will have access to caget and caput, plus other EPICS tools,
+and you can can inspect files such as the IOC startup script.
 
 Logging
 ~~~~~~~

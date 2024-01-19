@@ -211,25 +211,38 @@ Preparing the IOC for Testing
     rm -rf ~/.vscode/* ~/.vscode-server/*
 
 Now that you are *inside* the container you have access to the tools built into
-it, this includes ``ibek``. The first command you should run is:
+it, this includes ``ibek``.
+
+The first commands you should run are as follows:
 
 .. code-block:: bash
 
-   ibek ioc build
+  cd /epics/ioc
+  make
 
-This generates an IOC source tree in the ``ioc`` folder under your
-``ioc-adsimdetector`` folder and compiles it. Note that the IOC code is
-boilerplate, but that the ``src/Makefile`` is generated according to the
-support modules this Generic IOC contains. You can go and take a look at
-the Makefile and see that it contains ``dbd`` and ``lib`` references for each
-of the support modules in the container.
-See ``/epics/ioc-adsimdetector/ioc/iocApp/src/Makefile``
+It is useful to understand that /epics/ioc is a soft link to the IOC source
+that came with your generic IOC source code. Therefore if you edit this
+code and recompile it, the changes will be visible inside the container and
+outside the container. Meaning that the repository ``ioc-adsimdetector`` is
+now showing your changes and you could push them up to GitHub if you wanted.
 
-You will note that the ``ioc`` folder is greyed out in the VSCode explorer. This
-is because it is in ``.gitignore`` and it is purely generated code. If you
-particularly needed to customize the contents of the IOC source tree then
-you can remove it from ``.gitignore`` and commit your changes to the repo. These
-changes would then always get loaded for every instance of the Generic IOC.
+The above is true because your project folder ioc-adsimdetector is mounted into
+the container's filesystem with a bind mount at the same place that the
+ioc files were originally placed by the container build.
+
+epics-containers devcontainers have carefully curated host filesystem mounts
+that allow them to look as similar as possible to the runtime container but
+at the same time preserve any changes that you make in the host file system.
+This is important because the container filesystem is temporary and will be
+destroyed when the container is rebuilt or deleted.
+
+The IOC code is entirely boilerplate boilerplate, the ``src/Makefile``
+determines which dbd and lib files to link by including two files that
+ibek generated during the container build namely
+``/epics/support/configure/lib_list`` and ``/epics/support/configure/dbd_list``.
+
+You can go and take a look at the Makefile in
+``/epics/ioc/iocApp/src/Makefile`` to see how this is done.
 
 The Generic IOC should now be ready to run inside of the container. To do this:
 
