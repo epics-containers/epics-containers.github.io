@@ -22,7 +22,6 @@ side-bar.
             tutorials/ioc_changes1
             tutorials/ioc_changes2
             tutorials/ioc_changes3
-            tutorials/ioc_changes4
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc

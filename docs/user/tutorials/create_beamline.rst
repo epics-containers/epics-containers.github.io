@@ -66,7 +66,7 @@ We will then step through the changes that are required to make it your own.
 NOTE: for these tutorials we will use your personal GitHub Account to
 store everything we do, all source repositories and container images. For
 production, each facility will need its own policy for where to store these
-assets. See `../explanations/repositories`.
+assets. See ``../explanations/workspacesitories``.
 
 Steps
 -----

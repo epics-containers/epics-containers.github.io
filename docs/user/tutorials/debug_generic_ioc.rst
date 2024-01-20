@@ -44,7 +44,7 @@ command.
 
 .. code-block:: bash
 
-    cd /repos/epics/support/adurl
+    cd /workspaces/epics/support/adurl
     make
 
 You should see the same error again.
@@ -81,7 +81,7 @@ need to set the variable ``GRAPHICSMAGICK_INCLUDE`` in
 We can see from the ``apt-file`` output that the header file is in
 ``/usr/include/GraphicsMagick`` which is not a default include path.
 Therefore we need to edit this file inside our Generic IOC container:
-``/repos/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common``
+``/workspaces/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common``
 
 .. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
 
@@ -95,8 +95,8 @@ you like from the Ubuntu repositories.
 
 HOWEVER, there is a much easier way ...
 
-When you launch containers with ``ec`` commands the ``/repos`` folder is
-synchronized to a local folder ioc-XXX/repos and that is mounted into the
+When you launch containers with ``ec`` commands the ``/workspaces`` folder is
+synchronized to a local folder ioc-XXX/workspaces and that is mounted into the
 container. This means that you can edit files in the container using VSCode.
 The mounted repos folder also ensures that any changes you make inside the
 container are saved between invocations of the container.
