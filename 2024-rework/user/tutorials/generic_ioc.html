@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 2023.11.2.dev30+g8659340 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 2023.11.2.dev31+g124a028 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=92d603f0"></script>
+    <script src="../../_static/documentation_options.js?v=d9277b87"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Debugging Generic IOC Builds" href="debug_generic_ioc.html" />
-    <link rel="prev" title="Making a new Support Module" href="ioc_changes4.html" />
+    <link rel="prev" title="Changing a Generic IOC Part 2" href="ioc_changes3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -417,7 +417,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC Part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes3.html">Changing a Generic IOC Part 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes4.html">Making a new Support Module</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
@@ -731,7 +730,7 @@ For details of what to put in CONFIG_SITE for AreaDetector modules see
 <li><p><code class="docutils literal notranslate"><span class="pre">RELEASE.local</span></code> - This tells the ADURL build where to find
 the support modules that it depends on. epics-containers maintains a
 global release file that is used by all support modules and IOCs. It
-located at <code class="docutils literal notranslate"><span class="pre">/repos/epics/support/configure/RELEASE</span></code>. Therefore we
+located at <code class="docutils literal notranslate"><span class="pre">/workspaces/epics/support/configure/RELEASE</span></code>. Therefore we
 place a reference to this file in the RELEASE.local file. Whenever
 <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">modules.py</span> <span class="pre">install</span></code> is run it will update the global release
 file and also fixup any <code class="docutils literal notranslate"><span class="pre">SUPPORT=</span></code> lines in all <code class="docutils literal notranslate"><span class="pre">configure/RELEASE*</span></code>
@@ -821,12 +820,12 @@ Tutorial.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ioc_changes4.html"
+       href="ioc_changes3.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Making a new Support Module</p>
+        <p class="prev-next-title">Changing a Generic IOC Part 2</p>
       </div>
     </a>
     <a class="right-next"

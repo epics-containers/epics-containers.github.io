@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev30+g8659340 documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev31+g124a028 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=92d603f0"></script>
+    <script src="../../_static/documentation_options.js?v=d9277b87"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -417,7 +417,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC Part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes3.html">Changing a Generic IOC Part 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes4.html">Making a new Support Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
@@ -711,42 +710,48 @@ now showing your changes and you could push them up to GitHub if you wanted.</p>
 <p>The above is true because your project folder ioc-adsimdetector is mounted into
 the container’s filesystem with a bind mount at the same place that the
 ioc files were originally placed by the container build.</p>
-<p>epics-containers devcontainers have carefully curated host filesystem mounts
-that allow them to look as similar as possible to the runtime container but
-at the same time preserve any changes that you make in the host file system.
-This is important because the container filesystem is temporary and will be
+<p>epics-containers devcontainers have carefully curated host filesystem mounts.
+This allows the developer environment to look as similar as possible to the
+runtime container.
+It also will preserve any important changes that you make in the host file system.
+This is essential because the container filesystem is temporary and will bed
 destroyed when the container is rebuilt or deleted.</p>
-<p>The IOC code is entirely boilerplate boilerplate, the <code class="docutils literal notranslate"><span class="pre">src/Makefile</span></code>
+<p>See <a class="reference internal" href="#container-layout">container-layout</a> for details of which host folders are mounted into the
+container.</p>
+<p>The IOC code is entirely boilerplate, the <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code>
 determines which dbd and lib files to link by including two files that
-ibek generated during the container build namely
-<code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
-<p>You can go and take a look at the Makefile in
-<code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code> to see how this is done.</p>
+<code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build namely
+<code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.
+Although all Generic IOCs derived from ioc-template start out with the same
+generic source in <code class="docutils literal notranslate"><span class="pre">iocApp/src</span></code>, you are free to change them if there is
+a need for different compilation options etc.</p>
 <p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc
-./start.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./start.sh
 </pre></div>
 </div>
 <p>You will just see the default output of a Generic IOC that has no Instance
-configuration. Next we will add some instance configuration from one of the
+configuration. Hit <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code> to stop the this default script.</p>
+<p>Next we will add some instance configuration from one of the
 IOC instances in the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline.</p>
-<p>Let’s now add some other folders to our VSCode workspace to make it easier to
-work with <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> and to investigate the container.</p>
+<p>To do this we will add some other folders to our VSCode workspace to make it
+easier to work with <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> and to investigate the container filesystem.</p>
 </section>
 </section>
 <section id="adding-the-beamline-to-the-workspace">
 <h2>Adding the Beamline to the Workspace<a class="headerlink" href="#adding-the-beamline-to-the-workspace" title="Link to this heading">#</a></h2>
 <p>To meaningfully test the Generic IOC we will need an instance to test it
-against. We will use the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline that you already made. The container
-has been configured to mount some useful local files from the user’s home directory,
-including the parent folder of the workspace as <code class="docutils literal notranslate"><span class="pre">/repos</span></code> so we can work on
+against. We will use the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline that you already made. The devcontainer
+has been configured to mount some useful host folders into the container
+including the parent folder of the workspace as <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> so we can work on
 multiple peer projects.</p>
 <p>In VSCode click the <code class="docutils literal notranslate"><span class="pre">File</span></code> menu and select <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">Folder</span> <span class="pre">to</span> <span class="pre">Workspace</span></code>.
-Navigate to <code class="docutils literal notranslate"><span class="pre">/repos</span></code> and you will see all the peers of your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>
+Navigate to <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> and you will see all the peers of your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>
 folder (see <a class="reference internal" href="#container-layout"><span class="std std-ref">Developer Container Layout</span></a> below). Choose the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> folder and add it to the
-workspace - you may see an error but if so clicking “reload window” will
+workspace - you may see an error but if so clicking “Cancel” will
 clear it.</p>
-<p>Also take this opportunity to add the folder <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace.</p>
+<p>Also take this opportunity to add the folder <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace. This
+is the root folder in which all of the EPICS source and built files are
+located.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Docker Users: your account inside the container will not be the owner of
@@ -756,7 +761,7 @@ as you should not edit project folders inside of <code class="docutils literal n
 built by the container and should be considered immutable. We will learn
 how to work on support modules in later tutorials. This error should only
 be seen on first launch. podman users will have no such problem because they
-will be root inside the container and root build the container.</p>
+will be root inside the container and root built the container.</p>
 </div>
 <p>You can now easily browse around the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder and see all the
 support modules and epics-base. This will give you a feel for the layout of
@@ -784,29 +789,33 @@ host. i.e. the root folder under which your projects are all cloned):</p>
 <td><p>N/A</p></td>
 <td><p>compiled epics-base</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/ioc-adsimdetector</p></td>
-<td><p>WS/ioc-adsimdetector</p></td>
-<td><p>Source repository for the Generic IOC</p></td>
-</tr>
-<tr class="row-odd"><td><p>/epics/ioc</p></td>
+<tr class="row-even"><td><p>/epics/ioc</p></td>
 <td><p>WS/ioc-adsimdetector/ioc</p></td>
 <td><p>soft link to IOC source tree</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/ibek-defs</p></td>
+<tr class="row-odd"><td><p>/epics/ibek-defs</p></td>
 <td><p>N/A</p></td>
 <td><p>All ibek <em>Support yaml</em> files</p></td>
 </tr>
-<tr class="row-odd"><td><p>/epics/pvi-defs</p></td>
+<tr class="row-even"><td><p>/epics/pvi-defs</p></td>
 <td><p>N/A</p></td>
 <td><p>all PVI definitions from support modules</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/opi</p></td>
+<tr class="row-odd"><td><p>/epics/opi</p></td>
 <td><p>N/A</p></td>
 <td><p>all OPI files (generated or copied from support)</p></td>
 </tr>
-<tr class="row-odd"><td><p>/repos</p></td>
+<tr class="row-even"><td><p>/workspaces</p></td>
 <td><p>WS</p></td>
 <td><p>all peers to Generic IOC source repo</p></td>
+</tr>
+<tr class="row-odd"><td><p>/workspaces/ioc-adsimdetector</p></td>
+<td><p>WS/ioc-adsimdetector</p></td>
+<td><p>Generic IOC source repo (in this example)</p></td>
+</tr>
+<tr class="row-even"><td><p>/epics/generic-source</p></td>
+<td><p>WS/ioc-adsimdetector</p></td>
+<td><p>A second - fixed location mount of the Generic IOC source repo</p></td>
 </tr>
 </tbody>
 </table>
@@ -818,7 +827,7 @@ easily supply some instance configuration to the Generic IOC.
 Try the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">epics</span><span class="o">/</span><span class="n">ioc</span>
 <span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="n">config</span>
-<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">repos</span><span class="o">/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">iocs</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">ioc</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="n">config</span> <span class="o">.</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">workspaces</span><span class="o">/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">iocs</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">ioc</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="n">config</span> <span class="o">.</span>
 <span class="c1"># check the ln worked</span>
 <span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">config</span>
 <span class="o">./</span><span class="n">start</span><span class="o">.</span><span class="n">sh</span>

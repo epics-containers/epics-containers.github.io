@@ -86,7 +86,7 @@ If you see the value 1 then your change is working.
     is required for running OPI tools on the host (TODO add link to solution).
 
 Because of the symlink between ``/epics/ioc/config`` and
-``/repos/bl01t/iocs/bl01t-ea-ioc-02/config`` the same files you are testing
+``/workspaces/bl01t/iocs/bl01t-ea-ioc-02/config`` the same files you are testing
 by launching the IOC inside of the devcontainer are also ready to be
 committed and pushed to the bl01t repo. i.e.:
 
@@ -105,7 +105,7 @@ committed and pushed to the bl01t repo. i.e.:
 
 The above steps were performed on a host terminal because we are using ``ec``.
 However all of the steps except for the ``ec`` command could have been done
-*inside* the devcontainer starting with ``cd /repos/bl01t``.
+*inside* the devcontainer starting with ``cd /workspaces/bl01t``.
 
 We choose not to have ``ec`` installed inside of the devcontainer because
 that would involve containers in containers which adds too much complexity.

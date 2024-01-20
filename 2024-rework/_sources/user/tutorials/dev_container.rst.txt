@@ -230,50 +230,57 @@ The above is true because your project folder ioc-adsimdetector is mounted into
 the container's filesystem with a bind mount at the same place that the
 ioc files were originally placed by the container build.
 
-epics-containers devcontainers have carefully curated host filesystem mounts
-that allow them to look as similar as possible to the runtime container but
-at the same time preserve any changes that you make in the host file system.
-This is important because the container filesystem is temporary and will be
+epics-containers devcontainers have carefully curated host filesystem mounts.
+This allows the developer environment to look as similar as possible to the
+runtime container.
+It also will preserve any important changes that you make in the host file system.
+This is essential because the container filesystem is temporary and will bed
 destroyed when the container is rebuilt or deleted.
 
-The IOC code is entirely boilerplate boilerplate, the ``src/Makefile``
-determines which dbd and lib files to link by including two files that
-ibek generated during the container build namely
-``/epics/support/configure/lib_list`` and ``/epics/support/configure/dbd_list``.
+See `container-layout`_ for details of which host folders are mounted into the
+container.
 
-You can go and take a look at the Makefile in
-``/epics/ioc/iocApp/src/Makefile`` to see how this is done.
+The IOC code is entirely boilerplate, the ``/epics/ioc/iocApp/src/Makefile``
+determines which dbd and lib files to link by including two files that
+``ibek`` generated during the container build namely
+``/epics/support/configure/lib_list`` and ``/epics/support/configure/dbd_list``.
+Although all Generic IOCs derived from ioc-template start out with the same
+generic source in ``iocApp/src``, you are free to change them if there is
+a need for different compilation options etc.
 
 The Generic IOC should now be ready to run inside of the container. To do this:
 
 .. code-block:: bash
 
-   cd ioc
    ./start.sh
 
 You will just see the default output of a Generic IOC that has no Instance
-configuration. Next we will add some instance configuration from one of the
+configuration. Hit ``Ctrl-C`` to stop the this default script.
+
+Next we will add some instance configuration from one of the
 IOC instances in the ``bl01t`` beamline.
 
-Let's now add some other folders to our VSCode workspace to make it easier to
-work with ``bl01t`` and to investigate the container.
+To do this we will add some other folders to our VSCode workspace to make it
+easier to work with ``bl01t`` and to investigate the container filesystem.
 
 Adding the Beamline to the Workspace
 ------------------------------------
 
 To meaningfully test the Generic IOC we will need an instance to test it
-against. We will use the ``bl01t`` beamline that you already made. The container
-has been configured to mount some useful local files from the user's home directory,
-including the parent folder of the workspace as ``/repos`` so we can work on
+against. We will use the ``bl01t`` beamline that you already made. The devcontainer
+has been configured to mount some useful host folders into the container
+including the parent folder of the workspace as ``/workspaces`` so we can work on
 multiple peer projects.
 
 In VSCode click the ``File`` menu and select ``Add Folder to Workspace``.
-Navigate to ``/repos`` and you will see all the peers of your ``ioc-adsimdetector``
+Navigate to ``/workspaces`` and you will see all the peers of your ``ioc-adsimdetector``
 folder (see `container-layout` below). Choose the ``bl01t`` folder and add it to the
-workspace - you may see an error but if so clicking "reload window" will
+workspace - you may see an error but if so clicking "Cancel" will
 clear it.
 
-Also take this opportunity to add the folder ``/epics`` to the workspace.
+Also take this opportunity to add the folder ``/epics`` to the workspace. This
+is the root folder in which all of the EPICS source and built files are
+located.
 
 .. note::
 
@@ -284,7 +291,7 @@ Also take this opportunity to add the folder ``/epics`` to the workspace.
   built by the container and should be considered immutable. We will learn
   how to work on support modules in later tutorials. This error should only
   be seen on first launch. podman users will have no such problem because they
-  will be root inside the container and root build the container.
+  will be root inside the container and root built the container.
 
 You can now easily browse around the ``/epics`` folder and see all the
 support modules and epics-base. This will give you a feel for the layout of
@@ -309,10 +316,6 @@ host. i.e. the root folder under which your projects are all cloned):
      - N/A
      - compiled epics-base
 
-   * - /epics/ioc-adsimdetector
-     - WS/ioc-adsimdetector
-     - Source repository for the Generic IOC
-
    * - /epics/ioc
      - WS/ioc-adsimdetector/ioc
      - soft link to IOC source tree
@@ -329,9 +332,18 @@ host. i.e. the root folder under which your projects are all cloned):
      - N/A
      - all OPI files (generated or copied from support)
 
-   * - /repos
+   * - /workspaces
      - WS
      - all peers to Generic IOC source repo
+
+   * - /workspaces/ioc-adsimdetector
+     - WS/ioc-adsimdetector
+     - Generic IOC source repo (in this example)
+
+   * - /epics/generic-source
+     - WS/ioc-adsimdetector
+     - A second - fixed location mount of the Generic IOC source repo
+
 
 .. _choose-ioc-instance:
 
@@ -346,7 +358,7 @@ Try the following:
 
    cd /epics/ioc
    rm -r config
-   ln -s /repos/bl01t/iocs/bl01t-ea-ioc-02/config .
+   ln -s /workspaces/bl01t/iocs/bl01t-ea-ioc-02/config .
    # check the ln worked
    ls -l config
    ./start.sh

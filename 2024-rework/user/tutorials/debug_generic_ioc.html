@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 2023.11.2.dev30+g8659340 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 2023.11.2.dev31+g124a028 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=92d603f0"></script>
+    <script src="../../_static/documentation_options.js?v=d9277b87"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -417,7 +417,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC Part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes3.html">Changing a Generic IOC Part 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes4.html">Making a new Support Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
@@ -546,7 +545,7 @@ provides us with the following convenience command to do this:</p>
 </div>
 <p>Now we have a prompt inside the part-built container and can retry the failed
 command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/repos/epics/support/adurl
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/epics/support/adurl
 make
 </pre></div>
 </div>
@@ -578,7 +577,7 @@ need to set the variable <code class="docutils literal notranslate"><span class=
 We can see from the <code class="docutils literal notranslate"><span class="pre">apt-file</span></code> output that the header file is in
 <code class="docutils literal notranslate"><span class="pre">/usr/include/GraphicsMagick</span></code> which is not a default include path.
 Therefore we need to edit this file inside our Generic IOC container:
-<code class="docutils literal notranslate"><span class="pre">/repos/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">/workspaces/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common</span></code></p>
 </section>
 <section id="making-changes-inside-the-container">
 <h2>Making Changes Inside the Container<a class="headerlink" href="#making-changes-inside-the-container" title="Link to this heading">#</a></h2>
@@ -586,8 +585,8 @@ Therefore we need to edit this file inside our Generic IOC container:
 rudimentary version of <code class="docutils literal notranslate"><span class="pre">vi</span></code> installed. You could also install any editor
 you like from the Ubuntu repositories.</p>
 <p>HOWEVER, there is a much easier way …</p>
-<p>When you launch containers with <code class="docutils literal notranslate"><span class="pre">ec</span></code> commands the <code class="docutils literal notranslate"><span class="pre">/repos</span></code> folder is
-synchronized to a local folder ioc-XXX/repos and that is mounted into the
+<p>When you launch containers with <code class="docutils literal notranslate"><span class="pre">ec</span></code> commands the <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> folder is
+synchronized to a local folder ioc-XXX/workspaces and that is mounted into the
 container. This means that you can edit files in the container using VSCode.
 The mounted repos folder also ensures that any changes you make inside the
 container are saved between invocations of the container.</p>

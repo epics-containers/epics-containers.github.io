@@ -246,7 +246,7 @@ follows:
 - ``RELEASE.local`` - This tells the ADURL build where to find
   the support modules that it depends on. epics-containers maintains a
   global release file that is used by all support modules and IOCs. It
-  located at ``/repos/epics/support/configure/RELEASE``. Therefore we
+  located at ``/workspaces/epics/support/configure/RELEASE``. Therefore we
   place a reference to this file in the RELEASE.local file. Whenever
   ``python3 modules.py install`` is run it will update the global release
   file and also fixup any ``SUPPORT=`` lines in all ``configure/RELEASE*``
