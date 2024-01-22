@@ -27,6 +27,7 @@ regards to auto discovery of git repos.
             "ryanluker.vscode-coverage-gutters",
             "mhutchie.git-graph",
             "ms-vscode.makefile-tools"
+            "peakchen90.open-html-in-browser",
         ],
     "[yaml]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
