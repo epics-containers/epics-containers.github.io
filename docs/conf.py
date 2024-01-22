@@ -15,7 +15,7 @@ import requests
 
 # General information about the project.
 project = "epics-containers.github.io"
-copyright = "2023, Diamond Light Source"
+copyright = "2024, Diamond Light Source"
 author = "Giles Knap"
 
 # The full version, including alpha/beta/rc tags.

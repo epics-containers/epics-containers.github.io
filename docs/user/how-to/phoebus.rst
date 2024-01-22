@@ -9,4 +9,4 @@ This is the initial target for epics-containers GUIs, other OPI
 formats may be supported in the future.
 
 OPI file generation is work in progress and this page will be updated when
-it is ready (est Nov 2023).
+it is ready (est Feb 2024).
