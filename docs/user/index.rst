@@ -46,6 +46,8 @@ side-bar.
             how-to/own_tools
             how-to/useful_k8s
             how-to/ibek-support
+            how-to/builder2ibek
+            how-to/builder2ibek.support
 
         +++
 
@@ -79,6 +81,7 @@ side-bar.
             reference/cli
             reference/ioc_helm_chart
             reference/k8s_resources
+            reference/vscode_settings
 
         +++
 
