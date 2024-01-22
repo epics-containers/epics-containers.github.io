@@ -29,7 +29,6 @@ side-bar.
             tutorials/setup_k8s_new_beamline
             tutorials/rtems_setup
             tutorials/rtems_ioc
-            tutorials/ibek
 
         Tutorials for installation and typical usage. New users start here.
 
