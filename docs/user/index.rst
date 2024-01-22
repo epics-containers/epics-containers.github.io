@@ -21,7 +21,6 @@ side-bar.
             tutorials/dev_container
             tutorials/ioc_changes1
             tutorials/ioc_changes2
-            tutorials/ioc_changes3
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
@@ -30,7 +29,6 @@ side-bar.
             tutorials/setup_k8s_new_beamline
             tutorials/rtems_setup
             tutorials/rtems_ioc
-            tutorials/ibek
 
         Tutorials for installation and typical usage. New users start here.
 
