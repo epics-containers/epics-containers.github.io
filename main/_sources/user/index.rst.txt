@@ -22,7 +22,6 @@ side-bar.
             tutorials/ioc_changes1
             tutorials/ioc_changes2
             tutorials/ioc_changes3
-            tutorials/ioc_changes4
             tutorials/generic_ioc
             tutorials/debug_generic_ioc
             tutorials/test_generic_ioc
@@ -47,6 +46,8 @@ side-bar.
             how-to/own_tools
             how-to/useful_k8s
             how-to/ibek-support
+            how-to/builder2ibek
+            how-to/builder2ibek.support
 
         +++
 
@@ -76,10 +77,12 @@ side-bar.
             :maxdepth: 1
 
             reference/faq
+            reference/configuration
             reference/environment
             reference/cli
             reference/ioc_helm_chart
             reference/k8s_resources
+            reference/vscode_settings
 
         +++
 

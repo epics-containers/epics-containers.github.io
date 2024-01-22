@@ -83,7 +83,7 @@ STEPS:
 - ec dev build
 - ec dev launch
 - inside the container:
-  - cd /repos/epics/ioc
+  - cd /workspaces/epics/ioc
   - start.sh
 
 .. figure:: ../images/ibek-defs-notes.png

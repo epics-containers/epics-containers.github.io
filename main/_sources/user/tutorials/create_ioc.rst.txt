@@ -45,7 +45,7 @@ This should launch vscode and open the values.yaml file. Add the following:
 
 .. code-block:: yaml
 
-    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.11.1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
 
 This tells the IOC Instance to run in the ``ioc-adsimdetector-linux-runtime``
 container. This container was built by the Generic IOC source repo here
@@ -71,7 +71,7 @@ To recap, we have two python CLI tools for supporting ``epics-containers``:
     - Generating startup scripts and EPICS databases at container runtime
       from *IOC yaml* files.
     - Fetching and compiling support modules at build time.
-    - Other build time utilities such as creating and compiling IOC source and
+    - Other build time utilities such as
       extracting runtime assets for the runtime container target.
 
 :ec: provides developer support *outside* of the container such as:
@@ -190,7 +190,7 @@ This should launch vscode and open the ioc.yaml file. Add the following:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.11.1/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json
 
     ioc_name: bl01t-ea-ioc-02
     description: Example simulated camera for BL01T
@@ -320,7 +320,7 @@ That is because every Generic IOC publishes an *IOC schema* that describes
 the set of entities that an instance of that IOC may instantiate.
 
 The Generic IOC we used was released at this location:
-https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2023.11.1.
+https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.1.1.
 This page includes the assets that are published as part of the release and
 one of those is ``ibek.ioc.schema.json``. This is the *IOC schema* for the
 ``ioc-adsimdetector`` Generic IOC. This is what we referred to at the top of
@@ -328,7 +328,7 @@ our *IOC yaml* file like this:
 
 .. code:: yaml
 
-    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2023.11.1/ibek.ioc.schema.json
+    # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json
 
 When editing with a YAML aware editor like VSCode this will enable auto
 completion and validation of the *IOC yaml* file. To enable this in VSCode

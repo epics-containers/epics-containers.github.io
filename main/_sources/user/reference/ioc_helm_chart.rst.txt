@@ -58,7 +58,7 @@ in this folder and what you would need to change in your new IOC instance:
 
 -   ``config`` this folder contains any files unique to this IOC instance. At
     runtime on the cluster when the Generic IOC image is running it will see
-    these files as mounted into the folder ``/repos/epics/ioc/config``.
+    these files as mounted into the folder ``/workspaces/epics/ioc/config``.
     In this case we have an EPICS startup script ``st.cmd`` only
     and the default behaviour is just to run the IOC binary and pass it
     ``st.cmd``.

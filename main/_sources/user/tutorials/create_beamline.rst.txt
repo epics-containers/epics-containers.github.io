@@ -66,7 +66,7 @@ We will then step through the changes that are required to make it your own.
 NOTE: for these tutorials we will use your personal GitHub Account to
 store everything we do, all source repositories and container images. For
 production, each facility will need its own policy for where to store these
-assets. See `../explanations/repositories`.
+assets. See ``../explanations/workspacesitories``.
 
 Steps
 -----
@@ -110,9 +110,14 @@ Steps
     #. change the beamline name in the two bash scripts in the ``services``
        directory.
 
+    #. change the beamline name in ``beamline-chart/values.yaml``
+
     #. add some meaningful configuration to the example IOCs config folder
        ``iocs/bl01t-ea-ioc-01/config/ioc.yaml``. We will do this in the
        next tutorial.
+
+Much of the above can be achieved with a global find and replace of 'xxi' with
+'01t'.
 
 Environment.sh
 ~~~~~~~~~~~~~~
@@ -175,6 +180,14 @@ Open both files in ``services/`` and replace blxxi with bl01t.
 
 TODO: add support for local docker installations of these services.
 
+Change the Beamline Name in the Helm Chart
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The file ``beamline-chart/values.yaml`` contains the configuration values
+for the helm chart that is used to deploy the beamline. You can change
+the values ``blxxi`` to ``bl01t`` in here. But this will not be relevant until
+we get to the Kubernetes tutorial when the deployment is done using helm.
+
 Wrapping Up
 -----------
 
@@ -189,8 +202,8 @@ You can now push the repository up to GitHub and give it a version tag like this
     git add .
     git commit -m "changed blxxi to bl01t"
     git push
-    git tag 2023.11.1
-    git push origin 2023.11.1
+    git tag 2024.1.1
+    git push origin 2024.1.1
 
 
 We use ``CalVer`` version numbers for beamline repositories and Generic IOCs.
@@ -200,4 +213,10 @@ The last digit is the number of the release in that month.
 CalVer is described here: https://calver.org/ and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
+
+Note that 2024.1.1 represents the time that this tutorial was last updated.
+For completeness you could use the current year and month instead. You
+are also free to choose your own versioning scheme as this is not enforced by
+any of the epics-containers tools.
+
 

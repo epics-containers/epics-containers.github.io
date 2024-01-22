@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 2023.11.2.dev29+g949aafd documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 2023.11.2.dev37+g8e9b88f documentation</title>
   
   
   
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
@@ -34,11 +34,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
-  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=16ca8fae"></script>
+    <script src="../../_static/documentation_options.js?v=cfbae66d"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,7 +46,7 @@
     <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user/tutorials/deploy_example';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.1';
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
@@ -68,7 +68,6 @@
   <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -108,10 +107,8 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <header>
   
-    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
 <div class="bd-header__inner bd-page-width">
   <label class="sidebar-toggle primary-toggle" for="__primary">
     <span class="fa-solid fa-bars"></span>
@@ -286,9 +283,8 @@ document.write(`
   
 </div>
 
-    </div>
+    </header>
   
-  </header>
 
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
@@ -421,7 +417,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC Part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes3.html">Changing a Generic IOC Part 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes4.html">Making a new Support Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
@@ -441,6 +436,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../how-to/ibek-support.html">Updating and Testing ibek-support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/builder2ibek.html">Builder2ibek Conversion Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
 <ul class="nav bd-sidenav">
@@ -454,10 +451,12 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/vscode_settings.html">Recommended VSCode Settings</a></li>
 </ul>
 </div>
 </nav></div>
@@ -560,13 +559,13 @@ have followed the instructions in the previous tutorial correctly.</p>
 <p>The standard way to set up your environment for any domain is to get
 the environment.sh script from the domain repository and source it.</p>
 <p>First make sure you have the local binaries folder in your path by adding
-the following to the end of you $HOME/.bash_profile file:</p>
+the following to the end of you <code class="docutils literal notranslate"><span class="pre">$HOME/.bash_profile</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:~/.local/bin&quot;</span>
 </pre></div>
 </div>
 <p>Then follow these steps (make sure you insert your GitHub account name
 where indicated):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/bin
 curl<span class="w"> </span>-o<span class="w"> </span>~/.local/bin/bl01t<span class="w"> </span>https://raw.githubusercontent.com/**YOUR<span class="w"> </span>GITHUB<span class="w"> </span>ACCOUNT**/bl01t/main/environment.sh?token<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
 <span class="nb">source</span><span class="w"> </span>~/.bash_profile
 <span class="nb">source</span><span class="w"> </span>bl01t
@@ -574,8 +573,8 @@ curl<span class="w"> </span>-o<span class="w"> </span>~/.local/bin/bl01t<span cl
 </div>
 <p>Once you have done this and logged out and back in again to pick up your new
 profile you should be able to enable the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> environment as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># first make sure you have loaded your virtual environment</span>
-<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># first make sure you have loaded your virtual environment for the ec tool</span>
+<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate<span class="w"> </span><span class="c1"># DLS users don&#39;t need this step</span>
 <span class="nb">source</span><span class="w"> </span>bl01t
 </pre></div>
 </div>
@@ -608,16 +607,18 @@ number to indicate that they are not permanent.</p>
 <p>You can now see the beta IOC instance running with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ps
 IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
-bl01t-ea-ioc-01<span class="w">     </span><span class="m">2023</span>.10.26-b11.53<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>minutes<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.19-b11.53<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>minutes<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
 </pre></div>
 </div>
 <p>At the end of the last tutorial we tagged the beamline repository with a
 <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version number and pushed it up to GitHub. This means that we
-can now release the IOC instance with that same version number. First let’s
-check that the IOC instance version is available as expected:</p>
+can now use that tagged release of the IOC instance. First let’s
+check that the IOC instance version is available as expected. The following
+command lists all of the tagged versions of the IOC instance that are
+available in the GitHub repository.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
 Available<span class="w"> </span>instance<span class="w"> </span>versions<span class="w"> </span><span class="k">for</span><span class="w"> </span>bl01t-ea-ioc-01:
-<span class="w">    </span><span class="m">2023</span>.11.1
+<span class="w">    </span><span class="m">2024</span>.1.1
 </pre></div>
 </div>
 <div class="admonition note">
@@ -631,14 +632,27 @@ and source it again to pick up any changes.</p>
 <p>Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span><span class="m">2023</span>.11.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span><span class="m">2024</span>.1.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
 $<span class="w"> </span>ec<span class="w"> </span>ps
 IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
-bl01t-ea-ioc-01<span class="w">     </span><span class="m">2023</span>.11.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 </pre></div>
 </div>
+<section id="important-deploy-local-vs-deploy">
+<h3>IMPORTANT: deploy-local vs deploy<a class="headerlink" href="#important-deploy-local-vs-deploy" title="Link to this heading">#</a></h3>
+<p>Be aware of the distinction of <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> vs <code class="docutils literal notranslate"><span class="pre">deploy</span></code>. Both of these
+commands create a running instance of the IOC in the target environment (currently
+your local machine - later on a Kubernetes Cluster). However, <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code>
+gets the IOC instance description YAML direct from your local filesystem. This
+means it is not likely to be available for re-deployment later on. <code class="docutils literal notranslate"><span class="pre">deploy</span></code>
+gets the IOC instance description YAML from the GitHub repository with able
+specific tag and therefore is a known state that can be recovered at a later
+date.</p>
+<p>Always strive to have released versions of IOC instances deployed in your
+environments. <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> is only for temporary testing purposes.</p>
+</section>
 </section>
 <section id="managing-the-example-ioc-instance">
 <h2>Managing the Example IOC Instance<a class="headerlink" href="#managing-the-example-ioc-instance" title="Link to this heading">#</a></h2>
@@ -657,7 +671,7 @@ ec<span class="w"> </span>ps
 <p class="admonition-title">Note</p>
 <p>Generic IOCs.</p>
 <p>You may have noticed that the IOC instance has is showing that it has
-an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5</span></code>.</p>
+an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1</span></code>.</p>
 <p>This is a Generic IOC image and all IOC Instances must be based upon one
 of these images. This IOC instance has no startup script and is therefore
 not functional, it could have been based on any Generic IOC.</p>
@@ -672,9 +686,11 @@ iocShell.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
 </div>
-<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC
-You can also usually restart and detach from the IOC using ctrl-D or
-ctrl-C.</p>
+<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However,
+there are issues with both VSCode and IOC shells capturing ctrl-P. until
+this is resolved it may be necessary to close the terminal window to detach.</strong>
+You can also restart and detach from the IOC using ctrl-D or ctrl-C, or
+by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
 <p>To run a bash shell inside the IOC container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
@@ -692,8 +708,17 @@ folders:</p>
 <tr class="row-odd"><td><p>EPICS binaries</p></td>
 <td><p>/epics/epics-base</p></td>
 </tr>
+<tr class="row-even"><td><p>IOC instance config</p></td>
+<td><p>/epics/ioc/config</p></td>
+</tr>
+<tr class="row-odd"><td><p>IOC startup script</p></td>
+<td><p>/epics/runtime</p></td>
+</tr>
 </tbody>
 </table>
+<p>Being at a terminal prompt inside the IOC container can be useful for debugging
+and testing. You will have access to caget and caput, plus other EPICS tools,
+and you can can inspect files such as the IOC startup script.</p>
 </section>
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
@@ -761,7 +786,10 @@ we will look at how to configure a real EPICS IOC.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous Integration</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-environment-for-bl01t-beamline">Set up Environment for BL01T Beamline</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-the-example-ioc-instance">Deploy the Example IOC Instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-the-example-ioc-instance">Deploy the Example IOC Instance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-deploy-local-vs-deploy">IMPORTANT: deploy-local vs deploy</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-the-example-ioc-instance">Managing the Example IOC Instance</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-and-stopping-iocs">Starting and Stopping IOCs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
@@ -809,8 +837,8 @@ we will look at how to configure a real EPICS IOC.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -821,7 +849,7 @@ we will look at how to configure a real EPICS IOC.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.1.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
 </p></div>
       
     </div>
