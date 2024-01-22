@@ -2,7 +2,7 @@ Create a Generic IOC
 ====================
 
 In this tutorial you will learn how to take an existing support module and
-create a Generic IOC builds it. You will also learn how to embed an
+create a Generic IOC that builds it. You will also learn how to embed an
 example IOC instance into the Generic IOC for testing and demonstration.
 
 This is a type 2. change from the list at `ioc_change_types`.
@@ -20,19 +20,19 @@ See details of the device:
 .. note::
 
     DLS has an existing IOC building tool ``XML Builder`` for traditional
-    IOCs. It has allowed DLS to have concise way of describing a beamline for many
+    IOCs. It has allowed DLS to a have concise way of describing a beamline for many
     years. However, it requires some changes to the support modules and for this
     reason DLS maintain's a fork of all upstream support modules it uses.
     epics-containers is intended to remove this barrier to collaboration and
     use support modules from public repositories wherever appropriate. This
     includes external publishing of previously internal support modules.
 
-The first step was to publish the support module to a public repository. The
-support module now lives at:
+The first step was to publish the support module to a public repository,
+it now lives at:
 
 https://github.com/DiamondLightSource/lakeshore340
 
-The project requires a little genericizing as follows:
+The project required a little genericizing as follows:
 
 - add an Apache V2 LICENCE file in the root
 - Make sure that configure/RELEASE has an include of RELEASE.local at the end
@@ -117,7 +117,7 @@ Initial Changes to the Dockerfile
 ---------------------------------
 
 The Dockerfile is the recipe for building the container image. It is a set
-of steps that get run inside a container, the starting container filesystem
+of steps that get run inside a container. The starting container filesystem
 state is determined by a ``FROM`` line at the top of the Dockerfile.
 
 In the Generic IOC template the ``FROM`` line gets a version of the
@@ -147,7 +147,8 @@ first install those inside our devcontainer as follows:
 
 .. code-block:: bash
 
-    cd /workspaces/ibek-support
+    # open a new terminal in VSCode (Terminal -> New Terminal)
+    cd /workspaces/ioc-lakeshore340/ibek-support
     asyn/install.sh R4-42
     StreamDevice/install.sh 2.8.24
 
@@ -158,17 +159,6 @@ modules.
 Next, make sure that the next build of our ``ioc-lakeshore340`` container
 image will have the same support built in by updating the Dockerfile as follows:
 
-.. note::
-
-    You may think that there is a lot of duplication here e.g. ``asyn`` appears
-    3 times. However, this is explicitly
-    done to make the build cache more efficient and speed up development.
-    For example we could copy everything out of the ibek-support directory
-    in a single command but then if I changed a StreamDevice ibek-support file the
-    build would have to re-fetch and re-make all the support modules. By,
-    only copying the files we are about to use in the next step we can,
-    massively increase the build cache hit rate.
-
 .. code-block:: dockerfile
 
     COPY ibek-support/asyn/ asyn/
@@ -177,12 +167,22 @@ image will have the same support built in by updating the Dockerfile as follows:
     COPY ibek-support/StreamDevice/ StreamDevice/
     RUN StreamDevice/install.sh 2.8.24
 
-The above adds ``StreamDevice`` and its dependency ``asyn``. For each support module
+The above commands added ``StreamDevice`` and its dependency ``asyn``.
+For each support module
 we copy it's ``ibek-support`` folder and then run the ``install.sh`` script. The
 only argument to ``install.sh`` is the git tag for the version of the support
 module required. ``ibek-support`` is a submodule used by all the Generic IOC
 projects that contains recipes for building support modules, it will be covered
 in more detail as we learn to add our own recipe for lakeshore340 below.
+
+You may think that there is a lot of duplication here e.g. ``asyn`` appears
+3 times. However, this is explicitly
+done to make the build cache more efficient and speed up development.
+For example we could copy everything out of the ibek-support directory
+in a single command but then if I changed a StreamDevice ibek-support file the
+build would have to re-fetch and re-make all the support modules. By
+only copying the files we are about to use in the next step we can,
+massively increase the build cache hit rate.
 
 .. note::
 
@@ -196,21 +196,28 @@ in more detail as we learn to add our own recipe for lakeshore340 below.
     commands to the Dockerfile, so that these changes become permanent.
 
 
-Configure the ibek-support Submodule
-------------------------------------
+Prepare The ibek-support Submodule
+----------------------------------
+
+Now we are ready to add the lakeshore340 support module to our project. In
+order to do so we must first add a recipe for it to ``ibek-support``.
 
 The ``ibek-support`` submodule is used to share information about how to build
-and use support modules. It contains two kinds of files:
+and use support modules. It contains three kinds of files:
 
 #.  install.sh - These are used to fetch and build support modules. They are
     run from the Dockerfile as described above.
 
-#.  IBEK support module definitions: These are used to help IOCs build their
+#.  IBEK support module ``definitions``: These are used to help IOCs build their
     iocShell boot scripts and EPICS Database from YAML descriptions.
 
-ibek-support is curated for security reasons, therefore we need to work with
+#.  PVI definitions: These are used to add structure to the set of PV's a
+    device exposes. This structure allows us to auto-generate engineering
+    screens for the device. See https://github.com/epics-containers/pvi.
+
+``ibek-support`` is curated for security reasons, therefore we need to work with
 a fork of it so we can add our own recipe for lakeshore340. If you make changes
-to ibek-support that are generally useful you can use a pull request to get them
+to ``ibek-support`` that are generally useful you can use a pull request to get them
 merged into the main repo.
 
 Perform the following steps to create a fork and update the submodule:
@@ -218,190 +225,289 @@ Perform the following steps to create a fork and update the submodule:
 - goto https://github.com/epics-containers/ibek-support/fork
 - uncheck ``Copy the main branch only``
 - click ``Create Fork``
-- click on ``<> Code`` and COPY the *HTTPS* URL
+- click on ``<> Code`` and copy the *HTTPS* URL
 - cd to the ioc-lakeshore340 directory
--
-  .. code-block:: bash
 
-        git submodule set-url ibek-support <PASTE *HTTPS* URL HERE>
-        git submodule init
-        git submodule update
-        cd ibek-support
-        git checkout tutorial-KEEP # see note below
-        cd ..
+.. code-block:: bash
 
-We are using the ``tutorial-KEEP`` branch which is a snapshot of the ibek-support state
+    git submodule set-url ibek-support <PASTE *HTTPS* URL HERE>
+    git submodule init
+    git submodule update
+    cd ibek-support
+    git fetch
+    git checkout tutorial-KEEP # see note below
+    cd ..
+
+We are using the ``tutorial-KEEP`` branch which is a snapshot of the ``ibek-support`` state
 appropriate for this tutorial. Normally you would use the ``main`` branch and
 then create your own branch off of that to work in.
 
-.. warning::
+.. note::
 
-    IMPORTANT: we used an *HTTPS* URL for the ibek-support submodule, not
+    IMPORTANT: we used an *HTTPS* URL for the ``ibek-support`` submodule, not
     a *SSH* URL. This is because other clones of ``ioc-lakeshore340`` will not
     be guaranteed to have the required SSH keys. HTTPS is fine for reading, but
     to write you need SSH. Therefore add the following to your ``~/.gitconfig``:
 
     .. code-block::
 
-    [url "ssh://git@github.com/"]
-            insteadOf = https://github.com/
+        [url "ssh://git@github.com/"]
+                insteadOf = https://github.com/
 
     This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.
 
 
-The git submodule allows us to share the ibek-support definitions between all
+The git submodule allows us to share the ``ibek-support`` definitions between all
 ioc-XXX projects but also allows each project to have its copy fixed to
 a particular commit (until updated with ``git pull``) see
 https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information.
 
 
-Add a new support module
-~~~~~~~~~~~~~~~~~~~~~~~~
+Create install.sh For The lakeshore340
+--------------------------------------
 
+The first file we will create is the ``install.sh`` script for lakeshore340.
+This is a simple script that fetches the support module from GitHub and
+builds it.
 
-Add System Dependencies
-~~~~~~~~~~~~~~~~~~~~~~~
+These scripts draw heavily on the ``ibek`` tool to do tasks that most support
+modules require. They are also as close to identical as possible for simple
+support modules.
 
-If you tried to build the container image at this point you would find that
-it is missing the boost libraries which are required by areaDetector. You
-can use ``apt`` to install anything you need inside the container. Replace
-the commented out ``apt-get`` lines with:
+IMPORTANT points to note are:
 
-.. code-block:: dockerfile
+- Although we are using ``ibek`` we are really just automating what an EPICS
+  engineer would do manually. This is very much using the vanilla EPICS build
+  system that comes with EPICS base, along with the vanilla Make and Config files
+  that come with each support module. These steps are:-
 
-   RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-    libboost-all-dev
+  - make sure we have the necessary system dependencies installed
+  - fetch a version of the support module from GitHub
+  - add a RELEASE.local to enable dependency resolution
+  - optionally add CONFIG_SITE.local to apply settings for the build environment
+  - run make to build the support module
+  - take a note of the dbds and libs that we build so that we can use them
+    to make our IOC instance later
+- This is a bash script so although we encourage a very standard structure,
+  you can do anything you like. For example this support module has to
+  compile a 3rd party library before it can build the support module itself.
+  `ADAravis install.sh <https://github.com/gilesknap/ibek-support/blob/46fd9394f6bf07da97ab7971e6b3f09a623a42f6/ADAravis/install.sh#L17-L44>`_
 
-Add ibek-support Patch file for ADURL
--------------------------------------
+To make your lakeshore340 install.sh script:
 
-In the above we referred to a patch file for ADURL. Add this in the ``ibek-support``
-folder by creating directory called ``ibek-support/adurl`` and adding a file called
-``adurl.sh`` with the following contents:
+.. code-block:: bash
+
+    cd ibek-support
+    mkdir lakeshore340
+    cp devIocStats/install.sh lakeshore340/install.sh
+    code install.sh
+
+Now edit the install.sh script to look like the following code block.
+
+The changes required for any support module you care to build would be:
+
+- change the NAME variable to match the name of the support module
+- add in ``ibek support apt-install`` lines for any system dependencies.
+  These can be for the developer stage or the runtime stage or both.
+- change the ``ibek support add-*`` lines to declare the libs and DBDs
+  that this module will publish.
+- add extra release macros for RELEASE.local (the RELEASE macro for
+  the current support module is added automatically). Or add
+  CONFIG entries for CONFIG_SITE.local as required.
+  None were required for lakeshore340. To see how to use these
+  functions see:
+  - ibek support add-release-macro --help
+  - ibek support add-to-config-site --help
 
 .. code-block:: bash
 
     #!/bin/bash
 
-    echo '
-    CROSS_COMPILER_TARGET_ARCHS =
+    # ARGUMENTS:
+    #  $1 VERSION to install (must match repo tag)
+    VERSION=${1}
+    NAME=lakeshore340
+    FOLDER=$(dirname $(readlink -f $0))
 
-    # Enable file plugins and source them all from ADSupport
+    # log output and abort on failure
+    set -xe
 
-    WITH_GRAPHICSMAGICK = YES
-    GRAPHICSMAGICK_EXTERNAL = NO
+    # doxygen is used in documentation build for the developer stage
+    ibek support apt-install --only=dev doxygen
 
-    WITH_JPEG     = YES
-    JPEG_EXTERNAL = NO
+    # get the source and fix up the configure/RELEASE files
+    ibek support git-clone ${NAME} ${VERSION} --org https://github.com/DiamondLightSource/
 
-    WITH_PVA      = YES
-    WITH_BOOST    = YES
-    ' > configure/CONFIG_SITE.linux-x86_64.Common
+    ibek support register ${NAME}
 
-    echo '
-    # Generic RELEASE.local file that should work for all Support modules and IOCs
+    # declare the libs and DBDs that are required in ioc/iocApp/src/Makefile
+    # None required for a stream device ------------------------------------
+    #ibek support add-libs
+    #ibek support add-dbds
 
-    SUPPORT=NotYetSet
-    AREA_DETECTOR=$(SUPPORT)
-    include $(SUPPORT)/configure/RELEASE
-    ' > configure/RELEASE.local
+    # compile the support module
+    ibek support compile ${NAME}
+    # prepare *.bob, *.pvi, *.ibek.support.yaml for access outside the container.
+    ibek support generate-links ${FOLDER}
 
-This is a pretty standard patch file and most support modules will need
-something similar.
-It creates two files in the ADURL support module's configure folder as
-follows:
-
-- ``CONFIG_SITE.linux-x86_64.Common`` - This tells the ADURL build
-  to use the GraphicsMagick and JPEG libraries that are built by ADSUPPORT.
-  For details of what to put in CONFIG_SITE for AreaDetector modules see
-  `CONFIG_SITE.local`_.
-- ``RELEASE.local`` - This tells the ADURL build where to find
-  the support modules that it depends on. epics-containers maintains a
-  global release file that is used by all support modules and IOCs. It
-  located at ``/workspaces/epics/support/configure/RELEASE``. Therefore we
-  place a reference to this file in the RELEASE.local file. Whenever
-  ``python3 modules.py install`` is run it will update the global release
-  file and also fixup any ``SUPPORT=`` lines in all ``configure/RELEASE*``
-  files.
-
-ADCore and ADSupport already have ibek-support files as they were previously created
-when making ``ioc-adsimdetector``.
-
-
-.. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
-
-Update the IOC Makefile
------------------------
-
-The IOC Makefile tells the IOC which modules to link against. We need to update
-it to pull in ADUrl and dependencies. Replace the file ``ioc/iocApp/src/Makefile``
-with the following:
-
-.. code-block:: makefile
-
-    TOP = ../..
-    include $(TOP)/configure/CONFIG
-
-    PROD_IOC = ioc
-    DBD += ioc.dbd
-    ioc_DBD += base.dbd
-    ioc_DBD += devIocStats.dbd
-    ioc_DBD += asyn.dbd
-    ioc_DBD += busySupport.dbd
-    ioc_DBD += ADSupport.dbd
-    ioc_DBD += NDPluginSupport.dbd
-    ioc_DBD += NDFileHDF5.dbd
-    ioc_DBD += NDFileJPEG.dbd
-    ioc_DBD += NDFileTIFF.dbd
-    ioc_DBD += NDFileNull.dbd
-    ioc_DBD += NDPosPlugin.dbd
-    ioc_DBD += URLDriverSupport.dbd
-    ioc_DBD += PVAServerRegister.dbd
-    ioc_DBD += NDPluginPva.dbd
-
-    ioc_SRCS += ioc_registerRecordDeviceDriver.cpp
-
-    ioc_LIBS += ntndArrayConverter
-    ioc_LIBS += nt
-    ioc_LIBS += pvData
-    ioc_LIBS += pvDatabase
-    ioc_LIBS += pvAccessCA
-    ioc_LIBS += pvAccessIOC
-    ioc_LIBS += pvAccess
-    ioc_LIBS += URLDriver
-    ioc_LIBS += NDPlugin
-    ioc_LIBS += ADBase
-    ioc_LIBS += cbfad
-    ioc_LIBS += busy
-    ioc_LIBS += asyn
-    ioc_LIBS += devIocStats
-    ioc_LIBS += $(EPICS_BASE_IOC_LIBS)
-    ioc_SRCS += iocMain.cpp
-
-    include $(TOP)/configure/RULES
-
-TODO: in future the IBEK tool will generate the Makefile for you based on the
-ibek support YAML supplied with each module in ibek-support.
-
-
-Build the Generic IOC
----------------------
-
-Now we can build the IOC. Run the following command from the ioc-adurl
-directory:
+Having made these changes you can now test the script by running it:
 
 .. code-block:: bash
 
-    ec dev build
+    cd /workspaces/ioc-lakeshore340/ibek-support
+    chmod +x lakeshore340/install.sh
+    lakeshore340/install.sh 2-6-1
 
-.. warning::
+You now have lakeshore340 support in your developer container. Let's go ahead
+and add that into the Dockerfile:
 
-    This will FAIL. There is a deliberate error which we will fix in the next
-    Tutorial.
+.. code-block:: dockerfile
 
-    You should see this error::
+    COPY ibek-support/lakeshore340/ lakeshore340/
+    RUN lakeshore340/install.sh 2-6-1
 
-        ../URLDriver.cpp:22:10: fatal error: Magick++.h: No such file or directory
+This means you can compile an IOC with lakeshore340 support in this container
+but we don't yet have a way to generate startup scripts and EPICS Databases
+for the instances. We will do that next.
 
-In the next tutorial we will look at how to fix build errors like this.
+Create Support YAML for the lakeshore340
+----------------------------------------
+
+When making an IOC instance from a Generic IOC, the instance needs to supply
+an iocShell startup script and an EPICS Database. You can supply hand
+crafted ``st.cmd`` and ``ioc.subst`` files for this purpose. The Generic IOC
+we have made above is already capable of using such files.
+
+For this exercise we will use the full capabilities of ``ibek`` to generate
+these files from a YAML description of the IOC instance. To do this we need
+to create a YAML file that describes what the instance YAML is allowed to
+make.
+
+TODO: a detailed description of the YAML files' structure and purpose should
+be included in the ``ibek`` documentation and linked here.
+The current version of this is here
+https://epics-containers.github.io/ibek/main/developer/explanations/entities.html
+but it is rather out of date.
+
+To create a ibek support YAML file we need to provide a list of ``definitions`` .
+Each ``definition`` gives:
+
+- a name and description for the ``definitions``- a list of arguments that an
+  instance of this ``definitions`` may supply with each having:
+
+  - a type (string, integer, float, boolean, enum)
+  - a name
+  - a description
+  - optionally a default value
+
+- A list of database templates to instantiate for each instance of this ``definitions``
+  - including values for the Macros in the template
+
+- A list of iocShell command line entries to add before or after ``iocInit``
+
+In all of the fields Jinja templating can be used to combine the values of
+arguments into the final output. At its simplest this is just the name of
+an argument in double curly braces e.g. ``{{argument_name}}``. But, it can
+also be used to do more complex things as a Python interpreter is evaluating
+the text inside the curly braces and that interpreter has the values of
+all the ``definitions`` arguments available in its context.
+See https://jinja.palletsprojects.com/en/3.0.x/templates/
+
+To make a lakeshore340 YAML file, put the following contents in a file called
+``/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/lakeshore340.yaml``:
+
+.. code-block:: yaml
+
+  # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/1.6.2/ibek.support.schema.json
+
+  module: lakeshore340
+
+  defs:
+    - name: lakeshore340
+      description: |-
+        Lakeshore 340 Temperature Controller
+        Notes: The temperatures in Kelvin are archived once every 10 secs.
+      args:
+        - type: str
+          name: P
+          description: |-
+            Prefix for PV name
+
+        - type: str
+          name: PORT
+          description: |-
+            Bus/Port Address (eg. ASYN Port).
+
+        - type: int
+          name: ADDR
+          description: |-
+            Address on the bus
+          default: 0
+
+        - type: int
+          name: SCAN
+          description: |-
+            SCAN rate for non-temperature/voltage parameters.
+          default: 5
+
+        - type: int
+          name: TEMPSCAN
+          description: |-
+            SCAN rate for the temperature/voltage readings
+          default: 5
+
+        - type: id
+          name: name
+          description: |-
+            Object and gui association name
+
+        - type: int
+          name: LOOP
+          description: |-
+            Which heater PID loop to control (Default = 1)
+          default: 1
+
+      databases:
+        - file: $(LAKESHORE340)/db/lakeshore340.template
+          args:
+            name:
+            SCAN:
+            P:
+            TEMPSCAN:
+            PORT:
+            LOOP:
+            ADDR:
+
+      pre_init:
+        - value: |
+            epicsEnvSet "STREAM_PROTOCOL_PATH", "$(LAKESHORE340)/lakeshore340App/protocol/"
+
+This file declares a list of arguments, one for each of the database template
+macros that it needs to substitute. It then declares that we need to instantiate
+the ``lakeshore340.template`` database template and passes all of the arguments
+verbatim to the template.
+
+Finally it declares that we need to add a line to the iocShell startup script
+that allows the IOC to find the modules StreamDevice protocol files.
+
+Note that in the list of DB args or in the startup lines we can use combinations
+of arguments to make the final output.
+
+e.g. to make a more descriptive PV prefix we could use:
+
+.. code-block:: yaml
+
+      databases:
+        - file: $(LAKESHORE340)/db/lakeshore340.template
+          args:
+            P: "{{P + ':' + name + ':'}}"
+
+.. note::
+
+    Because this is a DLS module originally, it has an ``etc/builder.py`` file
+    that is used by the ``XML Builder`` tool. ``ibek`` has a converter tool
+    that will translate this file into an ``ibek`` YAML file. Only DLS users
+    can take advantage of this because it needs access to all the dependent
+    DLS support module forks to work. See `../how-to/builder2ibek.support`
+
+
