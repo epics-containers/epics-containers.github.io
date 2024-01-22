@@ -77,6 +77,7 @@ side-bar.
             :maxdepth: 1
 
             reference/faq
+            reference/configuration
             reference/environment
             reference/cli
             reference/ioc_helm_chart

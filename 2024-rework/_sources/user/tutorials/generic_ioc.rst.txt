@@ -1,190 +1,263 @@
 Create a Generic IOC
 ====================
 
-.. Warning::
-
-    This tutorial is out of date and will be updated soon.
-
-In this tutorial we will learn how to create a Generic IOC container image and
-test our changes locally before deploying it.
+In this tutorial you will learn how to take an existing support module and
+create a Generic IOC builds it. You will also learn how to embed an
+example IOC instance into the Generic IOC for testing and demonstration.
 
 This is a type 2. change from the list at `ioc_change_types`.
 
-The example IOC used ADSimDetector, we will make a similar IOC that uses
-ADUrl to get images from a webcam.
+Lakeshore 340 Temperature Controller
+------------------------------------
+
+The example we will use is a Lakeshore 340 temperature controller. This
+is a Stream Device based support module that has historically been internal
+to Diamond Light Source.
+
+See details of the device:
+`lakeshore 340 <https://www.lakeshore.com/products/categories/overview/discontinued-products/discontinued-products/model-340-cryogenic-temperature-controller>`_
+
+.. note::
+
+    DLS has an existing IOC building tool ``XML Builder`` for traditional
+    IOCs. It has allowed DLS to have concise way of describing a beamline for many
+    years. However, it requires some changes to the support modules and for this
+    reason DLS maintain's a fork of all upstream support modules it uses.
+    epics-containers is intended to remove this barrier to collaboration and
+    use support modules from public repositories wherever appropriate. This
+    includes external publishing of previously internal support modules.
+
+The first step was to publish the support module to a public repository. The
+support module now lives at:
+
+https://github.com/DiamondLightSource/lakeshore340
+
+The project requires a little genericizing as follows:
+
+- add an Apache V2 LICENCE file in the root
+- Make sure that configure/RELEASE has an include of RELEASE.local at the end
+- change the make file to skip the ``XML Builder`` /etc folder
+
+The commit where these changes were made is
+`0ff410a3e1131 <https://github.com/DiamondLightSource/lakeshore340/commit/0ff410a3e1131c96078837424b2dfcdb4af2c356>`_
+
+Something like these steps may be required when publishing any
+facility's previously internal support modules.
+
 
 Create a New Generic IOC project
 --------------------------------
 
 By convention Generic IOC projects are named ``ioc-XXX`` where ``XXX`` is the
-name of the primary support module used by the IOC. Here we will be building
-``ioc-adurl``.
+name of the primary support module. So here we will be building
+``ioc-lakeshore340``.
 
 Much like creating a new beamline we have a template project that can be used
 as the starting point for a new Generic IOC. Again we will create this in
 your personal GitHub user space.
 
-Create a new ioc-XXX repo
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Go to the Generic IOC template project at:
 
-TODO: the following steps to create a new Generic IOC project will be automated
-using an ``ec`` command.
+https://github.com/epics-containers/ioc-template
 
-#.  Create a new, completely blank repository in your GitHub account
-    called ``ioc-adurl``. To do this got to https://github.com/new
-    and fill in the details as per the image below. Click
-    ``Create repository``.
+Click on the ``Use this template`` button and create a new repository called
+``ioc-lakeshore340`` in your personal GitHub account.
 
-#.  Clone the template repo locally and rename from ioc-template to ioc-adurl
+As soon as you do this the build in GitHub Actions CI will start building the
+project. This will make a container image of the template project, but
+not publish it because there is no release tag as yet. You can watch this
+by clicking on the ``Actions`` tab in your new repository.
 
-    .. code-block:: bash
-
-        git clone git@github.com:epics-containers/ioc-template.git
-        mv ioc-template ioc-adurl
-        cd ioc-adurl
-
-#.  Add your new repo to your VSCode workspace and take a look at what you
-    have.
-
-    From the VSCode menus: File->Add Folder to Workspace
-    then select the folder ioc-adurl
-
-#.  Push the repo back to a new repo on github
-
-    .. code-block:: bash
-
-        git remote rm origin
-        git remote add origin git@github.com:<YOUR USER NAME>/ioc-adurl.git
-        git push --set-upstream origin main
-
+You might think building the template project was a waste of GitHub CPU. But,
+this is not so, because of container build cacheing. The next time you build
+the project in CI, with your changes, it will re-use most of the steps
+and be much faster.
 
 Prepare the New Repo for Development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
-There are a few things that all new ioc-XXX repos need to do:
+There are only three places where you need to change the Generic IOC template
+to make your own Generic IOC.
 
-:Choose Architecture:
+#.  Dockerfile - add in the support modules you need
+#.  README.md - change to describe your Generic IOC
+#.  ibek-support - add new support module recipes into this submodule
 
-    Update the file ``.github/workflows/build.yml`` to choose the architectures
-    you are targeting find the ``architecture:`` line and change it accordingly.
-    For this project we want ``linux`` only.
+To work on this project we will make a local developer container. All
+changes and testing will be performed inside this developer container.
 
-:Fix the tests:
+To get the developer container up and running:
 
-    ioc-template comes with some tests and they will continue to work. This is
-    because they rely a default EPICS db. Specified in ``ioc/config/ioc.db``.
-    You should update default example files in ``ioc/config/ioc.db`` to be
-    relevant to your IOC and change the script in ``tests`` to match.
+.. code-block:: bash
 
-For now leave the tests alone as we will be working with them in
-`test_generic_ioc`.
+    git clone git@github.com:<YOUR GITHUB ACCOUNT>/ioc-lakeshore340.git
+    cd ioc-lakeshore340
+    ./build
+    code .
+    # choose "Reopen in Container"
 
-Now we will go ahead and make the specific changes to the template
-needed for our ioc-adurl project.
+Once the developer container is running it is always instructive to have the
+``/epics`` folder added to your workspace:
 
-Configure the ibek-defs Submodule
+- File -> Add Folder to Workspace
+- Select ``/epics``
+- Click ignore if you see an error
+- File -> Save Workspace As...
+- Choose the default ``/workspaces/ioc-lakeshore340/ioc-lakeshore340.code-workspace``
+
+Note that workspace files are not committed to git. They are specific to your
+local development environment. Saving a workspace allows you to reopen the
+same set of folders in the developer container, using the *Recent* list shown
+when opening a new VSCode window.
+
+Now is a good time to edit the README.md file and change it to describe your
+Generic IOC as you see fit.
+
+Initial Changes to the Dockerfile
 ---------------------------------
 
-The ``ibek-defs`` submodule is used to share information about how to build
-support modules. It contains two kinds of files:
+The Dockerfile is the recipe for building the container image. It is a set
+of steps that get run inside a container, the starting container filesystem
+state is determined by a ``FROM`` line at the top of the Dockerfile.
 
-#.  Patch Files: these are used to update a support module so that it will
-    build correctly in the container environment. These should typically only
-    add one or both of these files:
+In the Generic IOC template the ``FROM`` line gets a version of the
+epics-containers base image. It then demonstrates how to add a support module
+to the container image. The ``iocStats`` support module is added and built
+by the template. It is recommended to keep this module as the default
+behaviour in Kubernetes is to use ``iocStats`` to monitor the health of
+the IOC.
 
-    - configure/RELEASE.local
-    - configure/CONFIG_SITE.linux-x86_64.Common
+Thus you can start adding support modules by adding more ``COPY`` and ``RUN``
+lines to the Dockerfile. Just like those for the ``iocStats`` module.
+
+The rest of the Dockerfile is boilerplate and for best results you only need
+to remove the comment below and replace it with the additional support
+modules you need. Doing this means it is easy to adopt changes to the original
+template Dockerfile in the future.
+
+.. code-block:: dockerfile
+
+    ################################################################################
+    #  TODO - Add further support module installations here
+    ################################################################################
+
+Because lakeshore340 support is a StreamDevice we will need to add in the
+required dependencies. These are ``asyn`` and ``StreamDevice``. We will
+first install those inside our devcontainer as follows:
+
+.. code-block:: bash
+
+    cd /workspaces/ibek-support
+    asyn/install.sh R4-42
+    StreamDevice/install.sh 2.8.24
+
+This pulls the two support modules from GitHub and builds them in our devcontainer.
+Now any IOC instances we run in the devcontainer will be able to use these support
+modules.
+
+Next, make sure that the next build of our ``ioc-lakeshore340`` container
+image will have the same support built in by updating the Dockerfile as follows:
+
+.. note::
+
+    You may think that there is a lot of duplication here e.g. ``asyn`` appears
+    3 times. However, this is explicitly
+    done to make the build cache more efficient and speed up development.
+    For example we could copy everything out of the ibek-support directory
+    in a single command but then if I changed a StreamDevice ibek-support file the
+    build would have to re-fetch and re-make all the support modules. By,
+    only copying the files we are about to use in the next step we can,
+    massively increase the build cache hit rate.
+
+.. code-block:: dockerfile
+
+    COPY ibek-support/asyn/ asyn/
+    RUN asyn/install.sh R4-42
+
+    COPY ibek-support/StreamDevice/ StreamDevice/
+    RUN StreamDevice/install.sh 2.8.24
+
+The above adds ``StreamDevice`` and its dependency ``asyn``. For each support module
+we copy it's ``ibek-support`` folder and then run the ``install.sh`` script. The
+only argument to ``install.sh`` is the git tag for the version of the support
+module required. ``ibek-support`` is a submodule used by all the Generic IOC
+projects that contains recipes for building support modules, it will be covered
+in more detail as we learn to add our own recipe for lakeshore340 below.
+
+.. note::
+
+    These changes to the Dockerfile mean that if we were to exit the devcontainer,
+    and then run ``./build`` again, it would would add the ``asyn`` and
+    ``StreamDevice`` support modules to the container image. Re-launching the
+    devcontainer would then have the new support modules available right away.
+
+    This is a common pattern for working in these devcontainers. You can
+    try out installing anything you need. Then once happy with it, add the
+    commands to the Dockerfile, so that these changes become permanent.
+
+
+Configure the ibek-support Submodule
+------------------------------------
+
+The ``ibek-support`` submodule is used to share information about how to build
+and use support modules. It contains two kinds of files:
+
+#.  install.sh - These are used to fetch and build support modules. They are
+    run from the Dockerfile as described above.
 
 #.  IBEK support module definitions: These are used to help IOCs build their
-    iocShell boot scripts from YAML descriptions. They are not used in this
-    tutorial as we are supplying a hand crafted boot script. For information
-    on IBEK see https://github.com/epics-containers/ibek.
+    iocShell boot scripts and EPICS Database from YAML descriptions.
 
-ibek-defs is curated for security reasons, therefore we need to work with
-a fork of it so we can add our own definitions for ADUrl. If you make changes
-to ibek-defs that are generally useful you can use a pull request to get them
+ibek-support is curated for security reasons, therefore we need to work with
+a fork of it so we can add our own recipe for lakeshore340. If you make changes
+to ibek-support that are generally useful you can use a pull request to get them
 merged into the main repo.
 
 Perform the following steps to create a fork and update the submodule:
 
-- goto https://github.com/epics-containers/ibek-defs/fork
+- goto https://github.com/epics-containers/ibek-support/fork
 - uncheck ``Copy the main branch only``
 - click ``Create Fork``
-- click on ``<> Code`` and COPY the ssh URL
-- cd to the ioc-adurl directory
+- click on ``<> Code`` and COPY the *HTTPS* URL
+- cd to the ioc-lakeshore340 directory
 -
   .. code-block:: bash
 
-        git submodule set-url ibek-defs <PASTE URL HERE>
+        git submodule set-url ibek-support <PASTE *HTTPS* URL HERE>
         git submodule init
         git submodule update
-        cd ibek-defs
-        git checkout tutorial
+        cd ibek-support
+        git checkout tutorial-KEEP # see note below
         cd ..
 
-We are using the ``tutorial`` branch which has a snapshot of the ibek-defs state
+We are using the ``tutorial-KEEP`` branch which is a snapshot of the ibek-support state
 appropriate for this tutorial. Normally you would use the ``main`` branch and
-therefore omit ``git checkout tutorial``.
+then create your own branch off of that to work in.
 
-The git submodule allows us to share the ibek-defs definitions between all
+.. warning::
+
+    IMPORTANT: we used an *HTTPS* URL for the ibek-support submodule, not
+    a *SSH* URL. This is because other clones of ``ioc-lakeshore340`` will not
+    be guaranteed to have the required SSH keys. HTTPS is fine for reading, but
+    to write you need SSH. Therefore add the following to your ``~/.gitconfig``:
+
+    .. code-block::
+
+    [url "ssh://git@github.com/"]
+            insteadOf = https://github.com/
+
+    This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.
+
+
+The git submodule allows us to share the ibek-support definitions between all
 ioc-XXX projects but also allows each project to have its copy fixed to
 a particular commit (until updated with ``git pull``) see
 https://git-scm.com/book/en/v2/Git-Tools-Submodules for more information.
 
 
-Modify the Dockerfile
----------------------
-
-The heart of every ioc-XXX project is the Dockerfile. This is a text file
-that contains a set of instructions that are used to build a container image.
-See https://docs.docker.com/engine/reference/builder/ for details of how
-to make Dockerfiles.
-
-All ioc-XXX projects will have the same pattern of Dockerfile instructions
-and will all be based upon the epics base images named:
-
-- ghcr.io/epics-containers/epics-base-<ARCH>-<TARGET>
-
-Where ARCH is currently ``linux`` or ``rtems`` and TARGET will always be ``developer``
-and ``runtime``. Support for further architectures will be added in the future.
-
-The ``developer`` image contains all the tools needed to build support modules
-and is used for building and debugging the Generic IOC. The ``runtime`` image
-is a minimal image that holds the minimum required to run the Generic IOC.
-
-The changes we will make to the template Dockerfile are as follows:
-
-Add more support modules
+Add a new support module
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-After the make of ``busy`` add 3 more support module fetch and make steps
-like this:
-
-.. code-block:: dockerfile
-
-    COPY ibek-defs/adsupport/ /ctools/adsupport/
-    RUN python3 modules.py install ADSUPPORT R1-10 github.com/areaDetector/adsupport.git --patch adsupport/adsupport.sh
-    RUN make -C ${SUPPORT}/adsupport -j $(nproc)
-
-    COPY ibek-defs/adcore/ /ctools/adcore/
-    RUN python3 modules.py install ADCORE R3-12-1 github.com/areaDetector/adcore.git --patch adcore/adcore.sh
-    RUN make -C ${SUPPORT}/adcore -j $(nproc)
-
-    COPY ibek-defs/adurl/ /ctools/adurl/
-    RUN python3 modules.py install ADURL R2-3 github.com/areaDetector/adurl.git --patch adurl/adurl.sh
-    RUN make -C ${SUPPORT}/adurl -j $(nproc)
-
-This instructs the build to fetch the support module source code from GitHub
-for ADURL and its two dependencies ADSUPPORT and ADCORE. It also makes each
-module after fetching.
-
-.. note::
-
-    You may think that there is a lot of duplication here but this is explicitly
-    done to make the build cache more efficient and speed up development.
-    For example we could copy everything out of the ibek-defs directory
-    in a single command but then if I changed the ADURL patch file the
-    build would have to re-fetch and re-make all the support modules.
 
 Add System Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,11 +273,11 @@ the commented out ``apt-get`` lines with:
     apt-get install -y --no-install-recommends \
     libboost-all-dev
 
-Add ibek-defs Patch file for ADURL
-----------------------------------
+Add ibek-support Patch file for ADURL
+-------------------------------------
 
-In the above we referred to a patch file for ADURL. Add this in the ``ibek-defs``
-folder by creating directory called ``ibek-defs/adurl`` and adding a file called
+In the above we referred to a patch file for ADURL. Add this in the ``ibek-support``
+folder by creating directory called ``ibek-support/adurl`` and adding a file called
 ``adurl.sh`` with the following contents:
 
 .. code-block:: bash
@@ -252,7 +325,7 @@ follows:
   file and also fixup any ``SUPPORT=`` lines in all ``configure/RELEASE*``
   files.
 
-ADCore and ADSupport already have ibek-defs files as they were previously created
+ADCore and ADSupport already have ibek-support files as they were previously created
 when making ``ioc-adsimdetector``.
 
 
@@ -309,7 +382,7 @@ with the following:
     include $(TOP)/configure/RULES
 
 TODO: in future the IBEK tool will generate the Makefile for you based on the
-ibek support YAML supplied with each module in ibek-defs.
+ibek support YAML supplied with each module in ibek-support.
 
 
 Build the Generic IOC
