@@ -1,31 +1,62 @@
 Debugging Generic IOC Builds
 ============================
 
-.. Warning::
-
-    This tutorial is out of date and will be updated soon.
-
 This tutorial is a continuation of `generic_ioc`. Here we will look into
-debugging failed builds and fix the issue we saw in the previous tutorial.
+debugging failed builds of Generic IOCs.
 
-This also comes under the category of type 2. change from the list
-at `ioc_change_types`.
+For the most part the recommended workflow is to always be working inside
+of a developer container. We always use a Generic IOC as the base for our
+developer containers. But what if the build of the Generic IOC fails, then
+you don't have a container to work in and need some other way to debug the
+build.
 
-There are two ways to debug a failed build:
+There are two ways to debug such a failed build:
 
 - Keep changing the Dockerfile and rebuilding the container until the build
   succeeds. This is the simplest approach and is often sufficient since our
   Dockerfile design maximizes the use of the build cache.
 
 - Investigate the build failure by running a shell inside the
-  partially-built container and
-  using make. This is a good idea if you have to make fundamental changes
-  such as installing a new system package. System package install happens
-  at the start of the Dockerfile and would trigger a full rebuild when
-  changed.
+  partially-built container and retrying the failed command. This is particularly
+  useful if you are fixing something early in the Dockerfile that causes a
+  failure much later in the build. This type of failure is tedious to debug
+  using the first approach above.
 
-You already have the knowledge to apply the first approach. In this tutorial
-we will look debugging the build from *inside* the container.
+In this tutorial we will look debugging the build from *inside* the container.
+
+Break the Build
+---------------
+
+Let us break the build of our ioc-lakeshore340 project in the last
+tutorial. Open the the file
+``ioc-lakeshore340/ibek-support/StreamDevice/install.sh``.
+Comment out the apt-install line like this:
+
+.. code-block:: bash
+
+    # ibek support apt-install --only=dev libpcre3-dev
+
+Now rebuild the container - do this command from a new terminal *outside* of
+the devcontainer (make sure you have ``ec`` installed):
+
+.. code-block:: bash
+
+    cd ioc-lakeshore340 # where you cloned it
+    ec dev build
+
+First of all, notice the build cache. The build rapidly skips
+over all the steps until it gets to the StreamDevice support module. The,
+cache fails only when you get to ``COPY ibek-support/StreamDevice/ StreamDevice/``
+because a file in the source folder has changed.
+
+You should see the build fail with the following error:
+
+.. code-block:: bash
+
+    ../RegexpConverter.cc:27:10: fatal error: pcre.h: No such file or directory
+    27 | #include "pcre.h"
+        |          ^~~~~~~~
+    compilation terminated.
 
 Investigate the Build Failure
 -----------------------------
@@ -44,195 +75,101 @@ command.
 
 .. code-block:: bash
 
-    cd /workspaces/epics/support/adurl
-    make
+    cd /workspaces/ioc-lakeshore340/ibek-support
+    StreamDevice/install.sh 2.8.24
 
 You should see the same error again.
 
+This is a pretty common type of error
+when building a new support module. It implies that there is some dependency
+missing. There is a good chance this is a system dependency, in which case
+we want to search the Ubuntu repositories for the missing package.
+
 A really good way to investigate this kind of error is with ``apt-file``
-which is a command line tool for searching Debian packages. apt-file is
-already installed in our devcontainer. So get another terminal open
-with the ``[E7]`` prompt and run the following commands:
+which is a command line tool for searching Debian packages. ``apt-file`` is
+not currently installed in the devcontainer. So you have two choices:
+
+- Install it in the devcontainer - this is temporary and will be lost when
+  the container is rebuilt. Ideal if you don't have install rights on your
+  workstation.
+
+- Install it on your workstation - ideal if you have rights as you only need
+  to install it once.
+
+TODO: consider adding apt-file to the base container developer target.
+
+Whether inside the container or in your workstation terminal, install
+``apt-file`` like this:
 
 .. code-block:: bash
 
-    apt-file search Magick++.h
+    # drop the sudo from the start of the command if using podman
+    sudo apt update
+    sudo apt install apt-file
 
-        graphicsmagick-libmagick-dev-compat: /usr/include/Magick++.h
-        libgraphicsmagick++1-dev: /usr/include/GraphicsMagick/Magick++.h
-        libmagick++-6-headers: /usr/include/ImageMagick-6/Magick++.h
-
-The middle result looks most promising so we will install it (back *inside*
-the Generic IOC container now):
+Now we can search for the missing file:
 
 .. code-block:: bash
 
-    apt-get install -y libgraphicsmagick++1-dev
+    apt-file search pcre.h
 
-The reason using apt-file outside of the Generic IOC works is because
-the Generic IOC and the devcontainer are built upon the same version of
-Ubuntu and have the same packages available.
+There are a few results, but the most promising is:
 
-If we try the build again now it will still fail. We need to tell the
-AreaDetector build system where to find the new header file. This
-is documented here `CONFIG_SITE.local`_. The documentation says that we
-need to set the variable ``GRAPHICSMAGICK_INCLUDE`` in
-``CONFIG_SITE.linux-x86_64.Common``.
-We can see from the ``apt-file`` output that the header file is in
-``/usr/include/GraphicsMagick`` which is not a default include path.
-Therefore we need to edit this file inside our Generic IOC container:
-``/workspaces/epics/support/adurl/configure/CONFIG_SITE.linux-x86_64.Common``
+    libpcre3-dev: /usr/include/pcre.h
 
-.. _CONFIG_SITE.local: https://areadetector.github.io/areaDetector/install_guide.html#edit-config-site-local-and-optionally-config-site-local-epics-host-arch
+Pretty much every time you are missing a header file you will find it in a
+system package with a name ending in ``-dev``.
 
+Now we can install the missing package in the container and retry the build:
+
+.. code-block:: bash
+
+    apt-get install -y libpcre3-dev
+    StreamDevice/install.sh 2.8.24
+
+You should find the build succeeds. But this is not the whole story. There
+is another line in ``install.h`` that I added to make this work:
+
+.. code-block:: bash
+
+    ibek support add-config-macro ${NAME} PCRE_LIB /usr/lib/x86_64-linux-gnu
+
+This added a macro to ``CONFIG_SITE.linux-x86_64.Common`` that tells the
+Makefiles to add an extra include path to the compiler command line. working
+out how to do this is a matter of taking a look in the Makefiles. But the
+nice thing is that you can experiment with things inside the container and
+get them working without having to keep rebuilding the container.
+
+Note that ``ibek support add-config-macro`` is idempotent, so you can run it
+multiple times without getting repeated entries in the CONFIG. All ``ibek``
+commands behave this way as far as possible.
+
+Once you are happy with your manual changes you can make them permanent by
+adding to the install.sh or Dockerfile, then try a full rebuild.
 
 Making Changes Inside the Container
 -----------------------------------
 
-You will find that the container includes busybox tools and there is a
-rudimentary version of ``vi`` installed. You could also install any editor
-you like from the Ubuntu repositories.
+You will find that the container includes busybox tools, vim and ifconfig.
+These should provide enough tools to investigate and fix most build problems.
+You are also
+free to use apt-get to install any other tools you need as demonstrated above.
+(type busybox to see the list of available tools).
 
-HOWEVER, there is a much easier way ...
 
-When you launch containers with ``ec`` commands the ``/workspaces`` folder is
-synchronized to a local folder ioc-XXX/workspaces and that is mounted into the
-container. This means that you can edit files in the container using VSCode.
-The mounted repos folder also ensures that any changes you make inside the
-container are saved between invocations of the container.
+Other ``ec dev`` Commands
+-------------------------
 
-See the image below to see how to navigate to
-``CONFIG_SITE.linux-x86_64.Common``
-in the ``adurl`` support module inside the ioc-adurl container.
-
-.. figure:: ../images/repos_folder.png
-
-    VSCode file explorer showing the mounted repos folder
-
-Using VSCode file explorer as pictured above, navigate to the file
-``CONFIG_SITE.linux-x86_64.Common`` and update the GRAPHICSMAGICK section to
-look like this:
-
-.. code-block:: makefile
-
-    WITH_GRAPHICSMAGICK = YES
-    GRAPHICSMAGICK_EXTERNAL = YES
-    GRAPHICSMAGICK_INCLUDE = /usr/include/GraphicsMagick
-
-Now go back to the terminal and run ``make`` again. This time it should
-succeed.
-
-Applying Changes Made Inside the Container
-------------------------------------------
-
-When you use the 'inside the container' approach to get the build working
-you still need to apply the changes you made 'outside' so that invoking
-container build will also succeed.
-
-:TIP: do NOT apply the below, the next heading supplies a better solution
-      for this specific case.
-
-There are a few kinds of changes that need different approaches as follows:
-
-:apt install:
-
-    We did an apt install of ``libgraphicsmagick++1-dev``. Additional system
-    package installs like this need to be added to the ``apt-get install``
-    command at the top of the Dockerfile.
-
-:CONFIG_SITE:
-
-    We edited ``CONFIG_SITE.linux-x86_64.Common``. This file is not part of
-    the ADURL support module but was supplied by us from ibek-defs.
-
-:Patching:
-
-    This should be avoided, but occasionally it may be necessary to patch other
-    files in the support modules. This is just a variation of the CONFIG_SITE
-    case above. You can place whatever script code you like in the
-    ``ioc-XXX/patch`` folder.
-
-:Support Module:
-
-    Potentially we could have made changes to the ADUrl support module itself
-    because we found a bug or wanted to add a feature. In this case we would
-    push those changes back up to GitHub and get a release made so we
-    could use the new version in our Dockerfile, This would in turn mean A
-    change to the version number in the ``modules.py install ADURL``
-    command. NOTE: the developer container we are using already holds clones
-    of all the support modules so we could make changes in place and push them
-    back.
-
-An Easier Fix Using ADSupport
------------------------------
-
-Although we managed to fix the build by installing Graphics Magick, into the
-container there is an easier solution that is specific to areaDetector. The
-ADSupport module is capable of building most of the system dependencies that
-areaDetector needs. This has proved to be very useful in making containers
-because the curation of all of the compatible versions of these dependencies
-has already been done.
-
-So the error we saw was due to us telling ADUrl to look for an 'internal'
-version of Graphics Magick built by ADSupport. However, we did not tell
-ADSupport to build Graphics Magick.
-
-So the simple fix to this is to add the following line to the
-``ioc-adurl/ibek-defs/adsupport/adsupport.sh`` file:
-
-.. code-block:: makefile
-
-    WITH_GRAPHICSMAGICK = YES
-    GRAPHICSMAGICK_EXTERNAL = NO
-
-Then rebuild the container:
+The ``ec dev`` namespace provides a number of other commands for working outside
+of developer containers. These were primarily developed before the use
+of developer containers matured. If you prefer not to use developer containers
+for any reason then take a look at the help as follows:
 
 .. code-block:: bash
 
-    ec dev build
+    ec dev --help
 
-Note that the build skips quickly over the support modules until it gets
-to ADSupport. This is the build cache saving time.
-However this build will STILL FAIL, it turns out that building Graphics Magick
-does need one system library install.
+You should be able to perform most of the same tasks that the tutorials teach.
 
-The final fix is to add ``libxext-dev`` to the ``apt-get install`` command in
-our Dockerfile. So that it looks like this:
-
-.. code-block:: bash
-
-    RUN apt-get update && apt-get upgrade -y && \
-        apt-get install -y --no-install-recommends \
-        libboost-all-dev \
-        libxext-dev
-
-This is an example of a change that also requires a system package
-install for the runtime version of the container. Locate the second
-``apt-get install`` command in the Dockerfile and add ``libxext6`` so
-that it looks like this:
-
-.. code-block:: bash
-
-    RUN apt-get update && apt-get upgrade -y && \
-        apt-get install -y --no-install-recommends \
-        libxext6 \
-    && rm -rf /var/lib/apt/lists/*
-
-You can remove the RTEMS specific runtime packages that came with ioc-template.
-Note that the ``rm -rf /var/lib/apt/lists/`` removes the apt cache and keeps
-the runtime image size down.
-
-This build should now succeed. Unfortunately it has to rebuild the entire
-container from scratch because we changed the first command in the Dockerfile.
-
-Wrapping Up
------------
-
-You now have a new Generic IOC that can be used to test the ADUrl plugin.
-
-The next tutorial will discuss how to test this IOC, including publishing
-the image to a container registry so that it can run in Kubernetes.
-
-
-.. Once running:-
-.. caput -S $USER-EA-TST-02:CAM:URL1
+Don't forget that you can always use ``ec -v dev ...`` to get output showing
+the underlying docker/podman and git commands ``ec`` is using.
