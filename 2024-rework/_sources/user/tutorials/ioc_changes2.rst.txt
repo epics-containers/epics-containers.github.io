@@ -1,5 +1,5 @@
-Changing a Generic IOC Part 1
-=============================
+Changing a Generic IOC
+======================
 
 .. warning ::
 
@@ -137,3 +137,10 @@ You should see a iocShell prompt and no error messages above.
 
     For a detailed explanation of why this is the case see
     `ioc-source`
+
+
+TODO: complete by adding iocStats and using it in the ioc instance, then
+pushing and verifying CI runs and publishes a new image.
+TODO: now that cacheing is working, consider using ioc-adsimdetector instead
+of ioc-adsample. This is simpler - the change could be the addition of
+auto start of the sim detector IOC just like the presentation.
