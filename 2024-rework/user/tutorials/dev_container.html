@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev31+g124a028 documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev32+g84f44bb documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d9277b87"></script>
+    <script src="../../_static/documentation_options.js?v=9eb6ad82"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -589,6 +589,9 @@ build target and it then becomes a perfect candidate for a developer container.<
 The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.</p>
+<p>TODO: add features to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> to launch the container in developer mode,
+with appropriate host mounts. This will enable non vscode users developer
+containers.</p>
 </section>
 <section id="starting-a-developer-container">
 <h2>Starting a Developer Container<a class="headerlink" href="#starting-a-developer-container" title="Link to this heading">#</a></h2>
@@ -706,7 +709,8 @@ make
 that came with your generic IOC source code. Therefore if you edit this
 code and recompile it, the changes will be visible inside the container and
 outside the container. Meaning that the repository <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is
-now showing your changes and you could push them up to GitHub if you wanted.</p>
+now showing your changes in it’s <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder and you could push them
+up to GitHub if you wanted.</p>
 <p>The above is true because your project folder ioc-adsimdetector is mounted into
 the container’s filesystem with a bind mount at the same place that the
 ioc files were originally placed by the container build.</p>
@@ -718,15 +722,16 @@ This is essential because the container filesystem is temporary and will bed
 destroyed when the container is rebuilt or deleted.</p>
 <p>See <a class="reference internal" href="#container-layout">container-layout</a> for details of which host folders are mounted into the
 container.</p>
-<p>The IOC code is entirely boilerplate, the <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code>
+<p>The IOC source code is entirely boilerplate, <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code>
 determines which dbd and lib files to link by including two files that
-<code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build namely
-<code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.
-Although all Generic IOCs derived from ioc-template start out with the same
-generic source in <code class="docutils literal notranslate"><span class="pre">iocApp/src</span></code>, you are free to change them if there is
+<code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build. You can see these files in
+<code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
+<p>Although all Generic IOCs derived from ioc-template start out with the same
+generic source, you are free to change them if there is
 a need for different compilation options etc.</p>
 <p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./start.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
+./start.sh
 </pre></div>
 </div>
 <p>You will just see the default output of a Generic IOC that has no Instance
@@ -819,6 +824,17 @@ host. i.e. the root folder under which your projects are all cloned):</p>
 </tr>
 </tbody>
 </table>
+<p>IMPORTANT: remember that the container filesystem is temporary and will be
+destroyed when the container is rebuilt or deleted. All folders above with
+<code class="docutils literal notranslate"><span class="pre">Host</span> <span class="pre">Mount</span> <span class="pre">Path</span></code> <code class="docutils literal notranslate"><span class="pre">N/A</span></code> are in the container filesystem. The devcontainer
+has been configured to mount the most useful host folders, but note that
+all support modules are in the container filesystem. Later we will learn
+how to work on support modules, first ensuring that they are made available
+in the host filesystem.</p>
+<p>Also note that VSCode keeps your developer container until you rebuild it
+or explicitly delete it. Restarting your PC and coming back to the same
+devcontainer does keep all state. This can make you complacent about doing
+work in the container filesystem, this is not recommended.</p>
 </section>
 <section id="choose-the-ioc-instance-to-test">
 <span id="choose-ioc-instance"></span><h2>Choose the IOC Instance to Test<a class="headerlink" href="#choose-the-ioc-instance-to-test" title="Link to this heading">#</a></h2>
@@ -838,6 +854,14 @@ the IOC instance bl01t-ea-ioc-02. Note that we used a soft link, this
 means we can edit the config, restart the IOC to test it and the changes
 will already be in place in the beamline repo. You can even open a shell
 onto the beamline repo and commit and push the changes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The manual steps above were shown to demonstrate the process. In practice
+you can use this command to do the same thing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/bl01t/iocs/bl01t-ea-ioc-02
+</pre></div>
+</div>
+</div>
 </section>
 <section id="wrapping-up">
 <h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>

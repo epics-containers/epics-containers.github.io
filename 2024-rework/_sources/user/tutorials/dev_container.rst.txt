@@ -82,6 +82,10 @@ The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.
 
+TODO: add features to ``ec dev`` to launch the container in developer mode,
+with appropriate host mounts. This will enable non vscode users developer
+containers.
+
 Starting a Developer Container
 ------------------------------
 
@@ -224,7 +228,8 @@ It is useful to understand that /epics/ioc is a soft link to the IOC source
 that came with your generic IOC source code. Therefore if you edit this
 code and recompile it, the changes will be visible inside the container and
 outside the container. Meaning that the repository ``ioc-adsimdetector`` is
-now showing your changes and you could push them up to GitHub if you wanted.
+now showing your changes in it's ``ioc`` folder and you could push them
+up to GitHub if you wanted.
 
 The above is true because your project folder ioc-adsimdetector is mounted into
 the container's filesystem with a bind mount at the same place that the
@@ -240,19 +245,21 @@ destroyed when the container is rebuilt or deleted.
 See `container-layout`_ for details of which host folders are mounted into the
 container.
 
-The IOC code is entirely boilerplate, the ``/epics/ioc/iocApp/src/Makefile``
+The IOC source code is entirely boilerplate, ``/epics/ioc/iocApp/src/Makefile``
 determines which dbd and lib files to link by including two files that
-``ibek`` generated during the container build namely
+``ibek`` generated during the container build. You can see these files in
 ``/epics/support/configure/lib_list`` and ``/epics/support/configure/dbd_list``.
+
 Although all Generic IOCs derived from ioc-template start out with the same
-generic source in ``iocApp/src``, you are free to change them if there is
+generic source, you are free to change them if there is
 a need for different compilation options etc.
 
 The Generic IOC should now be ready to run inside of the container. To do this:
 
 .. code-block:: bash
 
-   ./start.sh
+  cd /epics/ioc
+  ./start.sh
 
 You will just see the default output of a Generic IOC that has no Instance
 configuration. Hit ``Ctrl-C`` to stop the this default script.
@@ -344,6 +351,18 @@ host. i.e. the root folder under which your projects are all cloned):
      - WS/ioc-adsimdetector
      - A second - fixed location mount of the Generic IOC source repo
 
+IMPORTANT: remember that the container filesystem is temporary and will be
+destroyed when the container is rebuilt or deleted. All folders above with
+``Host Mount Path`` ``N/A`` are in the container filesystem. The devcontainer
+has been configured to mount the most useful host folders, but note that
+all support modules are in the container filesystem. Later we will learn
+how to work on support modules, first ensuring that they are made available
+in the host filesystem.
+
+Also note that VSCode keeps your developer container until you rebuild it
+or explicitly delete it. Restarting your PC and coming back to the same
+devcontainer does keep all state. This can make you complacent about doing
+work in the container filesystem, this is not recommended.
 
 .. _choose-ioc-instance:
 
@@ -368,6 +387,15 @@ the IOC instance bl01t-ea-ioc-02. Note that we used a soft link, this
 means we can edit the config, restart the IOC to test it and the changes
 will already be in place in the beamline repo. You can even open a shell
 onto the beamline repo and commit and push the changes.
+
+.. note::
+
+  The manual steps above were shown to demonstrate the process. In practice
+  you can use this command to do the same thing:
+
+  .. code-block:: bash
+
+    ibek dev instance /workspaces/bl01t/iocs/bl01t-ea-ioc-02
 
 Wrapping Up
 -----------

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC Part 1 &#8212; epics-containers.github.io 2023.11.2.dev31+g124a028 documentation</title>
+    <title>Changing a Generic IOC Part 1 &#8212; epics-containers.github.io 2023.11.2.dev32+g84f44bb documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d9277b87"></script>
+    <script src="../../_static/documentation_options.js?v=9eb6ad82"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -514,7 +514,7 @@ document.write(`
 <h1>Changing a Generic IOC Part 1<a class="headerlink" href="#changing-a-generic-ioc-part-1" title="Link to this heading">#</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This tutorial is a work in progress. It is not yet complete.</p>
+<p>TODO: This tutorial is a work in progress. It is not yet complete.</p>
 </div>
 <p>This is a type 2 change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
 <p>The changes that you can make in an IOC instance are limited to what
@@ -528,6 +528,18 @@ Some of the reasons for doing this are:</p>
 <li><p>For ibek generated IOC instances, you may need to add or change functionality
 in the support YAML file.</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are considering making a change to a Generic IOC because you
+want to add support for a second device, this is allowed but you should
+consider the alternative of creating a new Generic IOC.
+If you keep your Generic IOCs simple and focused on a single device, they
+will be smaller and there will be less of them. IOCs can still be
+linked via CA and this is preferable to recompiling a Generic IOC
+for every possible combination of devices. Using Kubernetes to
+manage multiple small services is cleaner than having a handful of
+monolithic services.</p>
+</div>
 <p>This tutorial will make some changes to the generic IOC <code class="docutils literal notranslate"><span class="pre">ioc-adsample</span></code>.
 This Generic IOC is a simplified copy of <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> tailored for
 use in these tutorials.</p>
