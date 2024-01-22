@@ -3,7 +3,7 @@ Changing a Generic IOC Part 1
 
 .. warning ::
 
-    This tutorial is a work in progress. It is not yet complete.
+    TODO: This tutorial is a work in progress. It is not yet complete.
 
 This is a type 2 change from `ioc_change_types`.
 
@@ -17,6 +17,18 @@ Some of the reasons for doing this are:
 - Add additional support such as autosave or iocStats
 - For ibek generated IOC instances, you may need to add or change functionality
   in the support YAML file.
+
+.. note::
+
+    If you are considering making a change to a Generic IOC because you
+    want to add support for a second device, this is allowed but you should
+    consider the alternative of creating a new Generic IOC.
+    If you keep your Generic IOCs simple and focused on a single device, they
+    will be smaller and there will be less of them. IOCs can still be
+    linked via CA and this is preferable to recompiling a Generic IOC
+    for every possible combination of devices. Using Kubernetes to
+    manage multiple small services is cleaner than having a handful of
+    monolithic services.
 
 This tutorial will make some changes to the generic IOC ``ioc-adsample``.
 This Generic IOC is a simplified copy of ``ioc-adsimdetector`` tailored for
