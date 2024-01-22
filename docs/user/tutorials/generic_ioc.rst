@@ -181,7 +181,7 @@ done to make the build cache more efficient and speed up development.
 For example we could copy everything out of the ibek-support directory
 in a single command but then if I changed a StreamDevice ibek-support file the
 build would have to re-fetch and re-make all the support modules. By
-only copying the files we are about to use in the next step we can,
+only copying the files we are about to use in the next step we can
 massively increase the build cache hit rate.
 
 .. note::
@@ -302,7 +302,7 @@ To make your lakeshore340 install.sh script:
     cp devIocStats/install.sh lakeshore340/install.sh
     code install.sh
 
-Now edit the install.sh script to look like the following code block.
+Now edit the install.sh script to look like the code block below.
 
 The changes required for any support module you care to build would be:
 
@@ -314,8 +314,9 @@ The changes required for any support module you care to build would be:
 - add extra release macros for RELEASE.local (the RELEASE macro for
   the current support module is added automatically). Or add
   CONFIG entries for CONFIG_SITE.local as required.
-  None were required for lakeshore340. To see how to use these
-  functions see:
+  None of these were required for lakeshore340. To see how to use these
+  functions see
+
   - ibek support add-release-macro --help
   - ibek support add-to-config-site --help
 
@@ -356,7 +357,7 @@ Having made these changes you can now test the script by running it:
 
     cd /workspaces/ioc-lakeshore340/ibek-support
     chmod +x lakeshore340/install.sh
-    lakeshore340/install.sh 2-6-1
+    lakeshore340/install.sh 2-6-2
 
 You now have lakeshore340 support in your developer container. Let's go ahead
 and add that into the Dockerfile:
@@ -364,7 +365,7 @@ and add that into the Dockerfile:
 .. code-block:: dockerfile
 
     COPY ibek-support/lakeshore340/ lakeshore340/
-    RUN lakeshore340/install.sh 2-6-1
+    RUN lakeshore340/install.sh 2-6-2
 
 This means you can compile an IOC with lakeshore340 support in this container
 but we don't yet have a way to generate startup scripts and EPICS Databases
@@ -389,18 +390,19 @@ The current version of this is here
 https://epics-containers.github.io/ibek/main/developer/explanations/entities.html
 but it is rather out of date.
 
-To create a ibek support YAML file we need to provide a list of ``definitions`` .
+To create an ``ibek`` support YAML file we need to provide a list of ``definitions`` .
 Each ``definition`` gives:
 
-- a name and description for the ``definitions``- a list of arguments that an
-  instance of this ``definitions`` may supply with each having:
+- a name and description for the ``definition``
+- a list of arguments that an
+  instance of this ``definition`` may supply, with each having:
 
   - a type (string, integer, float, boolean, enum)
   - a name
   - a description
   - optionally a default value
 
-- A list of database templates to instantiate for each instance of this ``definitions``
+- A list of database templates to instantiate for each instance of this ``definition``
   - including values for the Macros in the template
 
 - A list of iocShell command line entries to add before or after ``iocInit``
@@ -410,7 +412,7 @@ arguments into the final output. At its simplest this is just the name of
 an argument in double curly braces e.g. ``{{argument_name}}``. But, it can
 also be used to do more complex things as a Python interpreter is evaluating
 the text inside the curly braces and that interpreter has the values of
-all the ``definitions`` arguments available in its context.
+all the ``definition`` arguments available in its context.
 See https://jinja.palletsprojects.com/en/3.0.x/templates/
 
 To make a lakeshore340 YAML file, put the following contents in a file called
@@ -488,7 +490,7 @@ the ``lakeshore340.template`` database template and passes all of the arguments
 verbatim to the template.
 
 Finally it declares that we need to add a line to the iocShell startup script
-that allows the IOC to find the modules StreamDevice protocol files.
+that allows the IOC to find the module's StreamDevice protocol files.
 
 Note that in the list of DB args or in the startup lines we can use combinations
 of arguments to make the final output.
@@ -502,12 +504,174 @@ e.g. to make a more descriptive PV prefix we could use:
           args:
             P: "{{P + ':' + name + ':'}}"
 
+Finally, also note that the top line refers to a schema file. This is the global
+``ibek`` schema for support module definition YAML. A single schema is used
+for all support modules and is published along side the latest release of ``ibek``.
+This means that a schema aware editor can provide auto-completion and validation
+for your support module YAML files. The VSCode extension here
+https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml
+adds this capability.
+
 .. note::
 
     Because this is a DLS module originally, it has an ``etc/builder.py`` file
-    that is used by the ``XML Builder`` tool. ``ibek`` has a converter tool
+    that is used by the ``XML Builder`` tool. ``ibek`` has a converter
     that will translate this file into an ``ibek`` YAML file. Only DLS users
     can take advantage of this because it needs access to all the dependent
     DLS support module forks to work. See `../how-to/builder2ibek.support`
+
+Example IOC instance
+--------------------
+
+In order to test our Generic IOC we now require an IOC instance to launch it.
+For this exercise we will build an example instance right into the Generic IOC.
+This is a great way to allow developers to experiment with the container,
+but it is most likely to require a simulation of some kind to take the place
+of a real piece of hardware for the instance to talk to.
+
+Before creating the instance it is useful to have a schema for the YAML we
+are about to write. To generate a schema for this specific Generic IOC
+perform the following command:
+
+.. code-block:: bash
+
+    ibek ioc generate-schema  > /tmp/ibek.ioc.schema.json
+
+This will make a schema that allows declaration of instances of the
+definitions defined in the support YAML file we made above. But ALSO combines
+in the definitions from the ``devIocStats`` support module and all other
+modules that have been built inside this container.
+
+Once this repository is published to GitHub, the schema will be available
+as part of the release at the following URL:
+
+.. code-block::
+
+    https://github.com/<YOUR GITHUB ACCOUNT>/ioc-lakeshore340/releases/download/<VERSION TAG>/ibek.ioc.schema.json
+
+This would then be the URL you would put at the top of any IOC instances using
+your released Generic IOC.
+
+To create the instance we create a folder:
+
+    /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+
+and create a file in there called:
+
+    bl16i-ea-ioc-07.yaml
+
+with the following contents:
+
+.. code-block:: yaml
+
+  # yaml-language-server: $schema=/tmp/ibek.ioc.schema.json
+
+  ioc_name: "{{ ioc_yaml_file_name }}"
+
+  description: auto-generated by https://github.com/epics-containers/builder2ibek
+
+  entities:
+    - type: devIocStats.iocAdminSoft
+      IOC: "{{ ioc_name | upper }}"
+
+    - type: asyn.AsynIP
+      name: p1
+      port: 127.0.0.1:5401
+
+    - type: lakeshore340.lakeshore340
+      ADDR: 12
+      LOOP: 2
+      P: BL16I-EA-LS340-01
+      PORT: p1
+      SCAN: 5
+      TEMPSCAN: 2
+      name: lakeshore
+
+
+The above YAML file declares an IOC instance that has the following 3
+``entities`` (which is what we call instances of ``definitions`` in ``ibek``):
+
+- A devIocStats object that will supply monitoring PVs
+- An asyn IP port that will be used to talk to the simulator
+- A lakeshore340 object that will talk to the simulator via the asyn port
+
+This instance is now ready to run inside the developer container. To do so
+perform the following steps:
+
+.. code-block:: bash
+
+    cd /epics/support/lakeshore340/etc/simulations/
+    ./lakeshore340_sim.py
+
+Now create a new terminal in VSCode (Terminal -> New Terminal) and run:
+
+.. code-block:: bash
+
+    ibek dev instance /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07
+    cd /epics/ioc
+    make
+    ./start.sh
+
+If all is well then you should see the IOC start up and connect to the
+simulator. You will see the simulator logging the queries it receives.
+
+TODO: it is possible to launch the bob file in:
+
+    /epics/support/lakeshore340/lakeshore340App/opi/bob/lakeshore340.bob
+
+to see a GUI for this IOC instance. However, I'm reserving writing about
+GUI until I have the PVI integration done on this module and we can see
+the auto-generated GUI.
+
+To investigate what ``ibek`` did to make the Generic IOC binary and the
+IOC instance files, take a look at the following files.
+
+- ``/epics/runtime`` - the runtime assets created from a combination of the
+    instance YAML and all the referenced support YAML
+
+- ``/epics/ioc/iocApp/Makefile`` - this picks up the libs and DBDs from the
+  support module builds which record their dbds and libs in:
+
+  - ``/epics/support/configure/dbd_list``
+  - ``/epics/support/configure/lib_list``
+
+- ``/epics/ioc/support/configure/RELEASE`` - a global release file that contains
+  macros for all the support built in the container. This is soft linked
+  to ``configure/RELEASE.local`` in each support module.
+
+- ``/epics/support/configure/RELEASE.shell`` - created along with the global
+  release file. Sets all the release macros as shell environment variables
+  for passing into the ioc startup script.
+
+.. note::
+
+    Because this IOC instance is a copy of a real IOC at DLS it comes
+    from a builder XML file originally. DLS users with builder beamlines
+    can use ``builder2ibek`` to convert their builder XML files into
+    ``ibek`` YAML IOC instance files. See `../how-to/builder2ibek`.
+    Note this is distinct from making support YAML files with
+    ``builder2ibek.support``.
+
+Experimenting With Changes to the IOC Instance and Generic IOC
+--------------------------------------------------------------
+
+Inside the developer container you can add and remove support, change the
+IOC instance YAML file and re-build the IOC instance until everything is
+working as you want it to. At that point you can push the changes to GitHub
+and the CI should build a container image. Once that has succeeded you can
+tag the release and the CI will publish the container image to GHCR.
+
+Note that building the IOC binary is required after any change to the set
+of support modules inside this container. However it is not required after
+changes to the IOC instance YAML file. If you want to change the instance
+you can:
+
+- edit the YAML file
+- stop the IOC
+- start the IOC with ``./start.sh``
+- that's it
+
+
+
 
 
