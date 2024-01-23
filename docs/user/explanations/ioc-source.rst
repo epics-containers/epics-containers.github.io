@@ -21,7 +21,7 @@ the following goals:
   they are not lost when the container is rebuilt or deleted
 
 The details of which folders are mounted where in the container are
-shown here: `container-layout`_.
+shown here: `container-layout`.
 
 The ioc-XXX project folder is found in the container at ``/workspaces/ioc-XXX``,
 along with all of it's peers (because the parent folder is mounted
