@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kubernetes Resources in an IOC Instance &#8212; epics-containers.github.io 2023.11.2.dev44+gb46323f documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 2023.11.2.dev44+gb46323f documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=30646c52"></script>
     <script src="../../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'user/reference/k8s_resources';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/reference/troubleshooting';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
@@ -54,8 +54,8 @@
     <link rel="icon" href="../../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Recommended VSCode Settings" href="vscode_settings.html" />
-    <link rel="prev" title="IOC Helm Chart Details" href="ioc_helm_chart.html" />
+    <link rel="next" title="Configuration for epics-containers" href="configuration.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faq.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -449,12 +449,12 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface for IOC Management</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vscode_settings.html">Recommended VSCode Settings</a></li>
 </ul>
 </div>
@@ -496,7 +496,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Kubernetes...</li>
+    <li class="breadcrumb-item active" aria-current="page">Troubleshooting</li>
   </ul>
 </nav>
 </div>
@@ -513,37 +513,23 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="kubernetes-resources-in-an-ioc-instance">
-<h1>Kubernetes Resources in an IOC Instance<a class="headerlink" href="#kubernetes-resources-in-an-ioc-instance" title="Link to this heading">#</a></h1>
-<section id="learning-about-helm-and-kubernetes-manifests">
-<h2>Learning about Helm and Kubernetes Manifests<a class="headerlink" href="#learning-about-helm-and-kubernetes-manifests" title="Link to this heading">#</a></h2>
-<p>It is instructive to see what helm is doing when you deploy an IOC.</p>
-<p>Helm uses templates to generate a Kubernetes Manifest which defines a set
-of resources. It applies this manifest to the cluster using kubectl.</p>
-<p>To inspect the kubernetes manifest YAML that is created when we deploy the
-example IOC you can use the following command from inside of your example
-beamline repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>template<span class="w"> </span>iocs/bl01t-ea-ioc-01
+  <section id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h1>
+<section id="permissions-issues-with-github">
+<h2>Permissions issues with GitHub<a class="headerlink" href="#permissions-issues-with-github" title="Link to this heading">#</a></h2>
+<p>Problem: in the devcontainer you see the following error:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
 </pre></div>
 </div>
-<p>This is expanding the local helm chart in the <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01</span></code> folder and using
-its <code class="docutils literal notranslate"><span class="pre">templates/ioc.yaml</span></code> plus the templates in <code class="docutils literal notranslate"><span class="pre">helm-ioc-lib</span></code>. These templates
-are expanded using the values in the <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01/values.yaml</span></code> file and also
-<code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> and finally the default <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file
-from the helm-ioc-lib.</p>
-<p>For a description of the key resources we create in this Kubernetes manifest
-see the next heading.</p>
-</section>
-<section id="id1">
-<h2>Kubernetes Resources in an IOC Instance<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<p>TODO - This is a work in progress.</p>
-<p>The key resources that we are asking Kubernetes to create are:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Deployment</span></code>. Tells Kubernetes to run one and only one Generic IOC
-container. See deployments:</p>
-<p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
-</li>
-</ul>
+<p>Solution: you may need to add your github ssh key to the ssh-agent as
+follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/id_rsa
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> is the name of your private key file you use for connecting
+to GitHub.</p>
 </section>
 </section>
 
@@ -558,20 +544,20 @@ container. See deployments:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ioc_helm_chart.html"
+       href="faq.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">IOC Helm Chart Details</p>
+        <p class="prev-next-title">Frequently Asked Questions</p>
       </div>
     </a>
     <a class="right-next"
-       href="vscode_settings.html"
+       href="configuration.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Recommended VSCode Settings</p>
+        <p class="prev-next-title">Configuration for epics-containers</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -593,8 +579,7 @@ container. See deployments:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-about-helm-and-kubernetes-manifests">Learning about Helm and Kubernetes Manifests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
 </ul>
   </nav></div>
 
@@ -602,7 +587,7 @@ container. See deployments:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/reference/k8s_resources.rst">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/user/reference/troubleshooting.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -617,7 +602,7 @@ container. See deployments:</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../../_sources/user/reference/k8s_resources.rst.txt">
+    <a href="../../_sources/user/reference/troubleshooting.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
