@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Dev Container vs Runtime Container &#8212; epics-containers.github.io 2023.11.2.dev39+gb85982b documentation</title>
+    <title>Dev Container vs Runtime Container &#8212; epics-containers.github.io 2023.11.2.dev41+g58d643e documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=72773f0e"></script>
+    <script src="../../_static/documentation_options.js?v=78aff4d6"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -449,6 +449,7 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
@@ -514,8 +515,64 @@ document.write(`
                   
   <section id="dev-container-vs-runtime-container">
 <span id="ioc-source"></span><h1>Dev Container vs Runtime Container<a class="headerlink" href="#dev-container-vs-runtime-container" title="Link to this heading">#</a></h1>
-<p>TODO: explain how and why ioc-xxxx is mounted in dev container and what happens
-to the ioc folder.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>The dev container is where all development of IOCs and support modules will
+take place. The runtime container is where the IOC will run when deployed
+to a target system.</p>
+<p>The dev container mounts several host folders into the container to achieve
+the following goals:</p>
+<ul class="simple">
+<li><p>make the developer container look as similar as possible to the runtime
+container</p></li>
+<li><p>allow the developer to make changes and recompile things without having
+to rebuild the container</p></li>
+<li><p>make sure that all useful changes occur in the host filesystem so that
+they are not lost when the container is rebuilt or deleted</p></li>
+</ul>
+<p>The details of which folders are mounted where in the container are
+shown here: <a class="reference internal" href="../tutorials/dev_container.html#container-layout"><span class="std std-ref">Developer Container Layout</span></a>.</p>
+<p>The ioc-XXX project folder is found in the container at <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-XXX</span></code>,
+along with all of it’s peers (because the parent folder is mounted
+at <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code>).</p>
+</section>
+<section id="the-ioc-folder">
+<h2>The ioc Folder<a class="headerlink" href="#the-ioc-folder" title="Link to this heading">#</a></h2>
+<p>The ioc folder contains the Generic IOC source code. It is typically the same
+for all Generic IOCs but is included in the ioc-XXX repo in /ioc so that it can be
+modified if necessary.</p>
+<p>At container build time this folder is copied into the container at
+<code class="docutils literal notranslate"><span class="pre">/epics/generic-source/ioc</span></code> and it is compiled so that the binaries are
+available at runtime.</p>
+<p>In the dev container the <code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code> folder has the project
+folder ioc-XXX mounted over the top of it. This means:</p>
+<ul class="simple">
+<li><p>the project folder ioc-XXX is mounted in two locations in the container
+- <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-XXX</span></code>
+- <code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code></p></li>
+<li><p>the ioc source folder <code class="docutils literal notranslate"><span class="pre">/epics/generic-source/ioc</span></code> is also mounted over
+and now contains the source only. The compiled binaries are no longer
+visible inside the dev container.</p></li>
+</ul>
+<p>It is for this reason that a newly created dev container needs to have the IOC
+binaries re-compiled. But this is a good thing, because now any changes you
+make to the IOC source code can be compiled and tested, but also those
+changes are now visible on the host filesystem inside the project folder
+<code class="docutils literal notranslate"><span class="pre">ioc-XXX/ioc</span></code>. This avoids loss of work.</p>
+<p>Finally the <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder is always soft linked from <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> so that
+the source and binaries are always in a known location.</p>
+</section>
+<section id="summing-up">
+<h2>Summing Up<a class="headerlink" href="#summing-up" title="Link to this heading">#</a></h2>
+<p>The above description makes things sound rather complicated. However,
+you can for the most part ignore the details and just remember:</p>
+<ul class="simple">
+<li><p>use <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> to compile and run the IOC.</p></li>
+<li><p>you are free to make changes to the above folder and recompile</p></li>
+<li><p>the changes you make will be visible on the host filesystem in the
+original project folder.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -555,6 +612,20 @@ to the ioc folder.</p>
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ioc-folder">The ioc Folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summing-up">Summing Up</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 
