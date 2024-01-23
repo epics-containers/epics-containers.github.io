@@ -1,10 +1,6 @@
 Changing a Generic IOC
 ======================
 
-.. warning ::
-
-    TODO: This tutorial is a work in progress. It is not yet complete.
-
 This is a type 2 change from `ioc_change_types`.
 
 The changes that you can make in an IOC instance are limited to what
@@ -30,49 +26,36 @@ Some of the reasons for doing this are:
     manage multiple small services is cleaner than having a handful of
     monolithic services.
 
-This tutorial will make some changes to the generic IOC ``ioc-adsample``.
-This Generic IOC is a simplified copy of ``ioc-adsimdetector`` tailored for
-use in these tutorials.
 
-For this exercise we will initially work locally inside the ``ioc-adsample``
-developer container.
+This tutorial will make some changes to the generic IOC ``ioc-adsimdetector``
+that you already used in earlier tutorials.
 
-At the end we will push the changes and see the CI build a new version of the
-generic IOC container image. This allows for the demonstration of:
-
-- Deploying an IOC instance using a new image published by the CI
-- Showing how to do a Pull Request back to the original repository.
+For this exercise we will work locally inside the ``ioc-adsimdetector``
+developer container. To discover how to fork repositories and push changes
+back to GitHub
 
 For this exercise we will be using an example IOC Instance to test our changes.
 Instead of working with a beamline repository, we will use the example ioc instance
-that comes with ``ioc-adsample``. It is a good idea for Generic IOC authors to
+inside ``ioc-adsimdetector``. It is a good idea for Generic IOC authors to
 include an example IOC Instance in their repository for testing changes in
 isolation.
-
 
 Preparation
 -----------
 
-Because we want to push our changes we will first make a fork of the
-``ioc-adsample`` repository. We will then clone our fork locally and
-make the changes there.
-
-To make a fork go to
-`ioc-adsample <https://github.com/epics-containers/ioc-adsample>`_
-and click the ``Fork`` button in the top right corner. This will create a fork
-of the repository under your own GitHub account.
-
-Now, clone the fork, build the container image locally and open the
-developer container:
+First, clone the ``ioc-adsimdetector`` repository and make sure the container
+build is working:
 
 .. code-block:: console
 
-    git clone git@github.com:<YOUR GITHUB ACCOUNT NAME>/ioc-adsample.git
-    cd ioc-adsample
+    git clone git@github.com:epics-containers/ioc-adsimdetector.git
+    cd ioc-adsimdetector
     ./build
     code .
-    # click the green button in the bottom left corner of vscode and select
-    # "Reopen in Container"
+    # Choose "Reopen in Container"
+
+Note that if you do not see the prompt to reopen in container, you can open
+the ``Remote`` menu with ``Ctrl+Alt+O`` and select ``Reopen in Container``.
 
 The ``build`` script does two things.
 
@@ -94,26 +77,39 @@ Verify the Example IOC Instance is working
 When a new Generic IOC developer container is opened, there are two things
 that need to be done before you can run an IOC instance inside of it.
 
-- Build the IOC source code
+- Build the IOC binary
 - Select an IOC instance definition to run
 
-The folder ``ioc`` inside of the ``ioc-adsample`` is where the IOC source code
-is created and built. When you open the developer container, this folder does
-not yet exist. The following command will create it and build the IOC:
+The folder ``ioc`` inside of the ``ioc-adsimdetector`` is where the IOC source code
+resided. However the devcontainer always makes a symlink to this folder at
+``/epics/ioc``. This is so that it is always in the same place and can easily be
+found by ibek and the developer. Therefore you can build the binary with the
+following command:
 
 .. code-block:: console
 
-    ec ioc build
+    cd /epics/ioc
+    make
+
+.. note::
+
+    Note that we are required to build the IOC.
+    This is even though the container you are using already had the IOC
+    source code built by its Dockerfile (``ioc-adsimdetector/Dockerfile``
+    contains the same command).
+
+    For a detailed explanation of why this is the case see
+    `ioc-source`
 
 The IOC instance definition is a YAML file that tells ``ibek`` what the runtime
 assets (ie. EPICS DB and startup script) should look like. Previous tutorials
 selected the IOC instance definition from a beamline repository. In this case
-we will use the example IOC instance that comes with ``ioc-adsample``. The
+we will use the example IOC instance that comes with ``ioc-adsimdetector``. The
 following command will select the example IOC instance:
 
 .. code-block:: console
 
-    ibek dev instance /epics/ioc-adsample/ioc_examples/bl01t-ea-ioc-02
+    ibek dev instance /epics/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02
 
 In an earlier tutorial when learning about the dev container, we manually
 performed this step, see `choose-ioc-instance`. The above command does
@@ -124,23 +120,7 @@ Now  run the IOC:
 
 .. code-block:: console
 
-    ibek dev run
+    cd /epics/ioc
+    ./start.sh
 
-You should see a iocShell prompt and no error messages above.
-
-.. note::
-
-    The ``ec ioc build`` command required to re-create the IOC source code.
-    This is even though the container you are using already had the IOC
-    source code built by its Dockerfile (``ioc-adsample/Dockerfile``
-    contains the same command).
-
-    For a detailed explanation of why this is the case see
-    `ioc-source`
-
-
-TODO: complete by adding iocStats and using it in the ioc instance, then
-pushing and verifying CI runs and publishes a new image.
-TODO: now that cacheing is working, consider using ioc-adsimdetector instead
-of ioc-adsample. This is simpler - the change could be the addition of
-auto start of the sim detector IOC just like the presentation.
+You should see an iocShell prompt and no error messages above.

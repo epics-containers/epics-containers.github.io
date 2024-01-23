@@ -75,6 +75,7 @@ side-bar.
             :maxdepth: 1
 
             reference/faq
+            reference/troubleshooting
             reference/configuration
             reference/environment
             reference/cli
