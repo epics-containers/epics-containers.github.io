@@ -299,8 +299,8 @@ To make your lakeshore340 install.sh script:
 
     cd ibek-support
     mkdir lakeshore340
-    cp devIocStats/install.sh lakeshore340/install.sh
-    code install.sh
+    cp iocStats/install.sh lakeshore340/install.sh
+    code lakeshore340/install.sh
 
 Now edit the install.sh script to look like the code block below.
 
@@ -387,7 +387,7 @@ make.
 TODO: a detailed description of the YAML files' structure and purpose should
 be included in the ``ibek`` documentation and linked here.
 The current version of this is here
-https://epics-containers.github.io/ibek/main/developer/explanations/entities.html
+`entities <https://epics-containers.github.io/ibek/main/developer/explanations/entities.html>`_
 but it is rather out of date.
 
 To create an ``ibek`` support YAML file we need to provide a list of ``definitions`` .
