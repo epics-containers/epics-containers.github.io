@@ -415,8 +415,22 @@ the text inside the curly braces and that interpreter has the values of
 all the ``definition`` arguments available in its context.
 See https://jinja.palletsprojects.com/en/3.0.x/templates/
 
-To make a lakeshore340 YAML file, put the following contents in a file called
-``/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/lakeshore340.yaml``:
+
+.. note::
+
+  IMPORTANT: the file created below MUST have the suffix ``.ibek.support.yaml``.
+  This means it is a support yaml file for ``ibek``. This is important because
+  when ``install.sh`` calls ``ibek support generate-links`` it will look for
+  files with this suffix and make links to them in the ``ibek-defs`` folder.
+
+  In turn when you run ``ibek ioc generate-schema`` it will look in the
+  ``ibek-defs`` folder for all the support definition YAML files and combine
+  them into a single schema file.
+
+To make a lakeshore340 YAML file, go to the folder
+``/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/``
+and create a file called ``lakeshore340.ibek.support.yaml``. Add the following
+contents:
 
 .. code-block:: yaml
 
