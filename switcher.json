@@ -10,5 +10,9 @@
   {
     "version": "2024-rework",
     "url": "https://epics-containers.github.io/epics-containers.github.io/2024-rework/"
+  },
+  {
+    "version": "k8s-edge",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/k8s-edge/"
   }
 ]
