@@ -126,22 +126,22 @@ Now  run the IOC:
 You should see an iocShell prompt and no error messages above.
 
 Let us also make sure we can see the simulation images that the IOC is
-producing. For this we need the ``cd2v`` tool that we used earlier. You
+producing. For this we need the ``c2dv`` tool that we used earlier. You
 can use the same virtual environment that you created earlier, or create
 a new one and install again. Note that these commands are to be run
 in a terminal outside of the developer container.
 
 .. code-block:: console
 
-    python3 -m venv cd2v
-    source ~/cd2v/bin/activate
+    python3 -m venv c2dv
+    source ~/c2dv/bin/activate
     pip install c2dataviewer
 
-Run the ``cd2v`` tool and connect it to our IOCs PVA output:
+Run the ``c2dv`` tool and connect it to our IOCs PVA output:
 
 .. code-block:: console
 
-    cd2v --pv BL01T-EA-TST-02:PVA:OUTPUT &
+    c2dv --pv BL01T-EA-TST-03:PVA:OUTPUT &
 
 
 Back inside the developer container, you can now start the detector and
@@ -149,10 +149,10 @@ the PVA plugin, by opening a new terminal and running the following:
 
 .. code-block:: console
 
-    caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
-    caput BL01T-EA-TST-02:CAM:Acquire 1
+    caput BL01T-EA-TST-03:PVA:EnableCallbacks 1
+    caput BL01T-EA-TST-03:CAM:Acquire 1
 
-You should see the moving image in the ``cd2v`` window. We now have a working
+You should see the moving image in the ``c2dv`` window. We now have a working
 IOC instance that we can use to test our changes.
 
 Making a change to the Generic IOC
@@ -168,8 +168,8 @@ YAML file. We will change the startup script that it generates so that the
 simulation detector is automatically started when the IOC starts.
 
 To make this change we just need to have the startup script set the values
-of the records ``BL01T-EA-TST-02:CAM:Acquire`` and
-``BL01T-EA-TST-02:PVA:EnableCallbacks`` to 1.
+of the records ``BL01T-EA-TST-03:CAM:Acquire`` and
+``BL01T-EA-TST-03:PVA:EnableCallbacks`` to 1.
 
 To make this change, open the file
 ``ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml``
@@ -199,13 +199,13 @@ following output at the end of the startup log:
 
 .. code-block:: console
 
-    dbpf BL01T-EA-TST-02:CAM:Acquire 1
+    dbpf BL01T-EA-TST-03:CAM:Acquire 1
     DBF_STRING:         "Acquire"
-    dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
+    dbpf BL01T-EA-TST-03:PVA:EnableCallbacks 1
     DBF_STRING:         "Enable"
     epics>
 
-You should also see the ``cd2v`` window update with the moving image again.
+You should also see the ``c2dv`` window update with the moving image again.
 
 If you wanted to publish these changes you would have to commit both the
 ``ibek-support`` submodule and the ``ioc-adsimdetector`` repository and push
@@ -234,11 +234,11 @@ Add the following to
 .. code-block:: yaml
 
   - type: epics.dbpf
-    pv: BL01T-EA-TST-02:CAM:Acquire
+    pv: BL01T-EA-TST-03:CAM:Acquire
     value: "1"
 
   - type: epics.dbpf
-    pv: BL01T-EA-TST-02:PVA:EnableCallbacks
+    pv: BL01T-EA-TST-03:PVA:EnableCallbacks
     value: "1"
 
 Now restart the IOC and you should see the same behaviour as before. Here
