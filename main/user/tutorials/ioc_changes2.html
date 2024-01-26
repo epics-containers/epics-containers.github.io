@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epics-containers.github.io 2023.11.2.dev48+gf961bfb documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6d78b61d"></script>
+    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -622,26 +622,26 @@ and symlinks in the chosen IOC instance definition’s <code class="docutils lit
 </div>
 <p>You should see an iocShell prompt and no error messages above.</p>
 <p>Let us also make sure we can see the simulation images that the IOC is
-producing. For this we need the <code class="docutils literal notranslate"><span class="pre">cd2v</span></code> tool that we used earlier. You
+producing. For this we need the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> tool that we used earlier. You
 can use the same virtual environment that you created earlier, or create
 a new one and install again. Note that these commands are to be run
 in a terminal outside of the developer container.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv cd2v</span>
-<span class="go">source ~/cd2v/bin/activate</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv c2dv</span>
+<span class="go">source ~/c2dv/bin/activate</span>
 <span class="go">pip install c2dataviewer</span>
 </pre></div>
 </div>
-<p>Run the <code class="docutils literal notranslate"><span class="pre">cd2v</span></code> tool and connect it to our IOCs PVA output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd2v --pv BL01T-EA-TST-02:PVA:OUTPUT &amp;</span>
+<p>Run the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> tool and connect it to our IOCs PVA output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">c2dv --pv BL01T-EA-TST-03:PVA:OUTPUT &amp;</span>
 </pre></div>
 </div>
 <p>Back inside the developer container, you can now start the detector and
 the PVA plugin, by opening a new terminal and running the following:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">caput BL01T-EA-TST-02:PVA:EnableCallbacks 1</span>
-<span class="go">caput BL01T-EA-TST-02:CAM:Acquire 1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">caput BL01T-EA-TST-03:PVA:EnableCallbacks 1</span>
+<span class="go">caput BL01T-EA-TST-03:CAM:Acquire 1</span>
 </pre></div>
 </div>
-<p>You should see the moving image in the <code class="docutils literal notranslate"><span class="pre">cd2v</span></code> window. We now have a working
+<p>You should see the moving image in the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> window. We now have a working
 IOC instance that we can use to test our changes.</p>
 </section>
 <section id="making-a-change-to-the-generic-ioc">
@@ -654,8 +654,8 @@ covered in much more detail in <a class="reference internal" href="generic_ioc.h
 YAML file. We will change the startup script that it generates so that the
 simulation detector is automatically started when the IOC starts.</p>
 <p>To make this change we just need to have the startup script set the values
-of the records <code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:CAM:Acquire</span></code> and
-<code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:PVA:EnableCallbacks</span></code> to 1.</p>
+of the records <code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-03:CAM:Acquire</span></code> and
+<code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-03:PVA:EnableCallbacks</span></code> to 1.</p>
 <p>To make this change, open the file
 <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml</span></code>
 and add a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> section just after the <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> section:</p>
@@ -676,14 +676,14 @@ Find the NDPvaPlugin section and also add a <code class="docutils literal notran
 <p>If you now go to the terminal where you ran your IOC, you can stop it with
 <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> and then start it again with <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code>. You should see the
 following output at the end of the startup log:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-TST-02:CAM:Acquire 1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-TST-03:CAM:Acquire 1</span>
 <span class="go">DBF_STRING:         &quot;Acquire&quot;</span>
-<span class="go">dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1</span>
+<span class="go">dbpf BL01T-EA-TST-03:PVA:EnableCallbacks 1</span>
 <span class="go">DBF_STRING:         &quot;Enable&quot;</span>
 <span class="go">epics&gt;</span>
 </pre></div>
 </div>
-<p>You should also see the <code class="docutils literal notranslate"><span class="pre">cd2v</span></code> window update with the moving image again.</p>
+<p>You should also see the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> window update with the moving image again.</p>
 <p>If you wanted to publish these changes you would have to commit both the
 <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule and the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository and push
 them in that order because of the sub-module dependency. But we won’t be
@@ -703,11 +703,11 @@ to this auto-starting detector.</p>
 <p>Add the following to
 <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02/config/ioc.yaml</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:CAM:Acquire</span>
+<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-03:CAM:Acquire</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:PVA:EnableCallbacks</span>
+<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-03:PVA:EnableCallbacks</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
 </pre></div>
 </div>
