@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -739,16 +739,16 @@ a dependency of ADSimDetector and so is included in the Generic IOC container.</
 <h3>Launch the IOC Instance<a class="headerlink" href="#launch-the-ioc-instance" title="Link to this heading">#</a></h3>
 <p>To deploy the IOC Instance execute these commands (the first 3 commands are a
 reminder of how to set up your shell - from now on this will be assumed):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># These 3 commands set up your environment if you have not already done so</span>
-<span class="nb">cd</span><span class="w"> </span>bl01t
-<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate
-<span class="nb">source</span><span class="w"> </span>bl01t
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="c1"># These 3 commands set up your environment if you have not already done so</span>
+<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bl01t
+<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate
+<span class="w"> </span><span class="nb">source</span><span class="w"> </span>bl01t
 
-<span class="c1"># deploy the new IOC from local filesystem</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+<span class="w"> </span><span class="c1"># deploy the new IOC from local filesystem</span>
+ke<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
 
-<span class="c1"># verify that your IOC worked by looking at the logs</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02
+<span class="w"> </span><span class="c1"># verify that your IOC worked by looking at the logs</span>
+ke<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02
 </pre></div>
 </div>
 </section>
@@ -770,11 +770,11 @@ c2dv<span class="w"> </span>--pv<span class="w"> </span>BL01T-EA-TST-02:PVA:OUTP
 </pre></div>
 </div>
 <p>Now we can start our simulation detector like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
-<span class="c1"># enable the PVA plugin that publishes the output</span>
-caput<span class="w"> </span>BL01T-EA-TST-02:PVA:EnableCallbacks<span class="w"> </span><span class="m">1</span>
-<span class="c1"># start the simulation detector</span>
-caput<span class="w"> </span>BL01T-EA-TST-02:DET:Acquire<span class="w"> </span><span class="m">1</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
+<span class="w"> </span><span class="c1"># enable the PVA plugin that publishes the output</span>
+<span class="w"> </span>caput<span class="w"> </span>BL01T-EA-TST-02:PVA:EnableCallbacks<span class="w"> </span><span class="m">1</span>
+<span class="w"> </span><span class="c1"># start the simulation detector</span>
+<span class="w"> </span>caput<span class="w"> </span>BL01T-EA-TST-02:DET:Acquire<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 <p>You should see a moving image appear in the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> window. For smoothest
@@ -834,10 +834,10 @@ placing your own <code class="docutils literal notranslate"><span class="pre">st
 folder. Or alternatively you could override behaviour completely by placing
 <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> folder, this can contain any script you like.</p>
 <p>To see what ibek generated you can go and look inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
-<span class="nb">cd</span><span class="w"> </span>/epics/runtime/
-cat<span class="w"> </span>ioc.subst
-cat<span class="w"> </span>st.cmd
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
+<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/epics/runtime/
+<span class="w"> </span>cat<span class="w"> </span>ioc.subst
+<span class="w"> </span>cat<span class="w"> </span>st.cmd
 </pre></div>
 </div>
 <div class="admonition note">
@@ -852,12 +852,12 @@ shared for easy debugging of IOC Instances.</p>
 database then you can copy these two files out of the container and into
 your IOC Instance config folder like this (replace podman with
 docker if that is what you are using):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/st.cmd<span class="w"> </span>iocs/bl01t-ea-ioc-02/config
-podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/ioc.subst<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.subst
-<span class="c1"># no longer need an ibek ioc yaml file</span>
-rm<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.yaml
-<span class="c1"># re-deploy from local filesystem</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/st.cmd<span class="w"> </span>iocs/bl01t-ea-ioc-02/config
+<span class="w"> </span>podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/ioc.subst<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.subst
+<span class="w"> </span><span class="c1"># no longer need an ibek ioc yaml file</span>
+<span class="w"> </span>rm<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.yaml
+<span class="w"> </span><span class="c1"># re-deploy from local filesystem</span>
+ke<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
 </pre></div>
 </div>
 <p>Your IOC Instance will now be using the raw startup script and database. But
@@ -866,11 +866,11 @@ changes in the startup script and substitution file and re-deploy the IOC.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>We used some raw podman / docker commands in the above script. If you
-want to know what commands <code class="docutils literal notranslate"><span class="pre">ec</span></code> is running under the hood then you can
+want to know what commands <code class="docutils literal notranslate"><span class="pre">ke</span></code> is running under the hood then you can
 use the <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to see them.</p>
 <p>For example try this command:</p>
 <ul class="simple">
-<li><p>ec -v ioc deploy-local iocs/bl01t-ea-ioc-02</p></li>
+<li><p>ke -v deploy-local iocs/bl01t-ea-ioc-02</p></li>
 </ul>
 </div>
 </section>

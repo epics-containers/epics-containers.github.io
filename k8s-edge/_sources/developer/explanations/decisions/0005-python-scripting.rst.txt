@@ -12,7 +12,7 @@ Context
 -------
 
 Inside the container, we use the ``ibek`` tool for scripting. Outside we
-use ``ec`` from ``epics-containers-cli``.
+use ``ke`` from ``k8s-edge-cli``.
 
 Much of what these tools do is
 call command line tools like ``docker``, ``helm``, ``kubectl``, compilers,

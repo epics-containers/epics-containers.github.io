@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -544,9 +544,9 @@ Comment out the apt-install line like this:</p>
 </pre></div>
 </div>
 <p>Now rebuild the container - do this command from a new terminal <em>outside</em> of
-the devcontainer (make sure you have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
-ec<span class="w"> </span>dev<span class="w"> </span>build
+the devcontainer (make sure you have <code class="docutils literal notranslate"><span class="pre">ke</span></code> installed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
+ke<span class="w"> </span>dev<span class="w"> </span>build
 </pre></div>
 </div>
 <p>First of all, notice the build cache. The build rapidly skips
@@ -565,9 +565,9 @@ compilation<span class="w"> </span>terminated.
 <h2>Investigate the Build Failure<a class="headerlink" href="#investigate-the-build-failure" title="Link to this heading">#</a></h2>
 <p>When a container build fails the container image is created up to the point
 where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container. <code class="docutils literal notranslate"><span class="pre">ec</span></code>
+investigate the build failure by running a shell in the container. <code class="docutils literal notranslate"><span class="pre">ke</span></code>
 provides us with the following convenience command to do this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>debug-last
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>dev<span class="w"> </span>debug-last
 </pre></div>
 </div>
 <p>Now we have a prompt inside the part-built container and can retry the failed
@@ -638,18 +638,18 @@ You are also
 free to use apt-get to install any other tools you need as demonstrated above.
 (type busybox to see the list of available tools).</p>
 </section>
-<section id="other-ec-dev-commands">
-<h2>Other <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> Commands<a class="headerlink" href="#other-ec-dev-commands" title="Link to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> namespace provides a number of other commands for working outside
+<section id="other-ke-dev-commands">
+<h2>Other <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> Commands<a class="headerlink" href="#other-ke-dev-commands" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> namespace provides a number of other commands for working outside
 of developer containers. These were primarily developed before the use
 of developer containers matured. If you prefer not to use developer containers
 for any reason then take a look at the help as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>dev<span class="w"> </span>--help
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>dev<span class="w"> </span>--help
 </pre></div>
 </div>
 <p>You should be able to perform most of the same tasks that the tutorials teach.</p>
-<p>Don’t forget that you can always use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-v</span> <span class="pre">dev</span> <span class="pre">...</span></code> to get output showing
-the underlying docker/podman and git commands <code class="docutils literal notranslate"><span class="pre">ec</span></code> is using.</p>
+<p>Don’t forget that you can always use <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">-v</span> <span class="pre">dev</span> <span class="pre">...</span></code> to get output showing
+the underlying docker/podman and git commands <code class="docutils literal notranslate"><span class="pre">ke</span></code> is using.</p>
 </section>
 </section>
 
@@ -702,7 +702,7 @@ the underlying docker/podman and git commands <code class="docutils literal notr
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-the-build">Break the Build</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-the-build-failure">Investigate the Build Failure</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes-inside-the-container">Making Changes Inside the Container</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ec-dev-commands">Other <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ke-dev-commands">Other <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> Commands</a></li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -607,7 +607,7 @@ next tutorial.</p></li>
 <h3>Environment.sh<a class="headerlink" href="#environment-sh" title="Link to this heading">#</a></h3>
 <p>Environment.sh is a bash script that is sourced by a beamline user or developer
 in order to set up their environment to work with the beamline.</p>
-<p>The command line tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> uses the environment configured by this script
+<p>The command line tool <code class="docutils literal notranslate"><span class="pre">ke</span></code> uses the environment configured by this script
 to determine where to deploy IOCS and where to find container images etc.</p>
 <p>For details of what goes in this file see <a class="reference internal" href="../reference/environment.html"><span class="doc">The Environment Configuration File</span></a>.
 For the purpose of this tutorial for <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> you should have the following
@@ -624,7 +624,7 @@ where indicated):</p>
 <li><p>SECTION 2:</p>
 <ul>
 <li><p>The existing script code in blxxi-template is fine for this tutorial.
-It checks to see if <code class="docutils literal notranslate"><span class="pre">ec</span></code> is available and installs it into a
+It checks to see if <code class="docutils literal notranslate"><span class="pre">ke</span></code> is available and installs it into a
 virtual environment if not. It requires that you already have a
 virtual environment set up. See <a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> for details.</p></li>
 </ul>
@@ -638,8 +638,8 @@ leave this section blank for now.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>DLS Users: <code class="docutils literal notranslate"><span class="pre">ec</span></code> is already installed for you. So leave SECTION 2
-blank. See <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">epics-containers-cli</span></a> for details.</p>
+<p>DLS Users: <code class="docutils literal notranslate"><span class="pre">ke</span></code> is already installed for you. So leave SECTION 2
+blank. See <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">k8s-edge-cli</span></a> for details.</p>
 </div>
 </section>
 <section id="change-the-ioc-name">

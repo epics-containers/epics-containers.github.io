@@ -273,7 +273,7 @@ See https://github.com/epics-containers/pvi.
 Additional Tools
 ----------------
 
-epics-containers-cli
+k8s-edge-cli
 ~~~~~~~~~~~~~~~~~~~~
 This is the developer's 'outside of the container' helper tool. The command
 line entry point is **ec**.

@@ -73,7 +73,7 @@ profile you should be able to enable the ``bl01t`` environment as follows:
 
 .. code-block:: bash
 
-    # first make sure you have loaded your virtual environment for the ec tool
+    # first make sure you have loaded your virtual environment for the ke tool
     source $HOME/ec-venv/bin/activate # DLS users don't need this step
     source bl01t
 
@@ -81,16 +81,16 @@ profile you should be able to enable the ``bl01t`` environment as follows:
 Deploy the Example IOC Instance
 -------------------------------
 
-For this section we will be making use of the epics-containers-cli tool.
-This command line entry point for the tool is ``ec``. For more
-details see: `CLI` or try ``ec --help``.
+For this section we will be making use of the k8s-edge-cli tool.
+This command line entry point for the tool is ``ke``. For more
+details see: `CLI` or try ``ke --help``.
 
 The simplest command to check that the tool is working is ``ps`` which lists
 the IOC Instances that are currently running:
 
 .. code-block:: bash
 
-    ec ps
+    ke ps
 
 You should see some headings and an empty list as you have not yet started an
 IOC Instance.
@@ -102,7 +102,7 @@ in which case the same command will deploy to your Kubernetes cluster).
 .. code-block:: bash
 
     cd bl01t # (if you are not already in your beamline repo)
-    ec ioc deploy-local iocs/bl01t-ea-ioc-01
+   ke deploy-local iocs/bl01t-ea-ioc-01
 
 You will be prompted to say that this is a *TEMPORARY* deployment. This is
 because we are deploying directly from the local filesystem. You should only
@@ -115,7 +115,7 @@ You can now see the beta IOC instance running with:
 
 .. code-block:: bash
 
-    $ ec ps
+    $ ke ps
     IOC NAME            VERSION             STATUS              IMAGE
     bl01t-ea-ioc-01     2024.1.19-b11.53   Up 6 minutes        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
 
@@ -128,7 +128,7 @@ available in the GitHub repository.
 
 .. code-block:: bash
 
-    $ ec ioc instances bl01t-ea-ioc-01
+    $ke instances bl01t-ea-ioc-01
     Available instance versions for bl01t-ea-ioc-01:
         2024.1.1
 
@@ -146,10 +146,10 @@ it to your local machine:
 
 .. code-block:: bash
 
-    $ ec ioc deploy bl01t-ea-ioc-01 2024.1.1
+    $ke deploy bl01t-ea-ioc-01 2024.1.1
     bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
-    $ ec ps
+    $ ke ps
     IOC NAME            VERSION             STATUS              IMAGE
     bl01t-ea-ioc-01     2024.1.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 
@@ -175,15 +175,15 @@ Starting and Stopping IOCs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To stop / start the example IOC try the following commands. Note that
-``ec ps -a`` shows you all IOCs including stopped ones.
+``ke ps -a`` shows you all IOCs including stopped ones.
 
 .. code-block:: bash
 
-    ec ps -a
-    ec ioc stop bl01t-ea-ioc-01
-    ec ps -a
-    ec ioc start bl01t-ea-ioc-01
-    ec ps
+    ke ps -a
+   ke stop bl01t-ea-ioc-01
+    ke ps -a
+   ke start bl01t-ea-ioc-01
+    ke ps
 
 .. Note::
 
@@ -206,7 +206,7 @@ iocShell.
 
 .. code-block:: bash
 
-    ec ioc attach bl01t-ea-ioc-01
+   ke attach bl01t-ea-ioc-01
 
 Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However,
 there are issues with both VSCode and IOC shells capturing ctrl-P. until
@@ -218,7 +218,7 @@ To run a bash shell inside the IOC container:
 
 .. code-block:: bash
 
-    ec ioc exec bl01t-ea-ioc-01
+   ke exec bl01t-ea-ioc-01
 
 Once you have a shell inside the container you could inspect the following
 folders:
@@ -242,13 +242,13 @@ To get the current logs for the example IOC:
 
 .. code-block:: bash
 
-    ec ioc logs bl01t-ea-ioc-01
+   ke logs bl01t-ea-ioc-01
 
 Or follow the IOC log until you hit ctrl-C:
 
 .. code-block:: bash
 
-    ec ioc logs bl01t-ea-ioc-01 -f
+   ke logs bl01t-ea-ioc-01 -f
 
 You will notice that this IOC simply prints out a message regarding what
 you can place in the /epics/ioc/config folder. In the next tutorial

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Command Line Interface for IOC Management &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Command Line Interface for IOC Management &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -515,9 +515,9 @@ document.write(`
                   
   <section id="command-line-interface-for-ioc-management">
 <span id="cli"></span><h1>Command Line Interface for IOC Management<a class="headerlink" href="#command-line-interface-for-ioc-management" title="Link to this heading">#</a></h1>
-<p>The python project <code class="docutils literal notranslate"><span class="pre">epics-containers-cli</span></code> is installed as part of the
+<p>The python project <code class="docutils literal notranslate"><span class="pre">k8s-edge-cli</span></code> is installed as part of the
 Python section of the initial tutorial <a class="reference internal" href="../tutorials/setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a>.
-It provides a command line function <code class="docutils literal notranslate"><span class="pre">ec</span></code> with support for:</p>
+It provides a command line function <code class="docutils literal notranslate"><span class="pre">ke</span></code> with support for:</p>
 <ul class="simple">
 <li><p>building and debugging Generic IOC Containers</p></li>
 <li><p>deploying, managing and debugging IOC Instances</p></li>
@@ -538,16 +538,16 @@ work:</p>
 <dd class="field-even"><p>the git version control system client</p>
 </dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> is useful because it saves typing and provides a consistent interface
+<p><code class="docutils literal notranslate"><span class="pre">ke</span></code> is useful because it saves typing and provides a consistent interface
 when working on multiple beamlines. This is because it uses the environment
 setup by the beamline repo’s <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> script. See <a class="reference internal" href="environment.html"><span class="doc">The Environment Configuration File</span></a>.</p>
-<p>To see the available commands, run <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.
+<p>To see the available commands, run <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">--help</span></code>.
 Much of the functionality is available through subcommands dev and ioc. To get
 full details of a given command type the full command plus <code class="docutils literal notranslate"><span class="pre">--help</span></code>. For
 example:</p>
-<pre>$ ec dev launch --help
+<pre>$ke dev launch --help
 <b>                                                                                 </b>
-<b> </b><font color="#A2734C"><b>Usage: </b></font><b>ec dev launch [OPTIONS] IOC_INSTANCE                                     </b>
+<b> </b><font color="#A2734C"><b>Usage: </b></font><b>ke dev launch [OPTIONS] IOC_INSTANCE                                     </b>
 <b>                                                                                 </b>
 Launch an IOC instance using configuration from a domain repo. Or by passing a
 generic IOC image ID. Can be used for local testing of IOC instances. You may
@@ -576,9 +576,9 @@ find the devcontainer a more convenient way to do this.
 <font color="#AAAAAA">│ </font><font color="#2AA1B3"><b>--help</b></font>            <font color="#A2734C"><b>                   </b></font>  Show this message and exit.            │
 <font color="#AAAAAA">╰───────────────────────────────────────────────────────────────────────────────╯</font>
 </pre><p>It may be instructive to understand the underlying tools and how they are
-are being called. For this reason <code class="docutils literal notranslate"><span class="pre">ec</span></code> supports a <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to show
+are being called. For this reason <code class="docutils literal notranslate"><span class="pre">ke</span></code> supports a <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to show
 the underlying commands being executed. e.g.</p>
-<pre>$ ec -v ps
+<pre>$ ke -v ps
 <font color="#5F8787">kubectl get namespace p38-iocs -o name</font>
 <font color="#5F8787">kubectl -n p38-iocs get pod -l is_ioc==True -o custom-columns=IOC_NAME:metadata.labels.app,VERSION:metadata.labels.ioc_version,STATE:status.phase,RESTARTS:status.containerStatuses[0].restartCount,STARTED:metadata.managedFields[0].time</font>
 IOC_NAME            VERSION             STATE     RESTARTS   STARTED

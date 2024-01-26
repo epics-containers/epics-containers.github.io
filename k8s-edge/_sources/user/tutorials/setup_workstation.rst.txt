@@ -140,32 +140,32 @@ environment again. (Or place its bin folder in your path permanently).
 
 .. _ec:
 
-epics-containers-cli
+k8s-edge-cli
 ~~~~~~~~~~~~~~~~~~~~
 
 Above we set up a python virtual environment. Now we will install
-the epics-containers-cli python tool into that environment.
+the k8s-edge-cli python tool into that environment.
 
 .. code-block:: bash
 
-    pip install epics-containers-cli
+    pip install k8s-edge-cli
 
 This is the developer's 'outside of the container' helper tool. The command
-line entry point is ``ec``. We will be using many ``ec`` command line
+line entry point is ``ke``. We will be using many ``ke`` command line
 functions in the next tutorial.
 
 See `CLI` for more details.
 
 .. note::
 
-    DLS Users: ``ec`` is already installed for you on ``dls_sw`` just do the
+    DLS Users: ``ke`` is already installed for you on ``dls_sw`` just do the
     following to make sure it is always available:
 
     .. code:: bash
 
-        # use the ec version from dls_sw/work/python3
+        # use the ke version from dls_sw/work/python3
         mkdir -p $HOME/.local/bin
-        ln -fs /dls_sw/work/python3/ec-venv/bin/ec $HOME/.local/bin/ec
+        ln -fs /dls_sw/work/python3/ke-venv/bin/ke $HOME/.local/bin/ke
 
 Git
 ---

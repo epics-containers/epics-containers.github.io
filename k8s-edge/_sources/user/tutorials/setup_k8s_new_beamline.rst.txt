@@ -178,22 +178,22 @@ Change this section to set the following variables:
     export EC_K8S_NAMESPACE=p46-iocs
     export EC_DOMAIN_REPO=git@github.com:YOUR_GITHUB_ACCOUNT/bl46p.git
 
-This tells the ``ec`` command line tool to use the GitHub container registry
+This tells the ``ke`` command line tool to use the GitHub container registry
 when it sees github projects, the name of the Kubernetes namespace to use and
 the location of the beamline repository.
 
 Section 2
 ~~~~~~~~~
 
-The script should also make sure that ``ec`` CLI is available and it is also
+The script should also make sure that ``ke`` CLI is available and it is also
 useful to set up command line completion up. The simplest way to do this is:
 
 .. code-block:: bash
 
     set -e # exit on error
-    source <(ec --show-completion ${SHELL})
+    source <(ke --show-completion ${SHELL})
 
-For a review of how to set up the epics-containers-cli tool ``ec`` see
+For a review of how to set up the k8s-edge-cli tool ``ke`` see
 `python_setup` and `ec`.
 
 Section 3

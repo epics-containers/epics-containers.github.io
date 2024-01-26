@@ -251,11 +251,11 @@ Deploying an RTEMS IOC Instance
 
 To deploy an IOC instance to the cluster you can use one of two approaches:
 
-- push your beamline repo to GitHub and tag it. Then use ``ec ioc deploy`` to
+- push your beamline repo to GitHub and tag it. Then use ``ke deploy`` to
   deploy the resulting versioned IOC instance. This was covered for linux IOCs
   in `deploy_example`.
 
-- use ``ec ioc deploy-local`` to directly deploy the local copy of the IOC
+- use ``ke deploy-local`` to directly deploy the local copy of the IOC
   instance helm chart to kubernetes as a beta version. This was covered for
   linux IOCs in --local_deploy_ioc--.
 
@@ -268,7 +268,7 @@ Execute the following commands:
 .. code-block:: bash
 
     cd bl01t
-    ec ioc deploy-local iocs/bl01t-ea-ioc-02
+   ke deploy-local iocs/bl01t-ea-ioc-02
 
 When an RTEMS Kubernetes pod runs up it will make a telnet connection to
 the hard IOC's console and present the console as stdin/stdout of the
@@ -277,7 +277,7 @@ container. This means once you have done the above deployment the command:
 
 .. code-block:: bash
 
-    ec logs bl01t-ea-ioc-02 -f
+    ke logs bl01t-ea-ioc-02 -f
 
 will show the RTEMS console output, and follow it along (``-f``) as the IOC
 starts up. You can hit ``^C`` to stop following the logs.
@@ -287,7 +287,7 @@ the telnet connection with:
 
 .. code-block:: bash
 
-    ec attach bl01t-ea-ioc-02
+    ke attach bl01t-ea-ioc-02
 
 Most likely for the first deploy your IOC will still be sitting at the
 ``MVME5500>`` prompt. If you see this prompt when you attach then you need

@@ -21,4 +21,4 @@ epics-containers has been tested with
 
 
 TODO: add instructions for using other editors. Potentially we could enhance
-the epics-containers-cli to support other editors with minimal effort.
+the k8s-edge-cli to support other editors with minimal effort.

@@ -69,7 +69,7 @@ The ``build`` script does two things.
 
     The ``build`` script is a convenience script that is provided in the
     Generic IOC Template project. It is exactly equivalent to cloning
-    with ``--recursive`` flag and then running ``ec dev build``. Equally,
+    with ``--recursive`` flag and then running ``ke dev build``. Equally,
     opening a vscode dev container will also build the container for you, but it
     does require the ``ibek-support`` submodule to be present - using
     ``--recursive`` flag to git clone ensures this.

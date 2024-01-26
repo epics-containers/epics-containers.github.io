@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -517,7 +517,7 @@ document.write(`
 <h1>The Environment Configuration File<a class="headerlink" href="#the-environment-configuration-file" title="Link to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> is a configuration file that is provided in each domain
 (beamline or accelerator) repository. It is used to set up the environment
-such that the <code class="docutils literal notranslate"><span class="pre">epics-containers-cli</span></code> will interact with the correct
+such that the <code class="docutils literal notranslate"><span class="pre">k8s-edge-cli</span></code> will interact with the correct
 cluster (or local server if you are not using Kubernetes).</p>
 <p>An important part of creating a new domain repository is to edit the
 <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> so that it suits the domain you are targetting.</p>
@@ -555,7 +555,7 @@ docker or podman instance.</p></li>
 <li><p><strong>EC_DOMAIN_REPO</strong>: this is a link back to the repository that defines this
 domain. For example the bl38p reference beamline repository uses
 <code class="docutils literal notranslate"><span class="pre">EC_DOMAIN_REPO=git&#64;github.com:epics-containers/bl38p.git</span></code>. This variable
-is used by <code class="docutils literal notranslate"><span class="pre">ec</span></code> to fetch versioned IOC Instance from the repo and deploy
+is used by <code class="docutils literal notranslate"><span class="pre">ke</span></code> to fetch versioned IOC Instance from the repo and deploy
 time.</p></li>
 </ul>
 </section>
@@ -564,7 +564,7 @@ time.</p></li>
 <ul class="simple">
 <li><p><strong>EC_LOG_URL</strong>: if you have a centralized logging service with a web UI then
 you can set this variable to the URL of the web UI. This will then be
-displayed when the command <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">log-history</span> <span class="pre">&lt;ioc-name&gt;</span></code> is run. The
+displayed when the command <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">log-history</span> <span class="pre">&lt;ioc-name&gt;</span></code> is run. The
 IOC name is added to the URL using <code class="docutils literal notranslate"><span class="pre">{ioc-name}</span></code> as a placeholder e.g.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">EC_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&amp;fields</span></code>
@@ -573,27 +573,27 @@ IOC name is added to the URL using <code class="docutils literal notranslate"><s
 </ul>
 </li>
 <li><p><strong>EC_CONTAINER_CLI</strong>: this sets the name of the container CLI to use. supported
-options are <code class="docutils literal notranslate"><span class="pre">podman</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span></code>. If not set then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will try to
+options are <code class="docutils literal notranslate"><span class="pre">podman</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span></code>. If not set then <code class="docutils literal notranslate"><span class="pre">ke</span></code> will try to
 determine which one to use. You would only need this variable if you have
 both podman and docker installed and you want to use one over the other, or
 if you want to use a different container CLI such as <code class="docutils literal notranslate"><span class="pre">singularity</span></code>.
 IMPORTANT: the application you reference must have docker compatible CLI
 (at least for common functions).</p></li>
-<li><p><strong>EC_DEBUG</strong>: causes the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command to output debug information for all
-commands. For more targetted debugging you can use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-d</span> <span class="pre">...</span></code>.</p></li>
+<li><p><strong>EC_DEBUG</strong>: causes the <code class="docutils literal notranslate"><span class="pre">ke</span></code> command to output debug information for all
+commands. For more targetted debugging you can use <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">-d</span> <span class="pre">...</span></code>.</p></li>
 </ul>
 </section>
 </section>
-<section id="installation-of-ec">
-<h2>Installation of <code class="docutils literal notranslate"><span class="pre">ec</span></code><a class="headerlink" href="#installation-of-ec" title="Link to this heading">#</a></h2>
+<section id="installation-of-ke">
+<h2>Installation of <code class="docutils literal notranslate"><span class="pre">ke</span></code><a class="headerlink" href="#installation-of-ke" title="Link to this heading">#</a></h2>
 <p>The second section of the <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> file is used to install the
-<code class="docutils literal notranslate"><span class="pre">ec</span></code> command by pip installing the <code class="docutils literal notranslate"><span class="pre">epics-containers-cli</span></code> package. The
+<code class="docutils literal notranslate"><span class="pre">ke</span></code> command by pip installing the <code class="docutils literal notranslate"><span class="pre">k8s-edge-cli</span></code> package. The
 <code class="docutils literal notranslate"><span class="pre">blxxi-template</span></code> project comes with a suggested way of doing this, but
-it would probably be best to have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed globally on your
+it would probably be best to have <code class="docutils literal notranslate"><span class="pre">ke</span></code> installed globally on your
 workstation and then omit this section from your <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> files.</p>
-<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> into your user
+<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ke</span></code> into your user
 space using the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>epics-containers-cli
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>k8s-edge-cli
 </pre></div>
 </div>
 <p>Then add the following to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file:</p>
@@ -676,7 +676,7 @@ Kubernetes tools <code class="docutils literal notranslate"><span class="pre">ku
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-variables">Optional Variables</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-of-ec">Installation of <code class="docutils literal notranslate"><span class="pre">ec</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-of-ke">Installation of <code class="docutils literal notranslate"><span class="pre">ke</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-a-namespace-on-your-kubernetes-cluster">Connecting to a Namespace on your Kubernetes Cluster</a></li>
 </ul>
   </nav></div>

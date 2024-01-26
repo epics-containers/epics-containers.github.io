@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>RTEMS - Deploying an Example IOC &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>RTEMS - Deploying an Example IOC &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -768,10 +768,10 @@ add the following lines to <code class="docutils literal notranslate"><span clas
 <h2>Deploying an RTEMS IOC Instance<a class="headerlink" href="#deploying-an-rtems-ioc-instance" title="Link to this heading">#</a></h2>
 <p>To deploy an IOC instance to the cluster you can use one of two approaches:</p>
 <ul class="simple">
-<li><p>push your beamline repo to GitHub and tag it. Then use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy</span></code> to
+<li><p>push your beamline repo to GitHub and tag it. Then use <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">deploy</span></code> to
 deploy the resulting versioned IOC instance. This was covered for linux IOCs
 in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploying and Managing IOC Instances</span></a>.</p></li>
-<li><p>use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy-local</span></code> to directly deploy the local copy of the IOC
+<li><p>use <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">deploy-local</span></code> to directly deploy the local copy of the IOC
 instance helm chart to kubernetes as a beta version. This was covered for
 linux IOCs in –local_deploy_ioc–.</p></li>
 </ul>
@@ -779,21 +779,21 @@ linux IOCs in –local_deploy_ioc–.</p></li>
 linux and RTEMS IOCs. We will do the latter as it is quicker for
 the purposes of the tutorial.</p>
 <p>Execute the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bl01t
+ke<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
 </pre></div>
 </div>
 <p>When an RTEMS Kubernetes pod runs up it will make a telnet connection to
 the hard IOC’s console and present the console as stdin/stdout of the
 container. This means once you have done the above deployment the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02<span class="w"> </span>-f
 </pre></div>
 </div>
 <p>will show the RTEMS console output, and follow it along (<code class="docutils literal notranslate"><span class="pre">-f</span></code>) as the IOC
 starts up. You can hit <code class="docutils literal notranslate"><span class="pre">^C</span></code> to stop following the logs.</p>
 <p>You can also attach to the container and interact with the RTEMS console via
 the telnet connection with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-02
 </pre></div>
 </div>
 <p>Most likely for the first deploy your IOC will still be sitting at the

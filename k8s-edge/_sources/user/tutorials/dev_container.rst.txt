@@ -82,7 +82,7 @@ The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.
 
-TODO: add features to ``ec dev`` to launch the container in developer mode,
+TODO: add features to ``ke dev`` to launch the container in developer mode,
 with appropriate host mounts. This will enable non vscode users developer
 containers.
 
@@ -123,9 +123,9 @@ next to your test beamline ``bl01t``:
     cd ..
     git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git
     cd ioc-adsimdetector
-    ec dev build
+   ke dev build
 
-The last step uses one of the ``ec dev`` sub commands to build the developer
+The last step uses one of the ``ke dev`` sub commands to build the developer
 target of the container to your local container cache. This will take a few
 minutes to complete. A philosophy of epics-containers is that Generic IOCs
 build all of their own support. This is to avoid problematic dependency trees.
@@ -136,7 +136,7 @@ A nice thing about containers is that the build is
 cached so that a second build will be almost instant unless you have changed
 something that requires some steps to be rebuilt.
 
-The ``ec dev`` commands are a set of convenience commands
+The ``ke dev`` commands are a set of convenience commands
 for working on Generic IOCs from *outside* of the container. These commands
 are useful for debugging container builds: although most work is done inside
 the container, you will need these commands if it fails to build.
@@ -150,7 +150,7 @@ the container, you will need these commands if it fails to build.
 
    .. code-block:: bash
 
-      ec ioc stop bl01t-ea-ioc-02
+     ke stop bl01t-ea-ioc-02
 
 Launching the Developer Container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

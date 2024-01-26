@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -659,20 +659,20 @@ but here we will configure it to use the beamline cluster.</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">EC_DOMAIN_REPO</span><span class="o">=</span>git@github.com:YOUR_GITHUB_ACCOUNT/bl46p.git
 </pre></div>
 </div>
-<p>This tells the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command line tool to use the GitHub container registry
+<p>This tells the <code class="docutils literal notranslate"><span class="pre">ke</span></code> command line tool to use the GitHub container registry
 when it sees github projects, the name of the Kubernetes namespace to use and
 the location of the beamline repository.</p>
 </section>
 <section id="section-2">
 <h3>Section 2<a class="headerlink" href="#section-2" title="Link to this heading">#</a></h3>
-<p>The script should also make sure that <code class="docutils literal notranslate"><span class="pre">ec</span></code> CLI is available and it is also
+<p>The script should also make sure that <code class="docutils literal notranslate"><span class="pre">ke</span></code> CLI is available and it is also
 useful to set up command line completion up. The simplest way to do this is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span>-e<span class="w"> </span><span class="c1"># exit on error</span>
-<span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>ec<span class="w"> </span>--show-completion<span class="w"> </span><span class="si">${</span><span class="nv">SHELL</span><span class="si">}</span><span class="o">)</span>
+<span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>ke<span class="w"> </span>--show-completion<span class="w"> </span><span class="si">${</span><span class="nv">SHELL</span><span class="si">}</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>For a review of how to set up the epics-containers-cli tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> see
-<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">epics-containers-cli</span></a>.</p>
+<p>For a review of how to set up the k8s-edge-cli tool <code class="docutils literal notranslate"><span class="pre">ke</span></code> see
+<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">k8s-edge-cli</span></a>.</p>
 </section>
 <section id="section-3">
 <h3>Section 3<a class="headerlink" href="#section-3" title="Link to this heading">#</a></h3>

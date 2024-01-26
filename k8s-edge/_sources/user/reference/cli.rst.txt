@@ -3,9 +3,9 @@
 Command Line Interface for IOC Management
 =========================================
 
-The python project ``epics-containers-cli`` is installed as part of the
+The python project ``k8s-edge-cli`` is installed as part of the
 Python section of the initial tutorial `../tutorials/setup_workstation`.
-It provides a command line function ``ec`` with support for:
+It provides a command line function ``ke`` with support for:
 
 - building and debugging Generic IOC Containers
 - deploying, managing and debugging IOC Instances
@@ -18,20 +18,20 @@ work:
 :podman (or docker): CLIs for container engines
 :git: the git version control system client
 
-``ec`` is useful because it saves typing and provides a consistent interface
+``ke`` is useful because it saves typing and provides a consistent interface
 when working on multiple beamlines. This is because it uses the environment
 setup by the beamline repo's ``environment.sh`` script. See `environment`.
 
-To see the available commands, run ``ec --help``.
+To see the available commands, run ``ke --help``.
 Much of the functionality is available through subcommands dev and ioc. To get
 full details of a given command type the full command plus ``--help``. For
 example:
 
 .. raw:: html
 
-    <pre>$ ec dev launch --help
+    <pre>$ke dev launch --help
     <b>                                                                                 </b>
-    <b> </b><font color="#A2734C"><b>Usage: </b></font><b>ec dev launch [OPTIONS] IOC_INSTANCE                                     </b>
+    <b> </b><font color="#A2734C"><b>Usage: </b></font><b>ke dev launch [OPTIONS] IOC_INSTANCE                                     </b>
     <b>                                                                                 </b>
     Launch an IOC instance using configuration from a domain repo. Or by passing a
     generic IOC image ID. Can be used for local testing of IOC instances. You may
@@ -62,12 +62,12 @@ example:
     </pre>
 
 It may be instructive to understand the underlying tools and how they are
-are being called. For this reason ``ec`` supports a ``-v`` option to show
+are being called. For this reason ``ke`` supports a ``-v`` option to show
 the underlying commands being executed. e.g.
 
 .. raw:: html
 
-    <pre>$ ec -v ps
+    <pre>$ ke -v ps
     <font color="#5F8787">kubectl get namespace p38-iocs -o name</font>
     <font color="#5F8787">kubectl -n p38-iocs get pod -l is_ioc==True -o custom-columns=IOC_NAME:metadata.labels.app,VERSION:metadata.labels.ioc_version,STATE:status.phase,RESTARTS:status.containerStatuses[0].restartCount,STARTED:metadata.managedFields[0].time</font>
     IOC_NAME            VERSION             STATE     RESTARTS   STARTED

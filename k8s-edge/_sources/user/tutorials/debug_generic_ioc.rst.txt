@@ -37,12 +37,12 @@ Comment out the apt-install line like this:
     # ibek support apt-install --only=dev libpcre3-dev
 
 Now rebuild the container - do this command from a new terminal *outside* of
-the devcontainer (make sure you have ``ec`` installed):
+the devcontainer (make sure you have ``ke`` installed):
 
 .. code-block:: bash
 
     cd ioc-lakeshore340 # where you cloned it
-    ec dev build
+   ke dev build
 
 First of all, notice the build cache. The build rapidly skips
 over all the steps until it gets to the StreamDevice support module. The,
@@ -63,12 +63,12 @@ Investigate the Build Failure
 
 When a container build fails the container image is created up to the point
 where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container. ``ec``
+investigate the build failure by running a shell in the container. ``ke``
 provides us with the following convenience command to do this:
 
 .. code-block:: bash
 
-    ec dev debug-last
+   ke dev debug-last
 
 Now we have a prompt inside the part-built container and can retry the failed
 command.
@@ -157,19 +157,19 @@ free to use apt-get to install any other tools you need as demonstrated above.
 (type busybox to see the list of available tools).
 
 
-Other ``ec dev`` Commands
+Other ``ke dev`` Commands
 -------------------------
 
-The ``ec dev`` namespace provides a number of other commands for working outside
+The ``ke dev`` namespace provides a number of other commands for working outside
 of developer containers. These were primarily developed before the use
 of developer containers matured. If you prefer not to use developer containers
 for any reason then take a look at the help as follows:
 
 .. code-block:: bash
 
-    ec dev --help
+   ke dev --help
 
 You should be able to perform most of the same tasks that the tutorials teach.
 
-Don't forget that you can always use ``ec -v dev ...`` to get output showing
-the underlying docker/podman and git commands ``ec`` is using.
+Don't forget that you can always use ``ke -v dev ...`` to get output showing
+the underlying docker/podman and git commands ``ke`` is using.

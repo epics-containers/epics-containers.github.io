@@ -15,7 +15,7 @@ beamline repository:
 
 .. code-block:: bash
 
-    ec ioc template iocs/bl01t-ea-ioc-01
+   ke template iocs/bl01t-ea-ioc-01
 
 This is expanding the local helm chart in the ``iocs/bl01t-ea-ioc-01`` folder and using
 its ``templates/ioc.yaml`` plus the templates in ``helm-ioc-lib``. These templates

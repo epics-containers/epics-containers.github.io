@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -572,7 +572,7 @@ curl<span class="w"> </span>-o<span class="w"> </span>~/.local/bin/bl01t<span cl
 </div>
 <p>Once you have done this and logged out and back in again to pick up your new
 profile you should be able to enable the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> environment as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># first make sure you have loaded your virtual environment for the ec tool</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># first make sure you have loaded your virtual environment for the ke tool</span>
 <span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate<span class="w"> </span><span class="c1"># DLS users don&#39;t need this step</span>
 <span class="nb">source</span><span class="w"> </span>bl01t
 </pre></div>
@@ -580,12 +580,12 @@ profile you should be able to enable the <code class="docutils literal notransla
 </section>
 <section id="deploy-the-example-ioc-instance">
 <h2>Deploy the Example IOC Instance<a class="headerlink" href="#deploy-the-example-ioc-instance" title="Link to this heading">#</a></h2>
-<p>For this section we will be making use of the epics-containers-cli tool.
-This command line entry point for the tool is <code class="docutils literal notranslate"><span class="pre">ec</span></code>. For more
-details see: <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> or try <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
+<p>For this section we will be making use of the k8s-edge-cli tool.
+This command line entry point for the tool is <code class="docutils literal notranslate"><span class="pre">ke</span></code>. For more
+details see: <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> or try <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">--help</span></code>.</p>
 <p>The simplest command to check that the tool is working is <code class="docutils literal notranslate"><span class="pre">ps</span></code> which lists
 the IOC Instances that are currently running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>ps
 </pre></div>
 </div>
 <p>You should see some headings and an empty list as you have not yet started an
@@ -593,8 +593,8 @@ IOC Instance.</p>
 <p>The following command will deploy the example IOC instance to your local
 machine (unless you have skipped ahead and set up your Kubernetes config
 in which case the same command will deploy to your Kubernetes cluster).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># (if you are not already in your beamline repo)</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># (if you are not already in your beamline repo)</span>
+ke<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-01
 </pre></div>
 </div>
 <p>You will be prompted to say that this is a <em>TEMPORARY</em> deployment. This is
@@ -604,7 +604,7 @@ ever roll back to this version of the IOC (as it is lost as soon as filesystem
 changes are made). Local filesystem deployments are given a beta version
 number to indicate that they are not permanent.</p>
 <p>You can now see the beta IOC instance running with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ps
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ke<span class="w"> </span>ps
 IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
 bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.19-b11.53<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>minutes<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
 </pre></div>
@@ -615,7 +615,7 @@ can now use that tagged release of the IOC instance. First let’s
 check that the IOC instance version is available as expected. The following
 command lists all of the tagged versions of the IOC instance that are
 available in the GitHub repository.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$ke</span><span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
 Available<span class="w"> </span>instance<span class="w"> </span>versions<span class="w"> </span><span class="k">for</span><span class="w"> </span>bl01t-ea-ioc-01:
 <span class="w">    </span><span class="m">2024</span>.1.1
 </pre></div>
@@ -631,10 +631,10 @@ and source it again to pick up any changes.</p>
 <p>Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span><span class="m">2024</span>.1.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$ke</span><span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span><span class="m">2024</span>.1.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
-$<span class="w"> </span>ec<span class="w"> </span>ps
+$<span class="w"> </span>ke<span class="w"> </span>ps
 IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
 bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 </pre></div>
@@ -658,12 +658,12 @@ environments. <code class="docutils literal notranslate"><span class="pre">deplo
 <section id="starting-and-stopping-iocs">
 <h3>Starting and Stopping IOCs<a class="headerlink" href="#starting-and-stopping-iocs" title="Link to this heading">#</a></h3>
 <p>To stop / start the example IOC try the following commands. Note that
-<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>ioc<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-01
-ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>ioc<span class="w"> </span>start<span class="w"> </span>bl01t-ea-ioc-01
-ec<span class="w"> </span>ps
+<code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>ke<span class="w"> </span>ps<span class="w"> </span>-a
+ke<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-01
+<span class="w"> </span>ke<span class="w"> </span>ps<span class="w"> </span>-a
+ke<span class="w"> </span>start<span class="w"> </span>bl01t-ea-ioc-01
+<span class="w"> </span>ke<span class="w"> </span>ps
 </pre></div>
 </div>
 <div class="admonition note">
@@ -682,7 +682,7 @@ not functional, it could have been based on any Generic IOC.</p>
 will attach you to nothing in the case of this example IOC as it has no
 shell. In the next tutorial we will use this command to interact with
 iocShell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
 </div>
 <p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However,
@@ -691,7 +691,7 @@ this is resolved it may be necessary to close the terminal window to detach.</st
 You can also restart and detach from the IOC using ctrl-D or ctrl-C, or
 by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
 <p>To run a bash shell inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
 </div>
 <p>Once you have a shell inside the container you could inspect the following
@@ -722,11 +722,11 @@ and you can can inspect files such as the IOC startup script.</p>
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
 <p>To get the current logs for the example IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
 </div>
 <p>Or follow the IOC log until you hit ctrl-C:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span>-f
 </pre></div>
 </div>
 <p>You will notice that this IOC simply prints out a message regarding what

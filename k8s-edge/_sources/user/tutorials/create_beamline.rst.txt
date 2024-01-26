@@ -125,7 +125,7 @@ Environment.sh
 Environment.sh is a bash script that is sourced by a beamline user or developer
 in order to set up their environment to work with the beamline.
 
-The command line tool ``ec`` uses the environment configured by this script
+The command line tool ``ke`` uses the environment configured by this script
 to determine where to deploy IOCS and where to find container images etc.
 
 For details of what goes in this file see `../reference/environment`.
@@ -142,7 +142,7 @@ where indicated):
 - SECTION 2:
 
   - The existing script code in blxxi-template is fine for this tutorial.
-    It checks to see if ``ec`` is available and installs it into a
+    It checks to see if ``ke`` is available and installs it into a
     virtual environment if not. It requires that you already have a
     virtual environment set up. See `python_setup` for details.
 
@@ -153,7 +153,7 @@ where indicated):
 
 .. note::
 
-    DLS Users: ``ec`` is already installed for you. So leave SECTION 2
+    DLS Users: ``ke`` is already installed for you. So leave SECTION 2
     blank. See `ec` for details.
 
 Change the IOC Name

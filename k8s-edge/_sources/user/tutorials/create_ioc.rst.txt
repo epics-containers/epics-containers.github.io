@@ -258,10 +258,10 @@ reminder of how to set up your shell - from now on this will be assumed):
     source bl01t
 
     # deploy the new IOC from local filesystem
-    ec ioc deploy-local iocs/bl01t-ea-ioc-02
+   ke deploy-local iocs/bl01t-ea-ioc-02
 
     # verify that your IOC worked by looking at the logs
-    ec ioc logs bl01t-ea-ioc-02
+   ke logs bl01t-ea-ioc-02
 
 Operator Interface
 ~~~~~~~~~~~~~~~~~~
@@ -289,7 +289,7 @@ Now we can start our simulation detector like this:
 
 .. code-block:: bash
 
-    ec ioc exec bl01t-ea-ioc-02
+   ke exec bl01t-ea-ioc-02
     # enable the PVA plugin that publishes the output
     caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
     # start the simulation detector
@@ -363,7 +363,7 @@ To see what ibek generated you can go and look inside the IOC container:
 
 .. code:: bash
 
-    ec ioc exec bl01t-ea-ioc-02
+   ke exec bl01t-ea-ioc-02
     cd /epics/runtime/
     cat ioc.subst
     cat st.cmd
@@ -388,7 +388,7 @@ docker if that is what you are using):
     # no longer need an ibek ioc yaml file
     rm iocs/bl01t-ea-ioc-02/config/ioc.yaml
     # re-deploy from local filesystem
-    ec ioc deploy-local iocs/bl01t-ea-ioc-02
+   ke deploy-local iocs/bl01t-ea-ioc-02
 
 Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
@@ -397,9 +397,9 @@ changes in the startup script and substitution file and re-deploy the IOC.
 .. note::
 
     We used some raw podman / docker commands in the above script. If you
-    want to know what commands ``ec`` is running under the hood then you can
+    want to know what commands ``ke`` is running under the hood then you can
     use the ``-v`` option to see them.
 
     For example try this command:
 
-    - ec -v ioc deploy-local iocs/bl01t-ea-ioc-02
+    - ke -v deploy-local iocs/bl01t-ea-ioc-02

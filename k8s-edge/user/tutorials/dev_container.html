@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev51+g46bcd48 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/documentation_options.js?v=0ddf0535"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -592,7 +592,7 @@ build target and it then becomes a perfect candidate for a developer container.<
 The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.</p>
-<p>TODO: add features to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> to launch the container in developer mode,
+<p>TODO: add features to <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> to launch the container in developer mode,
 with appropriate host mounts. This will enable non vscode users developer
 containers.</p>
 </section>
@@ -620,14 +620,14 @@ used in previous tutorials. Let’s go and fetch a version of the Generic IOC
 source and build it locally.</p>
 <p>For the purposes of this tutorial we will place the source in a folder right
 next to your test beamline <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># starting from folder bl01t so that the clone is next to bl01t</span>
-<span class="nb">cd</span><span class="w"> </span>..
-git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
-<span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
-ec<span class="w"> </span>dev<span class="w"> </span>build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span><span class="c1"># starting from folder bl01t so that the clone is next to bl01t</span>
+<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
+<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
+ke<span class="w"> </span>dev<span class="w"> </span>build
 </pre></div>
 </div>
-<p>The last step uses one of the <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> sub commands to build the developer
+<p>The last step uses one of the <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> sub commands to build the developer
 target of the container to your local container cache. This will take a few
 minutes to complete. A philosophy of epics-containers is that Generic IOCs
 build all of their own support. This is to avoid problematic dependency trees.
@@ -636,7 +636,7 @@ few minutes when you first build it.</p>
 <p>A nice thing about containers is that the build is
 cached so that a second build will be almost instant unless you have changed
 something that requires some steps to be rebuilt.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> commands are a set of convenience commands
+<p>The <code class="docutils literal notranslate"><span class="pre">ke</span> <span class="pre">dev</span></code> commands are a set of convenience commands
 for working on Generic IOCs from <em>outside</em> of the container. These commands
 are useful for debugging container builds: although most work is done inside
 the container, you will need these commands if it fails to build.</p>
@@ -645,7 +645,7 @@ the container, you will need these commands if it fails to build.</p>
 <p>Before continuing this tutorial make sure you have not left the IOC
 bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
 outside of the devcontainer to stop it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ke<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-02
 </pre></div>
 </div>
 </div>
