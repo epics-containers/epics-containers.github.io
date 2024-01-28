@@ -140,6 +140,21 @@ available in the GitHub repository.
     because you set EC_DOMAIN_REPO incorrectly in environment.sh. Check it
     and source it again to pick up any changes.
 
+.. hint::
+
+    ec supports command line completion, which means that entering ``<tab> <tab>`` will give hints on the command line:
+
+    .. code-block:: bash
+
+        $ ec ioc <tab> <tab>
+        attach        deploy        exec          list          logs          start         template
+        delete        deploy-local  instances     log-history   restart       stop          validate
+        $ ec ioc instances <tab> <tab>
+        $ ec ioc instances bl01t-ea-ioc-0 <tab> <tab>
+        bl01t-ea-ioc-01  bl01t-ea-ioc-02
+
+    To enable this behavior in your shell run the command ``ec --install-completion``
+
 Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:
