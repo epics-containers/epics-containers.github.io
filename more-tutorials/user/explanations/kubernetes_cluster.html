@@ -1,0 +1,759 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kubernetes Cluster Config &#8212; epics-containers.github.io 2023.11.2.dev50+g043a022 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../_static/documentation_options.js?v=6ceb7d6b"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user/explanations/kubernetes_cluster';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'more-tutorials';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="icon" href="../../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="About the documentation" href="docs-structure.html" />
+    <link rel="prev" title="Channel Access and Other Protocols" href="net_protocols.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/k8s-epics2.png" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/k8s-epics2.png" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">EPICS Containers</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://github.com/epics-containers/epics-containers.github.io/releases">
+                    Release Notes
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../developer/index.html">
+                        Developer Guide
+                      </a>
+                    </li>
+                
+
+                <li class="nav-item">
+                  <a class="nav-link nav-external" href="https://github.com/epics-containers/epics-containers.github.io/releases">
+                    Release Notes
+                  </a>
+                </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_workstation.html">Set up a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/dev_container.html">Developer Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ioc_changes1.html">Changing the IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ioc_changes2.html">Changing a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/rtems_setup.html">RTEMS - Creating a File Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to Guides</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../how-to/phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/debug.html">Debug an IOC instance locally</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../how-to/contributing.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/useful_k8s.html">Kubernetes Additional How To’s</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/ibek-support.html">Updating and Testing ibek-support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/builder2ibek.html">Builder2ibek Conversion Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../how-to/builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanations</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../reference/faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/configuration.html">Configuration for epics-containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/environment.html">The Environment Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/ioc_helm_chart.html">IOC Helm Chart Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/vscode_settings.html">Recommended VSCode Settings</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Kubernetes...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="kubernetes-cluster-config">
+<h1>Kubernetes Cluster Config<a class="headerlink" href="#kubernetes-cluster-config" title="Link to this heading">#</a></h1>
+<section id="cluster-options">
+<h2>Cluster Options<a class="headerlink" href="#cluster-options" title="Link to this heading">#</a></h2>
+<p>Three cluster topologies were considered for this project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Cluster per beamline<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This could be as simple as
+a single server: the K3S installation described in
+<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
+<a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
+cluster, requiring a minimum of 4 servers.
+This approach keeps the configuration of the clusters quite straightforward
+but at the cost of having multiple separate clusters to maintain. Also
+it requires control plane servers for every beamline, whereas a centralized
+approach would only need a handful of control plane servers for the entire
+facility.</p>
+</dd>
+<dt class="field-even">Central Facility Cluster<span class="colon">:</span></dt>
+<dd class="field-even"><p>A central facility cluster that runs
+all IOCs on its own nodes would keep everything centralized and provide
+economy of scale. However, there are significant issues with routing
+Channel Access, PVA and some device protocols to IOCs running in a
+different subnet to the beamline. DLS spent some time working around these
+issues but eventually abandoned this approach.</p>
+</dd>
+<dt class="field-odd">Beamline Worker Nodes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This approach uses the central
+cluster but adds remote beamline nodes located in the beamline itself,
+connected to the beamline subnet. This has all the benefits of central
+management but is able to overcome the problems with protocol routing.
+The DLS argus cluster configuration described below is an example of
+how to achieve this.</p>
+</dd>
+</dl>
+</section>
+<section id="current-approach">
+<h2>Current Approach<a class="headerlink" href="#current-approach" title="Link to this heading">#</a></h2>
+<p>DLS is using Cluster per Beamline as the preferred topology. We
+will continue to have a central cluster for shared services but in addition will
+have a cluster per beamline and a cluster for the accelerator.</p>
+<p>The separate clusters allow us to have separate:</p>
+<ul class="simple">
+<li><p>failure domain</p></li>
+<li><p>security domain</p></li>
+<li><p>administrative domain</p></li>
+<li><p>performance domain</p></li>
+</ul>
+<p>The down side is that we have to manage multiple clusters. There is a lot of
+tooling available to help with this, as multi-cluster using cloud providers is
+quite a common pattern. We are currently investigating approaches to multi-cluster
+management.</p>
+</section>
+<section id="dls-argus-cluster">
+<span id="argus"></span><h2>DLS Argus Cluster<a class="headerlink" href="#dls-argus-cluster" title="Link to this heading">#</a></h2>
+<p>This section gives details of the topology and special
+configuration used by the DLS argus cluster to enable running
+IOCs on a Beamline.</p>
+<section id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h3>
+<p>Argus is the production DLS cluster. It comprises 22 bare metal worker nodes, with a 3 node control plane that runs in VMs. The control plane nodes run the K8s master processes such as the API server, controller manager etc. Each control plane node runs an etcd backend.</p>
+<figure class="align-default">
+<img alt="../../_images/clusterHA.png" src="../../_images/clusterHA.png" />
+</figure>
+<p>To load balance across the K8s API running on the control plane nodes, there is a haproxy load balancer. The DNS endpoint argus.api.diamond.ac.uk (which all nodes use as the main API endpoint) points to a single haproxy IP. The IP is HA by virtue of a pair of VMs that both run haproxy, bind on all IPs, and use VRRP/keepalived to make sure the IP is always up. Haproxy has the 3 control plane nodes as a target backend.</p>
+<figure class="align-default">
+<img alt="../../_images/kubeadm-ha-topology-stacked-etcd.png" src="../../_images/kubeadm-ha-topology-stacked-etcd.png" />
+</figure>
+<p>The cluster uses Kubeadm to deploy the K8s control plane in containers. It is provided by K8s upstream, and is architecturally similar to Rancher Kubernetes Engine (RKE). Kubeadm supports upgrades/downgrades and easy provisioning of nodes. The cluster is connected using Weave as the CNI. Weave is the only CNI tested that passes Broadcast/Unicast/Multicast (BUM) traffic through the iptables that control network access for pods. Metallb is used as a component to support K8s loadBalancer Service objects. Ingress nginx from nginxinc is used as an ingress controller. Logs are collected from the stdout of all pods using a fluentd daemonset which ships logs to a centralized graylog server. Cluster authentication is via KeyCloak.</p>
+<p>The cluster sits in one rack, with a top of rack (TOR) switch/router connecting it to the rest of the network. The cluster nodes sit on the same /22 network which is routable via the TOR router (this router routes the /22 subnet to other racks via OSPF). Metallb pool IPs are allocated from within this /22 to ensure they are globally routable by the OSPF network; the metallb speaker pods respond to ARP requests originating from the TOR router looking for load balanced Service IPs.</p>
+<p><strong>One of the Argus racks</strong></p>
+<figure class="align-default">
+<img alt="../../_images/argus3.jpg" src="../../_images/argus3.jpg" />
+</figure>
+<p>The cluster is built and managed using Ansible. Heavy use of the k8s module enables direct installation of K8s components by talking directly to the K8s API using the k8s module. Ansible also configures the haproxy API load balancer. Prometheus_operator provides the monitoring stack.</p>
+<p>Argus is a multi-tenant cluster. Namespaces are used to enforce multi-tenancy. A namespace is created on demand for each user, acting as a sandbox for them to get familiar with K8s. Applications deployed in production get their own “project” namespace. The project namespace has some associated policy that determines who can run pods in the namespace, what data can be accessed, and if pods can run with elevated privileges. This is enforced by a combination of RBAC and Pod Security Policy (PSP). The latter is a deprecated feature in K8s 1.21 and will soon be replaced with Open Policy Agent.</p>
+</section>
+<section id="beamline-local-cluster-nodes">
+<h3>Beamline Local Cluster Nodes<a class="headerlink" href="#beamline-local-cluster-nodes" title="Link to this heading">#</a></h3>
+<p>As part of the investigation work some worker nodes in Argus have been connected that are physically located at the beamline. These nodes do not share the same rack as Argus, and hence are part of a different routed subnet to the /22 that the control plane and main workers are within. This model assumes one centralised control plane (and some Generic workers), and a set of beamline cluster nodes that may be distributed across the network (in different subnets).</p>
+<p>The beamline cluster nodes require a few interesting sets of configuration to make this architecture work. See the following subheadings for details.</p>
+<section id="metallb-pools">
+<h4>Metallb Pools<a class="headerlink" href="#metallb-pools" title="Link to this heading">#</a></h4>
+<p>Metallb cannot be used to provide loadBalancer services for pods running on the beamline cluster nodes. This is because metallb currently only supports a single pool of IPs to allocate from. In the case of Argus, the pool is allocated from within the /22 in which the control plane (and a few Generic workers) sit. Should a pod with a loadBalancer Service IP get brought up on a beamline cluster node, the traffic would not be routable because the beamline TOR switch does not send ARP messages for subnets that it is not directly connected to. This is not an issue running IOCs since they do not make use of loadBalancer Services. There is a feature request for Metallb to support address pools that is currently pending.</p>
+</section>
+<section id="node-labelling-and-taints">
+<h4>Node Labelling and Taints<a class="headerlink" href="#node-labelling-and-taints" title="Link to this heading">#</a></h4>
+<p>The beamline cluster worker nodes are labelled and tainted with the name of the beamline. This ensures that only pods running IOCs that are relevant to that beamline can be started on the beamline worker nodes. Pods that are to be scheduled there must tolerate the taint, and use node selection based on the label.</p>
+<p>Certain utility pods must also tolerate the beamline name taint. Pods such as fluentd (which provides pod log aggregation and shipping to a centralised graylog) need additional tolerations of the taint. However most standard utilities such as Prometheus, Weave (the CNI itself runs in a pod) and kube-proxy all have a toleration of all “noSchedule” taints built in.</p>
+</section>
+<section id="host-network">
+<h4>Host Network<a class="headerlink" href="#host-network" title="Link to this heading">#</a></h4>
+<p>In order for IOCs to work within K8s pods, they typically need to see BUM traffic. This is because EPICS uses UDP Broadcast for IOC discovery. There are also other interesting network quirks that IOCs exhibit that make use of the CNI network overlay unsuitable. To get around this, pods running IOCs make use of the host network namespace. In other words, they see the interfaces on the underlying worker nodes, rather than a virtual interface that is connected to the cluster internal network that normal pods see. This is done by setting hostNetwork =  true in the pod spec. Access to the host network namespace requires privileged pods. Whilst this is allowed (Argus uses pod security policy to enforce the attributes of the pods that are scheduled), we do drop the capabilities that are not needed. This reduces the attack surface somewhat. We drop everything except NET_ADMIN and NET_BROADCAST.</p>
+</section>
+</section>
+</section>
+<section id="uses-for-argus">
+<h2>Uses for Argus<a class="headerlink" href="#uses-for-argus" title="Link to this heading">#</a></h2>
+<p>The central cluster is used for many services other than EPICS IOCs. Below is
+a list of current and potential use cases:</p>
+<ul class="simple">
+<li><p>Controls IOCs</p></li>
+<li><p>Kafka and Spark</p></li>
+<li><p>Jenkins</p></li>
+<li><p>Sonarqube</p></li>
+<li><p>Zocalo</p></li>
+<li><p>Jupyterhub</p></li>
+<li><p>Business apps (Confluence, Jira etc)</p></li>
+<li><p>Monitoring stacks (ElasticSearch, Graylog, Graphite, Nagdash etc)</p></li>
+<li><p>Core services (LDAP, Kerberos, Gitlab etc)</p></li>
+<li><p>Netbox</p></li>
+<li><p>MariaDB</p></li>
+<li><p>HT Condor</p></li>
+<li><p>Machine Learning toolkits (Kubeflow)</p></li>
+<li><p>VM orchestration (Kubevirt/Virtlet)</p></li>
+<li><p>Relion</p></li>
+<li><p>Storage Systems deployment (Ceph-rook, Portworkx etc)</p></li>
+<li><p>XChem Fragalysis</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="net_protocols.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Channel Access and Other Protocols</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="docs-structure.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">About the documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-options">Cluster Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-approach">Current Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dls-argus-cluster">DLS Argus Cluster</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#metallb-pools">Metallb Pools</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#node-labelling-and-taints">Node Labelling and Taints</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#host-network">Host Network</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uses-for-argus">Uses for Argus</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/more-tutorials/docs/user/explanations/kubernetes_cluster.rst">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/user/explanations/kubernetes_cluster.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

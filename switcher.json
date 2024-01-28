@@ -14,5 +14,9 @@
   {
     "version": "k8s-edge",
     "url": "https://epics-containers.github.io/epics-containers.github.io/k8s-edge/"
+  },
+  {
+    "version": "more-tutorials",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/more-tutorials/"
   }
 ]
