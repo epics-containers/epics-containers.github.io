@@ -42,7 +42,7 @@ the devcontainer (make sure you have ``ec`` installed):
 .. code-block:: bash
 
     cd ioc-lakeshore340 # where you cloned it
-    ec dev build
+    ./build
 
 First of all, notice the build cache. The build rapidly skips
 over all the steps until it gets to the StreamDevice support module. The,
@@ -66,9 +66,17 @@ where the last successful Dockerfile command was run. This means that we can
 investigate the build failure by running a shell in the container. ``ec``
 provides us with the following convenience command to do this:
 
-.. code-block:: bash
 
-    ec dev debug-last
+- scroll up the page until you see the last successful build step e.g.
+
+  .. code-block:: bash
+    STEP 14/19: COPY ibek-support/StreamDevice/ StreamDevice/
+    --> 631291db1751
+    STEP 15/19: RUN StreamDevice/install.sh 2.8.24
+    ... etc ...
+
+- copy the hash of the step you want to debug e.g. ``631291db1751`` in this case
+- podman run -it --entrypoint /bin/bash 631291db1751 # (the hash you copied)
 
 Now we have a prompt inside the part-built container and can retry the failed
 command.
@@ -150,26 +158,9 @@ adding to the install.sh or Dockerfile, then try a full rebuild.
 Making Changes Inside the Container
 -----------------------------------
 
-You will find that the container includes busybox tools, vim and ifconfig.
-These should provide enough tools to investigate and fix most build problems.
-You are also
-free to use apt-get to install any other tools you need as demonstrated above.
-(type busybox to see the list of available tools).
+You will find that the container includes busybox tools, vim and ifconfig. These
+should provide enough tools to investigate and fix most build problems. You are
+also free to use apt-get to install any other tools you need as demonstrated
+above. (type busybox to see the list of available tools).
 
 
-Other ``ec dev`` Commands
--------------------------
-
-The ``ec dev`` namespace provides a number of other commands for working outside
-of developer containers. These were primarily developed before the use
-of developer containers matured. If you prefer not to use developer containers
-for any reason then take a look at the help as follows:
-
-.. code-block:: bash
-
-    ec dev --help
-
-You should be able to perform most of the same tasks that the tutorials teach.
-
-Don't forget that you can always use ``ec -v dev ...`` to get output showing
-the underlying docker/podman and git commands ``ec`` is using.
