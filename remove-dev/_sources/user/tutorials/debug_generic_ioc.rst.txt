@@ -66,7 +66,6 @@ where the last successful Dockerfile command was run. This means that we can
 investigate the build failure by running a shell in the container. ``ec``
 provides us with the following convenience command to do this:
 
-
 - scroll up the page until you see the last successful build step e.g.
 
 .. code-block:: bash
