@@ -14,5 +14,9 @@
   {
     "version": "more-tutorials",
     "url": "https://epics-containers.github.io/epics-containers.github.io/more-tutorials/"
+  },
+  {
+    "version": "remove-dev",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/remove-dev/"
   }
 ]
