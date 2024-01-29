@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev52+ga1994b1 documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 2023.11.2.dev57+g77e47d9 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=2debc6f0"></script>
+    <script src="../../_static/documentation_options.js?v=e48de194"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -574,7 +574,7 @@ the build.</p>
 dependencies on our local machine. Instead we can use a developer container,
 and in fact our Generic IOC <em>is</em> our developer container.</p>
 <p>When the CI builds a Generic IOC it creates
-<a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">two targets</a>:</p>
+<a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">two targets</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">developer<span class="colon">:</span></dt>
 <dd class="field-odd"><p>this target installs all the build tools and build time dependencies
@@ -592,9 +592,13 @@ build target and it then becomes a perfect candidate for a developer container.<
 The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.</p>
-<p>TODO: add features to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> to launch the container in developer mode,
-with appropriate host mounts. This will enable non vscode users developer
-containers.</p>
+<p>If you want to use the CLI and terminal based editors like <code class="docutils literal notranslate"><span class="pre">neovim</span></code> then
+you should use the developer container CLI to get your developer container
+started. This means the configuration in <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>
+is used to start the container. This is necessary as that is where the
+useful host filesystem mounts and other config items are defined. See
+<a class="reference external" href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli">devcontainer-cli</a>
+for details.</p>
 </section>
 <section id="starting-a-developer-container">
 <h2>Starting a Developer Container<a class="headerlink" href="#starting-a-developer-container" title="Link to this heading">#</a></h2>
@@ -603,10 +607,10 @@ containers.</p>
 <p>DLS Users and Redhat Users:</p>
 <p>There is a
 <a class="reference external" href="https://github.com/microsoft/vscode-remote-release/issues/8557">bug in VSCode devcontainers extension</a>
-at the time of writing
-that makes it incompatible with podman and an SELinux enabled /tmp directory.
-This will affect most Redhat users and you will see an error regarding
-permissions on the /tmp folder when VSCode is building your devcontainer.</p>
+at the time of writing that makes it incompatible with podman and an SELinux
+enabled /tmp directory. This will affect most Redhat users and you will see an
+error regarding permissions on the /tmp folder when VSCode is building your
+devcontainer.</p>
 <p>Here is a workaround that disables SELinux labels in podman.
 Paste this into a terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed<span class="w"> </span>-i<span class="w"> </span>~/.config/containers/containers.conf<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/label=false/d&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/^\[containers\]$/a label=false&#39;</span>
@@ -615,31 +619,25 @@ Paste this into a terminal:</p>
 </div>
 <section id="preparation">
 <h3>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h3>
-<p>For this section we will work with the ADSimDetector Generic IOC that we
-used in previous tutorials. Let’s go and fetch a version of the Generic IOC
-source and build it locally.</p>
+<p>For this section we will work with the ADSimDetector Generic IOC that we used in
+previous tutorials. Let’s go and fetch a version of the Generic IOC source and
+build it locally.</p>
 <p>For the purposes of this tutorial we will place the source in a folder right
 next to your test beamline <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># starting from folder bl01t so that the clone is next to bl01t</span>
 <span class="nb">cd</span><span class="w"> </span>..
-git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
 <span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
-ec<span class="w"> </span>dev<span class="w"> </span>build
+./build
 </pre></div>
 </div>
-<p>The last step uses one of the <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> sub commands to build the developer
-target of the container to your local container cache. This will take a few
-minutes to complete. A philosophy of epics-containers is that Generic IOCs
-build all of their own support. This is to avoid problematic dependency trees.
-For this reason building something as complex as AreaDetector will take a
-few minutes when you first build it.</p>
-<p>A nice thing about containers is that the build is
-cached so that a second build will be almost instant unless you have changed
-something that requires some steps to be rebuilt.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">dev</span></code> commands are a set of convenience commands
-for working on Generic IOCs from <em>outside</em> of the container. These commands
-are useful for debugging container builds: although most work is done inside
-the container, you will need these commands if it fails to build.</p>
+<p>This will take a few minutes to complete. A philosophy of epics-containers is
+that Generic IOCs build all of their own support. This is to avoid problematic
+dependency trees. For this reason building something as complex as AreaDetector
+will take a few minutes when you first build it.</p>
+<p>A nice thing about containers is that the build is cached so that a second build
+will be almost instant unless you have changed something that requires some
+steps to be rebuilt.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Before continuing this tutorial make sure you have not left the IOC
