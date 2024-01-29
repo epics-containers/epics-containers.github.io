@@ -63,16 +63,8 @@ The ``build`` script does two things.
   between all the EPICS IOC container images and contains the support YAML files
   that tell ``ibek`` how to build support modules inside the container
   environment and how to use them at runtime.
-- it builds the Generic IOC container image locally.
-
-.. note::
-
-    The ``build`` script is a convenience script that is provided in the
-    Generic IOC Template project. It is exactly equivalent to cloning
-    with ``--recursive`` flag and then running ``ec dev build``. Equally,
-    opening a vscode dev container will also build the container for you, but it
-    does require the ``ibek-support`` submodule to be present - using
-    ``--recursive`` flag to git clone ensures this.
+- it builds the Generic IOC container image developer target locally using
+  podman or docker.
 
 Verify the Example IOC Instance is working
 ------------------------------------------

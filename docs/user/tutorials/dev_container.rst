@@ -82,9 +82,14 @@ The next section will show you how to use this feature. Note that you can use
 any IDE that supports remote development in a container, you could also
 simply launch the developer container in a shell and use it via CLI only.
 
-TODO: add features to ``ec dev`` to launch the container in developer mode,
-with appropriate host mounts. This will enable non vscode users developer
-containers.
+If you want to use the CLI and terminal based editors like ``neovim`` then
+you should use the developer container CLI to get your developer container
+started. This means the configuration in ``.devcontainer/devcontainer.json``
+is used to start the container. This is necessary as that is where the
+useful host filesystem mounts and other config items are defined. See
+`devcontainer-cli<https://code.visualstudio.com/docs/devcontainers/devcontainer-cli>`_
+for details.
+
 
 Starting a Developer Container
 ------------------------------
@@ -95,10 +100,10 @@ Starting a Developer Container
 
   There is a
   `bug in VSCode devcontainers extension <https://github.com/microsoft/vscode-remote-release/issues/8557>`_
-  at the time of writing
-  that makes it incompatible with podman and an SELinux enabled /tmp directory.
-  This will affect most Redhat users and you will see an error regarding
-  permissions on the /tmp folder when VSCode is building your devcontainer.
+  at the time of writing that makes it incompatible with podman and an SELinux
+  enabled /tmp directory. This will affect most Redhat users and you will see an
+  error regarding permissions on the /tmp folder when VSCode is building your
+  devcontainer.
 
   Here is a workaround that disables SELinux labels in podman.
   Paste this into a terminal:
@@ -110,37 +115,29 @@ Starting a Developer Container
 Preparation
 ~~~~~~~~~~~
 
-For this section we will work with the ADSimDetector Generic IOC that we
-used in previous tutorials. Let's go and fetch a version of the Generic IOC
-source and build it locally.
+For this section we will work with the ADSimDetector Generic IOC that we used in
+previous tutorials. Let's go and fetch a version of the Generic IOC source and
+build it locally.
 
 For the purposes of this tutorial we will place the source in a folder right
 next to your test beamline ``bl01t``:
 
 .. code-block:: bash
 
-    # starting from folder bl01t so that the clone is next to bl01t
-    cd ..
-    git clone --recursive git@github.com:epics-containers/ioc-adsimdetector.git
-    cd ioc-adsimdetector
-    ec dev build
+  # starting from folder bl01t so that the clone is next to bl01t
+  cd ..
+  git clone git@github.com:epics-containers/ioc-adsimdetector.git
+  cd ioc-adsimdetector
+  ./build
 
-The last step uses one of the ``ec dev`` sub commands to build the developer
-target of the container to your local container cache. This will take a few
-minutes to complete. A philosophy of epics-containers is that Generic IOCs
-build all of their own support. This is to avoid problematic dependency trees.
-For this reason building something as complex as AreaDetector will take a
-few minutes when you first build it.
+This will take a few minutes to complete. A philosophy of epics-containers is
+that Generic IOCs build all of their own support. This is to avoid problematic
+dependency trees. For this reason building something as complex as AreaDetector
+will take a few minutes when you first build it.
 
-A nice thing about containers is that the build is
-cached so that a second build will be almost instant unless you have changed
-something that requires some steps to be rebuilt.
-
-The ``ec dev`` commands are a set of convenience commands
-for working on Generic IOCs from *outside* of the container. These commands
-are useful for debugging container builds: although most work is done inside
-the container, you will need these commands if it fails to build.
-
+A nice thing about containers is that the build is cached so that a second build
+will be almost instant unless you have changed something that requires some
+steps to be rebuilt.
 
 .. note::
 
