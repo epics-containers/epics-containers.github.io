@@ -65,7 +65,7 @@ dependencies on our local machine. Instead we can use a developer container,
 and in fact our Generic IOC *is* our developer container.
 
 When the CI builds a Generic IOC it creates
-`two targets <https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector>`_:
+`two targets <https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector>`_
 
 :developer: this target installs all the build tools and build time dependencies
    into the container image. It then compiles the support modules and IOC.
@@ -87,7 +87,7 @@ you should use the developer container CLI to get your developer container
 started. This means the configuration in ``.devcontainer/devcontainer.json``
 is used to start the container. This is necessary as that is where the
 useful host filesystem mounts and other config items are defined. See
-`devcontainer-cli<https://code.visualstudio.com/docs/devcontainers/devcontainer-cli>`_
+`devcontainer-cli <https://code.visualstudio.com/docs/devcontainers/devcontainer-cli>`_
 for details.
 
 
