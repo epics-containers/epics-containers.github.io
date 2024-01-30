@@ -18,5 +18,9 @@
   {
     "version": "remove-dev",
     "url": "https://epics-containers.github.io/epics-containers.github.io/remove-dev/"
+  },
+  {
+    "version": "typo-fix",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/typo-fix/"
   }
 ]
