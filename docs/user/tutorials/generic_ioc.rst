@@ -621,7 +621,7 @@ Now create a new terminal in VSCode (Terminal -> New Terminal) and run:
 
 .. code-block:: bash
 
-    ibek dev instance /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07
+    ibek dev instance /workspaces/ioc-lakeshore340/ibek-support/ioc-examples/bl16i-ea-ioc-07
     cd /epics/ioc
     make
     ./start.sh
