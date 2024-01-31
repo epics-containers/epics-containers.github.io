@@ -20,10 +20,6 @@
     "url": "https://epics-containers.github.io/epics-containers.github.io/remove-dev/"
   },
   {
-    "version": "subinsaji-patch-1",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/subinsaji-patch-1/"
-  },
-  {
     "version": "typo-fix",
     "url": "https://epics-containers.github.io/epics-containers.github.io/typo-fix/"
   }
