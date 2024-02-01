@@ -106,9 +106,9 @@ following command will select the example IOC instance:
     ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02
 
 The above command removes the existing config folder ``/epics/ioc/config`` and
-and symlinks in the chosen IOC instance definition's ``config`` folder.
+symlinks in the chosen IOC instance definition's ``config`` folder.
 
-Now  run the IOC:
+Now run the IOC:
 
 .. code-block:: console
 
