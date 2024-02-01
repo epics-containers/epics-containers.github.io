@@ -236,7 +236,7 @@ epics-containers devcontainers have carefully curated host filesystem mounts.
 This allows the developer environment to look as similar as possible to the
 runtime container.
 It also will preserve any important changes that you make in the host file system.
-This is essential because the container filesystem is temporary and will bed
+This is essential because the container filesystem is temporary and will be
 destroyed when the container is rebuilt or deleted.
 
 See `container-layout`_ for details of which host folders are mounted into the
