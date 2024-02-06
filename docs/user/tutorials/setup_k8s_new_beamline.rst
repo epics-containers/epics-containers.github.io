@@ -176,7 +176,7 @@ Change this section to set the following variables:
 
     export EC_REGISTRY_MAPPING='github.com=ghcr.io'
     export EC_K8S_NAMESPACE=p46-iocs
-    export EC_DOMAIN_REPO=git@github.com:YOUR_GITHUB_ACCOUNT/bl46p.git
+    export EC_SERVICES_REPO=git@github.com:YOUR_GITHUB_ACCOUNT/bl46p.git
 
 This tells the ``ec`` command line tool to use the GitHub container registry
 when it sees github projects, the name of the Kubernetes namespace to use and

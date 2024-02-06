@@ -137,7 +137,7 @@ available in the GitHub repository.
     The above command is the first one to look at your github repository.
     This is how it finds out the versions
     of the IOC instance that are available. If you get an error it may be
-    because you set EC_DOMAIN_REPO incorrectly in environment.sh. Check it
+    because you set EC_SERVICES_REPO incorrectly in environment.sh. Check it
     and source it again to pick up any changes.
 
 .. hint::

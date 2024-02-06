@@ -45,9 +45,9 @@ Required Variables
     ``EC_K8S_NAMESPACE=local`` and this will deploy IOC Instances to the local server's
     docker or podman instance.
 
--   **EC_DOMAIN_REPO**: this is a link back to the repository that defines this
+-   **EC_SERVICES_REPO**: this is a link back to the repository that defines this
     domain. For example the bl38p reference beamline repository uses
-    ``EC_DOMAIN_REPO=git@github.com:epics-containers/bl38p.git``. This variable
+    ``EC_SERVICES_REPO=git@github.com:epics-containers/bl38p.git``. This variable
     is used by ``ec`` to fetch versioned IOC Instance from the repo and deploy
     time.
 
