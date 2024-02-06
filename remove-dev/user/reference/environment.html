@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 2023.11.2.dev56+ga4e1c62 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 2023.11.2.dev61+gab484bf documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../../_static/documentation_options.js?v=d965e871"></script>
+    <script src="../../_static/documentation_options.js?v=f0aaa104"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -552,9 +552,9 @@ need to create a namespace for your domain. This is the name you should
 use here. If you are not using Kubernetes then you can leave this as
 <code class="docutils literal notranslate"><span class="pre">EC_K8S_NAMESPACE=local</span></code> and this will deploy IOC Instances to the local server’s
 docker or podman instance.</p></li>
-<li><p><strong>EC_DOMAIN_REPO</strong>: this is a link back to the repository that defines this
+<li><p><strong>EC_SERVICES_REPO</strong>: this is a link back to the repository that defines this
 domain. For example the bl38p reference beamline repository uses
-<code class="docutils literal notranslate"><span class="pre">EC_DOMAIN_REPO=git&#64;github.com:epics-containers/bl38p.git</span></code>. This variable
+<code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO=git&#64;github.com:epics-containers/bl38p.git</span></code>. This variable
 is used by <code class="docutils literal notranslate"><span class="pre">ec</span></code> to fetch versioned IOC Instance from the repo and deploy
 time.</p></li>
 </ul>
