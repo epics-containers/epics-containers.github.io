@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier
+_commit: 1.3.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: giles.knap@diamond.ac.uk
+author_name: Giles Knap
+component_owner: group:default/sscc
+description: Documentation for the epics-containers framework
+distribution_name: epic-containers
+docker: false
+docs_type: sphinx
+git_platform: github.com
+github_org: epics-containers
+package_name: epic_containers
+repo_name: epic-containers-github-io
+type_checker: mypy

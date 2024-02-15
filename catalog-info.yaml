@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: epic-containers
+  title: epic-containers-github-io
+  description: Documentation for the epics-containers framework
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: group:default/sscc
