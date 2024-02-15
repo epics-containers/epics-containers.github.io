@@ -39,10 +39,10 @@ dev = [
 ]
 
 [project.scripts]
-epic-containers-github-io = "epic_containers.__main__:main"
+epic-containers.github.io = "epic_containers.__main__:main"
 
 [project.urls]
-GitHub = "https://github.com/epics-containers/epic-containers-github-io"
+GitHub = "https://github.com/epics-containers/epic-containers.github.io"
 
 [[project.authors]] # Further authors may be added by duplicating this section
 email = "giles.knap@diamond.ac.uk"

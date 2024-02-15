@@ -15,7 +15,7 @@ import epic_containers
 # -- General configuration ------------------------------------------------
 
 # General information about the project.
-project = "epic-containers-github-io"
+project = "epic-containers.github.io"
 
 # The full version, including alpha/beta/rc tags.
 release = epic_containers.__version__
@@ -119,7 +119,7 @@ copybutton_prompt_is_regexp = True
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
-github_repo = "epic-containers-github-io"
+github_repo = "epic-containers.github.io"
 github_user = "epics-containers"
 switcher_json = f"https://{github_user}.github.io/{github_repo}/switcher.json"
 switcher_exists = requests.get(switcher_json).ok

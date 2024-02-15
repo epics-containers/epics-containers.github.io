@@ -8,5 +8,5 @@ Technical reference material including APIs and release notes.
 
 reference/*
 genindex
-Release Notes <https://github.com/epics-containers/epic-containers-github-io/releases>
+Release Notes <https://github.com/epics-containers/epic-containers.github.io/releases>
 ```

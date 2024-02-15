@@ -31,12 +31,12 @@ If you require a feature that is not currently released you can also install
 from github:
 
 ```
-$ python3 -m pip install git+https://github.com/epics-containers/epic-containers-github-io.git
+$ python3 -m pip install git+https://github.com/epics-containers/epic-containers.github.io.git
 ```
 
 The library should now be installed and the commandline interface on your path.
 You can check the version that has been installed by typing:
 
 ```
-$ epic-containers-github-io --version
+$ epic-containers.github.io --version
 ```

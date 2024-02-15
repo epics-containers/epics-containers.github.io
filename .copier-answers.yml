@@ -11,5 +11,5 @@ docs_type: sphinx
 git_platform: github.com
 github_org: epics-containers
 package_name: epic_containers
-repo_name: epic-containers-github-io
+repo_name: epic-containers.github.io
 type_checker: mypy
