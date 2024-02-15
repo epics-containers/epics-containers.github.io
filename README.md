@@ -1,35 +1,30 @@
 [![CI](https://github.com/epics-containers/epic-containers.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/epics-containers/epic-containers-github-io/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# epics-containers
 
-Documentation for the epics-containers framework
+The epics-containers GitHub organization holds a collection of tools and
+documentation for building, deploying and managing containerized EPICS IOCs.
 
-This is where you should write a short paragraph that describes what your module does,
-how it does it, and why people should use it.
+Quick Start
+-----------
 
-Source          | <https://github.com/epics-containers/epic-containers.github.io>
-:---:           | :---:
-PyPI            | `pip install epic-containers`
-Documentation   | <https://epics-containers.github.io/epic-containers.github.io>
-Releases        | <https://github.com/epics-containers/epic-containers.github.io/releases>
+See [Essential Concepts](https://epics-containers.github.io/main/user/explanations/introduction.html)
+and the [Getting Started Guide](https://epics-containers.github.io/main/user/tutorials/intro.html)
 
-This is where you should put some images or code snippets that illustrate
-some relevant examples. If it is a library then you might put some
-introductory code here:
+Useful Links
+------------
 
-```python
-from epics-containers import __version__
+Please contribute with comments and suggestions in the wiki or issues pages:
 
-print(f"Hello epics-containers {__version__}")
-```
+| Item           | Link
+| -------------- | ---------------------
+| Documentation  | https://epics-containers.github.io
+| Wiki           | https://github.com/epics-containers/epics-containers.github.io/wiki
+| Issues         | https://github.com/epics-containers/epics-containers.github.io/issues
+| Docs Source    | https://github.com/epics-containers/epics-containers.github.io
+| Organization   | https://github.com/epics-containers
 
-Or if it is a commandline tool then you might put some example commands here:
 
-```
-python -m epics-containers --version
-```
 
 <!-- README only content. Anything below this line won't be included in index.md -->
 
-See https://epics-containers.github.io/epic-containers.github.io for more detailed documentation.
