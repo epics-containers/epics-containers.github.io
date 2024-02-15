@@ -8,6 +8,10 @@
     "url": "https://epics-containers.github.io/epics-containers.github.io/.tox/"
   },
   {
+    "version": "edge-containers",
+    "url": "https://epics-containers.github.io/epics-containers.github.io/edge-containers/"
+  },
+  {
     "version": "k8s-edge",
     "url": "https://epics-containers.github.io/epics-containers.github.io/k8s-edge/"
   },
