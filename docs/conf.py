@@ -5,29 +5,16 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sys
-from pathlib import Path
-from subprocess import check_output
 
 import requests
 
-import epic_containers
-
 # -- General configuration ------------------------------------------------
+
+# TODO do we want to set this from code?
+version = "1.0"
 
 # General information about the project.
 project = "epic-containers.github.io"
-
-# The full version, including alpha/beta/rc tags.
-release = epic_containers.__version__
-
-# The short X.Y version.
-if "+" in release:
-    # Not on a tag, use branch name
-    root = Path(__file__).absolute().parent.parent
-    git_branch = check_output("git branch --show-current".split(), cwd=root)
-    version = git_branch.decode().strip()
-else:
-    version = release
 
 extensions = [
     # Use this for generating API docs

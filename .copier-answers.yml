@@ -10,6 +10,6 @@ docker: false
 docs_type: sphinx
 git_platform: github.com
 github_org: epics-containers
-package_name: epic_containers
+package_name: epics-containers
 repo_name: epic-containers.github.io
 type_checker: mypy
