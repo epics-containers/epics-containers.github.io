@@ -3,85 +3,41 @@ requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "epics-containers"
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-]
-description = "One line description of your module"
-dependencies = [] # Add project dependencies here, e.g. ["click", "numpy"]
+name = "epics_containers"
 dynamic = ["version"]
-license.file = "LICENSE"
-readme = "README.rst"
-requires-python = ">=3.8"
+readme = "README.md"
+
+# This is a minimal toml file to allow us to do pip install
+dependencies = ["copier"]
+
+[tool.setuptools]
+include-package-data = false
 
 [project.optional-dependencies]
 dev = [
-    "black",
-    "mypy",
-    "flake8-isort",
-    "Flake8-pyproject",
+    "copier",
+    "myst-parser",
     "pipdeptree",
     "pre-commit",
     "pydata-sphinx-theme>=0.12",
+    "pyright",
     "pytest",
     "pytest-cov",
+    "ruff",
     "sphinx-autobuild",
     "sphinx-copybutton",
     "sphinx-design",
     "tox-direct",
     "types-mock",
-    "types-requests",
 ]
-
-[project.scripts]
-epics-containers = "epics_containers.__main__:main"
-
-[project.urls]
-GitHub = "https://github.com/epics-containers/epics-containers.github.io"
-
-[[project.authors]] # Further authors may be added by duplicating this section
-email = "giles.knap@diamond.ac.uk"
-name = "Giles Knap"
-
-
-[tool.setuptools_scm]
-write_to = "src/epics_containers/_version.py"
-
-[tool.mypy]
-ignore_missing_imports = true # Ignore missing stubs in imported modules
-
-[tool.isort]
-float_to_top = true
-profile = "black"
-
-[tool.flake8]
-max-line-length = 88
-extend-ignore = ["E203", "F811", "F722"]
-exclude = [".tox", "venv"]
-
 
 [tool.pytest.ini_options]
 # Run pytest with all our checkers, and don't spam us with massive tracebacks on error
 addopts = """
     --tb=native -vv --doctest-modules --doctest-glob="*.rst"
-    --cov=epics_containers --cov-report term --cov-report xml:cov.xml
     """
-# https://iscinumpy.gitlab.io/post/bound-version-constraints/#watch-for-warnings
-filterwarnings = "error"
 # Doctest python code in docs, python code in src docstrings, test functions in tests
-testpaths = "docs src tests"
-
-[tool.coverage.run]
-data_file = "/tmp/epics_containers.coverage"
-
-[tool.coverage.paths]
-# Tests are run from installed location, map back to the src directory
-source = ["src", "**/site-packages/"]
+testpaths = "tests"
 
 # tox must currently be configured via an embedded ini string
 # See: https://github.com/tox-dev/tox/issues/999
@@ -90,18 +46,28 @@ legacy_tox_ini = """
 [tox]
 skipsdist=True
 
-[testenv:{pre-commit,mypy,pytest,docs}]
+[testenv:{pre-commit,pytest,docs,mypy}]
 # Don't create a virtualenv for the command, requires tox-direct plugin
 direct = True
 passenv = *
 allowlist_externals =
-    pytest
     pre-commit
+    pytest
     mypy
-    sphinx-build
-    sphinx-autobuild
 commands =
-    mypy: mypy src {posargs}
-    pre-commit: pre-commit run --all-files {posargs}
+    pre-commit: pre-commit run --all-files --show-diff-on-failure {posargs}
+    pytest: pytest {posargs}
+    mypy: mypy tests {posargs}
     docs: sphinx-{posargs:build -EW --keep-going} -T docs build/html
 """
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 88
+lint.select = [
+    "C4",   # flake8-comprehensions - https://beta.ruff.rs/docs/rules/#flake8-comprehensions-c4
+    "E",    # pycodestyle errors - https://beta.ruff.rs/docs/rules/#error-e
+    "F",    # pyflakes rules - https://beta.ruff.rs/docs/rules/#pyflakes-f
+    "W",    # pycodestyle warnings - https://beta.ruff.rs/docs/rules/#warning-w
+    "I001", # isort
+]
