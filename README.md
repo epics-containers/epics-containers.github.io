@@ -6,13 +6,13 @@ The epics-containers GitHub organization holds a collection of tools and
 documentation for building, deploying and managing containerized EPICS IOCs.
 
 Quick Start
------------
+===========
 
 See [Essential Concepts](https://epics-containers.github.io/main/user/explanations/introduction.html)
 and the [Getting Started Guide](https://epics-containers.github.io/main/user/tutorials/intro.html)
 
 Useful Links
-------------
+============
 
 Please contribute with comments and suggestions in the wiki or issues pages:
 

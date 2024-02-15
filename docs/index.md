@@ -19,8 +19,8 @@ Join in the discussion at:
 Materials
 ---------
 - [Oxfordshire EPICS Meeting Nov 2023](https://dlsltd-my.sharepoint.com/:p:/g/personal/giles_knap_diamond_ac_uk/Ee7SPC_39blEu4Pilgqul7IBiCi4GM9_cgMzONV2ALHIsw?e=U02gHd)
-- [ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs](user/images/THBL04.PDF)
-- [ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs](user/images/THBL04_talk.PDF)
+- [ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs](images/THBL04.PDF)
+- [ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs](images/THBL04_talk.PDF)
 
 
 How the documentation is structured
