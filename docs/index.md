@@ -5,22 +5,23 @@ html_theme.sidebar_secondary.remove: true
 ```{include} ../README.md
 :end-before: <!-- README only content
 ```
-Communication
--------------
-
-If you are interested in discussing containers for control systems, please:
-
-Add a brief description of your project and the status of it's use of containers to:
-- https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls
-
-Join in the discussion at:
-- https://github.com/epics-containers/epics-containers.github.io/discussions
 
 Materials
 ---------
 - [Oxfordshire EPICS Meeting Nov 2023](https://dlsltd-my.sharepoint.com/:p:/g/personal/giles_knap_diamond_ac_uk/Ee7SPC_39blEu4Pilgqul7IBiCi4GM9_cgMzONV2ALHIsw?e=U02gHd)
 - [ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs](images/THBL04.PDF)
 - [ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs](images/THBL04_talk.PDF)
+
+Communication
+-------------
+
+If you are interested in discussing containers for control systems, please:
+
+- Add a brief description of your project and the status of it's use of containers to:
+  - [The epics-containers Wiki](https://github.com/epics-containers/epics-containers.github.io/wiki/Brief-Overview-of-Projects-Using-Containers-in-Controls)
+
+- Join in the discussion at:
+  - [epics-containers.github.io discussions](https://github.com/epics-containers/epics-containers.github.io/discussions)
 
 
 How the documentation is structured
