@@ -3,29 +3,22 @@
 Command Line Interface for IOC Management
 =========================================
 
-The python project ``epics-containers-cli`` is installed as part of the
-Python section of the initial tutorial `../tutorials/setup_workstation`.
-It provides a command line function ``ec`` with support for:
+The python project `edge-containers-cli` is installed as part of the Python section of the initial tutorial `../tutorials/setup_workstation`. It provides a command line function ``ec`` with support for:
 
 - deploying, managing and debugging IOCs and other application Instances
 
-The CLI is just a thin wrapper around the underlying tools that do the real
-work:
+The CLI is just a thin wrapper around the underlying tools that do the real work:
 
 :kubectl: the command line interface to the Kubernetes APIs
 :helm: the command line interface to the Kubernetes Helm package manager
 :podman (or docker): CLIs for container engines
 :git: the git version control system client
 
-``ec`` is useful because it saves typing and provides a consistent interface
-when working on multiple beamlines. This is because it uses the environment
-setup by the beamline repo's ``environment.sh`` script. See `environment`.
+``ec`` is useful because it saves typing and provides a consistent interface when working on multiple `ec-services-repo` s. This is because it uses the environment setup by the beamline repo's ``environment.sh`` script. See `environment`.
 
 To see the available commands, run ``ec --help``.
 
-It may be instructive to understand the underlying tools and how they are
-are being called. For this reason ``ec`` supports a ``-v`` option to show
-the underlying commands being executed. e.g.
+It may be instructive to understand the underlying tools and how they are being called. For this reason ``ec`` supports a ``-v`` option to show the underlying commands being executed. e.g.
 
 .. raw:: html
 

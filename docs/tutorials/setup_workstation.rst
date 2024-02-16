@@ -140,15 +140,15 @@ environment again. (Or place its bin folder in your path permanently).
 
 .. _ec:
 
-epics-containers-cli
+edge-containers-cli
 ~~~~~~~~~~~~~~~~~~~~
 
 Above we set up a python virtual environment. Now we will install
-the epics-containers-cli python tool into that environment.
+the `edge-containers-cli` python tool into that environment.
 
 .. code-block:: bash
 
-    pip install epics-containers-cli
+    pip install edge-containers-cli
 
 This is the developer's 'outside of the container' helper tool. The command
 line entry point is ``ec``. We will be using many ``ec`` command line
