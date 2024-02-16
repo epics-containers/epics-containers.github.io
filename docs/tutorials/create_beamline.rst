@@ -3,7 +3,7 @@
 Create a Beamline Repository
 ============================
 
-In this tutorial we will create a new beamline source repository.
+In this tutorial we will create a new `ec-services-repo`.
 
 All IOC Instances that we deploy will be grouped into domains and each
 domain will have its own repository which defines those Instances.
