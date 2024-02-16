@@ -12,11 +12,11 @@ Here we will look inside the template IOC instance in the template
 domain repository blxxi-template.
 
 You can see these files in Github here:
-<https://github.com/epics-containers/blxxi-template/tree/main/iocs/blxxi-ea-ioc-01>
+<https://github.com/epics-containers/blxxi-template/tree/main/services/blxxi-ea-ioc-01>
 
 ## Examine the Example IOC Instance
 
-Take a look in the folder iocs/blxxi-ea-ioc-01. This contains a helm chart
+Take a look in the folder services/blxxi-ea-ioc-01. This contains a helm chart
 that defines the example IOC instance. To make new IOC instance you could
 copy this folder into your own domain repository's iocs folder. You would then
 need to rename it and make a few changes. Below is a description of the files

@@ -51,7 +51,7 @@ be adjusted to suit your domain. The variables are as follows:
 
 - **EC_LOG_URL**: if you have a centralized logging service with a web UI then
   you can set this variable to the URL of the web UI. This will then be
-  displayed when the command `ec ioc log-history <ioc-name>` is run. The
+  displayed when the command `ec log-history <ioc-name>` is run. The
   IOC name is added to the URL using `{ioc-name}` as a placeholder e.g.
 
   - `EC_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&fields`

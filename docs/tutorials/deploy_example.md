@@ -19,7 +19,7 @@ is working as expected. To do this go to the following URL (make sure you insert
 your GitHub account name where indicated):
 
 ```
-https://github.com:**YOUR GITHUB ACCOUNT**/bl01t/actions
+https://github.com/YOUR_GITHUB_ACCOUNT/bl01t/actions
 ```
 
 You should see something like the following:
@@ -34,18 +34,19 @@ two jobs listed, one for when you pushed the main branch and one for when you
 tagged with the `CalVer` version number.
 
 If you click on the most recent job you can drill in and see the steps that
-were executed. The most interesting step is `Run bash ./ci_verify.sh`. This
-is executing the script in the root of your beamline repository that verifies
-each IOC instance in the `iocs` folder. In future we can make this script
-more sophisticated when we have simulated hardware to test against.
+were executed. The most interesting step is `Run IOC checks`. This
+is executing the script `.github/workflows/ci_verify.sh`. This goes through
+each of the IOC Instances in the `services` folder and checks that they
+have valid configuration.
 
 For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.
 
 ## Set up Environment for BL01T Beamline
 
-The standard way to set up your environment for any domain is to get
-the environment.sh script from the domain repository and source it.
+The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.
+
+Start this section of the tutorial inside the vscode project that you created in the previous tutorial. Make sure you have a terminal open and the current working directory is your `bl01t` project root folder.
 
 First make sure you have the local binaries folder in your path by adding
 the following to the end of you `$HOME/.bash_profile` file:
@@ -58,9 +59,12 @@ Then follow these steps (make sure you insert your GitHub account name
 where indicated):
 
 ```bash
-mkdir -p ~/.local/bin
-curl -o ~/.local/bin/bl01t https://raw.githubusercontent.com/**YOUR GITHUB ACCOUNT**/bl01t/main/environment.sh?token=$(date +%s)
+# make sure we have the path setup from the bash_profile
 source ~/.bash_profile
+
+mkdir -p ~/.local/bin
+# make a copy of the environment.sh script named after the beamline
+cp environment.sh ~/.local/bin/bl01t
 source bl01t
 ```
 
@@ -86,8 +90,7 @@ the IOC Instances that are currently running:
 ec ps
 ```
 
-You should see some headings and an empty list as you have not yet started an
-IOC Instance.
+You should see no IOCs listed as you have not yet started an IOC Instance.
 
 The following command will deploy the example IOC instance to your local
 machine (unless you have skipped ahead and set up your Kubernetes config
@@ -95,7 +98,7 @@ in which case the same command will deploy to your Kubernetes cluster).
 
 ```bash
 cd bl01t # (if you are not already in your beamline repo)
-ec ioc deploy-local iocs/bl01t-ea-ioc-01
+ec deploy-local services/bl01t-ea-test-01
 ```
 
 You will be prompted to say that this is a *TEMPORARY* deployment. This is
@@ -107,11 +110,9 @@ number to indicate that they are not permanent.
 
 You can now see the beta IOC instance running with:
 
-```bash
-$ ec ps
-IOC NAME            VERSION             STATUS              IMAGE
-bl01t-ea-ioc-01     2024.1.19-b11.53   Up 6 minutes        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
-```
+<pre>$ ec ps
+            name          version   state                                                             image
+bl01t-ea-test-01 2024.2.16-b15.11 running ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</pre>
 
 At the end of the last tutorial we tagged the beamline repository with a
 `CalVer` version number and pushed it up to GitHub. This means that we
@@ -120,11 +121,10 @@ check that the IOC instance version is available as expected. The following
 command lists all of the tagged versions of the IOC instance that are
 available in the GitHub repository.
 
-```bash
-$ ec ioc instances bl01t-ea-ioc-01
-Available instance versions for bl01t-ea-ioc-01:
-    2024.1.1
-```
+<pre>$ ec instances bl01t-ea-test-01
+Available instances for bl01t-ea-test-01:
+2024.2.1
+</pre>
 
 :::{note}
 The above command is the first one to look at your github repository.
@@ -138,12 +138,12 @@ and source it again to pick up any changes.
 ec supports command line completion, which means that entering `<tab> <tab>` will give hints on the command line:
 
 ```bash
-$ ec ioc <tab> <tab>
+$ ec <tab> <tab>
 attach        deploy        exec          list          logs          start         template
 delete        deploy-local  instances     log-history   restart       stop          validate
-$ ec ioc instances <tab> <tab>
-$ ec ioc instances bl01t-ea-ioc-0 <tab> <tab>
-bl01t-ea-ioc-01  bl01t-ea-ioc-02
+$ ec instances <tab> <tab>
+$ ec instances bl01t-ea-ioc-0 <tab> <tab>
+bl01t-ea-test-01  bl01t-ea-ioc-02
 ```
 
 To enable this behavior in your shell run the command `ec --install-completion`
@@ -154,12 +154,12 @@ This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:
 
 ```bash
-$ ec ioc deploy bl01t-ea-ioc-01 2024.1.1
+$ ec deploy bl01t-ea-test-01 2024.2.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
 $ ec ps
 IOC NAME            VERSION             STATUS              IMAGE
-bl01t-ea-ioc-01     2024.1.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+bl01t-ea-test-01     2024.2.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 ```
 
 ### IMPORTANT: deploy-local vs deploy
@@ -185,9 +185,9 @@ To stop / start the example IOC try the following commands. Note that
 
 ```bash
 ec ps -a
-ec ioc stop bl01t-ea-ioc-01
+ec stop bl01t-ea-test-01
 ec ps -a
-ec ioc start bl01t-ea-ioc-01
+ec start bl01t-ea-test-01
 ec ps
 ```
 
@@ -195,7 +195,7 @@ ec ps
 Generic IOCs.
 
 You may have noticed that the IOC instance has is showing that it has
-an image `ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1`.
+an image `ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1`.
 
 This is a Generic IOC image and all IOC Instances must be based upon one
 of these images. This IOC instance has no startup script and is therefore
@@ -210,7 +210,7 @@ shell. In the next tutorial we will use this command to interact with
 iocShell.
 
 ```bash
-ec ioc attach bl01t-ea-ioc-01
+ec attach bl01t-ea-test-01
 ```
 
 Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However,
@@ -222,7 +222,7 @@ by typing `exit`.
 To run a bash shell inside the IOC container:
 
 ```bash
-ec ioc exec bl01t-ea-ioc-01
+ec exec bl01t-ea-test-01
 ```
 
 Once you have a shell inside the container you could inspect the following
@@ -247,13 +247,13 @@ and you can can inspect files such as the IOC startup script.
 To get the current logs for the example IOC:
 
 ```bash
-ec ioc logs bl01t-ea-ioc-01
+ec logs bl01t-ea-test-01
 ```
 
 Or follow the IOC log until you hit ctrl-C:
 
 ```bash
-ec ioc logs bl01t-ea-ioc-01 -f
+ec logs bl01t-ea-test-01 -f
 ```
 
 You will notice that this IOC simply prints out a message regarding what

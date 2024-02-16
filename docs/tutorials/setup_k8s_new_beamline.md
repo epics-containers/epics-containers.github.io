@@ -77,7 +77,7 @@ BEAMLINE=bl46p
 echo "Beamline repo for the beamline $BEAMLINE" > README.md
 
 # remove the sample IOC directory
-rm -r iocs/blxxi-ea-ioc-01
+rm -r services/blxxi-ea-ioc-01
 # change the services setup scripts to use the new beamline name
 sed -i "s/blxxi/$BEAMLINE/g" services/* beamline-chart/values.yaml
 ```
@@ -217,7 +217,7 @@ kubectl get nodes
 
 The beamline helm chart is used to deploy IOCs to the cluster. Each IOC instance
 gets to override any of the settings available in the chart. This is done
-in `iocs/<iocname>/values.yaml` for each IOC instance. However, all
+in `services/<iocname>/values.yaml` for each IOC instance. However, all
 settings except `image` have default values supplied at the beamline level.
 For this reason most IOC instances only need supply the `image` setting
 which specifies the Generic IOC container image to use.

@@ -141,7 +141,7 @@ bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
 outside of the devcontainer to stop it:
 
 ```bash
-ec ioc stop bl01t-ea-ioc-02
+ec stop bl01t-ea-ioc-02
 ```
 :::
 
@@ -366,7 +366,7 @@ Try the following:
 ```
 cd /epics/ioc
 rm -r config
-ln -s /workspaces/bl01t/iocs/bl01t-ea-ioc-02/config .
+ln -s /workspaces/bl01t/services/bl01t-ea-ioc-02/config .
 # check the ln worked
 ls -l config
 ./start.sh
@@ -383,7 +383,7 @@ The manual steps above were shown to demonstrate the process. In practice
 you can use this command to do the same thing:
 
 ```bash
-ibek dev instance /workspaces/bl01t/iocs/bl01t-ea-ioc-02
+ibek dev instance /workspaces/bl01t/services/bl01t-ea-ioc-02
 ```
 :::
 

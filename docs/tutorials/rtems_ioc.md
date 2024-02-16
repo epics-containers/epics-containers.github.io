@@ -109,9 +109,9 @@ and make some modifications to it. We will call this new IOC instance
 
 ```bash
 cd bl01t
-cp -r iocs/bl01t-ea-ioc-01 iocs/bl01t-ea-ioc-02
+cp -r services/bl01t-ea-test-01 services/bl01t-ea-ioc-02
 # don't need this file for the new IOC
-rm iocs/bl01t-ea-ioc-02/config/extra.db
+rm services/bl01t-ea-ioc-02/config/extra.db
 ```
 
 We are going to make a very basic IOC with some hand coded database with
@@ -135,7 +135,7 @@ at the top of the `values.yaml` file. In addition there are a number of
 environment variables required for the RTEMS target that we also specify in
 `values.yaml`.
 Edit the file
-`iocs/bl01t-ea-ioc-02/values.yaml` to look like this:
+`services/bl01t-ea-ioc-02/values.yaml` to look like this:
 
 ```yaml
 base_image: ghcr.io/epics-containers/ioc-template-rtems-runtime:23.4.2
@@ -179,7 +179,7 @@ parameters of your RTEMS Crate. The environment variables are:
       - true to pause/unpause when the IOC container stops/starts
 ```
 
-Edit the file `iocs/bl01t-ea-ioc-02/Chart.yaml` and change the 1st 4 lines
+Edit the file `services/bl01t-ea-ioc-02/Chart.yaml` and change the 1st 4 lines
 to represent this new IOC (the rest of the file is boilerplate):
 
 ```yaml
@@ -191,7 +191,7 @@ description: |
 
 For configuration we will create a simple database with a few of records and
 a basic startup script. Add the following files to the
-`iocs/bl01t-ea-ioc-02/config` directory.
+`services/bl01t-ea-ioc-02/config` directory.
 
 ```{code-block}
 :caption: bl01t-ea-ioc-02.db
@@ -222,14 +222,14 @@ record(ao, "bl01t-ea-ioc-02:B") {
 
 # RTEMS Test IOC bl01t-ea-ioc-02
 
-dbLoadDatabase "/iocs/bl01t/bl01t-ea-ioc-02/dbd/ioc.dbd"
+dbLoadDatabase "/services/bl01t/bl01t-ea-ioc-02/dbd/ioc.dbd"
 ioc_registerRecordDeviceDriver(pdbbase)
 
 # db files from the support modules are all held in this folder
-epicsEnvSet(EPICS_DB_INCLUDE_PATH, "/iocs/bl01t/bl01t-ea-ioc-02/support/db")
+epicsEnvSet(EPICS_DB_INCLUDE_PATH, "/services/bl01t/bl01t-ea-ioc-02/support/db")
 
 # load our hand crafted database
-dbLoadRecords("/iocs/bl01t/bl01t-ea-ioc-02/config/bl01t-ea-ioc-02.db")
+dbLoadRecords("/services/bl01t/bl01t-ea-ioc-02/config/bl01t-ea-ioc-02.db")
 # also make Database records for DEVIOCSTATS
 dbLoadRecords(iocAdminSoft.db, "IOC=bl01t-ea-ioc-02")
 dbLoadRecords(iocAdminScanMon.db, "IOC=bl01t-ea-ioc-02")
@@ -237,7 +237,7 @@ dbLoadRecords(iocAdminScanMon.db, "IOC=bl01t-ea-ioc-02")
 iocInit
 ```
 
-You now have a new helm chart in iocs/bl01t-ea-ioc-02 that describes an IOC
+You now have a new helm chart in services/bl01t-ea-ioc-02 that describes an IOC
 instance for your RTEMS device. Recall that this is not literally where the IOC
 runs, it deploys a kubernetes pod that manages the RTEMS IOC. It does contain
 the IOC's configuration and the IOC's binary code, which it will copy to the
@@ -245,7 +245,7 @@ file-server on startup.
 
 Finally you will need to tell the IOC to mount the Persistent Volume Claim
 that the bl01t-ioc-files service is serving over NFS and TFTP. To do this
-add the following lines to `iocs/bl01t-ea-ioc-02/values.yaml`:
+add the following lines to `services/bl01t-ea-ioc-02/values.yaml`:
 
 ```yaml
 # for RTEMS IOCS this is the PVC name for the filesystem where RTEMS
@@ -259,10 +259,10 @@ You are now ready to deploy the IOC instance to the cluster and test it out.
 
 To deploy an IOC instance to the cluster you can use one of two approaches:
 
-- push your beamline repo to GitHub and tag it. Then use `ec ioc deploy` to
+- push your beamline repo to GitHub and tag it. Then use `ec deploy` to
   deploy the resulting versioned IOC instance. This was covered for linux IOCs
   in {any}`deploy_example`.
-- use `ec ioc deploy-local` to directly deploy the local copy of the IOC
+- use `ec deploy-local` to directly deploy the local copy of the IOC
   instance helm chart to kubernetes as a beta version. This was covered for
   linux IOCs in --local_deploy_ioc--.
 
@@ -274,7 +274,7 @@ Execute the following commands:
 
 ```bash
 cd bl01t
-ec ioc deploy-local iocs/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-ioc-02
 ```
 
 When an RTEMS Kubernetes pod runs up it will make a telnet connection to

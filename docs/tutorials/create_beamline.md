@@ -4,12 +4,9 @@
 
 In this tutorial we will create a new {any}`ec-services-repo`.
 
-All IOC Instances that we deploy will be grouped into domains and each
-domain will have its own repository which defines those Instances.
-Typically each beamline would have its own domain and
-the accelerator would be split into a few functional domains.
+All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by location or technical area.
 
-In the case of Beamlines, the domain is named after the beamline itself. At DLS
+In the case of Beamlines, the repo is named after the beamline itself. At DLS
 we use the naming convention `blxxc` where `xx` is the beamline number,
 and c is the class of beamline.
 
@@ -19,25 +16,18 @@ numbers and hyphens only are recommended for both domain names and
 IOC names. This is a restriction that helm introduces for package names.
 :::
 
-We are going to create the test beamline repository `bl01t`.
-When the project `bl01t` is pushed to GitHub, continuous integration will
-verify that each of the IOCs in the beamline are valid by launching them
-with basic configuration.
+Here we are going to create the test beamline repository `bl01t`. When the project `bl01t` is pushed to GitHub, continuous integration (CI) will verify each of the IOC instances.
 
-The tests on beamline repositories are basic at present. However the intention
-is that eventually each device on a beamline will be simulated using
-[Tickit](https://github.com/dls-controls/tickit) . Then Continuous
-Integration will perform system tests for each IOC against simulated hardware.
+This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.
 
-Also note that each of these IOC instances will be launched using a
-Generic IOC image. Ideally the CI for each Generic IOC should have already run
-system tests against simulated (but not beamline specific) hardware.
+:::{note}
+If you are going to work in a shared environment then it is worth choosing
+a different name for your test beamline and its associated PV prefixes. PVs
+will be published on the local subnet by default so two people working on the
+tutorials without doing this will clash. If you do this just remember to
+substitute your beamline name for `bl01t` in the following instructions.
+:::
 
-This beamline repo will be taken from a template that comes with a single example
-IOC and further steps in the following tutorials will teach you how to add your own.
-
-For accelerator domains the approach described here will be identical. The
-only difference is that IOC repos are split by domain rather than by beamline.
 
 ## To Start
 
@@ -52,135 +42,72 @@ You will also need to setup ssh keys to authenticate to github from git. See
 
 ## Create a New Repository
 
-Here we will copy the beamline template repository and change its name to bl01t.
-We will then step through the changes that are required to make it your own.
+Here we will use the copy the ec services template repository to make a new beamline.
 
 NOTE: for these tutorials we will use your personal GitHub Account to
 store everything we do, all source repositories and container images. For
 production, each facility will need its own policy for where to store these
-assets. See `../explanations/workspacesitories`.
+assets. See `../explanations/repositories`.
 
 ## Steps
 
-1. Go to the template repository here:
-   <https://github.com/epics-containers/blxxi-template>. Click on the green
-   button `Use this template` and follow the instructions to create a new
-   repository in your own account and give it the name bl01t.
+1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `bl01t` plus a description, then click 'Create'.
 
    If you are using an alternative to GitHub for your repositories then
    see [these instructions] for an alternative approach.
 
-2. Clone the template repo locally (substituting in your own GitHub Account).
+1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
 
-   ```bash
-   git clone git@github.com:**YOUR GITHUB ACCOUNT**/bl01t.git
-   ```
+      ```bash
+      pip install copier
+      # this will create the folder bl01t in the current directory
+      copier copy gh:epics-containers/ec/services-template --trust bl01t
+      ```
+1. Answer the copier template questions as follows:
 
-3. Open the project in vscode.
+
+   <pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
+   <b>   </b><font color="#FFAF00"><b>beamline</b></font>
+   <font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
+   <b>   </b><font color="#FFAF00"><b>bl01t</b></font>
+   <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+   <b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
+   <font color="#5F87AF">🎤</font><b> Cluster namespace for these IOCs and services.</b>
+   <b>   </b><font color="#FFAF00"><b>local</b></font>
+   <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+   <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+   <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_NAME_GOES_HERE</b></font>
+   <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_NAME/bl01t.git</b></font>
+   </pre>
+
+1. Make the first commit and push the repository to GitHub.
 
    ```bash
    cd bl01t
+   git add .
+   git commit -m "initial commit"
+   git push -u origin main
+   ```
+
+1. Open the project in vscode.
+
+   ```bash
    # DLS users make sure you have done: module load vscode
    code .
    ```
 
-4. Now make the necessary changes to the template to make the project your
-   own. These changes will be covered in more detail in the remaining
-   sections of this page.
-
-   1. Replace README.md with your own README.md as you see fit.
-   2. edit `environment.sh`
-   3. change the name of the example IOC from `iocs/blxxi-ea-ioc-01` to
-      `iocs/bl01t-ea-ioc-01`
-   4. change the beamline name in the two bash scripts in the `services`
-      directory.
-   5. change the beamline name in `beamline-chart/values.yaml`
-   6. add some meaningful configuration to the example IOCs config folder
-      `iocs/bl01t-ea-ioc-01/config/ioc.yaml`. We will do this in the
-      next tutorial.
-
-Much of the above can be achieved with a global find and replace of 'xxi' with
-'01t'.
-
-### Environment.sh
-
-Environment.sh is a bash script that is sourced by a beamline user or developer
-in order to set up their environment to work with the beamline.
-
-The command line tool `ec` uses the environment configured by this script
-to determine where to deploy IOCS and where to find container images etc.
-
-For details of what goes in this file see {any}`../reference/environment`.
-For the purpose of this tutorial for `bl01t` you should have the following
-in your environment.sh (make sure you insert your GitHub account name
-where indicated):
-
-- SECTION 1:
-
-  - `export EC_REGISTRY_MAPPING='github.com=ghcr.io'`
-  - `export EC_K8S_NAMESPACE=local`
-  - `export EC_SERVICES_REPO=git@github.com:**YOUR GITHUB ACCOUNT**/bl01t`
-
-- SECTION 2:
-
-  - The existing script code in blxxi-template is fine for this tutorial.
-    It checks to see if `ec` is available and installs it into a
-    virtual environment if not. It requires that you already have a
-    virtual environment set up. See [](python-setup) for details.
-
-- SECTION 3:
-
-  - We are not using Kubernetes for the first few tutorials so you can
-    leave this section blank for now.
-
-:::{note}
-DLS Users: `ec` is already installed for you. So leave SECTION 2
-blank. See {any}`ec` for details.
-:::
-
-### Change the IOC Name
-
-The IOC name is
-taken from the folder name under `iocs`. In this case we want to change
-`blxxi-ea-ioc-01` to `bl01t-ea-ioc-01`.
-
-```bash
-cd iocs
-mv blxxi-ea-ioc-01 bl01t-ea-ioc-01
-```
-
-### Change the Beamline Name in Services
-
-There are two files in the `services/` directory that need to be changed. These
-files are used to set up some beamline wide resources on each beamline domain.
-At present they are only relevant to Kubernetes installations but we will change
-then now so that bl01t is ready for Kubernetes when we get to that tutorial.
-
-Open both files in `services/` and replace blxxi with bl01t.
-
-TODO: add support for local docker installations of these services.
-
-### Change the Beamline Name in the Helm Chart
-
-The file `beamline-chart/values.yaml` contains the configuration values
-for the helm chart that is used to deploy the beamline. You can change
-the values `blxxi` to `bl01t` in here. But this will not be relevant until
-we get to the Kubernetes tutorial when the deployment is done using helm.
-
 ## Wrapping Up
 
-You should now have a working beamline repository. It contains a single
-IOC Instance which is a non-functional example. In the following two
-tutorials we will investigate the example and then create a real IOC Instance.
+You should now have a working beamline repository. It contains a single IOC Instance which is a very basic example. In the following two tutorials we will investigate the example and then create a real IOC Instance.
 
-You can now push the repository up to GitHub and give it a version tag like this:
+You can now give your repository a version tag like this:
 
 ```bash
-git add .
-git commit -m "changed blxxi to bl01t"
-git push
-git tag 2024.1.1
-git push origin 2024.1.1
+# open a terminal in vscode: Menu -> Terminal -> New Terminal
+git tag 2024.2.1
+git push origin 2024.2.1
 ```
 
 We use `CalVer` version numbers for beamline repositories and Generic IOCs.
@@ -191,7 +118,7 @@ CalVer is described here: <https://calver.org/> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
 
-Note that 2024.1.1 represents the time that this tutorial was last updated.
+Note that 2024.2.1 represents the time that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.

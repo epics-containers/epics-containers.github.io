@@ -19,12 +19,12 @@ bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
 outside of the devcontainer to stop it:
 
 ```bash
-ec ioc stop bl01t-ea-ioc-02
+ec stop bl01t-ea-ioc-02
 ```
 :::
 
 Make the following changes in your test IOC config folder
-(`bl01t/iocs/bl01t-ea-ioc-02/config`):
+(`bl01t/services/bl01t-ea-ioc-02/config`):
 
 1. Add a file called `extra.db` with the following contents.
 
@@ -84,7 +84,7 @@ is required for running OPI tools on the host (TODO add link to solution).
 :::
 
 Because of the symlink between `/epics/ioc/config` and
-`/workspaces/bl01t/iocs/bl01t-ea-ioc-02/config` the same files you are testing
+`/workspaces/bl01t/services/bl01t-ea-ioc-02/config` the same files you are testing
 by launching the IOC inside of the devcontainer are also ready to be
 committed and pushed to the bl01t repo. i.e.:
 
@@ -98,7 +98,7 @@ git push
 git tag 2023.11.2
 git push origin 2023.11.2
 # deploy the new version of the IOC to the local docker / podman instance
-ec ioc deploy bl01t-ea-ioc-02 2023.11.2
+ec deploy bl01t-ea-ioc-02 2023.11.2
 ```
 
 The above steps were performed on a host terminal because we are using `ec`.
