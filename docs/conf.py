@@ -14,7 +14,7 @@ import requests
 version = "1.0"
 
 # General information about the project.
-project = "epics-containers.github.io"
+project = "epics-containers"
 
 extensions = [
     # Use this for generating API docs

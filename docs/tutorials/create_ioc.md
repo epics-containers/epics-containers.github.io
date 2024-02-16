@@ -12,20 +12,13 @@ across AreaDetector: <https://areadetector.github.io/master/index.html>.
 
 ## Create a New IOC Instance
 
-To create a new IOC Instance simply add a new folder to the `iocs` folder
-in your beamline repo. The name of the folder will be the name of the IOC.
-This folder needs to contain these two items:
+To create a new IOC Instance simply add a new folder to the `services` folder in your beamline repo. The name of the folder will be the name of the IOC. This folder needs to contain these two items:
 
 ```{eval-rst}
-
-:config:
-
-    a folder that contains the IOC configuration files. The configuration
-    can take a number of forms
-    `listed here <https://github.com/epics-containers/ibek/blob/ea9da7e1cfe88f2a300ad236f820221837dd9dcf/src/ibek/templates/ioc/config/start.sh>`_.
-
-values.yaml
-~~~~~~~~~~~~~~~~~~~~~~~
+===================    =======================================================
+**config**             A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh).
+**values.yaml**        A helm chart values override file. The only required field is ``image`` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the ``helm/shared`` folder for a complete list of fields that can be overridden.
+===================    =======================================================
 ```
 
 ### values.yaml
@@ -49,10 +42,10 @@ container. This container was built by the Generic IOC source repo here
 <https://github.com/epics-containers/ioc-adsimdetector>. The container has
 support for AreaDetector and ADSimDetector compiled into its IOC binary.
 
-Generic IOCs have compiled IOC binaries and `dbd` files but no startup script or
+Generic services have compiled IOC binaries and `dbd` files but no startup script or
 EPICS database. The compiled IOC binary, `dbds` and support `lib` files
 are baked into the container at container build time. This means that the
-code for making IOCs for a given class of device need only be compiled once
+code for making services for a given class of device need only be compiled once
 and can be reused for many IOC Instances.
 
 A startup script and EPICS Database are provided by the IOC Instance at
@@ -304,7 +297,7 @@ the c2dv viewer showing an image from the example IOC
 
 Above we looked at some ibek *Support yaml* and created an *IOC yaml* file.
 The details of where *Support yaml* files come from and how to create your
-own are covered in later tutorials on creating Generic IOCs.
+own are covered in later tutorials on creating Generic services.
 
 However, without looking into the set of *Support yaml* files that are
 inside a given Generic IOC we can still make a meaningful *IOC yaml* file.
