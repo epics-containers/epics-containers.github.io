@@ -21,7 +21,7 @@ git clone git@gitlab.diamond.ac.uk:controls/containers/accelerator/acc-psc.git
 # get latest ibek installed
 pip install ibek
 
-cd acc-psc/iocs/sr25a-ioc-01
+cd acc-psc/services/sr25a-ioc-01
 ibek build-startup config/ioc.boot.yaml ../../../ibek-defs/*/*.yaml
 ```
 

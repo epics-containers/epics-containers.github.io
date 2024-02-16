@@ -34,8 +34,8 @@ We will start by creating the values.yaml file:
 
 ```bash
 cd bl01t
-mkdir iocs/bl01t-ea-ioc-02
-code iocs/bl01t-ea-ioc-02/values.yaml
+mkdir services/bl01t-ea-ioc-02
+code services/bl01t-ea-ioc-02/values.yaml
 ```
 
 This should launch vscode and open the values.yaml file. Add the following:
@@ -180,8 +180,8 @@ Therefore, we can create an *IOC yaml* file that instantiates a simulation
 detector as follows:
 
 ```bash
-mkdir iocs/bl01t-ea-ioc-02/config
-code iocs/bl01t-ea-ioc-02/config/ioc.yaml
+mkdir services/bl01t-ea-ioc-02/config
+code services/bl01t-ea-ioc-02/config/ioc.yaml
 ```
 
 This should launch vscode and open the ioc.yaml file. Add the following:
@@ -234,7 +234,7 @@ detector over a PVAccess channel called `BL01T-EA-TST-02:PVA:OUTPUT`. The
 a dependency of ADSimDetector and so is included in the Generic IOC container.
 
 Try putting the two snippets of *IOC yaml* together and saving it as
-`ioc.yaml` in the `iocs/bl01t-ea-ioc-02/config` folder.
+`ioc.yaml` in the `services/bl01t-ea-ioc-02/config` folder.
 
 You have now defined your first IOC instance.
 
@@ -252,10 +252,10 @@ source $HOME/ec-venv/bin/activate
 source bl01t
 
 # deploy the new IOC from local filesystem
-ec ioc deploy-local iocs/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-ioc-02
 
 # verify that your IOC worked by looking at the logs
-ec ioc logs bl01t-ea-ioc-02
+ec logs bl01t-ea-ioc-02
 ```
 
 ### Operator Interface
@@ -281,7 +281,7 @@ c2dv --pv BL01T-EA-TST-02:PVA:OUTPUT &
 Now we can start our simulation detector like this:
 
 ```bash
-ec ioc exec bl01t-ea-ioc-02
+ec exec bl01t-ea-ioc-02
 # enable the PVA plugin that publishes the output
 caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
 # start the simulation detector
@@ -352,7 +352,7 @@ folder. Or alternatively you could override behaviour completely by placing
 To see what ibek generated you can go and look inside the IOC container:
 
 ```bash
-ec ioc exec bl01t-ea-ioc-02
+ec exec bl01t-ea-ioc-02
 cd /epics/runtime/
 cat ioc.subst
 cat st.cmd
@@ -372,12 +372,12 @@ your IOC Instance config folder like this (replace podman with
 docker if that is what you are using):
 
 ```bash
-podman cp bl01t-ea-ioc-02:/epics/runtime/st.cmd iocs/bl01t-ea-ioc-02/config
-podman cp bl01t-ea-ioc-02:/epics/runtime/ioc.subst iocs/bl01t-ea-ioc-02/config/ioc.subst
+podman cp bl01t-ea-ioc-02:/epics/runtime/st.cmd services/bl01t-ea-ioc-02/config
+podman cp bl01t-ea-ioc-02:/epics/runtime/ioc.subst services/bl01t-ea-ioc-02/config/ioc.subst
 # no longer need an ibek ioc yaml file
-rm iocs/bl01t-ea-ioc-02/config/ioc.yaml
+rm services/bl01t-ea-ioc-02/config/ioc.yaml
 # re-deploy from local filesystem
-ec ioc deploy-local iocs/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-ioc-02
 ```
 
 Your IOC Instance will now be using the raw startup script and database. But
@@ -391,5 +391,5 @@ use the `-v` option to see them.
 
 For example try this command:
 
-- ec -v ioc deploy-local iocs/bl01t-ea-ioc-02
+- ec -v ioc deploy-local services/bl01t-ea-ioc-02
 :::

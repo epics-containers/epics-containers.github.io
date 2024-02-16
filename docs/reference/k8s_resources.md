@@ -12,12 +12,12 @@ example IOC you can use the following command from inside of your example
 beamline repository:
 
 ```bash
-ec ioc template iocs/bl01t-ea-ioc-01
+ec template services/bl01t-ea-ioc-01
 ```
 
-This is expanding the local helm chart in the `iocs/bl01t-ea-ioc-01` folder and using
+This is expanding the local helm chart in the `services/bl01t-ea-ioc-01` folder and using
 its `templates/ioc.yaml` plus the templates in `helm-ioc-lib`. These templates
-are expanded using the values in the `iocs/bl01t-ea-ioc-01/values.yaml` file and also
+are expanded using the values in the `services/bl01t-ea-ioc-01/values.yaml` file and also
 `beamline-chart/values.yaml` and finally the default `values.yaml` file
 from the helm-ioc-lib.
 
