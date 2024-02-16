@@ -51,7 +51,7 @@ assets. See `../explanations/repositories`.
 
 ## Steps
 
-1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `bl01t` plus a description, then click 'Create'.
+1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `bl01t` plus a description, then click 'Create repository'.
 
    If you are using an alternative to GitHub for your repositories then
    see [these instructions] for an alternative approach.
@@ -61,7 +61,7 @@ assets. See `../explanations/repositories`.
       ```bash
       pip install copier
       # this will create the folder bl01t in the current directory
-      copier copy gh:epics-containers/ec/services-template --trust bl01t
+      copier copy gh:epics-containers/ec-services-template --trust bl01t
       ```
 1. Answer the copier template questions as follows:
 

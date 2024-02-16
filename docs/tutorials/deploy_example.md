@@ -164,14 +164,7 @@ bl01t-ea-test-01     2024.2.1           Up 4 seconds        ghcr.io/epics-contai
 
 ### IMPORTANT: deploy-local vs deploy
 
-Be aware of the distinction of `deploy-local` vs `deploy`. Both of these
-commands create a running instance of the IOC in the target environment (currently
-your local machine - later on a Kubernetes Cluster). However, `deploy-local`
-gets the IOC instance description YAML direct from your local filesystem. This
-means it is not likely to be available for re-deployment later on. `deploy`
-gets the IOC instance description YAML from the GitHub repository with able
-specific tag and therefore is a known state that can be recovered at a later
-date.
+Be aware of the distinction of `deploy-local` vs `deploy`. Both of these commands create a running instance of the IOC in the target environment (currently your local machine - later on a Kubernetes Cluster). However, `deploy-local` gets the IOC instance description YAML direct from your local filesystem. This means it is not likely to be available for re-deployment later on. `deploy` gets the IOC instance description YAML from the GitHub repository with a specific tag and therefore is a known state that can be recovered at a later date.
 
 Always strive to have released versions of IOC instances deployed in your
 environments. `deploy-local` is only for temporary testing purposes.
