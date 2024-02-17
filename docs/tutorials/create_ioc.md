@@ -12,26 +12,44 @@ across AreaDetector: <https://areadetector.github.io/master/index.html>.
 
 ## Create a New IOC Instance
 
-To create a new IOC Instance simply add a new folder to the `services` folder in your beamline repo. The name of the folder will be the name of the IOC. This folder needs to contain these two items:
+To create a new IOC Instance simply add a new folder to the `services` folder in your beamline repo. The name of the folder will be the name of the IOC. This folder needs to contain these items:
 
-```{eval-rst}
-===================    =======================================================
-**config**             A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh).
-**values.yaml**        A helm chart values override file. The only required field is ``image`` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the ``helm/shared`` folder for a complete list of fields that can be overridden.
-===================    =======================================================
+| | |
+| --- | ---
+| **Chart.yaml** | A helm chart description file. |
+| **values.yaml** | A helm chart values override file. The only required field is `image` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart |values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the `helm/shared` folder for a complete list of fields that can be overridden. |
+| **config** | A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh). |
+
+### Chart.yaml
+
+The Chart.yaml is a helm chart description file. We will use the same Chart.yaml file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for two dependencies in the form of sub-charts. The sub-charts are defined within the same repository as follows:
+
+| | |
+| --- | ---
+| **helm/shared** | A sub-chart that contains the default values.yaml file for all IOC instances in the beamline repository. It in turn references a further sub-chart that consumes these values: the `ioc-instance` chart that crafts up the Kubernetes manifest for deploying IOC instances |
+| **helm/configmap** | A sub-chart that transforms the IOC Instance's config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.
+
+Because all IOC Instances in the beamline repository share the same Chart.yaml file, we will create a soft-link to it in the IOC Instance folder. This is so that updates to the Chart.yaml file will propagate to all IOC Instances in the beamline. To do this run the following command:
+
+
+```bash
+cd bl01t # if not already there
+# create the new IOC Instance folder
+mkdir services/bl01t-ea-test-02
+# link in the shared Chart.yaml file
+ln -s include/iocs/Chart.yaml services/bl01t-ea-test-02/Chart.yaml
 ```
 
 ### values.yaml
 
-We will start by creating the values.yaml file:
+The values.yaml file is where we will override the default values for the helm chart. The only required field is `image` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the `helm/shared` folder for a complete list of fields that can be overridden.
 
 ```bash
-cd bl01t
-mkdir services/bl01t-ea-ioc-02
-code services/bl01t-ea-ioc-02/values.yaml
+cd bl01t # if not already there
+code services/bl01t-ea-test-02/values.yaml
 ```
 
-This should launch vscode and open the values.yaml file. Add the following:
+You will now have vscode and open and editing the values.yaml file. Add the following:
 
 ```yaml
 image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
@@ -42,60 +60,32 @@ container. This container was built by the Generic IOC source repo here
 <https://github.com/epics-containers/ioc-adsimdetector>. The container has
 support for AreaDetector and ADSimDetector compiled into its IOC binary.
 
-Generic services have compiled IOC binaries and `dbd` files but no startup script or
-EPICS database. The compiled IOC binary, `dbds` and support `lib` files
-are baked into the container at container build time. This means that the
-code for making services for a given class of device need only be compiled once
-and can be reused for many IOC Instances.
+Generic IOCs have compiled IOC binaries and `dbd` files but no startup script or EPICS database. The compiled IOC binary, `dbds` and support `lib` files are baked into the container at container build time. This means that the code for making IOC instances for a given class of device need only be compiled once and can be reused by many IOC Instances.
 
-A startup script and EPICS Database are provided by the IOC Instance at
-container run time.
-This is what makes a unique IOC Instance from a Generic IOC container.
+A startup script and EPICS Database must be provided by the IOC Instance at container run time. This is what makes a unique IOC Instance from a Generic IOC container.
 
-Therefore we need to create an EPICS startup script and EPICS Database to make
-this into a functional IOC Instance. To do that we will use `ibek`.
-To recap, we have two python CLI tools for supporting `epics-containers`:
+Therefore, we need to create an EPICS startup script and EPICS Database to make this into a functional IOC Instance. To do that we will use `ibek`. To recap, we have two python CLI tools for supporting `epics-containers`:
 
-```{eval-rst}
+- `ec` A CLI for outside of the container see {any}`edge-containers-cli`
+- `ibek` A CLI for inside of the container see {any}`ibek`
 
-:ec: provides developer support *outside* of the container such as:
-
-    - Deploying, managing and debugging IOC Instances.
-    - Building and debugging Generic IOC containers.
-
-``ibek`` is already installed inside of the Generic IOC container we selected
-above. So now we will provide some *IOC yaml* files to ``ibek`` so that it
-will generate startup assets for our IOC Instance.
-
-config
-~~~~~~~~~~~~~~~~~~~~~~~
-```
-
-`ibek` is already installed inside of the Generic IOC container we selected
-above. So now we will provide some *IOC yaml* files to `ibek` so that it
-will generate startup assets for our IOC Instance.
+`ibek` is already installed inside of the Generic IOC container we selected above. So now we will provide an IOC yaml file to `ibek` so that it will generate startup assets for our IOC Instance.
 
 ### config
+
+The config folder can contain a variety of different files [as listed here](https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh). In this case we are going to define the Instance using an `ibek` IOC instance yaml file.
 
 *IOC yaml* files are a sequence of `entities`. Each entity is an instance of
 a `definition` declared in the *Support yaml* that one of the support
 modules provides. `definitions` can:
 
 - add lines of code to the startup script
-- add entries to the EPICS Database
+- instantiate EPICS Database templates with a set of macro substitutions
 
-Each `entity` listed in the *IOC yaml* file will instantiate an instance of
-the support module `definition` that it refers to. It will pass a number
-of parameters to the `definition` that will be used to generate the
-startup script entries and EPICS Database entries for that entity. The
-`definition` is responsible for declaring the arguments it expects and
-how they are used in the script and DB entries it generates. It supplies
-types and descriptions for each of these arguments, plus may supply default
+Each `entity` listed in the *IOC yaml* file will instantiate an instance of the support module `definition` that it refers to. It will pass a number of arguments to the `definition` that will be used to generate the startup script entries and EPICS Database entries for that entity. The `definition` is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default
 values.
 
-We will be instantiating a simulation detector from the `ioc-adsimdetector`
-Generic IOC. The following *Support yaml* for the simulation detector is
-baked into the container:
+We will be instantiating a simulation detector from the `ioc-adsimdetector` Generic IOC. The following *Support yaml* for the simulation detector is baked into the container:
 
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/1.1.0/ibek.support.schema.json
@@ -169,12 +159,14 @@ declares how these will be used to substitute values into the simDetector
 database template. Finally it declares some lines to go into the startup script
 (before iocInit).
 
+Note that the process for turning this *Support yaml* with values from *IOC yaml* into a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use `{{ }}` to substitute values from the *IOC yaml* arguments into the *Support yaml* `pre_init` and `databases` sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. `$(ADSIMDETECTOR)/db/simDetector.template` is instantiated with `PORT=$(PORT)`, `P=$(P)` etc.
+
 Therefore, we can create an *IOC yaml* file that instantiates a simulation
 detector as follows:
 
 ```bash
-mkdir services/bl01t-ea-ioc-02/config
-code services/bl01t-ea-ioc-02/config/ioc.yaml
+mkdir services/bl01t-ea-test-02/config
+code services/bl01t-ea-test-02/config/ioc.yaml
 ```
 
 This should launch vscode and open the ioc.yaml file. Add the following:
@@ -182,15 +174,14 @@ This should launch vscode and open the ioc.yaml file. Add the following:
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json
 
-ioc_name: bl01t-ea-ioc-02
+ioc_name: "{{ __utils__.get_env('IOC_NAME') }}"
 description: Example simulated camera for BL01T
 
 entities:
-
-- type: ADSimDetector.simDetector
-  PORT: DET.DET
-  P: BL01T-EA-TST-02
-  R: ":DET:"
+  - type: ADSimDetector.simDetector
+    PORT: DET.DET
+    P: BL01T-EA-TST-02
+    R: ":DET:"
 ```
 
 :::{note}
@@ -227,7 +218,7 @@ detector over a PVAccess channel called `BL01T-EA-TST-02:PVA:OUTPUT`. The
 a dependency of ADSimDetector and so is included in the Generic IOC container.
 
 Try putting the two snippets of *IOC yaml* together and saving it as
-`ioc.yaml` in the `services/bl01t-ea-ioc-02/config` folder.
+`ioc.yaml` in the `services/bl01t-ea-test-02/config` folder.
 
 You have now defined your first IOC instance.
 
@@ -245,20 +236,15 @@ source $HOME/ec-venv/bin/activate
 source bl01t
 
 # deploy the new IOC from local filesystem
-ec deploy-local services/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-test-02
 
 # verify that your IOC worked by looking at the logs
-ec logs bl01t-ea-ioc-02
+ec logs bl01t-ea-test-02
 ```
 
 ### Operator Interface
 
-At the time of writing, the generation of operator interfaces is nearly complete
-but not yet ready for release. For this tutorial we will interact with the IOC
-using `caput` / `caget`.
-
-Once operator interfaces are available the documentation on this topic
-will be here {any}`../how-to/phoebus`
+In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable we will interact with the IOC using `caput` / `caget`.
 
 ### Viewing IOC output
 
@@ -274,7 +260,7 @@ c2dv --pv BL01T-EA-TST-02:PVA:OUTPUT &
 Now we can start our simulation detector like this:
 
 ```bash
-ec exec bl01t-ea-ioc-02
+ec exec bl01t-ea-test-02
 # enable the PVA plugin that publishes the output
 caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
 # start the simulation detector
@@ -345,7 +331,7 @@ folder. Or alternatively you could override behaviour completely by placing
 To see what ibek generated you can go and look inside the IOC container:
 
 ```bash
-ec exec bl01t-ea-ioc-02
+ec exec bl01t-ea-test-02
 cd /epics/runtime/
 cat ioc.subst
 cat st.cmd
@@ -365,12 +351,12 @@ your IOC Instance config folder like this (replace podman with
 docker if that is what you are using):
 
 ```bash
-podman cp bl01t-ea-ioc-02:/epics/runtime/st.cmd services/bl01t-ea-ioc-02/config
-podman cp bl01t-ea-ioc-02:/epics/runtime/ioc.subst services/bl01t-ea-ioc-02/config/ioc.subst
+podman cp bl01t-ea-test-02:/epics/runtime/st.cmd services/bl01t-ea-test-02/config
+podman cp bl01t-ea-test-02:/epics/runtime/ioc.subst services/bl01t-ea-test-02/config/ioc.subst
 # no longer need an ibek ioc yaml file
-rm services/bl01t-ea-ioc-02/config/ioc.yaml
+rm services/bl01t-ea-test-02/config/ioc.yaml
 # re-deploy from local filesystem
-ec deploy-local services/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-test-02
 ```
 
 Your IOC Instance will now be using the raw startup script and database. But
@@ -384,5 +370,5 @@ use the `-v` option to see them.
 
 For example try this command:
 
-- ec -v ioc deploy-local services/bl01t-ea-ioc-02
+- ec -v ioc deploy-local services/bl01t-ea-test-02
 :::

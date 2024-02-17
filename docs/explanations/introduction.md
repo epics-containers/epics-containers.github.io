@@ -39,19 +39,14 @@ forks of these repositories.
 
 #### Generic IOCs and instances
 
-An important principal of the approach presented here is that an IOC container
-image represents a 'Generic' IOC. The Generic IOC image is used for all
-IOC instances that connect to a given class of device. For example the
-Generic IOC image here:
-[ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.2](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime)
-uses the AreaDetector driver ADAravis to connect to GigE cameras.
+An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2024.1.2](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
 
 An IOC instance runs in a container runtime by loading two things:
 
 - The Generic IOC image passed to the container runtime.
 - The IOC instance configuration. This is mapped into the container at
   runtime by mounting it into the filesystem. The mount point
-  for this configuration is always /epics/ioc/config.
+  for this configuration is always `/epics/ioc/config`.
 
 The configuration will bootstrap the unique properties of that instance.
 The following contents for the configuration are supported:
@@ -63,8 +58,7 @@ The following contents for the configuration are supported:
 - start.sh a bash script to fully override the startup of the IOC. start.sh
   can refer to any additional files in the configuration directory.
 
-This approach reduces the number of images required and saves disk. It also
-makes for simple configuration management.
+This approach reduces the number of images required and saves disk and memory. It also makes for simpler configuration management.
 
 Throughout this documentation we will use the terms Generic IOC and
 IOC Instance. The word IOC without this context is ambiguous.
@@ -77,18 +71,16 @@ Kubernetes easily and efficiently manages containers across clusters of hosts.
 When deploying an IOC into a Kubernetes cluster, you request the resources
 required by the IOC and Kubernetes will then schedule the IOC onto a suitable host.
 
-It builds upon 15 years of experience of running production workloads at
-Google, combined with best-of-breed ideas and practices from the community,
-since it was open-sourced in 2014.
+It builds upon years of experience of running production workloads at Google, combined with best-of-breed ideas and practices from the community, since it was open-sourced in 2014.
 
 Today it is by far the dominant orchestration technology for containers.
 
 In this project we use Kubernetes and helm to provide a standard way of
 implementing these features:
 
-- Auto start IOCs when servers come up
+- Auto start IOCs the cluster comes up from power off
 - Manually Start and Stop IOCs
-- Monitor IOC status and versions
+- Monitor IOC health and versions
 - Deploy versioned IOCs to the beamline
 - Rollback to a previous IOC version
 - Allocate a server with adequate resources on which to run each IOC
@@ -133,11 +125,10 @@ of the chart within the cluster.
 It also supports registries for storing version history of charts,
 much like docker.
 
-In this project we use Helm Charts to define and deploy IOC instances.
-Each beamline (or accelerator domain) has its own git repository that holds
-the domain Helm Chart for its IOC Instances. Each IOC instance need only
-provide a values.yaml file to override the default values in the domain
-Helm Chart and a config folder as described in {any}`generic-iocs`.
+In this project we use Helm Charts to define and deploy IOC instances. Each beamline or accelerator area has its own git {any}`ec-services-repo` that holds the Helm Charts for its IOC Instances. Each IOC instance need only provide:
+
+- a values.yaml file to override the default values in the repository's global Helm Chart
+- a config folder as described in {any}`generic-iocs`.
 
 **epics-containers** does not use helm repositories for storing IOC instances.
 Such repositories only hold a zipped version of the chart and a values.yaml file,
@@ -146,13 +137,9 @@ information. Instead we provide a command line tool for installing and updating
 IOCs. Which performs the following steps:
 
 - Clone the beamline repository at a specific tag to a temporary folder
-- extract the beamline chart and apply the values.yaml to it
-- additionally generate a config map from the config folder files
 - install the resulting chart into the cluster
 - remove the temporary folder
 
-This means that we don't store the chart itself but we do store all of the
-information required to re-generate it in a version tagged repository.
 
 ### Repositories
 
@@ -172,47 +159,33 @@ There are many alternative services for storing these repositories, both
 in the cloud and on premises. Below we list the choices we have tested
 during the POC.
 
-The 2 classes of repository are as follows:
+The classes of repository are as follows:
 
 ```{eval-rst}
+:Source Repository:
 
-:An OCI image repository:
+  Holds the source code but also provides the Continuous Integration actions for testing, building and publishing to the image / helm repositories. These have been tested:
 
-  - Holds the Generic IOC container images and their
-    dependencies. Also used to hold the helm charts that define the shared
-    elements between all domains.
+  - github
+  - gitlab (on premises)
 
-    The following have been tested:
+:Generic IOC Source Repositories:
 
-    - Github Container Registry
-    - DockerHub
-    - Google Cloud Container Registry
+  Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed.
 
+:EC Services Source Repositories:
 
-Continuous Integration
-~~~~~~~~~~~~~~~~~~~~~~
+  Define the IOC instances for a beamline or accelerator area. This includes the IOC boot scripts and any other configuration required to make the IOC instance unique. For ibek based IOCs, each IOC instance is defined by an ibek yaml file only.
 
-Our examples all use continuous integration to get from pushed source
-to the published images, IOC instances helm charts and documentation.
+:An OCI Image Repository:
 
-This allows us to maintain a clean code base that is continually tested for
-integrity and also to maintain a direct relationship between source code version
-tags and the tags of their built resources.
+  Holds the Generic IOC container images and their dependencies. Also used to hold he helm charts that define the shared elements between all domains.
 
-There are these types of CI:
+  The following have been tested:
 
-:Generic IOC source:
-    - builds a Generic IOC container image
-    - runs some tests against that image - these will eventually include
-      system tests that talk to simulated hardware
-    - publishes the image to github packages (only if the commit is tagged)
-      or other OCI registry
-
-:beamline definition source:
-    - prepares a helm chart from each IOC instance definition
-    - tests that the helm chart is deployable (but does not deploy it)
-    - locally launches each IOC instance and loads its configuration to
-      verify that the configuration is valid (no system tests because this
+  - Github Container Registry
+  - DockerHub
+  - Google Cloud Container Registry
 ```
 
 ### Continuous Integration
@@ -228,7 +201,14 @@ There are these types of CI:
 
 ```{eval-rst}
 
-:beamline definition source:
+:Generic IOC source:
+    - builds a Generic IOC container image
+    - runs some tests against that image - these will eventually include
+      system tests that talk to simulated hardware
+    - publishes the image to github packages (only if the commit is tagged)
+      or other OCI registry
+
+:`ec-services-repo` source:
     - prepares a helm chart from each IOC instance definition
     - tests that the helm chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
@@ -239,11 +219,11 @@ There are these types of CI:
     - builds the sphinx docs
     - publishes it to github.io pages with version tag or branch tag.
 
-Scope
------
-This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running
-on MVME5500 hardware. Soft IOCs that require access to hardware on the
-server (e.g. USB or PCIe) will be supported by mounting the hardware into
+:global helm chart source:
+    - ``ec-helm-chars`` repo only
+    - packages a helm chart from source
+    - publishes it to github packages (only if the commit is tagged)
+      or other OCI registry
 ```
 
 ## Scope
@@ -264,20 +244,19 @@ See <https://github.com/epics-containers/pvi>.
 
 ## Additional Tools
 
-### epics-containers-cli
+### edge-containers-cli
 
 This is the developer's 'outside of the container' helper tool. The command
 line entry point is **ec**.
 
 The project is a python package featuring simple command
-line functions for deploying, monitoring building and debugging
-Generic IOCs and IOC instances. It is a wrapper
+line functions for deploying and monitoring IOC instances. It is a wrapper
 around the standard command line tools kubectl, podman/docker, helm, and git
 but saves typing and provides help and command line completion. It also
 can teach you how to use these tools by showing you the commands it is
 running.
 
-See {any}`CLI` for details.
+See {any}`CLI` for moore details.
 
 ### **ibek**
 
@@ -286,7 +265,6 @@ helper tool. It is a python package that is installed into the Generic IOC
 container images. It is used:
 
 - at container build time: to fetch and build EPICS support modules
-- at container build time: to generate the IOC source code and compile it
 - at container run time: to extract all useful build artifacts into a
   runtime image
 

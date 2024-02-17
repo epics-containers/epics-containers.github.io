@@ -143,7 +143,7 @@ attach        deploy        exec          list          logs          start     
 delete        deploy-local  instances     log-history   restart       stop          validate
 $ ec instances <tab> <tab>
 $ ec instances bl01t-ea-ioc-0 <tab> <tab>
-bl01t-ea-test-01  bl01t-ea-ioc-02
+bl01t-ea-test-01  bl01t-ea-test-02
 ```
 
 To enable this behavior in your shell run the command `ec --install-completion`

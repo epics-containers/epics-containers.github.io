@@ -63,27 +63,27 @@ mot-/dev/enet0-cipa=172.23.250.15
 mot-/dev/enet0-snma=255.255.240.0
 mot-/dev/enet0-gipa=172.23.240.254
 mot-boot-device=/dev/em1
-rtems-client-name=bl01t-ea-ioc-02
-epics-script=172.23.168.203:/iocs:bl01t/bl01t-ea-ioc-02/config/st.cmd
+rtems-client-name=bl01t-ea-test-02
+epics-script=172.23.168.203:/iocs:bl01t/bl01t-ea-test-02/config/st.cmd
 mot-script-boot
 dla=malloc 0x230000
-tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-ioc-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla
+tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-test-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla
 go -a0095F000
 
 Total Number of GE Variables =7, Bytes Utilized =427, Bytes Free =3165
 ```
 
 Now use `gevEdit` to change the global variables to the values you need.
-For this tutorial we will create an IOC called bl01t-ea-ioc-02 and for the
+For this tutorial we will create an IOC called bl01t-ea-test-02 and for the
 example we assume the file server is on 172.23.168.203. For the details of
 setting up these parameters see your site documentation but the important
 values to change for this tutorial IOC would be:
 
 ```{eval-rst}
 
-:rtems-client-name: bl01t-ea-ioc-02
-:epics-script: 172.23.168.203:/iocs:bl01t/bl01t-ea-ioc-02/config/st.cmd
-:mot-script-boot (2nd line): tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-ioc-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla
+:rtems-client-name: bl01t-ea-test-02
+:epics-script: 172.23.168.203:/iocs:bl01t/bl01t-ea-test-02/config/st.cmd
+:mot-script-boot (2nd line): tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-test-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla
 ```
 
 Now your `gevShow` should look similar to the example above.
@@ -105,13 +105,13 @@ net mask, gateway, server address, client address.
 We will be adding a new IOC instance to the `bl01t` beamline that we created in
 {doc}`create_beamline`. The first step is to make a copy of our existing IOC instance
 and make some modifications to it. We will call this new IOC instance
-`bl01t-ea-ioc-02`.
+`bl01t-ea-test-02`.
 
 ```bash
 cd bl01t
-cp -r services/bl01t-ea-test-01 services/bl01t-ea-ioc-02
+cp -r services/bl01t-ea-test-01 services/bl01t-ea-test-02
 # don't need this file for the new IOC
-rm services/bl01t-ea-ioc-02/config/extra.db
+rm services/bl01t-ea-test-02/config/extra.db
 ```
 
 We are going to make a very basic IOC with some hand coded database with
@@ -135,7 +135,7 @@ at the top of the `values.yaml` file. In addition there are a number of
 environment variables required for the RTEMS target that we also specify in
 `values.yaml`.
 Edit the file
-`services/bl01t-ea-ioc-02/values.yaml` to look like this:
+`services/bl01t-ea-test-02/values.yaml` to look like this:
 
 ```yaml
 base_image: ghcr.io/epics-containers/ioc-template-rtems-runtime:23.4.2
@@ -179,38 +179,38 @@ parameters of your RTEMS Crate. The environment variables are:
       - true to pause/unpause when the IOC container stops/starts
 ```
 
-Edit the file `services/bl01t-ea-ioc-02/Chart.yaml` and change the 1st 4 lines
+Edit the file `services/bl01t-ea-test-02/Chart.yaml` and change the 1st 4 lines
 to represent this new IOC (the rest of the file is boilerplate):
 
 ```yaml
 apiVersion: v2
-name: bl01t-ea-ioc-02
+name: bl01t-ea-test-02
 description: |
     example RTEMS IOC for bl01t
 ```
 
 For configuration we will create a simple database with a few of records and
 a basic startup script. Add the following files to the
-`services/bl01t-ea-ioc-02/config` directory.
+`services/bl01t-ea-test-02/config` directory.
 
 ```{code-block}
-:caption: bl01t-ea-ioc-02.db
+:caption: bl01t-ea-test-02.db
 
-record(calc, "bl01t-ea-ioc-02:SUM") {
+record(calc, "bl01t-ea-test-02:SUM") {
     field(DESC, "Sum A and B")
     field(CALC, "A+B")
     field(SCAN, ".1 second")
-    field(INPA, "bl01t-ea-ioc-02:A")
-    field(INPB, "bl01t-ea-ioc-02:B")
+    field(INPA, "bl01t-ea-test-02:A")
+    field(INPB, "bl01t-ea-test-02:B")
 }
 
-record(ao, "bl01t-ea-ioc-02:A") {
+record(ao, "bl01t-ea-test-02:A") {
     field(DESC, "A voltage")
     field(EGU,  "Volts")
     field(VAL,  "0.0")
 }
 
-record(ao, "bl01t-ea-ioc-02:B") {
+record(ao, "bl01t-ea-test-02:B") {
     field(DESC, "B voltage")
     field(EGU,  "Volts")
     field(VAL,  "0.0")
@@ -220,24 +220,24 @@ record(ao, "bl01t-ea-ioc-02:B") {
 ```{code-block}
 :caption: st.cmd
 
-# RTEMS Test IOC bl01t-ea-ioc-02
+# RTEMS Test IOC bl01t-ea-test-02
 
-dbLoadDatabase "/services/bl01t/bl01t-ea-ioc-02/dbd/ioc.dbd"
+dbLoadDatabase "/services/bl01t/bl01t-ea-test-02/dbd/ioc.dbd"
 ioc_registerRecordDeviceDriver(pdbbase)
 
 # db files from the support modules are all held in this folder
-epicsEnvSet(EPICS_DB_INCLUDE_PATH, "/services/bl01t/bl01t-ea-ioc-02/support/db")
+epicsEnvSet(EPICS_DB_INCLUDE_PATH, "/services/bl01t/bl01t-ea-test-02/support/db")
 
 # load our hand crafted database
-dbLoadRecords("/services/bl01t/bl01t-ea-ioc-02/config/bl01t-ea-ioc-02.db")
+dbLoadRecords("/services/bl01t/bl01t-ea-test-02/config/bl01t-ea-test-02.db")
 # also make Database records for DEVIOCSTATS
-dbLoadRecords(iocAdminSoft.db, "IOC=bl01t-ea-ioc-02")
-dbLoadRecords(iocAdminScanMon.db, "IOC=bl01t-ea-ioc-02")
+dbLoadRecords(iocAdminSoft.db, "IOC=bl01t-ea-test-02")
+dbLoadRecords(iocAdminScanMon.db, "IOC=bl01t-ea-test-02")
 
 iocInit
 ```
 
-You now have a new helm chart in services/bl01t-ea-ioc-02 that describes an IOC
+You now have a new helm chart in services/bl01t-ea-test-02 that describes an IOC
 instance for your RTEMS device. Recall that this is not literally where the IOC
 runs, it deploys a kubernetes pod that manages the RTEMS IOC. It does contain
 the IOC's configuration and the IOC's binary code, which it will copy to the
@@ -245,7 +245,7 @@ file-server on startup.
 
 Finally you will need to tell the IOC to mount the Persistent Volume Claim
 that the bl01t-ioc-files service is serving over NFS and TFTP. To do this
-add the following lines to `services/bl01t-ea-ioc-02/values.yaml`:
+add the following lines to `services/bl01t-ea-test-02/values.yaml`:
 
 ```yaml
 # for RTEMS IOCS this is the PVC name for the filesystem where RTEMS
@@ -274,7 +274,7 @@ Execute the following commands:
 
 ```bash
 cd bl01t
-ec deploy-local services/bl01t-ea-ioc-02
+ec deploy-local services/bl01t-ea-test-02
 ```
 
 When an RTEMS Kubernetes pod runs up it will make a telnet connection to
@@ -282,7 +282,7 @@ the hard IOC's console and present the console as stdin/stdout of the
 container. This means once you have done the above deployment the command:
 
 ```bash
-ec logs bl01t-ea-ioc-02 -f
+ec logs bl01t-ea-test-02 -f
 ```
 
 will show the RTEMS console output, and follow it along (`-f`) as the IOC
@@ -292,7 +292,7 @@ You can also attach to the container and interact with the RTEMS console via
 the telnet connection with:
 
 ```bash
-ec attach bl01t-ea-ioc-02
+ec attach bl01t-ea-test-02
 ```
 
 Most likely for the first deploy your IOC will still be sitting at the
@@ -306,7 +306,7 @@ To verify that your RTEMS IOC is working you should be able to execute the
 following commands and get correct sum of the A and B values:
 
 ```bash
-caput bl01t-ea-ioc-02:A 12
-caput get bl01t-ea-ioc-02:B 13
-caget get bl01t-ea-ioc-02:SUM
+caput bl01t-ea-test-02:A 12
+caput get bl01t-ea-test-02:B 13
+caget get bl01t-ea-test-02:SUM
 ```
