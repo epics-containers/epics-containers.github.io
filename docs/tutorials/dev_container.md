@@ -7,70 +7,62 @@
 Containerized IOCs can be modified in 3 distinct places (in order of decreasing
 frequency of change but increasing complexity):
 
-1. The IOC instance: this means making changes to the IOC instance folders
-   which appear in the `iocs` folder of a domain repository. e.g.:
+(changes_1)=
+### Changing the IOC instance
 
-   - changing the EPICS DB (or the `ibek` files that generate it)
-   - altering the IOC boot script (or the `ibek` files that generate it)
-   - changing the version of the Generic IOC used in values.yaml
-   - for Kubernetes: the values.yaml can override any settings used by helm
-     so these can also be adjusted on a per IOC instance basis.
-   - for Kubernetes: changes to the global values.yaml
-     file found in `beamline-chart`, these affect all IOCs in the domain.
+This means making changes to the IOC instance folders
+which appear in the `iocs` folder of an {any}`ec-services-repo`. e.g.:
 
-2. The Generic IOC: i.e. altering how the Generic IOC container image
-   is built. This means making changes to an `ioc-XXX`
-   source repo and publishing a new version of the container image.
-   Types of changes include:
+- changing the EPICS DB (or the `ibek` files that generate it)
+- altering the IOC boot script (or the `ibek` files that generate it)
+- changing the version of the Generic IOC used in values.yaml
+- for Kubernetes: the values.yaml can override any settings used by helm
+  so these can also be adjusted on a per IOC instance basis.
+- for Kubernetes: changes to the global values.yaml
+  file found in `beamline-chart`, these affect all IOCs in the repository.
+
+(changes_2)=
+### Changing the Generic IOC
+
+This involves altering how the Generic IOC container image
+is built. This means making changes to an `ioc-XXX`
+source repo and publishing a new version of the container image.
+Types of changes include:
 
    - changing the EPICS base version
    - changing the versions of EPICS support modules compiled into the IOC binary
    - adding new support modules
    - altering the system dependencies installed into the container image
 
-3. The dependencies - Support modules used by the Generic IOC. Changes to support
-   module repos. To make use of these changes would require:
+(changes_3)=
+### Changing the dependencies
 
-   - publishing a new release of the support module,
-   - updating and publishing the Generic IOC
-   - updating and publishing the IOC instance
+Sometimes you will need to alter the support modules used by the Generic IOC. To make use of these changes would require:
 
-For all of the above, the epics-containers approach allows
-local testing of the changes before going through the publishing cycle.
-This allows us to have a fast 'inner loop' of development and testing.
-
-Also, epics-containers provides a mechanism for creating a separate workspace for
-working on all of the above elements in one place.
+- publishing a new release of the support module,
+- updating and publishing the Generic IOC
+- updating and publishing the IOC instance
 
 ## Need for a Developer Container
 
-The earlier tutorials were firmly in the realm of `1` above.
-It was adequate for us to install a container platform, IDE and python
-and that is all we needed.
+For all of the above types of changes, the epics-containers approach allows local testing of the changes before going through the publishing cycle. This allows us to have a fast 'inner loop' of development and testing.
 
-Once you get to level `2` changes you need to have compilers and build tools
-installed. You might also require system level dependencies. AreaDetector,
-that we used earlier has a long list of system dependencies that need to be
-installed in order to compile it. Traditionally we have installed all of these
-onto developer workstations or separately compiled the dependencies as part of
-the build.
+Also, epics-containers provides a mechanism for creating a separate workspace for working on all of the above elements in one place.
+
+The earlier tutorials were firmly in the realm of [](changes_1) above. It was adequate for us to install a container platform, IDE and python and that is all we needed.
+
+Once you get to level of [](changes_2) you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.
 
 These tools and dependencies will differ from one Generic IOC to the next.
 
-When using epics-containers we don't need to install any of these tools or
-dependencies on our local machine. Instead we can use a developer container,
-and in fact our Generic IOC *is* our developer container.
+When using epics-containers we don't need to install any of these tools or dependencies on our local machine. Instead we can use a developer container, and in fact our Generic IOC *is* our developer container.
 
-When the CI builds a Generic IOC it creates
-[two targets](https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector)
+When the CI builds a Generic IOC it creates [two targets](https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector)
 
-```{eval-rst}
-
-:runtime: this target installs only the runtime dependencies into the container.
-   It also extracts the built runtime assets from the developer target.
-
-The developer stage of the build is a necessary step in order to get a
-```
+| | |
+|---|---|
+| **developer** | this target installs all the build tools and build time dependencies into the container image. It then compiles the support modules and IOC. |
+| **runtime** | this target installs only the runtime dependencies into the container. It also extracts the built runtime assets from the developer target. |
 
 The developer stage of the build is a necessary step in order to get a
 working runtime container. However, we choose to keep this stage as an additional
@@ -154,7 +146,7 @@ because it makes it possible to archive away the development environment
 along side the source code. It also means that you can easily share the
 development environment with other developers.
 
-For epics-containers the generic IOC >>>is\<\<\< the developer container. When
+For epics-containers the generic IOC *is* the developer container. When
 you build the developer target of the container in CI it will contain all the
 build tools and dependencies needed to build the IOC. It will also contain
 the IOC source code and the support module source code. For this reason
@@ -166,7 +158,7 @@ tools to build and test it.
 It is also important to understand that although your vscode session is
 entirely inside the container, some of your host folders have been mounted
 into the container. This is done so that your important changes to source
-code would not be lost if the container were rebuilt. See [container-layout]
+code would not be lost if the container were rebuilt. See [](container-layout)
 for details of which host folders are mounted into the container.
 
 Once built, open the project in VSCode:
@@ -180,13 +172,13 @@ the green icon in the bottom left of the VSCode window and select
 `Reopen in Container`.
 
 You should now be *inside* the container. All terminals started in VSCode will
-be inside the container. Every file that you open with the VSCode editor
+be running inside the container. Every file that you open with the VSCode editor
 will be inside the container.
 
 There are some caveats because some folders are mounted from the host file
 system. For example, the `ioc-adsimdetector` project folder
 is mounted into the container as a volume. It is mounted under
-`/epics/ioc-adsimdetector`. This means that you can edit the source code
+`/workspaces/ioc-adsimdetector`. This means that you can edit the source code
 from your local machine and the changes will be visible inside the container and
 outside the container. This is a good thing as you should consider the container
 filesystem to be a temporary filesystem that will be destroyed when the container
@@ -210,39 +202,21 @@ it, this includes `ibek`.
 The first commands you should run are as follows:
 
 ```bash
+# open a terminal: Menu -> Terminal -> New Terminal
 cd /epics/ioc
 make
 ```
 
-It is useful to understand that /epics/ioc is a soft link to the IOC source
-that came with your generic IOC source code. Therefore if you edit this
-code and recompile it, the changes will be visible inside the container and
-outside the container. Meaning that the repository `ioc-adsimdetector` is
-now showing your changes in it's `ioc` folder and you could push them
+It is useful to understand that `/epics/ioc` is a soft link to the IOC source that came with your generic IOC source code. Therefore if you edit this code and recompile it, the changes will be visible inside the container and outside the container. Meaning that the repository `ioc-adsimdetector` is now showing your changes in it's `ioc` folder and you could push them
 up to GitHub if you wanted.
 
-The above is true because your project folder ioc-adsimdetector is mounted into
-the container's filesystem with a bind mount at the same place that the
-ioc files were originally placed by the container build.
+epics-containers devcontainers have carefully curated host filesystem mounts. This allows the developer environment to look as similar as possible to the runtime container. It also will preserve any important changes that you make in the host file system. This is essential because the container filesystem is temporary and will be destroyed when the container is rebuilt or deleted.
 
-epics-containers devcontainers have carefully curated host filesystem mounts.
-This allows the developer environment to look as similar as possible to the
-runtime container.
-It also will preserve any important changes that you make in the host file system.
-This is essential because the container filesystem is temporary and will be
-destroyed when the container is rebuilt or deleted.
+See [](container-layout) for details of which host folders are mounted into the container.
 
-See [container-layout] for details of which host folders are mounted into the
-container.
+The IOC source code is entirely boilerplate, `/epics/ioc/iocApp/src/Makefile` determines which dbd and lib files to link by including two files that `ibek` generated during the container build. You can see these files in `/epics/support/configure/lib_list` and `/epics/support/configure/dbd_list`.
 
-The IOC source code is entirely boilerplate, `/epics/ioc/iocApp/src/Makefile`
-determines which dbd and lib files to link by including two files that
-`ibek` generated during the container build. You can see these files in
-`/epics/support/configure/lib_list` and `/epics/support/configure/dbd_list`.
-
-Although all Generic IOCs derived from ioc-template start out with the same
-generic source, you are free to change them if there is
-a need for different compilation options etc.
+Although all Generic IOCs derived from ioc-template start out with the same generic source, you are free to change them if there is a need for different compilation options etc.
 
 The Generic IOC should now be ready to run inside of the container. To do this:
 
@@ -280,13 +254,15 @@ located.
 
 :::{note}
 Docker Users: your account inside the container will not be the owner of
-/epics files. vscode will try to open the repos in epics-base and support/\*
+/epics files. vscode may try to open the repos in epics-base and support/\*
 and git will complain about ownership. You can cancel out of these errors
 as you should not edit project folders inside of `/epics` - they were
 built by the container and should be considered immutable. We will learn
 how to work on support modules in later tutorials. This error should only
 be seen on first launch. podman users will have no such problem because they
 will be root inside the container and root built the container.
+
+To mitigate this problem you can tell vscode not to look for git repos in subfolders, see [](scm_settings).
 :::
 
 You can now easily browse around the `/epics` folder and see all the
@@ -317,6 +293,10 @@ host. i.e. the root folder under which your projects are all cloned):
      - WS/ioc-adsimdetector/ioc
      - soft link to IOC source tree
 
+   * - /epics/runtime
+     - N/A
+     - generated startup script and EPICS database files
+
    * - /epics/ibek-defs
      - N/A
      - All ibek *Support yaml* files
@@ -339,7 +319,7 @@ host. i.e. the root folder under which your projects are all cloned):
 
    * - /epics/generic-source
      - WS/ioc-adsimdetector
-     - A second - fixed location mount of the Generic IOC source repo
+     - A second - fixed location mount of the Generic IOC source repo to allow `ibek` to find it easily.
 ```
 
 IMPORTANT: remember that the container filesystem is temporary and will be
@@ -353,39 +333,25 @@ in the host filesystem.
 Also note that VSCode keeps your developer container until you rebuild it
 or explicitly delete it. Restarting your PC and coming back to the same
 devcontainer does keep all state. This can make you complacent about doing
-work in the container filesystem, this is not recommended.
+work in the container filesystem, but it is still not recommended.
 
 (choose-ioc-instance)=
 
 ## Choose the IOC Instance to Test
 
-Now that we have the beamline repo visible in our container we can
-easily supply some instance configuration to the Generic IOC.
+Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the `ibek` tool convenience function `dev instance` which declares which IOC instance you want to work on in the developer container.
+
 Try the following:
 
 ```
 cd /epics/ioc
-rm -r config
-ln -s /workspaces/bl01t/services/bl01t-ea-test-02/config .
-# check the ln worked
+ibek dev instance /workspaces/bl01t/services/bl01t-ea-test-02
+# check the it worked - should see a symlink to the config folder
 ls -l config
 ./start.sh
 ```
 
-This removed the boilerplate config and replaced it with the config from
-the IOC instance bl01t-ea-test-02. Note that we used a soft link, this
-means we can edit the config, restart the IOC to test it and the changes
-will already be in place in the beamline repo. You can even open a shell
-onto the beamline repo and commit and push the changes.
-
-:::{note}
-The manual steps above were shown to demonstrate the process. In practice
-you can use this command to do the same thing:
-
-```bash
-ibek dev instance /workspaces/bl01t/services/bl01t-ea-test-02
-```
-:::
+This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-test-02 by symlinking to that IOC Instance's config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository. You could therefore open a shell onto the beamline repository at `/workspaces/bl01t` and commit and push the changes.
 
 ## Wrapping Up
 

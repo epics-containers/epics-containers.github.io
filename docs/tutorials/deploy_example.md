@@ -249,6 +249,13 @@ Or follow the IOC log until you hit ctrl-C:
 ec logs bl01t-ea-test-01 -f
 ```
 
-You will notice that this IOC simply prints out a message regarding what
-you can place in the /epics/ioc/config folder. In the next tutorial
-we will look at how to configure a real EPICS IOC.
+You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log.
+
+You can also attach to the IOC and check that it has started correctly by using the 'dbl' command to list all the records in it's IOC database.
+
+```bash
+ec attach bl01t-ea-test-01
+dbl
+# ctrl-p ctrl-q to detach
+```
+
