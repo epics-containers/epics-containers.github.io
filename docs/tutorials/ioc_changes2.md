@@ -98,7 +98,7 @@ we will use the example IOC instance that comes with `ioc-adsimdetector`. The
 following command will select the example IOC instance:
 
 ```console
-ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02
+ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02
 ```
 
 The above command removes the existing config folder `/epics/ioc/config` and
@@ -214,7 +214,7 @@ git reset --hard
 ```
 
 Add the following to
-`/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02/config/ioc.yaml`:
+`/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02/config/ioc.yaml`:
 
 ```yaml
 - type: epics.dbpf

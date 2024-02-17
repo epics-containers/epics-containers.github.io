@@ -1,6 +1,6 @@
 # Changing the IOC Instance
 
-This tutorial will make a very simple change to the example IOC `bl01t-ea-ioc-02`.
+This tutorial will make a very simple change to the example IOC `bl01t-ea-test-02`.
 This is a type 1 change from {any}`ioc-change-types`, types 2, 3 will be covered in the
 following 2 tutorials.
 
@@ -15,21 +15,21 @@ is working.
 
 :::{note}
 Before doing this tutorial make sure you have not left the IOC
-bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+bl01t-ea-test-02 running from a previous tutorial. Execute this command
 outside of the devcontainer to stop it:
 
 ```bash
-ec stop bl01t-ea-ioc-02
+ec stop bl01t-ea-test-02
 ```
 :::
 
 Make the following changes in your test IOC config folder
-(`bl01t/services/bl01t-ea-ioc-02/config`):
+(`bl01t/services/bl01t-ea-test-02/config`):
 
 1. Add a file called `extra.db` with the following contents.
 
    ```text
-   record(ai, "BL01T-EA-IOC-02:TEST") {
+   record(ai, "bl01t-ea-test-02:TEST") {
       field(DESC, "Test record")
       field(DTYP, "Soft Channel")
       field(SCAN, "Passive")
@@ -64,7 +64,7 @@ Test your change
 from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
 
 ```bash
-caget BL01T-EA-IOC-02:TEST
+caget bl01t-ea-test-02:TEST
 ```
 
 If you see the value 1 then your change is working.
@@ -84,7 +84,7 @@ is required for running OPI tools on the host (TODO add link to solution).
 :::
 
 Because of the symlink between `/epics/ioc/config` and
-`/workspaces/bl01t/services/bl01t-ea-ioc-02/config` the same files you are testing
+`/workspaces/bl01t/services/bl01t-ea-test-02/config` the same files you are testing
 by launching the IOC inside of the devcontainer are also ready to be
 committed and pushed to the bl01t repo. i.e.:
 
@@ -98,7 +98,7 @@ git push
 git tag 2023.11.2
 git push origin 2023.11.2
 # deploy the new version of the IOC to the local docker / podman instance
-ec deploy bl01t-ea-ioc-02 2023.11.2
+ec deploy bl01t-ea-test-02 2023.11.2
 ```
 
 The above steps were performed on a host terminal because we are using `ec`.

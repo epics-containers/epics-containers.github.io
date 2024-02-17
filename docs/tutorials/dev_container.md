@@ -137,11 +137,11 @@ steps to be rebuilt.
 
 :::{note}
 Before continuing this tutorial make sure you have not left the IOC
-bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
+bl01t-ea-test-02 running from a previous tutorial. Execute this command
 outside of the devcontainer to stop it:
 
 ```bash
-ec stop bl01t-ea-ioc-02
+ec stop bl01t-ea-test-02
 ```
 :::
 
@@ -366,14 +366,14 @@ Try the following:
 ```
 cd /epics/ioc
 rm -r config
-ln -s /workspaces/bl01t/services/bl01t-ea-ioc-02/config .
+ln -s /workspaces/bl01t/services/bl01t-ea-test-02/config .
 # check the ln worked
 ls -l config
 ./start.sh
 ```
 
 This removed the boilerplate config and replaced it with the config from
-the IOC instance bl01t-ea-ioc-02. Note that we used a soft link, this
+the IOC instance bl01t-ea-test-02. Note that we used a soft link, this
 means we can edit the config, restart the IOC to test it and the changes
 will already be in place in the beamline repo. You can even open a shell
 onto the beamline repo and commit and push the changes.
@@ -383,7 +383,7 @@ The manual steps above were shown to demonstrate the process. In practice
 you can use this command to do the same thing:
 
 ```bash
-ibek dev instance /workspaces/bl01t/services/bl01t-ea-ioc-02
+ibek dev instance /workspaces/bl01t/services/bl01t-ea-test-02
 ```
 :::
 
