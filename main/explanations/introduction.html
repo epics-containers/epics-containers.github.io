@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Essential Concepts &#8212; epic-containers.github.io  documentation</title>
+    <title>Essential Concepts &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/introduction';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -500,21 +500,18 @@ document.write(`
 delivery to the management of EPICS IOCs.</p>
 <p>There are 5 themes to this strategy:</p>
 <dl class="field-list simple">
-<dt class="field-odd">Containers<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Package IOC software and execute it in a lightweight virtual environment.</p>
+<dt class="field-odd">Kubernetes<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Centrally orchestrates all IOCs at a facility.</p>
 </dd>
-<dt class="field-even">Kubernetes<span class="colon">:</span></dt>
-<dd class="field-even"><p>Centrally orchestrates all IOCs at a facility.</p>
+<dt class="field-even">Helm Charts<span class="colon">:</span></dt>
+<dd class="field-even"><p>Deploy IOCs into Kubernetes with version management.</p>
 </dd>
-<dt class="field-odd">Helm Charts<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Deploy IOCs into Kubernetes with version management.</p>
-</dd>
-<dt class="field-even">Repositories<span class="colon">:</span></dt>
-<dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
+<dt class="field-odd">Repositories<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Source, container and helm repositories manage all of the above assets.
 No shared file systems required.</p>
 </dd>
-<dt class="field-odd">Continuous Integration / Delivery<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Source repositories automatically build containers and helm charts
+<dt class="field-even">Continuous Integration / Delivery<span class="colon">:</span></dt>
+<dd class="field-even"><p>Source repositories automatically build containers and helm charts
 delivering them to OCI registries.</p>
 </dd>
 </dl>
@@ -543,18 +540,13 @@ vanilla EPICS base and support modules. We no longer require our own
 forks of these repositories.</p>
 <section id="generic-iocs-and-instances">
 <span id="generic-iocs"></span><h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Link to this heading">#</a></h4>
-<p>An important principal of the approach presented here is that an IOC container
-image represents a ‘Generic’ IOC. The Generic IOC image is used for all
-IOC instances that connect to a given class of device. For example the
-Generic IOC image here:
-<a class="reference external" href="https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime">ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2023.10.2</a>
-uses the AreaDetector driver ADAravis to connect to GigE cameras.</p>
+<p>An important principal of the approach presented here is that an IOC container image represents a ‘Generic’ IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: <a class="reference external" href="https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-linux-runtime">ghcr.io/epics-containers/ioc-adaravis-linux-runtime:2024.2.2 </a> uses the AreaDetector driver ADAravis to connect to GigE cameras.</p>
 <p>An IOC instance runs in a container runtime by loading two things:</p>
 <ul class="simple">
 <li><p>The Generic IOC image passed to the container runtime.</p></li>
 <li><p>The IOC instance configuration. This is mapped into the container at
 runtime by mounting it into the filesystem. The mount point
-for this configuration is always /epics/ioc/config.</p></li>
+for this configuration is always <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>.</p></li>
 </ul>
 <p>The configuration will bootstrap the unique properties of that instance.
 The following contents for the configuration are supported:</p>
@@ -566,8 +558,7 @@ st.cmd can refer any additional files in the configuration directory.</p></li>
 <li><p>start.sh a bash script to fully override the startup of the IOC. start.sh
 can refer to any additional files in the configuration directory.</p></li>
 </ul>
-<p>This approach reduces the number of images required and saves disk. It also
-makes for simple configuration management.</p>
+<p>This approach reduces the number of images required and saves disk and memory. It also makes for simpler configuration management.</p>
 <p>Throughout this documentation we will use the terms Generic IOC and
 IOC Instance. The word IOC without this context is ambiguous.</p>
 </section>
@@ -578,16 +569,14 @@ IOC Instance. The word IOC without this context is ambiguous.</p>
 <p>Kubernetes easily and efficiently manages containers across clusters of hosts.
 When deploying an IOC into a Kubernetes cluster, you request the resources
 required by the IOC and Kubernetes will then schedule the IOC onto a suitable host.</p>
-<p>It builds upon 15 years of experience of running production workloads at
-Google, combined with best-of-breed ideas and practices from the community,
-since it was open-sourced in 2014.</p>
+<p>It builds upon years of experience of running production workloads at Google, combined with best-of-breed ideas and practices from the community, since it was open-sourced in 2014.</p>
 <p>Today it is by far the dominant orchestration technology for containers.</p>
 <p>In this project we use Kubernetes and helm to provide a standard way of
 implementing these features:</p>
 <ul class="simple">
-<li><p>Auto start IOCs when servers come up</p></li>
+<li><p>Auto start IOCs the cluster comes up from power off</p></li>
 <li><p>Manually Start and Stop IOCs</p></li>
-<li><p>Monitor IOC status and versions</p></li>
+<li><p>Monitor IOC health and versions</p></li>
 <li><p>Deploy versioned IOCs to the beamline</p></li>
 <li><p>Rollback to a previous IOC version</p></li>
 <li><p>Allocate a server with adequate resources on which to run each IOC</p></li>
@@ -626,11 +615,11 @@ define a set of resources to apply to a Kubernetes cluster.</p>
 of the chart within the cluster.</p>
 <p>It also supports registries for storing version history of charts,
 much like docker.</p>
-<p>In this project we use Helm Charts to define and deploy IOC instances.
-Each beamline (or accelerator domain) has its own git repository that holds
-the domain Helm Chart for its IOC Instances. Each IOC instance need only
-provide a values.yaml file to override the default values in the domain
-Helm Chart and a config folder as described in <a class="reference internal" href="#generic-iocs"><span class="std std-ref">Generic IOCs and instances</span></a>.</p>
+<p>In this project we use Helm Charts to define and deploy IOC instances. Each beamline or accelerator area has its own git <a class="reference internal" href="../reference/glossary.html#ec-services-repo"><span class="std std-ref">ec-services repository</span></a> that holds the Helm Charts for its IOC Instances. Each IOC instance need only provide:</p>
+<ul class="simple">
+<li><p>a values.yaml file to override the default values in the repository’s global Helm Chart</p></li>
+<li><p>a config folder as described in <a class="reference internal" href="#generic-iocs"><span class="std std-ref">Generic IOCs and instances</span></a>.</p></li>
+</ul>
 <p><strong>epics-containers</strong> does not use helm repositories for storing IOC instances.
 Such repositories only hold a zipped version of the chart and a values.yaml file,
 and this is seen as redundant when we have a git repository holding the same
@@ -638,13 +627,9 @@ information. Instead we provide a command line tool for installing and updating
 IOCs. Which performs the following steps:</p>
 <ul class="simple">
 <li><p>Clone the beamline repository at a specific tag to a temporary folder</p></li>
-<li><p>extract the beamline chart and apply the values.yaml to it</p></li>
-<li><p>additionally generate a config map from the config folder files</p></li>
 <li><p>install the resulting chart into the cluster</p></li>
 <li><p>remove the temporary folder</p></li>
 </ul>
-<p>This means that we don’t store the chart itself but we do store all of the
-information required to re-generate it in a version tagged repository.</p>
 </section>
 <section id="repositories">
 <h3>Repositories<a class="headerlink" href="#repositories" title="Link to this heading">#</a></h3>
@@ -660,48 +645,28 @@ of credentials is required to access all the resources.</p>
 <p>There are many alternative services for storing these repositories, both
 in the cloud and on premises. Below we list the choices we have tested
 during the POC.</p>
-<p>The 2 classes of repository are as follows:</p>
+<p>The classes of repository are as follows:</p>
 <dl class="field-list">
 <dt class="field-odd">Source Repository<span class="colon">:</span></dt>
-<dd class="field-odd"><ul>
-<li><p>Holds the source code but also provides the
-Continuous Integration actions for testing, building and publishing to
-the image / helm repositories.</p>
-<p>These have been tested:</p>
+<dd class="field-odd"><p>Holds the source code but also provides the Continuous Integration actions for testing, building and publishing to the image / helm repositories. These have been tested:</p>
 <ul class="simple">
 <li><p>github</p></li>
 <li><p>gitlab (on premises)</p></li>
 </ul>
-</li>
-<li><p>epics-containers defines two classes of source repository:</p>
-<ul class="simple">
-<li><p>Generic IOC source. Defines how a Generic IOC image is built, this does
-not typically include source code, but instead is a set of instructions
-for building the Generic IOC image by compiling source from a number
-of upstream support module repositories. Boilerplate IOC source code
-is also included in the Generic IOC source repository and can be
-customized if needed.</p></li>
-<li><p>Beamline / Accelerator Domain source. Defines the IOC instances for a
-Domain. This includes the IOC boot scripts and
-any other configuration required to make the IOC instance unique.
-For <strong>ibek</strong> based IOCs, each IOC instance is defined by an <strong>ibek</strong>
-yaml file only.</p></li>
-</ul>
-</li>
-</ul>
 </dd>
-<dt class="field-even">An OCI image repository<span class="colon">:</span></dt>
-<dd class="field-even"><ul>
-<li><p>Holds the Generic IOC container images and their
-dependencies. Also used to hold the helm charts that define the shared
-elements between all domains.</p>
+<dt class="field-even">Generic IOC Source Repositories<span class="colon">:</span></dt>
+<dd class="field-even"><p>Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed.</p>
+</dd>
+<dt class="field-odd">EC Services Source Repositories<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Define the IOC instances for a beamline or accelerator area. This includes the IOC boot scripts and any other configuration required to make the IOC instance unique. For ibek based IOCs, each IOC instance is defined by an ibek yaml file only.</p>
+</dd>
+<dt class="field-even">An OCI Image Repository<span class="colon">:</span></dt>
+<dd class="field-even"><p>Holds the Generic IOC container images and their dependencies. Also used to hold he helm charts that define the shared elements between all domains.</p>
 <p>The following have been tested:</p>
 <ul class="simple">
 <li><p>Github Container Registry</p></li>
 <li><p>DockerHub</p></li>
 <li><p>Google Cloud Container Registry</p></li>
-</ul>
-</li>
 </ul>
 </dd>
 </dl>
@@ -724,7 +689,7 @@ system tests that talk to simulated hardware</p></li>
 or other OCI registry</p></li>
 </ul>
 </dd>
-<dt class="field-even">beamline definition source<span class="colon">:</span></dt>
+<dt class="field-even"><a class="reference internal" href="../reference/glossary.html#ec-services-repo"><span class="std std-ref">ec-services repository</span></a> source<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p>prepares a helm chart from each IOC instance definition</p></li>
 <li><p>tests that the helm chart is deployable (but does not deploy it)</p></li>
@@ -737,6 +702,14 @@ would require talking to real hardware instances).</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds the sphinx docs</p></li>
 <li><p>publishes it to github.io pages with version tag or branch tag.</p></li>
+</ul>
+</dd>
+<dt class="field-even">global helm chart source<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ec-helm-chars</span></code> repo only</p></li>
+<li><p>packages a helm chart from source</p></li>
+<li><p>publishes it to github packages (only if the commit is tagged)
+or other OCI registry</p></li>
 </ul>
 </dd>
 </dl>
@@ -757,18 +730,17 @@ See <a class="github reference external" href="https://github.com/epics-containe
 </section>
 <section id="additional-tools">
 <h2>Additional Tools<a class="headerlink" href="#additional-tools" title="Link to this heading">#</a></h2>
-<section id="epics-containers-cli">
-<h3>epics-containers-cli<a class="headerlink" href="#epics-containers-cli" title="Link to this heading">#</a></h3>
+<section id="edge-containers-cli">
+<h3>edge-containers-cli<a class="headerlink" href="#edge-containers-cli" title="Link to this heading">#</a></h3>
 <p>This is the developer’s ‘outside of the container’ helper tool. The command
 line entry point is <strong>ec</strong>.</p>
 <p>The project is a python package featuring simple command
-line functions for deploying, monitoring building and debugging
-Generic IOCs and IOC instances. It is a wrapper
+line functions for deploying and monitoring IOC instances. It is a wrapper
 around the standard command line tools kubectl, podman/docker, helm, and git
 but saves typing and provides help and command line completion. It also
 can teach you how to use these tools by showing you the commands it is
 running.</p>
-<p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for details.</p>
+<p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for moore details.</p>
 </section>
 <section id="ibek">
 <h3><strong>ibek</strong><a class="headerlink" href="#ibek" title="Link to this heading">#</a></h3>
@@ -777,7 +749,6 @@ helper tool. It is a python package that is installed into the Generic IOC
 container images. It is used:</p>
 <ul class="simple">
 <li><p>at container build time: to fetch and build EPICS support modules</p></li>
-<li><p>at container build time: to generate the IOC source code and compile it</p></li>
 <li><p>at container run time: to extract all useful build artifacts into a
 runtime image</p></li>
 </ul>
@@ -857,7 +828,7 @@ Process Variables allowing us to:</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-tools">Additional Tools</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#epics-containers-cli">epics-containers-cli</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-containers-cli">edge-containers-cli</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek"><strong>ibek</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pvi">PVI</a></li>
 </ul>
@@ -869,7 +840,7 @@ Process Variables allowing us to:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/explanations/introduction.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/explanations/introduction.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -884,7 +855,7 @@ Process Variables allowing us to:</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/explanations/introduction.rst.txt">
+    <a href="../_sources/explanations/introduction.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

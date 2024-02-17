@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epic-containers.github.io  documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/create_beamline';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -496,12 +496,9 @@ document.write(`
                   
   <section id="create-a-beamline-repository">
 <span id="create-beamline"></span><h1>Create a Beamline Repository<a class="headerlink" href="#create-a-beamline-repository" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will create a new beamline source repository.</p>
-<p>All IOC Instances that we deploy will be grouped into domains and each
-domain will have its own repository which defines those Instances.
-Typically each beamline would have its own domain and
-the accelerator would be split into a few functional domains.</p>
-<p>In the case of Beamlines, the domain is named after the beamline itself. At DLS
+<p>In this tutorial we will create a new <a class="reference internal" href="../reference/glossary.html#ec-services-repo"><span class="std std-ref">ec-services repository</span></a>.</p>
+<p>All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by location or technical area.</p>
+<p>In the case of Beamlines, the repo is named after the beamline itself. At DLS
 we use the naming convention <code class="docutils literal notranslate"><span class="pre">blxxc</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
 and c is the class of beamline.</p>
 <div class="admonition note">
@@ -510,21 +507,16 @@ and c is the class of beamline.</p>
 numbers and hyphens only are recommended for both domain names and
 IOC names. This is a restriction that helm introduces for package names.</p>
 </div>
-<p>We are going to create the test beamline repository <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>.
-When the project <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is pushed to GitHub, continuous integration will
-verify that each of the IOCs in the beamline are valid by launching them
-with basic configuration.</p>
-<p>The tests on beamline repositories are basic at present. However the intention
-is that eventually each device on a beamline will be simulated using
-<a class="reference external" href="https://github.com/dls-controls/tickit">Tickit</a> . Then Continuous
-Integration will perform system tests for each IOC against simulated hardware.</p>
-<p>Also note that each of these IOC instances will be launched using a
-Generic IOC image. Ideally the CI for each Generic IOC should have already run
-system tests against simulated (but not beamline specific) hardware.</p>
-<p>This beamline repo will be taken from a template that comes with a single example
-IOC and further steps in the following tutorials will teach you how to add your own.</p>
-<p>For accelerator domains the approach described here will be identical. The
-only difference is that IOC repos are split by domain rather than by beamline.</p>
+<p>Here we are going to create the test beamline repository <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>. When the project <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is pushed to GitHub, continuous integration (CI) will verify each of the IOC instances.</p>
+<p>This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are going to work in a shared environment then it is worth choosing
+a different name for your test beamline and its associated PV prefixes. PVs
+will be published on the local subnet by default so two people working on the
+tutorials without doing this will clash. If you do this just remember to
+substitute your beamline name for <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> in the following instructions.</p>
+</div>
 <section id="to-start">
 <h2>To Start<a class="headerlink" href="#to-start" title="Link to this heading">#</a></h2>
 <p>For this exercise you will require a github user account or organization in
@@ -536,131 +528,66 @@ which to place the new repo. If you do not have one then follow GitHub’s
 </section>
 <section id="create-a-new-repository">
 <h2>Create a New Repository<a class="headerlink" href="#create-a-new-repository" title="Link to this heading">#</a></h2>
-<p>Here we will copy the beamline template repository and change its name to bl01t.
-We will then step through the changes that are required to make it your own.</p>
+<p>Here we will use the copy the ec services template repository to make a new beamline.</p>
 <p>NOTE: for these tutorials we will use your personal GitHub Account to
 store everything we do, all source repositories and container images. For
 production, each facility will need its own policy for where to store these
-assets. See <code class="docutils literal notranslate"><span class="pre">../explanations/workspacesitories</span></code>.</p>
+assets. See <code class="docutils literal notranslate"><span class="pre">../explanations/repositories</span></code>.</p>
 </section>
 <section id="steps">
 <h2>Steps<a class="headerlink" href="#steps" title="Link to this heading">#</a></h2>
 <ol class="arabic">
-<li><p>Go to the template repository here:
-<a class="github reference external" href="https://github.com/epics-containers/blxxi-template">epics-containers/blxxi-template</a>. Click on the green
-button <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">this</span> <span class="pre">template</span></code> and follow the instructions to create a new
-repository in your own account and give it the name bl01t.</p>
+<li><p>Go to your GitHub account home page. Click on ‘Repositories’ and then ‘New’, give your new repository the name <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> plus a description, then click ‘Create repository’.</p>
 <p>If you are using an alternative to GitHub for your repositories then
 see <a class="reference external" href="https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project">these instructions</a> for an alternative approach.</p>
 </li>
-<li><p>Clone the template repo locally (substituting in your own GitHub Account).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:**YOUR<span class="w"> </span>GITHUB<span class="w"> </span>ACCOUNT**/bl01t.git
+<li><p>From a command line with your virtual environment activated. Use copier to start to make a new repository like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
+<span class="c1"># this will create the folder bl01t in the current directory</span>
+copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/ec-services-template<span class="w"> </span>--trust<span class="w"> </span>bl01t
+</pre></div>
+</div>
+</li>
+<li><p>Answer the copier template questions as follows:</p>
+<pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
+<b>   </b><font color="#FFAF00"><b>beamline</b></font>
+<font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
+<b>   </b><font color="#FFAF00"><b>bl01t</b></font>
+<font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+<b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
+<font color="#5F87AF">🎤</font><b> Cluster namespace for these IOCs and services.</b>
+<b>   </b><font color="#FFAF00"><b>local</b></font>
+<font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+<b>   </b><font color="#FFAF00"><b>github.com</b></font>
+<font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+<b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_NAME_GOES_HERE</b></font>
+<font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+<b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_NAME/bl01t.git</b></font>
+</pre>
+</li>
+<li><p>Make the first commit and push the repository to GitHub.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial commit&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
 </li>
 <li><p>Open the project in vscode.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
-<span class="c1"># DLS users make sure you have done: module load vscode</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># DLS users make sure you have done: module load vscode</span>
 code<span class="w"> </span>.
 </pre></div>
 </div>
 </li>
-<li><p>Now make the necessary changes to the template to make the project your
-own. These changes will be covered in more detail in the remaining
-sections of this page.</p>
-<ol class="arabic simple">
-<li><p>Replace README.md with your own README.md as you see fit.</p></li>
-<li><p>edit <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code></p></li>
-<li><p>change the name of the example IOC from <code class="docutils literal notranslate"><span class="pre">iocs/blxxi-ea-ioc-01</span></code> to
-<code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01</span></code></p></li>
-<li><p>change the beamline name in the two bash scripts in the <code class="docutils literal notranslate"><span class="pre">services</span></code>
-directory.</p></li>
-<li><p>change the beamline name in <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code></p></li>
-<li><p>add some meaningful configuration to the example IOCs config folder
-<code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01/config/ioc.yaml</span></code>. We will do this in the
-next tutorial.</p></li>
 </ol>
-</li>
-</ol>
-<p>Much of the above can be achieved with a global find and replace of ‘xxi’ with
-‘01t’.</p>
-<section id="environment-sh">
-<h3>Environment.sh<a class="headerlink" href="#environment-sh" title="Link to this heading">#</a></h3>
-<p>Environment.sh is a bash script that is sourced by a beamline user or developer
-in order to set up their environment to work with the beamline.</p>
-<p>The command line tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> uses the environment configured by this script
-to determine where to deploy IOCS and where to find container images etc.</p>
-<p>For details of what goes in this file see <a class="reference internal" href="../reference/environment.html"><span class="doc">The Environment Configuration File</span></a>.
-For the purpose of this tutorial for <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> you should have the following
-in your environment.sh (make sure you insert your GitHub account name
-where indicated):</p>
-<ul class="simple">
-<li><p>SECTION 1:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REGISTRY_MAPPING='github.com=ghcr.io'</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_K8S_NAMESPACE=local</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_SERVICES_REPO=git&#64;github.com:**YOUR</span> <span class="pre">GITHUB</span> <span class="pre">ACCOUNT**/bl01t</span></code></p></li>
-</ul>
-</li>
-<li><p>SECTION 2:</p>
-<ul>
-<li><p>The existing script code in blxxi-template is fine for this tutorial.
-It checks to see if <code class="docutils literal notranslate"><span class="pre">ec</span></code> is available and installs it into a
-virtual environment if not. It requires that you already have a
-virtual environment set up. See <a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> for details.</p></li>
-</ul>
-</li>
-<li><p>SECTION 3:</p>
-<ul>
-<li><p>We are not using Kubernetes for the first few tutorials so you can
-leave this section blank for now.</p></li>
-</ul>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>DLS Users: <code class="docutils literal notranslate"><span class="pre">ec</span></code> is already installed for you. So leave SECTION 2
-blank. See <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">epics-containers-cli</span></a> for details.</p>
-</div>
-</section>
-<section id="change-the-ioc-name">
-<h3>Change the IOC Name<a class="headerlink" href="#change-the-ioc-name" title="Link to this heading">#</a></h3>
-<p>The IOC name is
-taken from the folder name under <code class="docutils literal notranslate"><span class="pre">iocs</span></code>. In this case we want to change
-<code class="docutils literal notranslate"><span class="pre">blxxi-ea-ioc-01</span></code> to <code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-01</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>iocs
-mv<span class="w"> </span>blxxi-ea-ioc-01<span class="w"> </span>bl01t-ea-ioc-01
-</pre></div>
-</div>
-</section>
-<section id="change-the-beamline-name-in-services">
-<h3>Change the Beamline Name in Services<a class="headerlink" href="#change-the-beamline-name-in-services" title="Link to this heading">#</a></h3>
-<p>There are two files in the <code class="docutils literal notranslate"><span class="pre">services/</span></code> directory that need to be changed. These
-files are used to set up some beamline wide resources on each beamline domain.
-At present they are only relevant to Kubernetes installations but we will change
-then now so that bl01t is ready for Kubernetes when we get to that tutorial.</p>
-<p>Open both files in <code class="docutils literal notranslate"><span class="pre">services/</span></code> and replace blxxi with bl01t.</p>
-<p>TODO: add support for local docker installations of these services.</p>
-</section>
-<section id="change-the-beamline-name-in-the-helm-chart">
-<h3>Change the Beamline Name in the Helm Chart<a class="headerlink" href="#change-the-beamline-name-in-the-helm-chart" title="Link to this heading">#</a></h3>
-<p>The file <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> contains the configuration values
-for the helm chart that is used to deploy the beamline. You can change
-the values <code class="docutils literal notranslate"><span class="pre">blxxi</span></code> to <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> in here. But this will not be relevant until
-we get to the Kubernetes tutorial when the deployment is done using helm.</p>
-</section>
 </section>
 <section id="wrapping-up">
 <h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
-<p>You should now have a working beamline repository. It contains a single
-IOC Instance which is a non-functional example. In the following two
-tutorials we will investigate the example and then create a real IOC Instance.</p>
-<p>You can now push the repository up to GitHub and give it a version tag like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;changed blxxi to bl01t&quot;</span>
-git<span class="w"> </span>push
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.1.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.1.1
+<p>You should now have a working beamline repository. It contains a single IOC Instance which is a very basic example. In the following two tutorials we will investigate the example and then create a real IOC Instance.</p>
+<p>You can now give your repository a version tag like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a terminal in vscode: Menu -&gt; Terminal -&gt; New Terminal</span>
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.2.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.2.1
 </pre></div>
 </div>
 <p>We use <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version numbers for beamline repositories and Generic IOCs.
@@ -669,7 +596,7 @@ The last digit is the number of the release in that month.</p>
 <p>CalVer is described here: <a class="reference external" href="https://calver.org/">https://calver.org/</a> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.</p>
-<p>Note that 2024.1.1 represents the time that this tutorial was last updated.
+<p>Note that 2024.2.1 represents the time that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.</p>
@@ -724,13 +651,7 @@ any of the epics-containers tools.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-start">To Start</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-repository">Create a New Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-sh">Environment.sh</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-ioc-name">Change the IOC Name</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-beamline-name-in-services">Change the Beamline Name in Services</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-beamline-name-in-the-helm-chart">Change the Beamline Name in the Helm Chart</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
 </ul>
   </nav></div>
@@ -739,7 +660,7 @@ any of the epics-containers tools.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/create_beamline.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/create_beamline.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -754,7 +675,7 @@ any of the epics-containers tools.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/create_beamline.rst.txt">
+    <a href="../_sources/tutorials/create_beamline.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

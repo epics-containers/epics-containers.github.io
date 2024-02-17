@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epic-containers.github.io  documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/setup_workstation';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -600,11 +600,11 @@ python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </sp
 <p>Note that each time you open a new shell you will need to activate the virtual
 environment again. (Or place its bin folder in your path permanently).</p>
 </section>
-<section id="epics-containers-cli">
-<span id="ec"></span><h3>epics-containers-cli<a class="headerlink" href="#epics-containers-cli" title="Link to this heading">#</a></h3>
+<section id="edge-containers-cli">
+<span id="ec"></span><h3>edge-containers-cli<a class="headerlink" href="#edge-containers-cli" title="Link to this heading">#</a></h3>
 <p>Above we set up a python virtual environment. Now we will install
-the epics-containers-cli python tool into that environment.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>epics-containers-cli
+the <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> python tool into that environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 </pre></div>
 </div>
 <p>This is the developer’s ‘outside of the container’ helper tool. The command
@@ -628,8 +628,8 @@ ln<span class="w"> </span>-fs<span class="w"> </span>/dls_sw/work/python3/ec-ven
 <p>If you don’t already have git installed see
 <a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">https://git-scm.com/book/en/v2/Getting-Started-Installing-Git</a>. Any recent
 version of git will work.</p>
-<section id="id1">
-<h3>Kubernetes<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="kubernetes">
+<h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">#</a></h3>
 <p>You don’t need Kubernetes yet.</p>
 <p>The following tutorials will take you through creating, deploying and
 debugging IOC instances, generic IOCs and support modules.</p>
@@ -705,11 +705,11 @@ if you prefer.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-vscode">Setup VSCode</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-docker-or-podman">Setup Docker or Podman</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#epics-containers-cli">epics-containers-cli</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-containers-cli">edge-containers-cli</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Kubernetes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kubernetes">Kubernetes</a></li>
 </ul>
 </li>
 </ul>
@@ -719,7 +719,7 @@ if you prefer.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/setup_workstation.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/setup_workstation.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -734,7 +734,7 @@ if you prefer.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/setup_workstation.rst.txt">
+    <a href="../_sources/tutorials/setup_workstation.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

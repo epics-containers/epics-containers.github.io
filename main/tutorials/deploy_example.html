@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epic-containers.github.io  documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/deploy_example';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -512,7 +512,7 @@ beamline <code class="docutils literal notranslate"><span class="pre">BL01T</spa
 <p>Before we change anything, we shall make sure that the beamline repository CI
 is working as expected. To do this go to the following URL (make sure you insert
 your GitHub account name where indicated):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="o">**</span><span class="n">YOUR</span> <span class="n">GITHUB</span> <span class="n">ACCOUNT</span><span class="o">**/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">actions</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">YOUR_GITHUB_ACCOUNT</span><span class="o">/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">actions</span>
 </pre></div>
 </div>
 <p>You should see something like the following:</p>
@@ -527,17 +527,17 @@ executed (or are executing) for your beamline repository. There should be
 two jobs listed, one for when you pushed the main branch and one for when you
 tagged with the <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version number.</p>
 <p>If you click on the most recent job you can drill in and see the steps that
-were executed. The most interesting step is <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">bash</span> <span class="pre">./ci_verify.sh</span></code>. This
-is executing the script in the root of your beamline repository that verifies
-each IOC instance in the <code class="docutils literal notranslate"><span class="pre">iocs</span></code> folder. In future we can make this script
-more sophisticated when we have simulated hardware to test against.</p>
+were executed. The most interesting step is <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">IOC</span> <span class="pre">checks</span></code>. This
+is executing the script <code class="docutils literal notranslate"><span class="pre">.github/workflows/ci_verify.sh</span></code>. This goes through
+each of the IOC Instances in the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder and checks that they
+have valid configuration.</p>
 <p>For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.</p>
 </section>
 <section id="set-up-environment-for-bl01t-beamline">
 <h2>Set up Environment for BL01T Beamline<a class="headerlink" href="#set-up-environment-for-bl01t-beamline" title="Link to this heading">#</a></h2>
-<p>The standard way to set up your environment for any domain is to get
-the environment.sh script from the domain repository and source it.</p>
+<p>The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.</p>
+<p>Start this section of the tutorial inside the vscode project that you created in the previous tutorial. Make sure you have a terminal open and the current working directory is your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> project root folder.</p>
 <p>First make sure you have the local binaries folder in your path by adding
 the following to the end of you <code class="docutils literal notranslate"><span class="pre">$HOME/.bash_profile</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:~/.local/bin&quot;</span>
@@ -545,9 +545,12 @@ the following to the end of you <code class="docutils literal notranslate"><span
 </div>
 <p>Then follow these steps (make sure you insert your GitHub account name
 where indicated):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/bin
-curl<span class="w"> </span>-o<span class="w"> </span>~/.local/bin/bl01t<span class="w"> </span>https://raw.githubusercontent.com/**YOUR<span class="w"> </span>GITHUB<span class="w"> </span>ACCOUNT**/bl01t/main/environment.sh?token<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure we have the path setup from the bash_profile</span>
 <span class="nb">source</span><span class="w"> </span>~/.bash_profile
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/bin
+<span class="c1"># make a copy of the environment.sh script named after the beamline</span>
+cp<span class="w"> </span>environment.sh<span class="w"> </span>~/.local/bin/bl01t
 <span class="nb">source</span><span class="w"> </span>bl01t
 </pre></div>
 </div>
@@ -569,13 +572,12 @@ the IOC Instances that are currently running:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
 </pre></div>
 </div>
-<p>You should see some headings and an empty list as you have not yet started an
-IOC Instance.</p>
+<p>You should see no IOCs listed as you have not yet started an IOC Instance.</p>
 <p>The following command will deploy the example IOC instance to your local
 machine (unless you have skipped ahead and set up your Kubernetes config
 in which case the same command will deploy to your Kubernetes cluster).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># (if you are not already in your beamline repo)</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-01
+ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-01
 </pre></div>
 </div>
 <p>You will be prompted to say that this is a <em>TEMPORARY</em> deployment. This is
@@ -585,22 +587,19 @@ ever roll back to this version of the IOC (as it is lost as soon as filesystem
 changes are made). Local filesystem deployments are given a beta version
 number to indicate that they are not permanent.</p>
 <p>You can now see the beta IOC instance running with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ps
-IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
-bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.19-b11.53<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>minutes<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
-</pre></div>
-</div>
+<pre>$ ec ps
+            name          version   state                                                             image
+bl01t-ea-test-01 2024.2.16-b15.11 running ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</pre>
 <p>At the end of the last tutorial we tagged the beamline repository with a
 <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version number and pushed it up to GitHub. This means that we
 can now use that tagged release of the IOC instance. First let’s
 check that the IOC instance version is available as expected. The following
 command lists all of the tagged versions of the IOC instance that are
 available in the GitHub repository.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
-Available<span class="w"> </span>instance<span class="w"> </span>versions<span class="w"> </span><span class="k">for</span><span class="w"> </span>bl01t-ea-ioc-01:
-<span class="w">    </span><span class="m">2024</span>.1.1
-</pre></div>
-</div>
+<pre>$ ec instances bl01t-ea-test-01
+Available instances for bl01t-ea-test-01:
+2024.2.1
+</pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The above command is the first one to look at your github repository.
@@ -612,12 +611,12 @@ and source it again to pick up any changes.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
 <p>ec supports command line completion, which means that entering <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span> <span class="pre">&lt;tab&gt;</span></code> will give hints on the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
 attach<span class="w">        </span>deploy<span class="w">        </span><span class="nb">exec</span><span class="w">          </span>list<span class="w">          </span>logs<span class="w">          </span>start<span class="w">         </span>template
 delete<span class="w">        </span>deploy-local<span class="w">  </span>instances<span class="w">     </span>log-history<span class="w">   </span>restart<span class="w">       </span>stop<span class="w">          </span>validate
-$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>instances<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-0<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-bl01t-ea-ioc-01<span class="w">  </span>bl01t-ea-ioc-02
+$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
+$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-0<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
+bl01t-ea-test-01<span class="w">  </span>bl01t-ea-test-02
 </pre></div>
 </div>
 <p>To enable this behavior in your shell run the command <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--install-completion</span></code></p>
@@ -625,24 +624,17 @@ bl01t-ea-ioc-01<span class="w">  </span>bl01t-ea-ioc-02
 <p>Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span><span class="m">2024</span>.1.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="m">2024</span>.2.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
 $<span class="w"> </span>ec<span class="w"> </span>ps
 IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
-bl01t-ea-ioc-01<span class="w">     </span><span class="m">2024</span>.1.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+bl01t-ea-test-01<span class="w">     </span><span class="m">2024</span>.2.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
 </pre></div>
 </div>
 <section id="important-deploy-local-vs-deploy">
 <h3>IMPORTANT: deploy-local vs deploy<a class="headerlink" href="#important-deploy-local-vs-deploy" title="Link to this heading">#</a></h3>
-<p>Be aware of the distinction of <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> vs <code class="docutils literal notranslate"><span class="pre">deploy</span></code>. Both of these
-commands create a running instance of the IOC in the target environment (currently
-your local machine - later on a Kubernetes Cluster). However, <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code>
-gets the IOC instance description YAML direct from your local filesystem. This
-means it is not likely to be available for re-deployment later on. <code class="docutils literal notranslate"><span class="pre">deploy</span></code>
-gets the IOC instance description YAML from the GitHub repository with able
-specific tag and therefore is a known state that can be recovered at a later
-date.</p>
+<p>Be aware of the distinction of <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> vs <code class="docutils literal notranslate"><span class="pre">deploy</span></code>. Both of these commands create a running instance of the IOC in the target environment (currently your local machine - later on a Kubernetes Cluster). However, <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> gets the IOC instance description YAML direct from your local filesystem. This means it is not likely to be available for re-deployment later on. <code class="docutils literal notranslate"><span class="pre">deploy</span></code> gets the IOC instance description YAML from the GitHub repository with a specific tag and therefore is a known state that can be recovered at a later date.</p>
 <p>Always strive to have released versions of IOC instances deployed in your
 environments. <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> is only for temporary testing purposes.</p>
 </section>
@@ -654,9 +646,9 @@ environments. <code class="docutils literal notranslate"><span class="pre">deplo
 <p>To stop / start the example IOC try the following commands. Note that
 <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>ioc<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-01
+ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-01
 ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>ioc<span class="w"> </span>start<span class="w"> </span>bl01t-ea-ioc-01
+ec<span class="w"> </span>start<span class="w"> </span>bl01t-ea-test-01
 ec<span class="w"> </span>ps
 </pre></div>
 </div>
@@ -664,7 +656,7 @@ ec<span class="w"> </span>ps
 <p class="admonition-title">Note</p>
 <p>Generic IOCs.</p>
 <p>You may have noticed that the IOC instance has is showing that it has
-an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1</span></code>.</p>
+an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</span></code>.</p>
 <p>This is a Generic IOC image and all IOC Instances must be based upon one
 of these images. This IOC instance has no startup script and is therefore
 not functional, it could have been based on any Generic IOC.</p>
@@ -676,7 +668,7 @@ not functional, it could have been based on any Generic IOC.</p>
 will attach you to nothing in the case of this example IOC as it has no
 shell. In the next tutorial we will use this command to interact with
 iocShell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-test-01
 </pre></div>
 </div>
 <p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However,
@@ -685,7 +677,7 @@ this is resolved it may be necessary to close the terminal window to detach.</st
 You can also restart and detach from the IOC using ctrl-D or ctrl-C, or
 by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
 <p>To run a bash shell inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01
 </pre></div>
 </div>
 <p>Once you have a shell inside the container you could inspect the following
@@ -716,16 +708,20 @@ and you can can inspect files such as the IOC startup script.</p>
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
 <p>To get the current logs for the example IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-01
 </pre></div>
 </div>
 <p>Or follow the IOC log until you hit ctrl-C:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-01<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>-f
 </pre></div>
 </div>
-<p>You will notice that this IOC simply prints out a message regarding what
-you can place in the /epics/ioc/config folder. In the next tutorial
-we will look at how to configure a real EPICS IOC.</p>
+<p>You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log.</p>
+<p>You can also attach to the IOC and check that it has started correctly by using the ‘dbl’ command to list all the records in it’s IOC database.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-test-01
+dbl
+<span class="c1"># ctrl-p ctrl-q to detach</span>
+</pre></div>
+</div>
 </section>
 </section>
 </section>
@@ -796,7 +792,7 @@ we will look at how to configure a real EPICS IOC.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/deploy_example.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/deploy_example.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -811,7 +807,7 @@ we will look at how to configure a real EPICS IOC.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/deploy_example.rst.txt">
+    <a href="../_sources/tutorials/deploy_example.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epic-containers.github.io  documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/create_ioc';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -507,90 +507,89 @@ across AreaDetector: <a class="reference external" href="https://areadetector.gi
 </section>
 <section id="create-a-new-ioc-instance">
 <h2>Create a New IOC Instance<a class="headerlink" href="#create-a-new-ioc-instance" title="Link to this heading">#</a></h2>
-<p>To create a new IOC Instance simply add a new folder to the <code class="docutils literal notranslate"><span class="pre">iocs</span></code> folder
-in your beamline repo. The name of the folder will be the name of the IOC.
-This folder needs to contain these two items:</p>
-<dl class="field-list simple">
-<dt class="field-odd">values.yaml<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a file that specifies which Generic IOC Image your IOC Instance
-will run inside of.</p>
-</dd>
-<dt class="field-even">config<span class="colon">:</span></dt>
-<dd class="field-even"><p>a folder that contains the IOC configuration files. The configuration
-can take a number of forms
-<a class="reference external" href="https://github.com/epics-containers/ibek/blob/ea9da7e1cfe88f2a300ad236f820221837dd9dcf/src/ibek/templates/ioc/config/start.sh">listed here</a>.</p>
-</dd>
-</dl>
-<section id="values-yaml">
-<h3>values.yaml<a class="headerlink" href="#values-yaml" title="Link to this heading">#</a></h3>
-<p>We will start by creating the values.yaml file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
-mkdir<span class="w"> </span>iocs/bl01t-ea-ioc-02
-code<span class="w"> </span>iocs/bl01t-ea-ioc-02/values.yaml
+<p>To create a new IOC Instance simply add a new folder to the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder in your beamline repo. The name of the folder will be the name of the IOC. This folder needs to contain these items:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Chart.yaml</strong></p></td>
+<td><p>A helm chart description file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>values.yaml</strong></p></td>
+<td><p>A helm chart values override file. The only required field is <code class="docutils literal notranslate"><span class="pre">image</span></code> which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>config</strong></p></td>
+<td><p>A folder that contains the IOC configuration files. The configuration can take a number of forms <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh">listed here</a>.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="chart-yaml">
+<h3>Chart.yaml<a class="headerlink" href="#chart-yaml" title="Link to this heading">#</a></h3>
+<p>The Chart.yaml is a helm chart description file. We will use the same Chart.yaml file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for two dependencies in the form of sub-charts. The sub-charts are defined within the same repository as follows:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>helm/shared</strong></p></td>
+<td><p>A sub-chart that contains the default values.yaml file for all IOC instances in the beamline repository. It in turn references a further sub-chart that consumes these values: the <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart that crafts up the Kubernetes manifest for deploying IOC instances</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>helm/configmap</strong></p></td>
+<td><p>A sub-chart that transforms the IOC Instance’s config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Because all IOC Instances in the beamline repository share the same Chart.yaml file, we will create a soft-link to it in the IOC Instance folder. This is so that updates to the Chart.yaml file will propagate to all IOC Instances in the beamline. To do this run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># if not already there</span>
+<span class="c1"># create the new IOC Instance folder</span>
+mkdir<span class="w"> </span>services/bl01t-ea-test-02
+<span class="c1"># link in the shared Chart.yaml file</span>
+ln<span class="w"> </span>-s<span class="w"> </span>include/iocs/Chart.yaml<span class="w"> </span>services/bl01t-ea-test-02/Chart.yaml
 </pre></div>
 </div>
-<p>This should launch vscode and open the values.yaml file. Add the following:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1</span>
+</section>
+<section id="values-yaml">
+<h3>values.yaml<a class="headerlink" href="#values-yaml" title="Link to this heading">#</a></h3>
+<p>The values.yaml file is where we will override the default values for the helm chart. The only required field is <code class="docutils literal notranslate"><span class="pre">image</span></code> which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the <code class="docutils literal notranslate"><span class="pre">helm/shared</span></code> folder for a complete list of fields that can be overridden.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># if not already there</span>
+code<span class="w"> </span>services/bl01t-ea-test-02/values.yaml
+</pre></div>
+</div>
+<p>You will now have vscode and open and editing the values.yaml file. Add the following:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2</span>
 </pre></div>
 </div>
 <p>This tells the IOC Instance to run in the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector-linux-runtime</span></code>
 container. This container was built by the Generic IOC source repo here
 <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. The container has
 support for AreaDetector and ADSimDetector compiled into its IOC binary.</p>
-<p>Generic IOCs have compiled IOC binaries and <code class="docutils literal notranslate"><span class="pre">dbd</span></code> files but no startup script or
-EPICS database. The compiled IOC binary, <code class="docutils literal notranslate"><span class="pre">dbds</span></code> and support <code class="docutils literal notranslate"><span class="pre">lib</span></code> files
-are baked into the container at container build time. This means that the
-code for making IOCs for a given class of device need only be compiled once
-and can be reused for many IOC Instances.</p>
-<p>A startup script and EPICS Database are provided by the IOC Instance at
-container run time.
-This is what makes a unique IOC Instance from a Generic IOC container.</p>
-<p>Therefore we need to create an EPICS startup script and EPICS Database to make
-this into a functional IOC Instance. To do that we will use <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.
-To recap, we have two python CLI tools for supporting <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code>:</p>
-<dl class="field-list simple">
-<dt class="field-odd">ibek<span class="colon">:</span></dt>
-<dd class="field-odd"><p>runs <em>inside</em> Generic IOC containers and provides commands for:</p>
+<p>Generic IOCs have compiled IOC binaries and <code class="docutils literal notranslate"><span class="pre">dbd</span></code> files but no startup script or EPICS database. The compiled IOC binary, <code class="docutils literal notranslate"><span class="pre">dbds</span></code> and support <code class="docutils literal notranslate"><span class="pre">lib</span></code> files are baked into the container at container build time. This means that the code for making IOC instances for a given class of device need only be compiled once and can be reused by many IOC Instances.</p>
+<p>A startup script and EPICS Database must be provided by the IOC Instance at container run time. This is what makes a unique IOC Instance from a Generic IOC container.</p>
+<p>Therefore, we need to create an EPICS startup script and EPICS Database to make this into a functional IOC Instance. To do that we will use <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. To recap, we have two python CLI tools for supporting <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code>:</p>
 <ul class="simple">
-<li><p>Generating startup scripts and EPICS databases at container runtime
-from <em>IOC yaml</em> files.</p></li>
-<li><p>Fetching and compiling support modules at build time.</p></li>
-<li><p>Other build time utilities such as
-extracting runtime assets for the runtime container target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> A CLI for outside of the container see <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ibek</span></code> A CLI for inside of the container see <a class="reference internal" href="../reference/glossary.html#ibek"><span class="std std-ref">ibek</span></a></p></li>
 </ul>
-</dd>
-<dt class="field-even">ec<span class="colon">:</span></dt>
-<dd class="field-even"><p>provides developer support <em>outside</em> of the container such as:</p>
-<ul class="simple">
-<li><p>Deploying, managing and debugging IOC Instances.</p></li>
-<li><p>Building and debugging Generic IOC containers.</p></li>
-</ul>
-</dd>
-</dl>
-<p><code class="docutils literal notranslate"><span class="pre">ibek</span></code> is already installed inside of the Generic IOC container we selected
-above. So now we will provide some <em>IOC yaml</em> files to <code class="docutils literal notranslate"><span class="pre">ibek</span></code> so that it
-will generate startup assets for our IOC Instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span></code> is already installed inside of the Generic IOC container we selected above. So now we will provide an IOC yaml file to <code class="docutils literal notranslate"><span class="pre">ibek</span></code> so that it will generate startup assets for our IOC Instance.</p>
 </section>
 <section id="config">
 <h3>config<a class="headerlink" href="#config" title="Link to this heading">#</a></h3>
+<p>The config folder can contain a variety of different files <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh">as listed here</a>. In this case we are going to define the Instance using an <code class="docutils literal notranslate"><span class="pre">ibek</span></code> IOC instance yaml file.</p>
 <p><em>IOC yaml</em> files are a sequence of <code class="docutils literal notranslate"><span class="pre">entities</span></code>. Each entity is an instance of
 a <code class="docutils literal notranslate"><span class="pre">definition</span></code> declared in the <em>Support yaml</em> that one of the support
 modules provides. <code class="docutils literal notranslate"><span class="pre">definitions</span></code> can:</p>
 <ul class="simple">
 <li><p>add lines of code to the startup script</p></li>
-<li><p>add entries to the EPICS Database</p></li>
+<li><p>instantiate EPICS Database templates with a set of macro substitutions</p></li>
 </ul>
-<p>Each <code class="docutils literal notranslate"><span class="pre">entity</span></code> listed in the <em>IOC yaml</em> file will instantiate an instance of
-the support module <code class="docutils literal notranslate"><span class="pre">definition</span></code> that it refers to. It will pass a number
-of parameters to the <code class="docutils literal notranslate"><span class="pre">definition</span></code> that will be used to generate the
-startup script entries and EPICS Database entries for that entity. The
-<code class="docutils literal notranslate"><span class="pre">definition</span></code> is responsible for declaring the arguments it expects and
-how they are used in the script and DB entries it generates. It supplies
-types and descriptions for each of these arguments, plus may supply default
+<p>Each <code class="docutils literal notranslate"><span class="pre">entity</span></code> listed in the <em>IOC yaml</em> file will instantiate an instance of the support module <code class="docutils literal notranslate"><span class="pre">definition</span></code> that it refers to. It will pass a number of arguments to the <code class="docutils literal notranslate"><span class="pre">definition</span></code> that will be used to generate the startup script entries and EPICS Database entries for that entity. The <code class="docutils literal notranslate"><span class="pre">definition</span></code> is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default
 values.</p>
-<p>We will be instantiating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>
-Generic IOC. The following <em>Support yaml</em> for the simulation detector is
-baked into the container:</p>
+<p>We will be instantiating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. The following <em>Support yaml</em> for the simulation detector is baked into the container:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/1.1.0/ibek.support.schema.json</span>
 
 <span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector</span>
@@ -661,24 +660,24 @@ baked into the container:</p>
 declares how these will be used to substitute values into the simDetector
 database template. Finally it declares some lines to go into the startup script
 (before iocInit).</p>
+<p>Note that the process for turning this <em>Support yaml</em> with values from <em>IOC yaml</em> into a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> to substitute values from the <em>IOC yaml</em> arguments into the <em>Support yaml</em> <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> and <code class="docutils literal notranslate"><span class="pre">databases</span></code> sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. <code class="docutils literal notranslate"><span class="pre">$(ADSIMDETECTOR)/db/simDetector.template</span></code> is instantiated with <code class="docutils literal notranslate"><span class="pre">PORT=$(PORT)</span></code>, <code class="docutils literal notranslate"><span class="pre">P=$(P)</span></code> etc.</p>
 <p>Therefore, we can create an <em>IOC yaml</em> file that instantiates a simulation
 detector as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>iocs/bl01t-ea-ioc-02/config
-code<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.yaml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>services/bl01t-ea-test-02/config
+code<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 </pre></div>
 </div>
 <p>This should launch vscode and open the ioc.yaml file. Add the following:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json</span>
 
-<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-ioc-02</span>
+<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">__utils__.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Example simulated camera for BL01T</span>
 
 <span class="nt">entities</span><span class="p">:</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector.simDetector</span>
-<span class="w">  </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
-<span class="w">  </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02</span>
-<span class="w">  </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:DET:&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector.simDetector</span>
+<span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02</span>
+<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:DET:&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -710,7 +709,7 @@ detector over a PVAccess channel called <code class="docutils literal notranslat
 <em>Support yaml</em> that declared that plugin came from the ADCore module. This is
 a dependency of ADSimDetector and so is included in the Generic IOC container.</p>
 <p>Try putting the two snippets of <em>IOC yaml</em> together and saving it as
-<code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-02/config</span></code> folder.</p>
+<code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-test-02/config</span></code> folder.</p>
 <p>You have now defined your first IOC instance.</p>
 </section>
 </section>
@@ -726,20 +725,16 @@ reminder of how to set up your shell - from now on this will be assumed):</p>
 <span class="nb">source</span><span class="w"> </span>bl01t
 
 <span class="c1"># deploy the new IOC from local filesystem</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-02
 
 <span class="c1"># verify that your IOC worked by looking at the logs</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02
+ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 </pre></div>
 </div>
 </section>
 <section id="operator-interface">
 <h3>Operator Interface<a class="headerlink" href="#operator-interface" title="Link to this heading">#</a></h3>
-<p>At the time of writing, the generation of operator interfaces is nearly complete
-but not yet ready for release. For this tutorial we will interact with the IOC
-using <code class="docutils literal notranslate"><span class="pre">caput</span></code> / <code class="docutils literal notranslate"><span class="pre">caget</span></code>.</p>
-<p>Once operator interfaces are available the documentation on this topic
-will be here <a class="reference internal" href="../how-to/phoebus.html"><span class="doc">Viewing Operator Interfaces with Phoebus</span></a></p>
+<p>In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable we will interact with the IOC using <code class="docutils literal notranslate"><span class="pre">caput</span></code> / <code class="docutils literal notranslate"><span class="pre">caget</span></code>.</p>
 </section>
 <section id="viewing-ioc-output">
 <h3>Viewing IOC output<a class="headerlink" href="#viewing-ioc-output" title="Link to this heading">#</a></h3>
@@ -751,7 +746,7 @@ c2dv<span class="w"> </span>--pv<span class="w"> </span>BL01T-EA-TST-02:PVA:OUTP
 </pre></div>
 </div>
 <p>Now we can start our simulation detector like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-02
 <span class="c1"># enable the PVA plugin that publishes the output</span>
 caput<span class="w"> </span>BL01T-EA-TST-02:PVA:EnableCallbacks<span class="w"> </span><span class="m">1</span>
 <span class="c1"># start the simulation detector</span>
@@ -776,13 +771,13 @@ installed on your host machine you could omit entering the container.</p>
 <h2>ibek Explanation<a class="headerlink" href="#ibek-explanation" title="Link to this heading">#</a></h2>
 <p>Above we looked at some ibek <em>Support yaml</em> and created an <em>IOC yaml</em> file.
 The details of where <em>Support yaml</em> files come from and how to create your
-own are covered in later tutorials on creating Generic IOCs.</p>
+own are covered a later tutorial <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
 <p>However, without looking into the set of <em>Support yaml</em> files that are
 inside a given Generic IOC we can still make a meaningful <em>IOC yaml</em> file.
 That is because every Generic IOC publishes an <em>IOC schema</em> that describes
 the set of entities that an instance of that IOC may instantiate.</p>
 <p>The Generic IOC we used was released at this location:
-<a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.1.1">epics-containers/ioc-adsimdetector</a>.
+<a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.2.2">epics-containers/ioc-adsimdetector</a>.
 This page includes the assets that are published as part of the release and
 one of those is <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code>. This is the <em>IOC schema</em> for the
 <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. This is what we referred to at the top of
@@ -815,7 +810,7 @@ placing your own <code class="docutils literal notranslate"><span class="pre">st
 folder. Or alternatively you could override behaviour completely by placing
 <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> folder, this can contain any script you like.</p>
 <p>To see what ibek generated you can go and look inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-02
 <span class="nb">cd</span><span class="w"> </span>/epics/runtime/
 cat<span class="w"> </span>ioc.subst
 cat<span class="w"> </span>st.cmd
@@ -833,17 +828,21 @@ shared for easy debugging of IOC Instances.</p>
 database then you can copy these two files out of the container and into
 your IOC Instance config folder like this (replace podman with
 docker if that is what you are using):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/st.cmd<span class="w"> </span>iocs/bl01t-ea-ioc-02/config
-podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-ioc-02:/epics/runtime/ioc.subst<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.subst
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-test-02:/epics/runtime/st.cmd<span class="w"> </span>services/bl01t-ea-test-02/config
+podman<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-test-02:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.subst
 <span class="c1"># no longer need an ibek ioc yaml file</span>
-rm<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/ioc.yaml
-<span class="c1"># re-deploy from local filesystem</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+rm<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 </pre></div>
 </div>
+<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the two template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with BlueSky Asyc and are not available in manually build IOC Instances.</p>
 <p>Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
 changes in the startup script and substitution file and re-deploy the IOC.</p>
+<p>To start your new version of the the Instance and replace the previous one use the <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> command again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># re-deploy from local filesystem</span>
+ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-02
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>We used some raw podman / docker commands in the above script. If you
@@ -851,7 +850,7 @@ want to know what commands <code class="docutils literal notranslate"><span clas
 use the <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to see them.</p>
 <p>For example try this command:</p>
 <ul class="simple">
-<li><p>ec -v ioc deploy-local iocs/bl01t-ea-ioc-02</p></li>
+<li><p>ec -v ioc deploy-local services/bl01t-ea-test-02</p></li>
 </ul>
 </div>
 </section>
@@ -905,6 +904,7 @@ use the <code class="docutils literal notranslate"><span class="pre">-v</span></
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-ioc-instance">Create a New IOC Instance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chart-yaml">Chart.yaml</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-yaml">values.yaml</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config">config</a></li>
 </ul>
@@ -924,7 +924,7 @@ use the <code class="docutils literal notranslate"><span class="pre">-v</span></
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/create_ioc.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/create_ioc.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -939,7 +939,7 @@ use the <code class="docutils literal notranslate"><span class="pre">-v</span></
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/create_ioc.rst.txt">
+    <a href="../_sources/tutorials/create_ioc.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

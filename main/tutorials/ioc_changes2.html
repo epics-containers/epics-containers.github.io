@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epic-containers.github.io  documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/ioc_changes2';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -525,11 +525,7 @@ that you already used in earlier tutorials.</p>
 <p>For this exercise we will work locally inside the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>
 developer container. Following tutorials will show how to fork repositories
 and push changes back to GitHub</p>
-<p>For this exercise we will be using an example IOC Instance to test our changes.
-Instead of working with a beamline repository, we will use the example ioc instance
-inside <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. It is a good idea for Generic IOC authors to
-include an example IOC Instance in their repository for testing changes in
-isolation.</p>
+<p>For this exercise we will be using an example IOC Instance to test our changes. Instead of working with a beamline repository, we will use the example ioc instance inside <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. It is a good idea for Generic IOC authors to include an example IOC Instance in their repository for testing changes in isolation. Obviously, this is easy for a simulation IOC, for IOCs that normally connect to real hardware this would require an additional simulator of some kind.</p>
 <section id="preparation">
 <h2>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h2>
 <p>First, clone the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository and make sure the container
@@ -539,18 +535,15 @@ build is working:</p>
 <span class="go">./build</span>
 <span class="go">code .</span>
 <span class="gp"># </span>Choose<span class="w"> </span><span class="s2">&quot;Reopen in Container&quot;</span>
+<span class="gp"># </span>Or<span class="w"> </span>ctrl+shift+p<span class="w"> </span>and<span class="w"> </span>choose<span class="w"> </span><span class="s2">&quot;Remote-Containers: Reopen in Container&quot;</span>
 </pre></div>
 </div>
 <p>Note that if you do not see the prompt to reopen in container, you can open
 the <code class="docutils literal notranslate"><span class="pre">Remote</span></code> menu with <code class="docutils literal notranslate"><span class="pre">Ctrl+Alt+O</span></code> and select <code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">build</span></code> script does two things.</p>
 <ul class="simple">
-<li><p>it fetches the git submodule called <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>. This submodule is shared
-between all the EPICS IOC container images and contains the support YAML files
-that tell <code class="docutils literal notranslate"><span class="pre">ibek</span></code> how to build support modules inside the container
-environment and how to use them at runtime.</p></li>
-<li><p>it builds the Generic IOC container image developer target locally using
-podman or docker.</p></li>
+<li><p>it fetches the git submodule called <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>. This submodule is shared between all the Generic IOC container images and contains the support YAML files that tell <code class="docutils literal notranslate"><span class="pre">ibek</span></code> how to build support modules inside the container environment and how to use them at runtime.</p></li>
+<li><p>it builds the Generic IOC container image developer target locally using podman or docker.</p></li>
 </ul>
 </section>
 <section id="verify-the-example-ioc-instance-is-working">
@@ -561,29 +554,14 @@ that need to be done before you can run an IOC instance inside of it.</p>
 <li><p>Build the IOC binary</p></li>
 <li><p>Select an IOC instance definition to run</p></li>
 </ul>
-<p>The folder <code class="docutils literal notranslate"><span class="pre">ioc</span></code> inside of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is where the IOC source code
-resided. However our containers always make a symlink to this folder at
-<code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code>. This is so that it is always in the same place and can easily be
-found by ibek (and the developer!). Therefore you can build the binary with the
+<p>The folder <code class="docutils literal notranslate"><span class="pre">ioc</span></code> inside of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is where the IOC source code resided. However our containers always make a symlink to this folder at <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code>. This is so that it is always in the same place and can easily be found by ibek (and the developer!). Therefore you can build the IOC binary with the
 following command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /epics/ioc</span>
 <span class="go">make</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Note that we are required to build the IOC.
-This is even though the container you are using already had the IOC
-source code built by its Dockerfile (<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector/Dockerfile</span></code>
-contains the same command).</p>
-<p>For a detailed explanation of why this is the case see <a class="reference internal" href="../explanations/ioc-source.html#ioc-source"><span class="std std-ref">Dev Container vs Runtime Container</span></a></p>
-</div>
-<p>The IOC instance definition is a YAML file that tells <code class="docutils literal notranslate"><span class="pre">ibek</span></code> what the runtime
-assets (ie. EPICS DB and startup script) should look like. Previous tutorials
-selected the IOC instance definition from a beamline repository. In this case
-we will use the example IOC instance that comes with <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. The
-following command will select the example IOC instance:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02</span>
+<p>The IOC instance definition is a YAML file that tells <code class="docutils literal notranslate"><span class="pre">ibek</span></code> what the runtime assets (ie. EPICS DB and startup script) should look like. Previous tutorials selected the IOC instance definition from a beamline repository. In this case we will use the example IOC instance that comes with <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. The following command will select the example IOC instance:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02</span>
 </pre></div>
 </div>
 <p>The above command removes the existing config folder <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and
@@ -605,13 +583,13 @@ in a terminal outside of the developer container.</p>
 </pre></div>
 </div>
 <p>Run the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> tool and connect it to our IOCs PVA output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">c2dv --pv BL01T-EA-TST-03:PVA:OUTPUT &amp;</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">c2dv --pv BL01T-EA-TST-02:PVA:OUTPUT &amp;</span>
 </pre></div>
 </div>
 <p>Back inside the developer container, you can now start the detector and
 the PVA plugin, by opening a new terminal and running the following:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">caput BL01T-EA-TST-03:PVA:EnableCallbacks 1</span>
-<span class="go">caput BL01T-EA-TST-03:CAM:Acquire 1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">caput BL01T-EA-TST-02:PVA:EnableCallbacks 1</span>
+<span class="go">caput BL01T-EA-TST-02:DET:Acquire 1</span>
 </pre></div>
 </div>
 <p>You should see the moving image in the <code class="docutils literal notranslate"><span class="pre">c2dv</span></code> window. We now have a working
@@ -627,8 +605,8 @@ covered in much more detail in <a class="reference internal" href="generic_ioc.h
 YAML file. We will change the startup script that it generates so that the
 simulation detector is automatically started when the IOC starts.</p>
 <p>To make this change we just need to have the startup script set the values
-of the records <code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-03:CAM:Acquire</span></code> and
-<code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-03:PVA:EnableCallbacks</span></code> to 1.</p>
+of the records <code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:DET:Acquire</span></code> and
+<code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:PVA:EnableCallbacks</span></code> to 1.</p>
 <p>To make this change, open the file
 <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml</span></code>
 and add a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> section just after the <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> section:</p>
@@ -649,9 +627,9 @@ Find the NDPvaPlugin section and also add a <code class="docutils literal notran
 <p>If you now go to the terminal where you ran your IOC, you can stop it with
 <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> and then start it again with <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code>. You should see the
 following output at the end of the startup log:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-TST-03:CAM:Acquire 1</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-TST-02:DET:Acquire 1</span>
 <span class="go">DBF_STRING:         &quot;Acquire&quot;</span>
-<span class="go">dbpf BL01T-EA-TST-03:PVA:EnableCallbacks 1</span>
+<span class="go">dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1</span>
 <span class="go">DBF_STRING:         &quot;Enable&quot;</span>
 <span class="go">epics&gt;</span>
 </pre></div>
@@ -674,13 +652,13 @@ to this auto-starting detector.</p>
 </pre></div>
 </div>
 <p>Add the following to
-<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-ioc-02/config/ioc.yaml</span></code>:</p>
+<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02/config/ioc.yaml</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-03:CAM:Acquire</span>
+<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:DET:Acquire</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-03:PVA:EnableCallbacks</span>
+<span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:PVA:EnableCallbacks</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
 </pre></div>
 </div>
@@ -746,7 +724,7 @@ declared globally in <code class="docutils literal notranslate"><span class="pre
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/ioc_changes2.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/ioc_changes2.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -761,7 +739,7 @@ declared globally in <code class="docutils literal notranslate"><span class="pre
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/ioc_changes2.rst.txt">
+    <a href="../_sources/tutorials/ioc_changes2.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

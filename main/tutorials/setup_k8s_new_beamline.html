@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epic-containers.github.io  documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/setup_k8s_new_beamline';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -561,7 +561,7 @@ Cut and paste the following script to do so.</p>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Beamline repo for the beamline </span><span class="nv">$BEAMLINE</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>README.md
 
 <span class="c1"># remove the sample IOC directory</span>
-rm<span class="w"> </span>-r<span class="w"> </span>iocs/blxxi-ea-ioc-01
+rm<span class="w"> </span>-r<span class="w"> </span>services/blxxi-ea-ioc-01
 <span class="c1"># change the services setup scripts to use the new beamline name</span>
 sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/blxxi/</span><span class="nv">$BEAMLINE</span><span class="s2">/g&quot;</span><span class="w"> </span>services/*<span class="w"> </span>beamline-chart/values.yaml
 </pre></div>
@@ -653,7 +653,7 @@ useful to set up command line completion up. The simplest way to do this is:</p>
 </pre></div>
 </div>
 <p>For a review of how to set up the epics-containers-cli tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> see
-<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">epics-containers-cli</span></a>.</p>
+<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">edge-containers-cli</span></a>.</p>
 </section>
 <section id="section-3">
 <h3>Section 3<a class="headerlink" href="#section-3" title="Link to this heading">#</a></h3>
@@ -682,7 +682,7 @@ will be asked for your credentials if required.</p>
 <h2>Setting up the Beamline Helm Chart Defaults<a class="headerlink" href="#setting-up-the-beamline-helm-chart-defaults" title="Link to this heading">#</a></h2>
 <p>The beamline helm chart is used to deploy IOCs to the cluster. Each IOC instance
 gets to override any of the settings available in the chart. This is done
-in <code class="docutils literal notranslate"><span class="pre">iocs/&lt;iocname&gt;/values.yaml</span></code> for each IOC instance. However, all
+in <code class="docutils literal notranslate"><span class="pre">services/&lt;iocname&gt;/values.yaml</span></code> for each IOC instance. However, all
 settings except <code class="docutils literal notranslate"><span class="pre">image</span></code> have default values supplied at the beamline level.
 For this reason most IOC instances only need supply the <code class="docutils literal notranslate"><span class="pre">image</span></code> setting
 which specifies the Generic IOC container image to use.</p>
@@ -742,24 +742,18 @@ type.</p>
 <p>There are two scripts in the <code class="docutils literal notranslate"><span class="pre">services</span></code> directory that set up some initial
 resources. You should run each of these in order:</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">services/install-pvcs.sh</span></code>: this sets up some persistent volume claims for</dt><dd><p>the beamline. PVCS are Kubernetes managed chunks of storage that can be
+<li><p><code class="docutils literal notranslate"><span class="pre">services/install-pvcs.sh</span></code>: this sets up some persistent volume claims for
+: the beamline. PVCS are Kubernetes managed chunks of storage that can be
 shared between pods if required. The 3 PVCS created here relate to the
 <code class="docutils literal notranslate"><span class="pre">Claim</span></code> entries in the <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> file. These are
 places to store:
 - autosave files
 - runtime generated startup scripts and EPICS database files
-- OPI screens (usually auto generated)</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">services/install-opi.sh</span></code>: this sets up an nginx web server for the</dt><dd><p>beamline. It serves the OPI screens from the <code class="docutils literal notranslate"><span class="pre">opisClaim</span></code> PVC. Each IOC
+- OPI screens (usually auto generated)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">services/install-opi.sh</span></code>: this sets up an nginx web server for the
+: beamline. It serves the OPI screens from the <code class="docutils literal notranslate"><span class="pre">opisClaim</span></code> PVC. Each IOC
 instance will place its OPI screens in a subdirectory of this PVC.
-OPI clients like phoebus can then retrieve these files via HTTP.</p>
-</dd>
-</dl>
-</li>
+OPI clients like phoebus can then retrieve these files via HTTP.</p></li>
 </ul>
 </section>
 <section id="create-a-test-ioc-to-deploy">
@@ -851,7 +845,7 @@ a landing page <code class="docutils literal notranslate"><span class="pre">http
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/setup_k8s_new_beamline.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/setup_k8s_new_beamline.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -866,7 +860,7 @@ a landing page <code class="docutils literal notranslate"><span class="pre">http
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/setup_k8s_new_beamline.rst.txt">
+    <a href="../_sources/tutorials/setup_k8s_new_beamline.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epic-containers.github.io  documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/ioc_changes1';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -496,30 +496,27 @@ document.write(`
                   
   <section id="changing-the-ioc-instance">
 <h1>Changing the IOC Instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h1>
-<p>This tutorial will make a very simple change to the example IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-02</span></code>.
+<p>This tutorial will make a very simple change to the example IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code>.
 This is a type 1 change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>, types 2, 3 will be covered in the
 following 2 tutorials.</p>
 <p>Strictly speaking, Type 1 changes do not require a devcontainer. You created
 and deployed the IOC instance in a previous tutorial without one. It is up to
 you how you choose to make these types of changes. Types 2,3 do require a
 devcontainer because they involve compiling Generic IOC / support module code.</p>
-<p>We are going to add a hand crafted EPICS DB file to the IOC instance. This will
-be a simple record that we will be able to query to verify that the change
-is working.</p>
+<p>These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do open your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> folder in vscode and then press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Remote-Containers:</span> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
+<p>We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>. If you changed to using raw startup assets in the previous tutorial then revert to using <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> for this tutorial or see <a class="reference internal" href="#raw-startup-assets"><span class="std std-ref">Raw Startup Assets</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Before doing this tutorial make sure you have not left the IOC
-bl01t-ea-ioc-02 running from a previous tutorial. Execute this command
-outside of the devcontainer to stop it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-ioc-02
+<p>Before doing this tutorial make sure you have not left the IOC bl01t-ea-test-02 running from a previous tutorial. Execute this command <em>outside</em> of the devcontainer to stop it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-02
 </pre></div>
 </div>
 </div>
 <p>Make the following changes in your test IOC config folder
-(<code class="docutils literal notranslate"><span class="pre">bl01t/iocs/bl01t-ea-ioc-02/config</span></code>):</p>
+(<code class="docutils literal notranslate"><span class="pre">bl01t/services/bl01t-ea-test-02/config</span></code>):</p>
 <ol class="arabic">
 <li><p>Add a file called <code class="docutils literal notranslate"><span class="pre">extra.db</span></code> with the following contents.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, &quot;BL01T-EA-IOC-02:TEST&quot;) {
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, &quot;bl01t-ea-test-02:TEST&quot;) {
    field(DESC, &quot;Test record&quot;)
    field(DTYP, &quot;Soft Channel&quot;)
    field(SCAN, &quot;Passive&quot;)
@@ -550,25 +547,18 @@ folder:</p>
 show <code class="docutils literal notranslate"><span class="pre">dbLoadRecords(config/extra.db)</span></code>.</p>
 <p>Test your change
 from another terminal (VSCode menus -&gt; Terminal -&gt; New Terminal) like so:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-EA-IOC-02:TEST
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>bl01t-ea-test-02:TEST
 </pre></div>
 </div>
 <p>If you see the value 1 then your change is working.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You are likely to see
-<em>“Identical process variable names on multiple servers”</em> warnings. This is
-because caget can see the PV on the host network and the container network,
-but as these are the same IOC this is not a problem.</p>
-<p>You can change this and make your devcontainer network isolated by removing
-the line <code class="docutils literal notranslate"><span class="pre">&quot;--net=host&quot;,</span></code> from <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>, but
-it is convenient to leave it if you want to run OPI tools locally on the
-host. You may want to isolate your development network if multiple
-developers are working on the same subnet. In this case some other solution
-is required for running OPI tools on the host (TODO add link to solution).</p>
+<p>If you are using podman, you are likely to see <em>“Identical process variable names on multiple servers”</em> warnings. This is because caget can see the PV on the host network and the container network, but as these are the same IOC this is not a problem.</p>
+<p>You can change this and make your devcontainer network isolated by removing the line <code class="docutils literal notranslate"><span class="pre">&quot;--net=host&quot;,</span></code> from <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>, but it is convenient to leave it if you want to run OPI tools locally on the
+host. You may want to isolate your development network if multiple developers are working on the same subnet. In this case some other solution is required for running OPI tools on the host (TODO add link to solution - likely to be container networks).</p>
 </div>
 <p>Because of the symlink between <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and
-<code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t/iocs/bl01t-ea-ioc-02/config</span></code> the same files you are testing
+<code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t/services/bl01t-ea-test-02/config</span></code> the same files you are testing
 by launching the IOC inside of the devcontainer are also ready to be
 committed and pushed to the bl01t repo. i.e.:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do this from a host terminal (not a devcontainer terminal)</span>
@@ -580,21 +570,19 @@ git<span class="w"> </span>push
 git<span class="w"> </span>tag<span class="w"> </span><span class="m">2023</span>.11.2
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2023</span>.11.2
 <span class="c1"># deploy the new version of the IOC to the local docker / podman instance</span>
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-ioc-02<span class="w"> </span><span class="m">2023</span>.11.2
+ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span><span class="m">2023</span>.11.2
 </pre></div>
 </div>
-<p>The above steps were performed on a host terminal because we are using <code class="docutils literal notranslate"><span class="pre">ec</span></code>.
-However all of the steps except for the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command could have been done
-<em>inside</em> the devcontainer starting with <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/workspaces/bl01t</span></code>.</p>
-<p>We choose not to have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed inside of the devcontainer because
-that would involve containers in containers which adds too much complexity.</p>
-<p>If you like working entirely from the vscode window you can open a terminal
-in vscode <em>outside</em> of the devcontainer. To do so, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and
-choose the commnd <code class="docutils literal notranslate"><span class="pre">Terminal:</span> <span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Integrated</span> <span class="pre">Terminal</span> <span class="pre">(Local)</span></code>.
-This will open a terminal to the host. You can then run <code class="docutils literal notranslate"><span class="pre">ec</span></code> from there.</p>
+<p>You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
+</pre></div>
+</div>
+<p>The above steps were performed on a host terminal because we are using <code class="docutils literal notranslate"><span class="pre">ec</span></code>. However all of the steps except for the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command could have been done <em>inside</em> the devcontainer starting with <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">/workspaces/bl01t</span></code> which is where your project is mounted <em>inside</em> the devcontainer.</p>
+<p>We choose not to have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed inside of the devcontainer because that would involve containers in containers which adds too much complexity.</p>
+<p>If you like working entirely from the vscode window you can open a terminal in vscode <em>outside</em> of the devcontainer. To do so, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose the commnd <code class="docutils literal notranslate"><span class="pre">Terminal:</span> <span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Integrated</span> <span class="pre">Terminal</span> <span class="pre">(Local)</span></code>. This will open a terminal to the host. You can then run <code class="docutils literal notranslate"><span class="pre">ec</span></code> from there.</p>
 </section>
 <section id="raw-startup-assets">
-<h2>Raw Startup Assets<a class="headerlink" href="#raw-startup-assets" title="Link to this heading">#</a></h2>
+<span id="id1"></span><h2>Raw Startup Assets<a class="headerlink" href="#raw-startup-assets" title="Link to this heading">#</a></h2>
 <p>If you plan not to use <code class="docutils literal notranslate"><span class="pre">ibek</span></code> runtime asset creation you could use the raw
 startup assets from the previous tutorial. If you do this then the process
 above is identical except that you will add the <code class="docutils literal notranslate"><span class="pre">dbLoadRecords</span></code> command to
@@ -713,7 +701,7 @@ how to add your own.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/ioc_changes1.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/ioc_changes1.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -728,7 +716,7 @@ how to add your own.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/ioc_changes1.rst.txt">
+    <a href="../_sources/tutorials/ioc_changes1.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

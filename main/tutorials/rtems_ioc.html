@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>RTEMS - Deploying an Example IOC &#8212; epic-containers.github.io  documentation</title>
+    <title>RTEMS - Deploying an Example IOC &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/rtems_ioc';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -523,7 +523,7 @@ using a terminal server or similar.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong> for details of setting up RTEMS on your VME crates see
-this <a class="reference external" href="https://confluence.diamond.ac.uk/pages/viewpage.action?spaceKey=CNTRLS&amp;title=RTEMS">internal link</a></p>
+this <a class="reference external" href="https://confluence.diamond.ac.uk/pages/viewpage.action?spaceKey=CNTRLS&amp;amp;title=RTEMS">internal link</a></p>
 <p>The following crate is already running RTEMS and can be used for this
 tutorial, but check with the accelerator controls team before using it:</p>
 <dl class="field-list simple">
@@ -550,30 +550,30 @@ e.g.</p>
 <span class="n">mot</span><span class="o">-/</span><span class="n">dev</span><span class="o">/</span><span class="n">enet0</span><span class="o">-</span><span class="n">snma</span><span class="o">=</span><span class="mf">255.255.240.0</span>
 <span class="n">mot</span><span class="o">-/</span><span class="n">dev</span><span class="o">/</span><span class="n">enet0</span><span class="o">-</span><span class="n">gipa</span><span class="o">=</span><span class="mf">172.23.240.254</span>
 <span class="n">mot</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">device</span><span class="o">=/</span><span class="n">dev</span><span class="o">/</span><span class="n">em1</span>
-<span class="n">rtems</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">ioc</span><span class="o">-</span><span class="mi">02</span>
-<span class="n">epics</span><span class="o">-</span><span class="n">script</span><span class="o">=</span><span class="mf">172.23.168.203</span><span class="p">:</span><span class="o">/</span><span class="n">iocs</span><span class="p">:</span><span class="n">bl01t</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">ioc</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">st</span><span class="o">.</span><span class="n">cmd</span>
+<span class="n">rtems</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">name</span><span class="o">=</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="mi">02</span>
+<span class="n">epics</span><span class="o">-</span><span class="n">script</span><span class="o">=</span><span class="mf">172.23.168.203</span><span class="p">:</span><span class="o">/</span><span class="n">iocs</span><span class="p">:</span><span class="n">bl01t</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">st</span><span class="o">.</span><span class="n">cmd</span>
 <span class="n">mot</span><span class="o">-</span><span class="n">script</span><span class="o">-</span><span class="n">boot</span>
 <span class="n">dla</span><span class="o">=</span><span class="n">malloc</span> <span class="mh">0x230000</span>
-<span class="n">tftpGet</span> <span class="o">-</span><span class="n">d</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">enet1</span> <span class="o">-</span><span class="n">fbl01t</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">ioc</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">RTEMS</span><span class="o">-</span><span class="n">beatnik</span><span class="o">/</span><span class="n">ioc</span><span class="o">.</span><span class="n">boot</span> <span class="o">-</span><span class="n">m255</span><span class="mf">.255.240.0</span> <span class="o">-</span><span class="n">g172</span><span class="mf">.23.240.254</span> <span class="o">-</span><span class="n">s172</span><span class="mf">.23.168.203</span> <span class="o">-</span><span class="n">c172</span><span class="mf">.23.250.15</span> <span class="o">-</span><span class="n">adla</span>
+<span class="n">tftpGet</span> <span class="o">-</span><span class="n">d</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">enet1</span> <span class="o">-</span><span class="n">fbl01t</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="mi">02</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">RTEMS</span><span class="o">-</span><span class="n">beatnik</span><span class="o">/</span><span class="n">ioc</span><span class="o">.</span><span class="n">boot</span> <span class="o">-</span><span class="n">m255</span><span class="mf">.255.240.0</span> <span class="o">-</span><span class="n">g172</span><span class="mf">.23.240.254</span> <span class="o">-</span><span class="n">s172</span><span class="mf">.23.168.203</span> <span class="o">-</span><span class="n">c172</span><span class="mf">.23.250.15</span> <span class="o">-</span><span class="n">adla</span>
 <span class="n">go</span> <span class="o">-</span><span class="n">a0095F000</span>
 
 <span class="n">Total</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">GE</span> <span class="n">Variables</span> <span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">Bytes</span> <span class="n">Utilized</span> <span class="o">=</span><span class="mi">427</span><span class="p">,</span> <span class="n">Bytes</span> <span class="n">Free</span> <span class="o">=</span><span class="mi">3165</span>
 </pre></div>
 </div>
 <p>Now use <code class="docutils literal notranslate"><span class="pre">gevEdit</span></code> to change the global variables to the values you need.
-For this tutorial we will create an IOC called bl01t-ea-ioc-02 and for the
+For this tutorial we will create an IOC called bl01t-ea-test-02 and for the
 example we assume the file server is on 172.23.168.203. For the details of
 setting up these parameters see your site documentation but the important
 values to change for this tutorial IOC would be:</p>
 <dl class="field-list simple">
 <dt class="field-odd">rtems-client-name<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bl01t-ea-ioc-02</p>
+<dd class="field-odd"><p>bl01t-ea-test-02</p>
 </dd>
 <dt class="field-even">epics-script<span class="colon">:</span></dt>
-<dd class="field-even"><p>172.23.168.203:/iocs:bl01t/bl01t-ea-ioc-02/config/st.cmd</p>
+<dd class="field-even"><p>172.23.168.203:/iocs:bl01t/bl01t-ea-test-02/config/st.cmd</p>
 </dd>
 <dt class="field-odd">mot-script-boot (2nd line)<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-ioc-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla</p>
+<dd class="field-odd"><p>tftpGet -d/dev/enet1 -fbl01t/bl01t-ea-test-02/bin/RTEMS-beatnik/ioc.boot -m255.255.240.0 -g172.23.240.254 -s172.23.168.203 -c172.23.250.15 -adla</p>
 </dd>
 </dl>
 <p>Now your <code class="docutils literal notranslate"><span class="pre">gevShow</span></code> should look similar to the example above.</p>
@@ -597,11 +597,11 @@ net mask, gateway, server address, client address.</p>
 <p>We will be adding a new IOC instance to the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline that we created in
 <a class="reference internal" href="create_beamline.html"><span class="doc">Create a Beamline Repository</span></a>. The first step is to make a copy of our existing IOC instance
 and make some modifications to it. We will call this new IOC instance
-<code class="docutils literal notranslate"><span class="pre">bl01t-ea-ioc-02</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
-cp<span class="w"> </span>-r<span class="w"> </span>iocs/bl01t-ea-ioc-01<span class="w"> </span>iocs/bl01t-ea-ioc-02
+cp<span class="w"> </span>-r<span class="w"> </span>services/bl01t-ea-test-01<span class="w"> </span>services/bl01t-ea-test-02
 <span class="c1"># don&#39;t need this file for the new IOC</span>
-rm<span class="w"> </span>iocs/bl01t-ea-ioc-02/config/extra.db
+rm<span class="w"> </span>services/bl01t-ea-test-02/config/extra.db
 </pre></div>
 </div>
 <p>We are going to make a very basic IOC with some hand coded database with
@@ -624,7 +624,7 @@ at the top of the <code class="docutils literal notranslate"><span class="pre">v
 environment variables required for the RTEMS target that we also specify in
 <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>.
 Edit the file
-<code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-02/values.yaml</span></code> to look like this:</p>
+<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-test-02/values.yaml</span></code> to look like this:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">base_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-template-rtems-runtime:23.4.2</span>
 
 <span class="nt">env</span><span class="p">:</span>
@@ -675,34 +675,34 @@ parameters of your RTEMS Crate. The environment variables are:</p>
 </tr>
 </tbody>
 </table>
-<p>Edit the file <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-02/Chart.yaml</span></code> and change the 1st 4 lines
+<p>Edit the file <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-test-02/Chart.yaml</span></code> and change the 1st 4 lines
 to represent this new IOC (the rest of the file is boilerplate):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span>
-<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-ioc-02</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-test-02</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">    </span><span class="no">example RTEMS IOC for bl01t</span>
 </pre></div>
 </div>
 <p>For configuration we will create a simple database with a few of records and
 a basic startup script. Add the following files to the
-<code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-02/config</span></code> directory.</p>
+<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-test-02/config</span></code> directory.</p>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">bl01t-ea-ioc-02.db</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-ioc-02:SUM&quot;</span><span class="p">)</span> <span class="p">{</span>
+<div class="code-block-caption"><span class="caption-text">bl01t-ea-test-02.db</span><a class="headerlink" href="#id2" title="Link to this code">#</a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-test-02:SUM&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;Sum A and B&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">CALC</span><span class="p">,</span> <span class="s2">&quot;A+B&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">SCAN</span><span class="p">,</span> <span class="s2">&quot;.1 second&quot;</span><span class="p">)</span>
-    <span class="n">field</span><span class="p">(</span><span class="n">INPA</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-ioc-02:A&quot;</span><span class="p">)</span>
-    <span class="n">field</span><span class="p">(</span><span class="n">INPB</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-ioc-02:B&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">INPA</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-test-02:A&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">INPB</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-test-02:B&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-ioc-02:A&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-test-02:A&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;A voltage&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">EGU</span><span class="p">,</span>  <span class="s2">&quot;Volts&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">VAL</span><span class="p">,</span>  <span class="s2">&quot;0.0&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-ioc-02:B&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;bl01t-ea-test-02:B&quot;</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;B voltage&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">EGU</span><span class="p">,</span>  <span class="s2">&quot;Volts&quot;</span><span class="p">)</span>
     <span class="n">field</span><span class="p">(</span><span class="n">VAL</span><span class="p">,</span>  <span class="s2">&quot;0.0&quot;</span><span class="p">)</span>
@@ -712,32 +712,32 @@ a basic startup script. Add the following files to the
 </div>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">st.cmd</span><a class="headerlink" href="#id3" title="Link to this code">#</a></div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># RTEMS Test IOC bl01t-ea-ioc-02</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># RTEMS Test IOC bl01t-ea-test-02</span>
 
-<span class="n">dbLoadDatabase</span> <span class="s2">&quot;/iocs/bl01t/bl01t-ea-ioc-02/dbd/ioc.dbd&quot;</span>
+<span class="n">dbLoadDatabase</span> <span class="s2">&quot;/services/bl01t/bl01t-ea-test-02/dbd/ioc.dbd&quot;</span>
 <span class="n">ioc_registerRecordDeviceDriver</span><span class="p">(</span><span class="n">pdbbase</span><span class="p">)</span>
 
 <span class="c1"># db files from the support modules are all held in this folder</span>
-<span class="n">epicsEnvSet</span><span class="p">(</span><span class="n">EPICS_DB_INCLUDE_PATH</span><span class="p">,</span> <span class="s2">&quot;/iocs/bl01t/bl01t-ea-ioc-02/support/db&quot;</span><span class="p">)</span>
+<span class="n">epicsEnvSet</span><span class="p">(</span><span class="n">EPICS_DB_INCLUDE_PATH</span><span class="p">,</span> <span class="s2">&quot;/services/bl01t/bl01t-ea-test-02/support/db&quot;</span><span class="p">)</span>
 
 <span class="c1"># load our hand crafted database</span>
-<span class="n">dbLoadRecords</span><span class="p">(</span><span class="s2">&quot;/iocs/bl01t/bl01t-ea-ioc-02/config/bl01t-ea-ioc-02.db&quot;</span><span class="p">)</span>
+<span class="n">dbLoadRecords</span><span class="p">(</span><span class="s2">&quot;/services/bl01t/bl01t-ea-test-02/config/bl01t-ea-test-02.db&quot;</span><span class="p">)</span>
 <span class="c1"># also make Database records for DEVIOCSTATS</span>
-<span class="n">dbLoadRecords</span><span class="p">(</span><span class="n">iocAdminSoft</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;IOC=bl01t-ea-ioc-02&quot;</span><span class="p">)</span>
-<span class="n">dbLoadRecords</span><span class="p">(</span><span class="n">iocAdminScanMon</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;IOC=bl01t-ea-ioc-02&quot;</span><span class="p">)</span>
+<span class="n">dbLoadRecords</span><span class="p">(</span><span class="n">iocAdminSoft</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;IOC=bl01t-ea-test-02&quot;</span><span class="p">)</span>
+<span class="n">dbLoadRecords</span><span class="p">(</span><span class="n">iocAdminScanMon</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="s2">&quot;IOC=bl01t-ea-test-02&quot;</span><span class="p">)</span>
 
 <span class="n">iocInit</span>
 </pre></div>
 </div>
 </div>
-<p>You now have a new helm chart in iocs/bl01t-ea-ioc-02 that describes an IOC
+<p>You now have a new helm chart in services/bl01t-ea-test-02 that describes an IOC
 instance for your RTEMS device. Recall that this is not literally where the IOC
 runs, it deploys a kubernetes pod that manages the RTEMS IOC. It does contain
 the IOC’s configuration and the IOC’s binary code, which it will copy to the
 file-server on startup.</p>
 <p>Finally you will need to tell the IOC to mount the Persistent Volume Claim
 that the bl01t-ioc-files service is serving over NFS and TFTP. To do this
-add the following lines to <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-02/values.yaml</span></code>:</p>
+add the following lines to <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-test-02/values.yaml</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># for RTEMS IOCS this is the PVC name for the filesystem where RTEMS</span>
 <span class="c1"># IOCs look for their files - enable this in RTEMS IOCs only</span>
 <span class="nt">nfsv2TftpClaim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ioc-files-claim</span>
@@ -749,10 +749,10 @@ add the following lines to <code class="docutils literal notranslate"><span clas
 <h2>Deploying an RTEMS IOC Instance<a class="headerlink" href="#deploying-an-rtems-ioc-instance" title="Link to this heading">#</a></h2>
 <p>To deploy an IOC instance to the cluster you can use one of two approaches:</p>
 <ul class="simple">
-<li><p>push your beamline repo to GitHub and tag it. Then use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy</span></code> to
+<li><p>push your beamline repo to GitHub and tag it. Then use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> to
 deploy the resulting versioned IOC instance. This was covered for linux IOCs
 in <a class="reference internal" href="deploy_example.html"><span class="doc">Deploying and Managing IOC Instances</span></a>.</p></li>
-<li><p>use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy-local</span></code> to directly deploy the local copy of the IOC
+<li><p>use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code> to directly deploy the local copy of the IOC
 instance helm chart to kubernetes as a beta version. This was covered for
 linux IOCs in –local_deploy_ioc–.</p></li>
 </ul>
@@ -761,20 +761,20 @@ linux and RTEMS IOCs. We will do the latter as it is quicker for
 the purposes of the tutorial.</p>
 <p>Execute the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
-ec<span class="w"> </span>ioc<span class="w"> </span>deploy-local<span class="w"> </span>iocs/bl01t-ea-ioc-02
+ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-02
 </pre></div>
 </div>
 <p>When an RTEMS Kubernetes pod runs up it will make a telnet connection to
 the hard IOC’s console and present the console as stdin/stdout of the
 container. This means once you have done the above deployment the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-ioc-02<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span>-f
 </pre></div>
 </div>
 <p>will show the RTEMS console output, and follow it along (<code class="docutils literal notranslate"><span class="pre">-f</span></code>) as the IOC
 starts up. You can hit <code class="docutils literal notranslate"><span class="pre">^C</span></code> to stop following the logs.</p>
 <p>You can also attach to the container and interact with the RTEMS console via
 the telnet connection with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-ioc-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-test-02
 </pre></div>
 </div>
 <p>Most likely for the first deploy your IOC will still be sitting at the
@@ -786,9 +786,9 @@ the boot-loader startup and eventually start the IOC.</p>
 <h2>Checking your RTEMS IOC<a class="headerlink" href="#checking-your-rtems-ioc" title="Link to this heading">#</a></h2>
 <p>To verify that your RTEMS IOC is working you should be able to execute the
 following commands and get correct sum of the A and B values:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caput<span class="w"> </span>bl01t-ea-ioc-02:A<span class="w"> </span><span class="m">12</span>
-caput<span class="w"> </span>get<span class="w"> </span>bl01t-ea-ioc-02:B<span class="w"> </span><span class="m">13</span>
-caget<span class="w"> </span>get<span class="w"> </span>bl01t-ea-ioc-02:SUM
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caput<span class="w"> </span>bl01t-ea-test-02:A<span class="w"> </span><span class="m">12</span>
+caput<span class="w"> </span>get<span class="w"> </span>bl01t-ea-test-02:B<span class="w"> </span><span class="m">13</span>
+caget<span class="w"> </span>get<span class="w"> </span>bl01t-ea-test-02:SUM
 </pre></div>
 </div>
 </section>
@@ -851,7 +851,7 @@ caget<span class="w"> </span>get<span class="w"> </span>bl01t-ea-ioc-02:SUM
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/tutorials/rtems_ioc.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/tutorials/rtems_ioc.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -866,7 +866,7 @@ caget<span class="w"> </span>get<span class="w"> </span>bl01t-ea-ioc-02:SUM
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/rtems_ioc.rst.txt">
+    <a href="../_sources/tutorials/rtems_ioc.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

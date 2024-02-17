@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kubernetes Cluster Config &#8212; epic-containers.github.io  documentation</title>
+    <title>Kubernetes Cluster Config &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/kubernetes_cluster';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -498,28 +498,16 @@ document.write(`
 <h2>Cluster Options<a class="headerlink" href="#cluster-options" title="Link to this heading">#</a></h2>
 <p>Three cluster topologies were considered for this project.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Cluster per beamline<span class="colon">:</span></dt>
-<dd class="field-odd"><p>This could be as simple as
-a single server: the K3S installation described in
-<a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> may be sufficient. The documentation at
-<a class="reference external" href="https://rancher.com/docs/k3s/">https://rancher.com/docs/k3s/</a> also details how to make a high availability
-cluster, requiring a minimum of 4 servers.
-This approach keeps the configuration of the clusters quite straightforward
-but at the cost of having multiple separate clusters to maintain. Also
-it requires control plane servers for every beamline, whereas a centralized
-approach would only need a handful of control plane servers for the entire
-facility.</p>
-</dd>
-<dt class="field-even">Central Facility Cluster<span class="colon">:</span></dt>
-<dd class="field-even"><p>A central facility cluster that runs
+<dt class="field-odd">Central Facility Cluster<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A central facility cluster that runs
 all IOCs on its own nodes would keep everything centralized and provide
 economy of scale. However, there are significant issues with routing
 Channel Access, PVA and some device protocols to IOCs running in a
 different subnet to the beamline. DLS spent some time working around these
 issues but eventually abandoned this approach.</p>
 </dd>
-<dt class="field-odd">Beamline Worker Nodes<span class="colon">:</span></dt>
-<dd class="field-odd"><p>This approach uses the central
+<dt class="field-even">Beamline Worker Nodes<span class="colon">:</span></dt>
+<dd class="field-even"><p>This approach uses the central
 cluster but adds remote beamline nodes located in the beamline itself,
 connected to the beamline subnet. This has all the benefits of central
 management but is able to overcome the problems with protocol routing.
@@ -527,9 +515,19 @@ The DLS argus cluster configuration described below is an example of
 how to achieve this.</p>
 </dd>
 </dl>
-</section>
 <section id="current-approach">
-<h2>Current Approach<a class="headerlink" href="#current-approach" title="Link to this heading">#</a></h2>
+<h3>Current Approach<a class="headerlink" href="#current-approach" title="Link to this heading">#</a></h3>
+<p>DLS is using Cluster per Beamline as the preferred topology. We
+will continue to have a central cluster for shared services but in addition will
+have a cluster per beamline and a cluster for the accelerator.</p>
+<p>The separate clusters allow us to have separate:</p>
+<ul class="simple">
+<li><p>failure domain</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h2>Current Approach<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <p>DLS is using Cluster per Beamline as the preferred topology. We
 will continue to have a central cluster for shared services but in addition will
 have a cluster per beamline and a cluster for the accelerator.</p>
@@ -660,8 +658,11 @@ a list of current and potential use cases:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-options">Cluster Options</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-approach">Current Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-options">Cluster Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#current-approach">Current Approach</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Current Approach</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dls-argus-cluster">DLS Argus Cluster</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#beamline-local-cluster-nodes">Beamline Local Cluster Nodes</a><ul class="nav section-nav flex-column">
@@ -680,7 +681,7 @@ a list of current and potential use cases:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/explanations/kubernetes_cluster.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/explanations/kubernetes_cluster.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -695,7 +696,7 @@ a list of current and potential use cases:</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/explanations/kubernetes_cluster.rst.txt">
+    <a href="../_sources/explanations/kubernetes_cluster.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kubernetes Resources in an IOC Instance &#8212; epic-containers.github.io  documentation</title>
+    <title>Kubernetes Resources in an IOC Instance &#8212; epics-containers  documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'reference/k8s_resources';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
-        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epic-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.0';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
@@ -136,7 +136,7 @@
     <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">epic-containers.github.io</p>
+    <p class="title logo__title">epics-containers</p>
   
 </a></div>
     
@@ -223,7 +223,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -235,7 +235,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -370,7 +370,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/epics-containers/epic-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -382,7 +382,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/epic-containers.github.io" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
             <span class="sr-only">PyPI</span></a>
         </li>
 </ul></div>
@@ -425,12 +425,13 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vscode_settings.html">Recommended VSCode Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epic-containers.github.io/releases">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
 </ul>
 </div>
 </nav></div>
@@ -498,12 +499,12 @@ of resources. It applies this manifest to the cluster using kubectl.</p>
 <p>To inspect the kubernetes manifest YAML that is created when we deploy the
 example IOC you can use the following command from inside of your example
 beamline repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ioc<span class="w"> </span>template<span class="w"> </span>iocs/bl01t-ea-ioc-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>template<span class="w"> </span>services/bl01t-ea-ioc-01
 </pre></div>
 </div>
-<p>This is expanding the local helm chart in the <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01</span></code> folder and using
+<p>This is expanding the local helm chart in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01</span></code> folder and using
 its <code class="docutils literal notranslate"><span class="pre">templates/ioc.yaml</span></code> plus the templates in <code class="docutils literal notranslate"><span class="pre">helm-ioc-lib</span></code>. These templates
-are expanded using the values in the <code class="docutils literal notranslate"><span class="pre">iocs/bl01t-ea-ioc-01/values.yaml</span></code> file and also
+are expanded using the values in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01/values.yaml</span></code> file and also
 <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> and finally the default <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file
 from the helm-ioc-lib.</p>
 <p>For a description of the key resources we create in this Kubernetes manifest
@@ -577,7 +578,7 @@ container. See deployments:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epic-containers.github.io/edit/1.0/docs/reference/k8s_resources.rst">
+    <a href="https://github.com/epics-containers/epics-containers/edit/1.0/docs/reference/k8s_resources.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -592,7 +593,7 @@ container. See deployments:</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/reference/k8s_resources.rst.txt">
+    <a href="../_sources/reference/k8s_resources.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
