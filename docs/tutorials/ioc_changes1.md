@@ -9,14 +9,12 @@ and deployed the IOC instance in a previous tutorial without one. It is up to
 you how you choose to make these types of changes. Types 2,3 do require a
 devcontainer because they involve compiling Generic IOC / support module code.
 
-We are going to add a hand crafted EPICS DB file to the IOC instance. This will
-be a simple record that we will be able to query to verify that the change
-is working.
+These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do open your `bl01t` folder in vscode and then press `Ctrl-Shift-P` and type `Remote-Containers: Reopen in Container`.
+
+We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used `ioc.yaml`. If you changed to using raw startup assets in the previous tutorial then revert to using `ioc.yaml` for this tutorial or see [](raw-startup-assets).
 
 :::{note}
-Before doing this tutorial make sure you have not left the IOC
-bl01t-ea-test-02 running from a previous tutorial. Execute this command
-outside of the devcontainer to stop it:
+Before doing this tutorial make sure you have not left the IOC bl01t-ea-test-02 running from a previous tutorial. Execute this command *outside* of the devcontainer to stop it:
 
 ```bash
 ec stop bl01t-ea-test-02
@@ -70,17 +68,10 @@ caget bl01t-ea-test-02:TEST
 If you see the value 1 then your change is working.
 
 :::{Note}
-You are likely to see
-*"Identical process variable names on multiple servers"* warnings. This is
-because caget can see the PV on the host network and the container network,
-but as these are the same IOC this is not a problem.
+If you are using podman, you are likely to see *"Identical process variable names on multiple servers"* warnings. This is because caget can see the PV on the host network and the container network, but as these are the same IOC this is not a problem.
 
-You can change this and make your devcontainer network isolated by removing
-the line `"--net=host",` from `.devcontainer/devcontainer.json`, but
-it is convenient to leave it if you want to run OPI tools locally on the
-host. You may want to isolate your development network if multiple
-developers are working on the same subnet. In this case some other solution
-is required for running OPI tools on the host (TODO add link to solution).
+You can change this and make your devcontainer network isolated by removing the line `"--net=host",` from `.devcontainer/devcontainer.json`, but it is convenient to leave it if you want to run OPI tools locally on the
+host. You may want to isolate your development network if multiple developers are working on the same subnet. In this case some other solution is required for running OPI tools on the host (TODO add link to solution - likely to be container networks).
 :::
 
 Because of the symlink between `/epics/ioc/config` and
@@ -101,18 +92,20 @@ git push origin 2023.11.2
 ec deploy bl01t-ea-test-02 2023.11.2
 ```
 
-The above steps were performed on a host terminal because we are using `ec`.
-However all of the steps except for the `ec` command could have been done
-*inside* the devcontainer starting with `cd /workspaces/bl01t`.
+You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:
 
-We choose not to have `ec` installed inside of the devcontainer because
-that would involve containers in containers which adds too much complexity.
+```bash
+ec logs bl01t-ea-test-02
+```
 
-If you like working entirely from the vscode window you can open a terminal
-in vscode *outside* of the devcontainer. To do so, press `Ctrl-Shift-P` and
-choose the commnd `Terminal: Create New Integrated Terminal (Local)`.
-This will open a terminal to the host. You can then run `ec` from there.
 
+The above steps were performed on a host terminal because we are using `ec`. However all of the steps except for the `ec` command could have been done *inside* the devcontainer starting with `cd /workspaces/bl01t` which is where your project is mounted *inside* the devcontainer.
+
+We choose not to have `ec` installed inside of the devcontainer because that would involve containers in containers which adds too much complexity.
+
+If you like working entirely from the vscode window you can open a terminal in vscode *outside* of the devcontainer. To do so, press `Ctrl-Shift-P` and choose the commnd `Terminal: Create New Integrated Terminal (Local)`. This will open a terminal to the host. You can then run `ec` from there.
+
+(raw-startup-assets)=
 ## Raw Startup Assets
 
 If you plan not to use `ibek` runtime asset creation you could use the raw
