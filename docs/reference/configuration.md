@@ -30,3 +30,19 @@ Because all ioc-XXX have the same submodule `ibek-support` and because `/epics/s
     "scm.repositories.visible": 12,
 ```
 
+### zsh shell
+
+For a much richer command line experience, it is recommended to use the zsh shell in vscode, this will work inside Generic IOC devcontainers too. Use the following settings:
+
+```json
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+        },
+        "zsh": {
+            "path": "zsh"
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh",
+```
+

@@ -52,44 +52,68 @@ Much like creating a new beamline we have a template project that can be used
 as the starting point for a new Generic IOC. Again we will create this in
 your personal GitHub user space.
 
-Go to the Generic IOC template project at:
 
-<https://github.com/epics-containers/ioc-template>
+## Steps
 
-Click on the `Use this template` button and create a new repository called
-`ioc-lakeshore340` in your personal GitHub account.
+1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `ioc-lakeshore340` plus a description, then click 'Create repository'.
 
-As soon as you do this the build in GitHub Actions CI will start building the
-project. This will make a container image of the template project, but
-not publish it because there is no release tag as yet. You can watch this
-by clicking on the `Actions` tab in your new repository.
+1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
 
-You might think building the template project was a waste of GitHub CPU. But,
-this is not so, because of container build cacheing. The next time you build
-the project in CI, with your changes, it will re-use most of the steps
-and be much faster.
+      ```bash
+      pip install copier
+      # this will create the folder ioc-lakeshore340 in the current directory
+      copier copy gh:epics-containers/ioc-template --trust ioc-lakeshore340
+      ```
+1. Answer the copier template questions as follows:
+
+
+  <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
+  <b>have a lower case suffix of the primary support module. e.g.</b>
+  <b>ioc-adsimdetector</b>
+  <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
+  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+  <b>   </b><font color="#FFAF00"><b>Generic IOC for the lakeshore 340 temperature controller</b></font>
+  <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+  <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_ACCOUNT</b></font>
+  <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+  <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_ACCOUNT/ioc-lakeshore340.git</b></font>
+  </pre>
+
+1. Make the first commit and push the repository to GitHub.
+
+   ```bash
+   cd ioc-lakeshore340
+   git add .
+   git commit -m "initial commit"
+   git push -u origin main
+   ```
+
+1. Get the Generic IOC container built, open the project in vscode and launch the devcontainer.
+
+   ```bash
+   ./build
+   # DLS users make sure you have done: module load vscode
+   code .
+   # reopen in container
+   ```
+
+As soon as you pushed the project, GitHub Actions CI will start building the project. This will make a container image of the template project, but not publish it because there is no release tag as yet. You can watch this by clicking on the `Actions` tab in your new repository.
+
+You might think building the template project was a waste of GitHub CPU. But, this is not so, because of container build cacheing. The next time you build the project in CI, with your changes, it will re-use most of the steps and be much faster.
 
 ## Prepare the New Repo for Development
 
 There are only three places where you need to change the Generic IOC template
 to make your own Generic IOC.
 
-1. Dockerfile - add in the support modules you need
-2. README.md - change to describe your Generic IOC
-3. ibek-support - add new support module recipes into this submodule
+1. **Dockerfile** - add in the support modules you need
+2. **README.md** - change to describe your Generic IOC
+3. **ibek-support** - add new support module recipes into this submodule
 
-To work on this project we will make a local developer container. All
+To work on this project we will use local developer container. All
 changes and testing will be performed inside this developer container.
-
-To get the developer container up and running:
-
-```bash
-git clone git@github.com:<YOUR GITHUB ACCOUNT>/ioc-lakeshore340.git
-cd ioc-lakeshore340
-./build
-code .
-# choose "Reopen in Container"
-```
 
 Once the developer container is running it is always instructive to have the
 `/epics` folder added to your workspace:
@@ -100,34 +124,20 @@ Once the developer container is running it is always instructive to have the
 - File -> Save Workspace As...
 - Choose the default `/workspaces/ioc-lakeshore340/ioc-lakeshore340.code-workspace`
 
-Note that workspace files are not committed to git. They are specific to your
-local development environment. Saving a workspace allows you to reopen the
-same set of folders in the developer container, using the *Recent* list shown
-when opening a new VSCode window.
+Note that workspace files are not committed to git. They are specific to your local development environment. Saving a workspace allows you to reopen the same set of folders in the developer container, using the *Recent* list shown when opening a new VSCode window.
 
-Now is a good time to edit the README.md file and change it to describe your
-Generic IOC as you see fit.
+Now is a good time to edit the README.md file and change it to describe your Generic IOC as you see fit. However the template will have placed some basic information in there for you already.
 
 ## Initial Changes to the Dockerfile
 
-The Dockerfile is the recipe for building the container image. It is a set
-of steps that get run inside a container. The starting container filesystem
-state is determined by a `FROM` line at the top of the Dockerfile.
+The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container. The starting container filesystem state is determined by a `FROM` line at the top of the Dockerfile.
 
-In the Generic IOC template the `FROM` line gets a version of the
-epics-containers base image. It then demonstrates how to add a support module
-to the container image. The `iocStats` support module is added and built
-by the template. It is recommended to keep this module as the default
-behaviour in Kubernetes is to use `iocStats` to monitor the health of
-the IOC.
+In the Generic IOC template the `FROM` line gets a version of the epics-containers base image. It then demonstrates how to add a support module to the container image. The `iocStats` support module is added and built by the template. It is recommended to keep this module as the default
+behaviour in Kubernetes is to use `iocStats` to monitor the health of the IOC.
 
-Thus you can start adding support modules by adding more `COPY` and `RUN`
-lines to the Dockerfile. Just like those for the `iocStats` module.
+Thus you can start adding support modules by adding more `COPY` and `RUN` lines to the Dockerfile. Just like those for the `iocStats` module.
 
-The rest of the Dockerfile is boilerplate and for best results you only need
-to remove the comment below and replace it with the additional support
-modules you need. Doing this means it is easy to adopt changes to the original
-template Dockerfile in the future.
+The rest of the Dockerfile is boilerplate and for best results you only need to remove the comment below and replace it with the additional support modules you need. Doing this means it is easy to adopt changes to the original template Dockerfile in the future.
 
 ```dockerfile
 ################################################################################

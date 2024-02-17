@@ -4,7 +4,7 @@
 This is an early draft
 :::
 
-This guide will show you how to debug an IOC instance locally. It will use the example IOC made in the [Create an IOC instance](./create-ioc-instance.md) guide. That IOC is called `bl01t-ea-test-02` in the guide but you may have chosen a different name.
+This guide will show you how to debug an IOC instance locally. It will use the example IOC made in the [Create an IOC instance](../tutorials/create_ioc) guide. That IOC is called `bl01t-ea-test-02` in the guide but you may have chosen a different name.
 
 ## Setting up
 
