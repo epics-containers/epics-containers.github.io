@@ -5,11 +5,11 @@ author_email: giles.knap@diamond.ac.uk
 author_name: Giles Knap
 component_owner: group:default/sscc
 description: Documentation for the epics-containers framework
-distribution_name: epic-containers
+distribution_name: epics-containers
 docker: false
 docs_type: sphinx
 git_platform: github.com
 github_org: epics-containers
 package_name: epics-containers
-repo_name: epic-containers.github.io
+repo_name: epics-containers.github.io
 type_checker: mypy

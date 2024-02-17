@@ -14,7 +14,7 @@ import requests
 version = "1.0"
 
 # General information about the project.
-project = "epic-containers.github.io"
+project = "epics-containers"
 
 extensions = [
     # Use this for generating API docs
@@ -106,7 +106,7 @@ copybutton_prompt_is_regexp = True
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
-github_repo = "epic-containers.github.io"
+github_repo = "epics-containers.github.io"
 github_user = "epics-containers"
 switcher_json = f"https://{github_user}.github.io/{github_repo}/switcher.json"
 switcher_exists = requests.get(switcher_json).ok

@@ -1,4 +1,4 @@
-[![CI](https://github.com/epics-containers/epic-containers.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/epics-containers/epic-containers-github-io/actions/workflows/ci.yml)
+[![CI](https://github.com/epics-containers/epics-containers.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/epics-containers/epics-containers.github.io/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
@@ -14,15 +14,13 @@ and the [Getting Started Guide](https://epics-containers.github.io/main/user/tut
 Useful Links
 ============
 
-Please contribute with comments and suggestions in the wiki or issues pages:
-
 | Item           | Link
 | -------------- | ---------------------
-| Documentation  | https://epics-containers.github.io
-| Wiki           | https://github.com/epics-containers/epics-containers.github.io/wiki
-| Issues         | https://github.com/epics-containers/epics-containers.github.io/issues
-| Docs Source    | https://github.com/epics-containers/epics-containers.github.io
-| Organization   | https://github.com/epics-containers
+| Documentation  | <https://epics-containers.github.io>
+| Wiki           | <https://github.com/epics-containers/epics-containers.github.io/wiki>
+| Issues         | <https://github.com/epics-containers/epics-containers.github.io/issues>
+| Docs Source    | <https://github.com/epics-containers/epics-containers.github.io>
+| Organization   | <https://github.com/epics-containers>
 
 
 
