@@ -52,7 +52,7 @@ code services/bl01t-ea-test-02/values.yaml
 You will now have vscode and open and editing the values.yaml file. Add the following:
 
 ```yaml
-image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.1.1
+image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2
 ```
 
 This tells the IOC Instance to run in the `ioc-adsimdetector-linux-runtime`
@@ -283,7 +283,7 @@ the c2dv viewer showing an image from the example IOC
 
 Above we looked at some ibek *Support yaml* and created an *IOC yaml* file.
 The details of where *Support yaml* files come from and how to create your
-own are covered in later tutorials on creating Generic services.
+own are covered a later tutorial {any}`generic_ioc`.
 
 However, without looking into the set of *Support yaml* files that are
 inside a given Generic IOC we can still make a meaningful *IOC yaml* file.
@@ -291,7 +291,7 @@ That is because every Generic IOC publishes an *IOC schema* that describes
 the set of entities that an instance of that IOC may instantiate.
 
 The Generic IOC we used was released at this location:
-<https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.1.1>.
+<https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.2.2>.
 This page includes the assets that are published as part of the release and
 one of those is `ibek.ioc.schema.json`. This is the *IOC schema* for the
 `ioc-adsimdetector` Generic IOC. This is what we referred to at the top of
@@ -355,13 +355,20 @@ podman cp bl01t-ea-test-02:/epics/runtime/st.cmd services/bl01t-ea-test-02/confi
 podman cp bl01t-ea-test-02:/epics/runtime/ioc.subst services/bl01t-ea-test-02/config/ioc.subst
 # no longer need an ibek ioc yaml file
 rm services/bl01t-ea-test-02/config/ioc.yaml
-# re-deploy from local filesystem
-ec deploy-local services/bl01t-ea-test-02
 ```
+
+You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with BlueSky Asyc and are not available in manually build IOC Instances.
 
 Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
 changes in the startup script and substitution file and re-deploy the IOC.
+
+To start your new version of the the Instance and replace the previous one use the `deploy-local` command again:
+
+```bash
+# re-deploy from local filesystem
+ec deploy-local services/bl01t-ea-test-02
+```
 
 :::{note}
 We used some raw podman / docker commands in the above script. If you
