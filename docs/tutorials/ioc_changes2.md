@@ -32,11 +32,7 @@ For this exercise we will work locally inside the `ioc-adsimdetector`
 developer container. Following tutorials will show how to fork repositories
 and push changes back to GitHub
 
-For this exercise we will be using an example IOC Instance to test our changes.
-Instead of working with a beamline repository, we will use the example ioc instance
-inside `ioc-adsimdetector`. It is a good idea for Generic IOC authors to
-include an example IOC Instance in their repository for testing changes in
-isolation.
+For this exercise we will be using an example IOC Instance to test our changes. Instead of working with a beamline repository, we will use the example ioc instance inside `ioc-adsimdetector`. It is a good idea for Generic IOC authors to include an example IOC Instance in their repository for testing changes in isolation. Obviously, this is easy for a simulation IOC, for IOCs that normally connect to real hardware this would require an additional simulator of some kind.
 
 ## Preparation
 
@@ -49,6 +45,7 @@ cd ioc-adsimdetector
 ./build
 code .
 # Choose "Reopen in Container"
+# Or ctrl+shift+p and choose "Remote-Containers: Reopen in Container"
 ```
 
 Note that if you do not see the prompt to reopen in container, you can open
@@ -56,12 +53,8 @@ the `Remote` menu with `Ctrl+Alt+O` and select `Reopen in Container`.
 
 The `build` script does two things.
 
-- it fetches the git submodule called `ibek-support`. This submodule is shared
-  between all the EPICS IOC container images and contains the support YAML files
-  that tell `ibek` how to build support modules inside the container
-  environment and how to use them at runtime.
-- it builds the Generic IOC container image developer target locally using
-  podman or docker.
+- it fetches the git submodule called `ibek-support`. This submodule is shared between all the Generic IOC container images and contains the support YAML files that tell `ibek` how to build support modules inside the container environment and how to use them at runtime.
+- it builds the Generic IOC container image developer target locally using podman or docker.
 
 ## Verify the Example IOC Instance is working
 
@@ -71,10 +64,7 @@ that need to be done before you can run an IOC instance inside of it.
 - Build the IOC binary
 - Select an IOC instance definition to run
 
-The folder `ioc` inside of the `ioc-adsimdetector` is where the IOC source code
-resided. However our containers always make a symlink to this folder at
-`/epics/ioc`. This is so that it is always in the same place and can easily be
-found by ibek (and the developer!). Therefore you can build the binary with the
+The folder `ioc` inside of the `ioc-adsimdetector` is where the IOC source code resided. However our containers always make a symlink to this folder at `/epics/ioc`. This is so that it is always in the same place and can easily be found by ibek (and the developer!). Therefore you can build the IOC binary with the
 following command:
 
 ```console
@@ -82,20 +72,7 @@ cd /epics/ioc
 make
 ```
 
-:::{note}
-Note that we are required to build the IOC.
-This is even though the container you are using already had the IOC
-source code built by its Dockerfile (`ioc-adsimdetector/Dockerfile`
-contains the same command).
-
-For a detailed explanation of why this is the case see {any}`ioc-source`
-:::
-
-The IOC instance definition is a YAML file that tells `ibek` what the runtime
-assets (ie. EPICS DB and startup script) should look like. Previous tutorials
-selected the IOC instance definition from a beamline repository. In this case
-we will use the example IOC instance that comes with `ioc-adsimdetector`. The
-following command will select the example IOC instance:
+The IOC instance definition is a YAML file that tells `ibek` what the runtime assets (ie. EPICS DB and startup script) should look like. Previous tutorials selected the IOC instance definition from a beamline repository. In this case we will use the example IOC instance that comes with `ioc-adsimdetector`. The following command will select the example IOC instance:
 
 ```console
 ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02
@@ -128,15 +105,15 @@ pip install c2dataviewer
 Run the `c2dv` tool and connect it to our IOCs PVA output:
 
 ```console
-c2dv --pv BL01T-EA-TST-03:PVA:OUTPUT &
+c2dv --pv BL01T-EA-TST-02:PVA:OUTPUT &
 ```
 
 Back inside the developer container, you can now start the detector and
 the PVA plugin, by opening a new terminal and running the following:
 
 ```console
-caput BL01T-EA-TST-03:PVA:EnableCallbacks 1
-caput BL01T-EA-TST-03:CAM:Acquire 1
+caput BL01T-EA-TST-02:PVA:EnableCallbacks 1
+caput BL01T-EA-TST-02:DET:Acquire 1
 ```
 
 You should see the moving image in the `c2dv` window. We now have a working
@@ -154,8 +131,8 @@ YAML file. We will change the startup script that it generates so that the
 simulation detector is automatically started when the IOC starts.
 
 To make this change we just need to have the startup script set the values
-of the records `BL01T-EA-TST-03:CAM:Acquire` and
-`BL01T-EA-TST-03:PVA:EnableCallbacks` to 1.
+of the records `BL01T-EA-TST-02:DET:Acquire` and
+`BL01T-EA-TST-02:PVA:EnableCallbacks` to 1.
 
 To make this change, open the file
 `ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml`
@@ -183,9 +160,9 @@ If you now go to the terminal where you ran your IOC, you can stop it with
 following output at the end of the startup log:
 
 ```console
-dbpf BL01T-EA-TST-03:CAM:Acquire 1
+dbpf BL01T-EA-TST-02:DET:Acquire 1
 DBF_STRING:         "Acquire"
-dbpf BL01T-EA-TST-03:PVA:EnableCallbacks 1
+dbpf BL01T-EA-TST-02:PVA:EnableCallbacks 1
 DBF_STRING:         "Enable"
 epics>
 ```
@@ -218,11 +195,11 @@ Add the following to
 
 ```yaml
 - type: epics.dbpf
-  pv: BL01T-EA-TST-03:CAM:Acquire
+  pv: BL01T-EA-TST-02:DET:Acquire
   value: "1"
 
 - type: epics.dbpf
-  pv: BL01T-EA-TST-03:PVA:EnableCallbacks
+  pv: BL01T-EA-TST-02:PVA:EnableCallbacks
   value: "1"
 ```
 
