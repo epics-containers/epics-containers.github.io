@@ -713,5 +713,8 @@ You can follow along with the CI build by clicking the actions tab in your repos
 
 https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340
 
-EXERCISE: Now that you have a published container for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `ec deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
+## EXERCISE
+
+Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `ec deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
+
 
