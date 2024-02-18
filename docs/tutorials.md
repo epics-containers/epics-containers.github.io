@@ -17,7 +17,6 @@ tutorials/ioc_changes1
 tutorials/ioc_changes2
 tutorials/generic_ioc
 tutorials/debug_generic_ioc
-tutorials/test_generic_ioc
 tutorials/support_module
 tutorials/setup_k8s
 tutorials/setup_k8s_new_beamline
