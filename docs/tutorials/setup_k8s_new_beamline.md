@@ -3,13 +3,11 @@
 # Create a New Kubernetes Beamline
 
 :::{warning}
-This is a first draft that has been tested against a DLS test beamline
+This is a second draft that has been tested against a DLS test beamline
 only. I will remove this warning once it has been tested against:
 
 - the k3s example cluster described in the previous tutorial
 - a real DLS beamline.
-
-TODO: would it be better to have a separate tutorial for each of these?
 :::
 
 Up until now the tutorials have been deploying IOCs to the local docker or
@@ -44,43 +42,53 @@ beamline by the cloud team and have requested access via the URL above.
 
 ## Create a new beamline repository
 
-To create a new beamline repository, use the template repository at
-<https://github.com/epics-containers/blxxi-template>. Click on the green
-"Use this template" button to create a new repository. Name the repository
-bl46p (or choose your own name and remember to substitute it in the rest of
-this tutorial). Create this repository in your own GitHub account.
+This step is almost exactly the same as [](create-new-beamline-local). Except that you will answer some of the questions in the copier template differently. In fact you can re-use the same repository you created in the previous tutorial and update the copier to change where we deploy the IOCs to. The following steps will guide you through this, but if you want to keep your old local beamline repo. The just follow the steps in [](create-new-beamline-local) but pick a new name and use the answers below.
 
-:::{note}
-DLS users: if this is real beamline then it needs to be
-created in our internal GitLab registry at
-<https://gitlab.diamond.ac.uk/controls/containers/beamline>.
-For this purpose use the template description for [bl38p](https://github.com/epics-containers/bl38p?tab=readme-ov-file#how-to-create-a-new-beamline--accelerator-domain).
+In order to change our original `bl01t` beamline to a Kubernetes beamline perform the following steps:
 
-For test DLS beamlines these should still be created in github
-as per the below instructions.
+```bash
+# make sure your Python virtual environment is active
+pip install copier
+
+git clone git@github.com:YOUR_GITHUB_ACCOUNT/bl01t.git
+cd bl01t
+copier update --trust .
+```
+
+Answer the copier template questions as follows:
+
+   <pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
+   <b>   </b><font color="#FFAF00"><b>beamline</b></font>
+   <font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
+   <b>   </b><font color="#FFAF00"><b>bl01t</b></font>
+   <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+   <b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
+   <font color="#5F87AF">🎤</font><b> Cluster namespace. local for no K8S or e.g. p38-iocs, j20-iocs, p47-iocs</b>
+   <b>   </b><font color="#FFAF00"><b>p46-iocs</b></font>
+   <font color="#5F87AF">🎤</font><b> Name of the cluster where the IOCs and services in this repository will run</b>
+   <b>   </b><font color="#FFAF00"><b>pollux</b></font>
+   <font color="#5F87AF">🎤</font><b> This controls how the `environment.sh` script connects to the cluster.</b>
+   <b>   </b><font color="#FFAF00"><b>Shared Cluster (inc accelerator)</b></font>
+   <font color="#5F87AF">🎤</font><b> Add node-type tolerations for the target hosts&apos; node type</b>
+   <b>   </b><font color="#FFAF00"><b>training-rig</b></font>
+   <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+   <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+   <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_USER</b></font>
+   <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_USER/bl01t.git</b></font>
+   <font color="#5F87AF">🎤</font><b> URL for centralized logging.</b>
+   <b>   </b><font color="#FFAF00"><b>DLS</b></font>
+   </pre>
+
+:::{warning}
+DLS Users: These instructions are for the BL46P beamline. This beamline is a training rig and it is OK to install some test Simulation IOCs on it. However you will need to get access before you can deploy to it. Ask giles to request access to the `p46-iocs` namespace on the `pollux` cluster. In future the ec-services-template will be updated to allow you to deploy IOCs to your own namespace on the `pollux` cluster.
 :::
 
-Clone the new repository to your local machine and change directory into it.
+# Review the New Beamline Repository
 
-```bash
-git clone https://github.com/YOUR_GITHUB_ACCOUNT/bl46p.git
-cd bl46p
-```
+The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template.
 
-Next make some changes to the repository to customise it for your beamline.
-Cut and paste the following script to do so.
-
-```bash
-BEAMLINE=bl46p
-
-# update the readme
-echo "Beamline repo for the beamline $BEAMLINE" > README.md
-
-# remove the sample IOC directory
-rm -r services/blxxi-ea-ioc-01
-# change the services setup scripts to use the new beamline name
-sed -i "s/blxxi/$BEAMLINE/g" services/* beamline-chart/values.yaml
-```
 
 ## Cluster Topologies
 
@@ -274,27 +282,17 @@ dataVolume:
   hostPath: /dls/p46/data
 ```
 
-## Set Up The One Time Only Beamline Resources
+# Create a Test IOC to Deploy
 
-There are two scripts in the `services` directory that set up some initial
-resources. You should run each of these in order:
+TODO: WIP (but this looks just like it did in the first IOC deployment tutorial).
 
-- `services/install-pvcs.sh`: this sets up some persistent volume claims for
-  : the beamline. PVCS are Kubernetes managed chunks of storage that can be
-    shared between pods if required. The 3 PVCS created here relate to the
-    `Claim` entries in the `beamline-chart/values.yaml` file. These are
-    places to store:
-    \- autosave files
-    \- runtime generated startup scripts and EPICS database files
-    \- OPI screens (usually auto generated)
-- `services/install-opi.sh`: this sets up an nginx web server for the
-  : beamline. It serves the OPI screens from the `opisClaim` PVC. Each IOC
-    instance will place its OPI screens in a subdirectory of this PVC.
-    OPI clients like phoebus can then retrieve these files via HTTP.
+Essentially you should be able to deploy `bl01t-ea-test-02` to the k3s cluster with the same command as before:
 
-## Create a Test IOC to Deploy
-
-TODO: WIP (but this looks just like it did in the first IOC deployment tutorial)
+```bash
+cd bl01t
+source environment.sh
+ec local/deploy services/bl01t-ea-test-02
+```
 
 :::{note}
 At DLS you can get to a Kubernetes Dashboard for your beamline via

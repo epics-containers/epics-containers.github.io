@@ -40,7 +40,8 @@ Log in to your account by going here <https://github.com/login>.
 You will also need to setup ssh keys to authenticate to github from git. See
 [about ssh].
 
-## Create a New Repository
+(create-new-beamline-local)=
+## Create a New Beamline Repo for local deployments
 
 Here we will use the copy the ec services template repository to make a new beamline.
 
