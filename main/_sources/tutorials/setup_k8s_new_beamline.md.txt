@@ -42,7 +42,7 @@ beamline by the cloud team and have requested access via the URL above.
 
 ## Create a new beamline repository
 
-This step is almost exactly the same as [](create-new-beamline-local). Except that you will answer some of the questions in the copier template differently. In fact you can re-use the same repository you created in the previous tutorial and update the copier to change where we deploy the IOCs to. The following steps will guide you through this, but if you want to keep your old local beamline repo. The just follow the steps in [](create-new-beamline-local) but pick a new name and use the answers below.
+This step is almost exactly the same as [](create-new-beamline-local). Except that you will answer some of the questions in the copier template differently. In fact you can re-use the same repository you created in the previous tutorial and update the copier to change where we deploy the IOCs to. The following steps will guide you through this, but if you want to keep your old local beamline repo, just follow the steps in [](create-new-beamline-local) but pick a new name and use the answers below.
 
 In order to change our original `bl01t` beamline to a Kubernetes beamline perform the following steps:
 
