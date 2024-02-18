@@ -435,6 +435,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a New Kubernetes Beamline</a></li>
+
+
 <li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
 </ul>
@@ -498,13 +500,12 @@ document.write(`
 <span id="setup-k8s-beamline"></span><h1>Create a New Kubernetes Beamline<a class="headerlink" href="#create-a-new-kubernetes-beamline" title="Link to this heading">#</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This is a first draft that has been tested against a DLS test beamline
+<p>This is a second draft that has been tested against a DLS test beamline
 only. I will remove this warning once it has been tested against:</p>
 <ul class="simple">
 <li><p>the k3s example cluster described in the previous tutorial</p></li>
 <li><p>a real DLS beamline.</p></li>
 </ul>
-<p>TODO: would it be better to have a separate tutorial for each of these?</p>
 </div>
 <p>Up until now the tutorials have been deploying IOCs to the local docker or
 podman instance on your workstation. In this tutorial we look into setting
@@ -534,39 +535,49 @@ beamline by the cloud team and have requested access via the URL above.</p>
 </div>
 <section id="create-a-new-beamline-repository">
 <h2>Create a new beamline repository<a class="headerlink" href="#create-a-new-beamline-repository" title="Link to this heading">#</a></h2>
-<p>To create a new beamline repository, use the template repository at
-<a class="github reference external" href="https://github.com/epics-containers/blxxi-template">epics-containers/blxxi-template</a>. Click on the green
-“Use this template” button to create a new repository. Name the repository
-bl46p (or choose your own name and remember to substitute it in the rest of
-this tutorial). Create this repository in your own GitHub account.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>DLS users: if this is real beamline then it needs to be
-created in our internal GitLab registry at
-<a class="reference external" href="https://gitlab.diamond.ac.uk/controls/containers/beamline">https://gitlab.diamond.ac.uk/controls/containers/beamline</a>.
-For this purpose use the template description for <a class="reference external" href="https://github.com/epics-containers/bl38p?tab=readme-ov-file#how-to-create-a-new-beamline--accelerator-domain">bl38p</a>.</p>
-<p>For test DLS beamlines these should still be created in github
-as per the below instructions.</p>
-</div>
-<p>Clone the new repository to your local machine and change directory into it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/YOUR_GITHUB_ACCOUNT/bl46p.git
-<span class="nb">cd</span><span class="w"> </span>bl46p
+<p>This step is almost exactly the same as <a class="reference internal" href="create_beamline.html#create-new-beamline-local"><span class="std std-ref">Create a New Beamline Repo for local deployments</span></a>. Except that you will answer some of the questions in the copier template differently. In fact you can re-use the same repository you created in the previous tutorial and update the copier to change where we deploy the IOCs to. The following steps will guide you through this, but if you want to keep your old local beamline repo. The just follow the steps in <a class="reference internal" href="create_beamline.html#create-new-beamline-local"><span class="std std-ref">Create a New Beamline Repo for local deployments</span></a> but pick a new name and use the answers below.</p>
+<p>In order to change our original <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline to a Kubernetes beamline perform the following steps:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure your Python virtual environment is active</span>
+pip<span class="w"> </span>install<span class="w"> </span>copier
+
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_GITHUB_ACCOUNT/bl01t.git
+<span class="nb">cd</span><span class="w"> </span>bl01t
+copier<span class="w"> </span>update<span class="w"> </span>--trust<span class="w"> </span>.
 </pre></div>
 </div>
-<p>Next make some changes to the repository to customise it for your beamline.
-Cut and paste the following script to do so.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">BEAMLINE</span><span class="o">=</span>bl46p
-
-<span class="c1"># update the readme</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Beamline repo for the beamline </span><span class="nv">$BEAMLINE</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>README.md
-
-<span class="c1"># remove the sample IOC directory</span>
-rm<span class="w"> </span>-r<span class="w"> </span>services/blxxi-ea-ioc-01
-<span class="c1"># change the services setup scripts to use the new beamline name</span>
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/blxxi/</span><span class="nv">$BEAMLINE</span><span class="s2">/g&quot;</span><span class="w"> </span>services/*<span class="w"> </span>beamline-chart/values.yaml
-</pre></div>
+<p>Answer the copier template questions as follows:</p>
+   <pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
+   <b>   </b><font color="#FFAF00"><b>beamline</b></font>
+   <font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
+   <b>   </b><font color="#FFAF00"><b>bl01t</b></font>
+   <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+   <b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
+   <font color="#5F87AF">🎤</font><b> Cluster namespace. local for no K8S or e.g. p38-iocs, j20-iocs, p47-iocs</b>
+   <b>   </b><font color="#FFAF00"><b>p46-iocs</b></font>
+   <font color="#5F87AF">🎤</font><b> Name of the cluster where the IOCs and services in this repository will run</b>
+   <b>   </b><font color="#FFAF00"><b>pollux</b></font>
+   <font color="#5F87AF">🎤</font><b> This controls how the `environment.sh` script connects to the cluster.</b>
+   <b>   </b><font color="#FFAF00"><b>Shared Cluster (inc accelerator)</b></font>
+   <font color="#5F87AF">🎤</font><b> Add node-type tolerations for the target hosts&apos; node type</b>
+   <b>   </b><font color="#FFAF00"><b>training-rig</b></font>
+   <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+   <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+   <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_USER</b></font>
+   <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+   <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_USER/bl01t.git</b></font>
+   <font color="#5F87AF">🎤</font><b> URL for centralized logging.</b>
+   <b>   </b><font color="#FFAF00"><b>DLS</b></font>
+   </pre>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>DLS Users: These instructions are for the BL46P beamline. This beamline is a training rig and it is OK to install some test Simulation IOCs on it. However you will need to get access before you can deploy to it. Ask giles to request access to the <code class="docutils literal notranslate"><span class="pre">p46-iocs</span></code> namespace on the <code class="docutils literal notranslate"><span class="pre">pollux</span></code> cluster. In future the ec-services-template will be updated to allow you to deploy IOCs to your own namespace on the <code class="docutils literal notranslate"><span class="pre">pollux</span></code> cluster.</p>
 </div>
 </section>
+</section>
+<section id="review-the-new-beamline-repository">
+<h1>Review the New Beamline Repository<a class="headerlink" href="#review-the-new-beamline-repository" title="Link to this heading">#</a></h1>
+<p>The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template.</p>
 <section id="cluster-topologies">
 <h2>Cluster Topologies<a class="headerlink" href="#cluster-topologies" title="Link to this heading">#</a></h2>
 <p>There are two supported topologies for beamline clusters:</p>
@@ -737,28 +748,16 @@ type.</p>
 </div>
 </section>
 </section>
-<section id="set-up-the-one-time-only-beamline-resources">
-<h2>Set Up The One Time Only Beamline Resources<a class="headerlink" href="#set-up-the-one-time-only-beamline-resources" title="Link to this heading">#</a></h2>
-<p>There are two scripts in the <code class="docutils literal notranslate"><span class="pre">services</span></code> directory that set up some initial
-resources. You should run each of these in order:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">services/install-pvcs.sh</span></code>: this sets up some persistent volume claims for
-: the beamline. PVCS are Kubernetes managed chunks of storage that can be
-shared between pods if required. The 3 PVCS created here relate to the
-<code class="docutils literal notranslate"><span class="pre">Claim</span></code> entries in the <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> file. These are
-places to store:
-- autosave files
-- runtime generated startup scripts and EPICS database files
-- OPI screens (usually auto generated)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">services/install-opi.sh</span></code>: this sets up an nginx web server for the
-: beamline. It serves the OPI screens from the <code class="docutils literal notranslate"><span class="pre">opisClaim</span></code> PVC. Each IOC
-instance will place its OPI screens in a subdirectory of this PVC.
-OPI clients like phoebus can then retrieve these files via HTTP.</p></li>
-</ul>
 </section>
 <section id="create-a-test-ioc-to-deploy">
-<h2>Create a Test IOC to Deploy<a class="headerlink" href="#create-a-test-ioc-to-deploy" title="Link to this heading">#</a></h2>
-<p>TODO: WIP (but this looks just like it did in the first IOC deployment tutorial)</p>
+<h1>Create a Test IOC to Deploy<a class="headerlink" href="#create-a-test-ioc-to-deploy" title="Link to this heading">#</a></h1>
+<p>TODO: WIP (but this looks just like it did in the first IOC deployment tutorial).</p>
+<p>Essentially you should be able to deploy <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code> to the k3s cluster with the same command as before:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
+<span class="nb">source</span><span class="w"> </span>environment.sh
+ec<span class="w"> </span>local/deploy<span class="w"> </span>services/bl01t-ea-test-02
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>At DLS you can get to a Kubernetes Dashboard for your beamline via
@@ -768,7 +767,6 @@ a landing page <code class="docutils literal notranslate"><span class="pre">http
 <code class="docutils literal notranslate"><span class="pre">https://k8s-i22.diamond.ac.uk/</span></code> for BL22I.
 <code class="docutils literal notranslate"><span class="pre">https://k8s-b01-1.diamond.ac.uk/</span></code> for the 2nd branch of BL01B.</p>
 </div>
-</section>
 </section>
 
 
@@ -817,7 +815,11 @@ a landing page <code class="docutils literal notranslate"><span class="pre">http
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create a New Kubernetes Beamline</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-beamline-repository">Create a new beamline repository</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#review-the-new-beamline-repository">Review the New Beamline Repository</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-topologies">Cluster Topologies</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-clusters">Shared Clusters</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dedicated-clusters">Dedicated Clusters</a></li>
@@ -836,9 +838,11 @@ a landing page <code class="docutils literal notranslate"><span class="pre">http
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dls-real-beamlines">DLS real beamlines</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-one-time-only-beamline-resources">Set Up The One Time Only Beamline Resources</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-test-ioc-to-deploy">Create a Test IOC to Deploy</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-test-ioc-to-deploy">Create a Test IOC to Deploy</a></li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
