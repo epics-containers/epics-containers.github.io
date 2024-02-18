@@ -66,20 +66,19 @@ your personal GitHub user space.
       ```
 1. Answer the copier template questions as follows:
 
-
-  <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
-  <b>have a lower case suffix of the primary support module. e.g.</b>
-  <b>ioc-adsimdetector</b>
-  <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
-  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-  <b>   </b><font color="#FFAF00"><b>Generic IOC for the lakeshore 340 temperature controller</b></font>
-  <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
-  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
-  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
-  <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_ACCOUNT</b></font>
-  <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
-  <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_ACCOUNT/ioc-lakeshore340.git</b></font>
-  </pre>
+    <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
+    <b>have a lower case suffix of the primary support module. e.g.</b>
+    <b>ioc-adsimdetector</b>
+    <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
+    <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+    <b>   </b><font color="#FFAF00"><b>Generic IOC for the lakeshore 340 temperature controller</b></font>
+    <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+    <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+    <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+    <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_ACCOUNT</b></font>
+    <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+    <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_ACCOUNT/ioc-lakeshore340.git</b></font>
+    </pre>
 
 1. Make the first commit and push the repository to GitHub.
 
@@ -112,30 +111,28 @@ to make your own Generic IOC.
 2. **README.md** - change to describe your Generic IOC
 3. **ibek-support** - add new support module recipes into this submodule
 
-To work on this project we will use local developer container. All
-changes and testing will be performed inside this developer container.
+To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.
 
-Once the developer container is running it is always instructive to have the
-`/epics` folder added to your workspace:
+Once the developer container is running it is always instructive to have the `/epics` folder added to your workspace:
 
 - File -> Add Folder to Workspace
 - Select `/epics`
-- Click ignore if you see an error
+- Click cancel if you see an error
 - File -> Save Workspace As...
 - Choose the default `/workspaces/ioc-lakeshore340/ioc-lakeshore340.code-workspace`
 
 Note that workspace files are not committed to git. They are specific to your local development environment. Saving a workspace allows you to reopen the same set of folders in the developer container, using the *Recent* list shown when opening a new VSCode window.
 
-Now is a good time to edit the README.md file and change it to describe your Generic IOC as you see fit. However the template will have placed some basic information in there for you already.
+Now is a good time to edit the README.md file and change it to describe your Generic IOC as you see fit. However, the template will have placed some basic information in there for you already.
 
 ## Initial Changes to the Dockerfile
 
-The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container. The starting container filesystem state is determined by a `FROM` line at the top of the Dockerfile.
+The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container during the container image build phase. The initial container filesystem at the start of a build is determined by a `FROM` line at the top of the Dockerfile.
 
 In the Generic IOC template the `FROM` line gets a version of the epics-containers base image. It then demonstrates how to add a support module to the container image. The `iocStats` support module is added and built by the template. It is recommended to keep this module as the default
 behaviour in Kubernetes is to use `iocStats` to monitor the health of the IOC.
 
-Thus you can start adding support modules by adding more `COPY` and `RUN` lines to the Dockerfile. Just like those for the `iocStats` module.
+Thus, you can start adding support modules by adding more `COPY` and `RUN` lines to the Dockerfile. Just like those for the `iocStats` module.
 
 The rest of the Dockerfile is boilerplate and for best results you only need to remove the comment below and replace it with the additional support modules you need. Doing this means it is easy to adopt changes to the original template Dockerfile in the future.
 
@@ -145,8 +142,7 @@ The rest of the Dockerfile is boilerplate and for best results you only need to 
 ################################################################################
 ```
 
-Because lakeshore340 support is a StreamDevice we will need to add in the
-required dependencies. These are `asyn` and `StreamDevice`. We will
+Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn` and `StreamDevice`. We will
 first install those inside our devcontainer as follows:
 
 ```bash
@@ -156,12 +152,9 @@ asyn/install.sh R4-42
 StreamDevice/install.sh 2.8.24
 ```
 
-This pulls the two support modules from GitHub and builds them in our devcontainer.
-Now any IOC instances we run in the devcontainer will be able to use these support
-modules.
+This pulls the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.
 
-Next, make sure that the next build of our `ioc-lakeshore340` container
-image will have the same support built in by updating the Dockerfile as follows:
+Next, make sure that the next build of our `ioc-lakeshore340` container image will have the same support built in by updating the Dockerfile as follows:
 
 ```dockerfile
 COPY ibek-support/asyn/ asyn/
@@ -177,26 +170,16 @@ we copy it's `ibek-support` folder and then run the `install.sh` script. The
 only argument to `install.sh` is the git tag for the version of the support
 module required. `ibek-support` is a submodule used by all the Generic IOC
 projects that contains recipes for building support modules, it will be covered
-in more detail as we learn to add our own recipe for lakeshore340 below.
+in more detail as we learn to add our own recipe for the lakeshore340 below.
 
-You may think that there is a lot of duplication here e.g. `asyn` appears
-3 times. However, this is explicitly
-done to make the build cache more efficient and speed up development.
-For example we could copy everything out of the ibek-support directory
-in a single command but then if I changed a StreamDevice ibek-support file the
-build would have to re-fetch and re-make all the support modules. By
-only copying the files we are about to use in the next step we can
-massively increase the build cache hit rate.
+You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory
+in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
 :::{note}
-These changes to the Dockerfile mean that if we were to exit the devcontainer,
-and then run `./build` again, it would would add the `asyn` and
-`StreamDevice` support modules to the container image. Re-launching the
-devcontainer would then have the new support modules available right away.
+These changes to the Dockerfile mean that if we were to exit the devcontainer, and then run `./build` again, it would would add the `asyn` and
+`StreamDevice` support modules to the container image. Re-launching the devcontainer would then have the new support modules available right away.
 
-This is a common pattern for working in these devcontainers. You can
-try out installing anything you need. Then once happy with it, add the
-commands to the Dockerfile, so that these changes become permanent.
+This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands to the Dockerfile, so that these changes become permanent.
 :::
 
 ## Prepare The ibek-support Submodule
@@ -226,15 +209,15 @@ Perform the following steps to create a fork and update the submodule:
 - uncheck `Copy the main branch only`
 - click `Create Fork`
 - click on `<> Code` and copy the *HTTPS* URL
-- cd to the ioc-lakeshore340 directory
 
 ```bash
+cd /workspaces/ioc-lakeshore340
 git submodule set-url ibek-support <PASTE *HTTPS* URL HERE>
-git submodule init
 git submodule update
 cd ibek-support
 git fetch
 git checkout tutorial-KEEP # see note below
+git remote -v # verify that the origin is your fork
 cd ..
 ```
 
@@ -263,20 +246,13 @@ a particular commit (until updated with `git pull`) see
 
 ## Create install.sh For The lakeshore340
 
-The first file we will create is the `install.sh` script for lakeshore340.
-This is a simple script that fetches the support module from GitHub and
-builds it.
+The first file we will create is the `install.sh` script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.
 
-These scripts draw heavily on the `ibek` tool to do tasks that most support
-modules require. They are also as close to identical as possible for simple
-support modules.
+These scripts draw heavily on the `ibek` tool to do tasks that most support modules require. They are also are as close to identical as possible for simple support modules.
 
 IMPORTANT points to note are:
 
-- Although we are using `ibek` we are really just automating what an EPICS
-  engineer would do manually. This is very much using the vanilla EPICS build
-  system that comes with EPICS base, along with the vanilla Make and Config files
-  that come with each support module. These steps are:-
+- Although we are using `ibek` we are really just automating what an EPICS engineer would do manually. This is very much using the vanilla EPICS build system that comes with EPICS base, along with the vanilla Make and Config files that come with each support module. These steps are:-
 
   - make sure we have the necessary system dependencies installed
   - fetch a version of the support module from GitHub
@@ -294,7 +270,7 @@ IMPORTANT points to note are:
 To make your lakeshore340 install.sh script:
 
 ```bash
-cd ibek-support
+cd /workspaces/ioc-lakeshore340/ibek-support
 mkdir lakeshore340
 cp iocStats/install.sh lakeshore340/install.sh
 code lakeshore340/install.sh
@@ -503,7 +479,7 @@ macros that it needs to substitute. It then declares that we need to instantiate
 the `lakeshore340.template` database template and passes all of the arguments
 verbatim to the template.
 
-Finally it declares that we need to add a line to the iocShell startup script
+Next, it declares that we need to add a line to the iocShell startup script
 that allows the IOC to find the module's StreamDevice protocol files.
 
 Note that in the list of DB args or in the startup lines we can use combinations
@@ -533,6 +509,26 @@ that will translate this file into an `ibek` YAML file. Only DLS users
 can take advantage of this because it needs access to all the dependent
 DLS support module forks to work. See {any}`../how-to/builder2ibek.support`
 :::
+
+## Register the Support YAML
+
+When a Generic IOC is built, each support module will register its support YAML by linking it into the folder `/epics/ibek-defs`. This is so that the `ibek` tool can find all the support module definitions and combine them into a single schema file. The schema file is then to validate your IOC instance YAML as you are editing it.
+
+This registration process happens as part of the `install.sh` script for the support module. It is done by the `ibek support generate-links` command.
+
+Here we just need to go ahead and re-run our `install.sh` script to register the lakeshore340 support YAML that we just created:
+
+```bash
+cd /workspaces/ioc-lakeshore340/ibek-support
+lakeshore340/install.sh 2-6-2
+```
+
+IMPORTANT: since we last built the IOC binary, we have added new support modules into the container image. Therefore we need to rebuild the IOC binary to include these new support modules. This is done by running `make` in the `/epics/ioc` folder.
+
+```bash
+cd /epics/ioc
+make
+```
 
 ## Example IOC instance
 
@@ -565,15 +561,15 @@ https://github.com/<YOUR GITHUB ACCOUNT>/ioc-lakeshore340/releases/download/<VER
 This would then be the URL you would put at the top of any IOC instances using
 your released Generic IOC.
 
-To create the instance we create a folder:
+To create the instance we create a folder in `ioc-examples` and create a IOC Instance definition there as follows:
 
-> /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+```bash
+mkdir -p /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+cd /workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+code ioc.yaml
+```
 
-and create a file in there called:
-
-> bl16i-ea-ioc-07.yaml
-
-with the following contents:
+Add the following contents to the new yaml file:
 
 ```yaml
 # yaml-language-server: $schema=/tmp/ibek.ioc.schema.json
@@ -627,33 +623,26 @@ make
 If all is well then you should see the IOC start up and connect to the
 simulator. You will see the simulator logging the queries it receives.
 
-TODO: it is possible to launch the bob file in:
-
-> /epics/support/lakeshore340/lakeshore340App/opi/bob/lakeshore340.bob
-
-to see a GUI for this IOC instance. However, I'm reserving writing about
-GUI until I have the PVI integration done on this module and we can see
-the auto-generated GUI.
+:::{note}
+TODO: It is possible to launch the bob file in: `/epics/support/lakeshore340/lakeshore340App/opi/bob/lakeshore340.bob` to see a GUI for this IOC instance. However, I'm reserving writing about GUI until I have the PVI integration done on this module and we can see the auto-generated GUI.
+:::
 
 To investigate what `ibek` did to make the Generic IOC binary and the
 IOC instance files, take a look at the following files.
 
-- `/epics/runtime` - the runtime assets created from a combination of the
-  : instance YAML and all the referenced support YAML
+- `/epics/runtime` - the runtime assets created from a combination of the instance YAML and all the referenced support YAML
 
-- `/epics/ioc/iocApp/Makefile` - this picks up the libs and DBDs from the
-  support module builds which record their dbds and libs in:
+- `/epics/ioc/iocApp/Makefile` - this picks up the libs and DBDs from the support module builds which record their dbds and libs in:
 
   - `/epics/support/configure/dbd_list`
   - `/epics/support/configure/lib_list`
 
-- `/epics/ioc/support/configure/RELEASE` - a global release file that contains
-  macros for all the support built in the container. This is soft linked
-  to `configure/RELEASE.local` in each support module.
+- `/epics/ioc/support/configure/RELEASE` - a global release file that contains macros for all the support built in the container. This is soft linked to `configure/RELEASE.local` in each support module.
 
-- `/epics/support/configure/RELEASE.shell` - created along with the global
-  release file. Sets all the release macros as shell environment variables
+- `/epics/support/configure/RELEASE.shell` - created along with the global release file. Sets all the release macros as shell environment variables
   for passing into the ioc startup script.
+
+- `/epics/ibek-defs` - a folder containing all the support YAML files that were registered by the `install.sh` scripts. These are symlinks into the original files in ibek-support/XXX
 
 :::{note}
 Because this IOC instance is a copy of a real IOC at DLS it comes
@@ -668,9 +657,7 @@ Note this is distinct from making support YAML files with
 
 Inside the developer container you can add and remove support, change the
 IOC instance YAML file and re-build the IOC instance until everything is
-working as you want it to. At that point you can push the changes to GitHub
-and the CI should build a container image. Once that has succeeded you can
-tag the release and the CI will publish the container image to GHCR.
+working as you want it to.
 
 Note that building the IOC binary is required after any change to the set
 of support modules inside this container. However it is not required after
@@ -678,6 +665,56 @@ changes to the IOC instance YAML file. If you want to change the instance
 you can:
 
 - edit the YAML file
-- stop the IOC
+- stop the IOC with `ctrl-d` in the ioc shell
 - start the IOC with `./start.sh`
-- that's it
+
+# Wrapping Up
+
+For the final step we will get the Generic IOC container image published to GHCR. This means committing all our changes and pushing them up to GitHub so that the Continuous Integration system can build the container image and publish it.
+
+Before we do that we need to make sure our changes we have manually made inside the developer container will be applied at container build time. There is one thing we have done that is not yet added to the Dockerfile. That is the building of the lakeshore support module itself. Therefore we need to add the following lines to the Dockerfile just after the install of the `asyn` and `StreamDevice` support modules:
+
+```dockerfile
+COPY ibek-support/lakeshore340/ lakeshore340/
+RUN lakeshore340/install.sh 2-6-2
+```
+
+These commands will do the same install we did manually above. They rely on our new additions to the `ibek-support` submodule which shows that it is important to commit the submodule changes first before we push ioc-lakeshore340 repository to GitHub.
+
+Perform the following commands to commit and push the changes:
+
+```bash
+cd /workspaces/ioc-lakeshore340/ibek-support
+git checkout -b my-lakeshore-branch # create a new branch for your changes
+git add .
+git commit -m "add lakeshore340 support module"
+git push -u origin my-lakeshore-branch
+
+# now we can push up the ioc-lakeshore340 repository
+cd /workspaces/ioc-lakeshore340
+git add .
+git commit -m "add lakeshore340 support module and dependencies"
+# we are pushing to the main branch here - which is OK for a tutorial
+# but in a real project you would use a feature branch and a pull request
+git push
+```
+
+This should trigger a build of the container image in the GitHub Actions CI system. You can watch this by clicking on the `Actions` tab in your new repository.
+
+Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way do this by clicking on the `Releases` tab in your new repository and then clicking on `Create a new release`.
+
+:::{figure} ../images/lakeshore_releases.png
+Create a new release on GitHub
+:::
+
+On the New Release page, choose a tag, eg. `0.1.0`, click `Generate release notes`, Add your own description to the notes if desired and then click `Publish release`.
+
+You can follow along with the CI build by clicking the actions tab in your repository. Once the build is complete you can see the container image in the `packages` area of your repository. To see your packages, choose the following URL:
+
+https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340
+
+## EXERCISE
+
+Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `ec deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
+
+

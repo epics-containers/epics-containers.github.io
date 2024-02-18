@@ -470,6 +470,20 @@ and the <a class="reference external" href="https://epics-containers.github.io/m
 </tr>
 </tbody>
 </table>
+<section id="update-for-february-2024">
+<h2>Update for February 2024<a class="headerlink" href="#update-for-february-2024" title="Link to this heading">#</a></h2>
+<p>The tutorials have now been updated. Recent changes include:</p>
+<ul class="simple">
+<li><p>epics-containers-cli has been renamed to edge-containers-cli. It now supports the deployment of general services as well as IOCs. It still has the entrypoint <code class="docutils literal notranslate"><span class="pre">ec</span></code> but the namespace <code class="docutils literal notranslate"><span class="pre">ioc</span></code> has been dropped and its functions are now in the root (e.g. <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy</span></code> is now <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code>).</p></li>
+<li><p>Improved CI for <a class="reference internal" href="reference/glossary.html#ec-services-repo"><span class="std std-ref">ec-services repository</span></a>s and generic IOCs repos.</p></li>
+<li><p>copier template based creation of new beamline, accelerator and generic IOC repos.</p>
+<ul>
+<li><p>This provides greatly improved ability to adopt updates to the template into your own repositories.</p></li>
+</ul>
+</li>
+</ul>
+<p>All tutorials are now up to date with the latest workflow. The exception is tutorials for the RTEMS platform which are now in active development.</p>
+</section>
 <section id="materials">
 <h2>Materials<a class="headerlink" href="#materials" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -517,8 +531,8 @@ and the <a class="reference external" href="https://epics-containers.github.io/m
 <li class="toctree-l2"><a class="reference internal" href="tutorials/ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/generic_ioc.html#wrapping-up">Wrapping Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/support_module.html">Working with Support Modules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>

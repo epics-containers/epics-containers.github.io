@@ -55,7 +55,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Setup a Kubernetes Server" href="setup_k8s.html" />
-    <link rel="prev" title="Testing and Deploying a Generic IOC" href="test_generic_ioc.html" />
+    <link rel="prev" title="Debugging Generic IOC Builds" href="debug_generic_ioc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -430,8 +430,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Support Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
@@ -498,26 +498,26 @@ document.write(`
 <h1>Working with Support Modules<a class="headerlink" href="#working-with-support-modules" title="Link to this heading">#</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This tutorial is out of date and will be updated soon.</p>
+<p>This tutorial is an early draft and is not yet complete.</p>
 </div>
-<p>TODO: this is currently a stub with some pointers.</p>
-<p>TODO: suggest that we will make a new Stream Device that will be a
-simple echo server. Use this to step through the process of creating a
-new support module.</p>
 <p>This is a type 3. change from the list at <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
-<p>If you are starting a new support module then the preceding tutorials
-have covered all of the skills you will need.</p>
-<p>To work on a new support module you will need a Generic IOC project to
-work inside. You could choose to create two new projects:</p>
-<dl class="field-list simple">
-<dt class="field-odd">ioc-MyNewDeviceSupport<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a Generic IOC container definition based on ioc-template</p>
-</dd>
-</dl>
-<p>Once you have created the project(s), working on the support module will
-look very similar to the procedures set out here <a class="reference internal" href="debug_generic_ioc.html"><span class="doc">Debugging Generic IOC Builds</span></a></p>
-<p>Once you have created the project(s), working on the support module will
-look very similar to the procedures set out here <a class="reference internal" href="debug_generic_ioc.html"><span class="doc">Debugging Generic IOC Builds</span></a></p>
+<p>In the tutorial on <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>, we created a new Generic IOC container image that wrapped the existing support module <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code>.</p>
+<p>If you wanted to create a completely new support module then you would use a very similar workflow to the above.</p>
+<p>In brief, the steps are:</p>
+<ul class="simple">
+<li><p>Create a new Generic IOC project using the <a class="github reference external" href="https://github.com/epics-containers/ioc-template">epics-containers/ioc-template</a></p></li>
+<li><p>Create a new folder in /workspaces/YOUR_SUPPORT_MODULE_NAME</p></li>
+<li><p>Link the new folder to the epics support folders:</p>
+<ul>
+<li><p>ln -s /workspaces/YOUR_SUPPORT_MODULE_NAME /epics/support/YOUR_SUPPORT_MODULE_NAME</p></li>
+<li><p>TODO the ibek command <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span> <span class="pre">YOUR_SUPPORT_MODULE_NAME</span></code> will do this in future</p></li>
+</ul>
+</li>
+<li><p>Now work on your support module and get it compiling</p></li>
+<li><p>Then add <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> for the new module as per <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a></p></li>
+<li><p>create an example instance in the Generic IOC project to test your work</p></li>
+<li><p>When ready, push your new support and new ioc-support projects.</p></li>
+</ul>
 </section>
 
 
@@ -531,12 +531,12 @@ look very similar to the procedures set out here <a class="reference internal" h
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="test_generic_ioc.html"
+       href="debug_generic_ioc.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Testing and Deploying a Generic IOC</p>
+        <p class="prev-next-title">Debugging Generic IOC Builds</p>
       </div>
     </a>
     <a class="right-next"

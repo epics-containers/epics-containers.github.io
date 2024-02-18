@@ -430,8 +430,8 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Generic IOC</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test_generic_ioc.html">Testing and Deploying a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
@@ -551,22 +551,21 @@ copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/io
 </pre></div>
 </div>
 </li>
-<li><p>Answer the copier template questions as follows:</p></li>
-</ol>
-  <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
-  <b>have a lower case suffix of the primary support module. e.g.</b>
-  <b>ioc-adsimdetector</b>
-  <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
-  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-  <b>   </b><font color="#FFAF00"><b>Generic IOC for the lakeshore 340 temperature controller</b></font>
-  <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
-  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
-  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
-  <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_ACCOUNT</b></font>
-  <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
-  <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_ACCOUNT/ioc-lakeshore340.git</b></font>
-  </pre>
-<ol class="arabic">
+<li><p>Answer the copier template questions as follows:</p>
+ <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
+ <b>have a lower case suffix of the primary support module. e.g.</b>
+ <b>ioc-adsimdetector</b>
+ <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
+ <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+ <b>   </b><font color="#FFAF00"><b>Generic IOC for the lakeshore 340 temperature controller</b></font>
+ <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
+ <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+ <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+ <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_ACCOUNT</b></font>
+ <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
+ <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_ACCOUNT/ioc-lakeshore340.git</b></font>
+ </pre>
+</li>
 <li><p>Make the first commit and push the repository to GitHub.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340
 git<span class="w"> </span>add<span class="w"> </span>.
@@ -596,34 +595,31 @@ to make your own Generic IOC.</p>
 <li><p><strong>README.md</strong> - change to describe your Generic IOC</p></li>
 <li><p><strong>ibek-support</strong> - add new support module recipes into this submodule</p></li>
 </ol>
-<p>To work on this project we will use local developer container. All
-changes and testing will be performed inside this developer container.</p>
-<p>Once the developer container is running it is always instructive to have the
-<code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder added to your workspace:</p>
+<p>To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.</p>
+<p>Once the developer container is running it is always instructive to have the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder added to your workspace:</p>
 <ul class="simple">
 <li><p>File -&gt; Add Folder to Workspace</p></li>
 <li><p>Select <code class="docutils literal notranslate"><span class="pre">/epics</span></code></p></li>
-<li><p>Click ignore if you see an error</p></li>
+<li><p>Click cancel if you see an error</p></li>
 <li><p>File -&gt; Save Workspace As…</p></li>
 <li><p>Choose the default <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-lakeshore340/ioc-lakeshore340.code-workspace</span></code></p></li>
 </ul>
 <p>Note that workspace files are not committed to git. They are specific to your local development environment. Saving a workspace allows you to reopen the same set of folders in the developer container, using the <em>Recent</em> list shown when opening a new VSCode window.</p>
-<p>Now is a good time to edit the README.md file and change it to describe your Generic IOC as you see fit. However the template will have placed some basic information in there for you already.</p>
+<p>Now is a good time to edit the README.md file and change it to describe your Generic IOC as you see fit. However, the template will have placed some basic information in there for you already.</p>
 </section>
 <section id="initial-changes-to-the-dockerfile">
 <h2>Initial Changes to the Dockerfile<a class="headerlink" href="#initial-changes-to-the-dockerfile" title="Link to this heading">#</a></h2>
-<p>The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container. The starting container filesystem state is determined by a <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line at the top of the Dockerfile.</p>
+<p>The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container during the container image build phase. The initial container filesystem at the start of a build is determined by a <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line at the top of the Dockerfile.</p>
 <p>In the Generic IOC template the <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line gets a version of the epics-containers base image. It then demonstrates how to add a support module to the container image. The <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> support module is added and built by the template. It is recommended to keep this module as the default
 behaviour in Kubernetes is to use <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> to monitor the health of the IOC.</p>
-<p>Thus you can start adding support modules by adding more <code class="docutils literal notranslate"><span class="pre">COPY</span></code> and <code class="docutils literal notranslate"><span class="pre">RUN</span></code> lines to the Dockerfile. Just like those for the <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> module.</p>
+<p>Thus, you can start adding support modules by adding more <code class="docutils literal notranslate"><span class="pre">COPY</span></code> and <code class="docutils literal notranslate"><span class="pre">RUN</span></code> lines to the Dockerfile. Just like those for the <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> module.</p>
 <p>The rest of the Dockerfile is boilerplate and for best results you only need to remove the comment below and replace it with the additional support modules you need. Doing this means it is easy to adopt changes to the original template Dockerfile in the future.</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c">################################################################################</span>
 <span class="c">#  TODO - Add further support module installations here</span>
 <span class="c">################################################################################</span>
 </pre></div>
 </div>
-<p>Because lakeshore340 support is a StreamDevice we will need to add in the
-required dependencies. These are <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code>. We will
+<p>Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code>. We will
 first install those inside our devcontainer as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a new terminal in VSCode (Terminal -&gt; New Terminal)</span>
 <span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
@@ -631,11 +627,8 @@ asyn/install.sh<span class="w"> </span>R4-42
 StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
 </pre></div>
 </div>
-<p>This pulls the two support modules from GitHub and builds them in our devcontainer.
-Now any IOC instances we run in the devcontainer will be able to use these support
-modules.</p>
-<p>Next, make sure that the next build of our <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> container
-image will have the same support built in by updating the Dockerfile as follows:</p>
+<p>This pulls the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.</p>
+<p>Next, make sure that the next build of our <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> container image will have the same support built in by updating the Dockerfile as follows:</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/asyn/<span class="w"> </span>asyn/
 <span class="k">RUN</span><span class="w"> </span>asyn/install.sh<span class="w"> </span>R4-42
 
@@ -649,24 +642,14 @@ we copy it’s <code class="docutils literal notranslate"><span class="pre">ibek
 only argument to <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> is the git tag for the version of the support
 module required. <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a submodule used by all the Generic IOC
 projects that contains recipes for building support modules, it will be covered
-in more detail as we learn to add our own recipe for lakeshore340 below.</p>
-<p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears
-3 times. However, this is explicitly
-done to make the build cache more efficient and speed up development.
-For example we could copy everything out of the ibek-support directory
-in a single command but then if I changed a StreamDevice ibek-support file the
-build would have to re-fetch and re-make all the support modules. By
-only copying the files we are about to use in the next step we can
-massively increase the build cache hit rate.</p>
+in more detail as we learn to add our own recipe for the lakeshore340 below.</p>
+<p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory
+in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These changes to the Dockerfile mean that if we were to exit the devcontainer,
-and then run <code class="docutils literal notranslate"><span class="pre">./build</span></code> again, it would would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and
-<code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image. Re-launching the
-devcontainer would then have the new support modules available right away.</p>
-<p>This is a common pattern for working in these devcontainers. You can
-try out installing anything you need. Then once happy with it, add the
-commands to the Dockerfile, so that these changes become permanent.</p>
+<p>These changes to the Dockerfile mean that if we were to exit the devcontainer, and then run <code class="docutils literal notranslate"><span class="pre">./build</span></code> again, it would would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and
+<code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image. Re-launching the devcontainer would then have the new support modules available right away.</p>
+<p>This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands to the Dockerfile, so that these changes become permanent.</p>
 </div>
 </section>
 <section id="prepare-the-ibek-support-submodule">
@@ -694,14 +677,14 @@ merged into the main repo.</p>
 <li><p>uncheck <code class="docutils literal notranslate"><span class="pre">Copy</span> <span class="pre">the</span> <span class="pre">main</span> <span class="pre">branch</span> <span class="pre">only</span></code></p></li>
 <li><p>click <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">Fork</span></code></p></li>
 <li><p>click on <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span> <span class="pre">Code</span></code> and copy the <em>HTTPS</em> URL</p></li>
-<li><p>cd to the ioc-lakeshore340 directory</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>submodule<span class="w"> </span>set-url<span class="w"> </span>ibek-support<span class="w"> </span>&lt;PASTE<span class="w"> </span>*HTTPS*<span class="w"> </span>URL<span class="w"> </span>HERE&gt;
-git<span class="w"> </span>submodule<span class="w"> </span>init
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340
+git<span class="w"> </span>submodule<span class="w"> </span>set-url<span class="w"> </span>ibek-support<span class="w"> </span>&lt;PASTE<span class="w"> </span>*HTTPS*<span class="w"> </span>URL<span class="w"> </span>HERE&gt;
 git<span class="w"> </span>submodule<span class="w"> </span>update
 <span class="nb">cd</span><span class="w"> </span>ibek-support
 git<span class="w"> </span>fetch
 git<span class="w"> </span>checkout<span class="w"> </span>tutorial-KEEP<span class="w"> </span><span class="c1"># see note below</span>
+git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </span><span class="c1"># verify that the origin is your fork</span>
 <span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
 </div>
@@ -727,18 +710,11 @@ a particular commit (until updated with <code class="docutils literal notranslat
 </section>
 <section id="create-install-sh-for-the-lakeshore340">
 <h2>Create install.sh For The lakeshore340<a class="headerlink" href="#create-install-sh-for-the-lakeshore340" title="Link to this heading">#</a></h2>
-<p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for lakeshore340.
-This is a simple script that fetches the support module from GitHub and
-builds it.</p>
-<p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do tasks that most support
-modules require. They are also as close to identical as possible for simple
-support modules.</p>
+<p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.</p>
+<p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do tasks that most support modules require. They are also are as close to identical as possible for simple support modules.</p>
 <p>IMPORTANT points to note are:</p>
 <ul class="simple">
-<li><p>Although we are using <code class="docutils literal notranslate"><span class="pre">ibek</span></code> we are really just automating what an EPICS
-engineer would do manually. This is very much using the vanilla EPICS build
-system that comes with EPICS base, along with the vanilla Make and Config files
-that come with each support module. These steps are:-</p>
+<li><p>Although we are using <code class="docutils literal notranslate"><span class="pre">ibek</span></code> we are really just automating what an EPICS engineer would do manually. This is very much using the vanilla EPICS build system that comes with EPICS base, along with the vanilla Make and Config files that come with each support module. These steps are:-</p>
 <ul>
 <li><p>make sure we have the necessary system dependencies installed</p></li>
 <li><p>fetch a version of the support module from GitHub</p></li>
@@ -755,7 +731,7 @@ compile a 3rd party library before it can build the support module itself.
 <a class="reference external" href="https://github.com/gilesknap/ibek-support/blob/46fd9394f6bf07da97ab7971e6b3f09a623a42f6/ADAravis/install.sh#L17-L44">ADAravis install.sh</a></p></li>
 </ul>
 <p>To make your lakeshore340 install.sh script:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ibek-support
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
 mkdir<span class="w"> </span>lakeshore340
 cp<span class="w"> </span>iocStats/install.sh<span class="w"> </span>lakeshore340/install.sh
 code<span class="w"> </span>lakeshore340/install.sh
@@ -948,7 +924,7 @@ contents:</p>
 macros that it needs to substitute. It then declares that we need to instantiate
 the <code class="docutils literal notranslate"><span class="pre">lakeshore340.template</span></code> database template and passes all of the arguments
 verbatim to the template.</p>
-<p>Finally it declares that we need to add a line to the iocShell startup script
+<p>Next, it declares that we need to add a line to the iocShell startup script
 that allows the IOC to find the module’s StreamDevice protocol files.</p>
 <p>Note that in the list of DB args or in the startup lines we can use combinations
 of arguments to make the final output.</p>
@@ -975,6 +951,21 @@ can take advantage of this because it needs access to all the dependent
 DLS support module forks to work. See <a class="reference internal" href="../how-to/builder2ibek.support.html"><span class="doc">Builder2ibek.support Conversion Tool</span></a></p>
 </div>
 </section>
+<section id="register-the-support-yaml">
+<h2>Register the Support YAML<a class="headerlink" href="#register-the-support-yaml" title="Link to this heading">#</a></h2>
+<p>When a Generic IOC is built, each support module will register its support YAML by linking it into the folder <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>. This is so that the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool can find all the support module definitions and combine them into a single schema file. The schema file is then to validate your IOC instance YAML as you are editing it.</p>
+<p>This registration process happens as part of the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for the support module. It is done by the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">generate-links</span></code> command.</p>
+<p>Here we just need to go ahead and re-run our <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script to register the lakeshore340 support YAML that we just created:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
+lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
+</pre></div>
+</div>
+<p>IMPORTANT: since we last built the IOC binary, we have added new support modules into the container image. Therefore we need to rebuild the IOC binary to include these new support modules. This is done by running <code class="docutils literal notranslate"><span class="pre">make</span></code> in the <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
+make
+</pre></div>
+</div>
+</section>
 <section id="example-ioc-instance">
 <h2>Example IOC instance<a class="headerlink" href="#example-ioc-instance" title="Link to this heading">#</a></h2>
 <p>In order to test our Generic IOC we now require an IOC instance to launch it.
@@ -999,15 +990,13 @@ as part of the release at the following URL:</p>
 </div>
 <p>This would then be the URL you would put at the top of any IOC instances using
 your released Generic IOC.</p>
-<p>To create the instance we create a folder:</p>
-<blockquote>
-<div><p>/workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/</p>
-</div></blockquote>
-<p>and create a file in there called:</p>
-<blockquote>
-<div><p>bl16i-ea-ioc-07.yaml</p>
-</div></blockquote>
-<p>with the following contents:</p>
+<p>To create the instance we create a folder in <code class="docutils literal notranslate"><span class="pre">ioc-examples</span></code> and create a IOC Instance definition there as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>/workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+<span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ioc-examples/bl16i-ea-ioc-07/config/
+code<span class="w"> </span>ioc.yaml
+</pre></div>
+</div>
+<p>Add the following contents to the new yaml file:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=/tmp/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_yaml_file_name</span><span class="nv"> </span><span class="s">}}&quot;</span>
@@ -1054,31 +1043,24 @@ make
 </div>
 <p>If all is well then you should see the IOC start up and connect to the
 simulator. You will see the simulator logging the queries it receives.</p>
-<p>TODO: it is possible to launch the bob file in:</p>
-<blockquote>
-<div><p>/epics/support/lakeshore340/lakeshore340App/opi/bob/lakeshore340.bob</p>
-</div></blockquote>
-<p>to see a GUI for this IOC instance. However, I’m reserving writing about
-GUI until I have the PVI integration done on this module and we can see
-the auto-generated GUI.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO: It is possible to launch the bob file in: <code class="docutils literal notranslate"><span class="pre">/epics/support/lakeshore340/lakeshore340App/opi/bob/lakeshore340.bob</span></code> to see a GUI for this IOC instance. However, I’m reserving writing about GUI until I have the PVI integration done on this module and we can see the auto-generated GUI.</p>
+</div>
 <p>To investigate what <code class="docutils literal notranslate"><span class="pre">ibek</span></code> did to make the Generic IOC binary and the
 IOC instance files, take a look at the following files.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">/epics/runtime</span></code> - the runtime assets created from a combination of the
-: instance YAML and all the referenced support YAML</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/Makefile</span></code> - this picks up the libs and DBDs from the
-support module builds which record their dbds and libs in:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/runtime</span></code> - the runtime assets created from a combination of the instance YAML and all the referenced support YAML</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/Makefile</span></code> - this picks up the libs and DBDs from the support module builds which record their dbds and libs in:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code></p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc/support/configure/RELEASE</span></code> - a global release file that contains
-macros for all the support built in the container. This is soft linked
-to <code class="docutils literal notranslate"><span class="pre">configure/RELEASE.local</span></code> in each support module.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">/epics/support/configure/RELEASE.shell</span></code> - created along with the global
-release file. Sets all the release macros as shell environment variables
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc/support/configure/RELEASE</span></code> - a global release file that contains macros for all the support built in the container. This is soft linked to <code class="docutils literal notranslate"><span class="pre">configure/RELEASE.local</span></code> in each support module.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/support/configure/RELEASE.shell</span></code> - created along with the global release file. Sets all the release macros as shell environment variables
 for passing into the ioc startup script.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> - a folder containing all the support YAML files that were registered by the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> scripts. These are symlinks into the original files in ibek-support/XXX</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1094,19 +1076,57 @@ Note this is distinct from making support YAML files with
 <h2>Experimenting With Changes to the IOC Instance and Generic IOC<a class="headerlink" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc" title="Link to this heading">#</a></h2>
 <p>Inside the developer container you can add and remove support, change the
 IOC instance YAML file and re-build the IOC instance until everything is
-working as you want it to. At that point you can push the changes to GitHub
-and the CI should build a container image. Once that has succeeded you can
-tag the release and the CI will publish the container image to GHCR.</p>
+working as you want it to.</p>
 <p>Note that building the IOC binary is required after any change to the set
 of support modules inside this container. However it is not required after
 changes to the IOC instance YAML file. If you want to change the instance
 you can:</p>
 <ul class="simple">
 <li><p>edit the YAML file</p></li>
-<li><p>stop the IOC</p></li>
+<li><p>stop the IOC with <code class="docutils literal notranslate"><span class="pre">ctrl-d</span></code> in the ioc shell</p></li>
 <li><p>start the IOC with <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code></p></li>
-<li><p>that’s it</p></li>
 </ul>
+</section>
+</section>
+<section id="wrapping-up">
+<h1>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h1>
+<p>For the final step we will get the Generic IOC container image published to GHCR. This means committing all our changes and pushing them up to GitHub so that the Continuous Integration system can build the container image and publish it.</p>
+<p>Before we do that we need to make sure our changes we have manually made inside the developer container will be applied at container build time. There is one thing we have done that is not yet added to the Dockerfile. That is the building of the lakeshore support module itself. Therefore we need to add the following lines to the Dockerfile just after the install of the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/lakeshore340/<span class="w"> </span>lakeshore340/
+<span class="k">RUN</span><span class="w"> </span>lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
+</pre></div>
+</div>
+<p>These commands will do the same install we did manually above. They rely on our new additions to the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule which shows that it is important to commit the submodule changes first before we push ioc-lakeshore340 repository to GitHub.</p>
+<p>Perform the following commands to commit and push the changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>my-lakeshore-branch<span class="w"> </span><span class="c1"># create a new branch for your changes</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;add lakeshore340 support module&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>my-lakeshore-branch
+
+<span class="c1"># now we can push up the ioc-lakeshore340 repository</span>
+<span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;add lakeshore340 support module and dependencies&quot;</span>
+<span class="c1"># we are pushing to the main branch here - which is OK for a tutorial</span>
+<span class="c1"># but in a real project you would use a feature branch and a pull request</span>
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>This should trigger a build of the container image in the GitHub Actions CI system. You can watch this by clicking on the <code class="docutils literal notranslate"><span class="pre">Actions</span></code> tab in your new repository.</p>
+<p>Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way do this by clicking on the <code class="docutils literal notranslate"><span class="pre">Releases</span></code> tab in your new repository and then clicking on <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">release</span></code>.</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/lakeshore_releases.png" src="../_images/lakeshore_releases.png" />
+<figcaption>
+<p><span class="caption-text">Create a new release on GitHub</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>On the New Release page, choose a tag, eg. <code class="docutils literal notranslate"><span class="pre">0.1.0</span></code>, click <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">release</span> <span class="pre">notes</span></code>, Add your own description to the notes if desired and then click <code class="docutils literal notranslate"><span class="pre">Publish</span> <span class="pre">release</span></code>.</p>
+<p>You can follow along with the CI build by clicking the actions tab in your repository. Once the build is complete you can see the container image in the <code class="docutils literal notranslate"><span class="pre">packages</span></code> area of your repository. To see your packages, choose the following URL:</p>
+<p>https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340</p>
+<section id="exercise">
+<h2>EXERCISE<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
+<p>Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline. You should then be able to run up your IOC instance with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code>. You could also run a local version of the simulator and see if you can get the IOC to talk to it.</p>
 </section>
 </section>
 
@@ -1156,6 +1176,7 @@ you can:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create a Generic IOC</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lakeshore-340-temperature-controller">Lakeshore 340 Temperature Controller</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-generic-ioc-project">Create a New Generic IOC project</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
@@ -1164,9 +1185,17 @@ you can:</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-ibek-support-submodule">Prepare The ibek-support Submodule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-install-sh-for-the-lakeshore340">Create install.sh For The lakeshore340</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-support-yaml-for-the-lakeshore340">Create Support YAML for the lakeshore340</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#register-the-support-yaml">Register the Support YAML</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ioc-instance">Example IOC instance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc">Experimenting With Changes to the IOC Instance and Generic IOC</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">EXERCISE</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
