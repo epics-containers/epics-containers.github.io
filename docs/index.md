@@ -6,6 +6,20 @@ html_theme.sidebar_secondary.remove: true
 :end-before: <!-- README only content
 ```
 
+Update for February 2024
+------------------------
+
+The tutorials have now been updated. Recent changes include:
+
+- epics-containers-cli has been renamed to edge-containers-cli. It now supports the deployment of general services as well as IOCs. It still has the entrypoint `ec` but the namespace `ioc` has been dropped and its functions are now in the root (e.g. `ec ioc deploy` is now `ec deploy`).
+- Improved CI for {any}`ec-services-repo`s and generic IOCs repos.
+- copier template based creation of new beamline, accelerator and generic IOC repos.
+  - This provides greatly improved ability to adopt updates to the template into your own repositories.
+
+All tutorials are now up to date with the latest workflow. The exception is tutorials for the RTEMS platform which are now in active development.
+
+
+
 Materials
 ---------
 - [Oxfordshire EPICS Meeting Nov 2023](https://dlsltd-my.sharepoint.com/:p:/g/personal/giles_knap_diamond_ac_uk/Ee7SPC_39blEu4Pilgqul7IBiCi4GM9_cgMzONV2ALHIsw?e=U02gHd)

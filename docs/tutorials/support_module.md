@@ -1,32 +1,23 @@
 # Working with Support Modules
 
 :::{Warning}
-This tutorial is out of date and will be updated soon.
+This tutorial is an early draft and is not yet complete.
 :::
-
-TODO: this is currently a stub with some pointers.
-
-TODO: suggest that we will make a new Stream Device that will be a
-simple echo server. Use this to step through the process of creating a
-new support module.
 
 This is a type 3. change from the list at {any}`ioc-change-types`.
 
-If you are starting a new support module then the preceding tutorials
-have covered all of the skills you will need.
+In the tutorial on {doc}`generic_ioc`, we created a new Generic IOC container image that wrapped the existing support module `lakeshore340`.
 
-To work on a new support module you will need a Generic IOC project to
-work inside. You could choose to create two new projects:
+If you wanted to create a completely new support module then you would use a very similar workflow to the above.
 
-```{eval-rst}
+In brief, the steps are:
 
-:ioc-MyNewDeviceSupport:
-
-    a Generic IOC container definition based on ioc-template
-
-Once you have created the project(s), working on the support module will
-look very similar to the procedures set out here `debug_generic_ioc`
-```
-
-Once you have created the project(s), working on the support module will
-look very similar to the procedures set out here {any}`debug_generic_ioc`
+- Create a new Generic IOC project using the <https://github.com/epics-containers/ioc-template>
+- Create a new folder in /workspaces/YOUR_SUPPORT_MODULE_NAME
+- Link the new folder to the epics support folders:
+  - ln -s /workspaces/YOUR_SUPPORT_MODULE_NAME /epics/support/YOUR_SUPPORT_MODULE_NAME
+  - TODO the ibek command `ibek dev support YOUR_SUPPORT_MODULE_NAME` will do this in future
+- Now work on your support module and get it compiling
+- Then add `ibek-support` for the new module as per {doc}`generic_ioc`
+- create an example instance in the Generic IOC project to test your work
+- When ready, push your new support and new ioc-support projects.
