@@ -54,9 +54,6 @@ assets. See `../explanations/repositories`.
 
 1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `bl01t` plus a description, then click 'Create repository'.
 
-   If you are using an alternative to GitHub for your repositories then
-   see [these instructions] for an alternative approach.
-
 1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
 
       ```bash
