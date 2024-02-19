@@ -577,7 +577,7 @@ copier<span class="w"> </span>update<span class="w"> </span>--trust<span class="
 </section>
 <section id="review-the-new-beamline-repository">
 <h1>Review the New Beamline Repository<a class="headerlink" href="#review-the-new-beamline-repository" title="Link to this heading">#</a></h1>
-<p>The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template.</p>
+<p>The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template to talk to the p46-iocs namespace on pollux cluster. If you believe your repo is already configured to talk to your cluster then you could jump ahead to <a class="reference internal" href="#create-test-ioc-k8s"><span class="std std-ref">Create a Test IOC to Deploy</span></a>.</p>
 <section id="cluster-topologies">
 <h2>Cluster Topologies<a class="headerlink" href="#cluster-topologies" title="Link to this heading">#</a></h2>
 <p>There are two supported topologies for beamline clusters:</p>
@@ -698,9 +698,8 @@ settings except <code class="docutils literal notranslate"><span class="pre">ima
 For this reason most IOC instances only need supply the <code class="docutils literal notranslate"><span class="pre">image</span></code> setting
 which specifies the Generic IOC container image to use.</p>
 <p>Before making the first IOC instance we need to set up the beamline defaults.
-These are all held in the file <code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code>.</p>
-<p>Open this file and make the following changes depending on your beamline
-type.</p>
+These are all held in the file <code class="docutils literal notranslate"><span class="pre">helm/shared/values.yaml</span></code>.</p>
+<p>Open this file and make the following changes depending on your beamline type. (Note that the new <code class="docutils literal notranslate"><span class="pre">ec-services-template</span></code> will have already set up the values below for you, assuming you are looking at one of the cluster types supported by it.)</p>
 <section id="all-cluster-types">
 <h3>All cluster types<a class="headerlink" href="#all-cluster-types" title="Link to this heading">#</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">beamline</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl46p</span>
@@ -750,9 +749,9 @@ type.</p>
 </section>
 </section>
 <section id="create-a-test-ioc-to-deploy">
-<h1>Create a Test IOC to Deploy<a class="headerlink" href="#create-a-test-ioc-to-deploy" title="Link to this heading">#</a></h1>
-<p>TODO: WIP (but this looks just like it did in the first IOC deployment tutorial).</p>
-<p>Essentially you should be able to deploy <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code> to the k3s cluster with the same command as before:</p>
+<span id="create-test-ioc-k8s"></span><h1>Create a Test IOC to Deploy<a class="headerlink" href="#create-a-test-ioc-to-deploy" title="Link to this heading">#</a></h1>
+<p>TODO: This is work in progress (but essentially just repeat what we did in <a class="reference internal" href="deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the Example IOC Instance</span></a>).</p>
+<p>You should be able to deploy <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code> IOC that you made in <a class="reference internal" href="create_ioc.html#create-new-ioc-instance"><span class="std std-ref">Create a New IOC Instance</span></a> to the k3s cluster with the same command as before:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
 <span class="nb">source</span><span class="w"> </span>environment.sh
 ec<span class="w"> </span>local/deploy<span class="w"> </span>services/bl01t-ea-test-02

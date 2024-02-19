@@ -19,7 +19,7 @@ which appear in the `iocs` folder of an {any}`ec-services-repo`. e.g.:
 - for Kubernetes: the values.yaml can override any settings used by helm
   so these can also be adjusted on a per IOC instance basis.
 - for Kubernetes: changes to the global values.yaml
-  file found in `beamline-chart`, these affect all IOCs in the repository.
+  file found in `helm/shared`, these affect all IOCs in the repository.
 
 (changes_2)=
 ### Changing the Generic IOC

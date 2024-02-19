@@ -16,9 +16,9 @@ ec template services/bl01t-ea-ioc-01
 ```
 
 This is expanding the local helm chart in the `services/bl01t-ea-ioc-01` folder and using
-its `templates/ioc.yaml` plus the templates in `helm-ioc-lib`. These templates
+its `config/ioc.yaml` plus the templates in `helm-ioc-lib`. These templates
 are expanded using the values in the `services/bl01t-ea-ioc-01/values.yaml` file and also
-`beamline-chart/values.yaml` and finally the default `values.yaml` file
+`helm/shared/values.yaml` and finally the default `values.yaml` file
 from the helm-ioc-lib.
 
 For a description of the key resources we create in this Kubernetes manifest

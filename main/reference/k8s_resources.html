@@ -503,9 +503,9 @@ beamline repository:</p>
 </pre></div>
 </div>
 <p>This is expanding the local helm chart in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01</span></code> folder and using
-its <code class="docutils literal notranslate"><span class="pre">templates/ioc.yaml</span></code> plus the templates in <code class="docutils literal notranslate"><span class="pre">helm-ioc-lib</span></code>. These templates
+its <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus the templates in <code class="docutils literal notranslate"><span class="pre">helm-ioc-lib</span></code>. These templates
 are expanded using the values in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01/values.yaml</span></code> file and also
-<code class="docutils literal notranslate"><span class="pre">beamline-chart/values.yaml</span></code> and finally the default <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file
+<code class="docutils literal notranslate"><span class="pre">helm/shared/values.yaml</span></code> and finally the default <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file
 from the helm-ioc-lib.</p>
 <p>For a description of the key resources we create in this Kubernetes manifest
 see the next heading.</p>

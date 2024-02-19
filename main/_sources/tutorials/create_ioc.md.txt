@@ -10,6 +10,7 @@ For this tutorial some familiarity with the EPICS AreaDetector framework
 is useful. Take a look at this documentation if you have not yet come
 across AreaDetector: <https://areadetector.github.io/master/index.html>.
 
+(create-new-ioc-instance)=
 ## Create a New IOC Instance
 
 To create a new IOC Instance simply add a new folder to the `services` folder in your beamline repo. The name of the folder will be the name of the IOC. This folder needs to contain these items:
