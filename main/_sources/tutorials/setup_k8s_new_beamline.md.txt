@@ -27,17 +27,13 @@ a namespace configured for use by the beamline. See the previous tutorial
 for how to set one up if you do not have this already.
 
 :::{note}
-DLS users: these instructions are for the BL46P beamline. This beamline
-already exists at DLS, so you could just skip ahead to creating the
-example IOC. You will need to ask the cloud team for permission on
-cluster `pollux`, namespace `p46-iocs` to do this.
-Go to this URL to request access:
-<https://jira.diamond.ac.uk/servicedesk/customer/portal/2/create/92>
+DLS users: these instructions are for the BL46P beamline. Which is a training beamline.
 
-HOWEVER, these instructions can be also used to setup any
-new beamline at DLS - just substitute the beamline name where appropriate.
-You will need to have a beamline cluster already created for the
-beamline by the cloud team and have requested access via the URL above.
+To setup the beamline repo for other beamlines you will need to change the answers to the copier template questions.
+
+
+At present DLS users will need to request access to the cluster for each beamline you want to work on. The following link is for making such a request but you will need someone who already has access to make the request for you:
+<https://jira.diamond.ac.uk/servicedesk/customer/portal/2/create/92> (ask giles if you don't know who to ask for this access.)
 :::
 
 ## Create a new beamline repository
