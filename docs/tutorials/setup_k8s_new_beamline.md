@@ -87,7 +87,7 @@ DLS Users: These instructions are for the BL46P beamline. This beamline is a tra
 
 # Review the New Beamline Repository
 
-The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template.
+The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template to talk to the p46-iocs namespace on pollux cluster. If you believe your repo is already configured to talk to your cluster then you could jump ahead to [](create-test-ioc-k8s).
 
 
 ## Cluster Topologies
@@ -231,10 +231,9 @@ For this reason most IOC instances only need supply the `image` setting
 which specifies the Generic IOC container image to use.
 
 Before making the first IOC instance we need to set up the beamline defaults.
-These are all held in the file `beamline-chart/values.yaml`.
+These are all held in the file `helm/shared/values.yaml`.
 
-Open this file and make the following changes depending on your beamline
-type.
+Open this file and make the following changes depending on your beamline type. (Note that the new `ec-services-template` will have already set up the values below for you, assuming you are looking at one of the cluster types supported by it.)
 
 ### All cluster types
 
@@ -281,12 +280,12 @@ dataVolume:
   # point at the shared filesystem data folder for the beamline
   hostPath: /dls/p46/data
 ```
-
+(create-test-ioc-k8s)=
 # Create a Test IOC to Deploy
 
-TODO: WIP (but this looks just like it did in the first IOC deployment tutorial).
+TODO: This is work in progress (but essentially just repeat what we did in [](deploy-example-instance)).
 
-Essentially you should be able to deploy `bl01t-ea-test-02` to the k3s cluster with the same command as before:
+You should be able to deploy `bl01t-ea-test-02` IOC that you made in [](create-new-ioc-instance) to the k3s cluster with the same command as before:
 
 ```bash
 cd bl01t

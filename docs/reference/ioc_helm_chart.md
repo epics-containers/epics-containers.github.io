@@ -33,7 +33,7 @@ in this folder and what you would need to change in your new IOC instance:
 - `values.yaml` - this is the helm values file. It contains the values that
   are substituted in to the helm templates when the helm chart is built. Most
   of the values that go into an IOC instance chart will be drawn from
-  domain defaults which can be found in the folder `beamline-chart`. Values
+  repository defaults which can be found in the folder `helm/shared`. Values
   you need to supply here are:
 
   - `base_image` - the Generic IOC image to use for this IOC instance. A
