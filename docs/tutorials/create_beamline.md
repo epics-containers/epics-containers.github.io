@@ -54,9 +54,6 @@ assets. See `../explanations/repositories`.
 
 1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `bl01t` plus a description, then click 'Create repository'.
 
-   If you are using an alternative to GitHub for your repositories then
-   see [these instructions] for an alternative approach.
-
 1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
 
       ```bash
@@ -116,7 +113,7 @@ This is a versioning scheme that uses the date of release as the version number.
 The last digit is the number of the release in that month.
 
 CalVer is described here: <https://calver.org/> and is used where semantic
-versioning is not appropriate because the repository contains a mix of
+versioning is not appropriate because the repository contains a mix o
 dependencies and does not have a clear API.
 
 Note that 2024.2.1 represents the time that this tutorial was last updated.
@@ -126,4 +123,3 @@ any of the epics-containers tools.
 
 [about ssh]: https://docs.github.com/en/enterprise-server@3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh
 [instructions]: https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account
-[these instructions]: https://github.com/epics-containers/blxxi-template#how-to-copy-this-template-project
