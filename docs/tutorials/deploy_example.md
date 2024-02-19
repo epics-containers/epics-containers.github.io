@@ -77,6 +77,7 @@ source $HOME/ec-venv/bin/activate # DLS users don't need this step
 source bl01t
 ```
 
+(deploy-example-instance)=
 ## Deploy the Example IOC Instance
 
 For this section we will be making use of the epics-containers-cli tool.
