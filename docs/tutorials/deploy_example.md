@@ -49,7 +49,7 @@ The standard way to set up your environment for any ec services repository is to
 Start this section of the tutorial inside the vscode project that you created in the previous tutorial. Make sure you have a terminal open and the current working directory is your `bl01t` project root folder.
 
 First make sure you have the local binaries folder in your path by adding
-the following to the end of you `$HOME/.bash_profile` file:
+the following to the end of your `$HOME/.bash_profile` file:
 
 ```bash
 export PATH="$PATH:~/.local/bin"
