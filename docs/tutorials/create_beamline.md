@@ -113,7 +113,7 @@ This is a versioning scheme that uses the date of release as the version number.
 The last digit is the number of the release in that month.
 
 CalVer is described here: <https://calver.org/> and is used where semantic
-versioning is not appropriate because the repository contains a mix o
+versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
 
 Note that 2024.2.1 represents the time that this tutorial was last updated.
