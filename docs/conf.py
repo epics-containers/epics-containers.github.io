@@ -5,16 +5,28 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sys
+from importlib import metadata
+from pathlib import Path
+from subprocess import check_output
 
 import requests
 
 # -- General configuration ------------------------------------------------
 
-# TODO do we want to set this from code?
-version = "1.0"
-
 # General information about the project.
 project = "epics-containers"
+
+# The full version, including alpha/beta/rc tags.
+release = metadata.version(project)
+
+# The short X.Y version.
+if "+" in release:
+    # Not on a tag, use branch name
+    root = Path(__file__).absolute().parent.parent
+    git_branch = check_output("git branch --show-current".split(), cwd=root)
+    version = git_branch.decode().strip()
+else:
+    version = release
 
 extensions = [
     # Use this for generating API docs
@@ -108,7 +120,7 @@ copybutton_prompt_is_regexp = True
 html_theme = "pydata_sphinx_theme"
 github_repo = "epics-containers.github.io"
 github_user = "epics-containers"
-switcher_json = f"https://{github_user}.github.io/{github_repo}/switcher.json"
+switcher_json = f"https://{github_user}.github.io/switcher.json"
 switcher_exists = requests.get(switcher_json).ok
 if not switcher_exists:
     print(
@@ -153,7 +165,7 @@ html_theme_options = {
 # A dictionary of values to pass into the template engine’s context for all pages
 html_context = {
     "github_user": github_user,
-    "github_repo": project,
+    "github_repo": github_repo,
     "github_version": version,
     "doc_path": "docs",
 }
