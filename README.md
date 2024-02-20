@@ -8,8 +8,8 @@ documentation for building, deploying and managing containerized EPICS IOCs.
 Quick Start
 ===========
 
-See [Essential Concepts](https://epics-containers.github.io/main/user/explanations/introduction.html)
-and the [Getting Started Guide](https://epics-containers.github.io/main/user/tutorials/intro.html)
+See [Essential Concepts](https://epics-containers.github.io/main/explanations/introduction.html)
+and the [Getting Started Guide](https://epics-containers.github.io/main/tutorials/intro.html)
 
 Useful Links
 ============
