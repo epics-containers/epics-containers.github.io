@@ -6,29 +6,5 @@
   {
     "version": "2024.2.1",
     "url": "https://epics-containers.github.io/epics-containers.github.io/2024.2.1/"
-  },
-  {
-    "version": ".tox",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/.tox/"
-  },
-  {
-    "version": "edge-containers",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/edge-containers/"
-  },
-  {
-    "version": "k8s-edge",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/k8s-edge/"
-  },
-  {
-    "version": "more-tutorials",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/more-tutorials/"
-  },
-  {
-    "version": "remove-dev",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/remove-dev/"
-  },
-  {
-    "version": "typo-fix",
-    "url": "https://epics-containers.github.io/epics-containers.github.io/typo-fix/"
   }
 ]
