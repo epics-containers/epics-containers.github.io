@@ -1,4 +1,0 @@
-action: docs, msg: envreport
-cwd: /repos/epics-containers.github.io
-cmd: /venv/bin/python -m pip freeze
-ERROR: Operation cancelled by user
