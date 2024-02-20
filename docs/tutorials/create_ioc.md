@@ -38,7 +38,7 @@ cd bl01t # if not already there
 # create the new IOC Instance folder
 mkdir services/bl01t-ea-test-02
 # link in the shared Chart.yaml file
-ln -s include/iocs/Chart.yaml services/bl01t-ea-test-02/Chart.yaml
+ln -sr include/iocs/Chart.yaml services/bl01t-ea-test-02/Chart.yaml
 ```
 
 ### values.yaml
