@@ -2,5 +2,9 @@
   {
     "version": "main",
     "url": "https://epics-containers.github.io/main/"
+  },
+  {
+    "version": "3.0.0",
+    "url": "https://epics-containers.github.io/3.0.0/"
   }
 ]
