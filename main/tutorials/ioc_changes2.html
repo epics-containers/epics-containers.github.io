@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epics-containers 2024.2.2.dev22+gf55b7c4 documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers 2024.2.2.dev24+gb4e0fce documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=99b1f4a3"></script>
+    <script src="../_static/documentation_options.js?v=77523e39"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -563,7 +563,7 @@ following command:</p>
 </pre></div>
 </div>
 <p>The IOC instance definition is a YAML file that tells <code class="docutils literal notranslate"><span class="pre">ibek</span></code> what the runtime assets (ie. EPICS DB and startup script) should look like. Previous tutorials selected the IOC instance definition from a beamline repository. In this case we will use the example IOC instance that comes with <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. The following command will select the example IOC instance:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ibek dev instance /workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ibek dev instance /workspaces/ioc-adsimdetector/services/bl01t-ea-test-02</span>
 </pre></div>
 </div>
 <p>The above command removes the existing config folder <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and
@@ -654,7 +654,7 @@ to this auto-starting detector.</p>
 </pre></div>
 </div>
 <p>Add the following to
-<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ioc_examples/bl01t-ea-test-02/config/ioc.yaml</span></code>:</p>
+<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/services/bl01t-ea-test-02/config/ioc.yaml</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
 <span class="w">  </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:DET:Acquire</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
