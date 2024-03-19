@@ -27,11 +27,10 @@ The Chart.yaml is a helm chart description file. We will use the same Chart.yaml
 
 | | |
 | --- | ---
-| **helm/shared** | A sub-chart that contains the default values.yaml file for all IOC instances in the beamline repository. It in turn references a further sub-chart that consumes these values: the `ioc-instance` chart that crafts up the Kubernetes manifest for deploying IOC instances |
-| **helm/configmap** | A sub-chart that transforms the IOC Instance's config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.
+| **helm/shared** | A sub-chart that contains the default values.yaml file for all services in the beamline repository. It in turn references a further sub-chart that consumes these values: the `ioc-instance` chart that crafts up the Kubernetes manifest for deploying IOC instances |
+| **include/iocs** | A sub-chart that transforms the IOC Instance's config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.
 
 Because all IOC Instances in the beamline repository share the same Chart.yaml file, we will create a soft-link to it in the IOC Instance folder. This is so that updates to the Chart.yaml file will propagate to all IOC Instances in the beamline. To do this run the following command:
-
 
 ```bash
 cd bl01t # if not already there
