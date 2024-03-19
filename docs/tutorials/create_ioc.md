@@ -51,9 +51,10 @@ code services/bl01t-ea-test-02/values.yaml
 ```
 
 You will now have vscode and open and editing the values.yaml file. Add the following:
-
 ```yaml
-image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2
+shared:
+  ioc-instance:
+    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1
 ```
 
 This tells the IOC Instance to run in the `ioc-adsimdetector-linux-runtime`
