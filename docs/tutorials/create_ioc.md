@@ -188,7 +188,7 @@ entities:
 
 :::{note}
 If you are unfamiliar with YAML then you could take a look at
-the YAML spec here: <https://yaml.org/spec/1.2/spec.html#id2759963>.
+the YAML spec here: <https://yaml.org/spec/1.2.2/>.
 
 Be aware that white space is significant. i.e. indentation represents
 nesting. Above we have a list of entities, each list item is denoted by
