@@ -112,8 +112,9 @@ number to indicate that they are not permanent.
 You can now see the beta IOC instance running with:
 
 <pre>$ ec ps
-            name          version   state                                                             image
-bl01t-ea-test-01 2024.2.16-b15.11 running ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</pre>
+| name             | version       | running | restarts | deployed            |
+|------------------|---------------|---------|----------|---------------------|
+| bl01t-ea-test-01 | 2024.2.8e8b-b | true    | 0        | 2024-02-19 10:08:15 |</pre>
 
 At the end of the last tutorial we tagged the beamline repository with a
 `CalVer` version number and pushed it up to GitHub. This means that we
@@ -123,8 +124,9 @@ command lists all of the tagged versions of the IOC instance that are
 available in the GitHub repository.
 
 <pre>$ ec instances bl01t-ea-test-01
-Available instances for bl01t-ea-test-01:
-2024.2.1
+| version  |
+|----------|
+| 2024.2.1 |
 </pre>
 
 :::{note}
@@ -142,9 +144,8 @@ ec supports command line completion, which means that entering `<tab> <tab>` wil
 $ ec <tab> <tab>
 attach        deploy        exec          list          logs          start         template
 delete        deploy-local  instances     log-history   restart       stop          validate
-$ ec instances <tab> <tab>
-$ ec instances bl01t-ea-ioc-0 <tab> <tab>
-bl01t-ea-test-01  bl01t-ea-test-02
+$ ec instances b<tab> <tab>
+$ ec instances bl01t-ea-ioc-01
 ```
 
 To enable this behavior in your shell run the command `ec --install-completion`
@@ -158,9 +159,10 @@ it to your local machine:
 $ ec deploy bl01t-ea-test-01 2024.2.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
-$ ec ps
-IOC NAME            VERSION             STATUS              IMAGE
-bl01t-ea-test-01     2024.2.1           Up 4 seconds        ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+$ ec ps -w
+| name             | version  | running | restarts | deployed            | image                                                             |
+|------------------|----------|---------|----------|---------------------|-------------------------------------------------------------------|
+| bl01t-ea-test-01 | 2024.2.1 | true    | 0        | 2024-02-19 11:10:53 | ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1 |
 ```
 
 ### IMPORTANT: deploy-local vs deploy
