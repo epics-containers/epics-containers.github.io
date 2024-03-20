@@ -19,7 +19,7 @@ To create a new IOC Instance simply add a new folder to the `services` folder in
 | --- | ---
 | **Chart.yaml** | A helm chart description file. |
 | **values.yaml** | A helm chart values override file. The only required field is `image` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart |values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the `helm/shared` folder for a complete list of fields that can be overridden. |
-| **config** | A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh). |
+| **config** | A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh). |
 
 ### Chart.yaml
 
