@@ -35,7 +35,7 @@ Make the following changes in your test IOC config folder
    }
    ```
 
-2. Add the following lines to the end `ioc.yaml` (verify that the indentation
+2. Add the following lines to the end of `ioc.yaml` (verify that the indentation
    matches the above entry so that `- type:` statements line up):
 
    ```yaml
