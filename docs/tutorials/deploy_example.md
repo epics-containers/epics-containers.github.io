@@ -114,7 +114,7 @@ You can now see the beta IOC instance running with:
 <pre>$ ec ps
 | name             | version       | running | restarts | deployed            |
 |------------------|---------------|---------|----------|---------------------|
-| bl01t-ea-test-01 | 2024.2.8e8b-b | true    | 0        | 2024-02-19 10:08:15 |</pre>
+| bl01t-ea-test-01 | 2024.3.8e8b-b | true    | 0        | 2024-03-19 10:08:15 |</pre>
 
 At the end of the last tutorial we tagged the beamline repository with a
 `CalVer` version number and pushed it up to GitHub. This means that we
@@ -126,7 +126,7 @@ available in the GitHub repository.
 <pre>$ ec instances bl01t-ea-test-01
 | version  |
 |----------|
-| 2024.2.1 |
+| 2024.3.1 |
 </pre>
 
 :::{note}
@@ -156,13 +156,13 @@ This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:
 
 ```bash
-$ ec deploy bl01t-ea-test-01 2024.2.1
+$ ec deploy bl01t-ea-test-01 2024.3.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
 $ ec ps -w
 | name             | version  | running | restarts | deployed            | image                                                             |
 |------------------|----------|---------|----------|---------------------|-------------------------------------------------------------------|
-| bl01t-ea-test-01 | 2024.2.1 | true    | 0        | 2024-02-19 11:10:53 | ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1 |
+| bl01t-ea-test-01 | 2024.3.1 | true    | 0        | 2024-03-19 11:10:53 | ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1 |
 ```
 
 ### IMPORTANT: deploy-local vs deploy
