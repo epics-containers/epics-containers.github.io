@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.0.1.dev2+gb656257 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 3.0.1.dev9+g7470868 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d43db8bc"></script>
+    <script src="../_static/documentation_options.js?v=6ac4580a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -539,9 +539,9 @@ across AreaDetector: <a class="reference external" href="https://areadetector.gi
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>helm/shared</strong></p></td>
-<td><p>A sub-chart that contains the default values.yaml file for all IOC instances in the beamline repository. It in turn references a further sub-chart that consumes these values: the <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart that crafts up the Kubernetes manifest for deploying IOC instances</p></td>
+<td><p>A sub-chart that contains the default values.yaml file for all services in the beamline repository. It in turn references a further sub-chart that consumes these values: the <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart that crafts up the Kubernetes manifest for deploying IOC instances</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>helm/configmap</strong></p></td>
+<tr class="row-odd"><td><p><strong>include/iocs</strong></p></td>
 <td><p>A sub-chart that transforms the IOC Instance’s config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.</p></td>
 </tr>
 </tbody>
@@ -563,7 +563,9 @@ code<span class="w"> </span>services/bl01t-ea-test-02/values.yaml
 </pre></div>
 </div>
 <p>You will now have vscode and open and editing the values.yaml file. Add the following:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">shared</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ioc-instance</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</span>
 </pre></div>
 </div>
 <p>This tells the IOC Instance to run in the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector-linux-runtime</span></code>
@@ -685,7 +687,7 @@ code<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you are unfamiliar with YAML then you could take a look at
-the YAML spec here: <a class="reference external" href="https://yaml.org/spec/1.2/spec.html#id2759963">https://yaml.org/spec/1.2/spec.html#id2759963</a>.</p>
+the YAML spec here: <a class="reference external" href="https://yaml.org/spec/1.2.2/">https://yaml.org/spec/1.2.2/</a>.</p>
 <p>Be aware that white space is significant. i.e. indentation represents
 nesting. Above we have a list of entities, each list item is denoted by
 <code class="docutils literal notranslate"><span class="pre">-</span></code>. There is currently a single entry in the list which is a dictionary

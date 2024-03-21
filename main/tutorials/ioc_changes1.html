@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers 3.0.1.dev2+gb656257 documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers 3.0.1.dev9+g7470868 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d43db8bc"></script>
+    <script src="../_static/documentation_options.js?v=6ac4580a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -527,7 +527,7 @@ devcontainer because they involve compiling Generic IOC / support module code.</
 </pre></div>
 </div>
 </li>
-<li><p>Add the following lines to the end <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> (verify that the indentation
+<li><p>Add the following lines to the end of <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> (verify that the indentation
 matches the above entry so that <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> statements line up):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.StartupCommand</span>
 <span class="w">  </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dbLoadRecords(config/extra.db)</span>
@@ -569,10 +569,10 @@ git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Added extra.db&quot;</span>
 git<span class="w"> </span>push
 <span class="c1"># tag a new version of the beamline repo</span>
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2023</span>.11.2
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2023</span>.11.2
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.3.2
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.3.2
 <span class="c1"># deploy the new version of the IOC to the local docker / podman instance</span>
-ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span><span class="m">2023</span>.11.2
+ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span><span class="m">2024</span>.3.2
 </pre></div>
 </div>
 <p>You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:</p>

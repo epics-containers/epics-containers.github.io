@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.0.1.dev2+gb656257 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.0.1.dev9+g7470868 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=d43db8bc"></script>
+    <script src="../_static/documentation_options.js?v=6ac4580a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -590,8 +590,9 @@ changes are made). Local filesystem deployments are given a beta version
 number to indicate that they are not permanent.</p>
 <p>You can now see the beta IOC instance running with:</p>
 <pre>$ ec ps
-            name          version   state                                                             image
-bl01t-ea-test-01 2024.2.16-b15.11 running ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</pre>
+| name             | version       | running | restarts | deployed            |
+|------------------|---------------|---------|----------|---------------------|
+| bl01t-ea-test-01 | 2024.3.8e8b-b | true    | 0        | 2024-03-19 10:08:15 |</pre>
 <p>At the end of the last tutorial we tagged the beamline repository with a
 <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version number and pushed it up to GitHub. This means that we
 can now use that tagged release of the IOC instance. First let’s
@@ -599,8 +600,9 @@ check that the IOC instance version is available as expected. The following
 command lists all of the tagged versions of the IOC instance that are
 available in the GitHub repository.</p>
 <pre>$ ec instances bl01t-ea-test-01
-Available instances for bl01t-ea-test-01:
-2024.2.1
+| version  |
+|----------|
+| 2024.3.1 |
 </pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -616,9 +618,8 @@ and source it again to pick up any changes.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
 attach<span class="w">        </span>deploy<span class="w">        </span><span class="nb">exec</span><span class="w">          </span>list<span class="w">          </span>logs<span class="w">          </span>start<span class="w">         </span>template
 delete<span class="w">        </span>deploy-local<span class="w">  </span>instances<span class="w">     </span>log-history<span class="w">   </span>restart<span class="w">       </span>stop<span class="w">          </span>validate
-$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-0<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-bl01t-ea-test-01<span class="w">  </span>bl01t-ea-test-02
+$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>b&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
+$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
 </pre></div>
 </div>
 <p>To enable this behavior in your shell run the command <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--install-completion</span></code></p>
@@ -626,12 +627,13 @@ bl01t-ea-test-01<span class="w">  </span>bl01t-ea-test-02
 <p>Now that we know the latest version number we can deploy a release version.
 This command will extract the IOC instance using the tag from GitHub and deploy
 it to your local machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="m">2024</span>.2.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="m">2024</span>.3.1
 bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 
-$<span class="w"> </span>ec<span class="w"> </span>ps
-IOC<span class="w"> </span>NAME<span class="w">            </span>VERSION<span class="w">             </span>STATUS<span class="w">              </span>IMAGE
-bl01t-ea-test-01<span class="w">     </span><span class="m">2024</span>.2.1<span class="w">           </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">        </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2023.10.5
+$<span class="w"> </span>ec<span class="w"> </span>ps<span class="w"> </span>-w
+<span class="p">|</span><span class="w"> </span>name<span class="w">             </span><span class="p">|</span><span class="w"> </span>version<span class="w">  </span><span class="p">|</span><span class="w"> </span>running<span class="w"> </span><span class="p">|</span><span class="w"> </span>restarts<span class="w"> </span><span class="p">|</span><span class="w"> </span>deployed<span class="w">            </span><span class="p">|</span><span class="w"> </span>image<span class="w">                                                             </span><span class="p">|</span>
+<span class="p">|</span>------------------<span class="p">|</span>----------<span class="p">|</span>---------<span class="p">|</span>----------<span class="p">|</span>---------------------<span class="p">|</span>-------------------------------------------------------------------<span class="p">|</span>
+<span class="p">|</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>.3.1<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nb">true</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">0</span><span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>-03-19<span class="w"> </span><span class="m">11</span>:10:53<span class="w"> </span><span class="p">|</span><span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1<span class="w"> </span><span class="p">|</span>
 </pre></div>
 </div>
 <section id="important-deploy-local-vs-deploy">
