@@ -104,8 +104,8 @@ You can now give your repository a version tag like this:
 
 ```bash
 # open a terminal in vscode: Menu -> Terminal -> New Terminal
-git tag 2024.2.1
-git push origin 2024.2.1
+git tag 2024.3.1
+git push origin 2024.3.1
 ```
 
 We use `CalVer` version numbers for beamline repositories and Generic IOCs.
@@ -116,7 +116,7 @@ CalVer is described here: <https://calver.org/> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
 
-Note that 2024.2.1 represents the time that this tutorial was last updated.
+Note that 2024.3.1 represents the time that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.

@@ -35,7 +35,7 @@ Make the following changes in your test IOC config folder
    }
    ```
 
-2. Add the following lines to the end `ioc.yaml` (verify that the indentation
+2. Add the following lines to the end of `ioc.yaml` (verify that the indentation
    matches the above entry so that `- type:` statements line up):
 
    ```yaml
@@ -86,10 +86,10 @@ git add .
 git commit -m "Added extra.db"
 git push
 # tag a new version of the beamline repo
-git tag 2023.11.2
-git push origin 2023.11.2
+git tag 2024.3.2
+git push origin 2024.3.2
 # deploy the new version of the IOC to the local docker / podman instance
-ec deploy bl01t-ea-test-02 2023.11.2
+ec deploy bl01t-ea-test-02 2024.3.2
 ```
 
 You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:
