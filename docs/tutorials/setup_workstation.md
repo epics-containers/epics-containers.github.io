@@ -69,8 +69,7 @@ Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 on RedHat 8, and Docker 24.0.5 on
 for Ubuntu 22.04.
 
-If you are using docker, simply replace `podman` with `docker` in the
-commands listed in these tutorials.
+If you are using docker, simply replace `podman` with `docker` in the commands listed in these tutorials. `docker` users should also take a look at this page: [](../reference/docker.md)
 
 The podman version required is 4.0 or later. Any version of docker since 20.10
 will also work. Pick the tool that has the most recent version for your platform.
