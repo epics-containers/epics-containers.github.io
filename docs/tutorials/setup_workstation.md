@@ -6,7 +6,7 @@ The tools you need to install are:
 
 - Visual Studio Code
 - a container platform, either podman or docker
-- Python 3.10 or later + a Python virtual environment
+- Python 3.11 or later + a Python virtual environment
 - git client for version control
 
 Visual Studio Code is recommended because it has excellent integration with
@@ -61,13 +61,12 @@ devcontainer in the next tutorial.
 ### Setup Docker or Podman
 
 :::{Note}
-**DLS Users**: RHEL 8 Workstations at DLS have podman 4.4.1 installed by default.
+**DLS Users**: RHEL 8 Workstations at DLS have podman 4.6.1 installed by default.
 RHEL 7 Workstations are not supported.
 :::
 
 Next install docker or podman as your container platform. epics-containers
-has been tested with podman 4.4.1 on RedHat 8, and Docker 24.0.5 on
-for Ubuntu 22.04.
+has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.
 
 If you are using docker, simply replace `podman` with `docker` in the commands listed in these tutorials. `docker` users should also take a look at this page: [](../reference/docker.md)
 

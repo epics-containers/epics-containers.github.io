@@ -17,5 +17,6 @@ epics-containers has been tested with
 - vscode
 - Github Codespaces
 
-TODO: add instructions for using other editors. Potentially we could enhance
-the epics-containers-cli to support other editors with minimal effort.
+If you prefer console based editors like vim or emacs, then you will get the best results by launching the development containers defined in the epics-containers using the devcontainer CLI as described here <https://containers.dev/supporting#devcontainer-cli>.
+
+In addition you could install your editor inside the developer container by adding an apt-install command into the `epics-containers` user personalization file. See [details here](https://github.com/epics-containers/epics-containers.github.io/blob/3a87e808e1c7983430a30c5a4dcd0d0661895d60/.devcontainer/postCreateCommand#L23-L27)

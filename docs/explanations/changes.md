@@ -55,7 +55,7 @@ When a beamline repository is updated, it is still possible to deploy old versio
 User Project Versioning
 -----------------------
 
-The documentation has recommended using DateVer for beamline repos and generic IOC repos. This is because both types of repo have many parts with different version schemes so SemVer is not really applicable. DateVer is not required and you  are free to use any scheme you wish for these repositories.
+The documentation has recommended using DateVer for beamline repos and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.
 
 It is easy to determine which template version and thus which `ec` SemVer version your repository was last updated from. Inspect the file `.copier_answers.yml` in the root of your repository. This file contains the version of the template that was used to create the repository in the field `_commit`.
 
@@ -63,7 +63,7 @@ It is easy to determine which template version and thus which `ec` SemVer versio
 Types of Changes
 ----------------
 
-Changes to the framework are likely to be initiated in one of three places in the described under the following headings. As far as possible such changes will be backwards compatible going forward, and if they are not then a major version release will be made.
+Changes to the framework are likely to be initiated in one the places described under the following headings. As far as possible such changes will be backwards compatible going forward, and if they are not then a major version release will be made.
 
 ### ibek
 
@@ -79,9 +79,8 @@ Changes here affect how IOCs and other services are deployed into Kubernetes. Th
 The Generic IOC template is well established and stable. However, each time a new target architecture is added, this will need updates to the CI. We will be supporting Windows and ARM targets in future. These changes should certainly be backwards compatible and not affect existing projects.
 
 
-ibek-support
-------------
+### ibek-support
 
-`ibek-support` is a unique project in that it is a submodule of all Generic IOCs. It is expected that there will be constant change to this module as new support modules are added. However, such changes will almost entirely be adding new folders and not affect existing generic IOCs. We encourage users to fork this repository, add their own support modules and submit PRs back to the original so that a wide range of support modules can be shared.
+`ibek-support` is a unique project in that it is a submodule of all Generic IOCs. It is expected that there will be constant change to this module as new support modules are added. However, such changes will almost entirely be adding new folders and not affect existing generic IOCs. We encourage users to fork this repository, add their own support modules and submit PRs back to the original so that a wide range of support modules can be shared (a branch rather than fork is preferred for internal developers).
 
 If there is a need to change the CLI that ibek-support uses, then a new version of `ibek` will be released. Only generic IOCs that have been updated to pick up the new version of `ibek` would be able to use these changes. Because older generic IOCs will retain the old commit of the 'ibek-support' submodule, they will not be affected by the changes until they are updated.
