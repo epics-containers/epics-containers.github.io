@@ -52,7 +52,7 @@ Much like creating a new beamline we have a template project that can be used
 as the starting point for a new Generic IOC. Again we will create this in
 your personal GitHub user space.
 
-
+(create_generic_ioc)=
 ## Steps
 
 1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `ioc-lakeshore340` plus a description, then click 'Create repository'.

@@ -18,7 +18,7 @@ source venv/bin/activate
 pip install copier
 ```
 
-NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in [](../reference/changelog.md). Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.
+NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating a beamline repo to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in [](../reference/changelog.md). Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.
 
 Updating a Beamline Repository
 ------------------------------
@@ -42,6 +42,8 @@ For example, in version 3.4.0 the `ec-services-template` changed the way that th
 
 Updating a Generic IOC Repository
 ---------------------------------
+
+To see details of how to initially create a generic IOC repository see {any}`create_generic_ioc`.
 
 To update your generic IOC repository to the latest version of the templates you should run the following command in the root of your repository:
 
@@ -77,7 +79,7 @@ In both cases you should select Y for each notice of a conflict, then resolve th
 
 Using copy will mean that you get asked the template questions again, but copier is smart enough to supply your previous answers as defaults (if your repo predates copier then you will need to answer all the questions for the first time).
 
-The difference from 'update' is that you will need to do the merge yourself. For example in a generic IOC you will want to restore your support module instantiations in the middle of the Dockerfile, whereas the top and bottom of the Dockerfile will should be updated by the template. Using vscode's SOURCE CONTROL pane is useful for this. The following image is an example of a Dockerfile merge:
+The difference from 'update' is that you will need to do the merge yourself. For example in a generic IOC you will want to restore your support module instantiations in the middle of the Dockerfile, whereas the top and bottom of the Dockerfile should be updated by the template. Using vscode's SOURCE CONTROL pane is useful for this. The following image is an example of a Dockerfile merge:
 
 :::{figure} ../images/dockerfile_merge.png
 merging a Dockerfile after a copy copy
