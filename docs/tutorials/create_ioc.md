@@ -18,19 +18,27 @@ To create a new IOC Instance simply add a new folder to the `services` folder in
 | | |
 | --- | ---
 | **Chart.yaml** | A helm chart description file. |
-| **values.yaml** | A helm chart values override file. The only required field is `image` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart |values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the `helm/shared` folder for a complete list of fields that can be overridden. |
-| **config** | A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh). |
+| **values.yaml** | A helm chart values override file. The only required field is `image` which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the `helm/shared` folder for a complete list of fields that can be overridden. |
+| **templates** | A helm templates folder. Used to extract the contents of **config** into a configMap |
+| **config** | A folder that contains the IOC configuration files. The configuration can take a number of forms [listed here](https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh). The recommended contents of this folder is a single ibek IOC description yaml file named `ioc.yaml` |
 
 ### Chart.yaml
 
-The Chart.yaml is a helm chart description file. We will use the same Chart.yaml file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for two dependencies in the form of sub-charts. The sub-charts are defined within the same repository as follows:
+**Chart.yaml** is a helm chart definition file. We will use the same **Chart.yaml** file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for a dependency in the form of a sub-chart.
 
-| | |
-| --- | ---
-| **helm/shared** | A sub-chart that contains the default values.yaml file for all services in the beamline repository. It in turn references a further sub-chart that consumes these values: the `ioc-instance` chart that crafts up the Kubernetes manifest for deploying IOC instances |
-| **include/iocs** | A sub-chart that transforms the IOC Instance's config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.
+The sub-chart that **Chart.yaml** refers to is defined within the same repository in the folder **helm/shared**. This is sub-chart that contains the default values.yaml file for IOCs in the beamline repository. It in turn references a further sub-chart that consumes these values call `ioc-instance`.
 
-Because all IOC Instances in the beamline repository share the same Chart.yaml file, we will create a soft-link to it in the IOC Instance folder. This is so that updates to the Chart.yaml file will propagate to all IOC Instances in the beamline. To do this run the following command:
+The `ioc-instance` chart that crafts up the Kubernetes manifest for deploying IOC instances. This `ioc-instance` sub-chart is pulled from and oci registry and is defined in the repository [ec-helm-charts](https://github.com/epics-containers/ec-helm-charts)  |
+
+### templates folder
+
+The other boilerplate item in each IOC Instance folder is the **templates** folder. Every IOC has a template that constructs a configMap from its config folder. When deploying to Kubernetes this is how the config information in **config** is made available to the IOC container at runtime in the cluster. When deploying to a local docker instance the config folder is placed in a docker volume and mounted into the container, so the **templates** folder is not used in this case.
+
+### Boilerplate files in the IOC Instance folder
+
+Because all IOC Instances in the beamline repository share the same **Chart.yaml** file, we create a soft-link to it in the IOC Instance folder. The same is true of the **templates** folder. This is so that updates to the **Chart.yaml** file or **templates** folder will propagate to all IOC Instances in the beamline.
+
+Let us go ahead and make a new IOC and add the soft-links. To do so, run the following command:
 
 ```bash
 cd bl01t # if not already there
@@ -38,7 +46,15 @@ cd bl01t # if not already there
 mkdir services/bl01t-ea-test-02
 # link in the shared Chart.yaml file
 ln -sr include/iocs/Chart.yaml services/bl01t-ea-test-02/Chart.yaml
+ln -sr include/iocs/templates services/bl01t-ea-test-02/templates
 ```
+
+You could have got the same result by just copying the two files from the example IOC Instance and you can easily do that from the vscode file explorer.
+
+:::{note}
+It is useful to keep the example IOC Instance around as a reference. You can copy and paste from it to create new IOC Instances. But also when you use the copier update command to get the latest framework changes into your beamline repository it makes it easy to see if there have been any changes to the structure of IOC instances.
+:::
+
 
 ### values.yaml
 
@@ -53,7 +69,7 @@ You will now have vscode and open and editing the values.yaml file. Add the foll
 ```yaml
 shared:
   ioc-instance:
-    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.4.1
 ```
 
 This tells the IOC Instance to run in the `ioc-adsimdetector-linux-runtime`
@@ -173,7 +189,7 @@ code services/bl01t-ea-test-02/config/ioc.yaml
 This should launch vscode and open the ioc.yaml file. Add the following:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.4.1/ibek.ioc.schema.json
 
 ioc_name: "{{ __utils__.get_env('IOC_NAME') }}"
 description: Example simulated camera for BL01T
@@ -245,7 +261,7 @@ ec logs bl01t-ea-test-02
 
 ### Operator Interface
 
-In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable we will interact with the IOC using `caput` / `caget`.
+In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable length we will simply interact with the IOC using `caput` / `caget`.
 
 ### Viewing IOC output
 
@@ -299,7 +315,7 @@ one of those is `ibek.ioc.schema.json`. This is the *IOC schema* for the
 our *IOC yaml* file like this:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.4.1/ibek.ioc.schema.json
 ```
 
 When editing with a YAML aware editor like VSCode this will enable auto
@@ -325,9 +341,9 @@ prefer hand coding them, this is also supported.
 ## Raw Startup Script and Database
 
 This section demonstrates how to use your own startup assets. This involves
-placing your own `st.cmd` and `ioc.subst` files in the `config`
+placing your own `st.cmd` and `ioc.subst` files in the **config**
 folder. Or alternatively you could override behaviour completely by placing
-`start.sh` in the `config` folder, this can contain any script you like.
+`start.sh` in the **config** folder, this can contain any script you like.
 
 To see what ibek generated you can go and look inside the IOC container:
 
