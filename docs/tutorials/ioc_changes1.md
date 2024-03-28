@@ -9,7 +9,7 @@ and deployed the IOC instance in a previous tutorial without one. It is up to
 you how you choose to make these types of changes. Types 2,3 do require a
 devcontainer because they involve compiling Generic IOC / support module code.
 
-These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do open your `bl01t` folder in vscode and then press `Ctrl-Shift-P` and type `Remote-Containers: Reopen in Container`.
+These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do so, open your `ioc-adsimdetector` folder in vscode and then press `Ctrl-Shift-P` and type `Remote-Containers: Reopen in Container`.
 
 We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used `ioc.yaml`. If you changed to using raw startup assets in the previous tutorial then revert to using `ioc.yaml` for this tutorial or see [](raw-startup-assets).
 
@@ -74,10 +74,7 @@ You can change this and make your devcontainer network isolated by removing the 
 host. You may want to isolate your development network if multiple developers are working on the same subnet. In this case some other solution is required for running OPI tools on the host (TODO add link to solution - likely to be container networks).
 :::
 
-Because of the symlink between `/epics/ioc/config` and
-`/workspaces/bl01t/services/bl01t-ea-test-02/config` the same files you are testing
-by launching the IOC inside of the devcontainer are also ready to be
-committed and pushed to the bl01t repo. i.e.:
+Because of the symlink between `/epics/ioc/config` and `/workspaces/bl01t/services/bl01t-ea-test-02/config` the same files you are testing by launching the IOC inside of the devcontainer are also ready to be committed and pushed to the bl01t repo. The following commands show how to do this:
 
 ```bash
 # Do this from a host terminal (not a devcontainer terminal)
@@ -91,6 +88,8 @@ git push origin 2024.3.2
 # deploy the new version of the IOC to the local docker / podman instance
 ec deploy bl01t-ea-test-02 2024.3.2
 ```
+
+NOTE: the above assumes you have an active python virtual environment with the `edge-containers-cli` installed and you have sourced the beamline environment file (for a reminder of how to do this see {any}`setup-beamline-bl01t`).
 
 You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:
 

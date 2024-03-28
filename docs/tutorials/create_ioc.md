@@ -69,10 +69,10 @@ You will now have vscode and open and editing the values.yaml file. Add the foll
 ```yaml
 shared:
   ioc-instance:
-    image: ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.4.1
+    image: ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1
 ```
 
-This tells the IOC Instance to run in the `ioc-adsimdetector-linux-runtime`
+This tells the IOC Instance to run in the `ioc-adsimdetectorruntime`
 container. This container was built by the Generic IOC source repo here
 <https://github.com/epics-containers/ioc-adsimdetector>. The container has
 support for AreaDetector and ADSimDetector compiled into its IOC binary.

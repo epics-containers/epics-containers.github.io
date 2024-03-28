@@ -21,6 +21,11 @@ which appear in the `iocs` folder of an {any}`ec-services-repo`. e.g.:
 - for Kubernetes: changes to the global values.yaml
   file found in `helm/shared`, these affect all IOCs in the repository.
 
+To make a change like this requires:
+
+- change the IOC instance ioc.yaml or values.yaml
+- redeploy the IOC with `ec deploy-local` or `ec deploy`
+
 (changes_2)=
 ### Changing the Generic IOC
 
@@ -34,14 +39,28 @@ Types of changes include:
    - adding new support modules
    - altering the system dependencies installed into the container image
 
+To make a change like this requires:
+
+- make changes to the Generic IOC Dockerfile
+- push the changes and tag the repo - this will release a new container image
+- change the IOC instance values.yaml to point at the new container image
+- redeploy the IOC with `ec deploy-local` or `ec deploy`
+
+
 (changes_3)=
 ### Changing the dependencies
 
-Sometimes you will need to alter the support modules used by the Generic IOC. To make use of these changes would require:
+Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:
 
-- publishing a new release of the support module,
-- updating and publishing the Generic IOC
-- updating and publishing the IOC instance
+- fix a bug in a support module
+- update to support a new version of the device
+- update to support a feature of the device not yet implemented in the support module
+
+To make a change like this would require:
+
+- making the change in the support module source code
+- test and publish a release of the above
+- repeat the steps in [](changes_2)
 
 ## Need for a Developer Container
 
@@ -167,22 +186,14 @@ Once built, open the project in VSCode:
 code .
 ```
 
-When it opens, VSCode may prompt you to open in a devcontainer. If not then click
-the green icon in the bottom left of the VSCode window and select
-`Reopen in Container`.
+When it opens, VSCode may prompt you to open in a devcontainer, if so the choose to do so. If not then use `ctrl-shift-p` and type `Reopen in Container`.
 
 You should now be *inside* the container. All terminals started in VSCode will
 be running inside the container. Every file that you open with the VSCode editor
 will be inside the container.
 
-There are some caveats because some folders are mounted from the host file
-system. For example, the `ioc-adsimdetector` project folder
-is mounted into the container as a volume. It is mounted under
-`/workspaces/ioc-adsimdetector`. This means that you can edit the source code
-from your local machine and the changes will be visible inside the container and
-outside the container. This is a good thing as you should consider the container
-filesystem to be a temporary filesystem that will be destroyed when the container
-is rebuilt or deleted.
+There are some caveats because some folders are mounted from the host file system. For example, the `ioc-adsimdetector` project folder
+is mounted into the container as a volume. It is mounted under `/workspaces/ioc-adsimdetector`. This means that you can edit the source code from your local machine and the changes will be visible inside the container and outside the container. This is a good thing as you should consider the container filesystem to be a temporary filesystem, because will be destroyed when the container is rebuilt or deleted.
 
 ### Preparing the IOC for Testing
 
