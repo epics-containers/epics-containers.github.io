@@ -22,6 +22,8 @@ Users of the framework will develop two kinds of repository:
 
 Both of these types of repository are initially created using a copier template. The copier template version will have a SemVer version number that determines which component versions it is compatible with.
 
+For a discussion on how to update your projects to the latest version of the templates see [](../how-to/copier_update).
+
 Any breaking changes to the framework will be made in a new Major version of the framework and hence a new Major version of the copier templates.
 
 The following diagram shows the set of components that are involved in the framework and the relationships between them. The dependencies between these components are not a strict API and the diagram attempts to highlight the features of each component that affect other components.
