@@ -30,7 +30,7 @@ tutorial. Open the the file
 Comment out the apt-install line like this:
 
 ```bash
-# ibek support apt-install --only=dev libpcre3-dev
+# ibek support apt-install libpcre3-dev
 ```
 
 Now rebuild the container - do this command from a new terminal *outside* of
@@ -134,7 +134,7 @@ You should find the build succeeds. But this is not the whole story. There
 is another line in `install.h` that I added to make this work:
 
 ```bash
-ibek support add-config-macro ${NAME} PCRE_LIB /usr/lib/x86_64-linux-gnu
+ibek support add-config-macro ${NAME} PCRE_LIB /usr/lib/x86_64gnu
 ```
 
 This added a macro to `CONFIG_SITE.linux-x86_64.Common` that tells the

@@ -6,7 +6,7 @@ a DLS support module with builder support into an epics-containers
 Generic IOC. i.e. support modules that have an `etc/builder.py` file.
 :::
 
-TODO: this page is WIP and will be updated by Feb 2024.
+TODO: this page is WIP and will be updated by May 2024.
 
 `builder2ibek.support` is a tool to convert DLS builder support modules
 into ibek support YAML for the `ibek-support` repository.

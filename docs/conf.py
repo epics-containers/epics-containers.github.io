@@ -177,5 +177,5 @@ html_show_sphinx = False
 html_show_copyright = False
 
 # Logo
-html_logo = "images/dls-logo.svg"
+html_logo = "images/k8s-epics2.ico"
 html_favicon = html_logo
