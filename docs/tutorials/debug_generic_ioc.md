@@ -30,7 +30,7 @@ tutorial. Open the the file
 Comment out the apt-install line like this:
 
 ```bash
-# ibek support apt-install --only=dev libpcre3-dev
+# ibek support apt-install libpcre3-dev
 ```
 
 Now rebuild the container - do this command from a new terminal *outside* of
