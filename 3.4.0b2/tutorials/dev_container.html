@@ -1,0 +1,955 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Developer Containers &#8212; epics-containers 3.4.0b2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=5d809a90"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/dev_container';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '3.4.0b2';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changing the IOC Instance" href="ioc_changes1.html" />
+    <link rel="prev" title="Create an IOC Instance" href="create_ioc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">epics-containers</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../tutorials.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../how-to.html">
+                        How-to Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../explanations.html">
+                        Explanations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference.html">
+                        Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../tutorials.html">
+                        Tutorials
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../how-to.html">
+                        How-to Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../explanations.html">
+                        Explanations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../reference.html">
+                        Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fas fa-cube fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Developer Containers</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="developer-containers">
+<h1>Developer Containers<a class="headerlink" href="#developer-containers" title="Link to this heading">#</a></h1>
+<section id="types-of-changes">
+<span id="ioc-change-types"></span><h2>Types of Changes<a class="headerlink" href="#types-of-changes" title="Link to this heading">#</a></h2>
+<p>Containerized IOCs can be modified in 3 distinct places (in order of decreasing
+frequency of change but increasing complexity):</p>
+<section id="changing-the-ioc-instance">
+<span id="changes-1"></span><h3>Changing the IOC instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h3>
+<p>This means making changes to the IOC instance folders
+which appear in the <code class="docutils literal notranslate"><span class="pre">iocs</span></code> folder of an <a class="reference internal" href="../reference/glossary.html#ec-services-repo"><span class="std std-ref">ec-services repository</span></a>. e.g.:</p>
+<ul class="simple">
+<li><p>changing the EPICS DB (or the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> files that generate it)</p></li>
+<li><p>altering the IOC boot script (or the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> files that generate it)</p></li>
+<li><p>changing the version of the Generic IOC used in values.yaml</p></li>
+<li><p>for Kubernetes: the values.yaml can override any settings used by helm
+so these can also be adjusted on a per IOC instance basis.</p></li>
+<li><p>for Kubernetes: changes to the global values.yaml
+file found in <code class="docutils literal notranslate"><span class="pre">helm/shared</span></code>, these affect all IOCs in the repository.</p></li>
+</ul>
+</section>
+<section id="changing-the-generic-ioc">
+<span id="changes-2"></span><h3>Changing the Generic IOC<a class="headerlink" href="#changing-the-generic-ioc" title="Link to this heading">#</a></h3>
+<p>This involves altering how the Generic IOC container image
+is built. This means making changes to an <code class="docutils literal notranslate"><span class="pre">ioc-XXX</span></code>
+source repo and publishing a new version of the container image.
+Types of changes include:</p>
+<ul class="simple">
+<li><p>changing the EPICS base version</p></li>
+<li><p>changing the versions of EPICS support modules compiled into the IOC binary</p></li>
+<li><p>adding new support modules</p></li>
+<li><p>altering the system dependencies installed into the container image</p></li>
+</ul>
+</section>
+<section id="changing-the-dependencies">
+<span id="changes-3"></span><h3>Changing the dependencies<a class="headerlink" href="#changing-the-dependencies" title="Link to this heading">#</a></h3>
+<p>Sometimes you will need to alter the support modules used by the Generic IOC. To make use of these changes would require:</p>
+<ul class="simple">
+<li><p>publishing a new release of the support module,</p></li>
+<li><p>updating and publishing the Generic IOC</p></li>
+<li><p>updating and publishing the IOC instance</p></li>
+</ul>
+</section>
+</section>
+<section id="need-for-a-developer-container">
+<h2>Need for a Developer Container<a class="headerlink" href="#need-for-a-developer-container" title="Link to this heading">#</a></h2>
+<p>For all of the above types of changes, the epics-containers approach allows local testing of the changes before going through the publishing cycle. This allows us to have a fast ‘inner loop’ of development and testing.</p>
+<p>Also, epics-containers provides a mechanism for creating a separate workspace for working on all of the above elements in one place.</p>
+<p>The earlier tutorials were firmly in the realm of <a class="reference internal" href="#changes-1"><span class="std std-ref">Changing the IOC instance</span></a> above. It was adequate for us to install a container platform, IDE and python and that is all we needed.</p>
+<p>Once you get to level of <a class="reference internal" href="#changes-2"><span class="std std-ref">Changing the Generic IOC</span></a> you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.</p>
+<p>These tools and dependencies will differ from one Generic IOC to the next.</p>
+<p>When using epics-containers we don’t need to install any of these tools or dependencies on our local machine. Instead we can use a developer container, and in fact our Generic IOC <em>is</em> our developer container.</p>
+<p>When the CI builds a Generic IOC it creates <a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">two targets</a></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>developer</strong></p></td>
+<td><p>this target installs all the build tools and build time dependencies into the container image. It then compiles the support modules and IOC.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>runtime</strong></p></td>
+<td><p>this target installs only the runtime dependencies into the container. It also extracts the built runtime assets from the developer target.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The developer stage of the build is a necessary step in order to get a
+working runtime container. However, we choose to keep this stage as an additional
+build target and it then becomes a perfect candidate for a developer container.</p>
+<p>VSCode has excellent support for using a container as a development environment.
+The next section will show you how to use this feature. Note that you can use
+any IDE that supports remote development in a container, you could also
+simply launch the developer container in a shell and use it via CLI only.</p>
+<p>If you want to use the CLI and terminal based editors like <code class="docutils literal notranslate"><span class="pre">neovim</span></code> then
+you should use the developer container CLI to get your developer container
+started. This means the configuration in <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>
+is used to start the container. This is necessary as that is where the
+useful host filesystem mounts and other config items are defined. See
+<a class="reference external" href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli">devcontainer-cli</a>
+for details.</p>
+</section>
+<section id="starting-a-developer-container">
+<h2>Starting a Developer Container<a class="headerlink" href="#starting-a-developer-container" title="Link to this heading">#</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>DLS Users and Redhat Users:</p>
+<p>There is a
+<a class="reference external" href="https://github.com/microsoft/vscode-remote-release/issues/8557">bug in VSCode devcontainers extension</a>
+at the time of writing that makes it incompatible with podman and an SELinux
+enabled /tmp directory. This will affect most Redhat users and you will see an
+error regarding permissions on the /tmp folder when VSCode is building your
+devcontainer.</p>
+<p>Here is a workaround that disables SELinux labels in podman.
+Paste this into a terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed<span class="w"> </span>-i<span class="w"> </span>~/.config/containers/containers.conf<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/label=false/d&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/^\[containers\]$/a label=false&#39;</span>
+</pre></div>
+</div>
+</div>
+<section id="preparation">
+<h3>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h3>
+<p>For this section we will work with the ADSimDetector Generic IOC that we used in
+previous tutorials. Let’s go and fetch a version of the Generic IOC source and
+build it locally.</p>
+<p>For the purposes of this tutorial we will place the source in a folder right
+next to your test beamline <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># starting from folder bl01t so that the clone is next to bl01t</span>
+<span class="nb">cd</span><span class="w"> </span>..
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
+<span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
+./build
+</pre></div>
+</div>
+<p>This will take a few minutes to complete. A philosophy of epics-containers is
+that Generic IOCs build all of their own support. This is to avoid problematic
+dependency trees. For this reason building something as complex as AreaDetector
+will take a few minutes when you first build it.</p>
+<p>A nice thing about containers is that the build is cached so that a second build
+will be almost instant unless you have changed something that requires some
+steps to be rebuilt.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before continuing this tutorial make sure you have not left the IOC
+bl01t-ea-test-02 running from a previous tutorial. Execute this command
+outside of the devcontainer to stop it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-02
+</pre></div>
+</div>
+</div>
+</section>
+<section id="launching-the-developer-container">
+<h3>Launching the Developer Container<a class="headerlink" href="#launching-the-developer-container" title="Link to this heading">#</a></h3>
+<p>In the this section we are going to use vscode to launch a developer container.
+This means that all vscode terminals and editors will be running inside a container
+and accessing the container filesystem. This is a very convenient way to work
+because it makes it possible to archive away the development environment
+along side the source code. It also means that you can easily share the
+development environment with other developers.</p>
+<p>For epics-containers the generic IOC <em>is</em> the developer container. When
+you build the developer target of the container in CI it will contain all the
+build tools and dependencies needed to build the IOC. It will also contain
+the IOC source code and the support module source code. For this reason
+we can also use the same developer target image to make the developer
+container itself. We then have an environment that encompasses all the
+source you could want to change inside of a Generic IOC, and the
+tools to build and test it.</p>
+<p>It is also important to understand that although your vscode session is
+entirely inside the container, some of your host folders have been mounted
+into the container. This is done so that your important changes to source
+code would not be lost if the container were rebuilt. See <a class="reference internal" href="#container-layout"><span class="std std-ref">Developer Container Layout</span></a>
+for details of which host folders are mounted into the container.</p>
+<p>Once built, open the project in VSCode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
+</pre></div>
+</div>
+<p>When it opens, VSCode may prompt you to open in a devcontainer. If not then click
+the green icon in the bottom left of the VSCode window and select
+<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
+<p>You should now be <em>inside</em> the container. All terminals started in VSCode will
+be running inside the container. Every file that you open with the VSCode editor
+will be inside the container.</p>
+<p>There are some caveats because some folders are mounted from the host file
+system. For example, the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> project folder
+is mounted into the container as a volume. It is mounted under
+<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector</span></code>. This means that you can edit the source code
+from your local machine and the changes will be visible inside the container and
+outside the container. This is a good thing as you should consider the container
+filesystem to be a temporary filesystem that will be destroyed when the container
+is rebuilt or deleted.</p>
+</section>
+<section id="preparing-the-ioc-for-testing">
+<h3>Preparing the IOC for Testing<a class="headerlink" href="#preparing-the-ioc-for-testing" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Troubleshooting: if you are experiencing problems with the devcontainer you
+can try resetting your vscode and vscode server caches on your host machine.
+To do this, exit vscode use the following command and restart vscode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>~/.vscode/*<span class="w"> </span>~/.vscode-server/*
+</pre></div>
+</div>
+</div>
+<p>Now that you are <em>inside</em> the container you have access to the tools built into
+it, this includes <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.</p>
+<p>The first commands you should run are as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a terminal: Menu -&gt; Terminal -&gt; New Terminal</span>
+<span class="nb">cd</span><span class="w"> </span>/epics/ioc
+make
+</pre></div>
+</div>
+<p>It is useful to understand that <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> is a soft link to the IOC source that came with your generic IOC source code. Therefore if you edit this code and recompile it, the changes will be visible inside the container and outside the container. Meaning that the repository <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is now showing your changes in it’s <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder and you could push them
+up to GitHub if you wanted.</p>
+<p>epics-containers devcontainers have carefully curated host filesystem mounts. This allows the developer environment to look as similar as possible to the runtime container. It also will preserve any important changes that you make in the host file system. This is essential because the container filesystem is temporary and will be destroyed when the container is rebuilt or deleted.</p>
+<p>See <a class="reference internal" href="#container-layout"><span class="std std-ref">Developer Container Layout</span></a> for details of which host folders are mounted into the container.</p>
+<p>The IOC source code is entirely boilerplate, <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code> determines which dbd and lib files to link by including two files that <code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build. You can see these files in <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
+<p>Although all Generic IOCs derived from ioc-template start out with the same generic source, you are free to change them if there is a need for different compilation options etc.</p>
+<p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
+./start.sh
+</pre></div>
+</div>
+<p>You will just see the default output of a Generic IOC that has no Instance
+configuration. Hit <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code> to stop the this default script.</p>
+<p>Next we will add some instance configuration from one of the
+IOC instances in the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline.</p>
+<p>To do this we will add some other folders to our VSCode workspace to make it
+easier to work with <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> and to investigate the container filesystem.</p>
+</section>
+</section>
+<section id="adding-the-beamline-to-the-workspace">
+<h2>Adding the Beamline to the Workspace<a class="headerlink" href="#adding-the-beamline-to-the-workspace" title="Link to this heading">#</a></h2>
+<p>To meaningfully test the Generic IOC we will need an instance to test it
+against. We will use the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline that you already made. The devcontainer
+has been configured to mount some useful host folders into the container
+including the parent folder of the workspace as <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> so we can work on
+multiple peer projects.</p>
+<p>In VSCode click the <code class="docutils literal notranslate"><span class="pre">File</span></code> menu and select <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">Folder</span> <span class="pre">to</span> <span class="pre">Workspace</span></code>.
+Navigate to <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> and you will see all the peers of your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>
+folder (see <a class="reference internal" href="#container-layout"><span class="std std-ref">Developer Container Layout</span></a> below). Choose the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> folder and add it to the
+workspace - you may see an error but if so clicking “Cancel” will
+clear it.</p>
+<p>Also take this opportunity to add the folder <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace. This
+is the root folder in which all of the EPICS source and built files are
+located.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Docker Users: your account inside the container will not be the owner of
+/epics files. vscode may try to open the repos in epics-base and support/*
+and git will complain about ownership. You can cancel out of these errors
+as you should not edit project folders inside of <code class="docutils literal notranslate"><span class="pre">/epics</span></code> - they were
+built by the container and should be considered immutable. We will learn
+how to work on support modules in later tutorials. This error should only
+be seen on first launch. podman users will have no such problem because they
+will be root inside the container and root built the container.</p>
+<p>To mitigate this problem you can tell vscode not to look for git repos in subfolders, see <a class="reference internal" href="../reference/configuration.html#scm-settings"><span class="std std-ref">Disable recursive search for git repositories</span></a>.</p>
+</div>
+<p>You can now easily browse around the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder and see all the
+support modules and epics-base. This will give you a feel for the layout of
+files in the container. Here is a summary (where WS is your workspace on your
+host. i.e. the root folder under which your projects are all cloned):</p>
+<span id="container-layout"></span><table class="table" id="id1">
+<caption><span class="caption-text">Developer Container Layout</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 23.8%" />
+<col style="width: 33.3%" />
+<col style="width: 42.9%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Path Inside Container</p></th>
+<th class="head"><p>Host Mount Path</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>/epics/support</p></td>
+<td><p>N/A</p></td>
+<td><p>root of compiled support modules</p></td>
+</tr>
+<tr class="row-odd"><td><p>/epics/epics-base</p></td>
+<td><p>N/A</p></td>
+<td><p>compiled epics-base</p></td>
+</tr>
+<tr class="row-even"><td><p>/epics/ioc</p></td>
+<td><p>WS/ioc-adsimdetector/ioc</p></td>
+<td><p>soft link to IOC source tree</p></td>
+</tr>
+<tr class="row-odd"><td><p>/epics/runtime</p></td>
+<td><p>N/A</p></td>
+<td><p>generated startup script and EPICS database files</p></td>
+</tr>
+<tr class="row-even"><td><p>/epics/ibek-defs</p></td>
+<td><p>N/A</p></td>
+<td><p>All ibek <em>Support yaml</em> files</p></td>
+</tr>
+<tr class="row-odd"><td><p>/epics/pvi-defs</p></td>
+<td><p>N/A</p></td>
+<td><p>all PVI definitions from support modules</p></td>
+</tr>
+<tr class="row-even"><td><p>/epics/opi</p></td>
+<td><p>N/A</p></td>
+<td><p>all OPI files (generated or copied from support)</p></td>
+</tr>
+<tr class="row-odd"><td><p>/workspaces</p></td>
+<td><p>WS</p></td>
+<td><p>all peers to Generic IOC source repo</p></td>
+</tr>
+<tr class="row-even"><td><p>/workspaces/ioc-adsimdetector</p></td>
+<td><p>WS/ioc-adsimdetector</p></td>
+<td><p>Generic IOC source repo (in this example)</p></td>
+</tr>
+<tr class="row-odd"><td><p>/epics/generic-source</p></td>
+<td><p>WS/ioc-adsimdetector</p></td>
+<td><p>A second - fixed location mount of the Generic IOC source repo to allow <a class="reference internal" href="../reference/glossary.html#ibek"><span class="std std-ref">ibek</span></a> to find it easily.</p></td>
+</tr>
+</tbody>
+</table>
+<p>IMPORTANT: remember that the container filesystem is temporary and will be
+destroyed when the container is rebuilt or deleted. All folders above with
+<code class="docutils literal notranslate"><span class="pre">Host</span> <span class="pre">Mount</span> <span class="pre">Path</span></code> <code class="docutils literal notranslate"><span class="pre">N/A</span></code> are in the container filesystem. The devcontainer
+has been configured to mount the most useful host folders, but note that
+all support modules are in the container filesystem. Later we will learn
+how to work on support modules, first ensuring that they are made available
+in the host filesystem.</p>
+<p>Also note that VSCode keeps your developer container until you rebuild it
+or explicitly delete it. Restarting your PC and coming back to the same
+devcontainer does keep all state. This can make you complacent about doing
+work in the container filesystem, but it is still not recommended.</p>
+</section>
+<section id="choose-the-ioc-instance-to-test">
+<span id="choose-ioc-instance"></span><h2>Choose the IOC Instance to Test<a class="headerlink" href="#choose-the-ioc-instance-to-test" title="Link to this heading">#</a></h2>
+<p>Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool convenience function <code class="docutils literal notranslate"><span class="pre">dev</span> <span class="pre">instance</span></code> which declares which IOC instance you want to work on in the developer container.</p>
+<p>Try the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">epics</span><span class="o">/</span><span class="n">ioc</span>
+<span class="n">ibek</span> <span class="n">dev</span> <span class="n">instance</span> <span class="o">/</span><span class="n">workspaces</span><span class="o">/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">services</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="mi">02</span>
+<span class="c1"># check the it worked - should see a symlink to the config folder</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">config</span>
+<span class="o">./</span><span class="n">start</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-test-02 by symlinking to that IOC Instance’s config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository. You could therefore open a shell onto the beamline repository at <code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t</span></code> and commit and push the changes.</p>
+</section>
+<section id="wrapping-up">
+<h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
+<p>We now have a tidy development environment for working on the Generic IOC,
+IOC Instances and even the support modules inside the Generic IOC, all in one
+place. We can easily test our changes in place too. In particular note that
+we are able to test changes without having to go through a container build
+cycle.</p>
+<p>In the following tutorials we will look at how to make changes at each of the
+3 levels listed in <a class="reference internal" href="#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="create_ioc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Create an IOC Instance</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ioc_changes1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Changing the IOC Instance</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-changes">Types of Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-ioc-instance">Changing the IOC instance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-generic-ioc">Changing the Generic IOC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-dependencies">Changing the dependencies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#need-for-a-developer-container">Need for a Developer Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-developer-container">Starting a Developer Container</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-developer-container">Launching the Developer Container</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-ioc-for-testing">Preparing the IOC for Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-the-beamline-to-the-workspace">Adding the Beamline to the Workspace</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-ioc-instance-to-test">Choose the IOC Instance to Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/3.4.0b2/docs/tutorials/dev_container.md">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/tutorials/dev_container.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
