@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Developer Containers &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,7 +51,7 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Changing the IOC Instance" href="ioc_changes1.html" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -515,6 +515,11 @@ so these can also be adjusted on a per IOC instance basis.</p></li>
 <li><p>for Kubernetes: changes to the global values.yaml
 file found in <code class="docutils literal notranslate"><span class="pre">helm/shared</span></code>, these affect all IOCs in the repository.</p></li>
 </ul>
+<p>To make a change like this requires:</p>
+<ul class="simple">
+<li><p>change the IOC instance ioc.yaml or values.yaml</p></li>
+<li><p>redeploy the IOC with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code> or <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code></p></li>
+</ul>
 </section>
 <section id="changing-the-generic-ioc">
 <span id="changes-2"></span><h3>Changing the Generic IOC<a class="headerlink" href="#changing-the-generic-ioc" title="Link to this heading">#</a></h3>
@@ -528,14 +533,27 @@ Types of changes include:</p>
 <li><p>adding new support modules</p></li>
 <li><p>altering the system dependencies installed into the container image</p></li>
 </ul>
+<p>To make a change like this requires:</p>
+<ul class="simple">
+<li><p>make changes to the Generic IOC Dockerfile</p></li>
+<li><p>push the changes and tag the repo - this will release a new container image</p></li>
+<li><p>change the IOC instance values.yaml to point at the new container image</p></li>
+<li><p>redeploy the IOC with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code> or <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code></p></li>
+</ul>
 </section>
 <section id="changing-the-dependencies">
 <span id="changes-3"></span><h3>Changing the dependencies<a class="headerlink" href="#changing-the-dependencies" title="Link to this heading">#</a></h3>
-<p>Sometimes you will need to alter the support modules used by the Generic IOC. To make use of these changes would require:</p>
+<p>Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:</p>
 <ul class="simple">
-<li><p>publishing a new release of the support module,</p></li>
-<li><p>updating and publishing the Generic IOC</p></li>
-<li><p>updating and publishing the IOC instance</p></li>
+<li><p>fix a bug in a support module</p></li>
+<li><p>update to support a new version of the device</p></li>
+<li><p>update to support a feature of the device not yet implemented in the support module</p></li>
+</ul>
+<p>To make a change like this would require:</p>
+<ul class="simple">
+<li><p>making the change in the support module source code</p></li>
+<li><p>test and publish a release of the above</p></li>
+<li><p>repeat the steps in <a class="reference internal" href="#changes-2"><span class="std std-ref">Changing the Generic IOC</span></a></p></li>
 </ul>
 </section>
 </section>
@@ -651,20 +669,12 @@ for details of which host folders are mounted into the container.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
 </pre></div>
 </div>
-<p>When it opens, VSCode may prompt you to open in a devcontainer. If not then click
-the green icon in the bottom left of the VSCode window and select
-<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
+<p>When it opens, VSCode may prompt you to open in a devcontainer, if so the choose to do so. If not then use <code class="docutils literal notranslate"><span class="pre">ctrl-shift-p</span></code> and type <code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
 <p>You should now be <em>inside</em> the container. All terminals started in VSCode will
 be running inside the container. Every file that you open with the VSCode editor
 will be inside the container.</p>
-<p>There are some caveats because some folders are mounted from the host file
-system. For example, the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> project folder
-is mounted into the container as a volume. It is mounted under
-<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector</span></code>. This means that you can edit the source code
-from your local machine and the changes will be visible inside the container and
-outside the container. This is a good thing as you should consider the container
-filesystem to be a temporary filesystem that will be destroyed when the container
-is rebuilt or deleted.</p>
+<p>There are some caveats because some folders are mounted from the host file system. For example, the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> project folder
+is mounted into the container as a volume. It is mounted under <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector</span></code>. This means that you can edit the source code from your local machine and the changes will be visible inside the container and outside the container. This is a good thing as you should consider the container filesystem to be a temporary filesystem, because will be destroyed when the container is rebuilt or deleted.</p>
 </section>
 <section id="preparing-the-ioc-for-testing">
 <h3>Preparing the IOC for Testing<a class="headerlink" href="#preparing-the-ioc-for-testing" title="Link to this heading">#</a></h3>

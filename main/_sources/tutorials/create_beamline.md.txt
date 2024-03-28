@@ -12,7 +12,7 @@ and c is the class of beamline.
 
 :::{note}
 You may choose your own naming convention, but lower case letters,
-numbers and hyphens only are recommended for both domain names and
+numbers and hyphens only are required for both domain names and
 IOC names. This is a restriction that helm introduces for package names.
 :::
 

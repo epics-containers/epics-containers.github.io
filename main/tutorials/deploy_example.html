@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,7 +51,7 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Create an IOC Instance" href="create_ioc.html" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -537,7 +537,7 @@ have valid configuration.</p>
 have followed the instructions in the previous tutorial correctly.</p>
 </section>
 <section id="set-up-environment-for-bl01t-beamline">
-<h2>Set up Environment for BL01T Beamline<a class="headerlink" href="#set-up-environment-for-bl01t-beamline" title="Link to this heading">#</a></h2>
+<span id="setup-beamline-bl01t"></span><h2>Set up Environment for BL01T Beamline<a class="headerlink" href="#set-up-environment-for-bl01t-beamline" title="Link to this heading">#</a></h2>
 <p>The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.</p>
 <p>Start this section of the tutorial inside the vscode project that you created in the previous tutorial. Make sure you have a terminal open and the current working directory is your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> project root folder.</p>
 <p>First make sure you have the local binaries folder in your path by adding
@@ -633,7 +633,7 @@ bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 $<span class="w"> </span>ec<span class="w"> </span>ps<span class="w"> </span>-w
 <span class="p">|</span><span class="w"> </span>name<span class="w">             </span><span class="p">|</span><span class="w"> </span>version<span class="w">  </span><span class="p">|</span><span class="w"> </span>running<span class="w"> </span><span class="p">|</span><span class="w"> </span>restarts<span class="w"> </span><span class="p">|</span><span class="w"> </span>deployed<span class="w">            </span><span class="p">|</span><span class="w"> </span>image<span class="w">                                                             </span><span class="p">|</span>
 <span class="p">|</span>------------------<span class="p">|</span>----------<span class="p">|</span>---------<span class="p">|</span>----------<span class="p">|</span>---------------------<span class="p">|</span>-------------------------------------------------------------------<span class="p">|</span>
-<span class="p">|</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>.3.1<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nb">true</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">0</span><span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>-03-19<span class="w"> </span><span class="m">11</span>:10:53<span class="w"> </span><span class="p">|</span><span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1<span class="w"> </span><span class="p">|</span>
+<span class="p">|</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>.3.1<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nb">true</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">0</span><span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>-03-19<span class="w"> </span><span class="m">11</span>:10:53<span class="w"> </span><span class="p">|</span><span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1<span class="w"> </span><span class="p">|</span>
 </pre></div>
 </div>
 <section id="important-deploy-local-vs-deploy">
@@ -660,7 +660,7 @@ ec<span class="w"> </span>ps
 <p class="admonition-title">Note</p>
 <p>Generic IOCs.</p>
 <p>You may have noticed that the IOC instance has is showing that it has
-an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</span></code>.</p>
+an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1</span></code>.</p>
 <p>This is a Generic IOC image and all IOC Instances must be based upon one
 of these images. This IOC instance has no startup script and is therefore
 not functional, it could have been based on any Generic IOC.</p>

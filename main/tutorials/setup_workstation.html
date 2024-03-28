@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,7 +51,7 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Create a Beamline Repository" href="create_beamline.html" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -504,7 +504,7 @@ The tools you need to install are:</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p></li>
 <li><p>a container platform, either podman or docker</p></li>
-<li><p>Python 3.10 or later + a Python virtual environment</p></li>
+<li><p>Python 3.11 or later + a Python virtual environment</p></li>
 <li><p>git client for version control</p></li>
 </ul>
 <p>Visual Studio Code is recommended because it has excellent integration with
@@ -558,14 +558,12 @@ devcontainer in the next tutorial.</p>
 <h3>Setup Docker or Podman<a class="headerlink" href="#setup-docker-or-podman" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.4.1 installed by default.
+<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.6.1 installed by default.
 RHEL 7 Workstations are not supported.</p>
 </div>
 <p>Next install docker or podman as your container platform. epics-containers
-has been tested with podman 4.4.1 on RedHat 8, and Docker 24.0.5 on
-for Ubuntu 22.04.</p>
-<p>If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code> with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the
-commands listed in these tutorials.</p>
+has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.</p>
+<p>If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code> with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands listed in these tutorials. <code class="docutils literal notranslate"><span class="pre">docker</span></code> users should also take a look at this page: <a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Working with Docker</span></a></p>
 <p>The podman version required is 4.0 or later. Any version of docker since 20.10
 will also work. Pick the tool that has the most recent version for your platform.
 RedHat 8 and above have recent podman versions. Debian platforms don’t yet

@@ -41,7 +41,7 @@ Are you sure ? [y/N]: y
 <font color="#5F8787">docker container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
 <font color="#5F8787">docker cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
 <font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2</font>
+<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
 76c2834dac805780b3329af91c332abb90fb2692a510c11b888b82e48f60b44f
 <font color="#5F8787">docker ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
 </pre>
@@ -59,7 +59,7 @@ Now you can tell `ec` to stop the IOC instance and then run it in a way that you
 
 ```bash
 ec stop bl01t-ea-test-02
-docker run --entrypoint bash -it --net host -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02-debug ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2
+docker run --entrypoint bash -it --net host -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02-debug ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
 ```
 
 You should now be in a shell inside the container. You can look at the files and run the IOC instance manually to see what the error is. You can re-run the IOC instance multiple times and you can even install your favourite editor or debugging tools.

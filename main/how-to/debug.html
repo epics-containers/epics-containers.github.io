@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debug an IOC instance locally &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Debug an IOC instance locally &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,11 +51,11 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Updating and Testing ibek-support" href="ibek-support.html" />
-    <link rel="prev" title="Contributing to the project" href="contribute.html" />
+    <link rel="prev" title="Updating User Repositories with Copier" href="copier_update.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -424,6 +424,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Debug an IOC instance locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
@@ -524,7 +525,7 @@ Are you sure ? [y/N]: y
 <font color="#5F8787">docker container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
 <font color="#5F8787">docker cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
 <font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2</font>
+<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
 76c2834dac805780b3329af91c332abb90fb2692a510c11b888b82e48f60b44f
 <font color="#5F8787">docker ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
 </pre>
@@ -538,7 +539,7 @@ ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 <h2>Debugging the IOC instance<a class="headerlink" href="#debugging-the-ioc-instance" title="Link to this heading">#</a></h2>
 <p>Now you can tell <code class="docutils literal notranslate"><span class="pre">ec</span></code> to stop the IOC instance and then run it in a way that you can debug it, by copying the command that <code class="docutils literal notranslate"><span class="pre">ec</span></code> used to run the IOC instance and adding the <code class="docutils literal notranslate"><span class="pre">--entrypoint</span> <span class="pre">bash</span></code> and removing <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag and <code class="docutils literal notranslate"><span class="pre">--restart</span> <span class="pre">unless-stopped</span></code>. Also change the name to have a <code class="docutils literal notranslate"><span class="pre">-debug</span></code> suffix, like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-02
-docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--net<span class="w"> </span>host<span class="w"> </span>-l<span class="w"> </span><span class="nv">is_IOC</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="m">2024</span>.2.17-b8.30<span class="w"> </span>-v<span class="w"> </span>bl01t-ea-test-02_config:/epics/ioc/config/<span class="w"> </span>-e<span class="w"> </span><span class="nv">IOC_NAME</span><span class="o">=</span>bl01t-ea-test-02<span class="w">  </span>--name<span class="w"> </span>bl01t-ea-test-02-debug<span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.2
+docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--net<span class="w"> </span>host<span class="w"> </span>-l<span class="w"> </span><span class="nv">is_IOC</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="m">2024</span>.2.17-b8.30<span class="w"> </span>-v<span class="w"> </span>bl01t-ea-test-02_config:/epics/ioc/config/<span class="w"> </span>-e<span class="w"> </span><span class="nv">IOC_NAME</span><span class="o">=</span>bl01t-ea-test-02<span class="w">  </span>--name<span class="w"> </span>bl01t-ea-test-02-debug<span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
 </pre></div>
 </div>
 <p>You should now be in a shell inside the container. You can look at the files and run the IOC instance manually to see what the error is. You can re-run the IOC instance multiple times and you can even install your favourite editor or debugging tools.</p>
@@ -574,12 +575,12 @@ vim<span class="w"> </span>/epics/ioc/config/ioc.yaml
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="contribute.html"
+       href="copier_update.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Contributing to the project</p>
+        <p class="prev-next-title">Updating User Repositories with Copier</p>
       </div>
     </a>
     <a class="right-next"

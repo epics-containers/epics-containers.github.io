@@ -42,6 +42,7 @@ have valid configuration.
 For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.
 
+(setup-beamline-bl01t)=
 ## Set up Environment for BL01T Beamline
 
 The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.
@@ -162,7 +163,7 @@ bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
 $ ec ps -w
 | name             | version  | running | restarts | deployed            | image                                                             |
 |------------------|----------|---------|----------|---------------------|-------------------------------------------------------------------|
-| bl01t-ea-test-01 | 2024.3.1 | true    | 0        | 2024-03-19 11:10:53 | ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1 |
+| bl01t-ea-test-01 | 2024.3.1 | true    | 0        | 2024-03-19 11:10:53 | ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1 |
 ```
 
 ### IMPORTANT: deploy-local vs deploy
@@ -191,7 +192,7 @@ ec ps
 Generic IOCs.
 
 You may have noticed that the IOC instance has is showing that it has
-an image `ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1`.
+an image `ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1`.
 
 This is a Generic IOC image and all IOC Instances must be based upon one
 of these images. This IOC instance has no startup script and is therefore

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,7 +51,7 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Developer Containers" href="dev_container.html" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -521,38 +521,42 @@ across AreaDetector: <a class="reference external" href="https://areadetector.gi
 <td><p>A helm chart description file.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>values.yaml</strong></p></td>
-<td><p>A helm chart values override file. The only required field is <code class="docutils literal notranslate"><span class="pre">image</span></code> which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart</p></td>
+<td><p>A helm chart values override file. The only required field is <code class="docutils literal notranslate"><span class="pre">image</span></code> which determines which Generic IOC container the IOC Instance will run in. However, any other fields in the helm chart values file can be overridden on a per IOC instance basis in this file. See the shared values.yaml file in the <code class="docutils literal notranslate"><span class="pre">helm/shared</span></code> folder for a complete list of fields that can be overridden.</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>config</strong></p></td>
-<td><p>A folder that contains the IOC configuration files. The configuration can take a number of forms <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh">listed here</a>.</p></td>
+<tr class="row-even"><td><p><strong>templates</strong></p></td>
+<td><p>A helm templates folder. Used to extract the contents of <strong>config</strong> into a configMap</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>config</strong></p></td>
+<td><p>A folder that contains the IOC configuration files. The configuration can take a number of forms <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh">listed here</a>. The recommended contents of this folder is a single ibek IOC description yaml file named <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code></p></td>
 </tr>
 </tbody>
 </table>
 <section id="chart-yaml">
 <h3>Chart.yaml<a class="headerlink" href="#chart-yaml" title="Link to this heading">#</a></h3>
-<p>The Chart.yaml is a helm chart description file. We will use the same Chart.yaml file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for two dependencies in the form of sub-charts. The sub-charts are defined within the same repository as follows:</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>helm/shared</strong></p></td>
-<td><p>A sub-chart that contains the default values.yaml file for all services in the beamline repository. It in turn references a further sub-chart that consumes these values: the <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart that crafts up the Kubernetes manifest for deploying IOC instances</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>include/iocs</strong></p></td>
-<td><p>A sub-chart that transforms the IOC Instance’s config folder files into a Kubernetes ConfigMap to be included in the manifest and mounted into the Generic IOC container at runtime.</p></td>
-</tr>
-</tbody>
-</table>
-<p>Because all IOC Instances in the beamline repository share the same Chart.yaml file, we will create a soft-link to it in the IOC Instance folder. This is so that updates to the Chart.yaml file will propagate to all IOC Instances in the beamline. To do this run the following command:</p>
+<p><strong>Chart.yaml</strong> is a helm chart definition file. We will use the same <strong>Chart.yaml</strong> file for all IOC instances in the beamline repository. It is a boilerplate file that defines a chart with nothing in it except for a dependency in the form of a sub-chart.</p>
+<p>The sub-chart that <strong>Chart.yaml</strong> refers to is defined within the same repository in the folder <strong>helm/shared</strong>. This is sub-chart that contains the default values.yaml file for IOCs in the beamline repository. It in turn references a further sub-chart that consumes these values call <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart that crafts up the Kubernetes manifest for deploying IOC instances. This <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> sub-chart is pulled from and oci registry and is defined in the repository <a class="reference external" href="https://github.com/epics-containers/ec-helm-charts">ec-helm-charts</a>  |</p>
+</section>
+<section id="templates-folder">
+<h3>templates folder<a class="headerlink" href="#templates-folder" title="Link to this heading">#</a></h3>
+<p>The other boilerplate item in each IOC Instance folder is the <strong>templates</strong> folder. Every IOC has a template that constructs a configMap from its config folder. When deploying to Kubernetes this is how the config information in <strong>config</strong> is made available to the IOC container at runtime in the cluster. When deploying to a local docker instance the config folder is placed in a docker volume and mounted into the container, so the <strong>templates</strong> folder is not used in this case.</p>
+</section>
+<section id="boilerplate-files-in-the-ioc-instance-folder">
+<h3>Boilerplate files in the IOC Instance folder<a class="headerlink" href="#boilerplate-files-in-the-ioc-instance-folder" title="Link to this heading">#</a></h3>
+<p>Because all IOC Instances in the beamline repository share the same <strong>Chart.yaml</strong> file, we create a soft-link to it in the IOC Instance folder. The same is true of the <strong>templates</strong> folder. This is so that updates to the <strong>Chart.yaml</strong> file or <strong>templates</strong> folder will propagate to all IOC Instances in the beamline.</p>
+<p>Let us go ahead and make a new IOC and add the soft-links. To do so, run the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># if not already there</span>
 <span class="c1"># create the new IOC Instance folder</span>
 mkdir<span class="w"> </span>services/bl01t-ea-test-02
 <span class="c1"># link in the shared Chart.yaml file</span>
 ln<span class="w"> </span>-sr<span class="w"> </span>include/iocs/Chart.yaml<span class="w"> </span>services/bl01t-ea-test-02/Chart.yaml
+ln<span class="w"> </span>-sr<span class="w"> </span>include/iocs/templates<span class="w"> </span>services/bl01t-ea-test-02/templates
 </pre></div>
+</div>
+<p>You could have got the same result by just copying the two files from the example IOC Instance and you can easily do that from the vscode file explorer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is useful to keep the example IOC Instance around as a reference. You can copy and paste from it to create new IOC Instances. But also when you use the copier update command to get the latest framework changes into your beamline repository it makes it easy to see if there have been any changes to the structure of IOC instances.</p>
 </div>
 </section>
 <section id="values-yaml">
@@ -565,10 +569,10 @@ code<span class="w"> </span>services/bl01t-ea-test-02/values.yaml
 <p>You will now have vscode and open and editing the values.yaml file. Add the following:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">shared</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">ioc-instance</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-linux-runtime:2024.2.1</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1</span>
 </pre></div>
 </div>
-<p>This tells the IOC Instance to run in the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector-linux-runtime</span></code>
+<p>This tells the IOC Instance to run in the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetectorruntime</span></code>
 container. This container was built by the Generic IOC source repo here
 <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. The container has
 support for AreaDetector and ADSimDetector compiled into its IOC binary.</p>
@@ -672,7 +676,7 @@ code<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 </pre></div>
 </div>
 <p>This should launch vscode and open the ioc.yaml file. Add the following:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.4.1/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">__utils__.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Example simulated camera for BL01T</span>
@@ -738,7 +742,7 @@ ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 </section>
 <section id="operator-interface">
 <h3>Operator Interface<a class="headerlink" href="#operator-interface" title="Link to this heading">#</a></h3>
-<p>In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable we will interact with the IOC using <code class="docutils literal notranslate"><span class="pre">caput</span></code> / <code class="docutils literal notranslate"><span class="pre">caget</span></code>.</p>
+<p>In later tutorials we will look at auto-generation of OPI files and using Phoebus to interact with IOC Instances. To keep this tutorial to a reasonable length we will simply interact with the IOC using <code class="docutils literal notranslate"><span class="pre">caput</span></code> / <code class="docutils literal notranslate"><span class="pre">caget</span></code>.</p>
 </section>
 <section id="viewing-ioc-output">
 <h3>Viewing IOC output<a class="headerlink" href="#viewing-ioc-output" title="Link to this heading">#</a></h3>
@@ -786,7 +790,7 @@ This page includes the assets that are published as part of the release and
 one of those is <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code>. This is the <em>IOC schema</em> for the
 <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. This is what we referred to at the top of
 our <em>IOC yaml</em> file like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.1.1/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.4.1/ibek.ioc.schema.json</span>
 </pre></div>
 </div>
 <p>When editing with a YAML aware editor like VSCode this will enable auto
@@ -810,9 +814,9 @@ prefer hand coding them, this is also supported.</p>
 <section id="raw-startup-script-and-database">
 <h2>Raw Startup Script and Database<a class="headerlink" href="#raw-startup-script-and-database" title="Link to this heading">#</a></h2>
 <p>This section demonstrates how to use your own startup assets. This involves
-placing your own <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> files in the <code class="docutils literal notranslate"><span class="pre">config</span></code>
+placing your own <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> files in the <strong>config</strong>
 folder. Or alternatively you could override behaviour completely by placing
-<code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <code class="docutils literal notranslate"><span class="pre">config</span></code> folder, this can contain any script you like.</p>
+<code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <strong>config</strong> folder, this can contain any script you like.</p>
 <p>To see what ibek generated you can go and look inside the IOC container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-02
 <span class="nb">cd</span><span class="w"> </span>/epics/runtime/
@@ -909,6 +913,8 @@ use the <code class="docutils literal notranslate"><span class="pre">-v</span></
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-ioc-instance">Create a New IOC Instance</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chart-yaml">Chart.yaml</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#templates-folder">templates folder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boilerplate-files-in-the-ioc-instance-folder">Boilerplate files in the IOC Instance folder</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#values-yaml">values.yaml</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config">config</a></li>
 </ul>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers 3.0.1.dev13+g690ad22 documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=777ed19d"></script>
+    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -51,7 +51,7 @@
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
         </script>
-    <link rel="icon" href="../_static/dls-logo.svg"/>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Changing a Generic IOC" href="ioc_changes2.html" />
@@ -132,8 +132,8 @@
       
     
     
-    <img src="../_static/dls-logo.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/dls-logo.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -505,7 +505,7 @@ following 2 tutorials.</p>
 and deployed the IOC instance in a previous tutorial without one. It is up to
 you how you choose to make these types of changes. Types 2,3 do require a
 devcontainer because they involve compiling Generic IOC / support module code.</p>
-<p>These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do open your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> folder in vscode and then press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Remote-Containers:</span> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
+<p>These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do so, open your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> folder in vscode and then press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Remote-Containers:</span> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
 <p>We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>. If you changed to using raw startup assets in the previous tutorial then revert to using <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> for this tutorial or see <a class="reference internal" href="#raw-startup-assets"><span class="std std-ref">Raw Startup Assets</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -559,10 +559,7 @@ from another terminal (VSCode menus -&gt; Terminal -&gt; New Terminal) like so:<
 <p>You can change this and make your devcontainer network isolated by removing the line <code class="docutils literal notranslate"><span class="pre">&quot;--net=host&quot;,</span></code> from <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>, but it is convenient to leave it if you want to run OPI tools locally on the
 host. You may want to isolate your development network if multiple developers are working on the same subnet. In this case some other solution is required for running OPI tools on the host (TODO add link to solution - likely to be container networks).</p>
 </div>
-<p>Because of the symlink between <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and
-<code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t/services/bl01t-ea-test-02/config</span></code> the same files you are testing
-by launching the IOC inside of the devcontainer are also ready to be
-committed and pushed to the bl01t repo. i.e.:</p>
+<p>Because of the symlink between <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and <code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t/services/bl01t-ea-test-02/config</span></code> the same files you are testing by launching the IOC inside of the devcontainer are also ready to be committed and pushed to the bl01t repo. The following commands show how to do this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do this from a host terminal (not a devcontainer terminal)</span>
 <span class="nb">cd</span><span class="w"> </span>bl01t
 git<span class="w"> </span>add<span class="w"> </span>.
@@ -575,6 +572,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span><span class="m">2024</span>.3.2
 </pre></div>
 </div>
+<p>NOTE: the above assumes you have an active python virtual environment with the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> installed and you have sourced the beamline environment file (for a reminder of how to do this see <a class="reference internal" href="deploy_example.html#setup-beamline-bl01t"><span class="std std-ref">Set up Environment for BL01T Beamline</span></a>).</p>
 <p>You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 </pre></div>

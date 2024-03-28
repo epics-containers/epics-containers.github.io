@@ -125,8 +125,8 @@ in the cluster. The matrix of targets also includes an architecture dimension,
 at present the ioc-template supports two architectures, `linux` and
 `rtems`, thus there are 4 targets in total as follows:
 
-- ghcr.io/epics-containers/ioc-template-linux-runtime
-- ghcr.io/epics-containers/ioc-template-linux-developer
+- ghcr.io/epics-containers/ioc-templateruntime
+- ghcr.io/epics-containers/ioc-templatedeveloper
 - ghcr.io/epics-containers/ioc-template-rtems-runtime
 - ghcr.io/epics-containers/ioc-template-rtems-developer
 
