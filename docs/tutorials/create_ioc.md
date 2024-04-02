@@ -300,7 +300,7 @@ the c2dv viewer showing an image from the example IOC
 
 Above we looked at some ibek *Support yaml* and created an *IOC yaml* file.
 The details of where *Support yaml* files come from and how to create your
-own are covered a later tutorial {any}`generic_ioc`.
+own are covered in a later tutorial {any}`generic_ioc`.
 
 However, without looking into the set of *Support yaml* files that are
 inside a given Generic IOC we can still make a meaningful *IOC yaml* file.
@@ -380,7 +380,7 @@ Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
 changes in the startup script and substitution file and re-deploy the IOC.
 
-To start your new version of the the Instance and replace the previous one use the `deploy-local` command again:
+To start your new version of the Instance and replace the previous one use the `deploy-local` command again:
 
 ```bash
 # re-deploy from local filesystem

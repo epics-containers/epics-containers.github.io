@@ -156,7 +156,7 @@ These two definitions allow you to add arbitrary commands to the startup script
 before and after iocInit. This is how we added the `dbLoadRecords` command.
 
 If you want to specify multiple lines in a command you can use the following
-syntax for multi-line stings:
+syntax for multi-line strings:
 
 > ```yaml
 > - type: epics.StartupCommand

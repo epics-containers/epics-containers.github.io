@@ -67,7 +67,7 @@ be adjusted to suit your domain. The variables are as follows:
   (at least for common functions).
 
 - **EC_DEBUG**: causes the `ec` command to output debug information for all
-  commands. For more targetted debugging you can use `ec -d ...`.
+  commands. For more targeted debugging you can use `ec -d ...`.
 
 ## Installation of `ec`
 

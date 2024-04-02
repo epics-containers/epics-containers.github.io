@@ -189,7 +189,7 @@ description: |
     example RTEMS IOC for bl01t
 ```
 
-For configuration we will create a simple database with a few of records and
+For configuration we will create a simple database with a few records and
 a basic startup script. Add the following files to the
 `services/bl01t-ea-test-02/config` directory.
 

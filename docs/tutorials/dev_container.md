@@ -158,7 +158,7 @@ ec stop bl01t-ea-test-02
 
 ### Launching the Developer Container
 
-In the this section we are going to use vscode to launch a developer container.
+In this section we are going to use vscode to launch a developer container.
 This means that all vscode terminals and editors will be running inside a container
 and accessing the container filesystem. This is a very convenient way to work
 because it makes it possible to archive away the development environment
@@ -186,7 +186,7 @@ Once built, open the project in VSCode:
 code .
 ```
 
-When it opens, VSCode may prompt you to open in a devcontainer, if so the choose to do so. If not then use `ctrl-shift-p` and type `Reopen in Container`.
+When it opens, VSCode may prompt you to open in a devcontainer, if so then choose to do so. If not then use `ctrl-shift-p` and type `Reopen in Container`.
 
 You should now be *inside* the container. All terminals started in VSCode will
 be running inside the container. Every file that you open with the VSCode editor
@@ -237,7 +237,7 @@ cd /epics/ioc
 ```
 
 You will just see the default output of a Generic IOC that has no Instance
-configuration. Hit `Ctrl-C` to stop the this default script.
+configuration. Hit `Ctrl-C` to stop the default script.
 
 Next we will add some instance configuration from one of the
 IOC instances in the `bl01t` beamline.

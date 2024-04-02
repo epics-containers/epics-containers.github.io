@@ -28,7 +28,7 @@ that can be used by multiple IOC instances in multiple domains. Because
 Generic IOCs are containerized and not facility specific, they should work
 anywhere. Therefore these make sense as public repositories.
 
-There may be cases where the this is not possible, for example if the
+There may be cases where this is not possible, for example if the
 Generic IOC relies on proprietary support modules with restricted licensing.
 
 The existing Continuous
