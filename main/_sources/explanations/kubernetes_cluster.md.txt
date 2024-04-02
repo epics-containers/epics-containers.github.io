@@ -47,7 +47,7 @@ The separate clusters allow us to have separate:
 - administrative domain
 - performance domain
 
-The down side is that we have to manage multiple clusters. There is a lot of
+The downside is that we have to manage multiple clusters. There is a lot of
 tooling available to help with this, as multi-cluster using cloud providers is
 quite a common pattern. We are currently investigating approaches to multi-cluster
 management.

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 3.4.1.dev2+gca3052f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
+    <script src="../_static/documentation_options.js?v=1f1008f3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -779,7 +779,7 @@ installed on your host machine you could omit entering the container.</p>
 <h2>ibek Explanation<a class="headerlink" href="#ibek-explanation" title="Link to this heading">#</a></h2>
 <p>Above we looked at some ibek <em>Support yaml</em> and created an <em>IOC yaml</em> file.
 The details of where <em>Support yaml</em> files come from and how to create your
-own are covered a later tutorial <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
+own are covered in a later tutorial <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
 <p>However, without looking into the set of <em>Support yaml</em> files that are
 inside a given Generic IOC we can still make a meaningful <em>IOC yaml</em> file.
 That is because every Generic IOC publishes an <em>IOC schema</em> that describes
@@ -846,7 +846,7 @@ rm<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 <p>Your IOC Instance will now be using the raw startup script and database. But
 should behave exactly the same as before. You are free to experiment with
 changes in the startup script and substitution file and re-deploy the IOC.</p>
-<p>To start your new version of the the Instance and replace the previous one use the <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> command again:</p>
+<p>To start your new version of the Instance and replace the previous one use the <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> command again:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># re-deploy from local filesystem</span>
 ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-02
 </pre></div>

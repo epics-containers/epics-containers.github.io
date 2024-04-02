@@ -7,7 +7,7 @@
 ```{include} ../overview.md
 ```
 
-See below for more detail on each of these.
+See below for more details on each of these.
 
 ## Concepts
 
@@ -231,7 +231,7 @@ There are these types of CI:
 This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running
 on MVME5500 hardware. Soft IOCs that require access to hardware on the
 server (e.g. USB or PCIe) will be supported by mounting the hardware into
-the container (theses IOCS will not support Kubernetes failover).
+the container (these IOCS will not support Kubernetes failover).
 
 Other linux architectures could be added to the Kubernetes cluster. We have
 tested arm64 native builds and will add this as a supported architecture

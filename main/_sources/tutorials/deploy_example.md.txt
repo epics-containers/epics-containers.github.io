@@ -237,7 +237,7 @@ IOC startup script     /epics/runtime
 
 Being at a terminal prompt inside the IOC container can be useful for debugging
 and testing. You will have access to caget and caput, plus other EPICS tools,
-and you can can inspect files such as the IOC startup script.
+and you can inspect files such as the IOC startup script.
 
 ### Logging
 

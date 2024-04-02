@@ -130,7 +130,7 @@ Taints:         beamline=bl46p:NoSchedule
                 nodetype=test-rig:NoSchedule
 ```
 
-If you are working with your facility cluster then, you are may not to
+If you are working with your facility cluster then, you may not
 have permission to set up these labels and taints. In this case, your
 administrator will need to do this for you. At DLS, you should expect that
 this is already set up for you.

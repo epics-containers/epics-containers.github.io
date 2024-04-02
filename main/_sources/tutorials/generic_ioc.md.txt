@@ -502,7 +502,7 @@ databases:
 
 Finally, also note that the top line refers to a schema file. This is the global
 `ibek` schema for support module definition YAML. A single schema is used
-for all support modules and is published along side the latest release of `ibek`.
+for all support modules and is published alongside the latest release of `ibek`.
 This means that a schema aware editor can provide auto-completion and validation
 for your support module YAML files. The VSCode extension here
 <https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml>
@@ -567,7 +567,7 @@ https://github.com/<YOUR GITHUB ACCOUNT>/ioc-lakeshore340/releases/download/<VER
 This would then be the URL you would put at the top of any IOC instances using
 your released Generic IOC.
 
-To create the instance we create a folder in `bl00t-ea-test-01` and create a IOC Instance definition there as follows:
+To create the instance we create a folder in `bl00t-ea-test-01` and create an IOC Instance definition there as follows:
 
 ```bash
 mkdir -p /workspaces/ioc-lakeshore340/services/bl00t-ea-test-01/config/
@@ -707,7 +707,7 @@ git push
 
 This should trigger a build of the container image in the GitHub Actions CI system. You can watch this by clicking on the `Actions` tab in your new repository.
 
-Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way do this by clicking on the `Releases` tab in your new repository and then clicking on `Create a new release`.
+Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way to do this is by clicking on the `Releases` tab in your new repository and then clicking on `Create a new release`.
 
 :::{figure} ../images/lakeshore_releases.png
 Create a new release on GitHub

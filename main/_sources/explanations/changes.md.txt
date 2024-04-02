@@ -65,7 +65,7 @@ It is easy to determine which template version and thus which `ec` SemVer versio
 Types of Changes
 ----------------
 
-Changes to the framework are likely to be initiated in one the places described under the following headings. As far as possible such changes will be backwards compatible going forward, and if they are not then a major version release will be made.
+Changes to the framework are likely to be initiated in one of the places described under the following headings. As far as possible such changes will be backwards compatible going forward, and if they are not then a major version release will be made.
 
 ### ibek
 

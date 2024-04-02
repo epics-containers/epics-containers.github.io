@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Channel Access and Other Protocols &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
+    <title>Channel Access and Other Protocols &#8212; epics-containers 3.4.1.dev2+gca3052f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
+    <script src="../_static/documentation_options.js?v=1f1008f3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -518,7 +518,7 @@ between an external client and a kubernetes Pod:</p>
 <ul class="simple">
 <li><p>use of broadcast packets</p></li>
 <li><p>negotiating an ephemeral port in the application layer (NAT cannot route to
-a such a port since it looks like a new connection)</p></li>
+such a port since it looks like a new connection)</p></li>
 </ul>
 <p>When prototyping IOCs in Kubernetes we found that the following protocols
 had issues for the above reasons:</p>
@@ -544,7 +544,7 @@ is a solution for all protocols we will need.</p>
 </section>
 <section id="solution-hostnetwork">
 <h2>Solution - hostNetwork<a class="headerlink" href="#solution-hostnetwork" title="Link to this heading">#</a></h2>
-<p>To get round these issues and all possible future network issues we:</p>
+<p>To get around these issues and all possible future network issues we:</p>
 <ul class="simple">
 <li><p>Use remote worker nodes that sit in the beamline subnet</p></li>
 <li><p>We use hostNetwork=true which bypasses the CNI and gives Pods direct access

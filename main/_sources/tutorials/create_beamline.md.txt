@@ -37,13 +37,13 @@ which to place the new repo. If you do not have one then follow GitHub's
 
 Log in to your account by going here <https://github.com/login>.
 
-You will also need to setup ssh keys to authenticate to github from git. See
+You will also need to set up ssh keys to authenticate to Github from git. See
 [about ssh].
 
 (create-new-beamline-local)=
 ## Create a New Beamline Repo for local deployments
 
-Here we will use the copy the ec services template repository to make a new beamline.
+Here we will use the ec services template repository to make a new beamline.
 
 NOTE: for these tutorials we will use your personal GitHub Account to
 store everything we do, all source repositories and container images. For

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers 3.4.0b4.dev2+g499c231 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers 3.4.1.dev2+gca3052f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=aa6a9eb9"></script>
+    <script src="../_static/documentation_options.js?v=1f1008f3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -945,7 +945,7 @@ of arguments to make the final output.</p>
 </div>
 <p>Finally, also note that the top line refers to a schema file. This is the global
 <code class="docutils literal notranslate"><span class="pre">ibek</span></code> schema for support module definition YAML. A single schema is used
-for all support modules and is published along side the latest release of <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.
+for all support modules and is published alongside the latest release of <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.
 This means that a schema aware editor can provide auto-completion and validation
 for your support module YAML files. The VSCode extension here
 <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml</a>
@@ -998,7 +998,7 @@ as part of the release at the following URL:</p>
 </div>
 <p>This would then be the URL you would put at the top of any IOC instances using
 your released Generic IOC.</p>
-<p>To create the instance we create a folder in <code class="docutils literal notranslate"><span class="pre">bl00t-ea-test-01</span></code> and create a IOC Instance definition there as follows:</p>
+<p>To create the instance we create a folder in <code class="docutils literal notranslate"><span class="pre">bl00t-ea-test-01</span></code> and create an IOC Instance definition there as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>/workspaces/ioc-lakeshore340/services/bl00t-ea-test-01/config/
 <span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/services/bl00t-ea-test-01/config/
 code<span class="w"> </span>ioc.yaml
@@ -1122,7 +1122,7 @@ git<span class="w"> </span>push
 </pre></div>
 </div>
 <p>This should trigger a build of the container image in the GitHub Actions CI system. You can watch this by clicking on the <code class="docutils literal notranslate"><span class="pre">Actions</span></code> tab in your new repository.</p>
-<p>Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way do this by clicking on the <code class="docutils literal notranslate"><span class="pre">Releases</span></code> tab in your new repository and then clicking on <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">release</span></code>.</p>
+<p>Assuming the above CI was successful, you now can tag your repository. This will trigger another build and publish the container image to GHCR. The recommended way to do this is by clicking on the <code class="docutils literal notranslate"><span class="pre">Releases</span></code> tab in your new repository and then clicking on <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">release</span></code>.</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/lakeshore_releases.png" src="../_images/lakeshore_releases.png" />
 <figcaption>
