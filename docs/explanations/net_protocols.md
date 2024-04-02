@@ -29,7 +29,7 @@ between an external client and a kubernetes Pod:
 
 - use of broadcast packets
 - negotiating an ephemeral port in the application layer (NAT cannot route to
-  a such a port since it looks like a new connection)
+  such a port since it looks like a new connection)
 
 When prototyping IOCs in Kubernetes we found that the following protocols
 had issues for the above reasons:
@@ -57,7 +57,7 @@ is a solution for all protocols we will need.
 
 ## Solution - hostNetwork
 
-To get round these issues and all possible future network issues we:
+To get around these issues and all possible future network issues we:
 
 - Use remote worker nodes that sit in the beamline subnet
 - We use hostNetwork=true which bypasses the CNI and gives Pods direct access

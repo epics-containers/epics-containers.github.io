@@ -6,7 +6,7 @@ This is draft only and out of date. It will be updated soon.
 
 The ibek-defs repository contains ibek support yaml. Here is an example
 procedure for local testing of changes to support yaml in ibek-defs
-along side IOC yaml that uses it.
+alongside IOC yaml that uses it.
 
 (Suggest you do this inside a dev-e7 workspace devcontainer)
 

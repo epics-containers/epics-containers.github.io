@@ -48,7 +48,7 @@ code .
 # Or ctrl+shift+p and choose "Remote-Containers: Reopen in Container"
 ```
 
-Note that if you do not see the prompt to reopen in container, you can open
+Note that if you do not see the prompt to reopen in the container, you can open
 the `Remote` menu with `Ctrl+Alt+O` and select `Reopen in Container`.
 
 The `build` script does two things.
