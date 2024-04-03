@@ -6,6 +6,15 @@ html_theme.sidebar_secondary.remove: true
 :end-before: <!-- README only content
 ```
 
+Update for April 2024 - version 3.4.0
+-------------------------------------
+
+We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based IOCs. But we have also taken the opportunity to make some other improvements.
+
+The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.
+
+From this release onwards changes will be done in a controlled manner described in the page [](explanations/changes).
+
 Update for February 2024
 ------------------------
 

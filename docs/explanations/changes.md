@@ -6,7 +6,7 @@ Pledge
 
 This page represents a pledge to control breaking changes for users of `epics-containers`. The framework is still under development and there still may be breaking changes in future updates. However we now have a mechanism in place to allow users to adopt the framework, take advantage of the current features and then accept future updates in a controlled fashion.
 
-From version 3.4.0 onwards we will endeavour to make changes in a controlled fashion that obeys SemVer 2.0.0 rules. We will also try to ensure that it is possible to apply updates in a gradual manner and not require a blanket update.
+From version 3.4.0 onwards we will make changes in a controlled fashion that obeys SemVer 2.0.0 rules. We will also ensure that it is possible to apply updates in a gradual manner and not require a blanket update.
 
 The [](../reference/changelog.md) will give details of any things to be aware of between versions, including minor version updates.
 
