@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Quick Start &#8212; epics-containers 3.4.1.dev2+gca3052f documentation</title>
+    <title>Quick Start &#8212; epics-containers 3.4.1b2.dev5+g7134fd3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="_static/documentation_options.js?v=1f1008f3"></script>
+    <script src="_static/documentation_options.js?v=7bc202b2"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -470,6 +470,24 @@ and the <a class="reference external" href="https://epics-containers.github.io/m
 </tr>
 </tbody>
 </table>
+<section id="update-for-april-2024-version-3-4-0">
+<h2>Update for April 2024 - version 3.4.0<a class="headerlink" href="#update-for-april-2024-version-3-4-0" title="Link to this heading">#</a></h2>
+<p>We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based “hard” IOCs. But we have also taken the opportunity to make some other improvements.</p>
+<p>“Hard” IOC support is currently limited to the VME5500 processor card running RTEMS 5. However this is a proof of principle for an approach that could be extended to any other type of IOC that cannot run inside of a container. In brief:</p>
+<ul class="simple">
+<li><p>At container build time the IOC binary is cross compiled.</p></li>
+<li><p>The developer image is kept (in container registry) as an archive of the sources that built the binary</p></li>
+<li><p>The runtime image holds the binary only and is based on a ‘proxy’ image</p></li>
+<li><p>At runtime, the proxy container places the binaries in a location accessible to the hard IOC</p></li>
+<li><p>The proxy container connects to the ‘hard’ IOC console and may change config to point the bootloader at the new binaries</p></li>
+<li><p>The proxy container reboots the ‘hard’ IOC</p></li>
+<li><p>The proxy container attaches the IOC console to its stdout/stdin</p></li>
+<li><p>Now the proxy container can be managed/logged/monitored exactly like a linux IOC</p></li>
+<li><p>We have demonstrated using this approach to locally build and test an RTEMS IOC from a workstation using a vscode developer container.</p></li>
+</ul>
+<p>The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.</p>
+<p>From this release onwards changes will be done in a controlled manner described in the page <a class="reference internal" href="explanations/changes.html"><span class="doc std std-doc">Change Management Manifesto</span></a>.</p>
+</section>
 <section id="update-for-february-2024">
 <h2>Update for February 2024<a class="headerlink" href="#update-for-february-2024" title="Link to this heading">#</a></h2>
 <p>The tutorials have now been updated. Recent changes include:</p>
