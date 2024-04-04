@@ -60,8 +60,7 @@ def write_json(path: Path, repository: str, versions: str):
         # Only add the repo name if it isn't the source for the org pages site
         pages_url += f"/{repo_name}"
     struct = [
-        {"version": version, "url": f"{pages_url}/{version}/"}
-        for version in versions
+        {"version": version, "url": f"{pages_url}/{version}/"} for version in versions
     ]
     text = json.dumps(struct, indent=2)
     print(f"JSON switcher:\n{text}")
