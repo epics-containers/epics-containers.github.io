@@ -9,7 +9,20 @@ html_theme.sidebar_secondary.remove: true
 Update for April 2024 - version 3.4.0
 -------------------------------------
 
-We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based IOCs. But we have also taken the opportunity to make some other improvements.
+We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based "hard" IOCs. But we have also taken the opportunity to make some other improvements.
+
+"Hard" IOC support is currently limited to the VME5500 processor card running RTEMS 5. However this is a proof of principle for an approach that could be extended to any other type of IOC that cannot run inside of a container. In brief:
+
+- At container build time the IOC binary is cross compiled.
+- The developer image is kept (in container registry) as an archive of the sources that built the binary
+- The runtime image holds the binary only and is based on a 'proxy' image
+- At runtime, the proxy container places the binaries in a location accessible to the hard IOC
+- The proxy container connects to the 'hard' IOC console and may change config to point the bootloader at the new binaries
+- The proxy container reboots the 'hard' IOC
+- The proxy container attaches the IOC console to its stdout/stdin
+- Now the proxy container can be managed/logged/monitored exactly like a linux IOC
+- We have demonstrated using this approach to locally build and test an RTEMS IOC from a workstation using a vscode developer container.
+
 
 The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.
 
