@@ -69,7 +69,7 @@ You will now have vscode and open and editing the values.yaml file. Add the foll
 ```yaml
 shared:
   ioc-instance:
-    image: ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.4.1
 ```
 
 This tells the IOC Instance to run in the `ioc-adsimdetectorruntime`
