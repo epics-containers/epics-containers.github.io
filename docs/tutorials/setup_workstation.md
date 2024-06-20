@@ -108,7 +108,7 @@ work. In the examples we will use `$HOME/ec-venv` as the virtual environment
 but you can choose any folder.
 
 :::{Note}
-**DLS Users**: As `$HOME` is a network drive it has an 8GB limit, consider other locations such as `/dls/science/` or `/scratch/`. Read more [here]([url](https://gitlab.diamond.ac.uk/sscc-docs/developer-guide/-/issues/13))
+**DLS Users**: As `$HOME` is a network drive it has an 8GB limit, consider other locations such as `/dls/science/` or `/scratch/`. Read more [here](https://dev-portal.diamond.ac.uk/guide/developer-environment/how-tos/disk-quota-troubleshooting/)
 :::
 
 ```bash
