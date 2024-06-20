@@ -5,6 +5,9 @@ There are 5 themes to this strategy:
 
 ```{eval-rst}
 
+:Containers:
+  Package IOC software and execute it in a lightweight virtual environment​
+
 :Kubernetes:
   Centrally orchestrates all IOCs at a facility.
 
