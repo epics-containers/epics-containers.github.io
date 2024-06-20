@@ -81,7 +81,7 @@ Answer the copier template questions as follows:
 DLS Users: These instructions are for the BL46P beamline. This beamline is a training rig and it is OK to install some test Simulation IOCs on it. However you will need to get access before you can deploy to it. Ask giles to request access to the `p46-iocs` namespace on the `pollux` cluster. In future the ec-services-template will be updated to allow you to deploy IOCs to your own namespace on the `pollux` cluster.
 :::
 
-# Review the New Beamline Repository
+## Review the New Beamline Repository
 
 The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template to talk to the p46-iocs namespace on pollux cluster. If you believe your repo is already configured to talk to your cluster then you could jump ahead to [](create-test-ioc-k8s).
 
@@ -277,7 +277,7 @@ dataVolume:
   hostPath: /dls/p46/data
 ```
 (create-test-ioc-k8s)=
-# Create a Test IOC to Deploy
+## Create a Test IOC to Deploy
 
 TODO: This is work in progress (but essentially just repeat what we did in [](deploy-example-instance)).
 

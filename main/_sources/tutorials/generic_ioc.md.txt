@@ -674,7 +674,7 @@ you can:
 - stop the IOC with `ctrl-d` in the ioc shell
 - start the IOC with `./start.sh`
 
-# Wrapping Up
+## Wrapping Up
 
 For the final step we will get the Generic IOC container image published to GHCR. This means committing all our changes and pushing them up to GitHub so that the Continuous Integration system can build the container image and publish it.
 

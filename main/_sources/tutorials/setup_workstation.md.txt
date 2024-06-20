@@ -91,7 +91,7 @@ CLI tools by clicking on the appropriate linux distribution link.
 ### Install Python
 
 :::{Note}
-**DLS Users**: use `module load python/3.11`
+**DLS Users**: for this step just use `module load python/3.11`
 :::
 
 Go ahead and install Python 3.10 or later. 3.11 is recommended as this is the
@@ -100,9 +100,16 @@ highest version that epics-containers has been tested with.
 There are instructions for installing Python on all platforms here:
 <https://docs.python-guide.org/starting/installation/>
 
+### Setup virtual environment
+
+
 Once you have python set up a virtual environment for your epics-containers
 work. In the examples we will use `$HOME/ec-venv` as the virtual environment
 but you can choose any folder.
+
+:::{Note}
+**DLS Users**: As `$HOME` is a network drive it has an 8GB limit, consider other locations such as `/dls/science/` or `/scratch/`. Read more [here](https://dev-portal.diamond.ac.uk/guide/developer-environment/how-tos/disk-quota-troubleshooting/)
+:::
 
 ```bash
 python -m venv $HOME/ec-venv
