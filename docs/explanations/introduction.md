@@ -39,7 +39,7 @@ forks of these repositories.
 
 #### Generic IOCs and instances
 
-An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravisruntime:2024.2.2 ](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravisruntime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
+An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravis-runtime:2024.2.2 ](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravisruntime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
 
 An IOC instance runs in a container runtime by loading two things:
 
@@ -78,11 +78,11 @@ Today it is by far the dominant orchestration technology for containers.
 In this project we use Kubernetes and helm to provide a standard way of
 implementing these features:
 
-- Auto start IOCs the cluster comes up from power off
+- Auto start IOCs when the cluster comes up from power off
 - Manually Start and Stop IOCs
 - Monitor IOC health and versions
 - Deploy versioned IOCs to the beamline
-- Rollback to a previous IOC version
+- Rollback IOCs to a previous version
 - Allocate a server with adequate resources on which to run each IOC
 - Failover to another server (for soft IOCs not tied to hardware in a server)
 - View the current log
@@ -91,12 +91,7 @@ implementing these features:
 - debug an IOC by starting a bash shell inside it's container
 
 ### Kubernetes Alternative
-
-If you do not have the resources to maintain a Kubernetes cluster then this project
-supports installing IOC instances directly into the local docker or podman runtime
-on the current server. Where a beamline has multiple servers the distribution of
-IOCs across those servers is managed by the user. These tools would replace
-Kubernetes and Helm in the technology stack.
+If you do not have the resources to maintain a Kubernetes cluster then this project supports installing IOC instances directly into the local docker or podman runtime on the current server. Where a beamline has multiple servers the distribution of IOCs across those servers is managed by the user. These tools would replace Kubernetes and Helm in the technology stack. Docker compose allows us to describe a set of IOCs and other services for each beamline server.
 
 If you choose to use this approach then you may find it useful to have another
 tool for viewing and managing the set of containers you have deployed across
@@ -106,9 +101,14 @@ Portainer is a paid for product
 that provides excellent visibility and control of your containers through a
 web interface. It is very easy to install.
 
-The downside of this approach is that you will need to manually manage the
-resources available to each IOC instance and manually decide which server to
-run each IOC on.
+The downsides of not using Kuberenetes are:
+
+- manually managing the resources. i.e. deciding up front which server to run each IOC on.
+- no automatic failover to another server if the current server fails or becomes overloaded.
+- no continuous deployment
+-
+
+ is that you will need to manually manage the resources available to each IOC instance and manually decide which server to run each IOC on. It also means that you cannot take advantage of the Kubernetes feat
 
 ### Helm
 
@@ -139,25 +139,19 @@ IOCs. Which performs the following steps:
 - Clone the beamline repository at a specific tag to a temporary folder
 - install the resulting chart into the cluster
 - remove the temporary folder
+- helm templating for making multiple similar IOCs is not available
+- no centralized access to ioc shell or debug shell - instead you must ssh to the correct server first.
 
 
 ### Repositories
 
-All of the assets required to manage a
-set of IOC Instances for a beamline are held in repositories.
+All of the assets required to manage a set of IOC Instances for a beamline are held in repositories.
 
-Thus all version control is done via these repositories and no special
-locations in a shared filesystem are required.
-(The legacy approach at DLS relied heavily on know locations in a
-shared filesystem).
+Thus all version control is done via these repositories and no special locations in a shared filesystem are required. (The legacy approach at DLS relied heavily on know locations in a shared filesystem).
 
-In the **epics-containers** examples all repositories are held in the same
-github organization. This is nicely contained and means that only one set
-of credentials is required to access all the resources.
+In the **epics-containers** examples all repositories are held in the same github organization. This is nicely contained and means that only one set of credentials is required to access all the resources.
 
-There are many alternative services for storing these repositories, both
-in the cloud and on premises. Below we list the choices we have tested
-during the POC.
+There are many alternative services for storing these repositories, both in the cloud and on premises. Below we list the choices we have tested during the POC.
 
 The classes of repository are as follows:
 
@@ -166,16 +160,16 @@ The classes of repository are as follows:
 
   Holds the source code but also provides the Continuous Integration actions for testing, building and publishing to the image / helm repositories. These have been tested:
 
-  - github
-  - gitlab (on premises)
+  - GitHub
+  - GitLab (on premises)
 
 :Generic IOC Source Repositories:
 
   Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed.
 
-:EC Services Source Repositories:
+:Services Source Repositories:
 
-  Define the IOC instances for a beamline or accelerator area. This includes the IOC boot scripts and any other configuration required to make the IOC instance unique. For ibek based IOCs, each IOC instance is defined by an ibek yaml file only.
+  Define the IOC instances and other services for a beamline, accelerator domain or any other grouping strategy. This includes the IOC boot scripts and any other configuration required to make the IOC instance unique. For **ibek** based IOCs, each IOC instance is defined by an **ibek** yaml file only.
 
 :An OCI Image Repository:
 
@@ -208,8 +202,8 @@ There are these types of CI:
     - publishes the image to github packages (only if the commit is tagged)
       or other OCI registry
 
-:`ec-services-repo` source:
-    - prepares a helm chart from each IOC instance definition
+:services source:
+    - prepares a helm chart from each IOC instance or other service definition
     - tests that the helm chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
       verify that the configuration is valid (no system tests because this
@@ -239,24 +233,18 @@ in the future.
 
 Python soft IOCs are also supported.
 
-GUI generation for engineering screens will be supported via the PVI project.
-See <https://github.com/epics-containers/pvi>.
+GUI generation for engineering screens is supported via the PVI project. See <https://github.com/epics-containers/pvi>.
 
 ## Additional Tools
 
 ### edge-containers-cli
 
-This is the developer's 'outside of the container' helper tool. The command
+This is the 'outside of the container' helper tool. The command
 line entry point is **ec**.
 
-The project is a python package featuring simple command
-line functions for deploying and monitoring IOC instances. It is a wrapper
-around the standard command line tools kubectl, podman/docker, helm, and git
-but saves typing and provides help and command line completion. It also
-can teach you how to use these tools by showing you the commands it is
-running.
+The project is a python package featuring simple command line functions for deploying monitoring IOC instances. It is a thin wrapper around the argocd, kubectl, helm and git commands. This tool can be used by developers and beamline staff to get a quick CLI based view of IOCs running in the cluster, as well as stop/start and obtain logs from them.
 
-See {any}`CLI` for moore details.
+See {any}`CLI` for more details.
 
 ### **ibek**
 
@@ -267,6 +255,7 @@ container images. It is used:
 - at container build time: to fetch and build EPICS support modules
 - at container run time: to extract all useful build artifacts into a
   runtime image
+- inside the developer container: to assist with testing and debugging.
 
 See <https://github.com/epics-containers/ibek>.
 
@@ -281,3 +270,4 @@ Process Variables allowing us to:
 
 [bluesky]: https://blueskyproject.io/
 [ophyd]: https://github.com/bluesky/ophyd-async
+[pvi]: https://github.com/epics-containers/pvi

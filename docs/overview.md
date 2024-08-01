@@ -18,7 +18,8 @@ There are 5 themes to this strategy:
   Source, container and helm repositories manage all of the above assets.
   No shared file systems required.
 
-:Continuous Integration / Delivery:
+:Continuous Integration / Deployment:
   Source repositories automatically build containers and helm charts
-  delivering them to OCI registries.
+  delivering them to OCI registries. Services repositories automatically deploy
+  IOC containers to Kubernetes clusters.
 ```
