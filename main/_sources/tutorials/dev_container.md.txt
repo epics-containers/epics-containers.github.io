@@ -11,7 +11,7 @@ frequency of change but increasing complexity):
 ### Changing the IOC instance
 
 This means making changes to the IOC instance folders
-which appear in the `iocs` folder of an {any}`ec-services-repo`. e.g.:
+which appear in the `iocs` folder of an {any}`services-repo`. e.g.:
 
 - changing the EPICS DB (or the `ibek` files that generate it)
 - altering the IOC boot script (or the `ibek` files that generate it)

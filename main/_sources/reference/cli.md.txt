@@ -16,7 +16,7 @@ The CLI is just a thin wrapper around the underlying tools that do the real work
 :git: the git version control system client
 ```
 
-`ec` is useful because it saves typing and provides a consistent interface when working on multiple {any}`ec-services-repo` s. This is because it uses the environment setup by the beamline repo's `environment.sh` script. See {any}`environment`.
+`ec` is useful because it saves typing and provides a consistent interface when working on multiple {any}`services-repo` s. This is because it uses the environment setup by the beamline repo's `environment.sh` script. See {any}`environment`.
 
 To see the available commands, run `ec --help`.
 

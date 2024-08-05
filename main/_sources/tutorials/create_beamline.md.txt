@@ -2,7 +2,7 @@
 
 # Create a Beamline Repository
 
-In this tutorial we will create a new {any}`ec-services-repo`.
+In this tutorial we will create a new {any}`services-repo`.
 
 All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by location or technical area.
 
