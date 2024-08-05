@@ -41,74 +41,66 @@ forks of these repositories.
 
 An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravis-runtime:2024.2.2 ](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravisruntime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
 
+The generic IOC image contains:
+
+- a set of compiled support modules
+- a compiled IOC binary that links all those modules
+- a dbd file for all the support modules.
+
+It does not contain a startup script pr EPICS database, these are instance specific and added at runtime.
+
 An IOC instance runs in a container runtime by loading two things:
 
 - The Generic IOC image passed to the container runtime.
-- The IOC instance configuration. This is mapped into the container at
-  runtime by mounting it into the filesystem. The mount point
-  for this configuration is always `/epics/ioc/config`.
+- The IOC instance configuration. This is mapped into the container at  runtime by mounting it into the filesystem. The mount point for this configuration is always `/epics/ioc/config`.
 
-The configuration will bootstrap the unique properties of that instance.
-The following contents for the configuration are supported:
+The configuration will bootstrap the unique properties of that instance. The following contents for the configuration are supported:
 
-- ioc.yaml: an **ibek** IOC description file which **ibek** will use to generate
+- ``ioc.yaml``: an **ibek** IOC description file which **ibek** will use to generate
   st.cmd and ioc.subst.
-- st.cmd, ioc.subst: an IOC shell startup script and an optional substitution file.
-  st.cmd can refer any additional files in the configuration directory.
-- start.sh a bash script to fully override the startup of the IOC. start.sh
+- ``st.cmd`` and ``ioc.subst``: an IOC shell startup script and an optional substitution file.
+  st.cmd can refer to any additional files in the configuration directory.
+- ``start.sh``: a bash script to fully override the startup of the IOC. start.sh
   can refer to any additional files in the configuration directory.
 
 This approach reduces the number of images required and saves disk and memory. It also makes for simpler configuration management.
 
-Throughout this documentation we will use the terms Generic IOC and
-IOC Instance. The word IOC without this context is ambiguous.
+Throughout this documentation we will use the terms Generic IOC and IOC Instance. The word IOC without this context is ambiguous.
 
 ### Kubernetes
 
 <https://kubernetes.io/>
 
-Kubernetes easily and efficiently manages containers across clusters of hosts.
-When deploying an IOC into a Kubernetes cluster, you request the resources
-required by the IOC and Kubernetes will then schedule the IOC onto a suitable host.
+Kubernetes efficiently manages containers across clusters of hosts. It builds upon years of experience of running production workloads at Google, combined with best-of-breed ideas and practices from the community, since it was open-sourced in 2014.
 
-It builds upon years of experience of running production workloads at Google, combined with best-of-breed ideas and practices from the community, since it was open-sourced in 2014.
+Today Kubernetes is by far the dominant orchestration system for containers. It is managed by The Cloud Native Computing Foundation (CNCF) which is part of the Linux Foundation. You can read about its active community here <https://www.cncf.io/>.
 
-Today it is by far the dominant orchestration technology for containers.
+When deploying an IOC into a Kubernetes cluster, you request the resources needed by the IOC and Kubernetes will then schedule the IOC onto a suitable host with sufficient resources.
 
-In this project we use Kubernetes and helm to provide a standard way of
+In this project we use Kubernetes and Helm (the package manager for Kubernetes) to provide a standard way of
 implementing these features:
 
 - Auto start IOCs when the cluster comes up from power off
-- Manually Start and Stop IOCs
-- Monitor IOC health and versions
-- Deploy versioned IOCs to the beamline
-- Rollback IOCs to a previous version
 - Allocate a server with adequate resources on which to run each IOC
-- Failover to another server (for soft IOCs not tied to hardware in a server)
+- Manually Start and Stop IOCs
+- Monitor IOC health, automatically restart IOCs that have failed
+- Deploy versioned IOCs to the beamline
+- Report the versions, uptime, restarts and other metadata of the IOCs
+- Rollback an IOC to a previous version
+- Failover to another server (for soft IOCs not tied to hardware in a server) if the server fails
 - View the current log
 - View historical logs (via graylog or other centralized logging system)
 - Connect to an IOC and interact with its shell
 - debug an IOC by starting a bash shell inside it's container
 
-### Kubernetes Alternative
-If you do not have the resources to maintain a Kubernetes cluster then this project supports installing IOC instances directly into the local docker or podman runtime on the current server. Where a beamline has multiple servers the distribution of IOCs across those servers is managed by the user. These tools would replace Kubernetes and Helm in the technology stack. Docker compose allows us to describe a set of IOCs and other services for each beamline server.
+### Kubernetes Alternatives
+If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
 
-If you choose to use this approach then you may find it useful to have another
-tool for viewing and managing the set of containers you have deployed across
-your beamline servers. There are various solutions for this, one that has
-been tested with **epics-containers** is Portainer <https://www.portainer.io/>.
-Portainer is a paid for product
-that provides excellent visibility and control of your containers through a
-web interface. It is very easy to install.
+We provide a template services project that uses docker compose with docker or podman as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.
 
-The downsides of not using Kuberenetes are:
+If you choose to use this approach then you may find it useful to have another tool for viewing and managing the set of containers you have deployed across your beamline servers. There are various solutions for this, one that has been tested with **epics-containers** is Portainer <https://www.portainer.io/>. Portainer is a paid for product that provides excellent visibility and control of your containers through a web interface. Such a tool could allow you to centrally manage the containers on all your servers.
 
-- manually managing the resources. i.e. deciding up front which server to run each IOC on.
-- no automatic failover to another server if the current server fails or becomes overloaded.
-- no continuous deployment
--
-
- is that you will need to manually manage the resources available to each IOC instance and manually decide which server to run each IOC on. It also means that you cannot take advantage of the Kubernetes feat
+The multi-server orchestration tool Docker Swarm might also serve to replace some of the functionality of Kubernetes. The epics-containers team have not yet tried Swarm, but it is compatible with the docker-compose files we template.
 
 ### Helm
 
@@ -120,38 +112,28 @@ The packages are called Helm Charts. They contain templated YAML files to
 define a set of resources to apply to a Kubernetes cluster.
 
 Helm has functions to deploy Charts to a cluster and manage multiple versions
-of the chart within the cluster.
+of the Chart within the cluster.
 
-It also supports registries for storing version history of charts,
+It also supports registries for storing version history of Charts,
 much like docker.
 
-In this project we use Helm Charts to define and deploy IOC instances. Each beamline or accelerator area has its own git {any}`ec-services-repo` that holds the Helm Charts for its IOC Instances. Each IOC instance need only provide:
+In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a {any}`services-repo`. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only container:e
 
 - a values.yaml file to override the default values in the repository's global Helm Chart
 - a config folder as described in {any}`generic-iocs`.
+- a couple of boilerplate files that are the same for all IOCs.
 
-**epics-containers** does not use helm repositories for storing IOC instances.
-Such repositories only hold a zipped version of the chart and a values.yaml file,
-and this is seen as redundant when we have a git repository holding the same
-information. Instead we provide a command line tool for installing and updating
-IOCs. Which performs the following steps:
-
-- Clone the beamline repository at a specific tag to a temporary folder
-- install the resulting chart into the cluster
-- remove the temporary folder
-- helm templating for making multiple similar IOCs is not available
-- no centralized access to ioc shell or debug shell - instead you must ssh to the correct server first.
-
+**epics-containers** does not use helm registries for storing each IOC instance. Such registries only hold a zipped version of the Chart files, and this is redundant when we have a git repository holding the same information. Instead a single global helm chart represents the shared elements between all IOC instances and is stored in a helm registry. Each folder in the services repository is itself a helm chart that includes the global chart as a dependency.
 
 ### Repositories
 
-All of the assets required to manage a set of IOC Instances for a beamline are held in repositories.
+All of the assets required to manage all of the IOC Instances for a facility are held in repositories.
 
 Thus all version control is done via these repositories and no special locations in a shared filesystem are required. (The legacy approach at DLS relied heavily on know locations in a shared filesystem).
 
 In the **epics-containers** examples all repositories are held in the same github organization. This is nicely contained and means that only one set of credentials is required to access all the resources.
 
-There are many alternative services for storing these repositories, both in the cloud and on premises. Below we list the choices we have tested during the POC.
+There are many alternative services for storing these repositories, both in the cloud and on premises. Below we list the choices we have tested during the proof of concept.
 
 The classes of repository are as follows:
 
@@ -169,11 +151,11 @@ The classes of repository are as follows:
 
 :Services Source Repositories:
 
-  Define the IOC instances and other services for a beamline, accelerator domain or any other grouping strategy. This includes the IOC boot scripts and any other configuration required to make the IOC instance unique. For **ibek** based IOCs, each IOC instance is defined by an **ibek** yaml file only.
+  Define the IOC instances and other services for a beamline, accelerator domain or any other grouping strategy.
 
 :An OCI Image Repository:
 
-  Holds the Generic IOC container images and their dependencies. Also used to hold he helm charts that define the shared elements between all domains.
+  Holds the Generic IOC container images and their dependencies. Also used to hold the helm Charts that define the shared elements between all domains.
 
   The following have been tested:
 
@@ -185,7 +167,7 @@ The classes of repository are as follows:
 ### Continuous Integration
 
 Our examples all use continuous integration to get from pushed source
-to the published images, IOC instances helm charts and documentation.
+to the published images, IOC instances helm Charts and documentation.
 
 This allows us to maintain a clean code base that is continually tested for
 integrity and also to maintain a direct relationship between source code version
@@ -203,19 +185,19 @@ There are these types of CI:
       or other OCI registry
 
 :services source:
-    - prepares a helm chart from each IOC instance or other service definition
-    - tests that the helm chart is deployable (but does not deploy it)
+    - prepares a helm Chart from each IOC instance or other service definition
+    - tests that the helm Chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
       verify that the configuration is valid (no system tests because this
       would require talking to real hardware instances).
 
 :documentation source:
-    - builds the sphinx docs
+    - builds the sphinx docs that you are reading now
     - publishes it to github.io pages with version tag or branch tag.
 
-:global helm chart source:
+:global helm Chart source:
     - ``ec-helm-chars`` repo only
-    - packages a helm chart from source
+    - packages a helm Chart from source
     - publishes it to github packages (only if the commit is tagged)
       or other OCI registry
 ```
@@ -242,28 +224,23 @@ GUI generation for engineering screens is supported via the PVI project. See <ht
 This is the 'outside of the container' helper tool. The command
 line entry point is **ec**.
 
-The project is a python package featuring simple command line functions for deploying monitoring IOC instances. It is a thin wrapper around the argocd, kubectl, helm and git commands. This tool can be used by developers and beamline staff to get a quick CLI based view of IOCs running in the cluster, as well as stop/start and obtain logs from them.
+The project is a python package featuring simple command line functions for deploying and monitoring IOC instances. It is a thin wrapper around the ArgoCD, kubectl, helm and git commands. This tool can be used by developers and beamline staff to get a quick CLI based view of IOCs running in the cluster, as well as stop/start and obtain logs from them.
 
 See {any}`CLI` for more details.
 
 ### **ibek**
 
-IOC Builder for EPICS and Kubernetes is the developer's 'inside the container'
-helper tool. It is a python package that is installed into the Generic IOC
-container images. It is used:
+IOC Builder for EPICS and Kubernetes is the developer's 'inside the container' helper tool. It is a python package that is installed into the Generic IOC container images. It is used:
 
 - at container build time: to fetch and build EPICS support modules
-- at container run time: to extract all useful build artifacts into a
-  runtime image
+- at container run time: to generate all useful build artifacts into a runtime image e.g. generating the st.cmd and ioc.db file from the ioc.yaml configuration file.
 - inside the developer container: to assist with testing and debugging.
 
 See <https://github.com/epics-containers/ibek>.
 
 ### PVI
 
-The Process Variables Interface project is a python package that is installed
-inside Generic IOC container images. It is used to give structure to the IOC's
-Process Variables allowing us to:
+The Process Variables Interface project is a python package that is installed inside Generic IOC container images. It is used to give structure to the IOC's Process Variables allowing us to:
 
 - add metadata to the IOCs DB records for use by [Bluesky] and [Ophyd]
 - auto generate screens for the device (as bob, adl or edm files)

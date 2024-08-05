@@ -19,7 +19,7 @@ There are 5 themes to this strategy:
   No shared file systems required.
 
 :Continuous Integration / Deployment:
-  Source repositories automatically build containers and helm charts
+  Source repositories automatically build containers and helm charts,
   delivering them to OCI registries. Services repositories automatically deploy
-  IOC containers to Kubernetes clusters.
+  IOCs to Kubernetes clusters.
 ```
