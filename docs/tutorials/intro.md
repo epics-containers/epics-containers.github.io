@@ -13,10 +13,12 @@ some background in the following topics.
 ================================================================    ================
 **An introduction to containers**                                   https://www.docker.com/resources/what-container/
 **Managing containers on a workstation: introduction to docker**    https://docs.docker.com/get-started/overview/
+**Introduction to docker compose**                                  https://docs.docker.com/compose/
 **Podman, a recommended docker alternative**                        https://docs.podman.io/en/latest/Introduction.html
 **Orchestrating containers in a cluster with Kubernetes**           https://kubernetes.io/docs/concepts/overview/
 **Managing packages in a Kubernetes Cluster with Helm**             https://helm.sh/docs/intro/quickstart/
 **Introduction to EPICS**                                           https://docs.epics-controls.org/en/latest/guides/EPICS_Intro.html
+**Argo CD continuous delpoyment for Kubernetes**                    https://argo-cd.readthedocs.io/en/stable/
 ================================================================    ================
 ```
 
