@@ -16,7 +16,7 @@ epics-containers supports two kinds of services repositories:
 
 A Python command line tool for the developer that runs *outside* of containers. It provides simple features for and monitoring and managing and IOC instances within a [](services-repo).
 
-So named 'edge' containers because these services all run close to the hardware. Uses the command line entry point `ec`.
+So named 'edge' containers because these services all run close to the hardware. Uses the command line entry point `ec`. See {any}`cli` for more details.
 
 (ibek)=
 ## ibek
