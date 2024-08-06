@@ -80,7 +80,17 @@ The links below have details of how to install your choice of container platform
 - [Install docker]
 - [Install podman]
 
-The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link.
+The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the "Supported Platforms" heading, for simplicity it is easiest to use the option "Install using the convenience script".
+
+### docker compose for podman users
+docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other serial services that are deployed together.
+
+If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
+
+Other users of podman please see these instructions [rootless podman with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view)
+
+
+```bash
 
 (python-setup)=
 
