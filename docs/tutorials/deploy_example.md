@@ -132,14 +132,14 @@ caget EXAMPLE:SUM
 Once you have a shell inside the container you could inspect the following folders. Because this is the runtime container you will only see the binaries and runtime files, not the source code:
 
 ```{eval-rst}
-==================  ===================
-/epics/ioc          ioc code
-/epics/ioc/start.sh IOC startup script
-/epics/support      support modules
-/epics/epics-base   EPICS base binaries
-/epics/ioc/config   IOC instance config used to generate runtime files
-/epics/runtime      IOC startup script and database file generated at runtime
-==================  ===================
+===================  =========================================================
+/epics/ioc           ioc code
+/epics/ioc/start.sh  IOC startup script
+/epics/support       support modules
+/epics/epics-base    EPICS base binaries
+/epics/ioc/config    IOC instance config used to generate runtime files
+/epics/runtime       IOC startup script and database file generated at runtime
+===================  =========================================================
 ```
 
 Being at a terminal prompt inside the IOC container can be useful for debugging and testing. You will have access EPICS command line tools including pvAccess, and you can inspect files such as the IOC startup script.
