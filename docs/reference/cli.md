@@ -4,7 +4,7 @@
 
 The python project {any}`edge-containers-cli` is installed as part of the Python section of the initial tutorial {any}`../tutorials/setup_workstation`. It provides a command line function `ec` with support for  managing and monitoring IOC instances.
 
-This tool is only required if you are deploying to Kubernetes. Docker compose provides a very similar set of commands for local deployment. Also note that `ec` supports both ArgoCD and pure Helm deployments. The tutorials will use ArgoCD, for information on Helm based deployments see {any}`helm` .
+This tool is only required if you are deploying to Kubernetes. Docker compose provides a very similar set of commands for local deployment. Also note that `ec` supports both ArgoCD and pure Helm deployments. The tutorials will use ArgoCD, for information on Helm based deployments see {std:ref}`helm` .
 
 The CLI is just a thin wrapper around the underlying tools that do the real work:
 
