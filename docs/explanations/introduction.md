@@ -202,6 +202,14 @@ There are these types of CI:
       or other OCI registry
 ```
 
+### Continuous Deployment
+
+ArgoCD is a Kubernetes controller that continuously monitors running applications and compares the current state with the desired state described in a git repository. If the current state does not match the desired state, ArgoCD will attempt to reconcile the two.
+
+For this purpose each services repository will have a companion deployment repository which tracks which versions of each IOC in the services repository should currently be deployed to the cluster. This list of IOC versions is in a single YAML file and updating this file and pushing it to the deployment repository will trigger ArgoCD to update the cluster.
+
+In this fashion changes to IOC versions are tracked in git and it is easy to roll back to the same state as a given date because there is a complete record.
+
 ## Scope
 
 This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running

@@ -116,12 +116,15 @@ Note that each time you open a new shell you will need to activate the virtual e
 
 (ec)=
 
-### edge-containers-cli
+### edge-containers-cli and copier
 
 Above we set up a python virtual environment. Now we will install the {any}`edge-containers-cli` python tool into that environment. This tool is used to manage the IOC instances in Kubernetes and is only required for the later tutorials.
 
+We also take this opportunity to install `copier` which is used to copy the templates for the services repositories and generic IOCs.
+
 ```bash
 pip install edge-containers-cli
+pip install copier
 ```
 
 See {any}`CLI` for more details.
@@ -147,10 +150,9 @@ version of git will work.
 
 You don't need Kubernetes yet.
 
-The following tutorials will take you through creating, deploying and
-debugging IOC instances, generic IOCs and support modules.
+The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.
 
-For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or podman instance.
+For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or podman instance using docker compose.
 
 If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as [Portainer](https://www.portainer.io/). Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.
 
