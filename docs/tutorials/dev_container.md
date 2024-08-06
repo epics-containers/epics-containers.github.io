@@ -107,7 +107,7 @@ DLS Users and Redhat Users:
 
 There is a
 [bug in VSCode devcontainers extension](https://github.com/microsoft/vscode-remote-release/issues/8557)
-at the time of writing that makes it incompatible with podman and an SELinux
+at the time of writing that makes it incompatible with docker and an SELinux
 enabled /tmp directory. This will affect most Redhat users and you will see an
 error regarding permissions on the /tmp folder when VSCode is building your
 devcontainer.
@@ -270,7 +270,7 @@ and git will complain about ownership. You can cancel out of these errors
 as you should not edit project folders inside of `/epics` - they were
 built by the container and should be considered immutable. We will learn
 how to work on support modules in later tutorials. This error should only
-be seen on first launch. podman users will have no such problem because they
+be seen on first launch. docker users will have no such problem because they
 will be root inside the container and root built the container.
 
 To mitigate this problem you can tell vscode not to look for git repos in subfolders, see [](scm_settings).

@@ -2,15 +2,9 @@
 
 ## Introduction
 
-This tutorial will show you how to deploy and manage the example IOC Instance
-that came with the template beamline repository.
-You will need to have your own `bl01t` beamline repository
-from the previous tutorial.
+This tutorial will show you how to deploy and manage the example IOC Instance that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
 
-For these early tutorials we are not using Kubernetes and instead are deploying
-IOCs to the local docker or podman instance. So for these tutorials we
-shall pretend that your workstation is one of the IOC servers on the fictitious
-beamline `BL01T`.
+For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or docker instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
 
 ## Continuous Integration
 
@@ -43,7 +37,19 @@ For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.
 
 (setup-beamline-bl01t)=
-## Set up Environment for BL01T Beamline
+## Set up Environment for the t01 Beamline
+
+It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature.
+
+```bash
+# these steps will make cli completion work for bash
+mkdir -p ~/.local/share/bash-completion/completions
+docker completion bash > ~/.local/share/bash-completion/completions/docker
+
+# these steps will make cli completion work for zsh
+mkdir -p ~/.oh-my-zsh/completions
+docker completion zsh > ~/.oh-my-zsh/completions/_docker
+```
 
 The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.
 
@@ -53,30 +59,9 @@ First make sure you have the local binaries folder in your path by adding
 the following to the end of your `$HOME/.bash_profile` file:
 
 ```bash
-export PATH="$PATH:~/.local/bin"
+source ./environment.sh
 ```
 
-Then follow these steps (make sure you insert your GitHub account name
-where indicated):
-
-```bash
-# make sure we have the path setup from the bash_profile
-source ~/.bash_profile
-
-mkdir -p ~/.local/bin
-# make a copy of the environment.sh script named after the beamline
-cp environment.sh ~/.local/bin/bl01t
-source bl01t
-```
-
-Once you have done this and logged out and back in again to pick up your new
-profile you should be able to enable the `bl01t` environment as follows:
-
-```bash
-# first make sure you have loaded your virtual environment for the ec tool
-source $HOME/ec-venv/bin/activate # DLS users don't need this step
-source bl01t
-```
 
 (deploy-example-instance)=
 ## Deploy the Example IOC Instance

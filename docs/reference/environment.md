@@ -39,7 +39,7 @@ be adjusted to suit your domain. The variables are as follows:
   need to create a namespace for your domain. This is the name you should
   use here. If you are not using Kubernetes then you can leave this as
   `EC_K8S_NAMESPACE=local` and this will deploy IOC Instances to the local server's
-  docker or podman instance.
+  docker or docker instance.
 
 - **EC_SERVICES_REPO**: this is a link back to the repository that defines this
   domain. For example the bl38p reference beamline repository uses

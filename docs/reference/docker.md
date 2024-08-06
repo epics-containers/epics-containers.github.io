@@ -3,11 +3,11 @@ Working with Docker
 
 DLS is a `podman` shop and therefore more testing is done with `podman` than `docker` as the container CLI used with developer containers. `podman` works extremely well with developer containers, but `docker` needs a little more work sometimes.
 
-The primary difference is that `podman` does not require root access and `docker` does. When inside a podman container you appear to be root but you are running as your own host user id. When you write to any host mounted files you will be doing so with your host user permissions. In a docker container any host files written will be owned by the user id that the container is running as.
+The primary difference is that `podman` does not require root access and `docker` does. When inside a `podman` container you appear to be root but you are running as your own host user id. When you write to any host mounted files you will be doing so with your host user permissions. In a docker container any host files written will be owned by the user id that the container is running as.
 
 Therefore:
-- It is better not to run docker containers as root.
-- It is easiest to run podman containers as root for simplicity.
+- It is better not to run `docker` containers as root.
+- It is easiest to run `podman` containers as root for simplicity.
 
 We do fully support `docker`, please report any issues you find.
 

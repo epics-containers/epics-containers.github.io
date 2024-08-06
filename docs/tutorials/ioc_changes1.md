@@ -85,7 +85,7 @@ git push
 # tag a new version of the beamline repo
 git tag 2024.3.2
 git push origin 2024.3.2
-# deploy the new version of the IOC to the local docker / podman instance
+# deploy the new version of the IOC to the local docker / docker instance
 ec deploy bl01t-ea-test-02 2024.3.2
 ```
 

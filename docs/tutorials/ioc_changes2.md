@@ -54,7 +54,7 @@ the `Remote` menu with `Ctrl+Alt+O` and select `Reopen in Container`.
 The `build` script does two things.
 
 - it fetches the git submodule called `ibek-support`. This submodule is shared between all the Generic IOC container images and contains the support YAML files that tell `ibek` how to build support modules inside the container environment and how to use them at runtime.
-- it builds the Generic IOC container image developer target locally using podman or docker.
+- it builds the Generic IOC container image developer target locally using docker or docker.
 
 ## Verify the Example IOC Instance is working
 

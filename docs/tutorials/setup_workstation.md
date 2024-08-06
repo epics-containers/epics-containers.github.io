@@ -5,7 +5,7 @@ in readiness for the remaining tutorials.
 The tools you need to install are:
 
 - Visual Studio Code
-- a container platform, either podman or docker
+- a container platform, either docker or podman
 - Python 3.11 or later + a Python virtual environment
 - git client for version control
 
@@ -70,8 +70,6 @@ RHEL 7 Workstations are not supported.
 Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.
 
-If you are using docker, simply replace `podman` with `docker` in the commands listed in these tutorials. `docker` users should also take a look at this page: [](../reference/docker.md)
-
 The podman version required is 4.0 or later. Any version of docker since 20.10 will also work. Pick the tool that has the most recent version for your platform. RedHat 8 and above have recent podman versions. Older Debian platforms don't yet
 have recent podman versions available. If you have a choice then podman is slightly preferred because it does not require root access and it is the tool with which epics-containers has had the most testing. However, docker is the most widely used container platform and is also well supported.
 
@@ -82,15 +80,24 @@ The links below have details of how to install your choice of container platform
 
 The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the "Supported Platforms" heading, for simplicity it is easiest to use the option "Install using the convenience script".
 
-### docker compose for podman users
+### Docker Compose For Podman Users
+
 docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other serial services that are deployed together.
 
-If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
+If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
 
-Other users of podman please see these instructions [rootless podman with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view)
+Other users of podman please see these instructions [rootless docker with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view).
 
+### Important Notes Regarding docker and podman
 
+From here on when we refer to `docker` in a command line, you can replace it with `podman` if you are using podman. The two tools have the same CLI. For convenience if you are a podman user you might want to place
 ```bash
+alias docker=podman
+```
+in your `.bashrc` file.
+
+`docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
+
 
 (python-setup)=
 
@@ -162,7 +169,7 @@ You don't need Kubernetes yet.
 
 The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.
 
-For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or podman instance using docker compose.
+For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or docker instance using docker compose.
 
 If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as [Portainer](https://www.portainer.io/). Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.
 

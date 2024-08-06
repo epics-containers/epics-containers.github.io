@@ -23,7 +23,7 @@ and their APIs such that container images can be interchanged between
 different frameworks.
 
 Thus, in this project we develop, build and test our container images
-using docker or podman but the images can be run under Kubernetes' own
+using docker or docker but the images can be run under Kubernetes' own
 container runtime.
 
 This article does a good job of explaining the relationship between docker /
@@ -94,9 +94,9 @@ implementing these features:
 - debug an IOC by starting a bash shell inside it's container
 
 ### Kubernetes Alternatives
-If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
+If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or docker instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
 
-We provide a template services project that uses docker compose with docker or podman as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.
+We provide a template services project that uses docker compose with docker or docker as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.
 
 If you choose to use this approach then you may find it useful to have another tool for viewing and managing the set of containers you have deployed across your beamline servers. There are various solutions for this, one that has been tested with **epics-containers** is Portainer <https://www.portainer.io/>. Portainer is a paid for product that provides excellent visibility and control of your containers through a web interface. Such a tool could allow you to centrally manage the containers on all your servers.
 

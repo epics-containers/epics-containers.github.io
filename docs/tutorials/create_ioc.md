@@ -364,12 +364,12 @@ shared for easy debugging of IOC Instances.
 
 If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
-your IOC Instance config folder like this (replace podman with
+your IOC Instance config folder like this (replace docker with
 docker if that is what you are using):
 
 ```bash
-podman cp bl01t-ea-test-02:/epics/runtime/st.cmd services/bl01t-ea-test-02/config
-podman cp bl01t-ea-test-02:/epics/runtime/ioc.subst services/bl01t-ea-test-02/config/ioc.subst
+docker cp bl01t-ea-test-02:/epics/runtime/st.cmd services/bl01t-ea-test-02/config
+docker cp bl01t-ea-test-02:/epics/runtime/ioc.subst services/bl01t-ea-test-02/config/ioc.subst
 # no longer need an ibek ioc yaml file
 rm services/bl01t-ea-test-02/config/ioc.yaml
 ```
@@ -388,7 +388,7 @@ ec deploy-local services/bl01t-ea-test-02
 ```
 
 :::{note}
-We used some raw podman / docker commands in the above script. If you
+We used some raw docker / docker commands in the above script. If you
 want to know what commands `ec` is running under the hood then you can
 use the `-v` option to see them.
 
