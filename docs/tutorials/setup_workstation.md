@@ -82,11 +82,11 @@ The docker install page encourages you to install Docker Desktop. This is a paid
 
 ### Docker Compose For Podman Users
 
-docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other serial services that are deployed together.
+docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together.
 
 If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
 
-Other users of podman please see these instructions [rootless docker with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view).
+Other users of podman please see these instructions [rootless podman with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view).
 
 ### Important Notes Regarding docker and podman
 
@@ -99,8 +99,27 @@ in your `.bashrc` file.
 `docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
 
 
-(python-setup)=
+### Command Line Completion
 
+This is an optional step to set up CLI completion for docker or podman.
+
+It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for docker and docker compose.
+
+```bash
+# these steps will make cli completion work for bash
+mkdir -p ~/.local/share/bash-completion/completions
+docker completion bash > ~/.local/share/bash-completion/completions/docker
+# OR
+podman completion bash > ~/.local/share/bash-completion/completions/podman
+
+# these steps will make cli completion work for zsh
+mkdir -p ~/.oh-my-zsh/completions
+docker completion zsh > ~/.oh-my-zsh/completions/_docker
+# OR
+podman completion zsh > ~/.oh-my-zsh/completions/_podman
+```
+
+(python-setup)=
 ### Install Python
 
 :::{Note}
@@ -157,7 +176,7 @@ ln -fs /dls_sw/work/python3/ec-venv/bin/ec $HOME/.local/bin/ec
 ```
 :::
 
-## Git
+### Git
 
 If you don't already have git installed see
 <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>. Any recent
