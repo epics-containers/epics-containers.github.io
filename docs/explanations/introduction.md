@@ -23,7 +23,7 @@ and their APIs such that container images can be interchanged between
 different frameworks.
 
 Thus, in this project we develop, build and test our container images
-using docker or docker but the images can be run under Kubernetes' own
+using docker or podman but the images can be run under Kubernetes' own
 container runtime.
 
 This article does a good job of explaining the relationship between docker /
@@ -52,9 +52,9 @@ It does not contain a startup script pr EPICS database, these are instance speci
 An IOC instance runs in a container runtime by loading two things:
 
 - The Generic IOC image passed to the container runtime.
-- The IOC instance configuration. This is mapped into the container at  runtime by mounting it into the filesystem. The mount point for this configuration is always `/epics/ioc/config`.
+- The IOC instance configuration. This is mapped into the container at  runtime by mounting it into the filesystem. The mount point for this configuration is usually the folder `/epics/ioc/config`.
 
-The configuration will bootstrap the unique properties of that instance. The following contents for the configuration are supported:
+The configuration will bootstrap the unique properties of that instance. The following contents for the configuration folder are supported:
 
 - ``ioc.yaml``: an **ibek** IOC description file which **ibek** will use to generate
   st.cmd and ioc.subst.
@@ -94,9 +94,9 @@ implementing these features:
 - debug an IOC by starting a bash shell inside it's container
 
 ### Kubernetes Alternatives
-If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or docker instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
+If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
 
-We provide a template services project that uses docker compose with docker or docker as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.
+We provide a template services project that uses docker compose with docker or podman as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.
 
 If you choose to use this approach then you may find it useful to have another tool for viewing and managing the set of containers you have deployed across your beamline servers. There are various solutions for this, one that has been tested with **epics-containers** is Portainer <https://www.portainer.io/>. Portainer is a paid for product that provides excellent visibility and control of your containers through a web interface. Such a tool could allow you to centrally manage the containers on all your servers.
 
@@ -117,13 +117,13 @@ of the Chart within the cluster.
 It also supports registries for storing version history of Charts,
 much like docker.
 
-In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a {any}`services-repo`. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only container:e
+In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a {any}`services-repo`. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only contain:
 
-- a values.yaml file to override the default values in the repository's global Helm Chart
+- a values.yaml file to override the default values in the repository's global values.yaml.
 - a config folder as described in {any}`generic-iocs`.
-- a couple of boilerplate files that are the same for all IOCs.
+- a couple of boilerplate Helm files that are the same for all IOCs.
 
-**epics-containers** does not use helm registries for storing each IOC instance. Such registries only hold a zipped version of the Chart files, and this is redundant when we have a git repository holding the same information. Instead a single global helm chart represents the shared elements between all IOC instances and is stored in a helm registry. Each folder in the services repository is itself a helm chart that includes the global chart as a dependency.
+**epics-containers** does not use helm registries for storing each IOC instance. Such registries only hold a zipped version of the Chart files, and this is redundant when we have a git repository holding the same information. Instead a single global helm chart represents the shared elements between all IOC instances and is stored in a helm registry. Each folder in the services repository is itself a helm chart that includes that global chart as a dependency.
 
 ### Repositories
 
@@ -135,25 +135,26 @@ In the **epics-containers** examples all repositories are held in the same githu
 
 There are many alternative services for storing these repositories, both in the cloud and on premises. Below we list the choices we have tested during the proof of concept.
 
-The classes of repository are as follows:
+The most common classes of repository are as follows:
 
 ```{eval-rst}
-:Source Repository:
 
-  Holds the source code but also provides the Continuous Integration actions for testing, building and publishing to the image / helm repositories. These have been tested:
+:Generic IOC Source Repositories:
+
+  Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed. These have been tested:
 
   - GitHub
   - GitLab (on premises)
 
-:Generic IOC Source Repositories:
-
-  Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed.
-
 :Services Source Repositories:
 
-  Define the IOC instances and other services for a beamline, accelerator domain or any other grouping strategy.
+  Define the IOC instances and other services for a beamline, accelerator technical area or any other grouping strategy. These have been tested:
 
-:An OCI Image Repository:
+  - GitHub
+  - GitLab (on premises)
+
+
+:An OCI Image Registry:
 
   Holds the Generic IOC container images and their dependencies. Also used to hold the helm Charts that define the shared elements between all domains.
 
@@ -167,7 +168,7 @@ The classes of repository are as follows:
 ### Continuous Integration
 
 Our examples all use continuous integration to get from pushed source
-to the published images, IOC instances helm Charts and documentation.
+to the published images, IOC instances Helm Charts and documentation.
 
 This allows us to maintain a clean code base that is continually tested for
 integrity and also to maintain a direct relationship between source code version
@@ -184,18 +185,18 @@ There are these types of CI:
     - publishes the image to github packages (only if the commit is tagged)
       or other OCI registry
 
-:services source:
+:Services Source:
     - prepares a helm Chart from each IOC instance or other service definition
     - tests that the helm Chart is deployable (but does not deploy it)
     - locally launches each IOC instance and loads its configuration to
       verify that the configuration is valid (no system tests because this
       would require talking to real hardware instances).
 
-:documentation source:
+:Documentation Source:
     - builds the sphinx docs that you are reading now
     - publishes it to github.io pages with version tag or branch tag.
 
-:global helm Chart source:
+:Global Helm Chart Source:
     - ``ec-helm-chars`` repo only
     - packages a helm Chart from source
     - publishes it to github packages (only if the commit is tagged)
@@ -204,24 +205,19 @@ There are these types of CI:
 
 ### Continuous Deployment
 
-ArgoCD is a Kubernetes controller that continuously monitors running applications and compares the current state with the desired state described in a git repository. If the current state does not match the desired state, ArgoCD will attempt to reconcile the two.
+ArgoCD is a Kubernetes controller that continuously monitors running applications and compares their current state with the desired state described in a git repository. If the current state does not match the desired state, ArgoCD will attempt to reconcile the two.
 
-For this purpose each services repository will have a companion deployment repository which tracks which versions of each IOC in the services repository should currently be deployed to the cluster. This list of IOC versions is in a single YAML file and updating this file and pushing it to the deployment repository will trigger ArgoCD to update the cluster.
+For this purpose each services repository will have a companion deployment repository which tracks which version of each IOC in the services repository should currently be deployed to the cluster. This list of IOC versions is in a single YAML file and updating this file and pushing it to the deployment repository will trigger ArgoCD to update the cluster accordingly.
 
 In this fashion changes to IOC versions are tracked in git and it is easy to roll back to the same state as a given date because there is a complete record.
 
 ## Scope
 
-This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running
-on MVME5500 hardware. Soft IOCs that require access to hardware on the
-server (e.g. USB or PCIe) will be supported by mounting the hardware into
-the container (these IOCS will not support Kubernetes failover).
+This project initially targets x86_64 Linux Soft IOCs and RTEMS 'hard' IOCs running on MVME5500 hardware. Soft IOCs that require access to hardware on the server (e.g. USB or PCIe) will be supported by mounting the hardware into the container (these IOCS will not support Kubernetes failover).
 
-Other linux architectures could be added to the Kubernetes cluster. We have
-tested arm64 native builds and will add this as a supported architecture
-in the future.
+Other linux architectures could be added to the Kubernetes cluster. We have tested arm64 native builds and will add this as a supported architecture in the future.
 
-Python soft IOCs are also supported.
+Python soft IOCs are also supported. See <https://github.com/DiamondLightSource/pythonSoftIOC>
 
 GUI generation for engineering screens is supported via the PVI project. See <https://github.com/epics-containers/pvi>.
 

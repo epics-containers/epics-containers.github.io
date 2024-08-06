@@ -188,7 +188,7 @@ You don't need Kubernetes yet.
 
 The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.
 
-For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or docker instance using docker compose.
+For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or podman instance using docker compose.
 
 If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as [Portainer](https://www.portainer.io/). Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.
 

@@ -154,7 +154,7 @@ with network host.
 
 Every beamline repository has an `environment.sh` file used to configure
 your shell so that the command line tools know which cluster to talk to.
-Up to this point we have been using the local docker or docker instance,
+Up to this point we have been using the local docker or podman instance,
 but here we will configure it to use the beamline cluster.
 
 For the detail of what goes into `environment.sh` see
