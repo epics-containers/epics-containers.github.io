@@ -161,3 +161,23 @@ ec logs example-test-01 -f
 ```
 
 You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log. Ibek is the tool that runs inside of the IOC container and generates the ioc shell script and database file by interpreting the /epics/ioc/config/ioc.yaml at launch time.
+
+### Shutdown
+
+You can stop all the services with the following command.
+
+```bash
+ec stop
+```
+
+This will stop all the currently running containers described in the `compose.yml` file.
+However this will leave the resources themselves in place:-
+- stopped containers
+- container networks
+- container volumes
+
+To take down the services and remove all of their resources use the following command:
+
+```bash
+ec down
+```
