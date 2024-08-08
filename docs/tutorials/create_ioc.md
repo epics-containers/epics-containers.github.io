@@ -328,7 +328,7 @@ one of those is `ibek.ioc.schema.json`. This is the *IOC schema* for the
 our *IOC yaml* file like this:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.6.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.1/ibek.ioc.schema.json
 ```
 
 When editing with a YAML aware editor like VSCode this will enable auto
