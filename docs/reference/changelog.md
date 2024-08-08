@@ -46,7 +46,7 @@ We have just completed another major overhaul of the epics-containers framework.
 
 The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.
 
-From this release onwards changes will be done in a controlled manner described in the page [](explanations/changes).
+From this release onwards changes will be done in a controlled manner described in the page [](../explanations/changes).
 
 ## Update for February 2024
 
