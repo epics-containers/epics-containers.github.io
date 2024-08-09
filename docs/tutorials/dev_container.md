@@ -154,10 +154,21 @@ Users of docker need to instruct the devcontainer to use their own user id insid
 export EC_REMOTE_USER=$USER
 ```
 
-It is suggested that you place this command in **.bashrc** to make it permanent.
+It is recommended that you place this command in **.profile** to make it permanent.
 
-If you do not do this, your devcontainer will run as root. Although it will still work, it is not recommended. (my apologies to docker users - I wanted to make the devcontainer compatible with both docker and podman and this is the least invasive method I could come up with).
+If you do not do this, your devcontainer will run as root. Although it will still work, it is not recommended. Also, forgetting to set EC_REMOTE_USER before launching a pre-existing devcontainer will cause errors. (my apologies to docker users - I wanted to make the devcontainer compatible with both docker and podman and this is the least invasive method I could come up with).
 :::
+
+### First Time Preparation
+
+The devcontainer uses a docker network that it can share with a ca-gateway in order that your PVs are accessible from your host machine. We arrange to create this network once and as long as you don't delete it or reset docker it will be available for all your devcontainers going forward.
+
+To create the network run the following commands:
+
+```bash
+cd ioc-adsimdetector
+source ./compose/environment.sh
+```
 
 ### Launching the Developer Container
 
