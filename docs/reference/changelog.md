@@ -1,40 +1,61 @@
-Change Log
-==========
+# Change Log
 
 Each individual repository in the `epics-containers` GitHub Organization will have its own changelog. This page is intended for users of `epics-containers` who are adopting the next versions of the templates into their services projects or generic IOC projects. See [](../explanations/changes) for a discussion of how changes are managed in this framework.
 
 For a discussion on how to update your projects to the latest version of the templates see [](../how-to/copier_update).
 
-blxxi-ea-test-01
-----------------
+## Update for August 2024
 
-The `ec-services-template` creates beamline (or other IOC grouping) repositories that initially contain an example IOC and set of essential services. The example IOC will be called `blxxi-ea-test-01` and could be used to deploy a sim-detector.
+IMPORTANT: the changes to the framework described below are complete but the documentation is currenty being updated to reflect these changes. The tutorials are currently out of date and will be updated in the coming weeks.
 
-It is quite useful to keep this example because if you do so it can be used to easily see what changes to each IOC instance might need to be made. The copier template will attempt to update all your own IOC Instances. But the reliable way to keep them up to date is to verify that they have the same changes as the example.
+The latest changes to the framework are as follows:
 
-Such changes will be rare but it just happens that 3.4.0 is an example of this. See below.
+## ibek and ibek support version 3.0.1
 
-April 2024 - templates 3.4.0
-----------------------------
+We have implemented some changes to the schema for the support.yaml files. There have been some changes to the names of fields for consistency and there is a modified structure which makes it much easier to use YAML anchors and aliases in order to avoid repetition in the support.yaml files. For the details of the changes and for a tool to convert existing 2.x schema yaml files see [ibek2to3.py](https://github.com/epics-containers/ibek/blob/main/convert/ibek2to3.py).
 
-### ioc-template and ec-services-template
+## changes services projects versions 3.6.0
 
-- `dependabot.yaml` no longer looks for changes in docker or python dependencies from your ioc-xxx projects. The philosophy here is that all dependency updates should happen in a controlled manner via the copier update mechanism. TODO: it would be good to have dependabot monitor the copier template updates, but this is not currently possible.
+Previously the beamline repo (also known as services repo) held a set of helm charts only. We provided a feature in the `ec` tool for making local deployments but this was quite limited in scope.
 
-### ioc-template
+Now local deployments are a first class citizen, using docker compose to deploy a set of services to a developer workstation or production server. There are now two template repositories for your sets of services as follows.
 
-- The significant change here is that the CI is now multi target and supports cross compilation to RTEMS-beatnik as well as native linux x86. The template has a new question that asks if you want RTEMS support, you should select no unless your Generic IOC is intended for this target architecture.
+- [services-template-compose](https://github.com/epics-containers/services-template-compose) for deploying without Kubernetes.
+- [services-template-helm](https://github.com/epics-containers/services-template-helm) for deploying with Kubernetes. (TODO - not yet created)
+
+In addition we now support use of Argo CD for deploying services to Kubernetes. This uses continuous deployment to keep the services up to date with the latest changes in the services repository. For Argo CD there is an additional template for a small repository (Also TODO) which defines which versions of the services are deployed to the cluster.
+
+- [services-template-argocd](https://github.com/epics-containers/services-template-helm)
+
+## Update for April 2024 - version 3.4.0
+
+We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based "hard" IOCs. But we have also taken the opportunity to make some other improvements.
+
+"Hard" IOC support is currently limited to the VME5500 processor card running RTEMS 5. However this is a proof of principle for an approach that could be extended to any other type of IOC that cannot run inside of a container. In brief:
+
+- At container build time the IOC binary is cross compiled.
+- The developer image is kept (in container registry) as an archive of the sources that built the binary
+- The runtime image holds the binary only and is based on a 'proxy' image
+- At runtime, the proxy container places the binaries in a location accessible to the hard IOC
+- The proxy container connects to the 'hard' IOC console and may change config to point the bootloader at the new binaries
+- The proxy container reboots the 'hard' IOC
+- The proxy container attaches the IOC console to its stdout/stdin
+- Now the proxy container can be managed/logged/monitored exactly like a linux IOC
+- We have demonstrated using this approach to locally build and test an RTEMS IOC from a workstation using a vscode developer container.
 
 
-### ec-services-template
+The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.
 
-- The mechanism by which the configmap of each IOC's config folder has changed. It now requires that there is a `templates` folder in each IOC instance folder that is a soft link to ../../include/ioc/templates. Although the template includes a migration script that is supposed to do this, it has not always proved to work. To create these folders yourself, the easiest way is to copy and paste from the blxxi-ea-test-01 IOC instance.
+From this release onwards changes will be done in a controlled manner described in the page [](../explanations/changes).
 
-- We have changed the default name of generic IOC images. This is to accommodate a naming convention that includes better naming for cross compiled containers. The new default drops the '-linux' section so currently available generic iocs are called:
+## Update for February 2024
 
-  - ioc-adsimdetector-runtime
-  - ioc-adsimdetector-developer
-  - ioc-pmac-runtime
-  - etc ...
+The tutorials have now been updated. Recent changes include:
 
-- The old names are being deleted so your ioc instances' values.yaml should be updated to point to the new names in their 'image' field. If you have your own generic IOCs they will also change their image names when you use the copier to update to the latest framework.
+- epics-containers-cli has been renamed to edge-containers-cli. It now supports the deployment of general services as well as IOCs. It still has the entrypoint `ec` but the namespace `ioc` has been dropped and its functions are now in the root (e.g. `ec ioc deploy` is now `ec deploy`).
+- Improved CI for {any}`services-repo`s and generic IOCs repos.
+- copier template based creation of new beamline, accelerator and generic IOC repos.
+  - This provides greatly improved ability to adopt updates to the template into your own repositories.
+
+All tutorials are now up to date with the latest workflow. The exception is tutorials for the RTEMS platform which are now in active development.
+

@@ -29,7 +29,7 @@ into ibek support YAML for the `ibek-support` repository.
 
 .. code:: yaml
 
-   # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/1.2.0/ibek.support.schema.json
+   # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
 
    module: lakeshore340
 

@@ -85,11 +85,11 @@ git push
 # tag a new version of the beamline repo
 git tag 2024.3.2
 git push origin 2024.3.2
-# deploy the new version of the IOC to the local docker / podman instance
+# deploy the new version of the IOC to the local docker / docker instance
 ec deploy bl01t-ea-test-02 2024.3.2
 ```
 
-NOTE: the above assumes you have an active python virtual environment with the `edge-containers-cli` installed and you have sourced the beamline environment file (for a reminder of how to do this see {any}`setup-beamline-bl01t`).
+NOTE: the above assumes you have an active python virtual environment with the `edge-containers-cli` installed and you have sourced the beamline environment file (for a reminder of how to do this see {any}`setup-beamline-t01`).
 
 You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:
 

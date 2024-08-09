@@ -11,7 +11,7 @@ only. I will remove this warning once it has been tested against:
 :::
 
 Up until now the tutorials have been deploying IOCs to the local docker or
-podman instance on your workstation. In this tutorial we look into setting
+docker instance on your workstation. In this tutorial we look into setting
 up a Kubernetes cluster for a beamline and deploying a test IOC there.
 
 The advantage of using Kubernetes is that it is a production grade container
