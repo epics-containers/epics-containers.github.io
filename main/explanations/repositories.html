@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Source and Registry Locations &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Source and Registry Locations &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -505,11 +505,12 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong> DLS is currently using these locations for assets:</p>
 <ul class="simple">
-<li><p>Generic IOC Source: <code class="docutils literal notranslate"><span class="pre">https://github.com/epics-containers&lt;Generic</span> <span class="pre">ioc&gt;</span></code></p></li>
-<li><p>Beamline Source repos: <code class="docutils literal notranslate"><span class="pre">https://gitlab.diamond.ac.uk/controls/containers/beamline/&lt;beamline&gt;</span></code></p></li>
-<li><p>Accelerator Source repos: <code class="docutils literal notranslate"><span class="pre">https://gitlab.diamond.ac.uk/controls/containers/accelerator/&lt;domain&gt;</span></code></p></li>
-<li><p>Generic IOC Container Images: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/&lt;Generic</span> <span class="pre">ioc&gt;</span></code></p></li>
-<li><p>epics-containers Helm Charts: <code class="docutils literal notranslate"><span class="pre">https://github.com/orgs/epics-containers/packages?repo_name=ec-helm-charts</span></code></p></li>
+<li><p>Public Generic IOC Source:   <a class="github reference external" href="https://github.com/epics-containers/">epics-containers/</a></p></li>
+<li><p>Private Generic IOC Source:  <a class="reference external" href="https://gitlab.diamond.ac.uk/controls/containers/iocs">https://gitlab.diamond.ac.uk/controls/containers/iocs</a></p></li>
+<li><p>Beamline Source repos:       <a class="reference external" href="https://gitlab.diamond.ac.uk/controls/containers/beamline/">https://gitlab.diamond.ac.uk/controls/containers/beamline/</a></p></li>
+<li><p>Accelerator Source repos:    <a class="reference external" href="https://gitlab.diamond.ac.uk/controls/containers/accelerator/">https://gitlab.diamond.ac.uk/controls/containers/accelerator/</a></p></li>
+<li><p>Generic IOC Container Images:&lt;ghcr.io/epics-containers/&gt;</p></li>
+<li><p>epics-containers Helm Charts:<a class="github reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ec-helm-charts">orgs/epics-containers</a></p></li>
 </ul>
 </div>
 <section id="where-to-keep-source-code">
@@ -517,13 +518,11 @@ document.write(`
 <p>There are two main kinds of source repositories used in epics-containers:</p>
 <ul class="simple">
 <li><p>Generic IOC Source</p></li>
-<li><p>Beamline / Accelerator Domain IOC Instance Source</p></li>
+<li><p>Beamline / Accelerator Services Repositories for IOC instances and other services.</p></li>
 </ul>
 <section id="generic-ioc-source-repositories">
 <h3>Generic IOC Source Repositories<a class="headerlink" href="#generic-ioc-source-repositories" title="Link to this heading">#</a></h3>
-<p>For Generic IOCs it is recommended that these be stored in public repositories
-on GitHub.  This allows the community to benefit from the work of others and
-also contribute to the development of the IOC.</p>
+<p>For public Generic IOC container images, the GitHub Container Registry is a good choice. It allows the containers to live at a URL related to the source repository that generated them. The default ioc-template comes with Github Actions that build the container and push it to the GitHub Container Registry.</p>
 <p>The intention is that a Generic IOC container image is a reusable component
 that can be used by multiple IOC instances in multiple domains. Because
 Generic IOCs are containerized and not facility specific, they should work
@@ -535,34 +534,22 @@ Integration files for Generic IOCs work with GitHub actions, but also
 can work with DLS’s internal GitLab instance (this could be adapted for
 other facilities’ internal GitLab instances or alternative CI system).</p>
 </section>
-<section id="ioc-instance-domain-repositories">
-<h3>IOC Instance Domain Repositories<a class="headerlink" href="#ioc-instance-domain-repositories" title="Link to this heading">#</a></h3>
+<section id="ioc-services-repositories">
+<h3>IOC Services Repositories<a class="headerlink" href="#ioc-services-repositories" title="Link to this heading">#</a></h3>
 <p>These repositories are very much specific to a particular domain or beamline
 in a particular facility. For this reason there is no strong reason to make
 them public, other than to share with others how you are using epics-containers.</p>
-<p>At DLS we have a private GitLab instance and we store our domain Repositories
+<p>At DLS we have a private GitLab instance and we store our Services Repositories
 there.</p>
 <p>The CI for domain repos works both with GitHub actions and with DLS’s internal
 GitLab instance (this could be adapted for
 other facilities’ internal GitLab instances or alternative CI system).</p>
 </section>
-<section id="bl45p">
-<h3>BL45P<a class="headerlink" href="#bl45p" title="Link to this heading">#</a></h3>
-<p>The test/example beamline at DLS for epics-containers is BL45P.
-The domain repository for this
-is at <a class="github reference external" href="https://github.com/epics-containers/bl45p">epics-containers/bl45p</a>. This will always be
-kept in a public repository as it is a live example of a domain repo.</p>
-</section>
-</section>
-<section id="where-to-put-registries">
-<h2>Where to put Registries<a class="headerlink" href="#where-to-put-registries" title="Link to this heading">#</a></h2>
-<section id="generic-ioc-container-images-and-source-repos">
-<h3>Generic IOC Container Images and Source Repos<a class="headerlink" href="#generic-ioc-container-images-and-source-repos" title="Link to this heading">#</a></h3>
-<p>Usually GHCR but internal supported for license e.g. Nexus Repository Manager</p>
-</section>
-<section id="ioc-instance-domain-repos">
-<h3>IOC Instance Domain Repos<a class="headerlink" href="#ioc-instance-domain-repos" title="Link to this heading">#</a></h3>
-<p>Internal git registry or private GitHub registry.</p>
+<section id="p45-services">
+<h3>p45-services<a class="headerlink" href="#p45-services" title="Link to this heading">#</a></h3>
+<p>The test/example beamline at DLS for epics-containers is p45.
+The domain repository for this is at <a class="github reference external" href="https://github.com/epics-containers/p45-services">epics-containers/p45-services</a>. This will always be kept in a public repository as it is a live example of a domain repo.</p>
+<p>This beamline is deployed to Kubernetes at DLS using Argo CD continuous deployment. The repository containing the Argo CD apps that control the deployment is at <a class="github reference external" href="https://github.com/epics-containers/p45-deployment">epics-containers/p45-deployment</a></p>
 </section>
 </section>
 </section>
@@ -615,13 +602,8 @@ kept in a public repository as it is a live example of a domain repo.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-keep-source-code">Where to Keep Source Code</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generic-ioc-source-repositories">Generic IOC Source Repositories</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-instance-domain-repositories">IOC Instance Domain Repositories</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bl45p">BL45P</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-put-registries">Where to put Registries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generic-ioc-container-images-and-source-repos">Generic IOC Container Images and Source Repos</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-instance-domain-repos">IOC Instance Domain Repos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-services-repositories">IOC Services Repositories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#p45-services">p45-services</a></li>
 </ul>
 </li>
 </ul>

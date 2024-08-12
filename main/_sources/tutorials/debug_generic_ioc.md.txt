@@ -72,7 +72,7 @@ STEP 15/19: RUN StreamDevice/install.sh 2.8.24
 ```
 
 - copy the hash of the step you want to debug e.g. `631291db1751` in this case
-- podman run -it --entrypoint /bin/bash 631291db1751 # (the hash you copied)
+- docker run -it --entrypoint /bin/bash 631291db1751 # (the hash you copied)
 
 Now we have a prompt inside the part-built container and can retry the failed
 command.

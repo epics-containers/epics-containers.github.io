@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Glossary &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Glossary &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -54,7 +54,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="IOC Helm Chart Details" href="ioc_helm_chart.html" />
+    <link rel="next" title="Pure Helm Deployments" href="helm.html" />
     <link rel="prev" title="Frequently Asked Questions" href="faq.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -434,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
@@ -504,14 +505,14 @@ document.write(`
 <p>A repository that contains the definitions for a group of IOCs instances and other services. The grouping of instances is up to the facility. At DLS the instances are grouped by beamline for beamline IOCs. Accelerator IOC groupings by technical domain as appropriate.</p>
 <p>epics-containers supports two kinds of services repositories:</p>
 <ul class="simple">
-<li><p><strong>Kubernetes</strong> services repositories. These are for deployment into a Kubernetes cluster. Each repositoriy contains a set of <strong>Helm Charts</strong> all of which will deploy into a single namespace in a single Kubernetes Cluster.</p></li>
-<li><p><strong>Local Machine</strong> services repositories. These are for deployment to a local machine using docker-compose. Each repository contains a set <em>compose.yaml</em> files that describe how to deploy a set of services to the local machine. These could potentially be used for production at a facility which does not use Kuberentes, but are primarily for development, testing and the earlier tutorials in this documenttation.</p></li>
+<li><p><strong>Kubernetes</strong> services repositories. These are for deployment into a Kubernetes cluster. Each repository contains a set of <strong>Helm Charts</strong> all of which will deploy into a single namespace in a single Kubernetes Cluster.</p></li>
+<li><p><strong>Local Machine</strong> services repositories. These are for deployment to a local machine using docker-compose. Each repository contains a set <em>compose.yaml</em> files that describe how to deploy a set of services to the local machine. These could potentially be used for production at a facility which does not use Kubernetes, but are primarily for development, testing and the earlier tutorials in this documentation.</p></li>
 </ul>
 </section>
 <section id="edge-containers-cli">
 <span id="id1"></span><h2>edge-containers-cli<a class="headerlink" href="#edge-containers-cli" title="Link to this heading">#</a></h2>
 <p>A Python command line tool for the developer that runs <em>outside</em> of containers. It provides simple features for and monitoring and managing and IOC instances within a <a class="reference internal" href="#services-repo"><span class="std std-ref">services repository</span></a>.</p>
-<p>So named ‘edge’ containers because these services all run close to the hardware. Uses the command line entry point <code class="docutils literal notranslate"><span class="pre">ec</span></code>.</p>
+<p>So named ‘edge’ containers because these services all run close to the hardware. Uses the command line entry point <code class="docutils literal notranslate"><span class="pre">ec</span></code>. See <a class="reference internal" href="cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for more details.</p>
 </section>
 <section id="ibek">
 <span id="id2"></span><h2>ibek<a class="headerlink" href="#ibek" title="Link to this heading">#</a></h2>
@@ -546,11 +547,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="ioc_helm_chart.html"
+       href="helm.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">IOC Helm Chart Details</p>
+        <p class="prev-next-title">Pure Helm Deployments</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

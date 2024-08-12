@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with Docker &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Working with Docker &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -434,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
@@ -500,17 +501,23 @@ document.write(`
   <section id="working-with-docker">
 <h1>Working with Docker<a class="headerlink" href="#working-with-docker" title="Link to this heading">#</a></h1>
 <p>DLS is a <code class="docutils literal notranslate"><span class="pre">podman</span></code> shop and therefore more testing is done with <code class="docutils literal notranslate"><span class="pre">podman</span></code> than <code class="docutils literal notranslate"><span class="pre">docker</span></code> as the container CLI used with developer containers. <code class="docutils literal notranslate"><span class="pre">podman</span></code> works extremely well with developer containers, but <code class="docutils literal notranslate"><span class="pre">docker</span></code> needs a little more work sometimes.</p>
+<p>The primary difference is that <code class="docutils literal notranslate"><span class="pre">podman</span></code> does not require root access and <code class="docutils literal notranslate"><span class="pre">docker</span></code> does. When inside a <code class="docutils literal notranslate"><span class="pre">podman</span></code> container you appear to be root but you are running as your own host user id. When you write to any host mounted files you will be doing so with your host user permissions. In a docker container any host files written will be owned by the user id that the container is running as.</p>
+<p>Therefore:</p>
+<ul class="simple">
+<li><p>It is better not to run <code class="docutils literal notranslate"><span class="pre">docker</span></code> containers as root.</p></li>
+<li><p>It is easiest to run <code class="docutils literal notranslate"><span class="pre">podman</span></code> containers as root for simplicity.</p></li>
+</ul>
 <p>We do fully support <code class="docutils literal notranslate"><span class="pre">docker</span></code>, please report any issues you find.</p>
 <p>There are a few things to know if you are using <code class="docutils literal notranslate"><span class="pre">docker</span></code> in your developer containers:</p>
 <ol class="arabic">
-<li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=vscode</span></code> into your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>. The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>
+<li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=$USER</span></code> into your <code class="docutils literal notranslate"><span class="pre">~/.profile</span></code>. The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>
 <li><p>you may need to tell git that you are ok with the repository permissions. <code class="docutils literal notranslate"><span class="pre">vscode</span></code> may ask you about this or you may need to do the command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span>&lt;Git<span class="w"> </span>folder&gt;
 </pre></div>
 </div>
 </li>
-<li><p>you can use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> if you are having permissions issues. In particular the following will reset permissions on a folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>-r<span class="w"> </span>vscode<span class="w"> </span>&lt;folder&gt;
+<li><p>you can use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> if you are having permissions issues. In particular the following will reset permissions on all of the epics files inside the container filesystem:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>-r<span class="w"> </span>vscode<span class="w"> </span>/epics
 </pre></div>
 </div>
 </li>

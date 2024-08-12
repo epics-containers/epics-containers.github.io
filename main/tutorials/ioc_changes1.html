@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -571,11 +571,11 @@ git<span class="w"> </span>push
 <span class="c1"># tag a new version of the beamline repo</span>
 git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.3.2
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.3.2
-<span class="c1"># deploy the new version of the IOC to the local docker / podman instance</span>
+<span class="c1"># deploy the new version of the IOC to the local docker / docker instance</span>
 ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-02<span class="w"> </span><span class="m">2024</span>.3.2
 </pre></div>
 </div>
-<p>NOTE: the above assumes you have an active python virtual environment with the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> installed and you have sourced the beamline environment file (for a reminder of how to do this see <a class="reference internal" href="deploy_example.html#setup-beamline-bl01t"><span class="std std-ref">Set up Environment for BL01T Beamline</span></a>).</p>
+<p>NOTE: the above assumes you have an active python virtual environment with the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> installed and you have sourced the beamline environment file (for a reminder of how to do this see <a class="reference internal" href="deploy_example.html#setup-beamline-t01"><span class="std std-ref">Set up Environment for the t01 Beamline</span></a>).</p>
 <p>You can now see that the versioned IOC instance is running and loading the extra.db by looking at its log with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 </pre></div>

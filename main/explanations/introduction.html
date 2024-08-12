@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Essential Concepts &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Essential Concepts &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -520,10 +520,10 @@ delivery to the management of EPICS IOCs.</p>
 <dd class="field-even"><p>Source, container and helm repositories manage all of the above assets.
 No shared file systems required.</p>
 </dd>
-<dt class="field-odd">Continuous Integration / Deployment<span class="colon">:</span></dt>
+<dt class="field-odd">Continuous Integration / Continuous Deployment<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Source repositories automatically build containers and helm charts,
 delivering them to OCI registries. Services repositories automatically deploy
-IOCs to Kubernetes clusters.</p>
+IOCs to Kubernetes clusters using ArgoCD.</p>
 </dd>
 </dl>
 <p>See below for more details on each of these.</p>
@@ -562,9 +562,9 @@ forks of these repositories.</p>
 <p>An IOC instance runs in a container runtime by loading two things:</p>
 <ul class="simple">
 <li><p>The Generic IOC image passed to the container runtime.</p></li>
-<li><p>The IOC instance configuration. This is mapped into the container at  runtime by mounting it into the filesystem. The mount point for this configuration is always <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>.</p></li>
+<li><p>The IOC instance configuration. This is mapped into the container at  runtime by mounting it into the filesystem. The mount point for this configuration is usually the folder <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>.</p></li>
 </ul>
-<p>The configuration will bootstrap the unique properties of that instance. The following contents for the configuration are supported:</p>
+<p>The configuration will bootstrap the unique properties of that instance. The following contents for the configuration folder are supported:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>: an <strong>ibek</strong> IOC description file which <strong>ibek</strong> will use to generate
 st.cmd and ioc.subst.</p></li>
@@ -617,13 +617,13 @@ define a set of resources to apply to a Kubernetes cluster.</p>
 of the Chart within the cluster.</p>
 <p>It also supports registries for storing version history of Charts,
 much like docker.</p>
-<p>In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only container:e</p>
+<p>In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only contain:</p>
 <ul class="simple">
-<li><p>a values.yaml file to override the default values in the repository’s global Helm Chart</p></li>
+<li><p>a values.yaml file to override the default values in the repository’s global values.yaml.</p></li>
 <li><p>a config folder as described in <a class="reference internal" href="#generic-iocs"><span class="std std-ref">Generic IOCs and instances</span></a>.</p></li>
-<li><p>a couple of boilerplate files that are the same for all IOCs.</p></li>
+<li><p>a couple of boilerplate Helm files that are the same for all IOCs.</p></li>
 </ul>
-<p><strong>epics-containers</strong> does not use helm registries for storing each IOC instance. Such registries only hold a zipped version of the Chart files, and this is redundant when we have a git repository holding the same information. Instead a single global helm chart represents the shared elements between all IOC instances and is stored in a helm registry. Each folder in the services repository is itself a helm chart that includes the global chart as a dependency.</p>
+<p><strong>epics-containers</strong> does not use helm registries for storing each IOC instance. Such registries only hold a zipped version of the Chart files, and this is redundant when we have a git repository holding the same information. Instead a single global helm chart represents the shared elements between all IOC instances and is stored in a helm registry. Each folder in the services repository is itself a helm chart that includes that global chart as a dependency.</p>
 </section>
 <section id="repositories">
 <h3>Repositories<a class="headerlink" href="#repositories" title="Link to this heading">#</a></h3>
@@ -631,23 +631,24 @@ much like docker.</p>
 <p>Thus all version control is done via these repositories and no special locations in a shared filesystem are required. (The legacy approach at DLS relied heavily on know locations in a shared filesystem).</p>
 <p>In the <strong>epics-containers</strong> examples all repositories are held in the same github organization. This is nicely contained and means that only one set of credentials is required to access all the resources.</p>
 <p>There are many alternative services for storing these repositories, both in the cloud and on premises. Below we list the choices we have tested during the proof of concept.</p>
-<p>The classes of repository are as follows:</p>
+<p>The most common classes of repository are as follows:</p>
 <dl class="field-list">
-<dt class="field-odd">Source Repository<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Holds the source code but also provides the Continuous Integration actions for testing, building and publishing to the image / helm repositories. These have been tested:</p>
+<dt class="field-odd">Generic IOC Source Repositories<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed. These have been tested:</p>
 <ul class="simple">
 <li><p>GitHub</p></li>
 <li><p>GitLab (on premises)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Generic IOC Source Repositories<span class="colon">:</span></dt>
-<dd class="field-even"><p>Define how a Generic IOC image is built, this does not typically include source code, but instead is a set of instructions for building the Generic IOC image by compiling source from a number of upstream support module repositories. Boilerplate IOC source code is also included in the Generic IOC source repository and can be customized if needed.</p>
+<dt class="field-even">Services Source Repositories<span class="colon">:</span></dt>
+<dd class="field-even"><p>Define the IOC instances and other services for a beamline, accelerator technical area or any other grouping strategy. These have been tested:</p>
+<ul class="simple">
+<li><p>GitHub</p></li>
+<li><p>GitLab (on premises)</p></li>
+</ul>
 </dd>
-<dt class="field-odd">Services Source Repositories<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Define the IOC instances and other services for a beamline, accelerator domain or any other grouping strategy.</p>
-</dd>
-<dt class="field-even">An OCI Image Repository<span class="colon">:</span></dt>
-<dd class="field-even"><p>Holds the Generic IOC container images and their dependencies. Also used to hold the helm Charts that define the shared elements between all domains.</p>
+<dt class="field-odd">An OCI Image Registry<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Holds the Generic IOC container images and their dependencies. Also used to hold the helm Charts that define the shared elements between all domains.</p>
 <p>The following have been tested:</p>
 <ul class="simple">
 <li><p>Github Container Registry</p></li>
@@ -660,7 +661,7 @@ much like docker.</p>
 <section id="continuous-integration">
 <h3>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link to this heading">#</a></h3>
 <p>Our examples all use continuous integration to get from pushed source
-to the published images, IOC instances helm Charts and documentation.</p>
+to the published images, IOC instances Helm Charts and documentation.</p>
 <p>This allows us to maintain a clean code base that is continually tested for
 integrity and also to maintain a direct relationship between source code version
 tags and the tags of their built resources.</p>
@@ -675,7 +676,7 @@ system tests that talk to simulated hardware</p></li>
 or other OCI registry</p></li>
 </ul>
 </dd>
-<dt class="field-even">services source<span class="colon">:</span></dt>
+<dt class="field-even">Services Source<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p>prepares a helm Chart from each IOC instance or other service definition</p></li>
 <li><p>tests that the helm Chart is deployable (but does not deploy it)</p></li>
@@ -684,13 +685,13 @@ verify that the configuration is valid (no system tests because this
 would require talking to real hardware instances).</p></li>
 </ul>
 </dd>
-<dt class="field-odd">documentation source<span class="colon">:</span></dt>
+<dt class="field-odd">Documentation Source<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p>builds the sphinx docs that you are reading now</p></li>
 <li><p>publishes it to github.io pages with version tag or branch tag.</p></li>
 </ul>
 </dd>
-<dt class="field-even">global helm Chart source<span class="colon">:</span></dt>
+<dt class="field-even">Global Helm Chart Source<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ec-helm-chars</span></code> repo only</p></li>
 <li><p>packages a helm Chart from source</p></li>
@@ -700,17 +701,18 @@ or other OCI registry</p></li>
 </dd>
 </dl>
 </section>
+<section id="continuous-deployment">
+<h3>Continuous Deployment<a class="headerlink" href="#continuous-deployment" title="Link to this heading">#</a></h3>
+<p>ArgoCD is a Kubernetes controller that continuously monitors running applications and compares their current state with the desired state described in a git repository. If the current state does not match the desired state, ArgoCD will attempt to reconcile the two.</p>
+<p>For this purpose each services repository will have a companion deployment repository which tracks which version of each IOC in the services repository should currently be deployed to the cluster. This list of IOC versions is in a single YAML file and updating this file and pushing it to the deployment repository will trigger ArgoCD to update the cluster accordingly.</p>
+<p>In this fashion changes to IOC versions are tracked in git and it is easy to roll back to the same state as a given date because there is a complete record.</p>
+</section>
 </section>
 <section id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Link to this heading">#</a></h2>
-<p>This project initially targets x86_64 Linux Soft IOCs and RTEMS IOC running
-on MVME5500 hardware. Soft IOCs that require access to hardware on the
-server (e.g. USB or PCIe) will be supported by mounting the hardware into
-the container (these IOCS will not support Kubernetes failover).</p>
-<p>Other linux architectures could be added to the Kubernetes cluster. We have
-tested arm64 native builds and will add this as a supported architecture
-in the future.</p>
-<p>Python soft IOCs are also supported.</p>
+<p>This project initially targets x86_64 Linux Soft IOCs and RTEMS ‘hard’ IOCs running on MVME5500 hardware. Soft IOCs that require access to hardware on the server (e.g. USB or PCIe) will be supported by mounting the hardware into the container (these IOCS will not support Kubernetes failover).</p>
+<p>Other linux architectures could be added to the Kubernetes cluster. We have tested arm64 native builds and will add this as a supported architecture in the future.</p>
+<p>Python soft IOCs are also supported. See <a class="github reference external" href="https://github.com/DiamondLightSource/pythonSoftIOC">DiamondLightSource/pythonSoftIOC</a></p>
 <p>GUI generation for engineering screens is supported via the PVI project. See <a class="github reference external" href="https://github.com/epics-containers/pvi">epics-containers/pvi</a>.</p>
 </section>
 <section id="additional-tools">
@@ -800,6 +802,7 @@ line entry point is <strong>ec</strong>.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helm">Helm</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repositories">Repositories</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-deployment">Continuous Deployment</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scope">Scope</a></li>

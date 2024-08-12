@@ -415,7 +415,7 @@ and create a file called `lakeshore340.ibek.support.yaml`. Add the following
 contents:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/2.0.1/ibek.support.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
 
 module: lakeshore340
 

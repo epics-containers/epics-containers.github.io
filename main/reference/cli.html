@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Command Line Interface for IOC Management &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Command Line Interface for IOC Management &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -434,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
@@ -499,10 +500,8 @@ document.write(`
                   
   <section id="command-line-interface-for-ioc-management">
 <span id="cli"></span><h1>Command Line Interface for IOC Management<a class="headerlink" href="#command-line-interface-for-ioc-management" title="Link to this heading">#</a></h1>
-<p>The python project <a class="reference internal" href="glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> is installed as part of the Python section of the initial tutorial <a class="reference internal" href="../tutorials/setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a>. It provides a command line function <code class="docutils literal notranslate"><span class="pre">ec</span></code> with support for:</p>
-<ul class="simple">
-<li><p>deploying, managing and monitoring IOC and service instances</p></li>
-</ul>
+<p>The python project <a class="reference internal" href="glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> is installed as part of the Python section of the initial tutorial <a class="reference internal" href="../tutorials/setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a>. It provides a command line function <code class="docutils literal notranslate"><span class="pre">ec</span></code> with support for  managing and monitoring IOC instances.</p>
+<p>This tool is only required if you are deploying to Kubernetes. Docker compose provides a very similar set of commands for local deployment. Also note that <code class="docutils literal notranslate"><span class="pre">ec</span></code> supports both ArgoCD and pure Helm deployments. The tutorials will use ArgoCD, for information on Helm based deployments see <a class="reference internal" href="helm.html#helm"><span class="std std-ref">Pure Helm Deployments</span></a> .</p>
 <p>The CLI is just a thin wrapper around the underlying tools that do the real work:</p>
 <dl class="field-list simple">
 <dt class="field-odd">kubectl<span class="colon">:</span></dt>
@@ -511,14 +510,14 @@ document.write(`
 <dt class="field-even">helm<span class="colon">:</span></dt>
 <dd class="field-even"><p>the command line interface to the Kubernetes Helm package manager</p>
 </dd>
-<dt class="field-odd">podman/docker<span class="colon">:</span></dt>
-<dd class="field-odd"><p>CLIs for container engines</p>
+<dt class="field-odd">git<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the git version control system client</p>
 </dd>
-<dt class="field-even">git<span class="colon">:</span></dt>
-<dd class="field-even"><p>the git version control system client</p>
+<dt class="field-even">argocd<span class="colon">:</span></dt>
+<dd class="field-even"><p>the ArgoCD command line interface</p>
 </dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> is useful because it saves typing and provides a consistent interface when working on multiple <a class="reference internal" href="glossary.html#services-repo"><span class="std std-ref">services repository</span></a> s. This is because it uses the environment setup by the beamline repo’s <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> script. See <a class="reference internal" href="environment.html"><span class="doc">The Environment Configuration File</span></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> is useful because it saves typing and provides a consistent interface when working on multiple <a class="reference internal" href="glossary.html#services-repo"><span class="std std-ref">services repository</span></a>s. This is because it uses the environment setup by the beamline repo’s <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> script. See <a class="reference internal" href="environment.html"><span class="doc">The Environment Configuration File</span></a>.</p>
 <p>To see the available commands, run <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
 <p>It may be instructive to understand the underlying tools and how they are being called. For this reason <code class="docutils literal notranslate"><span class="pre">ec</span></code> supports a <code class="docutils literal notranslate"><span class="pre">-v</span></code> option to show the underlying commands being executed. e.g.</p>
 <pre>(venv) <font color="#64BA12">(main) </font>[<font color="#6491CB">hgv27681@pc0116</font> bl47p]$ ec -v ps

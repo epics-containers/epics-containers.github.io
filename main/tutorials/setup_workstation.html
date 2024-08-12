@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -506,7 +506,7 @@ in readiness for the remaining tutorials.
 The tools you need to install are:</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p></li>
-<li><p>a container platform, either podman or docker</p></li>
+<li><p>a container platform, either docker or podman</p></li>
 <li><p>Python 3.11 or later + a Python virtual environment</p></li>
 <li><p>git client for version control</p></li>
 </ul>
@@ -524,15 +524,14 @@ If you have your own preferred code editor you can use that.</p>
 </section>
 <section id="platform-support">
 <h2>Platform Support<a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h2>
-<p>epics-containers can use Linux, Windows or MacOS as the host operating system for
-the developer workstation.</p>
-<p>If you are using Windows then you must first
-install WSL2 and then work within the Linux subsystem. see
-<a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL2 installation instructions</a>.
-Ubuntu is recommended as the Linux distribution for WSL2.</p>
+<p>The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.</p>
+<p>If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide. First install <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> and then download the <a class="reference external" href="https://drive.google.com/file/d/1ejJjiVDcODkiJsTShkCclQyod02f4Tex/view?usp=drive_link">Virtual Machine</a> TODO: currently hosted on giles Google Drive - find a better hosting solution. The downloaded file is an OVA file which can be imported into VirtualBox using <code class="docutils literal notranslate"><span class="pre">File-&gt;Import</span> <span class="pre">Appliance</span> <span class="pre">...</span></code>. During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources.</p>
+<p>If you are using Windows you could instead install WSL2 and then work within the Linux subsystem. see <a class="reference external" href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL2 installation instructions</a>. Ubuntu is recommended as the Linux distribution for WSL2. This has not been tested with the tutorials recently so the VM above is the preferred option.</p>
 </section>
 <section id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Link to this heading">#</a></h2>
+<p>If you are using the Virtual Machine, then you can skip to “Setup virtual environment”, because the first three requirements are already installed.</p>
+<p>If you are using your own Linux machine then follow all the steps below to install the required software.</p>
 <section id="setup-vscode">
 <h3>Setup VSCode<a class="headerlink" href="#setup-vscode" title="Link to this heading">#</a></h3>
 <div class="admonition note">
@@ -561,26 +560,52 @@ devcontainer in the next tutorial.</p>
 <h3>Setup Docker or Podman<a class="headerlink" href="#setup-docker-or-podman" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.6.1 installed by default.
+<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default.
 RHEL 7 Workstations are not supported.</p>
 </div>
 <p>Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.</p>
-<p>If you are using docker, simply replace <code class="docutils literal notranslate"><span class="pre">podman</span></code> with <code class="docutils literal notranslate"><span class="pre">docker</span></code> in the commands listed in these tutorials. <code class="docutils literal notranslate"><span class="pre">docker</span></code> users should also take a look at this page: <a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Working with Docker</span></a></p>
-<p>The podman version required is 4.0 or later. Any version of docker since 20.10
-will also work. Pick the tool that has the most recent version for your platform.
-RedHat 8 and above have recent podman versions. Debian platforms don’t yet
-have recent podman versions available. If you have a choice then podman is
-preferred because it does not require root access and it is the tool with
-which epics-containers has had the most testing.</p>
+<p>The podman version required is 4.0 or later. Any version of docker since 20.10 will also work. Pick the tool that has the most recent version for your platform. RedHat 8 and above have recent podman versions. Older Debian platforms don’t yet
+have recent podman versions available. If you have a choice then podman is slightly preferred because it does not require root access and it is the tool with which epics-containers has had the most testing. However, docker is the most widely used container platform and is also well supported.</p>
 <p>The links below have details of how to install your choice of container platform:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://docs.docker.com/engine/install/">Install docker</a></p></li>
 <li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
 </ul>
-<p>The docker install page encourages you to install Docker Desktop. This is a paid
-for product and is not required for this tutorial. You can install the free linux
-CLI tools by clicking on the appropriate linux distribution link.</p>
+<p>The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the “Supported Platforms” heading, for simplicity it is easiest to use the option “Install using the convenience script”.</p>
+</section>
+<section id="docker-compose-for-podman-users">
+<h3>Docker Compose For Podman Users<a class="headerlink" href="#docker-compose-for-podman-users" title="Link to this heading">#</a></h3>
+<p>docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together.</p>
+<p>If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and avoids behaviour differences between the two tools. If you are at DLS you just need to run ‘module load docker-compose’ to get access to docker compose with podman as the back end.</p>
+<p>Other users of podman please see these instructions <a class="reference external" href="https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view">rootless podman with docker-compose</a>.</p>
+</section>
+<section id="important-notes-regarding-docker-and-podman">
+<h3>Important Notes Regarding docker and podman<a class="headerlink" href="#important-notes-regarding-docker-and-podman" title="Link to this heading">#</a></h3>
+<p>From here on when we refer to <code class="docutils literal notranslate"><span class="pre">docker</span></code> in a command line, you can replace it with <code class="docutils literal notranslate"><span class="pre">podman</span></code> if you are using podman. The two tools have the same CLI. For convenience if you are a podman user you might want to place</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">docker</span><span class="o">=</span>podman
+</pre></div>
+</div>
+<p>in your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span></code> users should also take a look at this page: <a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Working with Docker</span></a> which describes a couple of extra steps that are required to make docker work in developer containers.</p>
+</section>
+<section id="command-line-completion">
+<h3>Command Line Completion<a class="headerlink" href="#command-line-completion" title="Link to this heading">#</a></h3>
+<p>This is an optional step to set up CLI completion for docker or podman.</p>
+<p>It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for docker and docker compose.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># these steps will make cli completion work for bash</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/share/bash-completion/completions
+docker<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/bash-completion/completions/docker
+<span class="c1"># OR</span>
+podman<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/bash-completion/completions/podman
+
+<span class="c1"># these steps will make cli completion work for zsh</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/.oh-my-zsh/completions
+docker<span class="w"> </span>completion<span class="w"> </span>zsh<span class="w"> </span>&gt;<span class="w"> </span>~/.oh-my-zsh/completions/_docker
+<span class="c1"># OR</span>
+podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="w"> </span>&gt;<span class="w"> </span>~/.oh-my-zsh/completions/_podman
+</pre></div>
+</div>
 </section>
 <section id="install-python">
 <span id="python-setup"></span><h3>Install Python<a class="headerlink" href="#install-python" title="Link to this heading">#</a></h3>
@@ -588,14 +613,13 @@ CLI tools by clicking on the appropriate linux distribution link.</p>
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong>: for this step just use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.11</span></code></p>
 </div>
-<p>Go ahead and install Python 3.10 or later. 3.11 is recommended as this is the
-highest version that epics-containers has been tested with.</p>
+<p>Go ahead and install Python 3.11 or later.</p>
 <p>There are instructions for installing Python on all platforms here:
 <a class="reference external" href="https://docs.python-guide.org/starting/installation/">https://docs.python-guide.org/starting/installation/</a></p>
 </section>
 <section id="setup-virtual-environment">
 <h3>Setup virtual environment<a class="headerlink" href="#setup-virtual-environment" title="Link to this heading">#</a></h3>
-<p>Once you have python set up a virtual environment for your epics-containers
+<p>Once you have python, set up a virtual environment for your epics-containers
 work. In the examples we will use <code class="docutils literal notranslate"><span class="pre">$HOME/ec-venv</span></code> as the virtual environment
 but you can choose any folder.</p>
 <div class="admonition note">
@@ -607,58 +631,40 @@ but you can choose any folder.</p>
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
 </pre></div>
 </div>
-<p>Note that each time you open a new shell you will need to activate the virtual
-environment again. (Or place its bin folder in your path permanently).</p>
+<p>Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding it in your .bashrc).</p>
 </section>
-<section id="edge-containers-cli">
-<span id="ec"></span><h3>edge-containers-cli<a class="headerlink" href="#edge-containers-cli" title="Link to this heading">#</a></h3>
-<p>Above we set up a python virtual environment. Now we will install
-the <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> python tool into that environment.</p>
+<section id="edge-containers-cli-and-copier">
+<span id="ec"></span><h3>edge-containers-cli and copier<a class="headerlink" href="#edge-containers-cli-and-copier" title="Link to this heading">#</a></h3>
+<p>Above we set up a python virtual environment. Now we will install the <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> python tool into that environment. This tool is used to manage the IOC instances in Kubernetes and is only required for the later tutorials.</p>
+<p>We also take this opportunity to install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the services repositories and generic IOCs.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
+pip<span class="w"> </span>install<span class="w"> </span>copier
 </pre></div>
 </div>
-<p>This is the developer’s ‘outside of the container’ helper tool. The command
-line entry point is <code class="docutils literal notranslate"><span class="pre">ec</span></code>. We will be using many <code class="docutils literal notranslate"><span class="pre">ec</span></code> command line
-functions in the next tutorial.</p>
 <p>See <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> for more details.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>DLS Users: <code class="docutils literal notranslate"><span class="pre">ec</span></code> is already installed for you on <code class="docutils literal notranslate"><span class="pre">dls_sw</span></code> just do the
-following to make sure it is always available:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># use the ec version from dls_sw/work/python3</span>
+<p>DLS Users: <code class="docutils literal notranslate"><span class="pre">ec</span></code> is already installed for you on <code class="docutils literal notranslate"><span class="pre">dls_sw</span></code> just do the following to make sure it is always available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># use the ec version from /dls_sw/work/python3</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/.local/bin
 ln<span class="w"> </span>-fs<span class="w"> </span>/dls_sw/work/python3/ec-venv/bin/ec<span class="w"> </span><span class="nv">$HOME</span>/.local/bin/ec
+<span class="c1"># log out and back in again to make sure the new path is available</span>
 </pre></div>
 </div>
 </div>
 </section>
-</section>
 <section id="git">
-<h2>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h2>
+<h3>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h3>
 <p>If you don’t already have git installed see
 <a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">https://git-scm.com/book/en/v2/Getting-Started-Installing-Git</a>. Any recent
 version of git will work.</p>
+</section>
 <section id="kubernetes">
 <h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">#</a></h3>
 <p>You don’t need Kubernetes yet.</p>
-<p>The following tutorials will take you through creating, deploying and
-debugging IOC instances, generic IOCs and support modules.</p>
-<p>For simplicity we don’t encourage using Kubernetes at this stage. Instead we
-will deploy containers to the local workstation’s docker or podman instance.</p>
-<p>However, everything in these tutorials would also work with Kubernetes. If you
-are particularly interested in Kubernetes then you can jump to
-<a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Server</span></a> and follow the instructions there. Then come back to this
-point and continue with the tutorials. If you do this just be aware that
-we use the beamline name <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> for local deployment examples and
-<code class="docutils literal notranslate"><span class="pre">bl46p</span></code> for Kubernetes examples so you will need to substitute the
-appropriate beamline name for your environment. All the local deployment
-examples should also deploy to a Kubernetes cluster.</p>
-<p>If you are planning not to use Kubernetes at all then now might be
-a good time to install an alternative container management platform such
-as <a class="reference external" href="https://www.portainer.io/">Portainer</a>. Such tools will help you
-visualise and manage your local containers. They are not required and you
-could just manage everything from epics-containers command line interface
-if you prefer.</p>
+<p>The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.</p>
+<p>For simplicity we don’t encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation’s docker or podman instance using docker compose.</p>
+<p>If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as <a class="reference external" href="https://www.portainer.io/">Portainer</a>. Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.</p>
 </section>
 </section>
 </section>
@@ -714,12 +720,13 @@ if you prefer.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-vscode">Setup VSCode</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-docker-or-podman">Setup Docker or Podman</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-compose-for-podman-users">Docker Compose For Podman Users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notes-regarding-docker-and-podman">Important Notes Regarding docker and podman</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-completion">Command Line Completion</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-virtual-environment">Setup virtual environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-containers-cli">edge-containers-cli</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-containers-cli-and-copier">edge-containers-cli and copier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kubernetes">Kubernetes</a></li>
 </ul>
 </li>

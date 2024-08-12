@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -502,75 +502,79 @@ document.write(`
   <section id="create-a-beamline-repository">
 <span id="create-beamline"></span><h1>Create a Beamline Repository<a class="headerlink" href="#create-a-beamline-repository" title="Link to this heading">#</a></h1>
 <p>In this tutorial we will create a new <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>.</p>
-<p>All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by location or technical area.</p>
+<p>All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by technical area.</p>
 <p>In the case of Beamlines, the repo is named after the beamline itself. At DLS
-we use the naming convention <code class="docutils literal notranslate"><span class="pre">blxxc</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
-and c is the class of beamline.</p>
+we use the naming convention <code class="docutils literal notranslate"><span class="pre">cxx</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
+and c is the class of beamline. Our naming convention for beamline services repositories is
+cxx-services.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You may choose your own naming convention, but lower case letters,
-numbers and hyphens only are required for both domain names and
+numbers and hyphens are the only characters allowed for both domain names and
 IOC names. This is a restriction that helm introduces for package names.</p>
 </div>
-<p>Here we are going to create the test beamline repository <code class="docutils literal notranslate"><span class="pre">bl01t</span></code>. When the project <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> is pushed to GitHub, continuous integration (CI) will verify each of the IOC instances.</p>
+<p>Here we are going to create the test beamline repository <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. When the project is pushed to GitHub, continuous integration (CI) will verify each of the IOC instances.</p>
 <p>This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are going to work in a shared environment then it is worth choosing
-a different name for your test beamline and its associated PV prefixes. PVs
-will be published on the local subnet by default so two people working on the
-tutorials without doing this will clash. If you do this just remember to
-substitute your beamline name for <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> in the following instructions.</p>
+<p>If you are working is a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.</p>
 </div>
 <section id="to-start">
 <h2>To Start<a class="headerlink" href="#to-start" title="Link to this heading">#</a></h2>
-<p>For this exercise you will require a github user account or organization in
-which to place the new repo. If you do not have one then follow GitHub’s
-<a class="reference external" href="https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account">instructions</a>.</p>
+<p>For this exercise you will require a github user account or organization in which to place the new repo. If you do not have one then follow GitHub’s <a class="reference external" href="https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account">instructions</a>.</p>
 <p>Log in to your account by going here <a class="github reference external" href="https://github.com/login">login</a>.</p>
-<p>You will also need to set up ssh keys to authenticate to Github from git. See
-<a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a>.</p>
+<p>You will also need to set up ssh keys to authenticate to Github from git. See <a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a>.</p>
 </section>
 <section id="create-a-new-beamline-repo-for-local-deployments">
 <span id="create-new-beamline-local"></span><h2>Create a New Beamline Repo for local deployments<a class="headerlink" href="#create-a-new-beamline-repo-for-local-deployments" title="Link to this heading">#</a></h2>
-<p>Here we will use the ec services template repository to make a new beamline.</p>
-<p>NOTE: for these tutorials we will use your personal GitHub Account to
-store everything we do, all source repositories and container images. For
-production, each facility will need its own policy for where to store these
-assets. See <code class="docutils literal notranslate"><span class="pre">../explanations/repositories</span></code>.</p>
+<p>Here we will use a services template repository to make a new beamline.</p>
+<p>NOTE: for these tutorials we will use your personal GitHub Account to store everything we do, all source repositories and container images. For production, each facility will need its own policy for where to store these assets. See <a class="reference internal" href="../explanations/repositories.html"><span class="doc">Source and Registry Locations</span></a>.</p>
 </section>
 <section id="steps">
 <h2>Steps<a class="headerlink" href="#steps" title="Link to this heading">#</a></h2>
-<ol class="arabic">
-<li><p>Go to your GitHub account home page. Click on ‘Repositories’ and then ‘New’, give your new repository the name <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> plus a description, then click ‘Create repository’.</p></li>
-<li><p>From a command line with your virtual environment activated. Use copier to start to make a new repository like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
-<span class="c1"># this will create the folder bl01t in the current directory</span>
-copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/ec-services-template<span class="w"> </span>--trust<span class="w"> </span>bl01t
+<ol class="arabic simple">
+<li><p>Make sure you have activated the python virtual environment and that <code class="docutils literal notranslate"><span class="pre">copier</span></code> is installed. See instructions here: <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">edge-containers-cli and copier</span></a>.</p></li>
+<li><p>Use copier to copy the services template repository to a new repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.</p></li>
+</ol>
+<p>Note the benefits of using copier to create a new repository:</p>
+<ul>
+<li><p>you can template the repository and use questions to fill in the template, making a unique result.</p></li>
+<li><p>if the template changes in future you can merge the changes into you repository without losing your changes, simply by running <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">.</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/services-template-compose<span class="w"> </span>t01-services
 </pre></div>
 </div>
 </li>
-<li><p>Answer the copier template questions as follows:</p>
-<pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
-<b>   </b><font color="#FFAF00"><b>beamline</b></font>
-<font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
-<b>   </b><font color="#FFAF00"><b>bl01t</b></font>
+</ul>
+<ol class="arabic">
+<li><p>Answer the copier template questions with their default values as follows:</p>
+<pre><font color="#75507B">hgv27681</font>@<font color="#C4A000">pc0116</font>: <font color="#729FCF"><b>/scratch/hgv27681/work</b></font>
+$ copier copy gh:epics-containers/services-template-compose t01-services                                                                                     <font color="#4E9A06">[10:47:49]</font>
+This template will create a new repository for deploying IOCs and services to
+the local machine using docker compose.
+<p><font color="#5F87AF">🎤</font><b> Short name for the collection of services, e.g. “t01”, “p47”, “i20-1”, “i21”</b>
+<b>   </b><font color="#FFAF00"><b>t01</b></font>
 <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-<b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
-<font color="#5F87AF">🎤</font><b> Cluster namespace for these IOCs and services.</b>
-<b>   </b><font color="#FFAF00"><b>local</b></font>
-<font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
-<b>   </b><font color="#FFAF00"><b>github.com</b></font>
-<font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
-<b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_NAME_GOES_HERE</b></font>
-<font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
-<b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_NAME/bl01t.git</b></font>
-</pre>
+<b>   </b><font color="#FFAF00"><b>t01 IOC Instances and Services</b></font></p>
+<p>Copying from template version 3.5.0
+<font color="#06989A"> … </font>
+</pre></p>
 </li>
+<li><p>Create your new repository on GitHub in your personal space by following this link <a class="github reference external" href="https://github.com/new">new</a>. Give it the name t01-services and a description of “t01 IOC Instances and Services”. Then click “Create repository”.</p></li>
+</ol>
+<p>Now copy the ssh address of your new repository from the GitHub page.</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/copy_gh_repo_addr.png" src="../_images/copy_gh_repo_addr.png" />
+<figcaption>
+<p><span class="caption-text">copying the repository address from GitHub</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic">
 <li><p>Make the first commit and push the repository to GitHub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
+git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial commit&quot;</span>
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>&gt;&gt;&gt;&gt;paste<span class="w"> </span>your<span class="w"> </span>ssh<span class="w"> </span>address<span class="w"> </span>here<span class="o">&lt;&lt;&lt;</span>&lt;
 git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
@@ -588,8 +592,8 @@ code<span class="w"> </span>.
 <p>You should now have a working beamline repository. It contains a single IOC Instance which is a very basic example. In the following two tutorials we will investigate the example and then create a real IOC Instance.</p>
 <p>You can now give your repository a version tag like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a terminal in vscode: Menu -&gt; Terminal -&gt; New Terminal</span>
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.3.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.3.1
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.9.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.9.1
 </pre></div>
 </div>
 <p>We use <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version numbers for beamline repositories and Generic IOCs.
@@ -598,7 +602,7 @@ The last digit is the number of the release in that month.</p>
 <p>CalVer is described here: <a class="reference external" href="https://calver.org/">https://calver.org/</a> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.</p>
-<p>Note that 2024.3.1 represents the time that this tutorial was last updated.
+<p>Note that 2024.9.1 represents the date that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.</p>

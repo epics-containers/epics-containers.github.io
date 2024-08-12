@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Change Log &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Change Log &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -434,6 +434,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
@@ -501,41 +502,59 @@ document.write(`
 <h1>Change Log<a class="headerlink" href="#change-log" title="Link to this heading">#</a></h1>
 <p>Each individual repository in the <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code> GitHub Organization will have its own changelog. This page is intended for users of <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code> who are adopting the next versions of the templates into their services projects or generic IOC projects. See <a class="reference internal" href="../explanations/changes.html"><span class="doc std std-doc">Change Management Manifesto</span></a> for a discussion of how changes are managed in this framework.</p>
 <p>For a discussion on how to update your projects to the latest version of the templates see <a class="reference internal" href="../how-to/copier_update.html"><span class="doc std std-doc">Updating User Repositories with Copier</span></a>.</p>
-<section id="blxxi-ea-test-01">
-<h2>blxxi-ea-test-01<a class="headerlink" href="#blxxi-ea-test-01" title="Link to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">ec-services-template</span></code> creates beamline (or other IOC grouping) repositories that initially contain an example IOC and set of essential services. The example IOC will be called <code class="docutils literal notranslate"><span class="pre">blxxi-ea-test-01</span></code> and could be used to deploy a sim-detector.</p>
-<p>It is quite useful to keep this example because if you do so it can be used to easily see what changes to each IOC instance might need to be made. The copier template will attempt to update all your own IOC Instances. But the reliable way to keep them up to date is to verify that they have the same changes as the example.</p>
-<p>Such changes will be rare but it just happens that 3.4.0 is an example of this. See below.</p>
+<section id="update-for-august-2024">
+<h2>Update for August 2024<a class="headerlink" href="#update-for-august-2024" title="Link to this heading">#</a></h2>
+<p>IMPORTANT: the changes to the framework described below are complete but the documentation is currenty being updated to reflect these changes. The tutorials are currently out of date and will be updated in the coming weeks.</p>
+<p>The latest changes to the framework are as follows:</p>
 </section>
-<section id="april-2024-templates-3-4-0">
-<h2>April 2024 - templates 3.4.0<a class="headerlink" href="#april-2024-templates-3-4-0" title="Link to this heading">#</a></h2>
-<section id="ioc-template-and-ec-services-template">
-<h3>ioc-template and ec-services-template<a class="headerlink" href="#ioc-template-and-ec-services-template" title="Link to this heading">#</a></h3>
+<section id="ibek-and-ibek-support-version-3-0-1">
+<h2>ibek and ibek support version 3.0.1<a class="headerlink" href="#ibek-and-ibek-support-version-3-0-1" title="Link to this heading">#</a></h2>
+<p>We have implemented some changes to the schema for the support.yaml files. There have been some changes to the names of fields for consistency and there is a modified structure which makes it much easier to use YAML anchors and aliases in order to avoid repetition in the support.yaml files. For the details of the changes and for a tool to convert existing 2.x schema yaml files see <a class="reference external" href="https://github.com/epics-containers/ibek/blob/main/convert/ibek2to3.py">ibek2to3.py</a>.</p>
+</section>
+<section id="changes-services-projects-versions-3-6-0">
+<h2>changes services projects versions 3.6.0<a class="headerlink" href="#changes-services-projects-versions-3-6-0" title="Link to this heading">#</a></h2>
+<p>Previously the beamline repo (also known as services repo) held a set of helm charts only. We provided a feature in the <code class="docutils literal notranslate"><span class="pre">ec</span></code> tool for making local deployments but this was quite limited in scope.</p>
+<p>Now local deployments are a first class citizen, using docker compose to deploy a set of services to a developer workstation or production server. There are now two template repositories for your sets of services as follows.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dependabot.yaml</span></code> no longer looks for changes in docker or python dependencies from your ioc-xxx projects. The philosophy here is that all dependency updates should happen in a controlled manner via the copier update mechanism. TODO: it would be good to have dependabot monitor the copier template updates, but this is not currently possible.</p></li>
+<li><p><a class="reference external" href="https://github.com/epics-containers/services-template-compose">services-template-compose</a> for deploying without Kubernetes.</p></li>
+<li><p><a class="reference external" href="https://github.com/epics-containers/services-template-helm">services-template-helm</a> for deploying with Kubernetes. (TODO - not yet created)</p></li>
+</ul>
+<p>In addition we now support use of Argo CD for deploying services to Kubernetes. This uses continuous deployment to keep the services up to date with the latest changes in the services repository. For Argo CD there is an additional template for a small repository (Also TODO) which defines which versions of the services are deployed to the cluster.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/epics-containers/services-template-helm">services-template-argocd</a></p></li>
 </ul>
 </section>
-<section id="ioc-template">
-<h3>ioc-template<a class="headerlink" href="#ioc-template" title="Link to this heading">#</a></h3>
+<section id="update-for-april-2024-version-3-4-0">
+<h2>Update for April 2024 - version 3.4.0<a class="headerlink" href="#update-for-april-2024-version-3-4-0" title="Link to this heading">#</a></h2>
+<p>We have just completed another major overhaul of the epics-containers framework. The primary goal of these changes was to add in support for RTEMS based “hard” IOCs. But we have also taken the opportunity to make some other improvements.</p>
+<p>“Hard” IOC support is currently limited to the VME5500 processor card running RTEMS 5. However this is a proof of principle for an approach that could be extended to any other type of IOC that cannot run inside of a container. In brief:</p>
 <ul class="simple">
-<li><p>The significant change here is that the CI is now multi target and supports cross compilation to RTEMS-beatnik as well as native linux x86. The template has a new question that asks if you want RTEMS support, you should select no unless your Generic IOC is intended for this target architecture.</p></li>
+<li><p>At container build time the IOC binary is cross compiled.</p></li>
+<li><p>The developer image is kept (in container registry) as an archive of the sources that built the binary</p></li>
+<li><p>The runtime image holds the binary only and is based on a ‘proxy’ image</p></li>
+<li><p>At runtime, the proxy container places the binaries in a location accessible to the hard IOC</p></li>
+<li><p>The proxy container connects to the ‘hard’ IOC console and may change config to point the bootloader at the new binaries</p></li>
+<li><p>The proxy container reboots the ‘hard’ IOC</p></li>
+<li><p>The proxy container attaches the IOC console to its stdout/stdin</p></li>
+<li><p>Now the proxy container can be managed/logged/monitored exactly like a linux IOC</p></li>
+<li><p>We have demonstrated using this approach to locally build and test an RTEMS IOC from a workstation using a vscode developer container.</p></li>
 </ul>
+<p>The tutorials are now up to date with these latest changes, although the RTEMS tutorials are still in development.</p>
+<p>From this release onwards changes will be done in a controlled manner described in the page <a class="reference internal" href="../explanations/changes.html"><span class="doc std std-doc">Change Management Manifesto</span></a>.</p>
 </section>
-<section id="ec-services-template">
-<h3>ec-services-template<a class="headerlink" href="#ec-services-template" title="Link to this heading">#</a></h3>
+<section id="update-for-february-2024">
+<h2>Update for February 2024<a class="headerlink" href="#update-for-february-2024" title="Link to this heading">#</a></h2>
+<p>The tutorials have now been updated. Recent changes include:</p>
 <ul class="simple">
-<li><p>The mechanism by which the configmap of each IOC’s config folder has changed. It now requires that there is a <code class="docutils literal notranslate"><span class="pre">templates</span></code> folder in each IOC instance folder that is a soft link to ../../include/ioc/templates. Although the template includes a migration script that is supposed to do this, it has not always proved to work. To create these folders yourself, the easiest way is to copy and paste from the blxxi-ea-test-01 IOC instance.</p></li>
-<li><p>We have changed the default name of generic IOC images. This is to accommodate a naming convention that includes better naming for cross compiled containers. The new default drops the ‘-linux’ section so currently available generic iocs are called:</p>
+<li><p>epics-containers-cli has been renamed to edge-containers-cli. It now supports the deployment of general services as well as IOCs. It still has the entrypoint <code class="docutils literal notranslate"><span class="pre">ec</span></code> but the namespace <code class="docutils literal notranslate"><span class="pre">ioc</span></code> has been dropped and its functions are now in the root (e.g. <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ioc</span> <span class="pre">deploy</span></code> is now <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code>).</p></li>
+<li><p>Improved CI for <a class="reference internal" href="glossary.html#services-repo"><span class="std std-ref">services repository</span></a>s and generic IOCs repos.</p></li>
+<li><p>copier template based creation of new beamline, accelerator and generic IOC repos.</p>
 <ul>
-<li><p>ioc-adsimdetector-runtime</p></li>
-<li><p>ioc-adsimdetector-developer</p></li>
-<li><p>ioc-pmac-runtime</p></li>
-<li><p>etc …</p></li>
+<li><p>This provides greatly improved ability to adopt updates to the template into your own repositories.</p></li>
 </ul>
 </li>
-<li><p>The old names are being deleted so your ioc instances’ values.yaml should be updated to point to the new names in their ‘image’ field. If you have your own generic IOCs they will also change their image names when you use the copier to update to the latest framework.</p></li>
 </ul>
-</section>
+<p>All tutorials are now up to date with the latest workflow. The exception is tutorials for the RTEMS platform which are now in active development.</p>
 </section>
 </section>
 
@@ -585,13 +604,11 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#blxxi-ea-test-01">blxxi-ea-test-01</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#april-2024-templates-3-4-0">April 2024 - templates 3.4.0</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-template-and-ec-services-template">ioc-template and ec-services-template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-template">ioc-template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ec-services-template">ec-services-template</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-for-august-2024">Update for August 2024</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek-and-ibek-support-version-3-0-1">ibek and ibek support version 3.0.1</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-services-projects-versions-3-6-0">changes services projects versions 3.6.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-for-april-2024-version-3-4-0">Update for April 2024 - version 3.4.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#update-for-february-2024">Update for February 2024</a></li>
 </ul>
   </nav></div>
 

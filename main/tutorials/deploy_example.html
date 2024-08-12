@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -503,21 +503,15 @@ document.write(`
 <h1>Deploying and Managing IOC Instances<a class="headerlink" href="#deploying-and-managing-ioc-instances" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>This tutorial will show you how to deploy and manage the example IOC Instance
-that came with the template beamline repository.
-You will need to have your own <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline repository
-from the previous tutorial.</p>
-<p>For these early tutorials we are not using Kubernetes and instead are deploying
-IOCs to the local docker or podman instance. So for these tutorials we
-shall pretend that your workstation is one of the IOC servers on the fictitious
-beamline <code class="docutils literal notranslate"><span class="pre">BL01T</span></code>.</p>
+<p>This tutorial will show you how to deploy and manage the example IOC Instance that came with the template beamline repository. You will need to have your own <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline repository from the previous tutorial.</p>
+<p>For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.</p>
 </section>
 <section id="continuous-integration">
 <h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link to this heading">#</a></h2>
 <p>Before we change anything, we shall make sure that the beamline repository CI
 is working as expected. To do this go to the following URL (make sure you insert
 your GitHub account name where indicated):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">YOUR_GITHUB_ACCOUNT</span><span class="o">/</span><span class="n">bl01t</span><span class="o">/</span><span class="n">actions</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">YOUR_GITHUB_ACCOUNT</span><span class="o">/</span><span class="n">t01</span><span class="o">-</span><span class="n">services</span><span class="o">/</span><span class="n">actions</span>
 </pre></div>
 </div>
 <p>You should see something like the following:</p>
@@ -539,134 +533,60 @@ have valid configuration.</p>
 <p>For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.</p>
 </section>
-<section id="set-up-environment-for-bl01t-beamline">
-<span id="setup-beamline-bl01t"></span><h2>Set up Environment for BL01T Beamline<a class="headerlink" href="#set-up-environment-for-bl01t-beamline" title="Link to this heading">#</a></h2>
-<p>The standard way to set up your environment for any ec services repository is to get the environment.sh script from the domain repository and source it.</p>
-<p>Start this section of the tutorial inside the vscode project that you created in the previous tutorial. Make sure you have a terminal open and the current working directory is your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> project root folder.</p>
-<p>First make sure you have the local binaries folder in your path by adding
-the following to the end of your <code class="docutils literal notranslate"><span class="pre">$HOME/.bash_profile</span></code> file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:~/.local/bin&quot;</span>
+<section id="set-up-environment-for-the-t01-beamline">
+<span id="setup-beamline-t01"></span><h2>Set up Environment for the t01 Beamline<a class="headerlink" href="#set-up-environment-for-the-t01-beamline" title="Link to this heading">#</a></h2>
+<p>Make sure you have a terminal open and the current working directory is your <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> project root folder.</p>
+<p>The standard way to set up your environment for any ec services repository is to source the environment.sh script from the root of the services repo. i.e.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./environment.sh
 </pre></div>
 </div>
-<p>Then follow these steps (make sure you insert your GitHub account name
-where indicated):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure we have the path setup from the bash_profile</span>
-<span class="nb">source</span><span class="w"> </span>~/.bash_profile
-
-mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/bin
-<span class="c1"># make a copy of the environment.sh script named after the beamline</span>
-cp<span class="w"> </span>environment.sh<span class="w"> </span>~/.local/bin/bl01t
-<span class="nb">source</span><span class="w"> </span>bl01t
-</pre></div>
-</div>
-<p>Once you have done this and logged out and back in again to pick up your new
-profile you should be able to enable the <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> environment as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># first make sure you have loaded your virtual environment for the ec tool</span>
-<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate<span class="w"> </span><span class="c1"># DLS users don&#39;t need this step</span>
-<span class="nb">source</span><span class="w"> </span>bl01t
-</pre></div>
-</div>
+<p>The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:-</p>
+<ul class="simple">
+<li><p>sets permissions on <strong>xhost</strong> to allow local containers to display GUIs on the host.</p></li>
+<li><p>sets <strong>UIDGID</strong> which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.</p></li>
+<li><p>sets <strong>COMPOSE_PROFILES</strong> which determines which compose profile is launched. Defaults to the ‘test’ profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.</p></li>
+<li><p>sets <strong>EPICS_CA_ADDR_LIST</strong> to localhost so that host can see the containerised IOC PVs on a developer workstation.</p></li>
+</ul>
 </section>
 <section id="deploy-the-example-ioc-instance">
 <span id="deploy-example-instance"></span><h2>Deploy the Example IOC Instance<a class="headerlink" href="#deploy-the-example-ioc-instance" title="Link to this heading">#</a></h2>
-<p>For this section we will be making use of the epics-containers-cli tool.
-This command line entry point for the tool is <code class="docutils literal notranslate"><span class="pre">ec</span></code>. For more
-details see: <a class="reference internal" href="../reference/cli.html#cli"><span class="std std-ref">Command Line Interface for IOC Management</span></a> or try <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
-<p>The simplest command to check that the tool is working is <code class="docutils literal notranslate"><span class="pre">ps</span></code> which lists
-the IOC Instances that are currently running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
+<p>To launch all the services described by the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file in the root of the services repository, make sure your current working directory is still the root of your your <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> project and run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </pre></div>
 </div>
-<p>You should see no IOCs listed as you have not yet started an IOC Instance.</p>
-<p>The following command will deploy the example IOC instance to your local
-machine (unless you have skipped ahead and set up your Kubernetes config
-in which case the same command will deploy to your Kubernetes cluster).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t<span class="w"> </span><span class="c1"># (if you are not already in your beamline repo)</span>
-ec<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-01
+<p>The <code class="docutils literal notranslate"><span class="pre">up</span></code> command tells compose to make sure all of the services are up and running.  The <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag tells compose to detach and run the services in the background. If you don’t specify -d then your terminal will attach to the stdout of the services and you will see their output as they start up. This can be useful and is done with colour coding so you can distinguish between the different services (terminal colours must be enabled).</p>
+<p>There will be a short delay the first time while the container images are downloaded from the GitHub container registry to your local image cache. Subsequent runs will be much faster.</p>
+<p>The default example project will launch:</p>
+<ul class="simple">
+<li><p>a basic IOC instance with a few records</p></li>
+<li><p>a ca-gateway container that publishes the IOC PVs on localhost</p></li>
+<li><p>a phoebus container that can be used to view the IOC PVs using an example bob file that comes with the template.</p></li>
+</ul>
+<p>You can see the status of the services by running the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>ps
 </pre></div>
 </div>
-<p>You will be prompted to say that this is a <em>TEMPORARY</em> deployment. This is
-because we are deploying directly from the local filesystem. You should only
-use this for testing purposes because there is no guarantee that you could
-ever roll back to this version of the IOC (as it is lost as soon as filesystem
-changes are made). Local filesystem deployments are given a beta version
-number to indicate that they are not permanent.</p>
-<p>You can now see the beta IOC instance running with:</p>
-<pre>$ ec ps
-| name             | version       | running | restarts | deployed            |
-|------------------|---------------|---------|----------|---------------------|
-| bl01t-ea-test-01 | 2024.3.8e8b-b | true    | 0        | 2024-03-19 10:08:15 |</pre>
-<p>At the end of the last tutorial we tagged the beamline repository with a
-<code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version number and pushed it up to GitHub. This means that we
-can now use that tagged release of the IOC instance. First let’s
-check that the IOC instance version is available as expected. The following
-command lists all of the tagged versions of the IOC instance that are
-available in the GitHub repository.</p>
-<pre>$ ec instances bl01t-ea-test-01
-| version  |
-|----------|
-| 2024.3.1 |
-</pre>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The above command is the first one to look at your github repository.
-This is how it finds out the versions
-of the IOC instance that are available. If you get an error it may be
-because you set EC_SERVICES_REPO incorrectly in environment.sh. Check it
-and source it again to pick up any changes.</p>
-</div>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>ec supports command line completion, which means that entering <code class="docutils literal notranslate"><span class="pre">&lt;tab&gt;</span> <span class="pre">&lt;tab&gt;</span></code> will give hints on the command line:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-attach<span class="w">        </span>deploy<span class="w">        </span><span class="nb">exec</span><span class="w">          </span>list<span class="w">          </span>logs<span class="w">          </span>start<span class="w">         </span>template
-delete<span class="w">        </span>deploy-local<span class="w">  </span>instances<span class="w">     </span>log-history<span class="w">   </span>restart<span class="w">       </span>stop<span class="w">          </span>validate
-$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>b&lt;tab&gt;<span class="w"> </span>&lt;tab&gt;
-$<span class="w"> </span>ec<span class="w"> </span>instances<span class="w"> </span>bl01t-ea-ioc-01
-</pre></div>
-</div>
-<p>To enable this behavior in your shell run the command <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--install-completion</span></code></p>
-</div>
-<p>Now that we know the latest version number we can deploy a release version.
-This command will extract the IOC instance using the tag from GitHub and deploy
-it to your local machine:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="m">2024</span>.3.1
-bdbd155d437361fe88bce0faa0ddd3cd225a9026287ac5e73545aeb4ab3a67e9
-
-$<span class="w"> </span>ec<span class="w"> </span>ps<span class="w"> </span>-w
-<span class="p">|</span><span class="w"> </span>name<span class="w">             </span><span class="p">|</span><span class="w"> </span>version<span class="w">  </span><span class="p">|</span><span class="w"> </span>running<span class="w"> </span><span class="p">|</span><span class="w"> </span>restarts<span class="w"> </span><span class="p">|</span><span class="w"> </span>deployed<span class="w">            </span><span class="p">|</span><span class="w"> </span>image<span class="w">                                                             </span><span class="p">|</span>
-<span class="p">|</span>------------------<span class="p">|</span>----------<span class="p">|</span>---------<span class="p">|</span>----------<span class="p">|</span>---------------------<span class="p">|</span>-------------------------------------------------------------------<span class="p">|</span>
-<span class="p">|</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>.3.1<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nb">true</span><span class="w">    </span><span class="p">|</span><span class="w"> </span><span class="m">0</span><span class="w">        </span><span class="p">|</span><span class="w"> </span><span class="m">2024</span>-03-19<span class="w"> </span><span class="m">11</span>:10:53<span class="w"> </span><span class="p">|</span><span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1<span class="w"> </span><span class="p">|</span>
-</pre></div>
-</div>
-<section id="important-deploy-local-vs-deploy">
-<h3>IMPORTANT: deploy-local vs deploy<a class="headerlink" href="#important-deploy-local-vs-deploy" title="Link to this heading">#</a></h3>
-<p>Be aware of the distinction of <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> vs <code class="docutils literal notranslate"><span class="pre">deploy</span></code>. Both of these commands create a running instance of the IOC in the target environment (currently your local machine - later on a Kubernetes Cluster). However, <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> gets the IOC instance description YAML direct from your local filesystem. This means it is not likely to be available for re-deployment later on. <code class="docutils literal notranslate"><span class="pre">deploy</span></code> gets the IOC instance description YAML from the GitHub repository with a specific tag and therefore is a known state that can be recovered at a later date.</p>
-<p>Always strive to have released versions of IOC instances deployed in your
-environments. <code class="docutils literal notranslate"><span class="pre">deploy-local</span></code> is only for temporary testing purposes.</p>
-</section>
+<p>In environment.sh we created an alias for <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> named <code class="docutils literal notranslate"><span class="pre">ec</span></code> from now on we’ll shorten the commands to use <code class="docutils literal notranslate"><span class="pre">ec</span></code> instead of <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>.</p>
 </section>
 <section id="managing-the-example-ioc-instance">
 <h2>Managing the Example IOC Instance<a class="headerlink" href="#managing-the-example-ioc-instance" title="Link to this heading">#</a></h2>
 <section id="starting-and-stopping-iocs">
 <h3>Starting and Stopping IOCs<a class="headerlink" href="#starting-and-stopping-iocs" title="Link to this heading">#</a></h3>
-<p>To stop / start the example IOC try the following commands. Note that
-<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
+<p>To stop / start the example IOC try the following commands. Note that <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
+<p>Also note that tab completion should allow you to complete the names of your commands and services. e.g.
+<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">star</span> <span class="pre">&lt;tab&gt;</span> <span class="pre">ex</span> <span class="pre">&lt;tab&gt;</span></code>, should complete to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">start</span> <span class="pre">example-test-01</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-01
+ec<span class="w"> </span>stop<span class="w"> </span>example-test-01
 ec<span class="w"> </span>ps<span class="w"> </span>-a
-ec<span class="w"> </span>start<span class="w"> </span>bl01t-ea-test-01
+ec<span class="w"> </span>start<span class="w"> </span>example-test-01
 ec<span class="w"> </span>ps
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Generic IOCs.</p>
-<p>You may have noticed that the IOC instance has is showing that it has
-an image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.4.1</span></code>.</p>
-<p>This is a Generic IOC image and all IOC Instances must be based upon one
-of these images. This IOC instance has no startup script and is therefore
-not functional, it could have been based on any Generic IOC.</p>
+<p>You may have noticed that the IOC instance has is showing that it has container image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1</span></code>.</p>
+<p>This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.</p>
 </div>
 </section>
 <section id="monitoring-and-interacting-with-an-ioc-shell">
@@ -675,59 +595,71 @@ not functional, it could have been based on any Generic IOC.</p>
 will attach you to nothing in the case of this example IOC as it has no
 shell. In the next tutorial we will use this command to interact with
 iocShell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-test-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>example-test-01
+dbl
+<span class="c1"># ctrl-p ctrl-q to detach</span>
 </pre></div>
 </div>
-<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However,
-there are issues with both VSCode and IOC shells capturing ctrl-P. until
-this is resolved it may be necessary to close the terminal window to detach.</strong>
-You can also restart and detach from the IOC using ctrl-D or ctrl-C, or
-by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>.</p>
+<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However, there are issues with both VSCode and IOC shells capturing ctrl-P</strong>. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>. If you do this docker will restart your IOC right away.</p>
 <p>To run a bash shell inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>bash
+caget<span class="w"> </span>EXAMPLE:SUM
 </pre></div>
 </div>
-<p>Once you have a shell inside the container you could inspect the following
-folders:</p>
+<p>Once you have a shell inside the container you could inspect the following folders. Because this is the runtime container you will only see the binaries and runtime files, not the source code:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>
-<tr class="row-odd"><td><p>ioc code</p></td>
-<td><p>/epics/ioc</p></td>
+<tr class="row-odd"><td><p>/epics/ioc</p></td>
+<td><p>ioc code</p></td>
 </tr>
-<tr class="row-even"><td><p>support modules</p></td>
-<td><p>/epics/support</p></td>
+<tr class="row-even"><td><p>/epics/ioc/start.sh</p></td>
+<td><p>IOC startup script</p></td>
 </tr>
-<tr class="row-odd"><td><p>EPICS binaries</p></td>
-<td><p>/epics/epics-base</p></td>
+<tr class="row-odd"><td><p>/epics/support</p></td>
+<td><p>support modules</p></td>
 </tr>
-<tr class="row-even"><td><p>IOC instance config</p></td>
-<td><p>/epics/ioc/config</p></td>
+<tr class="row-even"><td><p>/epics/epics-base</p></td>
+<td><p>EPICS base binaries</p></td>
 </tr>
-<tr class="row-odd"><td><p>IOC startup script</p></td>
-<td><p>/epics/runtime</p></td>
+<tr class="row-odd"><td><p>/epics/ioc/config</p></td>
+<td><p>IOC instance config used to generate runtime files</p></td>
+</tr>
+<tr class="row-even"><td><p>/epics/runtime</p></td>
+<td><p>IOC startup script and database file generated at runtime</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Being at a terminal prompt inside the IOC container can be useful for debugging
-and testing. You will have access to caget and caput, plus other EPICS tools,
-and you can inspect files such as the IOC startup script.</p>
+<p>Being at a terminal prompt inside the IOC container can be useful for debugging and testing. You will have access EPICS command line tools including pvAccess, and you can inspect files such as the IOC startup script.</p>
+<p>In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require docker or podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST=127.0.0.1</span></code>.</p>
 </section>
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
 <p>To get the current logs for the example IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>example-test-01
 </pre></div>
 </div>
 <p>Or follow the IOC log until you hit ctrl-C:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>logs<span class="w"> </span>example-test-01<span class="w"> </span>-f
 </pre></div>
 </div>
-<p>You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log.</p>
-<p>You can also attach to the IOC and check that it has started correctly by using the ‘dbl’ command to list all the records in it’s IOC database.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>bl01t-ea-test-01
-dbl
-<span class="c1"># ctrl-p ctrl-q to detach</span>
+<p>You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log. Ibek is the tool that runs inside of the IOC container and generates the ioc shell script and database file by interpreting the /epics/ioc/config/ioc.yaml at launch time.</p>
+</section>
+<section id="shutdown">
+<h3>Shutdown<a class="headerlink" href="#shutdown" title="Link to this heading">#</a></h3>
+<p>You can stop all the services with the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop
+</pre></div>
+</div>
+<p>This will stop all the currently running containers described in the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file.
+However this will leave the resources themselves in place:-</p>
+<ul class="simple">
+<li><p>stopped containers</p></li>
+<li><p>container networks</p></li>
+<li><p>container volumes</p></li>
+</ul>
+<p>To take down the services and remove all of their resources use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>down
 </pre></div>
 </div>
 </section>
@@ -782,15 +714,13 @@ dbl
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous Integration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-environment-for-bl01t-beamline">Set up Environment for BL01T Beamline</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-the-example-ioc-instance">Deploy the Example IOC Instance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-deploy-local-vs-deploy">IMPORTANT: deploy-local vs deploy</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-environment-for-the-t01-beamline">Set up Environment for the t01 Beamline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-the-example-ioc-instance">Deploy the Example IOC Instance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-the-example-ioc-instance">Managing the Example IOC Instance</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-and-stopping-iocs">Starting and Stopping IOCs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging">Logging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shutdown">Shutdown</a></li>
 </ul>
 </li>
 </ul>

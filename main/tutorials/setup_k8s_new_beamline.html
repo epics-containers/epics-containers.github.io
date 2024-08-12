@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers 3.4.2.dev13+g477c052 documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers 3.4.2.dev30+g8fd8809 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a7436d4d"></script>
+    <script src="../_static/documentation_options.js?v=a8326494"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -511,7 +511,7 @@ only. I will remove this warning once it has been tested against:</p>
 </ul>
 </div>
 <p>Up until now the tutorials have been deploying IOCs to the local docker or
-podman instance on your workstation. In this tutorial we look into setting
+docker instance on your workstation. In this tutorial we look into setting
 up a Kubernetes cluster for a beamline and deploying a test IOC there.</p>
 <p>The advantage of using Kubernetes is that it is a production grade container
 orchestration system. It will manage the CPU, disk and memory available across
@@ -661,7 +661,7 @@ useful to set up command line completion up. The simplest way to do this is:</p>
 </pre></div>
 </div>
 <p>For a review of how to set up the epics-containers-cli tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> see
-<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">edge-containers-cli</span></a>.</p>
+<a class="reference internal" href="setup_workstation.html#python-setup"><span class="std std-ref">Install Python</span></a> and <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">edge-containers-cli and copier</span></a>.</p>
 </section>
 <section id="section-3">
 <h3>Section 3<a class="headerlink" href="#section-3" title="Link to this heading">#</a></h3>
@@ -747,7 +747,7 @@ These are all held in the file <code class="docutils literal notranslate"><span 
 <section id="create-a-test-ioc-to-deploy">
 <span id="create-test-ioc-k8s"></span><h2>Create a Test IOC to Deploy<a class="headerlink" href="#create-a-test-ioc-to-deploy" title="Link to this heading">#</a></h2>
 <p>TODO: This is work in progress (but essentially just repeat what we did in <a class="reference internal" href="deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the Example IOC Instance</span></a>).</p>
-<p>You should be able to deploy <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code> IOC that you made in <a class="reference internal" href="create_ioc.html#create-new-ioc-instance"><span class="std std-ref">Create a New IOC Instance</span></a> to the k3s cluster with the same command as before:</p>
+<p>You should be able to deploy <code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-02</span></code> IOC that you made in <a class="reference internal" href="create_ioc.html#create-new-ioc-instance"><span class="std std-ref">Add a New IOC Instance to t01-services</span></a> to the k3s cluster with the same command as before:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bl01t
 <span class="nb">source</span><span class="w"> </span>environment.sh
 ec<span class="w"> </span>local/deploy<span class="w"> </span>services/bl01t-ea-test-02
