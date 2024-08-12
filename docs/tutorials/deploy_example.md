@@ -48,10 +48,10 @@ source ./environment.sh
 ```
 
 The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:-
-
-- **UIDGID** Used to set which account and group containers are launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.
-- **COMPOSE_PROFILES** Determines which compose profile is launched. Defaults to the 'develop' profile intended for developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.
-- **EPICS_CA_ADDR_LIST** Set to localhost so that host caget's can see the containerised IOC PVs on a developer workstation.
+- sets permissions on **xhost** to allow local containers to display GUIs on the host.
+- sets **UIDGID** which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.
+- sets **COMPOSE_PROFILES** which determines which compose profile is launched. Defaults to the 'test' profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.
+- sets **EPICS_CA_ADDR_LIST** to localhost so that host can see the containerised IOC PVs on a developer workstation.
 
 
 (deploy-example-instance)=
