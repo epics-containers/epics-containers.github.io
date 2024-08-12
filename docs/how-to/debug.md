@@ -26,7 +26,7 @@ Add the phrase 'deliberate_error' to the top of the `ioc.yaml` file. Then try to
 ec -v deploy-local services/bl01t-ea-test-02
 ```
 
-You should see something like this (for docker users - podman users will see something similar):
+You should see something like this (for docker users - docker users will see something similar):
 
 <pre>$ ec -v deploy-local services/bl01t-ea-test-02
 <font color="#5F8787">docker --version</font>
