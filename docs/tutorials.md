@@ -13,6 +13,7 @@ tutorials/create_beamline
 tutorials/deploy_example
 tutorials/create_ioc
 tutorials/dev_container
+tutorials/dev_container2
 tutorials/ioc_changes1
 tutorials/ioc_changes2
 tutorials/generic_ioc
