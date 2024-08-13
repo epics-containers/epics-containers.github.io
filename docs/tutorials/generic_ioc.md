@@ -55,23 +55,22 @@ your personal GitHub user space.
 (create_generic_ioc)=
 ## Steps
 
-1. Go to your GitHub account home page. Click on 'Repositories' and then 'New', give your new repository the name `ioc-lakeshore340` plus a description, then click 'Create repository'.
+1. Create a new repository in your GitHub account using this link <https://github.com/new>. Give your new repository the name `ioc-lakeshore340` plus a description, then click 'Create repository'.
 
 1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
 
       ```bash
-      pip install copier
+      source $HOME/ec-venv/bin/activate
       # this will create the folder ioc-lakeshore340 in the current directory
       copier copy gh:epics-containers/ioc-template --trust ioc-lakeshore340
       ```
 1. Answer the copier template questions as follows:
-
     <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
     <b>have a lower case suffix of the primary support module. e.g.</b>
     <b>ioc-adsimdetector</b>
     <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
     <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-    <b>   </b><font color="#FFAF00"><b>ttttt</b></font>
+    <b>   </b><font color="#FFAF00"><b>The Generic IOC for the lakeshore 340 temperature controller</b></font>
     <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
     <b>   </b><font color="#FFAF00"><b>github.com</b></font>
     <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
@@ -85,21 +84,21 @@ your personal GitHub user space.
 
 1. Make the first commit and push the repository to GitHub.
 
-   ```bash
-   cd ioc-lakeshore340
-   git add .
-   git commit -m "initial commit"
-   git push -u origin main
-   ```
+    ```bash
+    cd ioc-lakeshore340
+    git add .
+    git commit -m "initial commit"
+    git push -u origin main
+    ```
 
 1. Get the Generic IOC container built, open the project in vscode and launch the devcontainer.
 
-   ```bash
-   ./build
-   # DLS users make sure you have done: module load vscode
-   code .
-   # reopen in container (ctrl-shift-p reopen in container)
-   ```
+    ```bash
+    cd ioc-lakeshore340
+    # DLS users make sure you have done: module load vscode
+    code .
+    # reopen in container (ctrl-shift-p reopen in container)
+    ```
 
 As soon as you pushed the project, GitHub Actions CI will start building the project. This will make a container image of the template project, but not publish it because there is no release tag as yet. You can watch this by clicking on the `Actions` tab in your new repository.
 
@@ -113,6 +112,8 @@ to make your own Generic IOC.
 1. **Dockerfile** - add in the support modules you need
 2. **README.md** - change to describe your Generic IOC
 3. **ibek-support** - add new support module recipes into this submodule
+
+The rest of the files created by the template are essentially boilerplate and can be left alone for most Generic IOCs. However there are many places where changes could be made for advanced use cases. An example of this is the ioc-adaravis Generic IOC, this has a custom version of the start.sh entrypoint script. It connects to the GigE cameras described in the IOC instance and gets information regarding the set of configuration parameters each camera supports - this is then used to generate custom database and OPI files.
 
 To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.
 
@@ -151,38 +152,30 @@ first install those inside our devcontainer as follows:
 ```bash
 # open a new terminal in VSCode (Terminal -> New Terminal)
 cd /workspaces/ioc-lakeshore340/ibek-support
-asyn/install.sh R4-42
-StreamDevice/install.sh 2.8.24
+asyn/install.sh R4-44-2
+StreamDevice/install.sh 2.8.26
 ```
 
-This pulls the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.
+This uses ibek-support 'recipes' to pull the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.
 
 Next, make sure that the next build of our `ioc-lakeshore340` container image will have the same support built in by updating the Dockerfile as follows:
 
 ```dockerfile
 COPY ibek-support/asyn/ asyn/
-RUN asyn/install.sh R4-42
+RUN asyn/install.sh R4-44-2
 
 COPY ibek-support/StreamDevice/ StreamDevice/
-RUN StreamDevice/install.sh 2.8.24
+RUN StreamDevice/install.sh 2.8.26
 ```
 
-The above commands added `StreamDevice` and its dependency `asyn`.
-For each support module
-we copy it's `ibek-support` folder and then run the `install.sh` script. The
-only argument to `install.sh` is the git tag for the version of the support
-module required. `ibek-support` is a submodule used by all the Generic IOC
-projects that contains recipes for building support modules, it will be covered
-in more detail as we learn to add our own recipe for the lakeshore340 below.
+The above commands added `StreamDevice` and its dependency `asyn`. For each support module we copy it's `ibek-support` folder and then run the `install.sh` script. The only argument to `install.sh` is the git tag for the version of the support module required. `ibek-support` is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.
 
-You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory
-in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
+You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
 :::{note}
-These changes to the Dockerfile mean that if we were to exit the devcontainer, and then run `./build` again, it would would add the `asyn` and
-`StreamDevice` support modules to the container image. Re-launching the devcontainer would then have the new support modules available right away.
+These changes to the Dockerfile mean that if we were to rebuild our developer container, it would would add the `asyn` and `StreamDevice` support modules to the container image.
 
-This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands to the Dockerfile, so that these changes become permanent.
+This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.
 :::
 
 ## Prepare The ibek-support Submodule
