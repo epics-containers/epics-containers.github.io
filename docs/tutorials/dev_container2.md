@@ -46,7 +46,7 @@ To make use of these screens we can use an install phoebus on the host machine o
 
 To launch both phoebus in a container and the ca-gateway container we use compose just like we did in the `t01-services` tutorial. The compose file is in the `compose` folder of the `ioc-adsimdetector` repository.
 
-IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are launching further containers here and we do not want 'containers in containers' because there lies madness! To launch the gateway and phoebus containers, open a new terminal on the host use the following commands:
+IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are launching further containers here and we do not want 'containers in containers' because there lies madness! To launch the gateway and phoebus containers, open a new terminal on the host and use the following commands:
 
 ```bash
 cd /workspaces/ioc-adsimdetector/compose
