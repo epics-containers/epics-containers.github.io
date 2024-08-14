@@ -37,6 +37,8 @@ Now rebuild the container - do this command from a new terminal *outside* of
 the devcontainer (make sure you have `ec` installed):
 
 ```bash
+# for docker users - builkit complicates debugging at present
+export DOCKER_BUILDKIT=0
 cd ioc-lakeshore340 # where you cloned it
 ./build
 ```
