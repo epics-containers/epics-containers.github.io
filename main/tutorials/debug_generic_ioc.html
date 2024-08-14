@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers 3.4.2.dev36+g0b67051 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers 3.4.2.dev40+g7379e90 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=7268434d"></script>
+    <script src="../_static/documentation_options.js?v=3e569590"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -597,7 +597,8 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 </pre></div>
 </div>
 <p>Now we can search for the missing file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-file<span class="w"> </span>search<span class="w"> </span>pcre.h
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-file<span class="w"> </span>update
+apt-file<span class="w"> </span>search<span class="w"> </span>pcre.h
 </pre></div>
 </div>
 <p>There are a few results, but the most promising is:</p>
@@ -627,12 +628,9 @@ commands behave this way as far as possible.</p>
 <p>Once you are happy with your manual changes you can make them permanent by
 adding to the install.sh or Dockerfile, then try a full rebuild.</p>
 </section>
-<section id="making-changes-inside-the-container">
-<h2>Making Changes Inside the Container<a class="headerlink" href="#making-changes-inside-the-container" title="Link to this heading">#</a></h2>
-<p>You will find that the container includes busybox tools, vim and ifconfig. These
-should provide enough tools to investigate and fix most build problems. You are
-also free to use apt-get to install any other tools you need as demonstrated
-above. (type busybox to see the list of available tools).</p>
+<section id="tools-inside-the-container">
+<h2>Tools Inside the Container<a class="headerlink" href="#tools-inside-the-container" title="Link to this heading">#</a></h2>
+<p>You will find that the developer container includes busybox tools, vim and ifconfig. These should provide enough tools to investigate and fix most build problems. You are also free to use apt-get to install any other tools you need as demonstrated above. (type busybox to see the list of available tools).</p>
 </section>
 </section>
 
@@ -684,7 +682,7 @@ above. (type busybox to see the list of available tools).</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-the-build">Break the Build</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-the-build-failure">Investigate the Build Failure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-changes-inside-the-container">Making Changes Inside the Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-inside-the-container">Tools Inside the Container</a></li>
 </ul>
   </nav></div>
 

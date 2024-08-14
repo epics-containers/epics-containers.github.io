@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers 3.4.2.dev36+g0b67051 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers 3.4.2.dev40+g7379e90 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=7268434d"></script>
+    <script src="../_static/documentation_options.js?v=3e569590"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -549,9 +549,9 @@ your personal GitHub user space.</p>
 <section id="steps">
 <span id="create-generic-ioc"></span><h2>Steps<a class="headerlink" href="#steps" title="Link to this heading">#</a></h2>
 <ol class="arabic">
-<li><p>Go to your GitHub account home page. Click on ‘Repositories’ and then ‘New’, give your new repository the name <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> plus a description, then click ‘Create repository’.</p></li>
+<li><p>Create a new repository in your GitHub account using this link <a class="github reference external" href="https://github.com/new">new</a>. Give your new repository the name <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> plus a description, then click ‘Create repository’.</p></li>
 <li><p>From a command line with your virtual environment activated. Use copier to start to make a new repository like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate
 <span class="c1"># this will create the folder ioc-lakeshore340 in the current directory</span>
 copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/ioc-template<span class="w"> </span>--trust<span class="w"> </span>ioc-lakeshore340
 </pre></div>
@@ -563,7 +563,7 @@ copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/io
  <b>ioc-adsimdetector</b>
  <b>   </b><font color="#FFAF00"><b>ioc-lakeshore340</b></font>
  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
- <b>   </b><font color="#FFAF00"><b>ttttt</b></font>
+ <b>   </b><font color="#FFAF00"><b>The Generic IOC for the lakeshore 340 temperature controller</b></font>
  <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
@@ -584,7 +584,7 @@ git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span
 </div>
 </li>
 <li><p>Get the Generic IOC container built, open the project in vscode and launch the devcontainer.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340
 <span class="c1"># DLS users make sure you have done: module load vscode</span>
 code<span class="w"> </span>.
 <span class="c1"># reopen in container (ctrl-shift-p reopen in container)</span>
@@ -604,6 +604,7 @@ to make your own Generic IOC.</p>
 <li><p><strong>README.md</strong> - change to describe your Generic IOC</p></li>
 <li><p><strong>ibek-support</strong> - add new support module recipes into this submodule</p></li>
 </ol>
+<p>The rest of the files created by the template are essentially boilerplate and can be left alone for most Generic IOCs. However there are many places where changes could be made for advanced use cases. An example of this is the ioc-adaravis Generic IOC, this has a custom version of the start.sh entrypoint script. It connects to the GigE cameras described in the IOC instance and gets information regarding the set of configuration parameters each camera supports - this is then used to generate custom database and OPI files.</p>
 <p>To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.</p>
 <p>Once the developer container is running it is always instructive to have the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder added to your workspace:</p>
 <ul class="simple">
@@ -632,33 +633,26 @@ behaviour in Kubernetes is to use <code class="docutils literal notranslate"><sp
 first install those inside our devcontainer as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a new terminal in VSCode (Terminal -&gt; New Terminal)</span>
 <span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
-asyn/install.sh<span class="w"> </span>R4-42
-StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
+asyn/install.sh<span class="w"> </span>R4-44-2
+StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.26
 </pre></div>
 </div>
-<p>This pulls the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.</p>
+<p>This uses ibek-support ‘recipes’ to pull the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.</p>
+<p>Having run the above commands you could look in <strong>/epics/support</strong> to see the additional built support modules.</p>
 <p>Next, make sure that the next build of our <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> container image will have the same support built in by updating the Dockerfile as follows:</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/asyn/<span class="w"> </span>asyn/
-<span class="k">RUN</span><span class="w"> </span>asyn/install.sh<span class="w"> </span>R4-42
+<span class="k">RUN</span><span class="w"> </span>asyn/install.sh<span class="w"> </span>R4-44-2
 
 <span class="k">COPY</span><span class="w"> </span>ibek-support/StreamDevice/<span class="w"> </span>StreamDevice/
-<span class="k">RUN</span><span class="w"> </span>StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
+<span class="k">RUN</span><span class="w"> </span>StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.26
 </pre></div>
 </div>
-<p>The above commands added <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> and its dependency <code class="docutils literal notranslate"><span class="pre">asyn</span></code>.
-For each support module
-we copy it’s <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> folder and then run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script. The
-only argument to <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> is the git tag for the version of the support
-module required. <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a submodule used by all the Generic IOC
-projects that contains recipes for building support modules, it will be covered
-in more detail as we learn to add our own recipe for the lakeshore340 below.</p>
-<p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory
-in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.</p>
+<p>The above commands added <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> and its dependency <code class="docutils literal notranslate"><span class="pre">asyn</span></code>. For each support module we copy it’s <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> folder and then run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script. The only argument to <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> is the git tag for the version of the support module required. <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.</p>
+<p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These changes to the Dockerfile mean that if we were to exit the devcontainer, and then run <code class="docutils literal notranslate"><span class="pre">./build</span></code> again, it would would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and
-<code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image. Re-launching the devcontainer would then have the new support modules available right away.</p>
-<p>This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands to the Dockerfile, so that these changes become permanent.</p>
+<p>These changes to the Dockerfile mean that if we were to rebuild our developer container, it would would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image.</p>
+<p>This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.</p>
 </div>
 </section>
 <section id="prepare-the-ibek-support-submodule">
@@ -668,13 +662,9 @@ order to do so we must first add a recipe for it to <code class="docutils litera
 <p>The <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule is used to share information about how to build
 and use support modules. It contains three kinds of files:</p>
 <ol class="arabic simple">
-<li><p>install.sh - These are used to fetch and build support modules. They are
-run from the Dockerfile as described above.</p></li>
-<li><p>IBEK support module <code class="docutils literal notranslate"><span class="pre">definitions</span></code>: These are used to help IOCs build their
-iocShell boot scripts and EPICS Database from YAML descriptions.</p></li>
-<li><p>PVI definitions: These are used to add structure to the set of PV’s a
-device exposes. This structure allows us to auto-generate engineering
-screens for the device. See <a class="github reference external" href="https://github.com/epics-containers/pvi">epics-containers/pvi</a>.</p></li>
+<li><p>install.sh - These are used to fetch and build support modules. They are run from the Dockerfile as described above.</p></li>
+<li><p>IBEK support YAML: These are used to help IOCs build their iocShell boot scripts and EPICS Database from YAML descriptions. These are the files that contribute to the schema used when making an ioc.yaml instance file for this Generic IOC.</p></li>
+<li><p>PVI definitions: These are used to add structure to the set of PV’s a device exposes. This structure allows us to auto-generate engineering screens for the device. See <a class="github reference external" href="https://github.com/epics-containers/pvi">epics-containers/pvi</a>.</p></li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is curated for security reasons, therefore we need to work with
 a fork of it so we can add our own recipe for lakeshore340. If you make changes
@@ -699,13 +689,13 @@ git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </sp
 </div>
 <p>We are using the <code class="docutils literal notranslate"><span class="pre">tutorial-KEEP</span></code> branch which is a snapshot of the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> state
 appropriate for this tutorial. Normally you would use the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and
-then create your own branch off of that to work in.</p>
+then create your own branch off of that to work in, therefore you could skip the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">tutorial-KEEP</span></code> line and instead do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">my-new-feature-branch;</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">my-new-feature-branch</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>IMPORTANT: we used an <em>HTTPS</em> URL for the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule, not
 a <em>SSH</em> URL. This is because other clones of <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> will not
-be guaranteed to have the required SSH keys. HTTPS is fine for reading, but
-to write you need SSH. Therefore add the following to your <code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code>:</p>
+be guaranteed to have the required SSH keys (i.e. when CI is running).</p>
+<p>HTTPS is fine for reading, but to write you need SSH. Therefore add the following to your <code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">url</span> <span class="s2">&quot;ssh://git@github.com/&quot;</span><span class="p">]</span>
         <span class="n">insteadOf</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span>
 </pre></div>
@@ -720,29 +710,29 @@ a particular commit (until updated with <code class="docutils literal notranslat
 <section id="create-install-sh-for-the-lakeshore340">
 <h2>Create install.sh For The lakeshore340<a class="headerlink" href="#create-install-sh-for-the-lakeshore340" title="Link to this heading">#</a></h2>
 <p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.</p>
-<p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do tasks that most support modules require. They are also are as close to identical as possible for simple support modules.</p>
+<p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do common tasks that most support modules require. They are also are as close to identical as possible for simple support modules. <code class="docutils literal notranslate"><span class="pre">ibek</span></code> commands allow us to have a simple, consistent structure for all support module’s <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> scripts.</p>
 <p>IMPORTANT points to note are:</p>
 <ul class="simple">
 <li><p>Although we are using <code class="docutils literal notranslate"><span class="pre">ibek</span></code> we are really just automating what an EPICS engineer would do manually. This is very much using the vanilla EPICS build system that comes with EPICS base, along with the vanilla Make and Config files that come with each support module. These steps are:-</p>
 <ul>
 <li><p>make sure we have the necessary system dependencies installed</p></li>
-<li><p>fetch a version of the support module from GitHub</p></li>
+<li><p>fetch a version of the support module from GitHub or other source</p></li>
 <li><p>add a RELEASE.local to enable dependency resolution</p></li>
 <li><p>optionally add CONFIG_SITE.local to apply settings for the build environment</p></li>
 <li><p>run make to build the support module</p></li>
-<li><p>take a note of the dbds and libs that we build so that we can use them
-to make our IOC instance later</p></li>
+<li><p>take a note of the dbds and libs that we build so that we can link them in to our Generic IOC build later</p></li>
 </ul>
 </li>
 <li><p>This is a bash script so although we encourage a very standard structure,
 you can do anything you like. For example this support module has to
 compile a 3rd party library before it can build the support module itself.
-<a class="reference external" href="https://github.com/gilesknap/ibek-support/blob/46fd9394f6bf07da97ab7971e6b3f09a623a42f6/ADAravis/install.sh#L17-L44">ADAravis install.sh</a></p></li>
+<a class="reference external" href="https://github.com/gilesknap/ibek-support/blob/72eaec2cfd9b2f51f20b7b2b34eeab7c0f51a0cd/ADAravis/install.sh#L17-L44">ADAravis install.sh</a></p></li>
 </ul>
 <p>To make your lakeshore340 install.sh script:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
 mkdir<span class="w"> </span>lakeshore340
-cp<span class="w"> </span>iocStats/install.sh<span class="w"> </span>lakeshore340/install.sh
+<span class="c1"># use the relatively simple calc install.sh as a template</span>
+cp<span class="w"> </span>calc/install.sh<span class="w"> </span>lakeshore340/install.sh
 code<span class="w"> </span>lakeshore340/install.sh
 </pre></div>
 </div>
@@ -750,20 +740,17 @@ code<span class="w"> </span>lakeshore340/install.sh
 <p>The changes required for any support module you care to build would be:</p>
 <ul class="simple">
 <li><p>change the NAME variable to match the name of the support module</p></li>
-<li><p>add in <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">apt-install</span></code> lines for any system dependencies.
-These can be for the developer stage or the runtime stage or both.</p></li>
-<li><p>change the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-*</span></code> lines to declare the libs and DBDs
-that this module will publish.</p></li>
-<li><p>add extra release macros for RELEASE.local (the RELEASE macro for
-the current support module is added automatically). Or add
-CONFIG entries for CONFIG_SITE.local as required.
-None of these were required for lakeshore340. To see how to use these
-functions see</p>
+<li><p>add in <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">apt-install</span></code> lines for any build time system dependencies. Also add <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-runtime-packages</span></code> for any runtime dependencies (runs apt-get install in the runtime stage).</p></li>
+<li><p>change the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-*</span></code> lines to declare the libs and DBDs that this module will publish. For this StreamDevice module we don’t need to add any libs or DBDs.</p></li>
+<li><p>add extra release macros for RELEASE.local (the RELEASE macro for the current support module is added automatically). Or add CONFIG entries for CONFIG_SITE.local as required. None of these were required for lakeshore340. To see how to use these functions see</p>
 <ul>
 <li><p>ibek support add-release-macro –help</p></li>
 <li><p>ibek support add-to-config-site –help</p></li>
 </ul>
 </li>
+<li><p>occasionally we will use <code class="docutils literal notranslate"><span class="pre">sed</span></code> to modify files in the support module. In particular it is sometimes beneficial to comment out some of the lines in the root Makefile in order to skip over test and documentation building. This is done in the script below for the lakeshore340 documentation. Note that the sed command is idempotent, so it is safe to run the script more than once.</p></li>
+<li><p>To see all commands for assisting in building support modules see <strong>ibek support –help</strong></p></li>
+<li><p>NOTE: all of the ibek support commands are idempotent. Therefore it is safe to run install.sh more than once. This is an advantage of using ibek instead of hand coding the build process.</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
@@ -776,18 +763,18 @@ functions see</p>
 <span class="c1"># log output and abort on failure</span>
 <span class="nb">set</span><span class="w"> </span>-xe
 
-<span class="c1"># doxygen is used in documentation build for the developer stage</span>
-ibek<span class="w"> </span>support<span class="w"> </span>apt-install<span class="w"> </span>doxygen
-
 <span class="c1"># get the source and fix up the configure/RELEASE files</span>
 ibek<span class="w"> </span>support<span class="w"> </span>git-clone<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="w"> </span>--org<span class="w"> </span>https://github.com/DiamondLightSource/
-
 ibek<span class="w"> </span>support<span class="w"> </span>register<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>
 
 <span class="c1"># declare the libs and DBDs that are required in ioc/iocApp/src/Makefile</span>
-<span class="c1"># None required for a stream device ------------------------------------</span>
-<span class="c1">#ibek support add-libs</span>
-<span class="c1">#ibek support add-dbds</span>
+<span class="c1"># NONE required for StreamDevice</span>
+<span class="c1"># ibek support add-libs</span>
+<span class="c1"># ibek support add-dbds</span>
+
+<span class="c1"># comment out the documentation from the Makefile - idempotent because it searches</span>
+<span class="c1"># for lines not starting with # and inserts a # at the start of the line.</span>
+sed<span class="w"> </span>-i<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/(^[^#].*documentation)/# \1/&#39;</span><span class="w"> </span><span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/<span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>/Makefile
 
 <span class="c1"># global config settings</span>
 <span class="si">${</span><span class="nv">FOLDER</span><span class="si">}</span>/../_global/install.sh
@@ -820,21 +807,18 @@ for the instances. We will do that next.</p>
 an iocShell startup script and an EPICS Database. You can supply hand
 crafted <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> files for this purpose. The Generic IOC
 we have made above is already capable of using such files.</p>
-<p>For this exercise we will use the full capabilities of <code class="docutils literal notranslate"><span class="pre">ibek</span></code> to generate
-these files from a YAML description of the IOC instance. To do this we need
-to create a YAML file that describes what the instance YAML is allowed to
-make.</p>
-<p>TODO: a detailed description of the YAML files’ structure and purpose should
+<p>For this exercise we will use the full capabilities of <code class="docutils literal notranslate"><span class="pre">ibek</span></code> to generate these files from a YAML description of the IOC instance. To do this we need to create a Support YAML file that describes what the instance YAML is allowed to make.</p>
+<p>The advantage of using YAML to describe your instances is that there is a considerable amount of validation that can be done on the YAML file to ensure that it is correct. Checking is done at the time of writing the YAML file, using a schema aware editor. More extensive checks are done in the CI of your services project when you push your IOC instance definition changes. Also, much of the complexity of using a given support module can be managed in a single place by the author of the YAML file.</p>
+<p><strong>TODO</strong>: a detailed description of the YAML files’ structure and purpose should
 be included in the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> documentation and linked here.
 The current version of this is here
 <a class="reference external" href="https://epics-containers.github.io/ibek/main/developer/explanations/entities.html">entities</a>
-but it is rather out of date.</p>
-<p>To create an <code class="docutils literal notranslate"><span class="pre">ibek</span></code> support YAML file we need to provide a list of <code class="docutils literal notranslate"><span class="pre">definitions</span></code> .
-Each <code class="docutils literal notranslate"><span class="pre">definition</span></code> gives:</p>
+but it is currently out of date.</p>
+<p>To create an <code class="docutils literal notranslate"><span class="pre">ibek</span></code> support YAML file we need to provide a list of <code class="docutils literal notranslate"><span class="pre">entity_models</span></code> .
+Each <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> gives:</p>
 <ul class="simple">
-<li><p>a name and description for the <code class="docutils literal notranslate"><span class="pre">definition</span></code></p></li>
-<li><p>a list of arguments that an
-instance of this <code class="docutils literal notranslate"><span class="pre">definition</span></code> may supply, with each having:</p>
+<li><p>a name and description for the <code class="docutils literal notranslate"><span class="pre">entity_model</span></code></p></li>
+<li><p>a list of parameters that an instance of this type of <code class="docutils literal notranslate"><span class="pre">entity</span></code> may supply, with each having:</p>
 <ul>
 <li><p>a type (string, integer, float, boolean, enum)</p></li>
 <li><p>a name</p></li>
@@ -842,17 +826,18 @@ instance of this <code class="docutils literal notranslate"><span class="pre">de
 <li><p>optionally a default value</p></li>
 </ul>
 </li>
-<li><p>A list of database templates to instantiate for each instance of this <code class="docutils literal notranslate"><span class="pre">definition</span></code>
+<li><p>A list of database templates to instantiate for each instance of this <code class="docutils literal notranslate"><span class="pre">entity</span></code>
 - including values for the Macros in the template</p></li>
 <li><p>A list of iocShell command line entries to add before or after <code class="docutils literal notranslate"><span class="pre">iocInit</span></code></p></li>
 </ul>
 <p>In all of the fields Jinja templating can be used to combine the values of
 arguments into the final output. At its simplest this is just the name of
-an argument in double curly braces e.g. <code class="docutils literal notranslate"><span class="pre">{{argument_name}}</span></code>. But, it can
+an argument in double curly braces e.g. <code class="docutils literal notranslate"><span class="pre">{{parameter_name}}</span></code>. But, it can
 also be used to do more complex things as a Python interpreter is evaluating
 the text inside the curly braces and that interpreter has the values of
-all the <code class="docutils literal notranslate"><span class="pre">definition</span></code> arguments available in its context.
+all the <code class="docutils literal notranslate"><span class="pre">entity</span></code> arguments available in its context.
 See <a class="reference external" href="https://jinja.palletsprojects.com/en/3.0.x/templates/">https://jinja.palletsprojects.com/en/3.0.x/templates/</a></p>
+<p><strong>TODO</strong>: <code class="docutils literal notranslate"><span class="pre">ibek</span></code> also needs detailed documentation of the interfaces available to the Jinja interpreter. This is to include order of evaluation, what is available in the context, etc.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>IMPORTANT: the file created below MUST have the suffix <code class="docutils literal notranslate"><span class="pre">.ibek.support.yaml</span></code>.
@@ -871,68 +856,64 @@ contents:</p>
 
 <span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore340</span>
 
-<span class="nt">defs</span><span class="p">:</span>
+<span class="nt">entity_models</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore340</span>
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">      </span><span class="no">Lakeshore 340 Temperature Controller</span>
 <span class="w">      </span><span class="no">Notes: The temperatures in Kelvin are archived once every 10 secs.</span>
-<span class="w">    </span><span class="nt">args</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">P</span>
+<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">P</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">Prefix for PV name</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PORT</span>
+<span class="w">      </span><span class="nt">PORT</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">Bus/Port Address (eg. ASYN Port).</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADDR</span>
+<span class="w">      </span><span class="nt">ADDR</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">Address on the bus</span>
 <span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SCAN</span>
+<span class="w">      </span><span class="nt">SCAN</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">SCAN rate for non-temperature/voltage parameters.</span>
 <span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TEMPSCAN</span>
+<span class="w">      </span><span class="nt">TEMPSCAN</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">SCAN rate for the temperature/voltage readings</span>
 <span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">name</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">Object and gui association name</span>
 
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOOP</span>
+<span class="w">      </span><span class="nt">LOOP</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">          </span><span class="no">Which heater PID loop to control (Default = 1)</span>
 <span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 
-<span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$(LAKESHORE340)/db/lakeshore340.template</span>
-<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">SCAN</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">P</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">TEMPSCAN</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">PORT</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">LOOP</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">ADDR</span><span class="p">:</span>
-
 <span class="w">    </span><span class="nt">pre_init</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">          </span><span class="no">epicsEnvSet &quot;STREAM_PROTOCOL_PATH&quot;, &quot;$(LAKESHORE340)/lakeshore340App/protocol/&quot;</span>
+
+<span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$(LAKESHORE340)/db/lakeshore340.template</span>
+<span class="w">        </span><span class="c1"># use a regex to say that we want all the parameters in the template</span>
+<span class="w">        </span><span class="c1"># this is equivalent to {P: &#39;{{P}}&#39;, PORT: &#39;{{PORT}}&#39;, ADDR: &#39;{{ADDR}}&#39;, SCAN: &#39;{{SCAN}}&#39;, TEMPSCAN: &#39;{{TEMPSCAN}}&#39;, name: &#39;{{name}}&#39;, LOOP: &#39;{{LOOP}}&#39;}</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">.*</span><span class="p">:</span>
 </pre></div>
 </div>
-<p>This file declares a list of arguments, one for each of the database template
+<p>This file declares a list of parameters, one for each of the database template
 macros that it needs to substitute. It then declares that we need to instantiate
 the <code class="docutils literal notranslate"><span class="pre">lakeshore340.template</span></code> database template and passes all of the arguments
 verbatim to the template.</p>
@@ -967,7 +948,7 @@ DLS support module forks to work. See <a class="reference internal" href="../how
 <h2>Register the Support YAML<a class="headerlink" href="#register-the-support-yaml" title="Link to this heading">#</a></h2>
 <p>When a Generic IOC is built, each support module will register its support YAML by linking it into the folder <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>. This is so that the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool can find all the support module definitions and combine them into a single schema file. The schema file is then to validate your IOC instance YAML as you are editing it.</p>
 <p>This registration process happens as part of the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for the support module. It is done by the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">generate-links</span></code> command.</p>
-<p>Here we just need to go ahead and re-run our <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script to register the lakeshore340 support YAML that we just created:</p>
+<p>Here we just need to go ahead and re-run our <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script to register the lakeshore340 support YAML that we just created. Because the ibek support commands are idempotent it is safe to run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script more than once.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
 lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
 </pre></div>
@@ -1011,11 +992,15 @@ code<span class="w"> </span>ioc.yaml
 <p>Add the following contents to the new yaml file:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=/tmp/ibek.ioc.schema.json</span>
 
-<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">__utils__.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
 
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto-generated by https://github.com/epics-containers/builder2ibek</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example IOC for testing lakeshore340</span>
 
 <span class="nt">entities</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPICS_TZ</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GMT0BST</span>
+
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">devIocStats.iocAdminSoft</span>
 <span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}&quot;</span>
 
@@ -1033,9 +1018,9 @@ code<span class="w"> </span>ioc.yaml
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore</span>
 </pre></div>
 </div>
-<p>The above YAML file declares an IOC instance that has the following 3
-<code class="docutils literal notranslate"><span class="pre">entities</span></code> (which is what we call instances of <code class="docutils literal notranslate"><span class="pre">definitions</span></code> in <code class="docutils literal notranslate"><span class="pre">ibek</span></code>):</p>
+<p>The above YAML file declares an IOC instance that has the following 4 <code class="docutils literal notranslate"><span class="pre">entities</span></code> (which is what we call instances of <code class="docutils literal notranslate"><span class="pre">entity_models</span></code> in <code class="docutils literal notranslate"><span class="pre">ibek</span></code>):</p>
 <ul class="simple">
+<li><p>A EpicsEnvSet entity that sets the timezone for the IOC (because the compiled IOC is Generic - all instances need to set the timezone).</p></li>
 <li><p>A devIocStats object that will supply monitoring PVs</p></li>
 <li><p>An asyn IP port that will be used to talk to the simulator</p></li>
 <li><p>A lakeshore340 object that will talk to the simulator via the asyn port</p></li>
@@ -1102,12 +1087,7 @@ you can:</p>
 <section id="wrapping-up">
 <h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
 <p>For the final step we will get the Generic IOC container image published to GHCR. This means committing all our changes and pushing them up to GitHub so that the Continuous Integration system can build the container image and publish it.</p>
-<p>Before we do that we need to make sure our changes we have manually made inside the developer container will be applied at container build time. There is one thing we have done that is not yet added to the Dockerfile. That is the building of the lakeshore support module itself. Therefore we need to add the following lines to the Dockerfile just after the install of the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules:</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/lakeshore340/<span class="w"> </span>lakeshore340/
-<span class="k">RUN</span><span class="w"> </span>lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
-</pre></div>
-</div>
-<p>These commands will do the same install we did manually above. They rely on our new additions to the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule which shows that it is important to commit the submodule changes first before we push ioc-lakeshore340 repository to GitHub.</p>
+<p>Before we do that we need to make sure our changes we have manually made inside the developer container will be applied at container build time.</p>
 <p>Perform the following commands to commit and push the changes:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>my-lakeshore-branch<span class="w"> </span><span class="c1"># create a new branch for your changes</span>
@@ -1116,7 +1096,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>my-lakeshore-branch
 
 <span class="c1"># now we can push up the ioc-lakeshore340 repository</span>
-<span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340
+<span class="nb">cd</span><span class="w"> </span>..
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;add lakeshore340 support module and dependencies&quot;</span>
 <span class="c1"># we are pushing to the main branch here - which is OK for a tutorial</span>
