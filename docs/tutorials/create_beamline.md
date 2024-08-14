@@ -22,7 +22,7 @@ Here we are going to create the test beamline repository `t01-services`. When th
 This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.
 
 :::{note}
-If you are working is a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.
+If you are working in a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.
 :::
 
 ## To Start
