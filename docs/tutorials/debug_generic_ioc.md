@@ -113,6 +113,7 @@ sudo apt install apt-file
 Now we can search for the missing file:
 
 ```bash
+apt-file update
 apt-file search pcre.h
 ```
 
@@ -150,9 +151,6 @@ commands behave this way as far as possible.
 Once you are happy with your manual changes you can make them permanent by
 adding to the install.sh or Dockerfile, then try a full rebuild.
 
-## Making Changes Inside the Container
+## Tools Inside the Container
 
-You will find that the container includes busybox tools, vim and ifconfig. These
-should provide enough tools to investigate and fix most build problems. You are
-also free to use apt-get to install any other tools you need as demonstrated
-above. (type busybox to see the list of available tools).
+You will find that the developer container includes busybox tools, vim and ifconfig. These should provide enough tools to investigate and fix most build problems. You are also free to use apt-get to install any other tools you need as demonstrated above. (type busybox to see the list of available tools).
