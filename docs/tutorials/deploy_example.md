@@ -31,7 +31,7 @@ If you click on the most recent job you can drill in and see the steps that
 were executed. The most interesting step is `Run IOC checks`. This
 is executing the script `.github/workflows/ci_verify.sh`. This goes through
 each of the IOC Instances in the `services` folder and checks that they
-have valid configuration.
+have a valid configuration.
 
 For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.
