@@ -372,7 +372,7 @@ Now you will see a red squiggle at the start of 'type'. Hover over this and it w
 using schema to add an NDProcess plugin
 :::
 
-Fill out the rest of you NDProcess entity as follows:
+Fill out the rest of your NDProcess entity as follows:
 ```yaml
   - type: ADCore.NDProcess
     PORT: DET.PROC
