@@ -73,11 +73,11 @@ Note the benefits of using copier to create a new repository:
 
 1. Create your new repository on GitHub in your personal space by following this link <https://github.com/new>. Give it the name t01-services and a description of "t01 IOC Instances and Services". Then click "Create repository".
 
-Now copy the ssh address of your new repository from the GitHub page.
+   Now copy the ssh address of your new repository from the GitHub page.
 
-:::{figure} ../images/copy_gh_repo_addr.png
-copying the repository address from GitHub
-:::
+   :::{figure} ../images/copy_gh_repo_addr.png
+   copying the repository address from GitHub
+   :::
 
 1. Make the first commit and push the repository to GitHub.
 
