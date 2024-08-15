@@ -46,13 +46,14 @@ NOTE: for these tutorials we will use your personal GitHub Account to store ever
 
 1. Use copier to copy the services template repository to a new repository named `t01-services`. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.
 
+   ```bash
+   copier copy gh:epics-containers/services-template-compose t01-services
+   ```
+
 Note the benefits of using copier to create a new repository:
 - you can template the repository and use questions to fill in the template, making a unique result.
 - if the template changes in future you can merge the changes into you repository without losing your changes, simply by running `copier update .`.
 
-   ```bash
-   copier copy gh:epics-containers/services-template-compose t01-services
-   ```
 
 1. Answer the copier template questions with their default values as follows:
 
