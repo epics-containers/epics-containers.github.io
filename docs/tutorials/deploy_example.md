@@ -102,7 +102,7 @@ ec ps
 :::{Note}
 Generic IOCs.
 
-You may have noticed that the IOC instance has is showing that it has container image `ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`.
+You may have noticed that the IOC instance is showing that it has container image `ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`.
 
 This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.
 :::
