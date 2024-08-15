@@ -117,7 +117,7 @@ CalVer is described here: <https://calver.org/> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
 
-Note that 2024.9.1 represents the date that this tutorial was last updated.
+Note that 2024.9 represents the date that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.
