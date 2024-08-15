@@ -107,20 +107,7 @@ You may have noticed that the IOC instance is showing that it has container imag
 This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.
 :::
 
-### Monitoring and interacting with an IOC shell
-
-To attach to the IOC shell you can use the following command. HOWEVER, this
-will attach you to nothing in the case of this example IOC as it has no
-shell. In the next tutorial we will use this command to interact with
-iocShell.
-
-```bash
-ec attach example-test-01
-dbl
-# ctrl-p ctrl-q to detach
-```
-
-Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this docker will restart your IOC right away.
+### Exploring an IOC instance
 
 To run a bash shell inside the IOC container:
 
@@ -171,7 +158,7 @@ ec stop
 ```
 
 This will stop all the currently running containers described in the `compose.yml` file.
-However this will leave the resources themselves in place:-
+However this will leave the resources themselves in place:
 - stopped containers
 - container networks
 - container volumes
@@ -181,3 +168,18 @@ To take down the services and remove all of their resources use the following co
 ```bash
 ec down
 ```
+
+### Monitoring and interacting with an IOC shell
+
+To attach to the IOC shell you can use the following command. HOWEVER, this
+will attach you to nothing in the case of this example IOC as it has no
+shell. In the next tutorial we will use this command to interact with
+iocShell.
+
+```bash
+ec attach example-test-01
+dbl
+# ctrl-p ctrl-q to detach
+```
+
+Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this docker will restart your IOC right away.
