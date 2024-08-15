@@ -416,8 +416,7 @@ shared for easy debugging of IOC Instances.
 
 If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
-your IOC Instance config folder like this (replace docker with
-docker if that is what you are using):
+your IOC Instance config folder like this:
 
 ```bash
 docker cp bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
