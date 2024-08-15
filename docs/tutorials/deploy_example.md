@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial will show you how to deploy and manage the example IOC Instance that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
+This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
 
 For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
 
