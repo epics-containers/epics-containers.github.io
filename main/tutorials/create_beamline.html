@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers 3.4.2.dev40+g7379e90 documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers 3.6.0b2.dev1+g0a4ae57 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=3e569590"></script>
+    <script src="../_static/documentation_options.js?v=fb1712fb"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -518,7 +518,7 @@ IOC names. This is a restriction that helm introduces for package names.</p>
 <p>This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are working is a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.</p>
+<p>If you are working in a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.</p>
 </div>
 <section id="to-start">
 <h2>To Start<a class="headerlink" href="#to-start" title="Link to this heading">#</a></h2>
@@ -533,18 +533,18 @@ IOC names. This is a restriction that helm introduces for package names.</p>
 </section>
 <section id="steps">
 <h2>Steps<a class="headerlink" href="#steps" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>Make sure you have activated the python virtual environment and that <code class="docutils literal notranslate"><span class="pre">copier</span></code> is installed. See instructions here: <a class="reference internal" href="setup_workstation.html#ec"><span class="std std-ref">edge-containers-cli and copier</span></a>.</p></li>
-<li><p>Use copier to copy the services template repository to a new repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.</p></li>
-</ol>
-<p>Note the benefits of using copier to create a new repository:</p>
-<ul>
-<li><p>you can template the repository and use questions to fill in the template, making a unique result.</p></li>
-<li><p>if the template changes in future you can merge the changes into you repository without losing your changes, simply by running <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">.</span></code>.</p>
+<li><p>Use copier to copy the services template repository to a new repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/services-template-compose<span class="w"> </span>t01-services
 </pre></div>
 </div>
 </li>
+</ol>
+<p>Note the benefits of using copier to create a new repository:</p>
+<ul class="simple">
+<li><p>you can template the repository and use questions to fill in the template, making a unique result.</p></li>
+<li><p>if the template changes in future you can merge the changes into you repository without losing your changes, simply by running <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">.</span></code></p></li>
 </ul>
 <ol class="arabic">
 <li><p>Answer the copier template questions with their default values as follows:</p>
@@ -560,8 +560,7 @@ the local machine using docker compose.
 <font color="#06989A"> … </font>
 </pre></p>
 </li>
-<li><p>Create your new repository on GitHub in your personal space by following this link <a class="github reference external" href="https://github.com/new">new</a>. Give it the name t01-services and a description of “t01 IOC Instances and Services”. Then click “Create repository”.</p></li>
-</ol>
+<li><p>Create your new repository on GitHub in your personal space by following this link <a class="github reference external" href="https://github.com/new">new</a>. Give it the name t01-services and a description of “t01 IOC Instances and Services”. Then click “Create repository”.</p>
 <p>Now copy the ssh address of your new repository from the GitHub page.</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/copy_gh_repo_addr.png" src="../_images/copy_gh_repo_addr.png" />
@@ -569,7 +568,7 @@ the local machine using docker compose.
 <p><span class="caption-text">copying the repository address from GitHub</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<ol class="arabic">
+</li>
 <li><p>Make the first commit and push the repository to GitHub.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
 git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
@@ -603,7 +602,7 @@ The last digit is the number of the release in that month.</p>
 <p>CalVer is described here: <a class="reference external" href="https://calver.org/">https://calver.org/</a> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.</p>
-<p>Note that 2024.9.1 represents the date that this tutorial was last updated.
+<p>Note that 2024.9 represents the date that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.</p>

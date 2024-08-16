@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The last section covered deploying and managing the example Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.
+The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.
 
 For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <https://areadetector.github.io/master/index.html>.
 
@@ -38,7 +38,7 @@ code .
 
 Our new example IOC will be a simulation detector using the AreaDetector SimDetector. There is already a Generic IOC for the SimDetector, therefore to create an IOC Instance, we just need to refer to that Generic IOC container image and provide some configuration for it.
 
-You can find the Generic IOC container source for SimDetector here: <https://github.com/epics-containers/ioc-adsimdetector>. This repository publishes its container image at: `ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.1`. Later tutorials will cover how to build and publish your own Generic IOC container images.
+You can find the Generic IOC container source for SimDetector here: <https://github.com/epics-containers/ioc-adsimdetector>. This repository publishes its container image at: `ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2`. Later tutorials will cover how to build and publish your own Generic IOC container images.
 
 Edit the `compose.yml` file in the `bl01t-ea-cam-01` folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:
 
@@ -60,7 +60,7 @@ services:
       service: linux_ioc
       file: ../../include/ioc.yml
 
-    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2
 
     labels:
       version: 0.1.0
@@ -328,7 +328,7 @@ one of those is `ibek.ioc.schema.json`. This is the *IOC schema* for the
 our *IOC yaml* file like this:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.2/ibek.ioc.schema.json
 ```
 
 When editing with a YAML aware editor like VSCode this will enable auto
@@ -372,7 +372,7 @@ Now you will see a red squiggle at the start of 'type'. Hover over this and it w
 using schema to add an NDProcess plugin
 :::
 
-Fill out the rest of you NDProcess entity as follows:
+Fill out the rest of your NDProcess entity as follows:
 ```yaml
   - type: ADCore.NDProcess
     PORT: DET.PROC
@@ -416,8 +416,7 @@ shared for easy debugging of IOC Instances.
 
 If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
-your IOC Instance config folder like this (replace docker with
-docker if that is what you are using):
+your IOC Instance config folder like this:
 
 ```bash
 docker cp bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
@@ -426,7 +425,7 @@ docker cp bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t-ea-cam-01/co
 rm services/bl01t-ea-test-02/config/ioc.yaml
 ```
 
-You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually build IOC Instances.
+You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
 
 Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.
 

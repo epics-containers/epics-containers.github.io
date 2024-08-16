@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.4.2.dev40+g7379e90 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers 3.6.0b2.dev1+g0a4ae57 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=3e569590"></script>
+    <script src="../_static/documentation_options.js?v=fb1712fb"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -504,7 +504,7 @@ document.write(`
 <h1>Deploying and Managing IOC Instances<a class="headerlink" href="#deploying-and-managing-ioc-instances" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>This tutorial will show you how to deploy and manage the example IOC Instance that came with the template beamline repository. You will need to have your own <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline repository from the previous tutorial.</p>
+<p>This tutorial will show you how to deploy and manage the example IOC Instance <code class="docutils literal notranslate"><span class="pre">example-test-01</span></code> that came with the template beamline repository. You will need to have your own <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline repository from the previous tutorial.</p>
 <p>For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.</p>
 </section>
 <section id="continuous-integration">
@@ -530,7 +530,7 @@ tagged with the <code class="docutils literal notranslate"><span class="pre">Cal
 were executed. The most interesting step is <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">IOC</span> <span class="pre">checks</span></code>. This
 is executing the script <code class="docutils literal notranslate"><span class="pre">.github/workflows/ci_verify.sh</span></code>. This goes through
 each of the IOC Instances in the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder and checks that they
-have valid configuration.</p>
+have a valid configuration.</p>
 <p>For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.</p>
 </section>
@@ -541,7 +541,7 @@ have followed the instructions in the previous tutorial correctly.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./environment.sh
 </pre></div>
 </div>
-<p>The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:-</p>
+<p>The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:</p>
 <ul class="simple">
 <li><p>sets permissions on <strong>xhost</strong> to allow local containers to display GUIs on the host.</p></li>
 <li><p>sets <strong>UIDGID</strong> which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.</p></li>
@@ -586,22 +586,12 @@ ec<span class="w"> </span>ps
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Generic IOCs.</p>
-<p>You may have noticed that the IOC instance has is showing that it has container image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1</span></code>.</p>
+<p>You may have noticed that the IOC instance is showing that it has container image <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1</span></code>.</p>
 <p>This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.</p>
 </div>
 </section>
-<section id="monitoring-and-interacting-with-an-ioc-shell">
-<h3>Monitoring and interacting with an IOC shell<a class="headerlink" href="#monitoring-and-interacting-with-an-ioc-shell" title="Link to this heading">#</a></h3>
-<p>To attach to the IOC shell you can use the following command. HOWEVER, this
-will attach you to nothing in the case of this example IOC as it has no
-shell. In the next tutorial we will use this command to interact with
-iocShell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>example-test-01
-dbl
-<span class="c1"># ctrl-p ctrl-q to detach</span>
-</pre></div>
-</div>
-<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However, there are issues with both VSCode and IOC shells capturing ctrl-P</strong>. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>. If you do this docker will restart your IOC right away.</p>
+<section id="exploring-an-ioc-instance">
+<h3>Exploring an IOC instance<a class="headerlink" href="#exploring-an-ioc-instance" title="Link to this heading">#</a></h3>
 <p>To run a bash shell inside the IOC container:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>bash
 caget<span class="w"> </span>EXAMPLE:SUM
@@ -653,7 +643,7 @@ caget<span class="w"> </span>EXAMPLE:SUM
 </pre></div>
 </div>
 <p>This will stop all the currently running containers described in the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file.
-However this will leave the resources themselves in place:-</p>
+However this will leave the resources themselves in place:</p>
 <ul class="simple">
 <li><p>stopped containers</p></li>
 <li><p>container networks</p></li>
@@ -663,6 +653,19 @@ However this will leave the resources themselves in place:-</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>down
 </pre></div>
 </div>
+</section>
+<section id="monitoring-and-interacting-with-an-ioc-shell">
+<h3>Monitoring and interacting with an IOC shell<a class="headerlink" href="#monitoring-and-interacting-with-an-ioc-shell" title="Link to this heading">#</a></h3>
+<p>To attach to the IOC shell you can use the following command. HOWEVER, this
+will attach you to nothing in the case of this example IOC as it has no
+shell. In the next tutorial we will use this command to interact with
+iocShell.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>attach<span class="w"> </span>example-test-01
+dbl
+<span class="c1"># ctrl-p ctrl-q to detach</span>
+</pre></div>
+</div>
+<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However, there are issues with both VSCode and IOC shells capturing ctrl-P</strong>. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>. If you do this docker will restart your IOC right away.</p>
 </section>
 </section>
 </section>
@@ -719,9 +722,10 @@ However this will leave the resources themselves in place:-</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-the-example-ioc-instance">Deploy the Example IOC Instance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-the-example-ioc-instance">Managing the Example IOC Instance</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-and-stopping-iocs">Starting and Stopping IOCs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exploring-an-ioc-instance">Exploring an IOC instance</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging">Logging</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shutdown">Shutdown</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#monitoring-and-interacting-with-an-ioc-shell">Monitoring and interacting with an IOC shell</a></li>
 </ul>
 </li>
 </ul>

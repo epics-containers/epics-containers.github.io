@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.4.2.dev40+g7379e90 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 3.6.0b2.dev1+g0a4ae57 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=3e569590"></script>
+    <script src="../_static/documentation_options.js?v=fb1712fb"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -504,7 +504,7 @@ document.write(`
 <h1>Create an IOC Instance<a class="headerlink" href="#create-an-ioc-instance" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>The last section covered deploying and managing the example Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.</p>
+<p>The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.</p>
 <p>For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <a class="reference external" href="https://areadetector.github.io/master/index.html">https://areadetector.github.io/master/index.html</a>.</p>
 </section>
 <section id="add-a-new-ioc-instance-to-t01-services">
@@ -539,7 +539,7 @@ code<span class="w"> </span>.
 <section id="compose-yml">
 <h3>Compose.yml<a class="headerlink" href="#compose-yml" title="Link to this heading">#</a></h3>
 <p>Our new example IOC will be a simulation detector using the AreaDetector SimDetector. There is already a Generic IOC for the SimDetector, therefore to create an IOC Instance, we just need to refer to that Generic IOC container image and provide some configuration for it.</p>
-<p>You can find the Generic IOC container source for SimDetector here: <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. This repository publishes its container image at: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.1</span></code>. Later tutorials will cover how to build and publish your own Generic IOC container images.</p>
+<p>You can find the Generic IOC container source for SimDetector here: <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. This repository publishes its container image at: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2</span></code>. Later tutorials will cover how to build and publish your own Generic IOC container images.</p>
 <p>Edit the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:</p>
 <ul class="simple">
 <li><p>find and replace <strong>replace_me</strong> with <strong>bl01t-ea-cam-01</strong></p></li>
@@ -559,7 +559,7 @@ code<span class="w"> </span>.
 <span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_ioc</span>
 <span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../include/ioc.yml</span>
 
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.1</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2</span>
 
 <span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span>
@@ -821,7 +821,7 @@ This page includes the assets that are published as part of the release and
 one of those is <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code>. This is the <em>IOC schema</em> for the
 <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. This is what we referred to at the top of
 our <em>IOC yaml</em> file like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.1/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.2/ibek.ioc.schema.json</span>
 </pre></div>
 </div>
 <p>When editing with a YAML aware editor like VSCode this will enable auto
@@ -858,7 +858,7 @@ prefer hand coding them, this is also supported.</p>
 <p><span class="caption-text">using schema to add an NDProcess plugin</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Fill out the rest of you NDProcess entity as follows:</p>
+<p>Fill out the rest of your NDProcess entity as follows:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDProcess</span>
 <span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.PROC</span>
 <span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-CAM-01</span>
@@ -896,15 +896,14 @@ shared for easy debugging of IOC Instances.</p>
 </div>
 <p>If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
-your IOC Instance config folder like this (replace docker with
-docker if that is what you are using):</p>
+your IOC Instance config folder like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-cam-01-1:/epics/runtime/st.cmd<span class="w"> </span>services/bl01t-ea-cam-01/config
 docker<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-cam-01-1:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.subst
 <span class="c1"># no longer need an ibek ioc yaml file</span>
 rm<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
 </pre></div>
 </div>
-<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the two template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with OphydAsync and are not available in manually build IOC Instances.</p>
+<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the two template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.</p>
 <p>Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.</p>
 <p>Restart the IOC to see it operating as before (except that engineering screen generation will no longer happen):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
