@@ -70,7 +70,7 @@ Also, epics-containers provides a mechanism for creating a separate workspace fo
 
 The earlier tutorials were firmly in the realm of [](changes_1) above. It was adequate for us to install a container platform, IDE and python and that is all we needed.
 
-Once you get to level of [](changes_2) you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.
+Once you get to the level of [](changes_2) you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.
 
 These tools and dependencies will likely differ from one Generic IOC to the next.
 
