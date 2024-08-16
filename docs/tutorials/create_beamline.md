@@ -22,7 +22,7 @@ Here we are going to create the test beamline repository `t01-services`. When th
 This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.
 
 :::{note}
-If you are working is a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.
+If you are working in a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.
 :::
 
 ## To Start
@@ -46,13 +46,14 @@ NOTE: for these tutorials we will use your personal GitHub Account to store ever
 
 1. Use copier to copy the services template repository to a new repository named `t01-services`. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.
 
-Note the benefits of using copier to create a new repository:
-- you can template the repository and use questions to fill in the template, making a unique result.
-- if the template changes in future you can merge the changes into you repository without losing your changes, simply by running `copier update .`.
-
    ```bash
    copier copy gh:epics-containers/services-template-compose t01-services
    ```
+
+Note the benefits of using copier to create a new repository:
+- you can template the repository and use questions to fill in the template, making a unique result.
+- if the template changes in future you can merge the changes into you repository without losing your changes, simply by running `copier update .`
+
 
 1. Answer the copier template questions with their default values as follows:
 
@@ -72,11 +73,11 @@ Note the benefits of using copier to create a new repository:
 
 1. Create your new repository on GitHub in your personal space by following this link <https://github.com/new>. Give it the name t01-services and a description of "t01 IOC Instances and Services". Then click "Create repository".
 
-Now copy the ssh address of your new repository from the GitHub page.
+   Now copy the ssh address of your new repository from the GitHub page.
 
-:::{figure} ../images/copy_gh_repo_addr.png
-copying the repository address from GitHub
-:::
+   :::{figure} ../images/copy_gh_repo_addr.png
+   copying the repository address from GitHub
+   :::
 
 1. Make the first commit and push the repository to GitHub.
 
@@ -116,7 +117,7 @@ CalVer is described here: <https://calver.org/> and is used where semantic
 versioning is not appropriate because the repository contains a mix of
 dependencies and does not have a clear API.
 
-Note that 2024.9.1 represents the date that this tutorial was last updated.
+Note that 2024.9 represents the date that this tutorial was last updated.
 For completeness you could use the current year and month instead. You
 are also free to choose your own versioning scheme as this is not enforced by
 any of the epics-containers tools.

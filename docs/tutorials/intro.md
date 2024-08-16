@@ -18,7 +18,7 @@ some background in the following topics.
 **Orchestrating containers in a cluster with Kubernetes**           https://kubernetes.io/docs/concepts/overview/
 **Managing packages in a Kubernetes Cluster with Helm**             https://helm.sh/docs/intro/quickstart/
 **Introduction to EPICS**                                           https://docs.epics-controls.org/en/latest/guides/EPICS_Intro.html
-**Argo CD continuous delpoyment for Kubernetes**                    https://argo-cd.readthedocs.io/en/stable/
+**Argo CD continuous deployment for Kubernetes**                    https://argo-cd.readthedocs.io/en/stable/
 ================================================================    ================
 ```
 

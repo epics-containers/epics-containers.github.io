@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This tutorial will show you how to deploy and manage the example IOC Instance that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
+This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
 
 For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
 
@@ -31,7 +31,7 @@ If you click on the most recent job you can drill in and see the steps that
 were executed. The most interesting step is `Run IOC checks`. This
 is executing the script `.github/workflows/ci_verify.sh`. This goes through
 each of the IOC Instances in the `services` folder and checks that they
-have valid configuration.
+have a valid configuration.
 
 For the moment just check that your CI passed and if not review that you
 have followed the instructions in the previous tutorial correctly.
@@ -47,7 +47,7 @@ The standard way to set up your environment for any ec services repository is to
 source ./environment.sh
 ```
 
-The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:-
+The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:
 - sets permissions on **xhost** to allow local containers to display GUIs on the host.
 - sets **UIDGID** which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.
 - sets **COMPOSE_PROFILES** which determines which compose profile is launched. Defaults to the 'test' profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.
@@ -102,25 +102,12 @@ ec ps
 :::{Note}
 Generic IOCs.
 
-You may have noticed that the IOC instance has is showing that it has container image `ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`.
+You may have noticed that the IOC instance is showing that it has container image `ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`.
 
 This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.
 :::
 
-### Monitoring and interacting with an IOC shell
-
-To attach to the IOC shell you can use the following command. HOWEVER, this
-will attach you to nothing in the case of this example IOC as it has no
-shell. In the next tutorial we will use this command to interact with
-iocShell.
-
-```bash
-ec attach example-test-01
-dbl
-# ctrl-p ctrl-q to detach
-```
-
-Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this docker will restart your IOC right away.
+### Exploring an IOC instance
 
 To run a bash shell inside the IOC container:
 
@@ -171,7 +158,7 @@ ec stop
 ```
 
 This will stop all the currently running containers described in the `compose.yml` file.
-However this will leave the resources themselves in place:-
+However this will leave the resources themselves in place:
 - stopped containers
 - container networks
 - container volumes
@@ -181,3 +168,18 @@ To take down the services and remove all of their resources use the following co
 ```bash
 ec down
 ```
+
+### Monitoring and interacting with an IOC shell
+
+To attach to the IOC shell you can use the following command. HOWEVER, this
+will attach you to nothing in the case of this example IOC as it has no
+shell. In the next tutorial we will use this command to interact with
+iocShell.
+
+```bash
+ec attach example-test-01
+dbl
+# ctrl-p ctrl-q to detach
+```
+
+Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this docker will restart your IOC right away.
