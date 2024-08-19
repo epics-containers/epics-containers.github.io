@@ -43,7 +43,6 @@ option is to use a linux distribution that is supported by k3s.
 ========================== ============================================
 Ubuntu 20.10               any modern linux distro should also work
 Raspberry Pi OS 2021-05-07 See `raspberry`
-Windows WSL2               See `wsl`
 ========================== ============================================
 ```
 
