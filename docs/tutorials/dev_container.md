@@ -348,7 +348,7 @@ ls -l config
 # you should now see the IOC instance startup and show the ioc shell prompt
 ```
 
-This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to that IOC Instance's config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.
+This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to its config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.
 
 
 ## Wrapping Up
