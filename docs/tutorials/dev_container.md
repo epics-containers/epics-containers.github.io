@@ -172,7 +172,7 @@ source ./compose/environment.sh
 
 ### Launching the Developer Container
 
-In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files with vscode uses the container filesystem. This is a very convenient way to work because it makes it possible to archive away the development environment alongside the source code. It also means that you can easily share the development environment with other developers, and your development environment is portable between machines.
+In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files with the container filesystem. This is a very convenient way to work because it makes it possible to archive away the development environment alongside the source code. It also means that you can easily share the development environment with other developers, and your development environment is portable between machines.
 
 For epics-containers the generic IOC *is* the developer container. When
 you build the developer target of the container in CI it will contain all the
