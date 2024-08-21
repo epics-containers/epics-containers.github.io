@@ -267,7 +267,7 @@ In VSCode click the `File` menu and select `Add Folder to Workspace`. Navigate t
 
 Also take this opportunity to add the folder `/epics` to the workspace. This is the root folder in which all of the EPICS source and built files are located.
 
-You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. Here is a summary (where WS is your workspace on your host. i.e. the root folder under which your two projects are cloned):
+You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. Here is a summary relative to `${localWorkspaceFolder}` which is at the root of the Generic IOC source repo (the directory containing `.devcontainer/devcontainer.json`):
 
 (container-layout)=
 ## Generic IOC Container Filesystem Layout
@@ -290,11 +290,11 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - compiled epics-base
 
    * - /epics/ioc
-     - WS/ioc-adsimdetector/ioc
+     - ${localWorkspaceFolder}/ioc
      - soft link to IOC source tree
 
    * - /epics/opi
-     - WS/ioc-adsimdetector/opi
+     - ${localWorkspaceFolder}/opi/ioc
      - auto generated OPI files for the IOC
 
    * - /epics/runtime
@@ -310,15 +310,15 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - all PVI definitions from support modules
 
    * - /workspaces
-     - WS
+     - ${localWorkspaceFolder}/../
      - all peers to Generic IOC source repo
 
    * - /workspaces/ioc-adsimdetector
-     - WS/ioc-adsimdetector
+     - ${localWorkspaceFolder}
      - Generic IOC source repo (in this example)
 
    * - /epics/generic-source
-     - WS/ioc-adsimdetector
+     - ${localWorkspaceFolder}
      - A second - fixed location mount of the Generic IOC source repo to allow `ibek` to find it easily.
 ```
 
