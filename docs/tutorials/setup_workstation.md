@@ -7,7 +7,7 @@ The tools you need to install are:
 - Visual Studio Code
 - a container platform, either docker or podman
 - Python 3.11 or later + a Python virtual environment
-- git client for version control
+- git client for version control (Configured for the current user, with Repository and Actions read-write access for your user namespace. Note: If you use Personal Access Tokens then replace `git@github.com:` with `https://github.com/` throughout this tutorial)
 
 Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
