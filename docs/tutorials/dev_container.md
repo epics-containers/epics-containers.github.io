@@ -309,10 +309,6 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - N/A
      - all PVI definitions from support modules
 
-   * - /epics/opi
-     - N/A
-     - all OPI files (generated or copied from support)
-
    * - /workspaces
      - WS
      - all peers to Generic IOC source repo
