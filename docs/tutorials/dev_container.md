@@ -338,10 +338,10 @@ Now that we have the beamline repo visible in our container we can easily supply
 Try the following:
 
 ```
-cd /epics/ioc
 ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
 
 # check the it worked - should see a symlink to the config folder
+cd /epics/ioc
 ls -l config
 # now start the IOC by running the standard entry point script
 ./start.sh
