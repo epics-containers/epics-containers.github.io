@@ -161,7 +161,7 @@ If you do not do this, your devcontainer will run as root. Although it will stil
 
 ### First Time Preparation
 
-The devcontainer uses a docker network that it can share with a ca-gateway in order that your PVs are accessible from your host machine. We arrange to create this network once and as long as you don't delete it or reset docker it will be available for all your devcontainers going forward.
+The devcontainer uses a docker network that it can share with a ca-gateway so that your PVs are accessible from your host machine. We arrange to create this network once, and as long as you don't delete it or reset docker, it will be available for all your devcontainers going forward.
 
 To create the network run the following commands:
 
