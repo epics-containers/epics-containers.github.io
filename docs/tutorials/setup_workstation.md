@@ -7,11 +7,24 @@ The tools you need to install are:
 - Visual Studio Code
 - a container platform, either docker or podman
 - Python 3.11 or later + a Python virtual environment
-- git client for version control (Configured for the current user, with Repository and Actions read-write access for your user namespace. Note: If you use Personal Access Tokens then replace `git@github.com:` with `https://github.com/` throughout this tutorial)
+- git client for version control (Configured for the current user, with read-write access for Repository Contents as well as Workflows. Note: If you use Personal Access Tokens then replace `git@github.com:` with `https://github.com/` throughout this tutorial)
 
 Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, WSL2 and more.
+
+:::{note}
+**Using a Personal Access Token (PAT):** If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens.
+
+```
+# Remember credentials for 5 hours duration
+git config --global credential.helper 'cache --timeout 18000'
+# When asked to login
+Username for `https://github.com': <ENTER YOUR USERNAME>
+Password for `https://<YOUR USERNAME>@github.com': <ENTER YOUR PAT>
+```
+:::
+
 
 ## Options
 
