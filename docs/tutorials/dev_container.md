@@ -70,7 +70,7 @@ Also, epics-containers provides a mechanism for creating a separate workspace fo
 
 The earlier tutorials were firmly in the realm of [](changes_1) above. It was adequate for us to install a container platform, IDE and python and that is all we needed.
 
-Once you get to level of [](changes_2) you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.
+Once you get to the level of [](changes_2) you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.
 
 These tools and dependencies will likely differ from one Generic IOC to the next.
 
@@ -161,7 +161,7 @@ If you do not do this, your devcontainer will run as root. Although it will stil
 
 ### First Time Preparation
 
-The devcontainer uses a docker network that it can share with a ca-gateway in order that your PVs are accessible from your host machine. We arrange to create this network once and as long as you don't delete it or reset docker it will be available for all your devcontainers going forward.
+The devcontainer uses a docker network that it can share with a ca-gateway so that your PVs are accessible from your host machine. We arrange to create this network once, and as long as you don't delete it or reset docker, it will be available for all your devcontainers going forward.
 
 To create the network run the following commands:
 
@@ -172,7 +172,7 @@ source ./compose/environment.sh
 
 ### Launching the Developer Container
 
-In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files with vscode uses the container filesystem. This is a very convenient way to work because it makes it possible to archive away the development environment alongside the source code. It also means that you can easily share the development environment with other developers, and your development environment is portable between machines.
+In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files with the container filesystem. This is a very convenient way to work because it makes it possible to archive away the development environment alongside the source code. It also means that you can easily share the development environment with other developers, and your development environment is portable between machines.
 
 For epics-containers the generic IOC *is* the developer container. When
 you build the developer target of the container in CI it will contain all the
@@ -267,7 +267,7 @@ In VSCode click the `File` menu and select `Add Folder to Workspace`. Navigate t
 
 Also take this opportunity to add the folder `/epics` to the workspace. This is the root folder in which all of the EPICS source and built files are located.
 
-You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. Here is a summary (where WS is your workspace on your host. i.e. the root folder under which your two projects are cloned):
+You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. Here is a summary relative to `${localWorkspaceFolder}` which is at the root of the Generic IOC source repo (the directory containing `.devcontainer/devcontainer.json`):
 
 (container-layout)=
 ## Generic IOC Container Filesystem Layout
@@ -290,11 +290,11 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - compiled epics-base
 
    * - /epics/ioc
-     - WS/ioc-adsimdetector/ioc
+     - ${localWorkspaceFolder}/ioc
      - soft link to IOC source tree
 
    * - /epics/opi
-     - WS/ioc-adsimdetector/opi
+     - ${localWorkspaceFolder}/opi/ioc
      - auto generated OPI files for the IOC
 
    * - /epics/runtime
@@ -309,20 +309,16 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - N/A
      - all PVI definitions from support modules
 
-   * - /epics/opi
-     - N/A
-     - all OPI files (generated or copied from support)
-
    * - /workspaces
-     - WS
+     - ${localWorkspaceFolder}/../
      - all peers to Generic IOC source repo
 
    * - /workspaces/ioc-adsimdetector
-     - WS/ioc-adsimdetector
+     - ${localWorkspaceFolder}
      - Generic IOC source repo (in this example)
 
    * - /epics/generic-source
-     - WS/ioc-adsimdetector
+     - ${localWorkspaceFolder}
      - A second - fixed location mount of the Generic IOC source repo to allow `ibek` to find it easily.
 ```
 
@@ -342,17 +338,17 @@ Now that we have the beamline repo visible in our container we can easily supply
 Try the following:
 
 ```
-cd /epics/ioc
 ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
 
 # check the it worked - should see a symlink to the config folder
+cd /epics/ioc
 ls -l config
 # now start the IOC by running the standard entry point script
 ./start.sh
 # you should now see the IOC instance startup and show the ioc shell prompt
 ```
 
-This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to that IOC Instance's config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.
+This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to its config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.
 
 
 ## Wrapping Up
