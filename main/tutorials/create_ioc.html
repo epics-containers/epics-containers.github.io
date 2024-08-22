@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.6.0b2.dev2+g9c0d223 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 3.6.0b2.dev3+gd6f70af documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=2dbcbb2a"></script>
+    <script src="../_static/documentation_options.js?v=bbcab63c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -720,7 +720,7 @@ we use</p></td>
 <p>You can see that this lists a number of parameters that it requires and several others that have defaults. It then declares how these will be used to substitute values into the simDetector database template. Finally it declares some lines to go into the startup script (<code class="docutils literal notranslate"><span class="pre">pre_init</span></code> means this goes before <code class="docutils literal notranslate"><span class="pre">iocInit</span></code>).</p>
 <p>Note that the process for taking a <em>Support yaml</em> entity_model with values from <em>IOC yaml</em> entity and generating a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> to substitute values from the <em>IOC yaml</em> arguments into the <em>Support yaml</em> <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> and <code class="docutils literal notranslate"><span class="pre">databases</span></code> sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. <strong>$(ADSIMDETECTOR)/db/simDetector.template</strong> is instantiated with <code class="docutils literal notranslate"><span class="pre">PORT=$(PORT)</span></code>, <code class="docutils literal notranslate"><span class="pre">P=$(P)</span></code> etc.</p>
 <p>To learn more about Jinja templating see here: <a class="reference external" href="https://jinja.palletsprojects.com/en/3.0.x/templates/">https://jinja.palletsprojects.com/en/3.0.x/templates/</a>.</p>
-<p>Therefore, we can update our <em>IOC yaml</em> file by adding an ADSimDetector entity to the entities list. In vscode, open <strong>services/t01-ea-cam-01/config/ioc.yaml</strong> and edit the boilerplate template so that it looks like the following:</p>
+<p>Therefore, we can update our <em>IOC yaml</em> file by adding an ADSimDetector entity to the entities list. In vscode, open <strong>services/bl01t-ea-cam-01/config/ioc.yaml</strong> and edit the boilerplate template so that it looks like the following:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.6.1/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>

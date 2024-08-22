@@ -207,7 +207,7 @@ Note that the process for taking a *Support yaml* entity_model with values from 
 
 To learn more about Jinja templating see here: <https://jinja.palletsprojects.com/en/3.0.x/templates/>.
 
-Therefore, we can update our *IOC yaml* file by adding an ADSimDetector entity to the entities list. In vscode, open **services/t01-ea-cam-01/config/ioc.yaml** and edit the boilerplate template so that it looks like the following:
+Therefore, we can update our *IOC yaml* file by adding an ADSimDetector entity to the entities list. In vscode, open **services/bl01t-ea-cam-01/config/ioc.yaml** and edit the boilerplate template so that it looks like the following:
 
 
 ```yaml

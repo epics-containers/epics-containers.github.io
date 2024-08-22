@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 3.6.0b2.dev2+g9c0d223 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 3.6.0b2.dev3+gd6f70af documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=2dbcbb2a"></script>
+    <script src="../_static/documentation_options.js?v=bbcab63c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,11 +509,22 @@ The tools you need to install are:</p>
 <li><p>Visual Studio Code</p></li>
 <li><p>a container platform, either docker or podman</p></li>
 <li><p>Python 3.11 or later + a Python virtual environment</p></li>
-<li><p>git client for version control</p></li>
+<li><p>git client for version control (Configured for the current user, with read-write access for Repository Contents as well as Workflows. Note: If you use Personal Access Tokens then replace <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:</span></code> with <code class="docutils literal notranslate"><span class="pre">https://github.com/</span></code> throughout this tutorial)</p></li>
 </ul>
 <p>Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, Yaml files and more.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Using a Personal Access Token (PAT):</strong> If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -&gt; Developer Settings -&gt; Personal access tokens -&gt; Fine-grained tokens.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Remember credentials for 5 hours duration
+git config --global credential.helper &#39;cache --timeout 18000&#39;
+# When asked to login
+Username for `https://github.com&#39;: &lt;ENTER YOUR USERNAME&gt;
+Password for `https://&lt;YOUR USERNAME&gt;@github.com&#39;: &lt;ENTER YOUR PAT&gt;
+</pre></div>
+</div>
+</div>
 <section id="options">
 <h2>Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h2>
 <p>You are not required to use VSCode to develop with epics-containers.
