@@ -86,6 +86,8 @@ sudo reboot
 
 ## Installing on Windows Subsystem for Linux
 
+I have had success with running k3s on WSL2, however, for best restults I would recommend using the VirtualBox applicance which is almost identical to a navtive Linux installation. These instructions have not been tested recently so YMMV.
+
 WSL2 gives you a linux distribution running within Windows, the following
 additional instructions explain how to use this platform.
 

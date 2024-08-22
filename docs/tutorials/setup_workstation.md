@@ -11,7 +11,7 @@ The tools you need to install are:
 
 Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
-EPICS, WSL2 and more.
+EPICS, Yaml files and more.
 
 ## Options
 
