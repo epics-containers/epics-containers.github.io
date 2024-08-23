@@ -42,7 +42,7 @@ If you want to use a GUI tool or any other tools you have installed on your host
 
 Generic IOCs can use PVI to auto generate engineering screens for your IOC instance in the form of phoebus bob files. ioc-adsimdetector uses this to make screens for the simdetector driver and for all of the AreaDetector plugins installed in the IOC instance.
 
-To make use of these screens we can use an install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine's loopback adapter.
+To make use of these screens we can install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine's loopback adapter.
 
 To launch both phoebus in a container and the ca-gateway container we use compose just like we did in the `t01-services` tutorial. The compose file is in the `compose` folder of the `ioc-adsimdetector` repository.
 

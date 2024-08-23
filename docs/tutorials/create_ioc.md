@@ -381,7 +381,7 @@ Fill out the rest of your NDProcess entity as follows:
     NDARRAY_PORT: DET.DET
 ```
 
-Now restart you simulation detector IOC:
+Now restart your simulation detector IOC:
 
 ```bash
 ec restart bl01t-ea-cam-01
