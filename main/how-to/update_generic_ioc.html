@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Change Management Manifesto &#8212; epics-containers 3.6.0b2.dev12+g93cb0ca documentation</title>
+    <title>Updating a Generic IOC to the Latest Copier Template &#8212; epics-containers 3.6.0b2.dev12+g93cb0ca documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/changes';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'how-to/update_generic_ioc';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
@@ -54,8 +54,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Architectural Decision Records" href="decisions.html" />
-    <link rel="prev" title="Explanations" href="../explanations.html" />
+    <link rel="next" title="Kubernetes Additional How To’s" href="useful_k8s.html" />
+    <link rel="prev" title="Viewing Operator Interfaces with Phoebus" href="phoebus.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,14 +160,14 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../how-to.html">
     How-to Guides
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
@@ -323,14 +323,14 @@ document.write(`
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../how-to.html">
     How-to Guides
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
@@ -427,21 +427,16 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Change Management Manifesto</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="decisions/0002-switched-to-python-copier-template.html">2. Adopt python-copier-template for project structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="decisions/0003-use-substitution-files.html">3. Use of substitution files to generate EPICS Databases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="decisions/0004-autosave-req-files.html">4. How to configure autosave for IOCs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Updating a Generic IOC to the Latest Copier Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 </div>
 </nav></div>
@@ -480,9 +475,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../explanations.html" class="nav-link">Explanations</a></li>
+    <li class="breadcrumb-item"><a href="../how-to.html" class="nav-link">How-to Guides</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Change...</li>
+    <li class="breadcrumb-item active" aria-current="page">Updating a...</li>
   </ul>
 </nav>
 </div>
@@ -499,83 +494,30 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="change-management-manifesto">
-<h1>Change Management Manifesto<a class="headerlink" href="#change-management-manifesto" title="Link to this heading">#</a></h1>
-<section id="pledge">
-<h2>Pledge<a class="headerlink" href="#pledge" title="Link to this heading">#</a></h2>
-<p>This page represents a pledge to control breaking changes for users of <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code>. The framework is still under development and there still may be breaking changes in future updates. However we now have a mechanism in place to allow users to adopt the framework, take advantage of the current features and then accept future updates in a controlled fashion.</p>
-<p>From version 3.4.0 onwards we will make changes in a controlled fashion that obeys SemVer 2.0.0 rules. We will also ensure that it is possible to apply updates in a gradual manner and not require a blanket update.</p>
-<p>The <a class="reference internal" href="../reference/changelog.html"><span class="std std-doc">Change Log</span></a> will give details of any things to be aware of between versions, including minor version updates.</p>
-</section>
-<section id="dependency-matrix">
-<h2>Dependency Matrix<a class="headerlink" href="#dependency-matrix" title="Link to this heading">#</a></h2>
-<p>Users of the framework will develop two kinds of repository:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Beamline repo</p></td>
-<td><p>A beamline or other grouping of IOC instance descriptions</p></td>
-</tr>
-<tr class="row-odd"><td><p>Generic IOC repo</p></td>
-<td><p>A definition of a generic IOC container image for a particular class of device</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Both of these types of repository are initially created using a copier template. The copier template version will have a SemVer version number that determines which component versions it is compatible with.</p>
-<p>For a discussion on how to update your projects to the latest version of the templates see <a class="reference internal" href="../how-to/copier_update.html"><span class="doc std std-doc">Updating User Repositories with Copier</span></a>.</p>
-<p>Any breaking changes to the framework will be made in a new Major version of the framework and hence a new Major version of the copier templates.</p>
-<p>The following diagram shows the set of components that are involved in the framework and the relationships between them. The dependencies between these components are not a strict API and the diagram attempts to highlight the features of each component that affect other components.</p>
-<p>The diagram may be used by developers of the framework to plan how changes will be made and to ensure that breaking changes are made in a controlled manner.</p>
-<p>Users of the framework are only concerned with the top two boxes and these are always updated on an as-needed basis via the copier templates.</p>
-<figure class="align-default" id="id1">
-<img alt="../_images/dependency_matrix.png" src="../_images/dependency_matrix.png" />
-<figcaption>
-<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">epics-containers</span></code> dependency matrix</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>All <code class="docutils literal notranslate"><span class="pre">ec</span></code> SemVer components will always have their major version bumped simultaneously. Likewise for <code class="docutils literal notranslate"><span class="pre">ibek</span></code> SemVer components. These are at versions 3.4.0 and 2.0.0 respectively at the time of writing.</p>
-</section>
-<section id="updating-user-projects">
-<h2>Updating user projects<a class="headerlink" href="#updating-user-projects" title="Link to this heading">#</a></h2>
-<p>A repository that was originally created using a copier template can be updated to a new version using the following command (assumes you have an active python venv with copier installed):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>update<span class="w"> </span>-r<span class="w"> </span>VERSION_NUMBER<span class="w"> </span>--trust<span class="w"> </span>.
+  <section id="updating-a-generic-ioc-to-the-latest-copier-template">
+<h1>Updating a Generic IOC to the Latest Copier Template<a class="headerlink" href="#updating-a-generic-ioc-to-the-latest-copier-template" title="Link to this heading">#</a></h1>
+<p>This requires that you have copier in your path which you can do by activating a virtual environment and installing it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
 </pre></div>
 </div>
-<p>You can supply the VERSION_NUMBER of the template you want or omit the -r option to get the latest released version.</p>
-<p>This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository.</p>
-<p>When a beamline repository is updated, it is still possible to deploy old versions of its IOC instances, even with a major version difference. That is because the deploy mechanism makes a temporary clone of the beamline repository and deploys the instance described in that version.</p>
-</section>
-<section id="user-project-versioning">
-<h2>User Project Versioning<a class="headerlink" href="#user-project-versioning" title="Link to this heading">#</a></h2>
-<p>The documentation has recommended using DateVer for beamline repos and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.</p>
-<p>It is easy to determine which template version and thus which <code class="docutils literal notranslate"><span class="pre">ec</span></code> SemVer version your repository was last updated from. Inspect the file <code class="docutils literal notranslate"><span class="pre">.copier_answers.yml</span></code> in the root of your repository. This file contains the version of the template that was used to create the repository in the field <code class="docutils literal notranslate"><span class="pre">_commit</span></code>.</p>
-</section>
-<section id="types-of-changes">
-<h2>Types of Changes<a class="headerlink" href="#types-of-changes" title="Link to this heading">#</a></h2>
-<p>Changes to the framework are likely to be initiated in one of the places described under the following headings. As far as possible such changes will be backwards compatible going forward, and if they are not then a major version release will be made.</p>
-<section id="ibek">
-<h3>ibek<a class="headerlink" href="#ibek" title="Link to this heading">#</a></h3>
-<p>Changes to the CLI commands inside of the container build/runtime are initiated in the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> python module that lives inside every generic IOC. This can affect the support module build recipes in <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> and potentially the Dockerfile in Generic IOC projects.</p>
-</section>
-<section id="ec-helm-charts">
-<h3>ec-helm-charts<a class="headerlink" href="#ec-helm-charts" title="Link to this heading">#</a></h3>
-<p>Changes here affect how IOCs and other services are deployed into Kubernetes. These would likely affect beamline repositories as they contain the versions of Helm Charts used to deploy their instances. Potentially changes to these Charts may require an update to the edge-services-cli to support new features.</p>
-</section>
-<section id="ioc-template">
-<h3>ioc-template<a class="headerlink" href="#ioc-template" title="Link to this heading">#</a></h3>
-<p>The Generic IOC template is well established and stable. However, each time a new target architecture is added, this will need updates to the CI. We will be supporting Windows and ARM targets in future. These changes should certainly be backwards compatible and not affect existing projects.</p>
-</section>
-<section id="ibek-support">
-<h3>ibek-support<a class="headerlink" href="#ibek-support" title="Link to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a unique project in that it is a submodule of all Generic IOCs. It is expected that there will be constant change to this module as new support modules are added. However, such changes will almost entirely be adding new folders and not affect existing generic IOCs. We encourage users to fork this repository, add their own support modules and submit PRs back to the original so that a wide range of support modules can be shared (a branch rather than fork is preferred for internal developers).</p>
-<p>If there is a need to change the CLI that ibek-support uses, then a new version of <code class="docutils literal notranslate"><span class="pre">ibek</span></code> will be released. Only generic IOCs that have been updated to pick up the new version of <code class="docutils literal notranslate"><span class="pre">ibek</span></code> would be able to use these changes. Because older generic IOCs will retain the old commit of the ‘ibek-support’ submodule, they will not be affected by the changes until they are updated.</p>
-</section>
-</section>
+<p>Then you can run the following command to update your generic IOC to the latest template, this example for ioc-adaravis.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>ioc-adaravis<span class="w"> </span>--recursive
+<span class="nb">cd</span><span class="w"> </span>ioc-adaravis
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>update-template
+copier<span class="w"> </span>update<span class="w"> </span>--trust
+<span class="nb">cd</span><span class="w"> </span>ibek-support
+checkout<span class="w"> </span>main
+<span class="nb">cd</span><span class="w"> </span>..
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update to latest template&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>update-template
+</pre></div>
+</div>
+<p>Now check the CI runs as expected. You may also verify locally with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build.sh
+./tests/run_tests.sh
+</pre></div>
+</div>
 </section>
 
 
@@ -589,20 +531,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../explanations.html"
+       href="phoebus.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Explanations</p>
+        <p class="prev-next-title">Viewing Operator Interfaces with Phoebus</p>
       </div>
     </a>
     <a class="right-next"
-       href="decisions.html"
+       href="useful_k8s.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Architectural Decision Records</p>
+        <p class="prev-next-title">Kubernetes Additional How To’s</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -617,32 +559,10 @@ document.write(`
 
 
   <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pledge">Pledge</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependency-matrix">Dependency Matrix</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-user-projects">Updating user projects</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-project-versioning">User Project Versioning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-changes">Types of Changes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek">ibek</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ec-helm-charts">ec-helm-charts</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-template">ioc-template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek-support">ibek-support</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/explanations/changes.md">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/how-to/update_generic_ioc.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -657,7 +577,7 @@ document.write(`
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/explanations/changes.md.txt">
+    <a href="../_sources/how-to/update_generic_ioc.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
