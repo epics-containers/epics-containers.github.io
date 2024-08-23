@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers Part 2 &#8212; epics-containers 3.6.0b2.dev7+g8495117 documentation</title>
+    <title>Developer Containers Part 2 &#8212; epics-containers 3.6.0b2.dev10+gdf7fc61 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=3fa87c77"></script>
+    <script src="../_static/documentation_options.js?v=58518a0b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -535,7 +535,7 @@ caget<span class="w"> </span>-#100<span class="w"> </span>BL01T-EA-CAM-01:ARR:Ar
 <section id="phoebus-and-gateway">
 <h2>Phoebus and Gateway<a class="headerlink" href="#phoebus-and-gateway" title="Link to this heading">#</a></h2>
 <p>Generic IOCs can use PVI to auto generate engineering screens for your IOC instance in the form of phoebus bob files. ioc-adsimdetector uses this to make screens for the simdetector driver and for all of the AreaDetector plugins installed in the IOC instance.</p>
-<p>To make use of these screens we can use an install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine’s loopback adapter.</p>
+<p>To make use of these screens we can install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine’s loopback adapter.</p>
 <p>To launch both phoebus in a container and the ca-gateway container we use compose just like we did in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> tutorial. The compose file is in the <code class="docutils literal notranslate"><span class="pre">compose</span></code> folder of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository.</p>
 <p>IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are launching further containers here and we do not want ‘containers in containers’ because there lies madness! To launch the gateway and phoebus containers, open a new terminal on the host and use the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsimdetector/compose
