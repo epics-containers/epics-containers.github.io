@@ -3,13 +3,15 @@
 This requires that you have copier in your path which you can do by activating a virtual environment and installing it.
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install copier
 ```
 
-Then you can run the following command to update your generic IOC to the latest template, this example for ioc-adaravis.
+Then you can run the following commands to update your generic IOC to the latest template, this example for ioc-adaravis.
 
 ```bash
-git clone ioc-adaravis --recursive
+git clone git@github.com:epics-containers/ioc-adaravis --recursive
 cd ioc-adaravis
 git checkout -b update-template
 copier update --trust

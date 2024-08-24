@@ -38,12 +38,12 @@ code .
 
 Our new example IOC will be a simulation detector using the AreaDetector SimDetector. There is already a Generic IOC for the SimDetector, therefore to create an IOC Instance, we just need to refer to that Generic IOC container image and provide some configuration for it.
 
-You can find the Generic IOC container source for SimDetector here: <https://github.com/epics-containers/ioc-adsimdetector>. This repository publishes its container image at: `ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2`. Later tutorials will cover how to build and publish your own Generic IOC container images.
+You can find the Generic IOC container source for SimDetector here: <https://github.com/epics-containers/ioc-adsimdetector>. This repository publishes its container image at: `ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1`. Later tutorials will cover how to build and publish your own Generic IOC container images.
 
 Edit the `compose.yml` file in the `bl01t-ea-cam-01` folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:
 
 - find and replace **replace_me** with **bl01t-ea-cam-01**
-- replace **replace_with_image_uri** with **ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2**
+- replace **replace_with_image_uri** with **ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1**
 
 That's it for the `compose.yml` file. This file is essentially boilerplate and would look very similar for every IOC Instance you create. The two unique things that this file does are:
 - determine the name of the IOC
@@ -60,7 +60,7 @@ services:
       service: linux_ioc
       file: ../../include/ioc.yml
 
-    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1
 
     labels:
       version: 0.1.0
@@ -70,7 +70,7 @@ services:
       IOC_NAME: bl01t-ea-cam-01
 
     volumes:
-      - ../../opi/iocs/bl01t-ea-cam-01:/epics/opi
+      - ../../opiauto-generated/bl01t-ea-cam-01:/epics/opi
 
     configs:
       - source: bl01t-ea-cam-01_config

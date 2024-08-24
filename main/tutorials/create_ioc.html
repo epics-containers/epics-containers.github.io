@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 3.6.0b2.dev12+g93cb0ca documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 4.0.0b2.dev3+ged5e76f documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=8aa93549"></script>
+    <script src="../_static/documentation_options.js?v=41c27ea5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -539,11 +539,11 @@ code<span class="w"> </span>.
 <section id="compose-yml">
 <h3>Compose.yml<a class="headerlink" href="#compose-yml" title="Link to this heading">#</a></h3>
 <p>Our new example IOC will be a simulation detector using the AreaDetector SimDetector. There is already a Generic IOC for the SimDetector, therefore to create an IOC Instance, we just need to refer to that Generic IOC container image and provide some configuration for it.</p>
-<p>You can find the Generic IOC container source for SimDetector here: <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. This repository publishes its container image at: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2</span></code>. Later tutorials will cover how to build and publish your own Generic IOC container images.</p>
+<p>You can find the Generic IOC container source for SimDetector here: <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. This repository publishes its container image at: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</span></code>. Later tutorials will cover how to build and publish your own Generic IOC container images.</p>
 <p>Edit the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:</p>
 <ul class="simple">
 <li><p>find and replace <strong>replace_me</strong> with <strong>bl01t-ea-cam-01</strong></p></li>
-<li><p>replace <strong>replace_with_image_uri</strong> with <strong>ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2</strong></p></li>
+<li><p>replace <strong>replace_with_image_uri</strong> with <strong>ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</strong></p></li>
 </ul>
 <p>That’s it for the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file. This file is essentially boilerplate and would look very similar for every IOC Instance you create. The two unique things that this file does are:</p>
 <ul class="simple">
@@ -559,7 +559,7 @@ code<span class="w"> </span>.
 <span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_ioc</span>
 <span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../include/ioc.yml</span>
 
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.8.2</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</span>
 
 <span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span>
@@ -569,7 +569,7 @@ code<span class="w"> </span>.
 <span class="w">      </span><span class="nt">IOC_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01</span>
 
 <span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../opi/iocs/bl01t-ea-cam-01:/epics/opi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../opiauto-generated/bl01t-ea-cam-01:/epics/opi</span>
 
 <span class="w">    </span><span class="nt">configs</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01_config</span>
