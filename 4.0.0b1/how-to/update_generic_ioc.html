@@ -497,11 +497,13 @@ document.write(`
   <section id="updating-a-generic-ioc-to-the-latest-copier-template">
 <h1>Updating a Generic IOC to the Latest Copier Template<a class="headerlink" href="#updating-a-generic-ioc-to-the-latest-copier-template" title="Link to this heading">#</a></h1>
 <p>This requires that you have copier in your path which you can do by activating a virtual environment and installing it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="nb">source</span><span class="w"> </span>venv/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>copier
 </pre></div>
 </div>
-<p>Then you can run the following command to update your generic IOC to the latest template, this example for ioc-adaravis.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>ioc-adaravis<span class="w"> </span>--recursive
+<p>Then you can run the following commands to update your generic IOC to the latest template, this example for ioc-adaravis.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ioc-adaravis<span class="w"> </span>--recursive
 <span class="nb">cd</span><span class="w"> </span>ioc-adaravis
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>update-template
 copier<span class="w"> </span>update<span class="w"> </span>--trust
