@@ -85,10 +85,14 @@ Phoebus should now be up and running and showing the auto generated **index.bob*
   - set PV Name to 'BL01T-EA-TST-02:ARR:ArrayData'
   - set Title to 'SimDetector Image'
   - set Data width and height to 1024
-- choose File -> Save As and save as `/opi/demo.bob`
+- choose File -> Save As and save as `/workspaces/ioc-adsimdetector/services/opi/bl01t-ea-ioc-02.bob`
+- note you will need to create the opi folder under services
 - click the 'Execute Display' green arrow button on the right of the top toolbar
 
-IMPORTANT: you must save in `/opi` not `/opi/ioc` because the second folder has its contents cleared and filled with auto generated screens every time the IOC is started.
+
+::: {note}
+We saved the screen in **services/opi** because this is a hand crafted overview screen specific to an IOC instance described in that **services** folder. The root **opi** folder is reserved for generic screens (i.e. with macros) and as a place for auto-generated screens to go when running the developer container.
+:::
 
 Back inside the developer container, you can now start the detector and the Std Arrays plugin, by opening a new terminal and running the following:
 

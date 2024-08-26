@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epics-containers 4.0.0b2.dev3+ged5e76f documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers 4.0.0b2.dev3+ge915374 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=41c27ea5"></script>
+    <script src="../_static/documentation_options.js?v=ca96c1d7"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -573,10 +573,14 @@ ec<span class="w"> </span>up<span class="w"> </span>-d
 <li><p>set Data width and height to 1024</p></li>
 </ul>
 </li>
-<li><p>choose File -&gt; Save As and save as <code class="docutils literal notranslate"><span class="pre">/opi/demo.bob</span></code></p></li>
+<li><p>choose File -&gt; Save As and save as <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/services/opi/bl01t-ea-ioc-02.bob</span></code></p></li>
+<li><p>note you will need to create the opi folder under services</p></li>
 <li><p>click the ‘Execute Display’ green arrow button on the right of the top toolbar</p></li>
 </ul>
-<p>IMPORTANT: you must save in <code class="docutils literal notranslate"><span class="pre">/opi</span></code> not <code class="docutils literal notranslate"><span class="pre">/opi/ioc</span></code> because the second folder has its contents cleared and filled with auto generated screens every time the IOC is started.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We saved the screen in <strong>services/opi</strong> because this is a hand crafted overview screen specific to an IOC instance described in that <strong>services</strong> folder. The root <strong>opi</strong> folder is reserved for generic screens (i.e. with macros) and as a place for auto-generated screens to go when running the developer container.</p>
+</div>
 <p>Back inside the developer container, you can now start the detector and the Std Arrays plugin, by opening a new terminal and running the following:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caput<span class="w"> </span>BL01T-EA-TST-02:ARR:EnableCallbacks<span class="w"> </span><span class="m">1</span>
 caput<span class="w"> </span>BL01T-EA-TST-02:DET:Acquire<span class="w"> </span><span class="m">1</span>
