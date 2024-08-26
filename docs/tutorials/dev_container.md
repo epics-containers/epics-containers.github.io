@@ -290,7 +290,7 @@ You can now easily browse around the `/epics` folder and see all the support mod
      - compiled epics-base
 
    * - /epics/ioc
-     - ${localWorkspaceFolder}/ioc
+     - ${localWorkspaceFolder}/auto-generated
      - soft link to IOC source tree
 
    * - /epics/opi
