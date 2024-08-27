@@ -76,8 +76,16 @@ devcontainer in the next tutorial.
 ### Setup Docker or Podman
 
 :::{Note}
-**DLS Users**: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default.
-RHEL 7 Workstations are not supported.
+**DLS Users**: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.
+
+If this is the first time you have used podman OR you are using a DLS Redhat laptop then you must perform the following steps:
+
+```bash
+# setup the podman config folders in your home directory
+/dls_sw/apps/setup-podman/setup.sh
+# disable se labels in mounted folders for podman
+sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containers\]$/a label=false'
+```
 :::
 
 Next install docker or podman as your container platform. epics-containers
