@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev3+ge915374 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev5+g2012022 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ca96c1d7"></script>
+    <script src="../_static/documentation_options.js?v=379ba8bc"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -572,8 +572,14 @@ devcontainer in the next tutorial.</p>
 <h3>Setup Docker or Podman<a class="headerlink" href="#setup-docker-or-podman" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default.
-RHEL 7 Workstations are not supported.</p>
+<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.</p>
+<p>If this is the first time you have used podman OR you are using a DLS Redhat laptop then you must perform the following steps:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup the podman config folders in your home directory</span>
+/dls_sw/apps/setup-podman/setup.sh
+<span class="c1"># disable se labels in mounted folders for podman</span>
+sed<span class="w"> </span>-i<span class="w"> </span>~/.config/containers/containers.conf<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/label=false/d&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/^\[containers\]$/a label=false&#39;</span>
+</pre></div>
+</div>
 </div>
 <p>Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.</p>
