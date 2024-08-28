@@ -223,7 +223,7 @@ GUI generation for engineering screens is supported via the PVI project. See <ht
 
 ## Additional Tools
 
-### edge-containers-cli
+### ec-cli
 
 This is the 'outside of the container' helper tool. The command
 line entry point is **ec**.
