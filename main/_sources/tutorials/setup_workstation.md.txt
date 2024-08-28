@@ -5,9 +5,9 @@ in readiness for the remaining tutorials.
 The tools you need to install are:
 
 - Visual Studio Code
-- a container platform, either docker or podman
-- Python 3.11 or later + a Python virtual environment
-- git client for version control (Configured for the current user, with read-write access for Repository Contents as well as Workflows. Note: If you use Personal Access Tokens then replace `git@github.com:` with `https://github.com/` throughout this tutorial)
+- a container platform, either docker or podman and docker-compose
+- Python 3.10 or later + a Python virtual environment
+- git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)
 
 Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
@@ -23,6 +23,8 @@ git config --global credential.helper 'cache --timeout 18000'
 Username for `https://github.com': <ENTER YOUR USERNAME>
 Password for `https://<YOUR USERNAME>@github.com': <ENTER YOUR PAT>
 ```
+
+When using Personal Access Tokens, replace `git@github.com:` with `https://github.com/` throughout these tutorials.
 :::
 
 
@@ -39,13 +41,43 @@ See these how-to pages for more information:
 
 The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.
 
-If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide. First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and then download the [Virtual Machine](https://drive.google.com/file/d/1ejJjiVDcODkiJsTShkCclQyod02f4Tex/view?usp=drive_link) TODO: currently hosted on giles Google Drive - find a better hosting solution. The downloaded file is an OVA file which can be imported into VirtualBox using ``File->Import Appliance ...``. During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources.
+Whatever your platform, if you can install virtualbox, then you can work using the applicance we provide.
 
-If you are using Windows you could instead install WSL2 and then work within the Linux subsystem. see [WSL2 installation instructions]. Ubuntu is recommended as the Linux distribution for WSL2. This has not been tested with the tutorials recently so the VM above is the preferred option.
+In all cases you will need an internet connection to download the software and the container images. (if you are at DLS you do not need access to DLS network resources, only the internet).
 
+| Platform | Requirements |
+|----------|--------------|
+| Any Linux | admin rights only: go to {ref}`installation-steps` |
+| Windows | Virtualbox: go to {ref}`appliance` |
+| Mac x86 | Virtualbox: go to {ref}`appliance` |
+| Mac M1 | ?? |
+| DLS RHEL 8 | go to {ref}`installation-steps` |
+
+
+(appliance)=
+## VirtualBox Appliance
+
+If you already have a linux distribution with admin permissions then go to {ref}`installation-steps` below.
+
+
+::: {important}
+For some tutorials you will need write access to a project in your personal github. We recommend using the PAT method described in the 1st section above.
+:::
+
+If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide.
+
+First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and then download the [Virtual Machine](https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing). The downloaded file is an OVA file which can be imported into VirtualBox using ``File->Import Appliance ...``
+
+During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources. We recommend 8GB of RAM and 4 CPUs for the VM but more is better for the developer container tutorials!
+
+When the appliance is started you can log in as `ec-demo` with password `demo1`.
+
+Now jump to {ref}`cli-completion` below.
+
+
+
+(installation-steps)=
 ## Installation Steps
-
-If you are using the Virtual Machine, then you can skip to "Setup virtual environment", because the first three requirements are already installed.
 
 If you are using your own Linux machine then follow all the steps below to install the required software.
 
@@ -65,9 +97,6 @@ useful for working with epics-containers. You will need to install the *Required
 extensions before proceeding to the next tutorial. See the links for instructions
 on how to do this.
 
-The recommended extensions will be installed for you when you launch the
-devcontainer in the next tutorial.
-
 - Required: [Remote Development]
 - Required for Windows: [VSCode WSL2] (see [How to use WSL2 and Visual Studio Code])
 - Recommended: [VSCode EPICS]
@@ -78,7 +107,7 @@ devcontainer in the next tutorial.
 :::{Note}
 **DLS Users**: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.
 
-If this is the first time you have used podman OR you are using a DLS Redhat laptop then you must perform the following steps:
+If this is the first time you have used podman **OR you are using a DLS Redhat laptop** then you must perform the following steps:
 
 ```bash
 # setup the podman config folders in your home directory
@@ -119,7 +148,7 @@ in your `.bashrc` file.
 
 `docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
 
-
+(cli-completion)=
 ### Command Line Completion
 
 This is an optional step to set up CLI completion for docker or podman.
@@ -152,8 +181,8 @@ Go ahead and install Python 3.11 or later.
 There are instructions for installing Python on all platforms here:
 <https://docs.python-guide.org/starting/installation/>
 
-### Setup virtual environment
 
+### Setup virtual environment
 
 Once you have python, set up a virtual environment for your epics-containers
 work. In the examples we will use `$HOME/ec-venv` as the virtual environment
@@ -164,38 +193,22 @@ but you can choose any folder.
 :::
 
 ```bash
-python -m venv $HOME/ec-venv
+python3 -m venv $HOME/ec-venv
 source $HOME/ec-venv/bin/activate
-python -m pip install --upgrade pip
+python3 -m pip install --upgrade pip
 ```
 
-Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding it in your .bashrc).
+Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your .bashrc).
 
 (ec)=
 
-### edge-containers-cli and copier
+### copier
 
-Above we set up a python virtual environment. Now we will install the {any}`edge-containers-cli` python tool into that environment. This tool is used to manage the IOC instances in Kubernetes and is only required for the later tutorials.
-
-We also take this opportunity to install `copier` which is used to copy the templates for the services repositories and generic IOCs.
+Above we set up a python virtual environment. Now we will install `copier` which is used to copy the templates for the services repositories and generic IOCs.
 
 ```bash
-pip install edge-containers-cli
 pip install copier
 ```
-
-See {any}`CLI` for more details.
-
-:::{note}
-DLS Users: `ec` is already installed for you on `dls_sw` just do the following to make sure it is always available:
-
-```bash
-# use the ec version from /dls_sw/work/python3
-mkdir -p $HOME/.local/bin
-ln -fs /dls_sw/work/python3/ec-venv/bin/ec $HOME/.local/bin/ec
-# log out and back in again to make sure the new path is available
-```
-:::
 
 ### Git
 
