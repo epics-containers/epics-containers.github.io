@@ -6,26 +6,22 @@ For a discussion on how to update your projects to the latest version of the tem
 
 ## Update for August 2024
 
-IMPORTANT: the changes to the framework described below are complete but the documentation is currenty being updated to reflect these changes. The tutorials are currently out of date and will be updated in the coming weeks.
-
-The latest changes to the framework are as follows:
-
-## ibek and ibek support version 3.0.1
+### ibek and ibek support version 3.0.x
 
 We have implemented some changes to the schema for the support.yaml files. There have been some changes to the names of fields for consistency and there is a modified structure which makes it much easier to use YAML anchors and aliases in order to avoid repetition in the support.yaml files. For the details of the changes and for a tool to convert existing 2.x schema yaml files see [ibek2to3.py](https://github.com/epics-containers/ibek/blob/main/convert/ibek2to3.py).
 
-## changes services projects versions 3.6.0
+### changes services projects versions 4.0.x
 
 Previously the beamline repo (also known as services repo) held a set of helm charts only. We provided a feature in the `ec` tool for making local deployments but this was quite limited in scope.
 
 Now local deployments are a first class citizen, using docker compose to deploy a set of services to a developer workstation or production server. There are now two template repositories for your sets of services as follows.
 
 - [services-template-compose](https://github.com/epics-containers/services-template-compose) for deploying without Kubernetes.
-- [services-template-helm](https://github.com/epics-containers/services-template-helm) for deploying with Kubernetes. (TODO - not yet created)
+- [services-template-helm](https://github.com/epics-containers/services-template-helm) for deploying with Kubernetes using helm.
 
-In addition we now support use of Argo CD for deploying services to Kubernetes. This uses continuous deployment to keep the services up to date with the latest changes in the services repository. For Argo CD there is an additional template for a small repository (Also TODO) which defines which versions of the services are deployed to the cluster.
+We now support use of Argo CD for deploying services to Kubernetes. This uses continuous deployment to keep the services up to date with the latest changes in the services repository. For Argo CD there is an additional template for a small repository which defines which versions of the services are deployed to the cluster.
 
-- [services-template-argocd](https://github.com/epics-containers/services-template-helm)
+- [deployment-template-argocd](https://github.com/epics-containers/deployment-template-argocd) for deploying a helm based repo (from the above) automatically using Argo CD.
 
 ## Update for April 2024 - version 3.4.0
 
