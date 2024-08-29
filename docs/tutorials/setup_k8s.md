@@ -102,6 +102,18 @@ sudo scp  /etc/rancher/k3s/k3s.yaml <YOUR_ACCOUNT>@<YOUR_WORKSTATION>:.kube/conf
 
 If you do have separate workstation then edit the file .kube/config replacing 127.0.0.1 with your server's IP Address. For a single machine the file is leftas is.
 
+### Install helm
+
+Helm is a package manager for Kubernetes. It is used to install and manage software on Kubernetes clusters.
+
+See https://helm.sh/docs/intro/install/.
+
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
 ### Test your installation
 
 ```bash
