@@ -21,6 +21,7 @@ tutorials/debug_generic_ioc
 tutorials/support_module
 tutorials/setup_k8s
 tutorials/setup_k8s_new_beamline
+tutorials/add_k8s_ioc
 tutorials/rtems_setup
 tutorials/rtems_ioc
 ```
