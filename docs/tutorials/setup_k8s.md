@@ -26,15 +26,7 @@ routing requirement.
 
 ## Platform Choice
 
-These instructions have been tested on the following platforms. The simplest
-option is to use a linux distribution that is supported by k3s.
-
-```{eval-rst}
-========================== ============================================
-Ubuntu 22.04 and newer     any modern linux distro should also work
-Raspberry Pi OS 2021-05-07 See `raspberry`
-========================== ============================================
-```
+These instructions have been tested on Ubuntu 22.04; however, any modern Linux distribution that is supported by k3s and running on a modern x86 machine should also work.
 
 Note that K3S provides a good uninstaller that will clean up your system if you decide to back out. So there is no harm in trying it out.
 
@@ -93,7 +85,7 @@ mkdir ~/.kube
 sudo scp  /etc/rancher/k3s/k3s.yaml <YOUR_ACCOUNT>@<YOUR_WORKSTATION>:.kube/config
 ```
 
-If you do have separate workstation then edit the file .kube/config replacing 127.0.0.1 with your server's IP Address. For a single machine the file is leftas is.
+If you do have separate workstation then edit the file .kube/config replacing 127.0.0.1 with your server's IP Address. For a single machine the file is left as is.
 
 ### Install helm
 
@@ -137,6 +129,24 @@ From the workstation INSIDE the devcontainer execute the following:
 kubectl create namespace t03-beamline
 kubectl config set-context t03-beamline --namespace=t03-beamline --user=default --cluster=default
 kubectl config use-context t03-beamline
+```
+
+### Install persistent volume support
+
+As per <https://docs.k3s.io/storage/>, the "Longhorn" distributed block storage system can be set up in our cluster. This is done in order to get support for ReadWriteMany persistent volume claims, which is not supported by the out of the box "Local Path Provisioner".
+
+```bash
+# Install dependancies
+sudo apt-get update; sudo apt-get install -y open-iscsi nfs-common jq
+
+# Set up longhorn
+kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.7.0/deploy/longhorn.yaml
+
+# Monitor while Longhorn starts up
+kubectl get pods --namespace longhorn-system --watch
+
+# Confirm ready
+kubectl get storageclass
 ```
 
 ### Completed
