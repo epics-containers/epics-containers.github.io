@@ -80,10 +80,9 @@ sudo chmod +x /usr/local/bin/kubectl
 
 Note that this is overwritting the kubectl that comes with k3s. That is a special version that reads its config from /etc/rancher/k3s/k3s.yaml and must therefore be run with sudo. The version we are installing here is the standard version that reads its config from $HOME/.kube/config.
 
-```bash
 ### Configure kubectl
 
- kubectl uses a default configuration file  **$HOME/.kube/config** to connect to the cluster. Here we will copy the configuration file from the server to the workstation.
+kubectl uses a default configuration file  **$HOME/.kube/config** to connect to the cluster. Here we will copy the configuration file from the server to the workstation.
 
 If you have one machine only then copy the k3s kubectl configuration into your home directory:
 
@@ -144,35 +143,6 @@ From the workstation INSIDE the devcontainer execute the following:
 kubectl create namespace t03-beamline
 kubectl config set-context t03-beamline --namespace=t03-beamline --user=default --cluster=default
 kubectl config use-context t03-beamline
-```
-
-### Create a service account to run the IOCs
-
-Inside of our new namespace we will create a service account that will be used to run the IOCs. Kubernetes uses a declarative model where you define the desired state of the system and Kubernetes will make it so. Here we will create a service account and a secret that will be used to authenticate the service account. In both cases these are defined directly using command line YAML which kubectl passes to the Kubernetes API.
-
-Create the account:
-
-```bash
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-    name: bl03t-priv
-EOF
-```
-
-Generate a login token for the account:
-
-```bash
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-    name: bl03t-priv-secret
-    annotations:
-        kubernetes.io/service-account.name: bl03t-priv
-type: kubernetes.io/service-account-token
-EOF
 ```
 
 ### Completed
