@@ -137,6 +137,24 @@ kubectl config set-context t03-beamline --namespace=t03-beamline --user=default 
 kubectl config use-context t03-beamline
 ```
 
+### Install persistent volume support
+
+As per <https://docs.k3s.io/storage/>, the "Longhorn" distributed block storage system can be set up in our cluster. This is done in order to get support for ReadWriteMany persistent volume claims, which is not supported by the out of the box "Local Path Provisioner".
+
+```bash
+# Install dependancies
+sudo apt-get update; sudo apt-get install -y open-iscsi nfs-common jq
+
+# Set up longhorn
+kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.7.0/deploy/longhorn.yaml
+
+# Monitor while Longhorn starts up
+kubectl get pods --namespace longhorn-system --watch
+
+# Confirm ready
+kubectl get storageclass
+```
+
 ### Completed
 
 That's it. You now have installed the necessary software to start experimenting with IOCs on Kubernetes.
