@@ -108,7 +108,7 @@ If you do have separate workstation then edit the file .kube/config replacing 12
 kubectl get nodes
 ```
 
-This should return the name of your server e.g.:
+This should return the name of your single worker node (i.e. your server or workstation name) e.g.:
 
 ```bash
 $ kubectl get node
@@ -124,14 +124,14 @@ us to isolate sets of cluster resources from each other, epics-containers uses a
 
 A context is a combination of a cluster, namespace, and user. It tells kubectl which cluster and namespace to use when communicating with the Kubernetes API.
 
-Here we will create a namespace for our test beamline bl03t.
+Here we will create a namespace for our test beamline t03-beamline.
 
 From the workstation INSIDE the devcontainer execute the following:
 
 ```bash
-kubectl create namespace bl03t
-kubectl config set-context bl03t --namespace=bl03t --user=default --cluster=default
-kubectl config use-context bl03t
+kubectl create namespace t03-beamline
+kubectl config set-context t03-beamline --namespace=t03-beamline --user=default --cluster=default
+kubectl config use-context t03-beamline
 ```
 
 ### Create a service account to run the IOCs

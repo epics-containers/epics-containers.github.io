@@ -2,88 +2,78 @@
 
 # Create a New Kubernetes Beamline
 
-:::{warning}
-This is a second draft that has been tested against a DLS test beamline
-only. I will remove this warning once it has been tested against:
+Up until now the tutorials have been deploying IOCs to the local docker or docker instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy's into a Kubernetes cluster.
 
-- the k3s example cluster described in the previous tutorial
-- a real DLS beamline.
-:::
+Helm is a package manager for Kubernetes that allows you to define a set of resources that make up your application in a **Chart**. This is the most popular way to deploy applications to Kubernetes.
 
-Up until now the tutorials have been deploying IOCs to the local docker or
-docker instance on your workstation. In this tutorial we look into setting
-up a Kubernetes cluster for a beamline and deploying a test IOC there.
+Previously our beamline repository contained a **services** folder.  Each subfolder of **services** contained a **compose.yaml** with details of the generic IOC container image, plus a **config** folder that provided an IOC instance definition.
 
-The advantage of using Kubernetes is that it is a production grade container
-orchestration system. It will manage the CPU, disk and memory available across
-your cluster of nodes, scheduling your IOCs and other services accordingly.
-It will also restart them if they fail and monitor their health.
-It can provide centralised logging and monitoring
-of all of your services including IOCs.
+In the Kubernetes world each folder under **services** will be an individually deployable Helm Chart. This means that instead of a **compose.yaml** file we will have a **Chart.yaml** which describes the dependencies of the chart and a **values.yaml** that describes some arguments to it. There is also a file **services/values.yaml** that describes the default arguments for all the charts in the repository.
 
-In this tutorial we will create a new beamline in the Kubernetes cluster.
-Here we assume that the cluster is already setup and that there is
-a namespace configured for use by the beamline. See the previous tutorial
-for how to set one up if you do not have this already.
+In this tutorial we will create a new beamline in a Kubernetes cluster. Here we assume that the cluster is already setup and that there is a namespace configured for use by the beamline. See the previous tutorial for how to set one up if you do not have this already.
 
 :::{note}
-DLS users: these instructions are for the BL46P beamline. Which is a training beamline.
-
-To setup the beamline repo for other beamlines you will need to change the answers to the copier template questions.
-
-
-At present DLS users will need to request access to the cluster for each beamline you want to work on. The following link is for making such a request but you will need someone who already has access to make the request for you:
-<https://jira.diamond.ac.uk/servicedesk/customer/portal/2/create/92> (ask giles if you don't know who to ask for this access.)
+DLS users: you should use your personal namespace in the test cluster **Pollux**. Your personal namespace is named after your *fedid*
 :::
 
 ## Create a new beamline repository
 
-This step is almost exactly the same as [](create-new-beamline-local). Except that you will answer some of the questions in the copier template differently. In fact you can re-use the same repository you created in the previous tutorial and update the copier to change where we deploy the IOCs to. The following steps will guide you through this, but if you want to keep your old local beamline repo, just follow the steps in [](create-new-beamline-local) but pick a new name and use the answers below.
+As before, we will use a copier template to create the new beamline repository. The steps are similar to the first tutorial {any}`create_beamline`.
 
-In order to change our original `bl01t` beamline to a Kubernetes beamline perform the following steps:
+1. We are going to call the new beamline **bl03t** with the repository name **t03-services** it will be created in the namespace **bl03t** on the local cluster that we created in the last tutorial OR the *fedid* namespace on the Pollux cluster if you are using the DLS cluster.
 
-```bash
-# make sure your Python virtual environment is active
-pip install copier
+    ```bash
+    # make sure your Python virtual environment is active and copier is pip installed
+    copier copy gh:epics-containers/services-template-helm t03-services
+    code t03-services
+    ```
 
-git clone git@github.com:YOUR_GITHUB_ACCOUNT/bl01t.git
-cd bl01t
-copier update --trust .
-```
+    Answer the copier template questions as follows:
 
-Answer the copier template questions as follows:
+    <pre><font color="#5F87AF">🎤</font><b> Short name for this collection of services.</b>
+    <b>   </b><font color="#FFAF00"><b>t03</b></font>
+    <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
+    <b>   </b><font color="#FFAF00"><b>t03 IOC Instances and Services</b></font>
+    <font color="#5F87AF">🎤</font><b> Kubernetes cluster namespace</b>
+    <b>   </b><font color="#FFAF00"><b>t03-beamline</b></font>
+    <font color="#5F87AF">🎤</font><b> Name of the k8s cluster where the IOCs and services in this repository will run</b>
+    <b>   </b><font color="#FFAF00"><b>local</b></font>
+    <font color="#5F87AF">🎤</font><b> Apply cluster specific details. For missing platform override cluster_type, or add your own in a PR.</b>
+    <b>   </b><font color="#FFAF00"><b>Skip</b></font>
+    <font color="#5F87AF">🎤</font><b> Default location where these IOCs and services will run. e.g. &quot;bl01t&quot;, &quot;SR01&quot;. Leave blank to configure per IOC.</b>
+    <b>   </b><font color="#FFAF00"><b>bl03t</b></font>
+    <font color="#5F87AF">🎤</font><b> Git platform hosting this repository. For missing platform override git_platform, or add your own in a PR.</b>
+    <b>   </b><font color="#FFAF00"><b>github.com</b></font>
+    <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
+    <b>   </b><font color="#FFAF00"><b>gilesknap</b></font>
+    <font color="#5F87AF">🎤</font><b> Remote URI of the services repository.</b>
+    <b>   </b><font color="#FFAF00"><b>https://github.com/gilesknap/t03-services</b></font>
+    <font color="#5F87AF">🎤</font><b> URL for centralized logging. For missing platform override logging_url, or add your own in a PR.</b>
+    <b>   </b><font color="#FFAF00"><b>Skip</b></font>
+    </pre>
 
-   <pre><font color="#5F87AF">🎤</font><b> Where are you deploying these IOCs and services?</b>
-   <b>   </b><font color="#FFAF00"><b>beamline</b></font>
-   <font color="#5F87AF">🎤</font><b> Short name for the beamline, e.g. &quot;bl47p&quot;, &quot;bl20j&quot;, &quot;bl21i&quot;</b>
-   <b>   </b><font color="#FFAF00"><b>bl01t</b></font>
-   <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-   <b>   </b><font color="#FFAF00"><b>beamline bl01t IOC Instances and Services</b></font>
-   <font color="#5F87AF">🎤</font><b> Cluster namespace. local for no K8S or e.g. p38-iocs, j20-iocs, p47-iocs</b>
-   <b>   </b><font color="#FFAF00"><b>p46-iocs</b></font>
-   <font color="#5F87AF">🎤</font><b> Name of the cluster where the IOCs and services in this repository will run</b>
-   <b>   </b><font color="#FFAF00"><b>pollux</b></font>
-   <font color="#5F87AF">🎤</font><b> This controls how the `environment.sh` script connects to the cluster.</b>
-   <b>   </b><font color="#FFAF00"><b>Shared Cluster (inc accelerator)</b></font>
-   <font color="#5F87AF">🎤</font><b> Add node-type tolerations for the target hosts&apos; node type</b>
-   <b>   </b><font color="#FFAF00"><b>training-rig</b></font>
-   <font color="#5F87AF">🎤</font><b> Git platform hosting the repository.</b>
-   <b>   </b><font color="#FFAF00"><b>github.com</b></font>
-   <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
-   <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_USER</b></font>
-   <font color="#5F87AF">🎤</font><b> Remote URI of the repository.</b>
-   <b>   </b><font color="#FFAF00"><b>git@github.com:YOUR_GITHUB_USER/bl01t.git</b></font>
-   <font color="#5F87AF">🎤</font><b> URL for centralized logging.</b>
-   <b>   </b><font color="#FFAF00"><b>DLS</b></font>
-   </pre>
+1. Create your new repository on GitHub in your personal space by following this link <https://github.com/new>. Give it the name **t03-services** and a description of "t03 IOC Instances and Services". Then click "Create repository".
 
-:::{warning}
-DLS Users: These instructions are for the BL46P beamline. This beamline is a training rig and it is OK to install some test Simulation IOCs on it. However you will need to get access before you can deploy to it. Ask giles to request access to the `p46-iocs` namespace on the `pollux` cluster. In future the ec-services-template will be updated to allow you to deploy IOCs to your own namespace on the `pollux` cluster.
-:::
+   Now copy the ssh address of your new repository from the GitHub page.
+
+   :::{figure} ../images/copy_gh_repo_addr.png
+   copying the repository address from GitHub
+   :::
+
+1. Make the first commit and push the repository to GitHub.
+
+    ```bash
+    cd t03-services
+    git init -b main
+    git add .
+    git commit -m "initial commit"
+    git remote add origin >>>>paste your ssh address here<<<<
+    git push -u origin main
+    ```
 
 ## Review the New Beamline Repository
 
-The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. DLS users will already have these things set up by the copier template to talk to the p46-iocs namespace on pollux cluster. If you believe your repo is already configured to talk to your cluster then you could jump ahead to [](create-test-ioc-k8s).
+The following sections are just a review of what the template project created. Those of you who are outside of DLS can use this as a guide to what you need to set up in your own beamline repository to talk you your own cluster. The template should have created the correct things already if you are using DLS's **pollux** or your own local cluster from the previous tutorial.
 
 
 ## Cluster Topologies
@@ -93,30 +83,21 @@ There are two supported topologies for beamline clusters:
 - shared cluster with multiple beamlines' IOCs running in the same cluster
 - dedicated cluster with a single beamline's IOCs running in the cluster
 
-If you are working with the single node k3s cluster set up in the previous
-tutorial then this will be considered a dedicated cluster.
+If you are working with the single node k3s cluster set up in the previous tutorial then this will be considered a dedicated cluster.
 
-If you are creating a real DLS beamline or accelerator domain then this will
-also be a dedicated cluster. You will need to make sure the cloud team has
-created the cluster for the beamline and you have permissions to use it.
+If you are creating a real DLS beamline or accelerator domain then this will also be a dedicated cluster. You will need to make sure the cloud team has created the cluster for the beamline and you have permissions to use it.
 
-If you are working with one of the test beamlines at DLS then these are usually
-shared topology and are set up as nodes on the Pollux cluster.
+If you are working with one of the test beamlines at DLS then these are usually shared topology and are set up as nodes on the Pollux cluster.
 
 Other facilities are free to choose the topology that best suits their needs.
 
 ### Shared Clusters
 
-In the shared cluster topology we would usually want IOCs to run on the
-servers that are closest to the beamline. This is important for Channel Access
-because it is a broadcast protocol and by default only works on a single
-subnet.
+In the shared cluster topology we would usually want IOCs to run on the servers that are closest to the beamline. This is important for Channel Access because it is a broadcast protocol and by default only works on a single subnet.
 
-To facilitate this we use `node affinity rules` to ensure that IOCs
-run on the beamline's specific nodes. `Node affinity` can look for a `label`
-on the node to say that it belongs to a beamline.
-We can also use `taints` to stop other pods from
-running on our beamline nodes. A `taint` will stop pods from being scheduled
+To facilitate this we use `node affinity rules` to ensure that IOCs run on the beamline's specific nodes. `Node affinity` can look for a `label` on the node to say that it belongs to a beamline.
+
+We can also use `taints` to stop other pods from running on our beamline nodes. A `taint` will stop pods from being scheduled
 on a node unless the pod has a matching toleration.
 
 For example the test beamline p46 at DLS has the following `taints` and
@@ -130,10 +111,7 @@ Taints:         beamline=bl46p:NoSchedule
                 nodetype=test-rig:NoSchedule
 ```
 
-If you are working with your facility cluster then, you may not
-have permission to set up these labels and taints. In this case, your
-administrator will need to do this for you. At DLS, you should expect that
-this is already set up for you.
+If you are working with your facility cluster then, you may not have permission to set up these labels and taints. In this case, your administrator will need to do this for you. At DLS, you should expect that this is already set up for you.
 
 For an explanation of these K8S concepts see
 
@@ -142,13 +120,12 @@ For an explanation of these K8S concepts see
 
 ### Dedicated Clusters
 
-In the dedicated cluster topology we would usually want to let the IOCs
-run on all of the worker nodes in the cluster. In this case the only thing
-that is required is a namespace in which to run your IOCs.
+In the dedicated cluster topology we would usually want to let the IOCs run on all of the worker nodes in the cluster. In this case the only thing that is required is a namespace in which to run your IOCs.
 
-By convention we use a namespace like `bl46p-iocs` for this purpose. This
-namespace will need the appropriate permissions to allow the IOCs to run
-with network host.
+By convention we use a namespace like `t03-beamline` for this purpose. This namespace will need the appropriate permissions to allow the IOCs to run with network host OR you will expose your PVs by running a ca-gateway in the cluster. At DLS we have chosen to use network host for our dedicated clusteres because:
+
+- we prefer not to pass the Channel Access traffic through the gateway
+- other protocols such as GigE Streaming also require network host because they are not NAT friendly
 
 ## Environment Setup
 
