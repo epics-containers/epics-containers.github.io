@@ -1,6 +1,6 @@
 (setup-kubernetes)=
 
-# Setup a Kubernetes Server
+# Setup a Kubernetes Cluster
 
 :::{Note}
 **DLS Users**: DLS already has the test cluster `Pollux` which includes the test beamlines p45j, p38 and p99,  and the training beamlines p46 through to p49.
