@@ -12,20 +12,14 @@ For this reason DLS users should skip this tutorial unless you have a spare linu
 
 ## Introduction
 
-This is a very easy set of instructions for setting up an experimental
-single-node Kubernetes cluster, ready to test deployment of EPICS IOCs.
+This is a very easy set of instructions for setting up an experimental single-node Kubernetes cluster, ready for a test deployment of EPICS IOCs.
 
 ## Bring Your Own Cluster
 
 If you already have a Kubernetes cluster then you can skip this section.
 and go straight to the next tutorial.
 
-IMPORTANT: you will require appropriate permissions on the cluster to work
-with epics-containers. In particular you will need to be able to create
-pods that run with network=host. This is to allow Channel Access traffic
-to be routed to and from the IOCs. You will also need to be able to create
-a namespace and a service account, although you could use an existing
-namespace and service account as long as it has network=host capability.
+IMPORTANT: you will require appropriate permissions on the cluster to work with epics-containers. In particular you will need to be able to create pods that run with network=host. This is to allow Channel Access traffic to be routed to and from the IOCs. You will also need to be able to create a namespace and a service account, although you could use an existing namespace and service account as long as it has network=host capability. The alternative to running with network=host is to run a ca-gateway in the cluster and expose the PVs to the IOCs via the gateway.
 
 Cloud based K8S offerings may not be appropriate because of the Channel Access
 routing requirement.
