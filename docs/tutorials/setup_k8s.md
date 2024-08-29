@@ -32,15 +32,7 @@ routing requirement.
 
 ## Platform Choice
 
-These instructions have been tested on the following platforms. The simplest
-option is to use a linux distribution that is supported by k3s.
-
-```{eval-rst}
-========================== ============================================
-Ubuntu 22.04 and newer     any modern linux distro should also work
-Raspberry Pi OS 2021-05-07 See `raspberry`
-========================== ============================================
-```
+These instructions have been tested on Ubuntu 22.04; however, any modern Linux distribution that is supported by k3s and running on a modern x86 machine should also work.
 
 Note that K3S provides a good uninstaller that will clean up your system if you decide to back out. So there is no harm in trying it out.
 
