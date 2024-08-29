@@ -91,7 +91,7 @@ mkdir ~/.kube
 sudo scp  /etc/rancher/k3s/k3s.yaml <YOUR_ACCOUNT>@<YOUR_WORKSTATION>:.kube/config
 ```
 
-If you do have separate workstation then edit the file .kube/config replacing 127.0.0.1 with your server's IP Address. For a single machine the file is leftas is.
+If you do have separate workstation then edit the file .kube/config replacing 127.0.0.1 with your server's IP Address. For a single machine the file is left as is.
 
 ### Install helm
 
