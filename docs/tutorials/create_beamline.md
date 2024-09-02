@@ -42,7 +42,7 @@ NOTE: for these tutorials we will use your personal GitHub Account to store ever
 
 ## Steps
 
-1. Make sure you have activated the python virtual environment and that `copier` is installed. See instructions here: {any}`ec`.
+1. Make sure you have activated the python virtual environment and that `copier` is installed. See instructions here: {any}`copier`.
 
 1. Use copier to copy the services template repository to a new repository named `t01-services`. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.
 
