@@ -62,11 +62,14 @@ curl -sfL https://get.k3s.io | sh -
 
 Kubectl is the command line tool for interacting with Kubernetes Clusters.
 
+Note that by default, the kubectl that comes with k3s reads its config from /etc/rancher/k3s/k3s.yaml and would therefore be run with sudo. By using $KUBECONFIG we conform to the standard version that reads its config from $HOME/.kube/config.
+
 ```
-echo 'KUBECONFIG=$HOME/.kube/config' >> .zshrc
+echo 'export KUBECONFIG=$HOME/.kube/config' >> $HOME/.profile
+source $HOME/.profile
 ```
 
-Note that by default, the kubectl that comes with k3s reads its config from /etc/rancher/k3s/k3s.yaml and must therefore be run with sudo. By using $KUBECONFIG we conform to the standard version that reads its config from $HOME/.kube/config.
+Then log out for this to be set for all shells.
 
 ### Configure kubectl
 
