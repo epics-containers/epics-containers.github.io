@@ -73,7 +73,7 @@ From *outside of the developer container* start up phoebus and the ca-gateway as
 ```bash
 cd ioc-adsimdetector/compose
 . ./environment.sh
-ec up -d
+dc up -d
 ```
 
 Phoebus should now be up and running and showing the auto generated **index.bob**, In phoebus do the following steps:
