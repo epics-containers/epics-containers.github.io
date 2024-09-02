@@ -130,32 +130,6 @@ kubectl config set-context t03-beamline --namespace=t03-beamline --user=default 
 kubectl config use-context t03-beamline
 ```
 
-### Set up Argo CD
-
-Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. As per <https://argo-cd.readthedocs.io/en/stable/> it can be installed into the cluster as follows:
-
-```
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-
-To access the gui through a browser on `https://localhost:8080/`:
-```
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
-
-The user is `admin` and the password can be retrived using:
-```
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
-```
-
-To install the `argocd` cli tool:
-```
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64 
-```
-
 ### Install persistent volume support
 
 As per <https://docs.k3s.io/storage/>, the "Longhorn" distributed block storage system can be set up in our cluster. This is done in order to get support for ReadWriteMany persistent volume claims, which is not supported by the out of the box "Local Path Provisioner".
@@ -222,6 +196,42 @@ Finally generate a short duration token that can be used to log in:
 ```
 kubectl -n kubernetes-dashboard create token admin-user
 ```
+
+
+### Set up Argo CD
+
+Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. As per <https://argo-cd.readthedocs.io/en/stable/> it can be installed into the cluster as follows:
+
+```
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+To access the gui through a browser on `https://localhost:8080/`:
+```
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+The user is `admin` and the password can be retrived using:
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
+```
+
+To install the `argocd` cli tool:
+```
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64 
+```
+
+Create a new argocd project from the command line, with permissions to deploy into your namespace:
+```
+argocd login localhost:8080
+argocd proj create t03 -d https://kubernetes.default.svc,t03-beamline -s "*"
+```
+
+When deploying to the same cluster that Argo CD is running in the destination cluster is by default aliased as "in-cluster".
+Argocd Apps should be deployed into the argocd namespace.
 
 ### Completed
 
