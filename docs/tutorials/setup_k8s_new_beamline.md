@@ -8,9 +8,9 @@ Helm is a package manager for Kubernetes that allows you to define a set of reso
 
 Previously our beamline repository contained a **services** folder.  Each subfolder of **services** contained a **compose.yaml** with details of the generic IOC container image, plus a **config** folder that provided an IOC instance definition.
 
-In the Kubernetes world, each folder under **services** will be an individually deployable Helm Chart. This means that instead of a **compose.yaml** file we will have a **Chart.yaml** which describes the dependencies of the chart and a **values.yaml** that describes some arguments to it. There is also a file **services/values.yaml** that describes the default arguments for all the charts in the repository.
+In the Kubernetes world the structure is very similar. Each folder under **services** will be an individually deployable Helm Chart. This means that instead of a **compose.yaml** file we will have a **Chart.yaml** which describes the dependencies of the chart and a **values.yaml** that describes some arguments to it. There is also a file **services/values.yaml** that describes the default arguments for all the charts in the repository.
 
-In this tutorial we will create a new beamline in a Kubernetes cluster. Here we assume that the cluster is already setup and that there is a namespace configured for use by the beamline. See the previous tutorial for how to set one up if you do not have this already.
+In this tutorial we will create a new simulation beamline in a Kubernetes cluster. Here we assume that the cluster is already setup and that there is a namespace configured for use by the beamline. See the previous tutorial for how to set one up if you do not have this already.
 
 :::{note}
 DLS users: you should use your personal namespace in the test cluster **Pollux**. Your personal namespace is named after your *fedid*
@@ -20,12 +20,11 @@ DLS users: you should use your personal namespace in the test cluster **Pollux**
 
 As before, we will use a copier template to create the new beamline repository. The steps are similar to the first tutorial {any}`create_beamline`.
 
-1. We are going to call the new beamline **bl03t** with the repository name **t03-services**. It will be created in the namespace **bl03t** on the local cluster that we created in the last tutorial OR your *fedid* namespace on the **Pollux** cluster if you are using the DLS cluster.
+1. We are going to call the new beamline **bl03t** with the repository name **t03-services**. It will be created in the namespace **t03-beamline** on the local cluster that we created in the last tutorial **OR** your *fedid* namespace on the **Pollux** cluster if you are using the DLS cluster.
 
     ```bash
     # make sure your Python virtual environment is active and copier is pip installed
     copier copy gh:epics-containers/services-template-helm t03-services
-    code t03-services
     ```
 
     Answer the copier template questions as follows for your own local cluster:
@@ -101,12 +100,12 @@ If you have brought your own cluster then you may need to edit the **environment
 
 ## Setup the epics containers CLI
 
-To deploy and manage IOC istances requires helm and kubectl command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. This is the `ec` command line tool. Go ahead and add the `ec` python package to your virtual environment.
+To deploy and manage IOC istances requires **helm** and **kubectl** command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and add the `ec-cli` python package to your virtual environment.
 
 ```bash
 # make sure your Python virtual environment is active, then:
 pip install ec-cli
-# make sure ec is not currently aliased to docker compose
+# make sure ec is not currently aliased to docker compose! (maybe that was a bad idea?)
 unalias ec
 # setup the environment for ec to know how to talk to the cluster
 # (make sure you are in the t03-services directory)
@@ -115,13 +114,13 @@ source ./environment.sh
 
 ## Deploy an Example IOC Instance
 
-The new repository has an example IOC that it comes with the template and is called t03-ea-test-01. It is a simple example IOC that is used for testing the deployment of IOCs to the cluster.
+The new repository has a simple example IOC that it comes with the template and is called t03-ea-test-01.
 
 For a new beamline we will also need to deploy the shared resources that all IOCs expect to find in their namespace, namely:
 - epics-pvcs: some persistent volumes (Kubernetes data stores) for the IOCs to store autosave files, GUI files and other data
 - epics-opis: an nginx web server that serves the IOC GUI files out of one of the above persistent volumes
 
-The ec tool can help with version tracking by deploying tagged version of services. So first lets go ahead and tag the current state of the repository.
+The ec tool can help with version tracking by deploying version of services from tagged commits in the git repo. So first lets go ahead and tag the current state of the repository.
 
 ```bash
 # make sure you are in the t03-services directory, then:
@@ -129,10 +128,9 @@ git tag 2024.9.1
 git push origin 2024.9.1
 ```
 
-Now you can deploy the shared resources and the example IOC instance to the cluster. Using the version we just tagged. We will use the -v option which shows you the underlying commands that are being run.
+Now you can deploy the shared resources to the cluster, using the version we just tagged. We will use the -v option which shows the underlying commands that are being run.
 
 ```bash
-source environment.sh
 ec -v deploy epics-pvcs 2024.9.1
 ec -v deploy epic-opis 2024.9.1
 ```
@@ -152,10 +150,32 @@ ec ps
 You could also investigate the other commands that `ec` provides by running `ec --help`.
 
 :::{note}
+When things are not working as expected or you want to examine the resources you are deploying, you can use the `kubectl describe` command. If you prefer a more interactive approach, then look at the Kubernetes Dashboard.
+
+For a k3s local cluster refer to the notes on installing the dashboard in the previous tutorial. TODO add link when available.
+
 At DLS you can get to a Kubernetes Dashboard for your beamline via a landing page `https://pollux.diamond.ac.uk` for test beamlines on `Pollux` - remember to select the namespace from the dropdown in the top left.
 
 For production beamlines with dedicated clusters, you can find the landing page for example:
 `https://k8s-i22.diamond.ac.uk/` for BL22I.
-`https://k8s-b01-1.diamond.ac.uk/` for the 2nd branch of BL01B.
-in this case the namespace will be ixx-beamline.
+`https://k8s-b01-1.diamond.ac.uk/` for the 2nd branch of BL01C.
+in this case the namespace will be i22-beamline, b01-1-beamline, etc.
 :::
+
+## Verify that the IOC is working
+
+Right now you cannot see PVs from your IOC because it is running in a container network and channel access clients won't be able to contact it.
+
+For k3s users you can simply fix this by setting 'hostNetwork: true' in **services/values.yaml**. Then re-deploy the IOC instance (by pushing the change and making a new tag).
+
+DLS users do not have permission to run host network in their personal namespaces.
+
+The best solution is to use a channel access gateway to bridge the container network to the host network. We will do this in a later tutorial.
+
+For now you can check you IOC by launching a shell inside it's container and using the `caget` command. All IOC containers have the epics-base tools installed. Try the following commands to confirm that the IOC is running and that the PVs are accessible.
+
+```bash
+$ ec exec t03-ea-test-01
+root@t03-ea-test-01-0:/# caget T03:IBEK:A
+T03:IBEK:A                     2.54
+```
