@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kubernetes Additional How To’s &#8212; epics-containers 4.0.0b2.dev12+g04b98ec documentation</title>
+    <title>Kubernetes Additional How To’s &#8212; epics-containers 4.0.0b2.dev37+g44bbd64 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=379968ed"></script>
+    <script src="../_static/documentation_options.js?v=d351df64"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -502,7 +502,7 @@ document.write(`
 It is very useful for new users to get an understanding of what Kubernetes
 has to offer.</p>
 <p>These commands should be run after you have set up your Kubernetes cluster and
-setup the environment variables as described in <a class="reference internal" href="../tutorials/setup_k8s.html"><span class="doc">Setup a Kubernetes Server</span></a>.</p>
+setup the environment variables as described in <a class="reference internal" href="../tutorials/setup_k8s.html"><span class="doc">Setup a Kubernetes Cluster</span></a>.</p>
 <p>Execute this on your workstation:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GITHUB_URL</span><span class="o">=</span>https://github.com/kubernetes/dashboard/releases
 <span class="nv">VERSION_KUBE_DASHBOARD</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-w<span class="w"> </span><span class="s1">&#39;%{url_effective}&#39;</span><span class="w"> </span>-I<span class="w"> </span>-L<span class="w"> </span>-s<span class="w"> </span>-S<span class="w"> </span><span class="si">${</span><span class="nv">GITHUB_URL</span><span class="si">}</span>/latest<span class="w"> </span>-o<span class="w"> </span>/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;s|.*/||&#39;</span><span class="k">)</span>

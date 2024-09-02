@@ -1,7 +1,7 @@
 # RTEMS - Deploying an Example IOC
 
 :::{Warning}
-This tutorial is out of date and will be updated by Sept 2024.
+This tutorial is out of date and will be updated by Nov 2024.
 :::
 
 The previous tutorials walked through how to create a Generic linux soft

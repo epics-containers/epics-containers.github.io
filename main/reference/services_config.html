@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers Part 2 &#8212; epics-containers 4.0.0b2.dev37+g44bbd64 documentation</title>
+    <title>Configuring a Services Repository for a Cluster &#8212; epics-containers 4.0.0b2.dev37+g44bbd64 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/dev_container2';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/services_config';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
@@ -54,8 +54,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Changing the IOC Instance" href="ioc_changes1.html" />
-    <link rel="prev" title="Developer Containers" href="dev_container.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
+    <link rel="prev" title="Kubernetes Resources in an IOC Instance" href="k8s_resources.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -153,7 +153,7 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials.html">
     Tutorials
   </a>
@@ -174,7 +174,7 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -316,7 +316,7 @@ document.write(`
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials.html">
     Tutorials
   </a>
@@ -337,7 +337,7 @@ document.write(`
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -427,23 +427,21 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Containers Part 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface for IOC Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
+<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring a Services Repository for a Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vscode_settings.html">Recommended VSCode Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
 </ul>
 </div>
 </nav></div>
@@ -482,9 +480,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
+    <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Developer...</li>
+    <li class="breadcrumb-item active" aria-current="page">Configuring...</li>
   </ul>
 </nav>
 </div>
@@ -501,72 +499,78 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="developer-containers-part-2">
-<h1>Developer Containers Part 2<a class="headerlink" href="#developer-containers-part-2" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will take a look at some of the extra features that came with the ioc-adsimdetector developer container we built in the previous tutorial. The compose folder in the ioc-adsimdetector repository contains a docker-compose file that can be used to launch a gateway and a phoebus container to view the PVs from the IOC. This works in the same way as the test compose profile that we used in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repository from earlier tutorials.</p>
-<section id="channel-access">
-<h2>Channel Access<a class="headerlink" href="#channel-access" title="Link to this heading">#</a></h2>
-<p>If you want to inspect or change PV values for your developer container you can do so using the command line tools inside of the container.</p>
-<p>If you still have your previous session open then you can use that. If you need to relaunch your developer container, then you can do so with the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
-code<span class="w"> </span>.
-<span class="c1"># ctrl-shift-p and choose &#39;reopen in container&#39;</span>
-<span class="c1"># open a terminal in vscode</span>
+  <section id="configuring-a-services-repository-for-a-cluster">
+<h1>Configuring a Services Repository for a Cluster<a class="headerlink" href="#configuring-a-services-repository-for-a-cluster" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page is a work in progress.</p>
+</div>
+<section id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Link to this heading">#</a></h2>
+<p>In <a class="reference internal" href="../tutorials/setup_k8s_new_beamline.html"><span class="doc">Create a New Kubernetes Beamline</span></a> we created a new beamline repository for a Kubernetes cluster. The copier template is capable of fully configuring the repo for the following types of cluster:</p>
+<ul class="simple">
+<li><p>a local k3s cluster created in <a class="reference internal" href="../tutorials/setup_k8s.html"><span class="doc">Setup a Kubernetes Cluster</span></a></p></li>
+<li><p>your DLS <em>fedid</em> namespace in the Pollux cluster</p></li>
+<li><p>a dedicated beamline cluster at DLS</p></li>
+<li><p>a shared accelerator cluster at DLS</p></li>
+</ul>
+<p>If you have a cluster that is not in the above list then you will need edit your <strong>environment.sh</strong> and <strong>services/values.yaml</strong> files accordingly. The following sections introduce the details of this process.</p>
+</section>
+<section id="cluster-topologies">
+<h2>Cluster Topologies<a class="headerlink" href="#cluster-topologies" title="Link to this heading">#</a></h2>
+<p>There are two supported topologies for beamline clusters:</p>
+<ul class="simple">
+<li><p>shared cluster with multiple beamlines’ IOCs running in the same cluster</p></li>
+<li><p>dedicated cluster with a single beamline’s IOCs running in the cluster</p></li>
+</ul>
+<p>If you are working with the single node k3s cluster set up in the previous tutorial then this will be considered a dedicated cluster.</p>
+<p>If you are creating a real DLS beamline then this will also be a dedicated cluster. However if your repo contains a set of accelerator IOCs this will share the single accelerator cluster amongst several serives repositories and is therefore a shared cluster.</p>
+<p>If you are working with one of the test beamlines at DLS then these are usually shared topology and are set up as nodes on the Pollux cluster.</p>
+<p>Other facilities are free to choose the topology that best suits their needs.</p>
+<section id="shared-clusters">
+<h3>Shared Clusters<a class="headerlink" href="#shared-clusters" title="Link to this heading">#</a></h3>
+<p>In a shared cluster topology we will likely need to tell the IOCs which servers they are allowed to run on. This is primarily becasuse the server needs to be able to connect to the device the IOC is controlling.</p>
+<p>In the case of the DLS accelerator will be 2 nodes (AKA servers) per CIA connected to the local instrumentation network. Only those nodes will be able to see the devices on the local instrumentation network.</p>
+<p>To facilitate this we use <code class="docutils literal notranslate"><span class="pre">node</span> <span class="pre">affinity</span> <span class="pre">rules</span></code> to ensure that IOCs run on the correct nodes. <code class="docutils literal notranslate"><span class="pre">Node</span> <span class="pre">affinity</span></code> can look for a <code class="docutils literal notranslate"><span class="pre">label</span></code> on the node to say that it belongs to a beamline or CIA.</p>
+<p>We can also use <code class="docutils literal notranslate"><span class="pre">taints</span></code> to stop other pods from running on our beamline nodes. A <code class="docutils literal notranslate"><span class="pre">taint</span></code> will stop pods from being scheduled
+on a node unless the pod has a matching toleration.</p>
+<p>For example the test beamline p47 at DLS has the following <code class="docutils literal notranslate"><span class="pre">taints</span></code> and
+<code class="docutils literal notranslate"><span class="pre">labels</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Labels</span><span class="p">:</span>         <span class="n">beamline</span><span class="o">=</span><span class="n">bl47p</span>
+                <span class="n">nodetype</span><span class="o">=</span><span class="n">test</span><span class="o">-</span><span class="n">rig</span>
 
-ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
-<span class="nb">cd</span><span class="w"> </span>/epics/ioc
-make
-./start.sh
+<span class="n">Taints</span><span class="p">:</span>         <span class="n">beamline</span><span class="o">=</span><span class="n">bl47p</span><span class="p">:</span><span class="n">NoSchedule</span>
+                <span class="n">nodetype</span><span class="o">=</span><span class="n">test</span><span class="o">-</span><span class="n">rig</span><span class="p">:</span><span class="n">NoSchedule</span>
 </pre></div>
 </div>
-<p>Now you can open a new terminal in vscode and interact with the IOC using the EPICS CLI tools:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-EA-CAM-01:DET:Acquire
-caput<span class="w"> </span>BL01T-EA-CAM-01:DET:Acquire<span class="w"> </span><span class="m">1</span>
-caput<span class="w"> </span>BL01T-EA-CAM-01:ARR:EnableCallbacks<span class="w"> </span><span class="m">1</span>
-<span class="c1"># now see the (changing) value of the image array</span>
-caget<span class="w"> </span>-#100<span class="w"> </span>BL01T-EA-CAM-01:ARR:ArrayData
-caget<span class="w"> </span>-#100<span class="w"> </span>BL01T-EA-CAM-01:ARR:ArrayData
-...
-</pre></div>
-</div>
-<p>This just shows that you have all the EPICS tools available to you inside the container.</p>
-<p>Note that you have the ability to install any other tools you might need inside the container using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update;</span> <span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span>&#160; <span class="pre">package-name</span></code>, the container is based on <strong>ubuntu 24.04</strong> so all packages available for that distro are available to you. podman users should drop the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> from the start of the commands.</p>
-<p>If you want to use a GUI tool or any other tools you have installed on your host machine we will need a couple of extra steps.</p>
+<p>That test beamline has a single server which has the labels <code class="docutils literal notranslate"><span class="pre">beamline=bl47p</span></code> and <code class="docutils literal notranslate"><span class="pre">nodetype=test-rig</span></code>. It also has the taints <code class="docutils literal notranslate"><span class="pre">beamline=bl47p:NoSchedule</span></code> and <code class="docutils literal notranslate"><span class="pre">nodetype=test-rig:NoSchedule</span></code>. All of the devices on the test beamline are connected directly to this server and only visible on local IP addresses. The taints and tolerences assure that only p47 IOCs are scheduled on this server and that those IOCs will never run anywhere else.</p>
+<p>If you are working with your facility cluster then, you may not have permission to set up these labels and taints. In this case, your administrator will need to do this for you. At DLS, you should expect that this is already set up for you.</p>
+<p>For an explanation of these K8S concepts see</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">Taints and Tolerances</a></p></li>
+<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity-beta-feature">Node Affinity</a></p></li>
+</ul>
 </section>
-<section id="phoebus-and-gateway">
-<h2>Phoebus and Gateway<a class="headerlink" href="#phoebus-and-gateway" title="Link to this heading">#</a></h2>
-<p>Generic IOCs can use PVI to auto generate engineering screens for your IOC instance in the form of phoebus bob files. ioc-adsimdetector uses this to make screens for the simdetector driver and for all of the AreaDetector plugins installed in the IOC instance.</p>
-<p>To make use of these screens we can install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine’s loopback adapter.</p>
-<p>To launch both phoebus in a container and the ca-gateway container we use compose just like we did in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> tutorial. The compose file is in the <code class="docutils literal notranslate"><span class="pre">compose</span></code> folder of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository.</p>
-<p>IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are launching further containers here and we do not want ‘containers in containers’ because there lies madness! To launch the gateway and phoebus containers, open a new terminal on the host and use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsimdetector/compose
-.<span class="w"> </span>./environment.sh
-dc<span class="w"> </span>up<span class="w"> </span>-d
-</pre></div>
-</div>
-<p>Phoebus will be launched and attempt to load the bob file called <strong>opi/ioc/index.bob</strong>. The <strong>opi</strong> folder is a place where the author of this generic IOC could place some screens. The subfolder <strong>ioc</strong> is not committed to git and is where the IOC instance will place its autogenerated engineering screens. The autogenerated screens always include and index.bob which is the entry point to all other autogenerated screens.</p>
+<section id="dedicated-clusters">
+<h3>Dedicated Clusters<a class="headerlink" href="#dedicated-clusters" title="Link to this heading">#</a></h3>
+<p>In the dedicated cluster topology we would usually want to let the IOCs run on any of the worker nodes in the cluster. In this case the only thing that is required is a namespace in which to run your IOCs.</p>
+<p>By convention we use a namespace like <code class="docutils literal notranslate"><span class="pre">t03-beamline</span></code> for this purpose. This namespace will need the appropriate permissions to allow the IOCs to run with network host OR you will expose your PVs by running a ca-gateway in the cluster. At DLS we have chosen to use network host for our dedicated clusteres because:</p>
+<ul class="simple">
+<li><p>we prefer not to pass the Channel Access traffic through the gateway</p></li>
+<li><p>other protocols such as GigE Streaming also require network host because they are not NAT friendly</p></li>
+</ul>
+<p>TODO - these following sections are WORK IN PROGRESS.</p>
 </section>
-<section id="workspaces-in-phoebus-container">
-<h2>/workspaces in Phoebus Container<a class="headerlink" href="#workspaces-in-phoebus-container" title="Link to this heading">#</a></h2>
-<p>Just like the developer container itself, the Phoebus container mounts the folder above <strong>ioc-adsimdetector</strong> into the container as <strong>/workspaces</strong>. This means you can access bob files from peer projects.</p>
-<p>The autogenerated engineering screens currently show the image array as a list of integers. But we already had a nice screen for displaying an overview of the PVs, including an image widget for the image array. That screen was made for the same IOC instance we are currently running inside of the developer container.</p>
-<p>To access the screen, chose <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span></code> in phoebus and navigate to <strong>/workspaces/t01-services/opi/demo-simdet.bob</strong> file. This will open the screen in phoebus and allow you to view the sample image.</p>
-<div class="figure docutils">
-<p><img alt="Phoebus Screen" src="../_images/custom_bob.png" />
-Example overview screen for bl01t-ea-cam-01</p>
-</div>
 </section>
-<section id="using-host-machine-tools">
-<h2>Using Host Machine Tools<a class="headerlink" href="#using-host-machine-tools" title="Link to this heading">#</a></h2>
-<p>If you have EPICS tools installed on the host machine then those can now also be used.</p>
-<p>You will need to tell channel access that it should search against the loopback adapter to find PVs from your developer container. Do this with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1
-</pre></div>
-</div>
-<p>If you are running <strong>phoebus</strong> on the host machine it is configured via a settings file. Launching phoebus on your host with the following command will apply the correct settings and launch the index screen for the IOC instance:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoebus.sh<span class="w"> </span>-settings<span class="w"> </span>compose/phoebus/config/settings.ini<span class="w"> </span>-resource<span class="w"> </span>/opi/ioc/index.bob
-</pre></div>
-</div>
+<section id="environment-setup">
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Link to this heading">#</a></h2>
+<p>Every services repository has an <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> file used to configure your shell so that the command line tools know which cluster to talk to. Up to this point we have been using the local docker or podman instance, but here we have configured it to use the the cluster. The copier template should have created the correct settings in <strong>environment.sh</strong> for you. But you can review them by if needed here <a class="reference internal" href="environment.html"><span class="doc">The Environment Configuration File</span></a>.</p>
+<p>TODO pull the above ref into this page and update it.</p>
+</section>
+<section id="setting-up-the-beamline-helm-chart-defaults">
+<h2>Setting up the Beamline Helm Chart Defaults<a class="headerlink" href="#setting-up-the-beamline-helm-chart-defaults" title="Link to this heading">#</a></h2>
+<p>You do not need to understand helm in detail to deploy IOCs to the cluster. But it may be instructive to understand what is happening under the hood. You will need to know how to edit the <strong>values.yaml</strong> files to configure your charts for your individual cluster topology.</p>
+<p>TODO incomplete.</p>
 </section>
 </section>
 
@@ -581,20 +585,20 @@ Example overview screen for bl01t-ea-cam-01</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="dev_container.html"
+       href="k8s_resources.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Developer Containers</p>
+        <p class="prev-next-title">Kubernetes Resources in an IOC Instance</p>
       </div>
     </a>
     <a class="right-next"
-       href="ioc_changes1.html"
+       href="troubleshooting.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Changing the IOC Instance</p>
+        <p class="prev-next-title">Troubleshooting</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -616,10 +620,14 @@ Example overview screen for bl01t-ea-cam-01</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#channel-access">Channel Access</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phoebus-and-gateway">Phoebus and Gateway</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workspaces-in-phoebus-container">/workspaces in Phoebus Container</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-host-machine-tools">Using Host Machine Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro">Intro</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cluster-topologies">Cluster Topologies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shared-clusters">Shared Clusters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dedicated-clusters">Dedicated Clusters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-beamline-helm-chart-defaults">Setting up the Beamline Helm Chart Defaults</a></li>
 </ul>
   </nav></div>
 
@@ -627,7 +635,7 @@ Example overview screen for bl01t-ea-cam-01</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/tutorials/dev_container2.md">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/reference/services_config.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -642,7 +650,7 @@ Example overview screen for bl01t-ea-cam-01</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/dev_container2.md.txt">
+    <a href="../_sources/reference/services_config.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
