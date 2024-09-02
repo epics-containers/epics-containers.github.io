@@ -204,10 +204,11 @@ Note that each time you open a new shell you will need to activate the virtual e
 
 ### copier
 
-Above we set up a python virtual environment. Now we will install `copier` which is used to copy the templates for the services repositories and generic IOCs.
+Above we set up a python virtual environment. Now we will install `copier` which is used to copy the templates for the services repositories and generic IOCs. Also you could take this opportunity to install the `ec` tool that we will use later when we get to the Kubernetes tutorials.
 
 ```bash
 pip install copier
+pip install ec-cli
 ```
 
 ### Git
