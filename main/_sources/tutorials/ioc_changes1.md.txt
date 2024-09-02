@@ -63,7 +63,7 @@ git tag 2024.8.2
 git push origin 2024.8.2
 ```
 
-If you like working entirely from the vscode window you can open a terminal in vscode *outside* of the devcontainer. To do so, press `Ctrl-Shift-P` and choose the commnd `Terminal: Create New Integrated Terminal (Local)`. This will open a terminal to the host. You can then run `ec` from there.
+If you like working entirely from the vscode window you can open a terminal in vscode *outside* of the devcontainer. To do so, press `Ctrl-Shift-P` and choose the commnd `Terminal: Create New Integrated Terminal (Local)`. This will open a terminal to the host. You can then run docker compose from there.
 
 ## Launching the Test Beamline
 
@@ -76,20 +76,20 @@ Make sure the ca-gateway from the previous tutorial is stopped before launching 
 # IMPORTANT: do this in a terminal outside of the devcontainer
 cd ioc-adsimdetector/compose
 . ./environment.sh
-ec down
+dc down
 ```
 
-Now you can launch your test beamline and it will have picked up the new extras.db.
+Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: `caget BL01T-EA-CAM-01:TEST`.
 
 ```bash
 # IMPORTANT: do this in a terminal outside of the devcontainer
 cd t01-services
 . ./environment.sh
-ec up -d
-caget BL01T-EA-CAM-01:TEST
+dc up -d
+dc exec example-test-01 caget BL01T-EA-CAM-01:TEST
 
 # Now shut down the beamline again so we can continue with further developer container tutorials
-ec down
+dc down
 ```
 
 ## Raw Startup Assets

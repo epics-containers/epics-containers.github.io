@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers 4.0.0b2.dev9+g65f996b documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers 4.0.0b2.dev12+g04b98ec documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b610b27d"></script>
+    <script src="../_static/documentation_options.js?v=379968ed"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -551,7 +551,7 @@ git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.8.2
 </pre></div>
 </div>
-<p>If you like working entirely from the vscode window you can open a terminal in vscode <em>outside</em> of the devcontainer. To do so, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose the commnd <code class="docutils literal notranslate"><span class="pre">Terminal:</span> <span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Integrated</span> <span class="pre">Terminal</span> <span class="pre">(Local)</span></code>. This will open a terminal to the host. You can then run <code class="docutils literal notranslate"><span class="pre">ec</span></code> from there.</p>
+<p>If you like working entirely from the vscode window you can open a terminal in vscode <em>outside</em> of the devcontainer. To do so, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose the commnd <code class="docutils literal notranslate"><span class="pre">Terminal:</span> <span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Integrated</span> <span class="pre">Terminal</span> <span class="pre">(Local)</span></code>. This will open a terminal to the host. You can then run docker compose from there.</p>
 </section>
 <section id="launching-the-test-beamline">
 <h2>Launching the Test Beamline<a class="headerlink" href="#launching-the-test-beamline" title="Link to this heading">#</a></h2>
@@ -561,18 +561,18 @@ However, it is important to remember that we cannot have two ca-gateway’s tryi
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMPORTANT: do this in a terminal outside of the devcontainer</span>
 <span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector/compose
 .<span class="w"> </span>./environment.sh
-ec<span class="w"> </span>down
+dc<span class="w"> </span>down
 </pre></div>
 </div>
-<p>Now you can launch your test beamline and it will have picked up the new extras.db.</p>
+<p>Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: <code class="docutils literal notranslate"><span class="pre">caget</span> <span class="pre">BL01T-EA-CAM-01:TEST</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMPORTANT: do this in a terminal outside of the devcontainer</span>
 <span class="nb">cd</span><span class="w"> </span>t01-services
 .<span class="w"> </span>./environment.sh
-ec<span class="w"> </span>up<span class="w"> </span>-d
-caget<span class="w"> </span>BL01T-EA-CAM-01:TEST
+dc<span class="w"> </span>up<span class="w"> </span>-d
+dc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-EA-CAM-01:TEST
 
 <span class="c1"># Now shut down the beamline again so we can continue with further developer container tutorials</span>
-ec<span class="w"> </span>down
+dc<span class="w"> </span>down
 </pre></div>
 </div>
 </section>

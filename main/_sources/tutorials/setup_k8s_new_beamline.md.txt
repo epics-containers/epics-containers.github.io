@@ -32,6 +32,7 @@ DLS users: these instructions are for the BL46P beamline. Which is a training be
 To setup the beamline repo for other beamlines you will need to change the answers to the copier template questions.
 
 
+
 At present DLS users will need to request access to the cluster for each beamline you want to work on. The following link is for making such a request but you will need someone who already has access to make the request for you:
 <https://jira.diamond.ac.uk/servicedesk/customer/portal/2/create/92> (ask giles if you don't know who to ask for this access.)
 :::
@@ -187,7 +188,7 @@ source <(ec --show-completion ${SHELL})
 ```
 
 For a review of how to set up the epics-containers-cli tool `ec` see
-{any}`python-setup` and {any}`ec`.
+{any}`python-setup` and {any}`copier`.
 
 ### Section 3
 

@@ -34,7 +34,7 @@ Comment out the apt-install line like this:
 ```
 
 Now rebuild the container - do this command from a new terminal *outside* of
-the devcontainer (make sure you have `ec` installed):
+the devcontainer:
 
 ```bash
 # for docker users - builkit complicates debugging at present
@@ -61,8 +61,7 @@ compilation terminated.
 
 When a container build fails the container image is created up to the point
 where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container. `ec`
-provides us with the following convenience command to do this:
+investigate the build failure by running a shell in the container.
 
 - scroll up the page until you see the last successful build step e.g.
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev9+g65f996b documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev12+g04b98ec documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b610b27d"></script>
+    <script src="../_static/documentation_options.js?v=379968ed"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -688,9 +688,10 @@ python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </s
 <p>Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding <code class="docutils literal notranslate"><span class="pre">PATH=$HOME/ec-venv/bin:$PATH</span></code> in your .bashrc).</p>
 </section>
 <section id="copier">
-<span id="ec"></span><h3>copier<a class="headerlink" href="#copier" title="Link to this heading">#</a></h3>
-<p>Above we set up a python virtual environment. Now we will install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the services repositories and generic IOCs.</p>
+<span id="id2"></span><h3>copier<a class="headerlink" href="#copier" title="Link to this heading">#</a></h3>
+<p>Above we set up a python virtual environment. Now we will install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the services repositories and generic IOCs. Also you could take this opportunity to install the <code class="docutils literal notranslate"><span class="pre">ec</span></code> tool that we will use later when we get to the Kubernetes tutorials.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
+pip<span class="w"> </span>install<span class="w"> </span>ec-cli
 </pre></div>
 </div>
 </section>
