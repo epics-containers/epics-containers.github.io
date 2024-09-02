@@ -105,8 +105,6 @@ To deploy and manage IOC istances requires **helm** and **kubectl** command line
 ```bash
 # make sure your Python virtual environment is active, then:
 pip install ec-cli
-# make sure ec is not currently aliased to docker compose! (maybe that was a bad idea?)
-unalias ec
 # setup the environment for ec to know how to talk to the cluster
 # (make sure you are in the t03-services directory)
 source ./environment.sh
