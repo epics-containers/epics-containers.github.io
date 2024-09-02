@@ -149,6 +149,26 @@ kubectl get pods --namespace longhorn-system --watch
 kubectl get storageclass
 ```
 
+### Set up k8s dashboard
+
+The Kubernetes dashboard is a web-based Kubernetes user interface.
+As per <https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/> it can be installed into the cluster as follows:
+
+```
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+```
+
+To access the gui through a browser on `https://localhost:8080/`:
+```
+kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8080:443
+```
+
+To generate a bearer token:
+```
+kubectl create token default
+```
+
 ### Completed
 
 That's it. You now have installed the necessary software to start experimenting with IOCs on Kubernetes.
