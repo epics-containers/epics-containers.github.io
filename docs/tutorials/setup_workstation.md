@@ -200,7 +200,7 @@ python3 -m pip install --upgrade pip
 
 Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your .bashrc).
 
-(ec)=
+(copier)=
 
 ### copier
 
