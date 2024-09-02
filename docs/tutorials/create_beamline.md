@@ -50,9 +50,9 @@ NOTE: for these tutorials we will use your personal GitHub Account to store ever
    copier copy gh:epics-containers/services-template-compose t01-services
    ```
 
-Note the benefits of using copier to create a new repository:
-- you can template the repository and use questions to fill in the template, making a unique result.
-- if the template changes in future you can merge the changes into you repository without losing your changes, simply by running `copier update .`
+   Note the benefits of using copier to create a new repository:
+   - you can template the repository and use questions to fill in the template, making a unique result.
+   - if the template changes in future you can merge the changes into you repository without losing your changes, simply by running `copier update .`
 
 
 1. Answer the copier template questions with their default values as follows:
