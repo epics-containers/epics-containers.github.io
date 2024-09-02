@@ -175,7 +175,7 @@ kubectl get pods --namespace longhorn-system --watch
 kubectl get storageclass
 ```
 
-### Set up k8s dashboard
+### Set up k8s dashboard (Optional)
 
 The Kubernetes dashboard is a web-based Kubernetes user interface.
 As per <https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/> it can be installed into the cluster as follows:
@@ -190,9 +190,38 @@ To access the gui through a browser on `https://localhost:8080/`:
 kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8080:443
 ```
 
-To generate a bearer token:
+To generate a bearer token in order to log in - first create a Service Account:
 ```
-kubectl create token default
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+```
+
+Then bind the Service Account to a role with suitable permissions:
+```
+kubectl apply -f - <<EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+```
+
+Finally generate a short duration token that can be used to log in:
+```
+kubectl -n kubernetes-dashboard create token admin-user
 ```
 
 ### Completed
