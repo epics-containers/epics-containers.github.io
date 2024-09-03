@@ -227,7 +227,7 @@ rm argocd-linux-amd64
 Create a new argocd project from the command line, with permissions to deploy into your namespace:
 ```
 argocd login localhost:8080
-argocd proj create t03 -d https://kubernetes.default.svc,t03-beamline -s "*"
+argocd proj create t03 -d https://kubernetes.default.svc,t03-beamline -d https://kubernetes.default.svc,argocd -s "*"
 ```
 
 When deploying to the same cluster that Argo CD is running in the destination cluster is by default aliased as "in-cluster".
