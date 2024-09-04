@@ -7,6 +7,5 @@ Technical reference material including APIs and release notes.
 :glob:
 
 reference/*
-genindex
 Release Notes <https://github.com/epics-containers/epics-containers.github.io/releases>
 ```

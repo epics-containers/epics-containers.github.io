@@ -6,4 +6,4 @@ epics-containers supports auto generation of engineering screens for Phoebus usi
 
 Auto-generation of engineering screens is now supported in generic IOCs.
 
-See here for an example https://github.com/epics-containers/example-services.
+See here for an example [example-services](https://github.com/epics-containers/example-services).
