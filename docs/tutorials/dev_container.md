@@ -154,7 +154,7 @@ Users of docker need to instruct the devcontainer to use their own user id insid
 export EC_REMOTE_USER=$USER
 ```
 
-It is recommended that you place this command in **.profile** to make it permanent.
+It is recommended that you place this command in `$HOME/.profile` to make it permanent.
 
 If you do not do this, your devcontainer will run as root. Although it will still work, it is not recommended. Also, forgetting to set EC_REMOTE_USER before launching a pre-existing devcontainer will cause errors. (my apologies to docker users - I wanted to make the devcontainer compatible with both docker and podman and this is the least invasive method I could come up with).
 :::

@@ -144,7 +144,7 @@ From here on when we refer to `docker` in a command line, you can replace it wit
 ```bash
 alias docker=podman
 ```
-in your `.bashrc` file.
+in your `$HOME/.profile` file.
 
 `docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
 
@@ -198,7 +198,7 @@ source $HOME/ec-venv/bin/activate
 python3 -m pip install --upgrade pip
 ```
 
-Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your .bashrc).
+Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your `$HOME/.profile`).
 
 (copier)=
 

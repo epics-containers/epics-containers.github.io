@@ -1,5 +1,14 @@
 # The Environment Configuration File
 
+:::{warning}
+This page is out of date - the environment.sh varies depending on the type of project:
+- services using compose
+- services using helm
+- deployment
+
+This page needs to be updated to reflect the different types of environment.sh files.
+:::
+
 `environment.sh` is a configuration file that is provided in each domain
 (beamline or accelerator) repository. It is used to set up the environment
 such that the `epics-containers-cli` will interact with the correct
@@ -77,17 +86,16 @@ The second section of the `environment.sh` file is used to install the
 it would probably be best to have `ec` installed globally on your
 workstation and then omit this section from your `environment.sh` files.
 
-Perhaps the simplest way to achieve this is to install `ec` into your user
-space using the following command:
+Perhaps the simplest way to achieve this is to install `ec` into your user space using the following command:
 
 ```bash
-pip install --user epics-containers-cli
+pip install --user ec-cli
 ```
 
-Then add the following to your `.bashrc` file:
+Then add the following to your `$HOME/.profile` file:
 
 ```bash
-export PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.local/bin
 ```
 
 ## Connecting to a Namespace on your Kubernetes Cluster
