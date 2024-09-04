@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating User Repositories with Copier &#8212; epics-containers 4.0.0b2.dev43+g791bfcc documentation</title>
+    <title>Updating User Repositories with Copier &#8212; epics-containers 4.0.0b2.dev46+g755cd6c documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=0ec8229f"></script>
+    <script src="../_static/documentation_options.js?v=cbcf0c53"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -435,8 +435,6 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="update_generic_ioc.html">Updating a Generic IOC to the Latest Copier Template</a></li>
-<li class="toctree-l1"><a class="reference internal" href="useful_k8s.html">Kubernetes Additional How To’s</a></li>
 </ul>
 </div>
 </nav></div>
@@ -511,15 +509,15 @@ pip<span class="w"> </span>install<span class="w"> </span>copier
 </section>
 <section id="updating-a-beamline-repository">
 <h2>Updating a Beamline Repository<a class="headerlink" href="#updating-a-beamline-repository" title="Link to this heading">#</a></h2>
-<p>A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. The beamline repository is created using the <code class="docutils literal notranslate"><span class="pre">ec-services-template</span></code> copier template. See <a class="reference internal" href="../tutorials/create_beamline.html"><span class="std std-doc">Create a Beamline Repository</span></a> for the tutorial on how to create a new beamline repository.</p>
+<p>A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. The beamline repository is created using the <code class="docutils literal notranslate"><span class="pre">services-template-helm</span></code> copier template. See <a class="reference internal" href="../tutorials/create_beamline.html"><span class="std std-doc">Create a Beamline Repository</span></a> for the tutorial on how to create a new beamline repository.</p>
 <p>To update your beamline repository to the latest version of the templates you should run the following command in the root of your repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>update<span class="w"> </span>-r<span class="w"> </span>VERSION_NUMBER<span class="w"> </span>--trust<span class="w"> </span>.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>update<span class="w"> </span>-r<span class="w"> </span>VERSION_NUMBER<span class="w"> </span>.
 </pre></div>
 </div>
 <p>You can supply the VERSION_NUMBER of the template you want or omit the <code class="docutils literal notranslate"><span class="pre">-r</span></code> option to get the latest released version.</p>
 <p>This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository. Once you are happy with the changes you can test them by re-deploying some of your IOC instances. When everything is working you can push the changes to your repository.</p>
 <p>The template comes with an example IOC called xxxx-ea-test-01. You are free to delete this if you don’t want it. However, we recommend keeping that IOC as it is a good reference for what changes might be needed in your own IOC instances.</p>
-<p>For example, in version 3.4.0 the <code class="docutils literal notranslate"><span class="pre">ec-services-template</span></code> changed the way that the configmap is created for each IOC instance. This added a soft-link <strong>templates</strong> folder that points at <strong>../../include/ioc/templates</strong>. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.</p>
+<p>For example, in version 3.4.0 the <code class="docutils literal notranslate"><span class="pre">services-template-helm</span></code> changed the way that the configmap is created for each IOC instance. This added a soft-link <strong>templates</strong> folder that points at <strong>../../include/ioc/templates</strong>. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.</p>
 </section>
 <section id="updating-a-generic-ioc-repository">
 <h2>Updating a Generic IOC Repository<a class="headerlink" href="#updating-a-generic-ioc-repository" title="Link to this heading">#</a></h2>
@@ -543,7 +541,7 @@ pip<span class="w"> </span>install<span class="w"> </span>copier
 </pre></div>
 </div>
 <p>For the beamline case:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/ec-services-template<span class="w"> </span>--trust<span class="w"> </span>.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/services-template-helm<span class="w"> </span>.
 </pre></div>
 </div>
 <p>In both cases you should select Y for each notice of a conflict, then resolve those conflicts in your editor.</p>

@@ -2,11 +2,6 @@
 
 (no-opi)=
 
-## Why no mention of Operator Interfaces?
-
-UPDATE: with the introduction of PVI we are providing auto generated
-engineering screens. TODO: more details will be added to a new section.
-
 ## Why have ioc-XXX repositories?
 
 Why not put the Dockerfile and image generating in the support module itself

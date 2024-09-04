@@ -230,7 +230,6 @@ line entry point is **ec**.
 
 The project is a python package featuring simple command line functions for deploying and monitoring IOC instances. It is a thin wrapper around the ArgoCD, kubectl, helm and git commands. This tool can be used by developers and beamline staff to get a quick CLI based view of IOCs running in the cluster, as well as stop/start and obtain logs from them.
 
-See {any}`CLI` for more details.
 
 ### **ibek**
 
