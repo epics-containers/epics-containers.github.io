@@ -11,10 +11,12 @@ epics-containers supports two kinds of services repositories:
 - **Kubernetes** services repositories. These are for deployment into a Kubernetes cluster. Each repository contains a set of **Helm Charts** all of which will deploy into a single namespace in a single Kubernetes Cluster.
 - **Local Machine** services repositories. These are for deployment to a local machine using docker-compose. Each repository contains a set *compose.yaml* files that describe how to deploy a set of services to the local machine. These could potentially be used for production at a facility which does not use Kubernetes, but are primarily for development, testing and the earlier tutorials in this documentation.
 
-(ec-cli)=
-## ec-cli
+(edge-containers-cli)=
+## edge-containers-cli
 
 A Python command line tool for the developer that runs *outside* of containers. It provides simple features for and monitoring and managing and IOC instances within a [](services-repo).
+
+The entry point is `ec`.
 
 
 (ibek)=
