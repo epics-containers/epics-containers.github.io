@@ -23,12 +23,12 @@ NOTE: generic IOCs with a given major version number template should work with b
 Updating a Beamline Repository
 ------------------------------
 
-A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. The beamline repository is created using the `ec-services-template` copier template. See [](../tutorials/create_beamline.md) for the tutorial on how to create a new beamline repository.
+A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. The beamline repository is created using the `services-template-helm` copier template. See [](../tutorials/create_beamline.md) for the tutorial on how to create a new beamline repository.
 
 To update your beamline repository to the latest version of the templates you should run the following command in the root of your repository:
 
 ```bash
-copier update -r VERSION_NUMBER --trust .
+copier update -r VERSION_NUMBER .
 ```
 
 You can supply the VERSION_NUMBER of the template you want or omit the `-r` option to get the latest released version.
@@ -37,7 +37,7 @@ This will update your project in place. You should then inspect the changes usin
 
 The template comes with an example IOC called xxxx-ea-test-01. You are free to delete this if you don't want it. However, we recommend keeping that IOC as it is a good reference for what changes might be needed in your own IOC instances.
 
-For example, in version 3.4.0 the `ec-services-template` changed the way that the configmap is created for each IOC instance. This added a soft-link **templates** folder that points at **../../include/ioc/templates**. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.
+For example, in version 3.4.0 the `services-template-helm` changed the way that the configmap is created for each IOC instance. This added a soft-link **templates** folder that points at **../../include/ioc/templates**. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.
 
 
 Updating a Generic IOC Repository
@@ -72,7 +72,7 @@ copier copy gh:epics-containers/ioc-template --trust .
 For the beamline case:
 
 ```bash
-copier copy gh:epics-containers/ec-services-template --trust .
+copier copy gh:epics-containers/services-template-helm .
 ```
 
 In both cases you should select Y for each notice of a conflict, then resolve those conflicts in your editor.
