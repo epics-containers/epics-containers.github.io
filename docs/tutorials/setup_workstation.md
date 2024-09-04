@@ -208,7 +208,7 @@ Above we set up a python virtual environment. Now we will install `copier` which
 
 ```bash
 pip install copier
-pip install ec-cli
+pip install edge-containers-cli
 ```
 
 ### Git
