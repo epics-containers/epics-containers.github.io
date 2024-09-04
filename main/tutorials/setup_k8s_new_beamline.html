@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers 4.0.0b2.dev46+g755cd6c documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers 4.0.0b2.dev48+gd759bfe documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=cbcf0c53"></script>
+    <script src="../_static/documentation_options.js?v=111f7d70"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -593,9 +593,9 @@ git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span
 </section>
 <section id="setup-the-epics-containers-cli">
 <h2>Setup the epics containers CLI<a class="headerlink" href="#setup-the-epics-containers-cli" title="Link to this heading">#</a></h2>
-<p>To deploy and manage IOC istances requires <strong>helm</strong> and <strong>kubectl</strong> command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and add the <code class="docutils literal notranslate"><span class="pre">ec-cli</span></code> python package to your virtual environment.</p>
+<p>To deploy and manage IOC istances requires <strong>helm</strong> and <strong>kubectl</strong> command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and add the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> python package to your virtual environment if it is not already there.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure your Python virtual environment is active, then:</span>
-pip<span class="w"> </span>install<span class="w"> </span>ec-cli
+pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 <span class="c1"># setup the environment for ec to know how to talk to the cluster</span>
 <span class="c1"># (make sure you are in the t03-services directory)</span>
 <span class="nb">source</span><span class="w"> </span>./environment.sh
