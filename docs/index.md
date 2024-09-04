@@ -8,6 +8,7 @@ html_theme.sidebar_secondary.remove: true
 
 Materials
 ---------
+- [Workshop @ ORNL, EPICS Collaboration 2024](images/EPICS_Collab_2024.pdf)
 - [Oxfordshire EPICS Meeting Nov 2023](images/epics-oxfordshire-nov-2024)
 - [ICALEPCS 2021 Paper: Kubernetes for EPICS IOCs](images/THBL04.PDF)
 - [ICALEPCS 2021 Talk: Kubernetes for EPICS IOCs](images/THBL04_talk.PDF)
