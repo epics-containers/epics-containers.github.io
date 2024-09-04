@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev40+gee9311a documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.0b2.dev43+g791bfcc documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ce2f4e6d"></script>
+    <script src="../_static/documentation_options.js?v=0ec8229f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -641,7 +641,7 @@ have recent podman versions available. If you have a choice then podman is sligh
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">docker</span><span class="o">=</span>podman
 </pre></div>
 </div>
-<p>in your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file.</p>
+<p>in your <code class="docutils literal notranslate"><span class="pre">$HOME/.profile</span></code> file.</p>
 <p><code class="docutils literal notranslate"><span class="pre">docker</span></code> users should also take a look at this page: <a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Working with Docker</span></a> which describes a couple of extra steps that are required to make docker work in developer containers.</p>
 </section>
 <section id="command-line-completion">
@@ -668,7 +668,7 @@ podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong>: for this step just use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.11</span></code></p>
 </div>
-<p>Go ahead and install Python 3.11 or later.</p>
+<p>Go ahead and install Python if it is not already installed, the minimum version you should use is 3.10. Virtualbox Appliance users will already have Python 3.10 installed.</p>
 <p>There are instructions for installing Python on all platforms here:
 <a class="reference external" href="https://docs.python-guide.org/starting/installation/">https://docs.python-guide.org/starting/installation/</a></p>
 </section>
@@ -686,7 +686,7 @@ but you can choose any folder.</p>
 python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
 </pre></div>
 </div>
-<p>Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding <code class="docutils literal notranslate"><span class="pre">PATH=$HOME/ec-venv/bin:$PATH</span></code> in your .bashrc).</p>
+<p>Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding <code class="docutils literal notranslate"><span class="pre">PATH=$HOME/ec-venv/bin:$PATH</span></code> in your <code class="docutils literal notranslate"><span class="pre">$HOME/.profile</span></code>).</p>
 </section>
 <section id="copier">
 <span id="id2"></span><h3>copier<a class="headerlink" href="#copier" title="Link to this heading">#</a></h3>

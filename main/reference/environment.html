@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers 4.0.0b2.dev40+gee9311a documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers 4.0.0b2.dev43+g791bfcc documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ce2f4e6d"></script>
+    <script src="../_static/documentation_options.js?v=0ec8229f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -501,6 +501,16 @@ document.write(`
                   
   <section id="the-environment-configuration-file">
 <h1>The Environment Configuration File<a class="headerlink" href="#the-environment-configuration-file" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page is out of date - the environment.sh varies depending on the type of project:</p>
+<ul class="simple">
+<li><p>services using compose</p></li>
+<li><p>services using helm</p></li>
+<li><p>deployment</p></li>
+</ul>
+<p>This page needs to be updated to reflect the different types of environment.sh files.</p>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> is a configuration file that is provided in each domain
 (beamline or accelerator) repository. It is used to set up the environment
 such that the <code class="docutils literal notranslate"><span class="pre">epics-containers-cli</span></code> will interact with the correct
@@ -577,13 +587,12 @@ commands. For more targeted debugging you can use <code class="docutils literal 
 <code class="docutils literal notranslate"><span class="pre">blxxi-template</span></code> project comes with a suggested way of doing this, but
 it would probably be best to have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed globally on your
 workstation and then omit this section from your <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> files.</p>
-<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> into your user
-space using the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>epics-containers-cli
+<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> into your user space using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ec-cli
 </pre></div>
 </div>
-<p>Then add the following to your <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HOME</span>/.local/bin
+<p>Then add the following to your <code class="docutils literal notranslate"><span class="pre">$HOME/.profile</span></code> file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$HOME</span>/.local/bin
 </pre></div>
 </div>
 </section>
