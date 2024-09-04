@@ -176,7 +176,7 @@ podman completion zsh > ~/.oh-my-zsh/completions/_podman
 **DLS Users**: for this step just use `module load python/3.11`
 :::
 
-Go ahead and install Python 3.11 or later.
+Go ahead and install Python if it is not already installed, the minimum version you should use is 3.10. Virtualbox Appliance users will already have Python 3.10 installed.
 
 There are instructions for installing Python on all platforms here:
 <https://docs.python-guide.org/starting/installation/>
