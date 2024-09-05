@@ -9,6 +9,8 @@ The tools you need to install are:
 - Python 3.10 or later + a Python virtual environment
 - git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)
 
+If you prefer to use a virtual machine, we provide a VirtualBox appliance with all the software pre-installed. This is the easiest way to get started.
+
 Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, Yaml files and more.
@@ -57,12 +59,7 @@ In all cases you will need an internet connection to download the software and t
 (appliance)=
 ## VirtualBox Appliance
 
-If you already have a linux distribution with admin permissions then go to {ref}`installation-steps` below.
-
-
-::: {important}
-For some tutorials you will need write access to a project in your personal github. We recommend using the PAT method described in the 1st section above.
-:::
+This section is for those that want to use a virtual machine to run the tutorials. If you already have a linux distribution with admin permissions and you want to work with that instead, please go to {ref}`installation-steps` below.
 
 If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide.
 
@@ -70,10 +67,21 @@ First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and then d
 
 During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources. We recommend 8GB of RAM and 4 CPUs for the VM but more is better for the developer container tutorials!
 
-When the appliance is started you can log in as `ec-demo` with password `demo1`.
+Now start the VM and log in as `ec-demo` with password `demo1`.
+
+This VM has the following software pre-installed:
+- Ubuntu 22.04
+- Python 3.10
+- Visual Studio Code
+- Docker
+- zsh shell with oh-my-zsh
+
+You will need to complete the following steps to personalize the VM:
+- Set up your github credentials
+- Set up your python virtual environment
+- Set up your docker or podman CLI completion if you want it
 
 Now jump to {ref}`cli-completion` below.
-
 
 
 (installation-steps)=
@@ -216,6 +224,18 @@ pip install edge-containers-cli
 If you don't already have git installed see
 <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>. Any recent
 version of git will work.
+
+You will also want to set up your git user name and email address:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your email"
+```
+
+And set up your git credentials so that you can access your personal github repositories. Your choices are:
+
+- use a Personal Access Token (PAT) as described in the first section above.
+- setup an ssh key following the instructions [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ### Kubernetes
 
