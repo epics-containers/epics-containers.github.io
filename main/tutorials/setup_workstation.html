@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.1.dev4+g9749e7d documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 4.0.1.dev6+g99a58ff documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=79be6976"></script>
+    <script src="../_static/documentation_options.js?v=51f608bf"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -512,6 +512,7 @@ The tools you need to install are:</p>
 <li><p>Python 3.10 or later + a Python virtual environment</p></li>
 <li><p>git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)</p></li>
 </ul>
+<p>If you prefer to use a virtual machine, we provide a VirtualBox appliance with all the software pre-installed. This is the easiest way to get started.</p>
 <p>Visual Studio Code is recommended because it has excellent integration with
 devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, Yaml files and more.</p>
@@ -569,15 +570,25 @@ If you have your own preferred code editor you can use that.</p>
 </section>
 <section id="virtualbox-appliance">
 <span id="appliance"></span><h2>VirtualBox Appliance<a class="headerlink" href="#virtualbox-appliance" title="Link to this heading">#</a></h2>
-<p>If you already have a linux distribution with admin permissions then go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a> below.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>For some tutorials you will need write access to a project in your personal github. We recommend using the PAT method described in the 1st section above.</p>
-</div>
+<p>This section is for those that want to use a virtual machine to run the tutorials. If you already have a linux distribution with admin permissions and you want to work with that instead, please go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a> below.</p>
 <p>If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide.</p>
 <p>First install <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> and then download the <a class="reference external" href="https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing">Virtual Machine</a>. The downloaded file is an OVA file which can be imported into VirtualBox using <code class="docutils literal notranslate"><span class="pre">File-&gt;Import</span> <span class="pre">Appliance</span> <span class="pre">...</span></code></p>
 <p>During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources. We recommend 8GB of RAM and 4 CPUs for the VM but more is better for the developer container tutorials!</p>
-<p>When the appliance is started you can log in as <code class="docutils literal notranslate"><span class="pre">ec-demo</span></code> with password <code class="docutils literal notranslate"><span class="pre">demo1</span></code>.</p>
+<p>Now start the VM and log in as <code class="docutils literal notranslate"><span class="pre">ec-demo</span></code> with password <code class="docutils literal notranslate"><span class="pre">demo1</span></code>.</p>
+<p>This VM has the following software pre-installed:</p>
+<ul class="simple">
+<li><p>Ubuntu 22.04</p></li>
+<li><p>Python 3.10</p></li>
+<li><p>Visual Studio Code</p></li>
+<li><p>Docker</p></li>
+<li><p>zsh shell with oh-my-zsh</p></li>
+</ul>
+<p>You will need to complete the following steps to personalize the VM:</p>
+<ul class="simple">
+<li><p>Set up your github credentials</p></li>
+<li><p>Set up your python virtual environment</p></li>
+<li><p>Set up your docker or podman CLI completion if you want it</p></li>
+</ul>
 <p>Now jump to <a class="reference internal" href="#cli-completion"><span class="std std-ref">Command Line Completion</span></a> below.</p>
 </section>
 <section id="installation-steps">
@@ -701,6 +712,16 @@ pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 <p>If you don’t already have git installed see
 <a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">https://git-scm.com/book/en/v2/Getting-Started-Installing-Git</a>. Any recent
 version of git will work.</p>
+<p>You will also want to set up your git user name and email address:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;your email&quot;</span>
+</pre></div>
+</div>
+<p>And set up your git credentials so that you can access your personal github repositories. Your choices are:</p>
+<ul class="simple">
+<li><p>use a Personal Access Token (PAT) as described in the first section above.</p></li>
+<li><p>setup an ssh key following the instructions <a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">here</a>.</p></li>
+</ul>
 </section>
 <section id="kubernetes">
 <h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">#</a></h3>
