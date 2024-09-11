@@ -16,7 +16,7 @@ See "Start the Podman system service" in [this article](https://www.redhat.com/s
 If you have a choice, a recent docker version is the preferred option.
 :::
 
-The example beamline wiil launch the following set of containers:
+The example beamline will launch the following set of containers:
 - a simulation Area Detector IOC
 - a simulation Motion IOC
 - a basic IOC with a sum record
@@ -30,7 +30,7 @@ git clone https://github.com/epics-containers/example-services
 cd example-services
 # setup some environment variables
 source ./environment.sh
-# lauch the docker compose configuration (with dc alias for docker compose)
+# launch the docker compose configuration (with dc alias for docker compose)
 dc up -d
 ```
 
