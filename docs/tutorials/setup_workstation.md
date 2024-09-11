@@ -128,8 +128,9 @@ sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containe
 Next install docker or podman as your container platform. epics-containers
 has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.
 
-The podman version required is 4.0 or later. Any version of docker since 20.10 will also work. Pick the tool that has the most recent version for your platform. RedHat 8 and above have recent podman versions. Older Debian platforms don't yet
-have recent podman versions available. If you have a choice then podman is slightly preferred because it does not require root access and it is the tool with which epics-containers has had the most testing. However, docker is the most widely used container platform and is also well supported.
+The podman version required is 4.0 or later. Any version of docker since 20.10 will also work.
+
+Because we use docker compose which is built in to later versions of docker, we recommend using docker if you have a choice.
 
 The links below have details of how to install your choice of container platform:
 
@@ -144,7 +145,7 @@ docker compose allows you to define and run multi-container Docker applications.
 
 If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
 
-Other users of podman please see these instructions [rootless podman with docker-compose](https://connect.redhat.com/hydra/prm/v1/business/companies/0ed5e6899bce415b89d82cb334da214a/linked-resources/aa9ae6ada5f04000a66472cc0fc18160/content/public/view).
+Other users of podman please see these instructions [rootless podman with docker-compose](https://www.redhat.com/sysadmin/podman-docker-compose). You need only read the section titled "Start the Podman system service" (the rest of the page validates the setup).
 
 ### Important Notes Regarding docker and podman
 
