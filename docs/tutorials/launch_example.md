@@ -9,7 +9,8 @@ This tutorial has been tested with the following versions of software. If you ha
 - git 2.43.5
 - One of the following
   - docker 27.2.0
-  - podman 4.9.4 and docker-compose 2.29.2
+  - podman 4.9.4
+- docker-compose 2.29.2
 
 See "Start the Podman system service" in [this article](https://www.redhat.com/sysadmin/podman-docker-compose) to set up podman and docker-compose
 
