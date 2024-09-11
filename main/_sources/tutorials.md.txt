@@ -9,6 +9,7 @@ Tutorials for installation and typical usage. New users start here.
 
 tutorials/intro
 tutorials/setup_workstation
+tutorials/launch_example
 tutorials/create_beamline
 tutorials/deploy_example
 tutorials/create_ioc
