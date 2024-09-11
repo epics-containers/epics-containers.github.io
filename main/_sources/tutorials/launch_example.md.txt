@@ -1,14 +1,14 @@
 
 # Launch A Simulation Beamline
 
-In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that the a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.
+In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.
 
 :::{note}
 This tutorial has been tested with the following versions of software. If you have issues then you may need to update your software to these versions or higher.
 
 - git 2.43.5
 - One of the following
-  - docker 20.10.0
+  - docker 27.2.0
   - podman 4.9.4 and docker-compose 2.29.2
 
 See "Start the Podman system service" in [this article](https://www.redhat.com/sysadmin/podman-docker-compose) to set up podman and docker-compose
