@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuration for epics-containers &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
+    <title>Rootless vs Rootfull &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
   
   
   
@@ -44,7 +44,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/configuration';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/rootless';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
@@ -54,8 +54,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working with Docker" href="docker.html" />
-    <link rel="prev" title="Change Log" href="changelog.html" />
+    <link rel="next" title="Reference" href="../reference.html" />
+    <link rel="prev" title="Source and Registry Locations" href="repositories.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,14 +167,14 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -330,14 +330,14 @@ document.write(`
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -427,18 +427,22 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuration for epics-containers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
-<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Change Management Manifesto</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0002-switched-to-python-copier-template.html">2. Adopt python-copier-template for project structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0003-use-substitution-files.html">3. Use of substitution files to generate EPICS Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0004-autosave-req-files.html">4. How to configure autosave for IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Rootless vs Rootfull</a></li>
 </ul>
 </div>
 </nav></div>
@@ -477,9 +481,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
+    <li class="breadcrumb-item"><a href="../explanations.html" class="nav-link">Explanations</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Configuratio...</li>
+    <li class="breadcrumb-item active" aria-current="page">Rootless vs Rootfull</li>
   </ul>
 </nav>
 </div>
@@ -496,72 +500,77 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="configuration-for-epics-containers">
-<h1>Configuration for epics-containers<a class="headerlink" href="#configuration-for-epics-containers" title="Link to this heading">#</a></h1>
-<p>A collection of all the configuration points mentioned in the rest of this
-documentation.</p>
-<p>TODO: this needs completing - pull all configuration discussions into
-one place. Most of these will come from the original Setting up the
-Workspace document.</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-</table>
-</div>
-<section id="git-configuration">
-<h2>Git Configuration<a class="headerlink" href="#git-configuration" title="Link to this heading">#</a></h2>
-<p>This setting replaces https URLS for github repositories with ssh URLs. This is useful for the ibek-support submodule in the ioc-XXX repositories because it uses an HTTPS URL so that it can be built anywhere. When you want to push changes it is more convenient to use ssh URLs.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">url</span> <span class="s2">&quot;ssh://git@github.com/&quot;</span><span class="p">]</span>
-        <span class="n">insteadOf</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span>
+  <section id="rootless-vs-rootfull">
+<h1>Rootless vs Rootfull<a class="headerlink" href="#rootless-vs-rootfull" title="Link to this heading">#</a></h1>
+<p>epics-containers is intended to support both docker and podman. Docker is rootfull by default but also supports rootless operation. Podman is rootless by default but also supports rootfull operation.</p>
+<p>Advantages of rootless operation include:</p>
+<ul class="simple">
+<li><p>Security: rootless containers only have the same permissions as the user running them.</p></li>
+<li><p>Ease of use: in an environment where users do not have root privileges, rootless containers can be run without needing to escalate privileges. This is why DLS uses rootless containers.</p></li>
+<li><p>Host mounts: host mounts have the same permissions as the user running the container.</p></li>
+<li><p>Developer containers: rootless containers can be ‘root’ inside the container, but not on the host.</p></li>
+<li><p>Simplicity: no need to switch users in Dockerfiles - just stay as root and use psuedo-root during runtime. This maps nicely to using the same container in Kubernetes where control of the user id is up to the cluster.</p></li>
+</ul>
+<p>Advantages of rootfull operation include:</p>
+<ul class="simple">
+<li><p>networking: you can create rootable bridge networks that can be accessed from the host</p></li>
+<li><p>power: you can give containers privileged capabilities that the user would not normally have</p></li>
+</ul>
+<p>The advantages of rootless are ideal for developing and executing IOCs.</p>
+<section id="current-situation">
+<h2>Current situation<a class="headerlink" href="#current-situation" title="Link to this heading">#</a></h2>
+<p>At present epics-containers requires slightly different configuration for docker and podman. However these differences are really because of the rootfull vs rootless distinction. Those distinctions for docker (rootful) are:</p>
+<ul class="simple">
+<li><p>EC_REMOTE_USER: must be set so that developer containers run as the current user</p></li>
+<li><p>Permissions on the files inside the developer container need to be set with <em>sudo chown</em> at startup</p></li>
+<li><p>Developer containers will sometimes have issues with git repo permissions</p></li>
+<li><p>docker compose deployed IOCs do run as root and write any generated files as root in host mounted folders (this needs fixing)</p></li>
+<li><p>UIDGID is required to be passed to the compose file for phoebus to make sure it runs as the correct user (but would not be needed at all for rootless)</p></li>
+</ul>
+</section>
+<section id="proposed-solution">
+<h2>Proposed solution<a class="headerlink" href="#proposed-solution" title="Link to this heading">#</a></h2>
+<p>We should mantate the use of rootless for epics-containers. This will make the configuration simpler and more secure.</p>
+<p>A potential issue with this is that developers who use docker for other purposes may need to use rootfull as well.</p>
+<p>This would therefore be accetable if it is easy to switch between rootfull and rootless operation. The next section shows how I have done this with docker on Ubuntu 24.04, I would guess that this will work on other distros but this needs to be verified.</p>
+</section>
+<section id="configure-docker-with-rootless-rootfull-operation">
+<h2>Configure Docker with rootless/rootfull operation<a class="headerlink" href="#configure-docker-with-rootless-rootfull-operation" title="Link to this heading">#</a></h2>
+<p>Note that some fixes to epics-containers ‘Current Situtation’ are required if you switch to rootless operation - we can remove some of the config requirements.</p>
+<p>These instructions worked for me on Ubuntu 24.04. Assume docker default install is already done and is at version 27.2.0.</p>
+<ol class="arabic">
+<li><p>docker install comes with a script to set up rootless operation. We use –force to tell it to run even though rootfull is already set up.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dockerd-rootless-setuptool.sh<span class="w"> </span>--force
 </pre></div>
 </div>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-</table>
-</div>
-</section>
-<section id="vscode-settings">
-<h2>Vscode Settings<a class="headerlink" href="#vscode-settings" title="Link to this heading">#</a></h2>
-<p>These settings can be edited using <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code>: <code class="docutils literal notranslate"><span class="pre">Preferences:</span> <span class="pre">Open</span> <span class="pre">User</span> <span class="pre">Settings:</span> <span class="pre">(JSON)</span></code></p>
-<section id="disable-recursive-search-for-git-repositories">
-<span id="scm-settings"></span><h3>Disable recursive search for git repositories<a class="headerlink" href="#disable-recursive-search-for-git-repositories" title="Link to this heading">#</a></h3>
-<p>Because all ioc-XXX have the same submodule <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> and because <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code> in Generic IOCs contains many repositories, it is best not to automatically have vscode search for git repositories in the workspace. These settings are useful in this regard.</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">&quot;scm.alwaysShowRepositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;git.repositoryScanMaxDepth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;scm.repositories.visible&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+</li>
+<li><p>The script may get errors and explain how to get around them. In my case it asked me to run this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>sh<span class="w"> </span>-eux<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s"># Install newuidmap &amp; newgidmap binaries</span>
+<span class="s">apt-get install -y uidmap</span>
+<span class="s">EOF</span>
 </pre></div>
 </div>
-</section>
-<section id="zsh-shell">
-<h3>zsh shell<a class="headerlink" href="#zsh-shell" title="Link to this heading">#</a></h3>
-<p>For a much richer command line experience, it is recommended to use the zsh shell in vscode, this will work inside Generic IOC devcontainers too. Use the following settings:</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">&quot;terminal.integrated.profiles.linux&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;bash&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bash&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;zsh&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zsh&quot;</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;terminal.integrated.defaultProfile.linux&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;zsh&quot;</span><span class="p">,</span>
+</li>
+<li><p>Make sure the rootfull service is still running (may not need this step).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>docker.service<span class="w"> </span>docker.socket
 </pre></div>
 </div>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-</table>
+</li>
+<li><p>Now you can switch between both by changing the environment variable DOCKER_HOST.</p></li>
+<li><p>To switch to rootless:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/docker.sock
+docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
 </div>
-</section>
+</li>
+<li><p>To switch back to rootfull:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix:///var/run/docker.sock
+docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
+</div>
+</li>
+</ol>
 </section>
 </section>
 
@@ -576,20 +585,20 @@ Workspace document.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="changelog.html"
+       href="repositories.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Change Log</p>
+        <p class="prev-next-title">Source and Registry Locations</p>
       </div>
     </a>
     <a class="right-next"
-       href="docker.html"
+       href="../reference.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Docker</p>
+        <p class="prev-next-title">Reference</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -611,12 +620,9 @@ Workspace document.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration">Git Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-settings">Vscode Settings</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-recursive-search-for-git-repositories">Disable recursive search for git repositories</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zsh-shell">zsh shell</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#current-situation">Current situation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proposed-solution">Proposed solution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-docker-with-rootless-rootfull-operation">Configure Docker with rootless/rootfull operation</a></li>
 </ul>
   </nav></div>
 
@@ -624,7 +630,7 @@ Workspace document.</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/reference/configuration.md">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/explanations/rootless.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -639,7 +645,7 @@ Workspace document.</p>
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/reference/configuration.md.txt">
+    <a href="../_sources/explanations/rootless.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
