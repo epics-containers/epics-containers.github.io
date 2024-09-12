@@ -16,7 +16,7 @@ devcontainers. It also has useful extensions for working with Kubernetes,
 EPICS, Yaml files and more.
 
 :::{note}
-**Using a Personal Access Token (PAT):** If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens.
+**Using a Personal Access Token (PAT):** If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens. Give your new token R/W access to Repository Contents and Workflows.
 
 ```
 # Remember credentials for 5 hours duration
