@@ -13,7 +13,7 @@ We do fully support `docker`, please report any issues you find.
 
 There are a few things to know if you are using `docker` in your developer containers:
 
-1. add `export EC_REMOTE_USER=$USER` into your `$HOME/.profile`. The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.
+1. add `export EC_REMOTE_USER=$USER` into your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users). The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.
 1. you may need to tell git that you are ok with the repository permissions. `vscode` may ask you about this or you may need to do the command:
     ```bash
     git config --global --add safe.directory <Git folder>

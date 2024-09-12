@@ -92,7 +92,7 @@ Perhaps the simplest way to achieve this is to install `ec` into your user space
 pip install --user ec-cli
 ```
 
-Then add the following to your `$HOME/.profile` file:
+Then add the following to your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users):
 
 ```bash
 PATH=$PATH:$HOME/.local/bin

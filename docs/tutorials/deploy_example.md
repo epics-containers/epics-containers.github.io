@@ -80,23 +80,21 @@ You can see the status of the services by running the following command:
 docker compose ps
 ```
 
-In environment.sh we created an alias for `docker compose` named `dc` from now on we'll shorten the commands to use `dc` instead of `docker compose`.
-
 ## Managing the Example IOC Instance
 
 ### Starting and Stopping IOCs
 
-To stop / start the example IOC try the following commands. Note that `dc ps -a` shows you all IOCs including stopped ones.
+To stop / start the example IOC try the following commands. Note that `docker compose ps -a` shows you all IOCs including stopped ones.
 
 Also note that tab completion should allow you to complete the names of your commands and services. e.g.
-`dc star <tab> ex <tab>`, should complete to `dc start example-test-01`.
+`docker compose star <tab> ex <tab>`, should complete to `docker compose start example-test-01`.
 
 ```bash
-dc ps -a
-dc stop example-test-01
-dc ps -a
-dc start example-test-01
-dc ps
+docker compose ps -a
+docker compose stop example-test-01
+docker compose ps -a
+docker compose start example-test-01
+docker compose ps
 ```
 
 :::{Note}
@@ -112,7 +110,7 @@ This is a Generic IOC image and all IOC Instances must be based upon one of thes
 To run a bash shell inside the IOC container:
 
 ```bash
-dc exec example-test-01 bash
+docker compose exec example-test-01 bash
 caget EXAMPLE:SUM
 ```
 
@@ -138,13 +136,13 @@ In the Virtual Machine supplied for testing epics-containers we do not install E
 To get the current logs for the example IOC:
 
 ```bash
-dc logs example-test-01
+docker compose logs example-test-01
 ```
 
 Or follow the IOC log until you hit ctrl-C:
 
 ```bash
-dc logs example-test-01 -f
+docker compose logs example-test-01 -f
 ```
 
 You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log. Ibek is the tool that runs inside of the IOC container and generates the ioc shell script and database file by interpreting the /epics/ioc/config/ioc.yaml at launch time.
@@ -154,7 +152,7 @@ You should see the log of ibek loading and generating the IOC startup assets and
 You can stop all the services with the following command.
 
 ```bash
-dc stop
+docker compose stop
 ```
 
 This will stop all the currently running containers described in the `compose.yml` file.
@@ -166,7 +164,7 @@ However this will leave the resources themselves in place:
 To take down the services and remove all of their resources use the following command:
 
 ```bash
-dc down
+docker compose down
 ```
 
 ### Monitoring and interacting with an IOC shell
@@ -177,7 +175,7 @@ shell. In the next tutorial we will use this command to interact with
 iocShell.
 
 ```bash
-dc attach example-test-01
+docker compose attach example-test-01
 dbl
 # ctrl-p ctrl-q to detach
 ```
