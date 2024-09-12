@@ -25,6 +25,7 @@ At present epics-containers requires slightly different configuration for docker
 - Permissions on the files inside the developer container need to be set with *sudo chown* at startup
 - Developer containers will sometimes have issues with git repo permissions
 - docker compose deployed IOCs do run as root and write any generated files as root in host mounted folders (this needs fixing)
+- UIDGID is required to be passed to the compose file for phoebus to make sure it runs as the correct user (but would not be needed at all for rootless)
 
 ## Proposed solution
 
@@ -35,6 +36,8 @@ A potential issue with this is that developers who use docker for other purposes
 This would therefore be accetable if it is easy to switch between rootfull and rootless operation. The next section shows how I have done this with docker on Ubuntu 24.04, I would guess that this will work on other distros but this needs to be verified.
 
 ## Configure Docker with rootless/rootfull operation
+
+Note that some fixes to epics-containers 'Current Situtation' are required if you switch to rootless operation - we can remove some of the config requirements.
 
 These instructions worked for me on Ubuntu 24.04. Assume docker default install is already done and is at version 27.2.0.
 
