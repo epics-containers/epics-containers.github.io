@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers 4.0.1.dev14+g6b3a0ef documentation</title>
+    <title>Troubleshooting &#8212; epics-containers 4.0.1.dev16+gd097d6b documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ba07cb3c"></script>
+    <script src="../_static/documentation_options.js?v=e0250508"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -513,6 +513,26 @@ ssh-add ~/.ssh/id_rsa
 <p>Where <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> is the name of your private key file you use for connecting
 to GitHub.</p>
 </section>
+<section id="cannot-connect-to-the-docker-daemon">
+<h2>Cannot connect to the Docker daemon<a class="headerlink" href="#cannot-connect-to-the-docker-daemon" title="Link to this heading">#</a></h2>
+<p>Solution 1: start the daemon manually with <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code>,
+if the daemon was already running, add your user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group, then
+log out and in for the change to be effective.</p>
+<p>Solution 2: use rootless docker, the way to setup this depends on your
+distribution, in some cases, it’s a matter of installing a variant package
+like <code class="docutils literal notranslate"><span class="pre">docker-rootless</span></code>.</p>
+</section>
+<section id="docker-daemon-errors-initializing-graphdriver">
+<h2>Docker daemon errors initializing graphdriver<a class="headerlink" href="#docker-daemon-errors-initializing-graphdriver" title="Link to this heading">#</a></h2>
+<p>Solution: The most likely reason is that you are using a filesystem like <code class="docutils literal notranslate"><span class="pre">zfs</span></code>
+or <code class="docutils literal notranslate"><span class="pre">btrfs</span></code> which requires a special storage driver, click
+<a class="reference external" href="https://docs.docker.com/engine/storage/drivers/select-storage-driver/">link</a>
+for more information</p>
+</section>
+<section id="error-processing-a-compose-file">
+<h2>Error processing a compose file<a class="headerlink" href="#error-processing-a-compose-file" title="Link to this heading">#</a></h2>
+<p>Solution: make sure your docker compose is up to date</p>
+</section>
 </section>
 
 
@@ -553,6 +573,9 @@ to GitHub.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-docker-daemon">Cannot connect to the Docker daemon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-daemon-errors-initializing-graphdriver">Docker daemon errors initializing graphdriver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-processing-a-compose-file">Error processing a compose file</a></li>
 </ul>
   </nav></div>
 
