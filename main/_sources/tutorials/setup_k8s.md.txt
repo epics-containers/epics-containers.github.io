@@ -59,11 +59,12 @@ Kubectl is the command line tool for interacting with Kubernetes Clusters.
 Note that by default, the kubectl that comes with k3s reads its config from /etc/rancher/k3s/k3s.yaml and would therefore be run with sudo. By using $KUBECONFIG we conform to the standard version that reads its config from $HOME/.kube/config.
 
 ```
-echo 'export KUBECONFIG=$HOME/.kube/config' >> $HOME/.profile
-source $HOME/.profile
+echo 'export KUBECONFIG=$HOME/.kube/config' >> $HOME/.bashrc
+source $HOME/.bashrc
 ```
+(replace `$HOME/.bashrc` with `$HOME/.zshrc` for zsh user)
 
-Then log out for this to be set for all shells.
+Then log out and back in for this to be set for all shells.
 
 ### Configure kubectl
 
@@ -221,7 +222,7 @@ To install the `argocd` cli tool:
 ```
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
 sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64 
+rm argocd-linux-amd64
 ```
 
 Create a new argocd project from the command line, with permissions to deploy into your namespace:

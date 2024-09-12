@@ -149,11 +149,11 @@ Other users of podman please see these instructions [rootless podman with docker
 
 ### Important Notes Regarding docker and podman
 
-From here on when we refer to `docker` in a command line, you can replace it with `podman` if you are using podman. The two tools have the same CLI. For convenience if you are a podman user you might want to place
+From here on when we refer to `docker` in a command line, you can replace it with `podman` if you are using podman. The two tools have (almost) the same CLI. For convenience if you are a podman user you might want to place
 ```bash
 alias docker=podman
 ```
-in your `$HOME/.profile` file.
+in your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users).
 
 `docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
 
@@ -207,7 +207,7 @@ source $HOME/ec-venv/bin/activate
 python3 -m pip install --upgrade pip
 ```
 
-Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your `$HOME/.profile`).
+Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users)).
 
 (copier)=
 

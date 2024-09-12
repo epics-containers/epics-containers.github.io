@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
+    <title>Developer Containers &#8212; epics-containers 4.0.1.dev21+g05e2012 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b2e71a7a"></script>
+    <script src="../_static/documentation_options.js?v=fde0a79c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -525,7 +525,7 @@ document.write(`
 <p>To make a change like this requires:</p>
 <ul class="simple">
 <li><p>change the IOC instance ioc.yaml or other configuration files in the services repository</p></li>
-<li><p>re-launch the IOC with <code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
+<li><p>re-launch the IOC with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
 <li><p>that’s it. No compilation required because we are only changing instance configuration here, not the IOC binary or dbd.</p></li>
 </ul>
 </section>
@@ -544,7 +544,7 @@ document.write(`
 <li><p>make changes to the Generic IOC Dockerfile (which holds the build instructions for a Generic IOC - we will discuss this in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>)</p></li>
 <li><p>push the changes and tag the repo - this will build and publish a new container image using CI</p></li>
 <li><p>change the IOC instance in the services repo to point at the new container image</p></li>
-<li><p>redeploy the IOC with <code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
+<li><p>redeploy the IOC with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
 </ul>
 </section>
 <section id="changing-the-dependencies">
@@ -629,7 +629,7 @@ Paste this into a terminal:</p>
 <p>Before continuing this tutorial make sure you have not left any IOCs running from a previous tutorial. Execute this command outside of the devcontainer to stop it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
 .<span class="w"> </span>./environment.sh
-dc<span class="w"> </span>down
+docker<span class="w"> </span>compose<span class="w"> </span>down
 </pre></div>
 </div>
 </div>
@@ -648,7 +648,7 @@ git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_REMOTE_USER</span><span class="o">=</span><span class="nv">$USER</span>
 </pre></div>
 </div>
-<p>It is recommended that you place this command in <code class="docutils literal notranslate"><span class="pre">$HOME/.profile</span></code> to make it permanent.</p>
+<p>It is recommended that you place this command in <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users) to make it permanent.</p>
 <p>If you do not do this, your devcontainer will run as root. Although it will still work, it is not recommended. Also, forgetting to set EC_REMOTE_USER before launching a pre-existing devcontainer will cause errors. (my apologies to docker users - I wanted to make the devcontainer compatible with both docker and podman and this is the least invasive method I could come up with).</p>
 </div>
 </section>

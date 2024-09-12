@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers 4.0.1.dev21+g05e2012 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b2e71a7a"></script>
+    <script src="../_static/documentation_options.js?v=fde0a79c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -569,20 +569,19 @@ have followed the instructions in the previous tutorial correctly.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>ps
 </pre></div>
 </div>
-<p>In environment.sh we created an alias for <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> named <code class="docutils literal notranslate"><span class="pre">dc</span></code> from now on we’ll shorten the commands to use <code class="docutils literal notranslate"><span class="pre">dc</span></code> instead of <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>.</p>
 </section>
 <section id="managing-the-example-ioc-instance">
 <h2>Managing the Example IOC Instance<a class="headerlink" href="#managing-the-example-ioc-instance" title="Link to this heading">#</a></h2>
 <section id="starting-and-stopping-iocs">
 <h3>Starting and Stopping IOCs<a class="headerlink" href="#starting-and-stopping-iocs" title="Link to this heading">#</a></h3>
-<p>To stop / start the example IOC try the following commands. Note that <code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
+<p>To stop / start the example IOC try the following commands. Note that <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">ps</span> <span class="pre">-a</span></code> shows you all IOCs including stopped ones.</p>
 <p>Also note that tab completion should allow you to complete the names of your commands and services. e.g.
-<code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">star</span> <span class="pre">&lt;tab&gt;</span> <span class="pre">ex</span> <span class="pre">&lt;tab&gt;</span></code>, should complete to <code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">start</span> <span class="pre">example-test-01</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>ps<span class="w"> </span>-a
-dc<span class="w"> </span>stop<span class="w"> </span>example-test-01
-dc<span class="w"> </span>ps<span class="w"> </span>-a
-dc<span class="w"> </span>start<span class="w"> </span>example-test-01
-dc<span class="w"> </span>ps
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">star</span> <span class="pre">&lt;tab&gt;</span> <span class="pre">ex</span> <span class="pre">&lt;tab&gt;</span></code>, should complete to <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">start</span> <span class="pre">example-test-01</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>ps<span class="w"> </span>-a
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>example-test-01
+docker<span class="w"> </span>compose<span class="w"> </span>ps<span class="w"> </span>-a
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>example-test-01
+docker<span class="w"> </span>compose<span class="w"> </span>ps
 </pre></div>
 </div>
 <div class="admonition note">
@@ -595,7 +594,7 @@ dc<span class="w"> </span>ps
 <section id="exploring-an-ioc-instance">
 <h3>Exploring an IOC instance<a class="headerlink" href="#exploring-an-ioc-instance" title="Link to this heading">#</a></h3>
 <p>To run a bash shell inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>bash
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>bash
 caget<span class="w"> </span>EXAMPLE:SUM
 </pre></div>
 </div>
@@ -629,11 +628,11 @@ caget<span class="w"> </span>EXAMPLE:SUM
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
 <p>To get the current logs for the example IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>logs<span class="w"> </span>example-test-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>example-test-01
 </pre></div>
 </div>
 <p>Or follow the IOC log until you hit ctrl-C:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>logs<span class="w"> </span>example-test-01<span class="w"> </span>-f
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>example-test-01<span class="w"> </span>-f
 </pre></div>
 </div>
 <p>You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log. Ibek is the tool that runs inside of the IOC container and generates the ioc shell script and database file by interpreting the /epics/ioc/config/ioc.yaml at launch time.</p>
@@ -641,7 +640,7 @@ caget<span class="w"> </span>EXAMPLE:SUM
 <section id="shutdown">
 <h3>Shutdown<a class="headerlink" href="#shutdown" title="Link to this heading">#</a></h3>
 <p>You can stop all the services with the following command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>stop
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>stop
 </pre></div>
 </div>
 <p>This will stop all the currently running containers described in the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file.
@@ -652,7 +651,7 @@ However this will leave the resources themselves in place:</p>
 <li><p>container volumes</p></li>
 </ul>
 <p>To take down the services and remove all of their resources use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>down
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>down
 </pre></div>
 </div>
 </section>
@@ -662,7 +661,7 @@ However this will leave the resources themselves in place:</p>
 will attach you to nothing in the case of this example IOC as it has no
 shell. In the next tutorial we will use this command to interact with
 iocShell.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>attach<span class="w"> </span>example-test-01
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>attach<span class="w"> </span>example-test-01
 dbl
 <span class="c1"># ctrl-p ctrl-q to detach</span>
 </pre></div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with Docker &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
+    <title>Working with Docker &#8212; epics-containers 4.0.1.dev21+g05e2012 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b2e71a7a"></script>
+    <script src="../_static/documentation_options.js?v=fde0a79c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -508,7 +508,7 @@ document.write(`
 <p>We do fully support <code class="docutils literal notranslate"><span class="pre">docker</span></code>, please report any issues you find.</p>
 <p>There are a few things to know if you are using <code class="docutils literal notranslate"><span class="pre">docker</span></code> in your developer containers:</p>
 <ol class="arabic">
-<li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=$USER</span></code> into your <code class="docutils literal notranslate"><span class="pre">$HOME/.profile</span></code>. The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>
+<li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=$USER</span></code> into your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users). The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>
 <li><p>you may need to tell git that you are ok with the repository permissions. <code class="docutils literal notranslate"><span class="pre">vscode</span></code> may ask you about this or you may need to do the command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span>&lt;Git<span class="w"> </span>folder&gt;
 </pre></div>

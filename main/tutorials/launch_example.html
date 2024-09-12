@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Launch A Simulation Beamline &#8212; epics-containers 4.0.1.dev19+g5b1a2f4 documentation</title>
+    <title>Launch A Simulation Beamline &#8212; epics-containers 4.0.1.dev21+g05e2012 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=b2e71a7a"></script>
+    <script src="../_static/documentation_options.js?v=fde0a79c"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -533,8 +533,7 @@ document.write(`
 <span class="nb">cd</span><span class="w"> </span>example-services
 <span class="c1"># setup some environment variables</span>
 <span class="nb">source</span><span class="w"> </span>./environment.sh
-<span class="c1"># launch the docker compose configuration (with dc alias for docker compose)</span>
-dc<span class="w"> </span>up<span class="w"> </span>-d
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </pre></div>
 </div>
 <p>If all is well you should see phoebus lauch with an overview of the beamline like the following:</p>
@@ -551,38 +550,38 @@ caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
 
 <span class="c1"># OR if you don&#39;t have caget/put locally then use one of the containers instead:</span>
 <span class="c1"># execute caget from inside one of the example IOCs</span>
-dc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
+docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
 <span class="c1"># or get a shell inside an example IOC and use caget</span>
-dc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>bash
+docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>bash
 caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
 
 <span class="c1"># attach to logs of a service (-f follows the logs, use ctrl-c to exit)</span>
-dc<span class="w"> </span>logs<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-f
+docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-f
 <span class="c1"># stop a service</span>
-dc<span class="w"> </span>stop<span class="w"> </span>bl01t-di-cam-01
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>bl01t-di-cam-01
 <span class="c1"># restart a service</span>
-dc<span class="w"> </span>start<span class="w"> </span>bl01t-di-cam-01
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>bl01t-di-cam-01
 <span class="c1"># attach to a service stdio</span>
-dc<span class="w"> </span>attach<span class="w"> </span>bl01t-di-cam-01
+docker<span class="w"> </span>compose<span class="w"> </span>attach<span class="w"> </span>bl01t-di-cam-01
 <span class="c1"># exec a process in a service</span>
-dc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>bash
+docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>bash
 <span class="c1"># delete a service (deletes the container)</span>
-dc<span class="w"> </span>down<span class="w"> </span>bl01t-di-cam-01
+docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>bl01t-di-cam-01
 <span class="c1"># create and launch a single service (plus its dependencies)</span>
-dc<span class="w"> </span>up<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-d
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-d
 <span class="c1"># close down and delete all the containers</span>
 <span class="c1"># volumes are not deleted to preserve the data</span>
-dc<span class="w"> </span>down
+docker<span class="w"> </span>compose<span class="w"> </span>down
 </pre></div>
 </div>
 <p>This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Before moving on to the next tutorial always make sure to stop and delete the containers from your current example as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dc<span class="w"> </span>down
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>down
 </pre></div>
 </div>
-<p>If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use <code class="docutils literal notranslate"><span class="pre">dc</span> <span class="pre">down</span></code>.</p>
+<p>If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">down</span></code>.</p>
 <p>This is a deliberate choice as we can only run a single ca-gateway on a given host port at a time. For more complex setups you could share one ca-gateway between multiple compose configurations, but we have chosen to keep things simple for these tutorials.</p>
 </div>
 </section>

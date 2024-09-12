@@ -76,7 +76,7 @@ Make sure the ca-gateway from the previous tutorial is stopped before launching 
 # IMPORTANT: do this in a terminal outside of the devcontainer
 cd ioc-adsimdetector/compose
 . ./environment.sh
-dc down
+docker compose down
 ```
 
 Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: `caget BL01T-EA-CAM-01:TEST`.
@@ -85,11 +85,11 @@ Now you can launch your test beamline and it will have picked up the new extras.
 # IMPORTANT: do this in a terminal outside of the devcontainer
 cd t01-services
 . ./environment.sh
-dc up -d
-dc exec example-test-01 caget BL01T-EA-CAM-01:TEST
+docker compose up -d
+docker compose exec example-test-01 caget BL01T-EA-CAM-01:TEST
 
 # Now shut down the beamline again so we can continue with further developer container tutorials
-dc down
+docker compose down
 ```
 
 ## Raw Startup Assets
