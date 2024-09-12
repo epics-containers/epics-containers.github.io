@@ -23,7 +23,7 @@ This means making changes to the IOC instance folders which appear in the `servi
 To make a change like this requires:
 
 - change the IOC instance ioc.yaml or other configuration files in the services repository
-- re-launch the IOC with `dc restart <ioc-name>`
+- re-launch the IOC with `docker compose restart <ioc-name>`
 - that's it. No compilation required because we are only changing instance configuration here, not the IOC binary or dbd.
 
 (changes_2)=
@@ -43,7 +43,7 @@ To make a change like this requires:
 - make changes to the Generic IOC Dockerfile (which holds the build instructions for a Generic IOC - we will discuss this in {any}`generic_ioc`)
 - push the changes and tag the repo - this will build and publish a new container image using CI
 - change the IOC instance in the services repo to point at the new container image
-- redeploy the IOC with `dc restart <ioc-name>`
+- redeploy the IOC with `docker compose restart <ioc-name>`
 
 
 (changes_3)=
@@ -130,7 +130,7 @@ Before continuing this tutorial make sure you have not left any IOCs running fro
 ```bash
 cd t01-services
 . ./environment.sh
-dc down
+docker compose down
 ```
 :::
 
@@ -154,7 +154,7 @@ Users of docker need to instruct the devcontainer to use their own user id insid
 export EC_REMOTE_USER=$USER
 ```
 
-It is recommended that you place this command in `$HOME/.profile` to make it permanent.
+It is recommended that you place this command in `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users) to make it permanent.
 
 If you do not do this, your devcontainer will run as root. Although it will still work, it is not recommended. Also, forgetting to set EC_REMOTE_USER before launching a pre-existing devcontainer will cause errors. (my apologies to docker users - I wanted to make the devcontainer compatible with both docker and podman and this is the least invasive method I could come up with).
 :::

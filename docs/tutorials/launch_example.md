@@ -30,8 +30,7 @@ git clone https://github.com/epics-containers/example-services
 cd example-services
 # setup some environment variables
 source ./environment.sh
-# launch the docker compose configuration (with dc alias for docker compose)
-dc up -d
+docker compose up -d
 ```
 
 If all is well you should see phoebus lauch with an overview of the beamline like the following:
@@ -49,28 +48,28 @@ caget BL01T-DI-CAM-01:DET:Acquire_RBV
 
 # OR if you don't have caget/put locally then use one of the containers instead:
 # execute caget from inside one of the example IOCs
-dc exec bl01t-ea-test-01 caget BL01T-DI-CAM-01:DET:Acquire_RBV
+docker compose exec bl01t-ea-test-01 caget BL01T-DI-CAM-01:DET:Acquire_RBV
 # or get a shell inside an example IOC and use caget
-dc exec bl01t-ea-test-01 bash
+docker compose exec bl01t-ea-test-01 bash
 caget BL01T-DI-CAM-01:DET:Acquire_RBV
 
 # attach to logs of a service (-f follows the logs, use ctrl-c to exit)
-dc logs bl01t-di-cam-01 -f
+docker compose logs bl01t-di-cam-01 -f
 # stop a service
-dc stop bl01t-di-cam-01
+docker compose stop bl01t-di-cam-01
 # restart a service
-dc start bl01t-di-cam-01
+docker compose start bl01t-di-cam-01
 # attach to a service stdio
-dc attach bl01t-di-cam-01
+docker compose attach bl01t-di-cam-01
 # exec a process in a service
-dc exec bl01t-di-cam-01 bash
+docker compose exec bl01t-di-cam-01 bash
 # delete a service (deletes the container)
-dc down bl01t-di-cam-01
+docker compose down bl01t-di-cam-01
 # create and launch a single service (plus its dependencies)
-dc up bl01t-di-cam-01 -d
+docker compose up bl01t-di-cam-01 -d
 # close down and delete all the containers
 # volumes are not deleted to preserve the data
-dc down
+docker compose down
 ```
 
 This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.
@@ -79,9 +78,9 @@ This tutorial is a simple introduction to validate that the setup is working. In
 Before moving on to the next tutorial always make sure to stop and delete the containers from your current example as follows:
 
 ```bash
-dc down
+docker compose down
 ```
 
-If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use `dc down`.
+If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use `docker compose down`.
 
 This is a deliberate choice as we can only run a single ca-gateway on a given host port at a time. For more complex setups you could share one ca-gateway between multiple compose configurations, but we have chosen to keep things simple for these tutorials.
