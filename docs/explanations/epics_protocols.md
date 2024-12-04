@@ -42,7 +42,7 @@ Specification <https://docs.epics-controls.org/en/latest/internal/ca_protocol.ht
 Experiments with Channel Access servers running in containers reveal:
 - Port Mapping works for CA including UDP broadcast.
 - But UDP broadcast or unicast only works if the container does not remap the port to a different number inside the container.
-- Using EPICS_PVA_NAME_SERVERS always works with Port Mapping
+- Using EPICS_CA_NAME_SERVERS always works with Port Mapping
 
 
 ## PV Access

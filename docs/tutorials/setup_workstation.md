@@ -139,6 +139,7 @@ The links below have details of how to install your choice of container platform
 
 The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the "Supported Platforms" heading, for simplicity it is easiest to use the option "Install using the convenience script".
 
+(podman-compose)=
 ### Docker Compose For Podman Users
 
 docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.
