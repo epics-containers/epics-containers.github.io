@@ -102,24 +102,6 @@ for details.
 
 ## Starting a Developer Container
 
-:::{Warning}
-DLS Users and Redhat Users:
-
-There is a
-[bug in VSCode devcontainers extension](https://github.com/microsoft/vscode-remote-release/issues/8557)
-at the time of writing that makes it incompatible with docker and an SELinux
-enabled /tmp directory. This will affect most Redhat users and you will see an
-error regarding permissions on the /tmp folder when VSCode is building your
-devcontainer.
-
-Here is a workaround that disables SELinux labels in podman.
-Paste this into a terminal:
-
-```bash
-sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containers\]$/a label=false'
-```
-:::
-
 ### Preparation
 
 For this section we will work with the ADSimDetector Generic IOC that we used in previous tutorials. Let's go and fetch a version of the Generic IOC source and build it locally.
@@ -132,7 +114,15 @@ cd t01-services
 . ./environment.sh
 docker compose down
 ```
+
+One issue with compose is that you must have the project available to use compose commands. If you have removed t01-services then you can stop all the services manually instead. To stop and remove all containers on your workstation use the following command:
+
+```bash
+docker stop $(docker ps -q)
+```
 :::
+
+
 
 For the purposes of this tutorial we will place the source in a folder right
 next to your test beamline `t01-services` folder:

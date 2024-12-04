@@ -141,11 +141,39 @@ The docker install page encourages you to install Docker Desktop. This is a paid
 
 ### Docker Compose For Podman Users
 
-docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together.
+docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.
 
-If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and avoids behaviour differences between the two tools. If you are at DLS you just need to run 'module load docker-compose' to get access to docker compose with podman as the back end.
+If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.
 
-Other users of podman please see these instructions [rootless podman with docker-compose](https://www.redhat.com/sysadmin/podman-docker-compose). You need only read the section titled "Start the Podman system service" (the rest of the page validates the setup).
+:::{Note}
+**DLS Users**: docker compose integration with podman is available on RHEL 8 Workstations at DLS. Run `module load docker-compose` to enable it.
+:::
+
+Steps to combine podman and docker-compose:-
+
+1. Launch a podman user service and expose a docker API socket as follows. This step need only be done once per workstation.
+
+    ```bash
+    systemctl enable --user podman.socket --now
+    ```
+1. Add the following to your shell profile (e.g. ~/.bashrc or ~/.zshrc) to instruct docker-compose and any other docker tool to use podman's docker API socket.
+
+    ```bash
+    export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+    ```
+
+1. Use these instructions <https://docs.docker.com/compose/install/standalone> to install the docker compose binary. Some linux distributions have docker-compose in their package manager, this is the easiest way to install it if available.
+
+1. we recommend uninstalling podman-compose if you have it installed.
+
+    ```bash
+    # Debian/Ubuntu
+    sudo apt uninstall podman-compose
+    # RHEL/Centos
+    sudo dnf remove podman-compose
+    # Arch
+    sudo pacman -R podman-compose
+    ```
 
 ### Important Notes Regarding docker and podman
 
