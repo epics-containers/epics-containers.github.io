@@ -50,7 +50,7 @@ Experiments with Channel Access servers running in containers reveal:
 Specification <https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html>.
 
 Experimentation with PV Access servers running in containers reveal:
-- Port Mapping for PVA always fails because PVA servers open a new random port for each circuit and this is not NAT friendly.
+- Port Mapping for PVA using UDP always fails because PVA servers open a new random port for each circuit and this is not NAT friendly.
 - Using EPICS_PVA_NAME_SERVERS always works with Port Mapping
 - But the client and server must both be PVXS
 - To talk to a non PVXS server, a pvagw running in the same container network may be used.
