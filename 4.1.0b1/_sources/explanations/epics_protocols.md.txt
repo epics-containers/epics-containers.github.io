@@ -41,8 +41,8 @@ Specification <https://docs.epics-controls.org/en/latest/internal/ca_protocol.ht
 
 Experiments with Channel Access servers running in containers reveal:
 - Port Mapping works for CA including UDP broadcast.
-- But UDP broadcast only works if the container does not remap the port to a different number inside the container.
-- Using CA Name Server works for Port Mapping
+- But UDP broadcast or unicast only works if the container does not remap the port to a different number inside the container.
+- Using EPICS_PVA_NAME_SERVERS always works with Port Mapping
 
 
 ## PV Access
@@ -50,8 +50,8 @@ Experiments with Channel Access servers running in containers reveal:
 Specification <https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html>.
 
 Experimentation with PV Access servers running in containers reveal:
-- Port Mapping works for PVA always fails because PVA servers open a new random port for each circuit and this is not NAT friendly.
-- Using EPICS_PVA_NAME_SERVERS works for Port Mapping.
+- Port Mapping for PVA always fails because PVA servers open a new random port for each circuit and this is not NAT friendly.
+- Using EPICS_PVA_NAME_SERVERS always works with Port Mapping
 - But the client and server must both be PVXS
 - To talk to a non PVXS server, a pvagw running in the same container network may be used.
 
