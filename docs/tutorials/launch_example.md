@@ -43,7 +43,7 @@ You can now try out the following commands to interact with the beamline.
 
 ```bash
 # use caget/put locally
-export EPICS_CA_NAME_SERVERS=127.0.0.1:5064
+export EPICS_CA_ADDR_LIST=127.0.0.1
 caget BL01T-DI-CAM-01:DET:Acquire_RBV
 
 # OR if you don't have caget/put locally then use one of the containers instead:
@@ -73,7 +73,9 @@ docker compose down
 ```
 
 :::{note}
-Note that the above commands use `EPICS_CA_NAME_SERVERS` to point channel access clients at localhost because the containers are only exposing the Channel Access Ports to the loopback adapter. We use this instead of the better known `EPICS_CA_ADDR_LIST` for reasons explained in [](../explanations/net_protocols.md)
+Note that the above commands use `EPICS_CA_ADDR_LIST` to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter.
+
+This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.
 :::
 
 This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.
@@ -84,7 +86,5 @@ Before moving on to the next tutorial always make sure to stop and delete the co
 ```bash
 docker compose down
 ```
+:::
 
-If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use `docker compose down`.
-
-This is a deliberate choice as we can only run a single ca-gateway on a given host port at a time. For more complex setups you could share one ca-gateway between multiple compose configurations, but we have chosen to keep things simple for these tutorials.
