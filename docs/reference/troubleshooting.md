@@ -1,5 +1,21 @@
 # Troubleshooting
 
+## Resetting VSCode Cache
+
+Occasionally if vscode gets stuck in a bad state, you may need to reset the cache.
+
+```bash
+# close vscode
+
+# make sure there are no stuck vscode processes
+pkill code
+
+# remove the vscode caches
+rm -rf ~/.vscode/* ~/.vscode-server/*
+
+# restart vscode
+```
+
 ## Permissions issues with GitHub
 
 Problem: in the devcontainer you see the following error:
