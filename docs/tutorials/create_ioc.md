@@ -279,7 +279,7 @@ include:
     # deploy profile only
     - services/epics-opis/compose.yml
 ```
-
+(change-the-opi-screen)=
 ### Change the OPI screen
 
 To make this tutorial more interactive, the template includes a hand coded bob screen for the ADSimDetector you just made. It has the few widgets necessary to start the detector, enable the stdarrays plugin and view the stdarrays plugin output.
