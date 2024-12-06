@@ -70,9 +70,10 @@ There will be a short delay the first time while the container images are downlo
 The default example project will launch:
 
 - a basic IOC instance with a few records
-- a ca-gateway container that publishes the IOC PVs on localhost
+- a ca-gateway container that publishes the IOC PVs on localhost over Channel Access
+- a pva-gateway container that publishes the IOC PVs on localhost over PVAccess
 - a phoebus container that can be used to view the IOC PVs using an example bob file that comes with the template.
-
+- you will also see an init container run which just configures settings for pvagw and phoebus, then exits.
 
 You can see the status of the services by running the following command:
 
@@ -111,6 +112,9 @@ To run a bash shell inside the IOC container:
 
 ```bash
 docker compose exec example-test-01 bash
+caget EXAMPLE:SUM
+# or if you have the epics tools installed on your host
+export EPICS_CA_ADDR_LIST=127.0.0.1:5064
 caget EXAMPLE:SUM
 ```
 

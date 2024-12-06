@@ -148,7 +148,7 @@ kubectl get pods --namespace longhorn-system --watch
 # Confirm ready
 kubectl get storageclass
 ```
-
+(k8s-dashboard)=
 ### Set up k8s dashboard (Optional)
 
 The Kubernetes dashboard is a web-based Kubernetes user interface.

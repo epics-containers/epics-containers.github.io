@@ -4,23 +4,23 @@
 In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.
 
 :::{note}
+To run this demo you need docker-compose installed (not podman-compose) plus docker or podman. See {any}`podman-compose` for setup.
+
 This tutorial has been tested with the following versions of software. If you have issues then you may need to update your software to these versions or higher.
 
 - git 2.43.5
 - One of the following
-  - docker 27.2.0
+  - docker 27.2.0 and docker-compose 2.29.2
   - podman 4.9.4 and docker-compose 2.29.2
 
-See "Start the Podman system service" in [this article](https://www.redhat.com/sysadmin/podman-docker-compose) to set up podman and docker-compose
-
-If you have a choice, a recent docker version is the preferred option.
 :::
 
 The example beamline will launch the following set of containers:
 - a simulation Area Detector IOC
 - a simulation Motion IOC
-- a basic IOC with a sum record
-- a ca-gateway to expose the above to the host
+- a basic example IOC with a sum record
+- a ca-gateway to expose PVs from the above to the host
+- a pva-gateway to expose PVA image stream from ADPluginPVA
 - a phoebus instance to view the beamline
 
 To launch simply run the following commands:
@@ -33,13 +33,13 @@ source ./environment.sh
 docker compose up -d
 ```
 
-If all is well you should see phoebus lauch with an overview of the beamline like the following:
+If all is well you should see phoebus launch with an overview of the beamline like the following:
 
 :::{figure} ../images/example_beamline.png
 The example beamline overview screen
 :::
 
-You can now try out the following commands to interact with the beamline:
+You can now try out the following commands to interact with the beamline.
 
 ```bash
 # use caget/put locally
@@ -72,6 +72,12 @@ docker compose up bl01t-di-cam-01 -d
 docker compose down
 ```
 
+:::{note}
+Note that the above commands use `EPICS_CA_ADDR_LIST` to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter.
+
+This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.
+:::
+
 This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.
 
 ::: {important}
@@ -80,7 +86,5 @@ Before moving on to the next tutorial always make sure to stop and delete the co
 ```bash
 docker compose down
 ```
+:::
 
-If you do not do this you will get name clashes when trying the next example. If this happens - return to the previous project directory and use `docker compose down`.
-
-This is a deliberate choice as we can only run a single ca-gateway on a given host port at a time. For more complex setups you could share one ca-gateway between multiple compose configurations, but we have chosen to keep things simple for these tutorials.

@@ -42,6 +42,19 @@ The commit where these changes were made is
 Something like these steps may be required when publishing any
 facility's previously internal support modules.
 
+:::{warning}
+We strongly recommend open sourcing support modules that are internal to the facility before containerising. This allows for easier collaboration and maintenance and for the wider community to benefit from the work.
+
+However, there are good reasons not to do this and epics-containers supports the use of internal git repositories for internal support modules.
+
+Reasons to keep support modules internal include:
+
+- **IMPORTANT**, Check this first: The module has a dependency on a proprietary library, where the license does not allow for open sourcing.
+  - Note that you still might open-source the support module and supply the proprietary library at runtime via a PVC (as we have done at DLS with the Andor3 SDK).
+- The support module is specific to the facility and unlikely to be useful to others.
+- The module is a prototype and not ready for general use.
+:::
+
 ## Create a New Generic IOC project
 
 By convention Generic IOC projects are named `ioc-XXX` where `XXX` is the
