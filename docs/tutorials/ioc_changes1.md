@@ -68,16 +68,10 @@ If you like working entirely from the vscode window you can open a terminal in v
 ## Launching the Test Beamline
 
 Because the changes have been made in `t01-services` you can now launch the test beamline from outside of the devcontainer.
-However, it is important to remember that we cannot have two ca-gateway's trying to bind to the default CA port on the same host.
 
-Make sure the ca-gateway from the previous tutorial is stopped before launching the test beamline with the following:
+Before you do this. You must stop the IOC running in the devcontainer, that IOC is currently auto port forwarding the Channel Access ports to the host. If you launch the test beamline without stopping the IOC in the devcontainer then the test beamline's gateway will not be able to bind to the ports.
 
-```bash
-# IMPORTANT: do this in a terminal outside of the devcontainer
-cd ioc-adsimdetector/compose
-. ./environment.sh
-docker compose down
-```
+So stop the IOC in the devcontainer by typing `exit` in the IOC shell.
 
 Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: `caget BL01T-EA-CAM-01:TEST`.
 
@@ -91,6 +85,10 @@ docker compose exec example-test-01 caget BL01T-EA-CAM-01:TEST
 # Now shut down the beamline again so we can continue with further developer container tutorials
 docker compose down
 ```
+
+:::{note}
+if you see the error "listen tcp 127.0.0.1:5064: bind: address already in use" they you have probably forgotten to stop the IOC in the devcontainer. Go back and stop the IOC in the devcontainer and type `docker compose up -d` again.
+:::
 
 ## Raw Startup Assets
 
