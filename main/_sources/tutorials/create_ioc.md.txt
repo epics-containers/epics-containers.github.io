@@ -42,7 +42,7 @@ You can find the Generic IOC container source for SimDetector here: <https://git
 
 Edit the `compose.yml` file in the `bl01t-ea-cam-01` folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:
 
-- find and replace **replace_me** with **bl01t-ea-cam-01**
+- find and replace **ioc_default_name** with **bl01t-ea-cam-01**
 - replace **replace_with_image_uri** with **ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1**
 
 That's it for the `compose.yml` file. This file is essentially boilerplate and would look very similar for every IOC Instance you create. The two unique things that this file does are:
@@ -279,7 +279,7 @@ include:
     # deploy profile only
     - services/epics-opis/compose.yml
 ```
-
+(change-the-opi-screen)=
 ### Change the OPI screen
 
 To make this tutorial more interactive, the template includes a hand coded bob screen for the ADSimDetector you just made. It has the few widgets necessary to start the detector, enable the stdarrays plugin and view the stdarrays plugin output.

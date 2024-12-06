@@ -4,10 +4,6 @@
     "url": "https://epics-containers.github.io/main/"
   },
   {
-    "version": "4.1.0b1",
-    "url": "https://epics-containers.github.io/4.1.0b1/"
-  },
-  {
     "version": "4.0.0b1",
     "url": "https://epics-containers.github.io/4.0.0b1/"
   },
@@ -46,5 +42,9 @@
   {
     "version": "3.0.0",
     "url": "https://epics-containers.github.io/3.0.0/"
+  },
+  {
+    "version": "4.1.0b1",
+    "url": "https://epics-containers.github.io/4.1.0b1/"
   }
 ]

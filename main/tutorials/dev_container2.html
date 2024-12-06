@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers Part 2 &#8212; epics-containers 4.0.1.dev25+g2ec48b2 documentation</title>
+    <title>Developer Containers Part 2 &#8212; epics-containers 4.0.1.dev37+gd4a76ea documentation</title>
   
   
   
@@ -16,37 +16,40 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="../_static/documentation_options.js?v=34afac78"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/documentation_options.js?v=2f9e9156"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/dev_container2';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
@@ -58,6 +61,7 @@
     <link rel="prev" title="Developer Containers" href="dev_container.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
   </head>
   
   
@@ -73,19 +77,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -93,7 +86,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -101,8 +93,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -136,7 +128,7 @@
     
     
     <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -191,29 +183,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -244,28 +228,24 @@ document.write(`
 </ul></div>
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-2"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-2"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-2"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-2">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
       
     </div>
     
@@ -274,15 +254,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -301,7 +277,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -355,15 +332,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -394,28 +367,24 @@ document.write(`
 </ul></div>
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-3"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-3"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-3"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-3">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
         
       </div>
     
@@ -472,8 +441,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -485,7 +452,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Developer...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Developer Containers Part 2</span></li>
   </ul>
 </nav>
 </div>
@@ -504,7 +471,7 @@ document.write(`
                   
   <section id="developer-containers-part-2">
 <h1>Developer Containers Part 2<a class="headerlink" href="#developer-containers-part-2" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will take a look at some of the extra features that came with the ioc-adsimdetector developer container we built in the previous tutorial. The compose folder in the ioc-adsimdetector repository contains a docker-compose file that can be used to launch a gateway and a phoebus container to view the PVs from the IOC. This works in the same way as the test compose profile that we used in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repository from earlier tutorials.</p>
+<p>In this tutorial we will take a look at some of the extra features that come with the developer container we built in the previous tutorial.</p>
 <section id="channel-access">
 <h2>Channel Access<a class="headerlink" href="#channel-access" title="Link to this heading">#</a></h2>
 <p>If you want to inspect or change PV values for your developer container you can do so using the command line tools inside of the container.</p>
@@ -514,10 +481,13 @@ code<span class="w"> </span>.
 <span class="c1"># ctrl-shift-p and choose &#39;reopen in container&#39;</span>
 <span class="c1"># open a terminal in vscode</span>
 
+<span class="c1"># if the devcontainer has been rebuilt you will need to rebuild the IOC</span>
 ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
 <span class="nb">cd</span><span class="w"> </span>/epics/ioc
 make
-./start.sh
+
+<span class="c1"># otherwise you can go straight to starting the IOC</span>
+/epics/ioc/start.sh
 </pre></div>
 </div>
 <p>Now you can open a new terminal in vscode and interact with the IOC using the EPICS CLI tools:</p>
@@ -531,42 +501,57 @@ caget<span class="w"> </span>-#100<span class="w"> </span>BL01T-EA-CAM-01:ARR:Ar
 </pre></div>
 </div>
 <p>This just shows that you have all the EPICS tools available to you inside the container.</p>
-<p>Note that you have the ability to install any other tools you might need inside the container using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update;</span> <span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span>&#160; <span class="pre">package-name</span></code>, the container is based on <strong>ubuntu 24.04</strong> so all packages available for that distro are available to you. podman users should drop the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> from the start of the commands.</p>
-<p>If you want to use a GUI tool or any other tools you have installed on your host machine we will need a couple of extra steps.</p>
+<p>Note that you have the ability to install any other tools you might need inside the container using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update;</span> <span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span>&#160; <span class="pre">package-name</span></code>, the container is based on <strong>ubuntu 22.04 LTS</strong> (at time of writing) so all packages available for that distro are available to you. podman users should drop the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> from the start of the commands because podman is already running as root inside the container.</p>
 </section>
-<section id="phoebus-and-gateway">
-<h2>Phoebus and Gateway<a class="headerlink" href="#phoebus-and-gateway" title="Link to this heading">#</a></h2>
-<p>Generic IOCs can use PVI to auto generate engineering screens for your IOC instance in the form of phoebus bob files. ioc-adsimdetector uses this to make screens for the simdetector driver and for all of the AreaDetector plugins installed in the IOC instance.</p>
-<p>To make use of these screens we can install phoebus on the host machine or run it in a separate dedicated container. In either case we need our PVs to be accessible from outside of the container. For this purpose we use a separate gateway container which runs in the same network as the IOC container and binds to the channel access ports on the host machine’s loopback adapter.</p>
-<p>To launch both phoebus in a container and the ca-gateway container we use compose just like we did in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> tutorial. The compose file is in the <code class="docutils literal notranslate"><span class="pre">compose</span></code> folder of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository.</p>
-<p>IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are launching further containers here and we do not want ‘containers in containers’ because there lies madness! To launch the gateway and phoebus containers, open a new terminal on the host and use the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsimdetector/compose
-.<span class="w"> </span>./environment.sh
-docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<section id="auto-port-forwarding">
+<h2>Auto Port Forwarding<a class="headerlink" href="#auto-port-forwarding" title="Link to this heading">#</a></h2>
+<p>If you want to use a GUI tool such as Phoebus or any other tools outside of your container, they cannot see the container network that your IOC is running in. However this is not an issue because developer containers provide auto port forwarding for you. When you start your IOC it will bind to the following ports by default:</p>
+<ul class="simple">
+<li><p>5064 for Channel Access</p></li>
+<li><p>5065 for the caRepeater</p></li>
+<li><p>5075 for PV Access</p></li>
+</ul>
+<p>When the developer container sees the IOC bind to a port it auto forwards a host port to the IOC’s port. The host binding that is forwarded is to the loopback adapter only, so only the host machine can see the forwarded ports. This is good for development as your PVs are only visible to your workstation.</p>
+<p>Once you have started your IOC you can check the ports are forwarded by looking in the PORTS tag of the bottom panel of VSCode. You should see something like this:</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/auto-ports.png" src="../_images/auto-ports.png" />
+<figcaption>
+<p><span class="caption-text">Port Forwarding in the bottom panel of VSCode</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Note that the caRepeater will only start if it is not already running on the host machine, which is why the image above does not show port 5065.</p>
+<p>Because the ports have been forwarded from the host you can use caget <em>outside</em> of the container (if you have EPICS tools installed on your host). To do so you must first set the environment up as follows.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_NAME_SERVERS</span><span class="o">=</span><span class="s2">&quot;127.0.0.1:5064&quot;</span>
+caget<span class="w"> </span>BL01T-EA-CAM-01:DET:Acquire
 </pre></div>
 </div>
-<p>Phoebus will be launched and attempt to load the bob file called <strong>opi/ioc/index.bob</strong>. The <strong>opi</strong> folder is a place where the author of this generic IOC could place some screens. The subfolder <strong>ioc</strong> is not committed to git and is where the IOC instance will place its autogenerated engineering screens. The autogenerated screens always include and index.bob which is the entry point to all other autogenerated screens.</p>
+<p>Note that we are using the lesser know <code class="docutils literal notranslate"><span class="pre">EPICS_CA_NAME_SERVERS</span></code> environment variable here. This is because auto port forwarding has not forwarded the udp port required for the EPICS_CA_ADDR_LIST environment variable to work. The <code class="docutils literal notranslate"><span class="pre">EPICS_CA_NAME_SERVERS</span></code> environment variable tells channel access clients to use TCP only. For a detailed explanation of EPICS and container networks see <a class="reference internal" href="../explanations/epics_protocols.html"><span class="std std-doc">EPICS Network Protocols in Containers</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A useful consequence of auto port forwarding is that you can run multiple IOCs in multiple developer containers. Port conflicts will be automatically resolved, see <a class="reference internal" href="../reference/troubleshooting.html#multiple-iocs"><span class="std std-ref">Running Multiple IOCs in DevContainers on one Workstation</span></a> for details.</p>
+</div>
 </section>
-<section id="workspaces-in-phoebus-container">
-<h2>/workspaces in Phoebus Container<a class="headerlink" href="#workspaces-in-phoebus-container" title="Link to this heading">#</a></h2>
-<p>Just like the developer container itself, the Phoebus container mounts the folder above <strong>ioc-adsimdetector</strong> into the container as <strong>/workspaces</strong>. This means you can access bob files from peer projects.</p>
-<p>The autogenerated engineering screens currently show the image array as a list of integers. But we already had a nice screen for displaying an overview of the PVs, including an image widget for the image array. That screen was made for the same IOC instance we are currently running inside of the developer container.</p>
-<p>To access the screen, chose <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span></code> in phoebus and navigate to <strong>/workspaces/t01-services/opi/demo-simdet.bob</strong> file. This will open the screen in phoebus and allow you to view the sample image.</p>
+<section id="phoebus">
+<h2>Phoebus<a class="headerlink" href="#phoebus" title="Link to this heading">#</a></h2>
+<p>Generic IOCs can use PVI to auto generate engineering screens for your IOC instance in the form of phoebus bob files. ioc-adsimdetector uses this to make screens for the simdetector driver and for all of the AreaDetector plugins installed in the IOC instance.</p>
+<p>The ioc-template project supplies a startup script that configures Phoebus correctly and launches it. The script can detect if you have a local install of phoebus and use that, or it can launch a container with phoebus in it when a local install is not found. Next we will run this script to launch phoebus.</p>
+<p>IMPORTANT: the commands we are about to run must be executed on the host, not in the developer container. We are looking for a host installed copy of phoebus or we are going to launch a container with phoebus in it. In either case, trying to do that from inside the developer container will fail.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this OUTSIDE of the developer container</span>
+<span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
+./opi/phoebus-launch.sh
+</pre></div>
+</div>
+<p>Phoebus will be launched and attempt to load the bob file called <strong>opi/auto-generated/index.bob</strong>. The <strong>opi</strong> folder is a place where the author of this generic IOC could place some example screens. The subfolder <strong>auto-generated</strong> is not committed to git and is where the IOC instance will place its autogenerated engineering screens. This folder is mounted into the container at target <strong>/epics/opis</strong>. The autogenerated screens always include an index.bob which is the entry point to all other autogenerated screens.</p>
+<p>You should see an index screen that will have a button for the simdetector driver and for each of the AreaDetector plugins installed in the IOC instance. These screens are all autogenerated and simply show all the PVs in the IOC instance, with some grouping for clarity. You should now be able to interact with the detector using these screens.</p>
+</section>
+<section id="nicer-overview-screen">
+<h2>Nicer Overview Screen<a class="headerlink" href="#nicer-overview-screen" title="Link to this heading">#</a></h2>
+<p>The autogenerated engineering screens currently show the image array as a list of integers. But we already had a nice screen for displaying an overview of the PVs, including an image widget for the image array (see <a class="reference internal" href="create_ioc.html#change-the-opi-screen"><span class="std std-ref">Change the OPI screen</span></a>). That screen was made for the same IOC instance we are currently running inside of the developer container.</p>
+<p>To access the screen, chose <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">-&gt;</span> <span class="pre">Open</span></code> in phoebus and navigate to the bob file at  <strong>/workspaces/t01-services/opi/demo-simdet.bob</strong>. If your phoebus is a local install then replace <strong>/workspaces/t01-services</strong> with the path to the <strong>t01-services</strong> repository on your host machine.</p>
+<p>This will open the screen in phoebus and allow you to view the sample image.</p>
 <div class="figure docutils">
 <p><img alt="Phoebus Screen" src="../_images/custom_bob.png" />
 Example overview screen for bl01t-ea-cam-01</p>
-</div>
-</section>
-<section id="using-host-machine-tools">
-<h2>Using Host Machine Tools<a class="headerlink" href="#using-host-machine-tools" title="Link to this heading">#</a></h2>
-<p>If you have EPICS tools installed on the host machine then those can now also be used.</p>
-<p>You will need to tell channel access that it should search against the loopback adapter to find PVs from your developer container. Do this with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1
-</pre></div>
-</div>
-<p>If you are running <strong>phoebus</strong> on the host machine it is configured via a settings file. Launching phoebus on your host with the following command will apply the correct settings and launch the index screen for the IOC instance:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>phoebus.sh<span class="w"> </span>-settings<span class="w"> </span>compose/phoebus/config/settings.ini<span class="w"> </span>-resource<span class="w"> </span>/opi/ioc/index.bob
-</pre></div>
 </div>
 </section>
 </section>
@@ -606,7 +591,8 @@ Example overview screen for bl01t-ea-cam-01</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -618,9 +604,9 @@ Example overview screen for bl01t-ea-cam-01</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#channel-access">Channel Access</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phoebus-and-gateway">Phoebus and Gateway</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workspaces-in-phoebus-container">/workspaces in Phoebus Container</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-host-machine-tools">Using Host Machine Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-port-forwarding">Auto Port Forwarding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phoebus">Phoebus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nicer-overview-screen">Nicer Overview Screen</a></li>
 </ul>
   </nav></div>
 
@@ -662,8 +648,8 @@ Example overview screen for bl01t-ea-cam-01</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -674,7 +660,7 @@ Example overview screen for bl01t-ea-cam-01</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
 </p></div>
       
     </div>

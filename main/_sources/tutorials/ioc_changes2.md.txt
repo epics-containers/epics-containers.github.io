@@ -68,12 +68,11 @@ You should see an iocShell prompt and no error messages above.
 
 Let us also make sure we can see the simulation images that the IOC is producing. For this we will use phoebus and we will create a screen to display the image. Previously we had a pre-defined screen from the template project for this - but this example IOC uses a different PV prefix so we need to create a new screen.
 
-From *outside of the developer container* start up phoebus and the ca-gateway as we did in earlier tutorials:
+From *outside of the developer container* start up phoebus using the supplied script:
 
 ```bash
-cd ioc-adsimdetector/compose
-. ./environment.sh
-docker compose up -d
+cd ioc-adsimdetector
+./opi/phoebus-launch.sh
 ```
 
 Phoebus should now be up and running and showing the auto generated **index.bob**, In phoebus do the following steps:

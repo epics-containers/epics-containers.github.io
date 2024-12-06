@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers 4.0.1.dev25+g2ec48b2 documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers 4.0.1.dev37+gd4a76ea documentation</title>
   
   
   
@@ -16,37 +16,40 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="../_static/documentation_options.js?v=34afac78"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/documentation_options.js?v=2f9e9156"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/setup_k8s_new_beamline';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
         DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
@@ -58,6 +61,7 @@
     <link rel="prev" title="Setup a Kubernetes Cluster" href="setup_k8s.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
   </head>
   
   
@@ -73,19 +77,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -93,7 +86,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -101,8 +93,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -136,7 +128,7 @@
     
     
     <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/k8s-epics2.ico" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">epics-containers</p>
@@ -191,29 +183,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -244,28 +228,24 @@ document.write(`
 </ul></div>
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-2"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-2"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-2"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-2">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
       
     </div>
     
@@ -274,15 +254,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -301,7 +277,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -355,15 +332,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -394,28 +367,24 @@ document.write(`
 </ul></div>
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <div class="version-switcher__container dropdown">
-    <button id="pst-version-switcher-button-3"
-      type="button"
-      class="version-switcher__button btn btn-sm dropdown-toggle"
-      data-bs-toggle="dropdown"
-      aria-haspopup="listbox"
-      aria-controls="pst-version-switcher-list-3"
-      aria-label="Version switcher list"
-    >
-      Choose version  <!-- this text may get changed later by javascript -->
-      <span class="caret"></span>
-    </button>
-    <div id="pst-version-switcher-list-3"
-      class="version-switcher__menu dropdown-menu list-group-flush py-0"
-      role="listbox" aria-labelledby="pst-version-switcher-button-3">
-      <!-- dropdown will be populated by javascript on page load -->
-    </div>
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
   </div>
-`);
-</script></div>
+</div></div>
         
       </div>
     
@@ -472,8 +441,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -485,7 +452,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Create a...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Create a New Kubernetes Beamline</span></li>
   </ul>
 </nav>
 </div>
@@ -523,48 +490,64 @@ copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/se
 </pre></div>
 </div>
 <p>Answer the copier template questions as follows for your own local cluster:</p>
- <pre><font color="#5F87AF">🎤</font><b> Short name for this collection of services.</b>
+ <pre><font color="#5F87AF">🎤</font><b> A name for this group of IOC and service instances.</b>
+ <b>   At DLS this should be the short beamline name or the technical area</b>
+ <b>   for accelerator repos.</b>
  <b>   </b><font color="#FFAF00"><b>t03</b></font>
  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
  <b>   </b><font color="#FFAF00"><b>t03 IOC Instances and Services</b></font>
- <font color="#5F87AF">🎤</font><b> Kubernetes cluster namespace</b>
- <b>   </b><font color="#FFAF00"><b>t03-beamline</b></font>
- <font color="#5F87AF">🎤</font><b> Name of the k8s cluster where the IOCs and services in this repository will run</b>
+ <font color="#5F87AF">🎤</font><b> Default location where these IOCs and services will run.</b>
+ <b>   At DLS this should be beamline shortname or blank for the accelerator.</b>
+ <b>   </b><font color="#FFAF00"><b>t03</b></font>
+ <font color="#5F87AF">🎤</font><b> The Kubernetes cluster where the IOCs and services will run.</b>
+ <b>   At DLS this should be &quot;k8s-{beamline shortname}&quot;, &quot;acastus&quot; for the</b>
+ <b>   accelerator or &quot;pollux&quot; for test beamlines.</b>
  <b>   </b><font color="#FFAF00"><b>local</b></font>
- <font color="#5F87AF">🎤</font><b> Apply cluster specific details. For missing platform override cluster_type, or add your own in a PR.</b>
+ <font color="#5F87AF">🎤</font><b> Kubernetes namespace in which the IOCs and services will run.</b>
+ <b>   At DLS this should be &quot;{beamline shortname}-beamline&quot; or &quot;accelerator&quot;.</b>
+ <b>   </b><font color="#FFAF00"><b>t03-beamline</b></font>
+ <font color="#5F87AF">🎤</font><b> Apply cluster specific details.</b>
+ <b>   To add to this list make a PR to services-template-helm.</b>
  <b>   </b><font color="#FFAF00"><b>Skip</b></font>
- <font color="#5F87AF">🎤</font><b> Default location where these IOCs and services will run. e.g. &quot;bl01t&quot;, &quot;SR01&quot;. Leave blank to configure per IOC.</b>
- <b>   </b><font color="#FFAF00"><b>bl03t</b></font>
- <font color="#5F87AF">🎤</font><b> Git platform hosting this repository. For missing platform override git_platform, or add your own in a PR.</b>
+ <font color="#5F87AF">🎤</font><b> Git platform hosting this repository.</b>
+ <b>   To add to this list make a PR to services-template-helm.</b>
  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
- <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_USER</b></font>
+ <b>   </b><font color="#FFAF00"><b>YOUR GITHUB ACCOUNT</b></font>
  <font color="#5F87AF">🎤</font><b> Remote URI of the services repository.</b>
- <b>   </b><font color="#FFAF00"><b>https://github.com/YOUR_GITHUB_USER/t03-services</b></font>
- <font color="#5F87AF">🎤</font><b> URL for centralized logging. For missing platform override logging_url, or add your own in a PR.</b>
+ <b>   </b><font color="#FFAF00"><b>https://github.com/YOUR GITHUB ACCOUNT/t03-services</b></font>
+ <font color="#5F87AF">🎤</font><b> URL for centralized logging. Leave blank if not applicable.</b>
  <b>   </b><font color="#FFAF00"><b>Skip</b></font>
  </pre>
 <p>OR like this for DLS users using the Pollux cluster:</p>
- <pre><font color="#5F87AF">🎤</font><b> Short name for this collection of services.</b>
+ <pre><font color="#5F87AF">🎤</font><b> A name for this group of IOC and service instances.</b>
+ <b>   At DLS this should be the short beamline name or the technical area</b>
+ <b>   for accelerator repos.</b>
  <b>   </b><font color="#FFAF00"><b>t03</b></font>
  <font color="#5F87AF">🎤</font><b> A One line description of the module</b>
  <b>   </b><font color="#FFAF00"><b>t03 IOC Instances and Services</b></font>
- <font color="#5F87AF">🎤</font><b> Kubernetes cluster namespace</b>
- <b>   </b><font color="#FFAF00"><b>YOUR_FED_ID</b></font>
- <font color="#5F87AF">🎤</font><b> Name of the k8s cluster where the IOCs and services in this repository will run</b>
+ <font color="#5F87AF">🎤</font><b> Default location where these IOCs and services will run.</b>
+ <b>   At DLS this should be beamline shortname or blank for the accelerator.</b>
+ <b>   </b><font color="#FFAF00"><b>t03</b></font>
+ <font color="#5F87AF">🎤</font><b> The Kubernetes cluster where the IOCs and services will run.</b>
+ <b>   At DLS this should be &quot;k8s-{beamline shortname}&quot;, &quot;acastus&quot; for the</b>
+ <b>   accelerator or &quot;pollux&quot; for test beamlines.</b>
  <b>   </b><font color="#FFAF00"><b>pollux</b></font>
- <font color="#5F87AF">🎤</font><b> Apply cluster specific details. For missing platform override cluster_type, or add your own in a PR.</b>
+ <font color="#5F87AF">🎤</font><b> Kubernetes namespace in which the IOCs and services will run.</b>
+ <b>   At DLS this should be &quot;{beamline shortname}-beamline&quot; or &quot;accelerator&quot;.</b>
+ <b>   </b><font color="#FFAF00"><b>YOUR FED ID</b></font>
+ <font color="#5F87AF">🎤</font><b> Apply cluster specific details.</b>
+ <b>   To add to this list make a PR to services-template-helm.</b>
  <b>   </b><font color="#FFAF00"><b>DLS Cluster</b></font>
- <font color="#5F87AF">🎤</font><b> Default location where these IOCs and services will run. e.g. &quot;bl01t&quot;, &quot;SR01&quot;. Leave blank to configure per IOC.</b>
- <b>   </b><font color="#FFAF00"><b>bl03t</b></font>
- <font color="#5F87AF">🎤</font><b> Git platform hosting this repository. For missing platform override git_platform, or add your own in a PR.</b>
+ <font color="#5F87AF">🎤</font><b> Git platform hosting this repository.</b>
+ <b>   To add to this list make a PR to services-template-helm.</b>
  <b>   </b><font color="#FFAF00"><b>github.com</b></font>
  <font color="#5F87AF">🎤</font><b> The GitHub organisation that will contain this repo.</b>
- <b>   </b><font color="#FFAF00"><b>YOUR_GITHUB_USER</b></font>
+ <b>   </b><font color="#FFAF00"><b>YOUR GITHUB ACCOUNT</b></font>
  <font color="#5F87AF">🎤</font><b> Remote URI of the services repository.</b>
- <b>   </b><font color="#FFAF00"><b>https://github.com/YOUR_GITHUB_USER/t03-services</b></font>
- <font color="#5F87AF">🎤</font><b> URL for centralized logging. For missing platform override logging_url, or add your own in a PR.</b>
- <b>   </b><font color="#FFAF00"><b>DLS</b></font>
+ <b>   </b><font color="#FFAF00"><b>https://github.com/YOUR GITHUB ACCOUNT/t03-services</b></font>
+ <font color="#5F87AF">🎤</font><b> URL for centralized logging. Leave blank if not applicable.</b>
+ <b>   </b><font color="#FFAF00"><b>DLS GrayLog</b></font>
  </pre>
 </li>
 <li><p>Create your new repository on GitHub in your personal space by following this link <a class="github reference external" href="https://github.com/new">new</a>. Give it the name <strong>t03-services</strong> and a description of “t03 IOC Instances and Services”. Then click “Create repository”.</p>
@@ -602,9 +585,6 @@ pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 <span class="nb">source</span><span class="w"> </span>./environment.sh
 </pre></div>
 </div>
-</section>
-<section id="deploy-an-example-ioc-instance">
-<h2>Deploy an Example IOC Instance<a class="headerlink" href="#deploy-an-example-ioc-instance" title="Link to this heading">#</a></h2>
 <p>The new repository has a simple example IOC that it comes with the template and is called t03-ea-test-01.</p>
 <p>For a new beamline we will also need to deploy the shared resources that all IOCs expect to find in their namespace, namely:</p>
 <ul class="simple">
@@ -622,8 +602,87 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>epic-opis<span class="w"> </span><span class="m">2024</span>.9.1
 </pre></div>
 </div>
+</section>
+<section id="create-a-simple-example-ioc-instance">
+<h2>Create a Simple Example IOC Instance<a class="headerlink" href="#create-a-simple-example-ioc-instance" title="Link to this heading">#</a></h2>
+<p>Here we will create a minimal IOC to deploy into the cluster.</p>
+<p>Steps:</p>
+<ol class="arabic simple">
+<li><p>Create a new folder in the <strong>services</strong> folder called <strong>t03-ea-test-01</strong> by copying <strong>services/.ioc</strong>.</p></li>
+<li><p>Edit <strong>services/t03-ea-test-01/values.yaml</strong> to tell helm which generic IOC to deploy</p></li>
+<li><p>Edit <strong>services/to3-ea-test-01/config/ioc.yaml</strong> to describe the IOC instance.</p></li>
+<li><p>Create a basic EPICS DB file to the IOC instance in <strong>services/t03-ea-test-01/config/ioc.db</strong>.</p></li>
+</ol>
+<p>The <strong>values.yaml</strong> file should look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ec-helm-charts/releases/download/4.1.3/ioc-instance.schema.json</span>
+<span class="nt">ioc-instance</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-template-example-runtime:4.1.0</span>
+</pre></div>
+</div>
+<p>The ioc-template-example is a basic generic IOC that just includes epics-base and pvxs. It is generated as part of the CI for testing the ioc-template project.</p>
+<p>The <strong>ioc.yaml</strong> file should look like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-template-example/releases/download/4.1.0/ibek.ioc.schema.json</span>
+
+<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Very generic instance for testing generic IOCs</span>
+
+<span class="nt">entities</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPICS_TZ</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GMT0BST</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">devIocStats.iocAdminSoft</span>
+<span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.StartupCommand</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dbLoadRecords(&quot;/epics/ioc/config/ioc.db&quot;)</span>
+</pre></div>
+</div>
+<p>This is essentially an empty IOC instance that loads a database file. We will create that database file next.</p>
+<p>The <strong>ioc.db</strong> file should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">record</span><span class="p">(</span><span class="n">calc</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:SUM&quot;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;Sum A and B&quot;</span><span class="p">)</span>
+  <span class="n">field</span><span class="p">(</span><span class="n">CALC</span><span class="p">,</span> <span class="s2">&quot;A+B&quot;</span><span class="p">)</span>
+  <span class="n">field</span><span class="p">(</span><span class="n">INPA</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:A&quot;</span><span class="p">)</span>
+  <span class="n">field</span><span class="p">(</span><span class="n">INPB</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:B&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:A&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;A voltage&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">PREC</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">EGU</span><span class="p">,</span>  <span class="s2">&quot;Volts&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DRVL</span><span class="p">,</span> <span class="s2">&quot;-10&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DRVH</span><span class="p">,</span> <span class="s2">&quot;+10&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">VAL</span><span class="p">,</span>  <span class="s2">&quot;0.000&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">FLNK</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:SUM&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">record</span><span class="p">(</span><span class="n">ao</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:B&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DESC</span><span class="p">,</span> <span class="s2">&quot;B voltage&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">PREC</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">EGU</span><span class="p">,</span>  <span class="s2">&quot;Volts&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DRVL</span><span class="p">,</span> <span class="s2">&quot;-10&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DRVH</span><span class="p">,</span> <span class="s2">&quot;+10&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">VAL</span><span class="p">,</span>  <span class="s2">&quot;0.000&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">FLNK</span><span class="p">,</span> <span class="s2">&quot;EXAMPLE:SUM&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This simple EPICS Db just creates a couple of analogue out records and a calc record that sums them.</p>
+<p>Once you have completed the above, commit your changes and tag the repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;added t03-ea-test-01 IOC instance&quot;</span>
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.12.2
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.12.2
+</pre></div>
+</div>
+<p>The new example IOC is now ready to be deployed.</p>
+</section>
+<section id="deploy-an-example-ioc-instance">
+<h2>Deploy an Example IOC Instance<a class="headerlink" href="#deploy-an-example-ioc-instance" title="Link to this heading">#</a></h2>
 <p>You are now ready to deploy the example IOC instance.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t03-ea-test-01<span class="w"> </span><span class="m">2024</span>.9.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t03-ea-test-01<span class="w"> </span><span class="m">2024</span>.12.2
 </pre></div>
 </div>
 <p>You can check the status of the deployment using:</p>
@@ -633,12 +692,15 @@ ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </spa
 <p>You could also investigate the other commands that <code class="docutils literal notranslate"><span class="pre">ec</span></code> provides by running <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When things are not working as expected or you want to examine the resources you are deploying, you can use the <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span></code> command. If you prefer a more interactive approach, then look at the Kubernetes Dashboard.</p>
-<p>For a k3s local cluster refer to the notes on installing the dashboard in the previous tutorial. TODO add link when available.</p>
-<p>At DLS you can get to a Kubernetes Dashboard for your beamline via a landing page <code class="docutils literal notranslate"><span class="pre">https://pollux.diamond.ac.uk</span></code> for test beamlines on <code class="docutils literal notranslate"><span class="pre">Pollux</span></code> - remember to select the namespace from the dropdown in the top left.</p>
-<p>For production beamlines with dedicated clusters, you can find the landing page for example:
+<p>When things are not working as expected or you want to examine the resources you are deploying, you can use the <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span></code> command e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>t03-ea-test-01
+</pre></div>
+</div>
+<p>If you prefer a more interactive approach, then look at the Kubernetes Dashboard. For a k3s local cluster refer to the notes on installing the dashboard in the previous tutorial (see <a class="reference internal" href="setup_k8s.html#k8s-dashboard"><span class="std std-ref">Set up k8s dashboard (Optional)</span></a>).</p>
+<p>At DLS you can get to a Kubernetes Dashboard for your beamline via a landing page <code class="docutils literal notranslate"><span class="pre">https://pollux.diamond.ac.uk</span></code> for test beamlines on <code class="docutils literal notranslate"><span class="pre">Pollux</span></code> - remember to select your fed_id namespace from the dropdown in the top left.</p>
+<p>For production beamlines with dedicated clusters, the landing pages are named after the beamline, for example:
 <code class="docutils literal notranslate"><span class="pre">https://k8s-i22.diamond.ac.uk/</span></code> for BL22I.
-<code class="docutils literal notranslate"><span class="pre">https://k8s-b01-1.diamond.ac.uk/</span></code> for the 2nd branch of BL01C.
+<code class="docutils literal notranslate"><span class="pre">https://k8s-b01-1.diamond.ac.uk/</span></code> for the 2nd branch of BL01B.
 in this case the namespace will be i22-beamline, b01-1-beamline, etc.</p>
 </div>
 </section>
@@ -648,10 +710,16 @@ in this case the namespace will be i22-beamline, b01-1-beamline, etc.</p>
 <p>For k3s users you can simply fix this by setting ‘hostNetwork: true’ in <strong>services/values.yaml</strong>. Then re-deploy the IOC instance (by pushing the change and making a new tag).</p>
 <p>DLS users do not have permission to run host network in their personal namespaces.</p>
 <p>The best solution is to use a channel access gateway to bridge the container network to the host network. We will do this in a later tutorial.</p>
-<p>For now you can check you IOC by launching a shell inside it’s container and using the <code class="docutils literal notranslate"><span class="pre">caget</span></code> command. All IOC containers have the epics-base tools installed. Try the following commands to confirm that the IOC is running and that the PVs are accessible.</p>
+<p>For now you can check you IOC by launching a shell inside it’s container and using the <code class="docutils literal notranslate"><span class="pre">caput</span></code> and<code class="docutils literal notranslate"><span class="pre">caget</span></code> commands. All IOC containers have the epics-base tools installed. Try the following commands to confirm that the IOC is running and that the PVs are accessible.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ec<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>t03-ea-test-01
-root@t03-ea-test-01-0:/#<span class="w"> </span>caget<span class="w"> </span>T03:IBEK:A
-T03:IBEK:A<span class="w">                     </span><span class="m">2</span>.54
+root@t03-ea-test-01-0:/#<span class="w"> </span>caput<span class="w"> </span>EXAMPLE:A<span class="w"> </span><span class="m">1</span>.1
+Old<span class="w"> </span>:<span class="w"> </span>EXAMPLE:A<span class="w">                 </span><span class="m">0</span>
+New<span class="w"> </span>:<span class="w"> </span>EXAMPLE:A<span class="w">                 </span><span class="m">1</span>.1
+root@t03-ea-test-01-0:/#<span class="w"> </span>caput<span class="w"> </span>EXAMPLE:B<span class="w"> </span><span class="m">2</span>
+Old<span class="w"> </span>:<span class="w"> </span>EXAMPLE:B<span class="w">                 </span><span class="m">0</span>
+New<span class="w"> </span>:<span class="w"> </span>EXAMPLE:B<span class="w">                 </span><span class="m">2</span>
+root@t03-ea-test-01-0:/#<span class="w"> </span>caget<span class="w"> </span>EXAMPLE:SUM
+EXAMPLE:SUM<span class="w">                     </span><span class="m">3</span>.1
 </pre></div>
 </div>
 </section>
@@ -692,7 +760,8 @@ T03:IBEK:A<span class="w">                     </span><span class="m">2</span>.5
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -706,6 +775,7 @@ T03:IBEK:A<span class="w">                     </span><span class="m">2</span>.5
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-beamline-repository">Create a new beamline repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-new-beamline-repository">Configure the new beamline repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-the-epics-containers-cli">Setup the epics containers CLI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-simple-example-ioc-instance">Create a Simple Example IOC Instance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-an-example-ioc-instance">Deploy an Example IOC Instance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-that-the-ioc-is-working">Verify that the IOC is working</a></li>
 </ul>
@@ -749,8 +819,8 @@ T03:IBEK:A<span class="w">                     </span><span class="m">2</span>.5
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -761,7 +831,7 @@ T03:IBEK:A<span class="w">                     </span><span class="m">2</span>.5
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
 </p></div>
       
     </div>
