@@ -126,7 +126,7 @@ The config folder can contain a variety of different files [as listed here](http
 
 Each `entity` listed in the *IOC yaml* file will create an instance of the support module `entity_model` that it refers to. It will pass a number of arguments to the `entity_model` that will be used to generate the startup script entries and EPICS Database entries for that entity. The `entity_model` is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.
 
-We will be creating a simulation detector from the `ioc-adsimdetector` Generic IOC. The following *Support yaml* for the simulation detector is baked into the container. Once you have your container up and running you can use `docker compose exec bl01t-ea-cam-01 bash` to get a shell inside and see this file at **/epics/ibek_defs/ADSimDetector.ibek.support.yaml**.
+We will be creating a simulation detector from the `ioc-adsimdetector` Generic IOC. The following *Support yaml* for the simulation detector is baked into the container. Once you have your container up and running you can use `docker compose exec bl01t-ea-cam-01 bash` to get a shell inside and see this file at **/epics/ibek-defs/ADSimDetector.ibek.support.yaml**.
 
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
