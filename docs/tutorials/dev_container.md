@@ -228,7 +228,6 @@ In VSCode click the `File` menu and select `Add Folder to Workspace`. Navigate t
   :::
 :::
 
-Also take this opportunity to add the folder `/epics` to the workspace. This is the root folder in which all of the EPICS source and built files are located.
 
 You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. The table below summarizes the important folders in a generic IOC developer container. `${localWorkspaceFolder}` is the root of the Generic IOC source repo (the directory containing `.devcontainer/devcontainer.json`):
 
