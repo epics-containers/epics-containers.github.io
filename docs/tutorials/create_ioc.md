@@ -426,7 +426,7 @@ docker cp t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t
 rm services/bl01t-ea-cam-01/config/ioc.yaml
 ```
 
-You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
+You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the three template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
 
 Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.
 
