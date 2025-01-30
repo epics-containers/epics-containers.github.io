@@ -401,7 +401,7 @@ folder. Or alternatively you could override behaviour completely by placing
 To see what ibek generated you can go and look inside the IOC container:
 
 ```bash
-docker compose exec bl01t-ea-test-02
+docker compose exec bl01t-ea-cam-01 bash
 cd /epics/runtime/
 cat ioc.subst
 cat st.cmd
@@ -420,10 +420,10 @@ database then you can copy these two files out of the container and into
 your IOC Instance config folder like this:
 
 ```bash
-docker cp bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
-docker cp bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t-ea-cam-01/config/ioc.subst
+docker cp t01-services-bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
+docker cp t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t-ea-cam-01/config/ioc.subst
 # no longer need an ibek ioc yaml file
-rm services/bl01t-ea-test-02/config/ioc.yaml
+rm services/bl01t-ea-cam-01/config/ioc.yaml
 ```
 
 You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
