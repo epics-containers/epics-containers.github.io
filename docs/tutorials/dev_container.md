@@ -7,7 +7,7 @@
 Containerized IOCs can be modified in 3 distinct places in order of decreasing frequency of change but increasing complexity:
 
 (changes_1)=
-### Changing the IOC instance
+### 1. Changing the IOC instance
 
 This means making changes to the IOC instance folders which appear in the `services` folder of a {any}`services-repo`. e.g.:
 
@@ -27,7 +27,7 @@ To make a change like this requires:
 - that's it. No compilation required because we are only changing instance configuration here, not the IOC binary or dbd.
 
 (changes_2)=
-### Changing the Generic IOC
+### 2. Changing the Generic IOC
 
 This involves altering the Generic IOC container image. This means making changes to a Generic IOC source repo, building and publishing a new version of the container image.
 
@@ -47,7 +47,7 @@ To make a change like this requires:
 
 
 (changes_3)=
-### Changing the dependencies
+### 3. Changing the dependencies
 
 Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:
 
