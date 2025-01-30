@@ -42,6 +42,10 @@ Note that you have the ability to install any other tools you might need inside 
 
 ## Auto Port Forwarding
 
+:::{important}
+VSCode must have `remote.autoForwardPorts` enabled and `remote.autoForwardPortsSource` must be set to `process` for this next section to work.
+:::
+
 If you want to use a GUI tool such as Phoebus or any other tools outside of your container, they cannot see the container network that your IOC is running in. However this is not an issue because developer containers provide auto port forwarding for you. When you start your IOC it will bind to the following ports by default:
 
 - 5064 for Channel Access
