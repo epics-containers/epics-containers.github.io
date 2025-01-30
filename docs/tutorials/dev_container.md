@@ -297,6 +297,10 @@ work in the container filesystem, but it is still not recommended.
 
 Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the `ibek` tool convenience function `dev instance` which declares which IOC instance you want to work on in the developer container.
 
+:::{note}
+If you have followed previous tutorials, you will need to swap back to the branch you created where the IOC "bl01t-ea-cam-01" is created.
+:::
+
 Try the following:
 
 ```
