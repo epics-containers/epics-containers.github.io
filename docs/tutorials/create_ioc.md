@@ -4,7 +4,7 @@
 
 The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.
 
-For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <https://areadetector.github.io/master/index.html>.
+For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <https://areadetector.github.io/areaDetector/index.html>.
 
 (create-new-ioc-instance)=
 ## Add a New IOC Instance to t01-services
