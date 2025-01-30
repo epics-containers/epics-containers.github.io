@@ -50,7 +50,7 @@ If you want to use a GUI tool such as Phoebus or any other tools outside of your
 
 When the developer container sees the IOC bind to a port it auto forwards a host port to the IOC's port. The host binding that is forwarded is to the loopback adapter only, so only the host machine can see the forwarded ports. This is good for development as your PVs are only visible to your workstation.
 
-Once you have started your IOC you can check the ports are forwarded by looking in the PORTS tag of the bottom panel of VSCode. You should see something like this:
+Once you have started your IOC you can check the ports are forwarded by looking in the PORTS tab of the bottom panel of VSCode. You should see something like this:
 
 :::{figure} ../images/auto-ports.png
 Port Forwarding in the bottom panel of VSCode
