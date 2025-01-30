@@ -268,10 +268,11 @@ In the root of our services repository is the root compose.yml file that include
 
 ```yaml
 include:
-    # test and deploy profiles
+    # all profiles
     - services/example-test-01/compose.yml
     - services/bl01t-ea-cam-01/compose.yml
     - services/gateway/compose.yml
+    - services/pvagw/compose.yml
 
     # dev and test profiles
     - services/phoebus/compose.yml
