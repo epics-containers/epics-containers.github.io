@@ -193,6 +193,10 @@ The first commands you should run are as follows:
 cd /epics/ioc
 make
 ```
+:::{note}
+The `make` process may report warnings regarding unsupported Locale settings. These are benign and will not affect the build.
+:::
+
 
 The IOC source code is entirely boilerplate, `/epics/ioc/iocApp/src/Makefile` determines which dbd and lib files to link by including two files that `ibek` generated during the container build. You can see these files in `/epics/support/configure/lib_list` and `/epics/support/configure/dbd_list`.
 
