@@ -82,8 +82,8 @@ Phoebus should now be up and running and showing the auto generated **index.bob*
 - in the properties pane
   - deselect X and Y axis Visible checkboxes
   - set PV Name to 'BL01T-EA-TST-02:ARR:ArrayData'
-  - set Title to 'SimDetector Image'
-  - set Data width and height to 1024
+  - set Name to 'SimDetector Image'
+  - set Data Width and Data Height to 1024
 - choose File -> Save As and save as `/workspaces/ioc-adsimdetector/services/opi/bl01t-ea-ioc-02.bob`
 - note you will need to create the opi folder under services
 - click the 'Execute Display' green arrow button on the right of the top toolbar
