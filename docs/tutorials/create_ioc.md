@@ -70,7 +70,7 @@ services:
       IOC_NAME: bl01t-ea-cam-01
 
     volumes:
-      - ../../opiauto-generated/bl01t-ea-cam-01:/epics/opi
+      - ../../opi/auto-generated/bl01t-ea-cam-01:/epics/opi
 
     configs:
       - source: bl01t-ea-cam-01_config
