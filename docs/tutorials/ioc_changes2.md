@@ -146,7 +146,7 @@ post_init:
       dbpf {{P}}{{R}}EnableCallbacks 1
 ```
 
-The values that you add into entities like the above are rendered at runtime to make the startup script. The `{{P}}` and `{{R}}` are placeholders that are replaced with the PV prefix and record name of the IOC instance. They are rendered using Jinja 2 with a context that includes all of the values of the parameters in the entity. You can go and look at your rendered startup script in `/epics/runtime/st.cmd`.
+The values that you add into entities like the above are rendered at runtime to make the startup script. The `{{P}}` and `{{R}}` are placeholders that are replaced with the PV prefix and record name of the IOC instance. They are rendered using Jinja with a context that includes all of the values of the parameters in the entity. You can go and look at your rendered startup script in `/epics/runtime/st.cmd`.
 
 If you now go to the terminal where you ran your IOC, you can stop it with
 `Ctrl+C` and then start it again with `./start.sh`. You should see the

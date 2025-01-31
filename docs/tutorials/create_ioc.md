@@ -203,7 +203,7 @@ entity_models:
 
 You can see that this lists a number of parameters that it requires and several others that have defaults. It then declares how these will be used to substitute values into the simDetector database template. Finally it declares some lines to go into the startup script (`pre_init` means this goes before `iocInit`).
 
-Note that the process for taking a *Support yaml* entity_model with values from *IOC yaml* entity and generating a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use `{{ }}` to substitute values from the *IOC yaml* arguments into the *Support yaml* `pre_init` and `databases` sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. **$(ADSIMDETECTOR)/db/simDetector.template** is instantiated with `PORT=$(PORT)`, `P=$(P)` etc.
+Note that the process for taking a *Support yaml* entity_model with values from *IOC yaml* entity and generating a startup script and EPICS Database uses Jinja templating. In its simplest form this just means that you can use `{{ }}` to substitute values from the *IOC yaml* arguments into the *Support yaml* `pre_init` and `databases` sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. **$(ADSIMDETECTOR)/db/simDetector.template** is instantiated with `PORT=$(PORT)`, `P=$(P)` etc.
 
 To learn more about Jinja templating see here: <https://jinja.palletsprojects.com/en/3.0.x/templates/>.
 
