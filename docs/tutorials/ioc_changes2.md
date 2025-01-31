@@ -108,7 +108,7 @@ IOC instance that we can use to test our changes.
 Phoebus with image widget
 :::
 
-Note: the buttons to launch the engineering screens won't work right away because your new screen is in a different folder. To fix this, go back into the screen editor and add `ioc/` to the beginning of the `Display Path` in the `Open Display` action for each button.
+Note: the buttons to launch the engineering screens won't work right away because your new screen is in a different folder. To fix this, go back into the screen editor and add `../../opi/auto-generated/` to the beginning of the `Display Path` in the `Open Display` action for each button.
 
 ## Making a change to the Generic IOC
 
