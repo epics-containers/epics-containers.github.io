@@ -137,7 +137,7 @@ post_init:
 ```
 
 Next make a change to the file `/workspaces/ioc-adsimdetector/ibek-support/ADCore/ADCore.ibek.support.yaml`.
-Find the NDStdArrays section and also add a `post_init` section:
+Find the `NDStdArrays`, `NDROI`, and `NDProcess` sections and also add a `post_init` section to each one:
 
 ```yaml
 post_init:
@@ -155,6 +155,10 @@ following output at the end of the startup log:
 ```console
 dbpf BL01T-EA-TST-02:DET:Acquire 1
 DBF_STRING:         "Acquire"
+dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
+DBF_STRING:         "Enable"
+dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1
+DBF_STRING:         "Enable"
 dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1
 DBF_STRING:         "Enable"
 epics>
@@ -189,13 +193,21 @@ Add the following to
 `/epics/ioc/config/ioc.yaml`:
 
 ```yaml
-- type: epics.dbpf
-  pv: BL01T-EA-TST-02:DET:Acquire
-  value: "1"
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:DET:Acquire
+    value: "1"
 
-- type: epics.dbpf
-  pv: BL01T-EA-TST-02:ARR:EnableCallbacks
-  value: "1"
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:ROI:EnableCallbacks
+    value: "1"
+
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:PROC:EnableCallbacks
+    value: "1"
+
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:ARR:EnableCallbacks
+    value: "1"
 ```
 
 Now restart the IOC and you should see the same behaviour as before. Here
