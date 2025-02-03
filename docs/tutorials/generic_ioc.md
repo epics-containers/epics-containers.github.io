@@ -729,4 +729,4 @@ complete the Release process.
 
 ## EXERCISE
 
-Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `docker compose deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
+Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `docker compose up -d`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
