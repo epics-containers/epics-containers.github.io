@@ -245,6 +245,8 @@ HTTPS is fine for reading, but to write you need SSH. Therefore add the followin
 ```
 
 This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.
+
+In order for this change to be picked up inside the Devcontainer it must be rebuilt. Press `Ctrl-Shift-P` and type `Dec Containers: Rebuild Container`.
 :::
 
 The git submodule allows us to share the `ibek-support` definitions between all
