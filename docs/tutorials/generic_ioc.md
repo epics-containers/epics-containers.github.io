@@ -721,6 +721,12 @@ You can follow along with the CI build by clicking the actions tab in your repos
 
 https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340
 
+:::{note}
+If you see a failure of the `release` stage with the message `Error: Resource not accessible by integration`, go to Settings->Actions->General,
+scroll to `Workflow Permissions` and set `Read and write permissions`. This will enable the GitHub Action to write back to the repository to
+complete the Release process.
+:::
+
 ## EXERCISE
 
 Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `docker compose deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
