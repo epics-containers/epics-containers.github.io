@@ -21,17 +21,6 @@ Three cluster topologies were considered for this project.
   management but is able to overcome the problems with protocol routing.
   The DLS argus cluster configuration described below is an example of
   how to achieve this.
-
-Current Approach
-----------------
-
-DLS is using Cluster per Beamline as the preferred topology. We
-will continue to have a central cluster for shared services but in addition will
-have a cluster per beamline and a cluster for the accelerator.
-
-The separate clusters allow us to have separate:
-
-- failure domain
 ```
 
 ## Current Approach
