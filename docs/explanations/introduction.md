@@ -47,7 +47,7 @@ The generic IOC image contains:
 - a compiled IOC binary that links all those modules
 - a dbd file for all the support modules.
 
-It does not contain a startup script pr EPICS database, these are instance specific and added at runtime.
+It does not contain a startup script or EPICS database, these are instance specific and added at runtime.
 
 An IOC instance runs in a container runtime by loading two things:
 
@@ -91,7 +91,7 @@ implementing these features:
 - View the current log
 - View historical logs (via graylog or other centralized logging system)
 - Connect to an IOC and interact with its shell
-- debug an IOC by starting a bash shell inside it's container
+- Debug an IOC by starting a bash shell inside it's container
 
 ### Kubernetes Alternatives
 If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.
