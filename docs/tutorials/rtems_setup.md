@@ -1,7 +1,7 @@
 # RTEMS - Creating a File Server
 
 :::{Warning}
-This tutorial is out of date and will be updated in Nov 2024.
+This tutorial is out of date and will be updated soon.
 :::
 
 ## Introduction
