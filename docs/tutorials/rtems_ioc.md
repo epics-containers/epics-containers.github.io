@@ -7,7 +7,7 @@ This tutorial is out of date and will be updated soon.
 The previous tutorials walked through how to create a Generic linux soft
 IOC and how to deploy an IOC instance using that Generic IOC.
 
-epics-containers also supports RTEMS 5 running on MVVME5500. We will
+epics-containers also supports RTEMS 5 running on MVME5500. We will
 now will look at the differences for this architecture. Further
 architectures will be supported in future.
 
@@ -26,7 +26,7 @@ order to complete this one.
 
 ## Preparing the RTEMS Boot loader
 
-To try this tutorial you will need a VME crate with an MVVME5500 processor card
+To try this tutorial you will need a VME crate with an MVME5500 processor card
 installed. You will also need access to the serial console over ethernet
 using a terminal server or similar.
 

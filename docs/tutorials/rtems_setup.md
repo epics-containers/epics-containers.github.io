@@ -22,7 +22,7 @@ The pod provides the following features:
 - Monitors the IOC and restarts it if it crashes - using the same mechanism
   as linux IOCs
 
-At present epics-containers supports the MVVME5500 processor card running
+At present epics-containers supports the MVME5500 processor card running
 RTEMS 5. The same model as described above can be used for other 'hard' IOC
 types in future.
 
