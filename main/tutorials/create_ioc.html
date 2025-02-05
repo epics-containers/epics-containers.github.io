@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 4.0.1.dev37+gd4a76ea documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 4.0.1.dev70+g0d487bb documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,21 +27,21 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2f9e9156"></script>
+    <script src="../_static/documentation_options.js?v=93579823"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,10 +49,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/create_ioc';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -421,9 +422,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -474,7 +480,7 @@
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.</p>
-<p>For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <a class="reference external" href="https://areadetector.github.io/master/index.html">https://areadetector.github.io/master/index.html</a>.</p>
+<p>For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <a class="reference external" href="https://areadetector.github.io/areaDetector/index.html">https://areadetector.github.io/areaDetector/index.html</a>.</p>
 </section>
 <section id="add-a-new-ioc-instance-to-t01-services">
 <span id="create-new-ioc-instance"></span><h2>Add a New IOC Instance to t01-services<a class="headerlink" href="#add-a-new-ioc-instance-to-t01-services" title="Link to this heading">#</a></h2>
@@ -538,7 +544,7 @@ code<span class="w"> </span>.
 <span class="w">      </span><span class="nt">IOC_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01</span>
 
 <span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../opiauto-generated/bl01t-ea-cam-01:/epics/opi</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../opi/auto-generated/bl01t-ea-cam-01:/epics/opi</span>
 
 <span class="w">    </span><span class="nt">configs</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01_config</span>
@@ -614,7 +620,7 @@ we use</p></td>
 <li><p>instantiate 1 more more EPICS Database templates with a set of macro substitutions</p></li>
 </ul>
 <p>Each <code class="docutils literal notranslate"><span class="pre">entity</span></code> listed in the <em>IOC yaml</em> file will create an instance of the support module <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that it refers to. It will pass a number of arguments to the <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that will be used to generate the startup script entries and EPICS Database entries for that entity. The <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.</p>
-<p>We will be creating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. The following <em>Support yaml</em> for the simulation detector is baked into the container. Once you have your container up and running you can use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">bash</span></code> to get a shell inside and see this file at <strong>/epics/ibek_defs/ADSimDetector.ibek.support.yaml</strong>.</p>
+<p>We will be creating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. The following <em>Support yaml</em> for the simulation detector is baked into the container. Once you have your container up and running you can use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">bash</span></code> to get a shell inside and see this file at <strong>/epics/ibek-defs/ADSimDetector.ibek.support.yaml</strong>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json</span>
 
 <span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector</span>
@@ -687,10 +693,10 @@ we use</p></td>
 </pre></div>
 </div>
 <p>You can see that this lists a number of parameters that it requires and several others that have defaults. It then declares how these will be used to substitute values into the simDetector database template. Finally it declares some lines to go into the startup script (<code class="docutils literal notranslate"><span class="pre">pre_init</span></code> means this goes before <code class="docutils literal notranslate"><span class="pre">iocInit</span></code>).</p>
-<p>Note that the process for taking a <em>Support yaml</em> entity_model with values from <em>IOC yaml</em> entity and generating a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> to substitute values from the <em>IOC yaml</em> arguments into the <em>Support yaml</em> <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> and <code class="docutils literal notranslate"><span class="pre">databases</span></code> sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. <strong>$(ADSIMDETECTOR)/db/simDetector.template</strong> is instantiated with <code class="docutils literal notranslate"><span class="pre">PORT=$(PORT)</span></code>, <code class="docutils literal notranslate"><span class="pre">P=$(P)</span></code> etc.</p>
+<p>Note that the process for taking a <em>Support yaml</em> entity_model with values from <em>IOC yaml</em> entity and generating a startup script and EPICS Database uses Jinja templating. In its simplest form this just means that you can use <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> to substitute values from the <em>IOC yaml</em> arguments into the <em>Support yaml</em> <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> and <code class="docutils literal notranslate"><span class="pre">databases</span></code> sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. <strong>$(ADSIMDETECTOR)/db/simDetector.template</strong> is instantiated with <code class="docutils literal notranslate"><span class="pre">PORT=$(PORT)</span></code>, <code class="docutils literal notranslate"><span class="pre">P=$(P)</span></code> etc.</p>
 <p>To learn more about Jinja templating see here: <a class="reference external" href="https://jinja.palletsprojects.com/en/3.0.x/templates/">https://jinja.palletsprojects.com/en/3.0.x/templates/</a>.</p>
 <p>Therefore, we can update our <em>IOC yaml</em> file by adding an ADSimDetector entity to the entities list. In vscode, open <strong>services/bl01t-ea-cam-01/config/ioc.yaml</strong> and edit the boilerplate template so that it looks like the following:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.6.1/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
 
@@ -739,10 +745,11 @@ of key value pairs. The last entry we just added has first key of <code class="d
 <h3>Update the Services List<a class="headerlink" href="#update-the-services-list" title="Link to this heading">#</a></h3>
 <p>In the root of our services repository is the root compose.yml file that includes all of the services. We will edit that to add our new IOC. The result should look like this:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">include</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># test and deploy profiles</span>
+<span class="w">    </span><span class="c1"># all profiles</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/example-test-01/compose.yml</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/bl01t-ea-cam-01/compose.yml</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/gateway/compose.yml</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/pvagw/compose.yml</span>
 
 <span class="w">    </span><span class="c1"># dev and test profiles</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/phoebus/compose.yml</span>
@@ -790,7 +797,7 @@ This page includes the assets that are published as part of the release and
 one of those is <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code>. This is the <em>IOC schema</em> for the
 <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. This is what we referred to at the top of
 our <em>IOC yaml</em> file like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.2/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json</span>
 </pre></div>
 </div>
 <p>When editing with a YAML aware editor like VSCode this will enable auto
@@ -840,6 +847,14 @@ prefer hand coding them, this is also supported.</p>
 </pre></div>
 </div>
 <p>Once it is back up you can click on the bl01t-ea-cam-01 button in the ‘Autogenerated Engineering Screens’ pane and you will see a new ‘NDProcess’ entity. If you know about wiring up AreaDetector you can now wire this plugin into your pipeline and make modifications to the image data as it passes through.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Now is a good point to commit out changes, as this is the expected state of the repo for future tutorials.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Create bl01t-ea-cam-01 IOC&quot;</span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 <section id="raw-startup-script-and-database">
@@ -849,7 +864,7 @@ placing your own <code class="docutils literal notranslate"><span class="pre">st
 folder. Or alternatively you could override behaviour completely by placing
 <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <strong>config</strong> folder, this can contain any script you like.</p>
 <p>To see what ibek generated you can go and look inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-02
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-cam-01<span class="w"> </span>bash
 <span class="nb">cd</span><span class="w"> </span>/epics/runtime/
 cat<span class="w"> </span>ioc.subst
 cat<span class="w"> </span>st.cmd
@@ -866,13 +881,13 @@ shared for easy debugging of IOC Instances.</p>
 <p>If you would like to see an IOC Instance that uses a raw startup script and
 database then you can copy these two files out of the container and into
 your IOC Instance config folder like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-cam-01-1:/epics/runtime/st.cmd<span class="w"> </span>services/bl01t-ea-cam-01/config
-docker<span class="w"> </span>cp<span class="w"> </span>bl01t-ea-cam-01-1:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.subst
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>cp<span class="w"> </span>t01-services-bl01t-ea-cam-01-1:/epics/runtime/st.cmd<span class="w"> </span>services/bl01t-ea-cam-01/config
+docker<span class="w"> </span>cp<span class="w"> </span>t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.subst
 <span class="c1"># no longer need an ibek ioc yaml file</span>
-rm<span class="w"> </span>services/bl01t-ea-test-02/config/ioc.yaml
+rm<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.yaml
 </pre></div>
 </div>
-<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the two template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.</p>
+<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the three template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.</p>
 <p>Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.</p>
 <p>Restart the IOC to see it operating as before (except that engineering screen generation will no longer happen):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
@@ -978,13 +993,13 @@ git<span class="w"> </span>checkout<span class="w"> </span>main
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/create_ioc.md.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/create_ioc.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -999,8 +1014,8 @@ git<span class="w"> </span>checkout<span class="w"> </span>main
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1011,7 +1026,8 @@ git<span class="w"> </span>checkout<span class="w"> </span>main
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

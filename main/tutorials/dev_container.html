@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers 4.0.1.dev37+gd4a76ea documentation</title>
+    <title>Developer Containers &#8212; epics-containers 4.0.1.dev70+g0d487bb documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,21 +27,21 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2f9e9156"></script>
+    <script src="../_static/documentation_options.js?v=93579823"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,10 +49,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/dev_container';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -421,9 +422,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -475,7 +481,7 @@
 <span id="ioc-change-types"></span><h2>Types of Changes<a class="headerlink" href="#types-of-changes" title="Link to this heading">#</a></h2>
 <p>Containerized IOCs can be modified in 3 distinct places in order of decreasing frequency of change but increasing complexity:</p>
 <section id="changing-the-ioc-instance">
-<span id="changes-1"></span><h3>Changing the IOC instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h3>
+<span id="changes-1"></span><h3>1. Changing the IOC instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h3>
 <p>This means making changes to the IOC instance folders which appear in the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder of a <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>. e.g.:</p>
 <ul class="simple">
 <li><p>changing the EPICS DB (or the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> files that generate it)</p></li>
@@ -497,7 +503,7 @@
 </ul>
 </section>
 <section id="changing-the-generic-ioc">
-<span id="changes-2"></span><h3>Changing the Generic IOC<a class="headerlink" href="#changing-the-generic-ioc" title="Link to this heading">#</a></h3>
+<span id="changes-2"></span><h3>2. Changing the Generic IOC<a class="headerlink" href="#changing-the-generic-ioc" title="Link to this heading">#</a></h3>
 <p>This involves altering the Generic IOC container image. This means making changes to a Generic IOC source repo, building and publishing a new version of the container image.</p>
 <p>Types of changes include:</p>
 <ul class="simple">
@@ -515,7 +521,7 @@
 </ul>
 </section>
 <section id="changing-the-dependencies">
-<span id="changes-3"></span><h3>Changing the dependencies<a class="headerlink" href="#changing-the-dependencies" title="Link to this heading">#</a></h3>
+<span id="changes-3"></span><h3>3. Changing the dependencies<a class="headerlink" href="#changing-the-dependencies" title="Link to this heading">#</a></h3>
 <p>Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:</p>
 <ul class="simple">
 <li><p>developing a new support module for a new device</p></li>
@@ -527,7 +533,7 @@
 <ul class="simple">
 <li><p>making the change in the support module source code</p></li>
 <li><p>test and publish a release of the above</p></li>
-<li><p>repeat the steps in <a class="reference internal" href="#changes-2"><span class="std std-ref">Changing the Generic IOC</span></a></p></li>
+<li><p>repeat the steps in <a class="reference internal" href="#changes-2"><span class="std std-ref">2. Changing the Generic IOC</span></a></p></li>
 </ul>
 </section>
 </section>
@@ -535,8 +541,8 @@
 <h2>Need for a Developer Container<a class="headerlink" href="#need-for-a-developer-container" title="Link to this heading">#</a></h2>
 <p>For all of the above types of changes, the epics-containers approach allows local testing of the changes before going through the publishing cycle. This allows us to have a fast ‘inner loop’ of development and testing.</p>
 <p>Also, epics-containers provides a mechanism for creating a separate workspace for working on all of the above elements in one place.</p>
-<p>The earlier tutorials were firmly in the realm of <a class="reference internal" href="#changes-1"><span class="std std-ref">Changing the IOC instance</span></a> above. It was adequate for us to install a container platform, IDE and python and that is all we needed.</p>
-<p>Once you get to the level of <a class="reference internal" href="#changes-2"><span class="std std-ref">Changing the Generic IOC</span></a> you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.</p>
+<p>The earlier tutorials were firmly in the realm of <a class="reference internal" href="#changes-1"><span class="std std-ref">1. Changing the IOC instance</span></a> above. It was adequate for us to install a container platform, IDE and python and that is all we needed.</p>
+<p>Once you get to the level of <a class="reference internal" href="#changes-2"><span class="std std-ref">2. Changing the Generic IOC</span></a> you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.</p>
 <p>These tools and dependencies will likely differ from one Generic IOC to the next.</p>
 <p>When using epics-containers we don’t need to install any of these tools or dependencies on our local machine. Instead we can use a developer container, and in fact our Generic IOC <em>is</em> our developer container.</p>
 <p>When the CI builds a Generic IOC it always creates <a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">two targets</a></p>
@@ -641,6 +647,10 @@ code<span class="w"> </span>.
 make
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">make</span></code> process may report warnings regarding unsupported Locale settings. These are benign and will not affect the build.</p>
+</div>
 <p>The IOC source code is entirely boilerplate, <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code> determines which dbd and lib files to link by including two files that <code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build. You can see these files in <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
 <p>Although all Generic IOCs derived from ioc-template start out with the same generic source, you are free to change them if there is a need for different compilation options etc.</p>
 <p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
@@ -666,6 +676,11 @@ make
 </div>
 <div class="docutils">
 <p>Also take this opportunity to add the folder <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace. This is the root folder in which all of the EPICS source and built files are located.</p>
+<ul class="simple">
+<li><p>File -&gt; Add Folder to Workspace</p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">/epics</span></code></p></li>
+<li><p>Click cancel if you see an error</p></li>
+</ul>
 <p>You can now easily browse around the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. The table below summarizes the important folders in a generic IOC developer container. <code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}</span></code> is the root of the Generic IOC source repo (the directory containing <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>):</p>
 <p class="rubric" id="generic-ioc-container-filesystem-layout"><span id="container-layout"></span>Generic IOC Container Filesystem Layout</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id1">
@@ -732,6 +747,11 @@ devcontainer does keep all state. This can make you complacent about doing
 work in the container filesystem, but it is still not recommended.</p>
 <p class="rubric" id="choose-the-ioc-instance-to-test"><span id="choose-ioc-instance"></span>Choose the IOC Instance to Test</p>
 <p>Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool convenience function <code class="docutils literal notranslate"><span class="pre">dev</span> <span class="pre">instance</span></code> which declares which IOC instance you want to work on in the developer container.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have followed previous tutorials, you will need to swap back to the branch you created where the IOC “bl01t-ea-cam-01” is created.</p>
+</div>
+</div>
 <p>Try the following:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ibek</span> <span class="n">dev</span> <span class="n">instance</span> <span class="o">/</span><span class="n">workspaces</span><span class="o">/</span><span class="n">t01</span><span class="o">-</span><span class="n">services</span><span class="o">/</span><span class="n">services</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">cam</span><span class="o">-</span><span class="mi">01</span>
 
@@ -744,7 +764,9 @@ work in the container filesystem, but it is still not recommended.</p>
 </pre></div>
 </div>
 <p>This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to its config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.</p>
-<p class="rubric" id="wrapping-up">Wrapping Up</p>
+</section>
+<section id="wrapping-up">
+<h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
 <p>We now have a tidy development environment for working on the Generic IOC,
 IOC Instances and even the support modules inside the Generic IOC, all in one
 place. We can easily test our changes in place too. In particular note that
@@ -752,7 +774,6 @@ we are able to test changes without having to go through a container build
 cycle.</p>
 <p>In the following tutorials we will look at how to make changes at each of the
 3 levels listed in <a class="reference internal" href="#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
-</div>
 </section>
 </section>
 
@@ -804,9 +825,9 @@ cycle.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-changes">Types of Changes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-ioc-instance">Changing the IOC instance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-generic-ioc">Changing the Generic IOC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-dependencies">Changing the dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-ioc-instance">1. Changing the IOC instance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-generic-ioc">2. Changing the Generic IOC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-dependencies">3. Changing the dependencies</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#need-for-a-developer-container">Need for a Developer Container</a></li>
@@ -817,6 +838,7 @@ cycle.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-the-example-beamline-to-the-workspace">Adding the Example Beamline to the Workspace</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
 </ul>
   </nav></div>
 
@@ -837,13 +859,13 @@ cycle.</p>
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/dev_container.md.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/dev_container.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -858,8 +880,8 @@ cycle.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -870,7 +892,8 @@ cycle.</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers 4.0.1.dev37+gd4a76ea documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers 4.0.1.dev70+g0d487bb documentation</title>
   
   
   
@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,21 +27,21 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=2f9e9156"></script>
+    <script src="../_static/documentation_options.js?v=93579823"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,10 +49,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/generic_ioc';</script>
     <script>
-        DOCUMENTATION_OPTIONS.theme_version = '0.16.0';
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
-        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
         </script>
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -421,9 +422,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -589,7 +595,7 @@ to make your own Generic IOC.</p>
 <li><p><strong>ibek-support</strong> - add new support module recipes into this submodule</p></li>
 </ol>
 <p>The rest of the files created by the template are essentially boilerplate and can be left alone for most Generic IOCs. However there are many places where changes could be made for advanced use cases. An example of this is the ioc-adaravis Generic IOC, this has a custom version of the start.sh entrypoint script. It connects to the GigE cameras described in the IOC instance and gets information regarding the set of configuration parameters each camera supports - this is then used to generate custom database and OPI files.</p>
-<p>To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.</p>
+<p>To work on this project we will use a local developer container. All changes and testing will be performed inside this developer container.</p>
 <p>Once the developer container is running it is always instructive to have the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder added to your workspace:</p>
 <ul class="simple">
 <li><p>File -&gt; Add Folder to Workspace</p></li>
@@ -635,12 +641,12 @@ StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.26
 <p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These changes to the Dockerfile mean that if we were to rebuild our developer container, it would would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image.</p>
+<p>These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> support modules to the container image.</p>
 <p>This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.</p>
 </div>
 </section>
 <section id="prepare-the-ibek-support-submodule">
-<h2>Prepare The ibek-support Submodule<a class="headerlink" href="#prepare-the-ibek-support-submodule" title="Link to this heading">#</a></h2>
+<h2>Prepare the ibek-support Submodule<a class="headerlink" href="#prepare-the-ibek-support-submodule" title="Link to this heading">#</a></h2>
 <p>Now we are ready to add the lakeshore340 support module to our project. In
 order to do so we must first add a recipe for it to <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule is used to share information about how to build
@@ -685,6 +691,7 @@ be guaranteed to have the required SSH keys (i.e. when CI is running).</p>
 </pre></div>
 </div>
 <p>This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.</p>
+<p>In order for this change to be picked up inside the Devcontainer it must be rebuilt. Press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Dec</span> <span class="pre">Containers:</span> <span class="pre">Rebuild</span> <span class="pre">Container</span></code>.</p>
 </div>
 <p>The git submodule allows us to share the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> definitions between all
 ioc-XXX projects but also allows each project to have its copy fixed to
@@ -692,7 +699,7 @@ a particular commit (until updated with <code class="docutils literal notranslat
 <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a> for more information.</p>
 </section>
 <section id="create-install-sh-for-the-lakeshore340">
-<h2>Create install.sh For The lakeshore340<a class="headerlink" href="#create-install-sh-for-the-lakeshore340" title="Link to this heading">#</a></h2>
+<h2>Create install.sh for the lakeshore340<a class="headerlink" href="#create-install-sh-for-the-lakeshore340" title="Link to this heading">#</a></h2>
 <p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.</p>
 <p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do common tasks that most support modules require. They are also are as close to identical as possible for simple support modules. <code class="docutils literal notranslate"><span class="pre">ibek</span></code> commands allow us to have a simple, consistent structure for all support module’s <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> scripts.</p>
 <p>IMPORTANT points to note are:</p>
@@ -1054,7 +1061,7 @@ Note this is distinct from making support YAML files with
 </div>
 </section>
 <section id="experimenting-with-changes-to-the-ioc-instance-and-generic-ioc">
-<h2>Experimenting With Changes to the IOC Instance and Generic IOC<a class="headerlink" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc" title="Link to this heading">#</a></h2>
+<h2>Experimenting with Changes to the IOC Instance and Generic IOC<a class="headerlink" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc" title="Link to this heading">#</a></h2>
 <p>Inside the developer container you can add and remove support, change the
 IOC instance YAML file and re-build the IOC instance until everything is
 working as you want it to.</p>
@@ -1099,10 +1106,16 @@ git<span class="w"> </span>push
 <p>On the New Release page, choose a tag, eg. <code class="docutils literal notranslate"><span class="pre">0.1.0</span></code>, click <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">release</span> <span class="pre">notes</span></code>, Add your own description to the notes if desired and then click <code class="docutils literal notranslate"><span class="pre">Publish</span> <span class="pre">release</span></code>.</p>
 <p>You can follow along with the CI build by clicking the actions tab in your repository. Once the build is complete you can see the container image in the <code class="docutils literal notranslate"><span class="pre">packages</span></code> area of your repository. To see your packages, choose the following URL:</p>
 <p>https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you see a failure of the <code class="docutils literal notranslate"><span class="pre">release</span></code> stage with the message <code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">Resource</span> <span class="pre">not</span> <span class="pre">accessible</span> <span class="pre">by</span> <span class="pre">integration</span></code>, go to Settings-&gt;Actions-&gt;General,
+scroll to <code class="docutils literal notranslate"><span class="pre">Workflow</span> <span class="pre">Permissions</span></code> and set <code class="docutils literal notranslate"><span class="pre">Read</span> <span class="pre">and</span> <span class="pre">write</span> <span class="pre">permissions</span></code>. This will enable the GitHub Action to write back to the repository to
+complete the Release process.</p>
+</div>
 </section>
 <section id="exercise">
 <h2>EXERCISE<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h2>
-<p>Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline. You should then be able to run up your IOC instance with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">deploy-local</span></code>. You could also run a local version of the simulator and see if you can get the IOC to talk to it.</p>
+<p>Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your <code class="docutils literal notranslate"><span class="pre">bl01t</span></code> beamline. You should then be able to run up your IOC instance with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span></code>. You could also run a local version of the simulator and see if you can get the IOC to talk to it.</p>
 </section>
 </section>
 
@@ -1158,12 +1171,12 @@ git<span class="w"> </span>push
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-new-repo-for-development">Prepare the New Repo for Development</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-changes-to-the-dockerfile">Initial Changes to the Dockerfile</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-ibek-support-submodule">Prepare The ibek-support Submodule</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-install-sh-for-the-lakeshore340">Create install.sh For The lakeshore340</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-ibek-support-submodule">Prepare the ibek-support Submodule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-install-sh-for-the-lakeshore340">Create install.sh for the lakeshore340</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-support-yaml-for-the-lakeshore340">Create Support YAML for the lakeshore340</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#register-the-support-yaml">Register the Support YAML</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ioc-instance">Example IOC instance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc">Experimenting With Changes to the IOC Instance and Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experimenting-with-changes-to-the-ioc-instance-and-generic-ioc">Experimenting with Changes to the IOC Instance and Generic IOC</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">EXERCISE</a></li>
 </ul>
@@ -1186,13 +1199,13 @@ git<span class="w"> </span>push
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/tutorials/generic_ioc.md.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/generic_ioc.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -1207,8 +1220,8 @@ git<span class="w"> </span>push
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1219,7 +1232,8 @@ git<span class="w"> </span>push
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

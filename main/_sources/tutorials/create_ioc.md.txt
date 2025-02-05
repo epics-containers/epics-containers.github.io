@@ -4,7 +4,7 @@
 
 The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.
 
-For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <https://areadetector.github.io/master/index.html>.
+For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <https://areadetector.github.io/areaDetector/index.html>.
 
 (create-new-ioc-instance)=
 ## Add a New IOC Instance to t01-services
@@ -70,7 +70,7 @@ services:
       IOC_NAME: bl01t-ea-cam-01
 
     volumes:
-      - ../../opiauto-generated/bl01t-ea-cam-01:/epics/opi
+      - ../../opi/auto-generated/bl01t-ea-cam-01:/epics/opi
 
     configs:
       - source: bl01t-ea-cam-01_config
@@ -126,7 +126,7 @@ The config folder can contain a variety of different files [as listed here](http
 
 Each `entity` listed in the *IOC yaml* file will create an instance of the support module `entity_model` that it refers to. It will pass a number of arguments to the `entity_model` that will be used to generate the startup script entries and EPICS Database entries for that entity. The `entity_model` is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.
 
-We will be creating a simulation detector from the `ioc-adsimdetector` Generic IOC. The following *Support yaml* for the simulation detector is baked into the container. Once you have your container up and running you can use `docker compose exec bl01t-ea-cam-01 bash` to get a shell inside and see this file at **/epics/ibek_defs/ADSimDetector.ibek.support.yaml**.
+We will be creating a simulation detector from the `ioc-adsimdetector` Generic IOC. The following *Support yaml* for the simulation detector is baked into the container. Once you have your container up and running you can use `docker compose exec bl01t-ea-cam-01 bash` to get a shell inside and see this file at **/epics/ibek-defs/ADSimDetector.ibek.support.yaml**.
 
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
@@ -203,7 +203,7 @@ entity_models:
 
 You can see that this lists a number of parameters that it requires and several others that have defaults. It then declares how these will be used to substitute values into the simDetector database template. Finally it declares some lines to go into the startup script (`pre_init` means this goes before `iocInit`).
 
-Note that the process for taking a *Support yaml* entity_model with values from *IOC yaml* entity and generating a startup script and EPICS Database uses Jinja2 templating. In its simplest form this just means that you can use `{{ }}` to substitute values from the *IOC yaml* arguments into the *Support yaml* `pre_init` and `databases` sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. **$(ADSIMDETECTOR)/db/simDetector.template** is instantiated with `PORT=$(PORT)`, `P=$(P)` etc.
+Note that the process for taking a *Support yaml* entity_model with values from *IOC yaml* entity and generating a startup script and EPICS Database uses Jinja templating. In its simplest form this just means that you can use `{{ }}` to substitute values from the *IOC yaml* arguments into the *Support yaml* `pre_init` and `databases` sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. **$(ADSIMDETECTOR)/db/simDetector.template** is instantiated with `PORT=$(PORT)`, `P=$(P)` etc.
 
 To learn more about Jinja templating see here: <https://jinja.palletsprojects.com/en/3.0.x/templates/>.
 
@@ -211,7 +211,7 @@ Therefore, we can update our *IOC yaml* file by adding an ADSimDetector entity t
 
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.6.1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json
 
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 
@@ -268,10 +268,11 @@ In the root of our services repository is the root compose.yml file that include
 
 ```yaml
 include:
-    # test and deploy profiles
+    # all profiles
     - services/example-test-01/compose.yml
     - services/bl01t-ea-cam-01/compose.yml
     - services/gateway/compose.yml
+    - services/pvagw/compose.yml
 
     # dev and test profiles
     - services/phoebus/compose.yml
@@ -328,7 +329,7 @@ one of those is `ibek.ioc.schema.json`. This is the *IOC schema* for the
 our *IOC yaml* file like this:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.8.2/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json
 ```
 
 When editing with a YAML aware editor like VSCode this will enable auto
@@ -389,6 +390,14 @@ docker compose restart bl01t-ea-cam-01
 
 Once it is back up you can click on the bl01t-ea-cam-01 button in the 'Autogenerated Engineering Screens' pane and you will see a new 'NDProcess' entity. If you know about wiring up AreaDetector you can now wire this plugin into your pipeline and make modifications to the image data as it passes through.
 
+:::{note}
+Now is a good point to commit out changes, as this is the expected state of the repo for future tutorials.
+```bash
+git add .
+git commit -m "Create bl01t-ea-cam-01 IOC"
+```
+:::
+
 (raw-startup-assets)=
 ## Raw Startup Script and Database
 
@@ -400,7 +409,7 @@ folder. Or alternatively you could override behaviour completely by placing
 To see what ibek generated you can go and look inside the IOC container:
 
 ```bash
-docker compose exec bl01t-ea-test-02
+docker compose exec bl01t-ea-cam-01 bash
 cd /epics/runtime/
 cat ioc.subst
 cat st.cmd
@@ -419,13 +428,13 @@ database then you can copy these two files out of the container and into
 your IOC Instance config folder like this:
 
 ```bash
-docker cp bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
-docker cp bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t-ea-cam-01/config/ioc.subst
+docker cp t01-services-bl01t-ea-cam-01-1:/epics/runtime/st.cmd services/bl01t-ea-cam-01/config
+docker cp t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst services/bl01t-ea-cam-01/config/ioc.subst
 # no longer need an ibek ioc yaml file
-rm services/bl01t-ea-test-02/config/ioc.yaml
+rm services/bl01t-ea-cam-01/config/ioc.yaml
 ```
 
-You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the two template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
+You will need to make a minor change to the `ioc.subst` file. Edit this and remove references to the three template files with `.pvi` in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.
 
 Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.
 

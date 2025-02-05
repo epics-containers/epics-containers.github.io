@@ -128,7 +128,7 @@ to make your own Generic IOC.
 
 The rest of the files created by the template are essentially boilerplate and can be left alone for most Generic IOCs. However there are many places where changes could be made for advanced use cases. An example of this is the ioc-adaravis Generic IOC, this has a custom version of the start.sh entrypoint script. It connects to the GigE cameras described in the IOC instance and gets information regarding the set of configuration parameters each camera supports - this is then used to generate custom database and OPI files.
 
-To work on this project we will use local a developer container. All changes and testing will be performed inside this developer container.
+To work on this project we will use a local developer container. All changes and testing will be performed inside this developer container.
 
 Once the developer container is running it is always instructive to have the `/epics` folder added to your workspace:
 
@@ -188,12 +188,12 @@ The above commands added `StreamDevice` and its dependency `asyn`. For each supp
 You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
 :::{note}
-These changes to the Dockerfile mean that if we were to rebuild our developer container, it would would add the `asyn` and `StreamDevice` support modules to the container image.
+These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the `asyn` and `StreamDevice` support modules to the container image.
 
 This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.
 :::
 
-## Prepare The ibek-support Submodule
+## Prepare the ibek-support Submodule
 
 Now we are ready to add the lakeshore340 support module to our project. In
 order to do so we must first add a recipe for it to `ibek-support`.
@@ -245,6 +245,8 @@ HTTPS is fine for reading, but to write you need SSH. Therefore add the followin
 ```
 
 This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.
+
+In order for this change to be picked up inside the Devcontainer it must be rebuilt. Press `Ctrl-Shift-P` and type `Dec Containers: Rebuild Container`.
 :::
 
 The git submodule allows us to share the `ibek-support` definitions between all
@@ -252,7 +254,7 @@ ioc-XXX projects but also allows each project to have its copy fixed to
 a particular commit (until updated with `git pull`) see
 <https://git-scm.com/book/en/v2/Git-Tools-Submodules> for more information.
 
-## Create install.sh For The lakeshore340
+## Create install.sh for the lakeshore340
 
 The first file we will create is the `install.sh` script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.
 
@@ -666,7 +668,7 @@ Note this is distinct from making support YAML files with
 `builder2ibek.support`.
 :::
 
-## Experimenting With Changes to the IOC Instance and Generic IOC
+## Experimenting with Changes to the IOC Instance and Generic IOC
 
 Inside the developer container you can add and remove support, change the
 IOC instance YAML file and re-build the IOC instance until everything is
@@ -719,8 +721,12 @@ You can follow along with the CI build by clicking the actions tab in your repos
 
 https://github.com/orgs/YOUR_GITHUB_ACCOUNT/packages?repo_name=ioc-lakeshore340
 
+:::{note}
+If you see a failure of the `release` stage with the message `Error: Resource not accessible by integration`, go to Settings->Actions->General,
+scroll to `Workflow Permissions` and set `Read and write permissions`. This will enable the GitHub Action to write back to the repository to
+complete the Release process.
+:::
+
 ## EXERCISE
 
-Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `docker compose deploy-local`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.
-
-
+Now you have a published Generic IOC container image for ioc-lakeshore340. See if you can add an IOC instance that uses this into your `bl01t` beamline. You should then be able to run up your IOC instance with `docker compose up -d`. You could also run a local version of the simulator and see if you can get the IOC to talk to it.

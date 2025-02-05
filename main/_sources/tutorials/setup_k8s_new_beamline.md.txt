@@ -154,7 +154,7 @@ Here we will create a minimal IOC to deploy into the cluster.
 
 Steps:
 
-1. Create a new folder in the **services** folder called **t03-ea-test-01** by copying **services/.ioc**.
+1. Create a new folder in the **services** folder called **t03-ea-test-01** by copying **services/.ioc_template**.
 1. Edit **services/t03-ea-test-01/values.yaml** to tell helm which generic IOC to deploy
 1. Edit **services/to3-ea-test-01/config/ioc.yaml** to describe the IOC instance.
 1. Create a basic EPICS DB file to the IOC instance in **services/t03-ea-test-01/config/ioc.db**.
