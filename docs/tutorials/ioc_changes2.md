@@ -82,8 +82,8 @@ Phoebus should now be up and running and showing the auto generated **index.bob*
 - in the properties pane
   - deselect X and Y axis Visible checkboxes
   - set PV Name to 'BL01T-EA-TST-02:ARR:ArrayData'
-  - set Title to 'SimDetector Image'
-  - set Data width and height to 1024
+  - set Name to 'SimDetector Image'
+  - set Data Width and Data Height to 1024
 - choose File -> Save As and save as `/workspaces/ioc-adsimdetector/services/opi/bl01t-ea-ioc-02.bob`
 - note you will need to create the opi folder under services
 - click the 'Execute Display' green arrow button on the right of the top toolbar
@@ -108,7 +108,7 @@ IOC instance that we can use to test our changes.
 Phoebus with image widget
 :::
 
-Note: the buttons to launch the engineering screens won't work right away because your new screen is in a different folder. To fix this, go back into the screen editor and add `ioc/` to the beginning of the `Display Path` in the `Open Display` action for each button.
+Note: the buttons to launch the engineering screens won't work right away because your new screen is in a different folder. To fix this, go back into the screen editor and add `../../opi/auto-generated/` to the beginning of the `Display Path` in the `Open Display` action for each button.
 
 ## Making a change to the Generic IOC
 
@@ -137,7 +137,7 @@ post_init:
 ```
 
 Next make a change to the file `/workspaces/ioc-adsimdetector/ibek-support/ADCore/ADCore.ibek.support.yaml`.
-Find the NDStdArrays section and also add a `post_init` section:
+Find the `NDStdArrays`, `NDROI`, and `NDProcess` sections and also add a `post_init` section to each one:
 
 ```yaml
 post_init:
@@ -146,7 +146,7 @@ post_init:
       dbpf {{P}}{{R}}EnableCallbacks 1
 ```
 
-The values that you add into entities like the above are rendered at runtime to make the startup script. The `{{P}}` and `{{R}}` are placeholders that are replaced with the PV prefix and record name of the IOC instance. They are rendered using Jinja 2 with a context that includes all of the values of the parameters in the entity. You can go and look at your rendered startup script in `/epics/runtime/st.cmd`.
+The values that you add into entities like the above are rendered at runtime to make the startup script. The `{{P}}` and `{{R}}` are placeholders that are replaced with the PV prefix and record name of the IOC instance. They are rendered using Jinja with a context that includes all of the values of the parameters in the entity. You can go and look at your rendered startup script in `/epics/runtime/st.cmd`.
 
 If you now go to the terminal where you ran your IOC, you can stop it with
 `Ctrl+C` and then start it again with `./start.sh`. You should see the
@@ -155,6 +155,10 @@ following output at the end of the startup log:
 ```console
 dbpf BL01T-EA-TST-02:DET:Acquire 1
 DBF_STRING:         "Acquire"
+dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1
+DBF_STRING:         "Enable"
+dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1
+DBF_STRING:         "Enable"
 dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1
 DBF_STRING:         "Enable"
 epics>
@@ -189,13 +193,21 @@ Add the following to
 `/epics/ioc/config/ioc.yaml`:
 
 ```yaml
-- type: epics.dbpf
-  pv: BL01T-EA-TST-02:DET:Acquire
-  value: "1"
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:DET:Acquire
+    value: "1"
 
-- type: epics.dbpf
-  pv: BL01T-EA-TST-02:ARR:EnableCallbacks
-  value: "1"
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:ROI:EnableCallbacks
+    value: "1"
+
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:PROC:EnableCallbacks
+    value: "1"
+
+  - type: epics.dbpf
+    pv: BL01T-EA-TST-02:ARR:EnableCallbacks
+    value: "1"
 ```
 
 Now restart the IOC and you should see the same behaviour as before. Here

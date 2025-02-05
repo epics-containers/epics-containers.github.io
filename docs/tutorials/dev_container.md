@@ -7,7 +7,7 @@
 Containerized IOCs can be modified in 3 distinct places in order of decreasing frequency of change but increasing complexity:
 
 (changes_1)=
-### Changing the IOC instance
+### 1. Changing the IOC instance
 
 This means making changes to the IOC instance folders which appear in the `services` folder of a {any}`services-repo`. e.g.:
 
@@ -27,7 +27,7 @@ To make a change like this requires:
 - that's it. No compilation required because we are only changing instance configuration here, not the IOC binary or dbd.
 
 (changes_2)=
-### Changing the Generic IOC
+### 2. Changing the Generic IOC
 
 This involves altering the Generic IOC container image. This means making changes to a Generic IOC source repo, building and publishing a new version of the container image.
 
@@ -47,7 +47,7 @@ To make a change like this requires:
 
 
 (changes_3)=
-### Changing the dependencies
+### 3. Changing the dependencies
 
 Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:
 
@@ -193,6 +193,10 @@ The first commands you should run are as follows:
 cd /epics/ioc
 make
 ```
+:::{note}
+The `make` process may report warnings regarding unsupported Locale settings. These are benign and will not affect the build.
+:::
+
 
 The IOC source code is entirely boilerplate, `/epics/ioc/iocApp/src/Makefile` determines which dbd and lib files to link by including two files that `ibek` generated during the container build. You can see these files in `/epics/support/configure/lib_list` and `/epics/support/configure/dbd_list`.
 
@@ -225,6 +229,10 @@ In VSCode click the `File` menu and select `Add Folder to Workspace`. Navigate t
 :::
 
 Also take this opportunity to add the folder `/epics` to the workspace. This is the root folder in which all of the EPICS source and built files are located.
+
+- File -> Add Folder to Workspace
+- Select `/epics`
+- Click cancel if you see an error
 
 You can now easily browse around the `/epics` folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. The table below summarizes the important folders in a generic IOC developer container. `${localWorkspaceFolder}` is the root of the Generic IOC source repo (the directory containing `.devcontainer/devcontainer.json`):
 
@@ -293,6 +301,10 @@ work in the container filesystem, but it is still not recommended.
 ## Choose the IOC Instance to Test
 
 Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the `ibek` tool convenience function `dev instance` which declares which IOC instance you want to work on in the developer container.
+
+:::{note}
+If you have followed previous tutorials, you will need to swap back to the branch you created where the IOC "bl01t-ea-cam-01" is created.
+:::
 
 Try the following:
 

@@ -7,7 +7,7 @@
 - Private Generic IOC Source:  <https://gitlab.diamond.ac.uk/controls/containers/iocs>
 - Beamline Source repos:       <https://gitlab.diamond.ac.uk/controls/containers/beamline/>
 - Accelerator Source repos:    <https://gitlab.diamond.ac.uk/controls/containers/accelerator/>
-- Generic IOC Container Images:<ghcr.io/epics-containers/>
+- Generic IOC Container Images: ghcr.io/epics-containers
 - epics-containers Helm Charts:<https://github.com/orgs/epics-containers/packages?repo_name=ec-helm-charts>
 :::
 
@@ -54,5 +54,3 @@ The test/example beamline at DLS for epics-containers is p45.
 The domain repository for this is at <https://github.com/epics-containers/p45-services>. This will always be kept in a public repository as it is a live example of a domain repo.
 
 This beamline is deployed to Kubernetes at DLS using Argo CD continuous deployment. The repository containing the Argo CD apps that control the deployment is at <https://github.com/epics-containers/p45-deployment>
-
-

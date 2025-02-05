@@ -35,8 +35,6 @@ You can supply the VERSION_NUMBER of the template you want or omit the `-r` opti
 
 This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository. Once you are happy with the changes you can test them by re-deploying some of your IOC instances. When everything is working you can push the changes to your repository.
 
-The template comes with an example IOC called xxxx-ea-test-01. You are free to delete this if you don't want it. However, we recommend keeping that IOC as it is a good reference for what changes might be needed in your own IOC instances.
-
 For example, in version 3.4.0 the `services-template-helm` changed the way that the configmap is created for each IOC instance. This added a soft-link **templates** folder that points at **../../include/ioc/templates**. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.
 
 
@@ -93,4 +91,3 @@ git add .
 git commit -m'update to template version 3.4.0'
 git push
 ```
-

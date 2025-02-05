@@ -6,7 +6,7 @@ builder beamline to epics-containers. i.e. those whose beamlines
 have a BLxxY-BUILDER project.
 :::
 
-TODO: this page is WIP and will be updated by May 2024.
+TODO: this page is WIP and will be updated soon.
 
 `builder2ibek` is a tool to convert DLS builder XML to ibek instance YAML.
 It is for working with converting IOC instances to epics-containers.
