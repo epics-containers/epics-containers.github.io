@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Launch A Simulation Beamline &#8212; epics-containers 4.0.1.dev72+g82fa217 documentation</title>
+    <title>Launch A Simulation Beamline &#8212; epics-containers 4.0.1.dev74+gcc5c84d documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=001010b8"></script>
+    <script src="../_static/documentation_options.js?v=a50536ec"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -518,7 +518,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> 
 </figure>
 <p>You can now try out the following commands to interact with the beamline.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># use caget/put locally</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1
+<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1:5094
 caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
 
 <span class="c1"># OR if you don&#39;t have caget/put locally then use one of the containers instead:</span>
