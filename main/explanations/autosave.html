@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pure Helm Deployments &#8212; epics-containers 4.2.1.dev2+ga87889c documentation</title>
+    <title>Autosave for IOCs &#8212; epics-containers 4.2.1.dev2+ga87889c documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/helm';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/autosave';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="IOC Helm Chart Details" href="ioc_helm_chart.html" />
-    <link rel="prev" title="Glossary" href="glossary.html" />
+    <link rel="next" title="Change Management Manifesto" href="changes.html" />
+    <link rel="prev" title="Explanations" href="../explanations.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -160,14 +160,14 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -308,14 +308,14 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../explanations.html">
     Explanations
   </a>
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -397,18 +397,24 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pure Helm Deployments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
-<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Autosave for IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Change Management Manifesto</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0002-switched-to-python-copier-template.html">2. Adopt python-copier-template for project structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0003-use-substitution-files.html">3. Use of substitution files to generate EPICS Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0004-autosave-req-files.html">4. How to configure autosave for IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootfull</a></li>
 </ul>
 </div>
 </nav></div>
@@ -450,9 +456,9 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
+    <li class="breadcrumb-item"><a href="../explanations.html" class="nav-link">Explanations</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Pure Helm Deployments</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Autosave for IOCs</span></li>
   </ul>
 </nav>
 </div>
@@ -469,17 +475,108 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="pure-helm-deployments">
-<span id="helm"></span><h1>Pure Helm Deployments<a class="headerlink" href="#pure-helm-deployments" title="Link to this heading">#</a></h1>
-<p>At DLS we use helm charts in our services repos to describe our IOC instances. However we use ArgoCD continuous deployment to deploy them. ArgoCD is a Kubernetes native tool that knows how to keep a set of Helm charts in a git repository in sync with a set of Kubernetes resources.</p>
-<p>You are not required to use ArgoCD, you can use Helm directly if you prefer. This page discusses how to use the command line tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> to deploy and manage IOC instances using Helm directly. <code class="docutils literal notranslate"><span class="pre">ec</span></code> adds some useful version management features to the workflow that to some extent replicates ArgoCD’s ability to track versions.</p>
-<section id="todo-this-is-wip">
-<h2>TODO this is WIP<a class="headerlink" href="#todo-this-is-wip" title="Link to this heading">#</a></h2>
-<p>If you set the <code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND</span></code> environment variable to <code class="docutils literal notranslate"><span class="pre">K8S</span></code> then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will use Helm directly to deploy and manage IOC instances. You can get a feel for the commands available with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span>K8S
-ec<span class="w"> </span>--help
+  <section id="autosave-for-iocs">
+<h1>Autosave for IOCs<a class="headerlink" href="#autosave-for-iocs" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Autosave saves the state of an IOC to disk and restores it on restarts. epics-containers manages autosave configuration in a prescriptive fashion that is discussed here.</p>
+<p>The official autosave documentation in <a class="reference external" href="https://epics.anl.gov/bcda/synApps/autosave/autoSaveRestore_R5-6-1.html">here</a>.</p>
+<p>Different facilities have used different approaches to configuring autosave. epics-containers has settled on using <code class="docutils literal notranslate"><span class="pre">.req</span></code> files. These files simply list the set of PVs to save with autosave. The naming convention for these files is the same as that which the AreaDetector modules have adopted. EPICS Db info tags were also considered but rejected because supplying overrides to them would be problematic.</p>
+<p>Because of this, AreaDetector Support modules can use autosave in epics-containers without any additional configuration (unless you disagree with the default choice of saved PVs). Many other support modules have adopted the same approach and will just work.</p>
+<p>Other support modules can have their autosave configuration specified in ibek-support or in individual IOC instances.</p>
+</section>
+<section id="configuring-autosave-for-iocs">
+<h2>Configuring autosave for IOCs<a class="headerlink" href="#configuring-autosave-for-iocs" title="Link to this heading">#</a></h2>
+<p>To use autosave, the generic IOC being used must have compiled in the autosave module. The following snippet in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> will do this:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/autosave/<span class="w"> </span>autosave
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>autosave
 </pre></div>
 </div>
+<p>To enable autosave in an IOC instance that uses the above generic IOC requires adding the following to the ioc.yaml instance configuration (our examples are for the motion IOC BL45P-MO-IOC-01):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">autosave.Autosave</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL47P-MO-IOC-01</span><span class="w">      </span><span class="c1"># a prefix for all autosave monitoring PVs</span>
+</pre></div>
+</div>
+</section>
+<section id="startup-script">
+<h2>Startup Script<a class="headerlink" href="#startup-script" title="Link to this heading">#</a></h2>
+<p>The startup script entries that handle autosave will look the similar for all IOC instances as follows.</p>
+<p>First in pre init stage we have:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Autosave pre iocInit
+set_requestfile_path(&quot;/epics&quot;, &quot;autosave&quot;)
+set_savefile_path(&quot;/autosave&quot;)
+save_restoreSet_status_prefix BL47P-MO-IOC-01
+save_restoreSet_Debug 0
+save_restoreSet_NumSeqFiles 3
+save_restoreSet_SeqPeriodInSeconds 600
+save_restoreSet_DatedBackupFiles 1
+save_restoreSet_IncompleteSetsOk 1
+set_pass0_restoreFile autosave_positions.sav
+set_pass1_restoreFile autosave_settings.sav
+asSetFilename $(PVLOGGING)/src/access.acf
+</pre></div>
+</div>
+<p>save_restoreSet values can be adjusted with arguments in the yaml but the pass0 and pass1 save files are fixed for epics-containers. These files will be saved into <code class="docutils literal notranslate"><span class="pre">/autosave</span></code> inside the IOC instance’s container filesystem. Along side them will be the sequence files and dated backup files.</p>
+<p><code class="docutils literal notranslate"><span class="pre">/autosave</span></code> will be mounted into the namespace’s autosave Persistent Volume Claim with a subfolder named after the IOC instance. For our BL47P-MO-IOC-01 example we have:</p>
+<ul class="simple">
+<li><p>namespace: p47-beamline</p></li>
+<li><p>PVC name: p47-autosave-claim</p></li>
+<li><p>subPath in the PVC: bl47p-mo-ioc-01</p></li>
+</ul>
+<p>Hence a pod that mounts the root of the PVC <code class="docutils literal notranslate"><span class="pre">p47-autosave-claim</span></code> will be able to browse the autosave files of all IOC instances in the namespace.</p>
+<p>After iocInit we have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autosave post iocInit</span>
+<span class="n">create_monitor_set</span> <span class="n">autosave_positions</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+<span class="n">create_monitor_set</span> <span class="n">autosave_settings</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>The two req files list the PVs and have fixed names in epics-containers:</p>
+<ul class="simple">
+<li><p>autosave_positions.req: lists PVS to be restored at phase 0 before record processing starts (usually motor positions)</p></li>
+<li><p>autosave_settings.req: lists PVS to be restored at phase 1 after record processing starts</p></li>
+</ul>
+<p>These files are generated by ibek from the req files in the support modules included in the generic IOC but can be also overridden on an instance basis.</p>
+</section>
+<section id="sources-of-req-files">
+<span id="req-sources"></span><h2>Sources of req files<a class="headerlink" href="#sources-of-req-files" title="Link to this heading">#</a></h2>
+<p>There are 3 places ibek sources autosave req files from:</p>
+<ul class="simple">
+<li><p>The built support module may have req files in its <code class="docutils literal notranslate"><span class="pre">Db</span></code> database template folder alongside the Database templates</p></li>
+<li><p>The ibek-support subfolder for the support module, these may override the above</p></li>
+<li><p>The config folder for the ioc instance, these override both of the above</p></li>
+</ul>
+<p>In all cases the filenames must follow a strict pattern to identify the template from which the referenced PVs are being sourced. (this is the Areadetector approach). Overriding is simply a matter of creating the same file name in ibek-support or instance config.</p>
+<p>Pattern: &lt;template_stem_name&gt;_{positions|settings}.req</p>
+<p>e.g.</p>
+<ul class="simple">
+<li><p>template: basic_asyn_motor.template</p></li>
+<li><p>phase 0 .req file: basic_asyn_motor_positions.req</p></li>
+<li><p>phase 1 .req file: basic_asyn_motor_settings.req</p></li>
+</ul>
+</section>
+<section id="runtime-behaviour">
+<h2>Runtime behaviour<a class="headerlink" href="#runtime-behaviour" title="Link to this heading">#</a></h2>
+<p>All of the <code class="docutils literal notranslate"><span class="pre">.req</span></code> files supplied by support modules include the same macros as the templates that their PVs come from. Hence these need to be substituted with values that the individual IOC instance is using before passing to autosave.</p>
+<p>In addition the multiple <code class="docutils literal notranslate"><span class="pre">.req</span></code> files from multiple support modules need to be gathered into a single file for each of the autosave phases. These are to be called  <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_setting.req</span></code> and passed to the <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> function as we saw above.</p>
+<p>Both file gathering and substitution are handled by ibek in the <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> script that all epics-containers IOC instances use. The command that performs this step is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate-autosave
+</pre></div>
+</div>
+<p>This performs the following steps:</p>
+<ul class="simple">
+<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in the support modules of the generic IOC to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p></li>
+<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> support module folders to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code> (overwriting provides override facility)</p></li>
+<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in <code class="docutils literal notranslate"><span class="pre">\epics\ioc\config</span></code> to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code> (overwriting  as provides override facility)</p></li>
+<li><p>generates two substitution files</p>
+<ul>
+<li><p>/epics/runtime/autosave_positions.subst</p></li>
+<li><p>/epics/runtime/autosave_settings.subst</p></li>
+</ul>
+</li>
+<li><p>runs MSI over the above substitution files, with the path pointing to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p></li>
+</ul>
+<p>The substitution files are copies of <code class="docutils literal notranslate"><span class="pre">/epics/runtime/ioc.subst</span></code> except that the EPICS Db template file names are replaced with autosave req file names using the naming convention described in <a class="reference internal" href="#req-sources"><span class="std std-ref">Sources of req files</span></a>.</p>
+<p>The MSI output is two files <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_setting.req</span></code> which are in turn passed to <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> in the startup script.z</p>
 </section>
 </section>
 
@@ -494,20 +591,20 @@ ec<span class="w"> </span>--help
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="glossary.html"
+       href="../explanations.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Glossary</p>
+        <p class="prev-next-title">Explanations</p>
       </div>
     </a>
     <a class="right-next"
-       href="ioc_helm_chart.html"
+       href="changes.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">IOC Helm Chart Details</p>
+        <p class="prev-next-title">Change Management Manifesto</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -530,7 +627,11 @@ ec<span class="w"> </span>--help
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-this-is-wip">TODO this is WIP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-autosave-for-iocs">Configuring autosave for IOCs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#startup-script">Startup Script</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources-of-req-files">Sources of req files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runtime-behaviour">Runtime behaviour</a></li>
 </ul>
   </nav></div>
 
@@ -538,7 +639,7 @@ ec<span class="w"> </span>--help
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/reference/helm.md">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/explanations/autosave.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -554,7 +655,7 @@ ec<span class="w"> </span>--help
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/reference/helm.md.txt"
+      <li><a href="../_sources/explanations/autosave.md.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
