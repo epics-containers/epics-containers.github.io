@@ -90,11 +90,21 @@ e.g.
 - phase 0 .req file: basic_asyn_motor_positions.req
 - phase 1 .req file: basic_asyn_motor_settings.req
 
+## Build time behaviour
+
+The initial gathering of the `.req` files is done at container build time. Each time `ansible.sh` is executed in the Dockerfile it builds the given support module, but also symlinks all `.req` files from `ibek-support/<module>` to the `\epics\autosave` folder in the container.
+
+These files are provided by the creator of the `ibek-support/<support_module>` module recipe. If the upstream support module includes req files that match the AreaDetector naming convention then there is no need to provide any `.req` files here.
+
+If the support module has `.req` files with a different naming convention then one way to support this is to copy those files into the `ibek-support/<support_module>` folder and rename them appropriately. This is in keeping with the epics-containers philosophy of not requiring changes to the upstream support modules in order to support them. However, if the support module maintainer is open to adopting the defacto standard for `.req` files then that is the preferred approach.
+
+Adding `.req` files to `ibek-support` gives us a way to supply autosave information that has historically been done out of band. DLS have a specific use for this as discussed in [](#dls_autosave).
+
 ## Runtime behaviour
 
 All of the `.req` files supplied by support modules include the same macros as the templates that their PVs come from. Hence these need to be substituted with values that the individual IOC instance is using before passing to autosave.
 
-In addition the multiple `.req` files from multiple support modules need to be gathered into a single file for each of the autosave phases. These are to be called  `autosave_positions.sav.req` and `autosave_setting.req` and passed to the `create_monitor_set` function as we saw above.
+In addition the multiple `.req` files from multiple support modules need to be gathered into a single file for each of the autosave phases. These are to be called  `autosave_positions.sav.req` and `autosave_settings.req` and passed to the `create_monitor_set` function as we saw above.
 
 Both file gathering and substitution are handled by ibek in the `start.sh` script that all epics-containers IOC instances use. The command that performs this step is:
 
@@ -105,8 +115,9 @@ ibek runtime generate-autosave
 This performs the following steps:
 
 - symlinks all `.req` files found in the support modules of the generic IOC to `\epics\autosave`
-- symlinks all `.req` files found in `ibek-support` support module folders to `\epics\autosave` (overwriting provides override facility)
-- symlinks all `.req` files found in `\epics\ioc\config` to `\epics\autosave` (overwriting  as provides override facility)
+  - if the file exists then don't overwrite - allowing the `ibek-support` to provide overrides
+- symlinks all `.req` files found in `\epics\ioc\config` to `\epics\autosave`
+  - overwriting any existing files thus providing instance overrides
 - generates two substitution files
   - /epics/runtime/autosave_positions.subst
   - /epics/runtime/autosave_settings.subst
@@ -114,4 +125,26 @@ This performs the following steps:
 
 The substitution files are copies of `/epics/runtime/ioc.subst` except that the EPICS Db template file names are replaced with autosave req file names using the naming convention described in [](#req_sources).
 
-The MSI output is two files `autosave_positions.sav.req` and `autosave_setting.req` which are in turn passed to `create_monitor_set` in the startup script.z
+The MSI output is two files `autosave_positions.sav.req` and `autosave_settings.req` which are in turn passed to `create_monitor_set` in the startup script.z
+
+(dls_autosave)=
+## Diamond Light Source Autosave Approach
+
+
+At DLS we generate our .req files from comments added to the template files. This has had the unfortunate side effect of making DLS forks of support modules deviate from upstream. This does not fit well with the epics-containers philosophy of using upstream support modules without modification.
+
+For this reason we supply a tool to extract the comment information from the internal DLS fork of the support modules and generate the `.req` files.
+
+This tool should be used when:
+- the upstream support module does not provide `.req` files in the AreaDetector style
+- the DLS fork of the support module has autosave comments in the template files
+- the module is DLS internal or is public but originated from DLS
+
+The tool is called `builder2ibek` and can be installed from PyPi.
+
+The following example was used to extract the autosave information from the `pmac` module:
+
+```bash
+cd /dls_sw/prod/R3.14.12.7/support/pmac/2-5-22
+builder2ibek autosave db/* --out-folder /scratch/hgv27681/work/ioc-pmac/ibek-support/pmac
+```
