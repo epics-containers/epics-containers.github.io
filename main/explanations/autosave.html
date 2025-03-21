@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Autosave for IOCs &#8212; epics-containers 4.2.1.dev2+ga87889c documentation</title>
+    <title>Autosave for IOCs &#8212; epics-containers 4.2.1.dev4+gaf567c0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=36811c5e"></script>
+    <script src="../_static/documentation_options.js?v=dc760fbc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -554,19 +554,33 @@ asSetFilename $(PVLOGGING)/src/access.acf
 <li><p>phase 1 .req file: basic_asyn_motor_settings.req</p></li>
 </ul>
 </section>
+<section id="build-time-behaviour">
+<h2>Build time behaviour<a class="headerlink" href="#build-time-behaviour" title="Link to this heading">#</a></h2>
+<p>The initial gathering of the <code class="docutils literal notranslate"><span class="pre">.req</span></code> files is done at container build time. Each time <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> is executed in the Dockerfile it builds the given support module, but also symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files from <code class="docutils literal notranslate"><span class="pre">ibek-support/&lt;module&gt;</span></code> to the <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code> folder in the container.</p>
+<p>These files are provided by the creator of the <code class="docutils literal notranslate"><span class="pre">ibek-support/&lt;support_module&gt;</span></code> module recipe. If the upstream support module includes req files that match the AreaDetector naming convention then there is no need to provide any <code class="docutils literal notranslate"><span class="pre">.req</span></code> files here.</p>
+<p>If the support module has <code class="docutils literal notranslate"><span class="pre">.req</span></code> files with a different naming convention then one way to support this is to copy those files into the <code class="docutils literal notranslate"><span class="pre">ibek-support/&lt;support_module&gt;</span></code> folder and rename them appropriately. This is in keeping with the epics-containers philosophy of not requiring changes to the upstream support modules in order to support them. However, if the support module maintainer is open to adopting the defacto standard for <code class="docutils literal notranslate"><span class="pre">.req</span></code> files then that is the preferred approach.</p>
+<p>Adding <code class="docutils literal notranslate"><span class="pre">.req</span></code> files to <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> gives us a way to supply autosave information that has historically been done out of band. DLS have a specific use for this as discussed in <a class="reference internal" href="#dls-autosave"><span class="std std-ref">Diamond Light Source Autosave Approach</span></a>.</p>
+</section>
 <section id="runtime-behaviour">
 <h2>Runtime behaviour<a class="headerlink" href="#runtime-behaviour" title="Link to this heading">#</a></h2>
 <p>All of the <code class="docutils literal notranslate"><span class="pre">.req</span></code> files supplied by support modules include the same macros as the templates that their PVs come from. Hence these need to be substituted with values that the individual IOC instance is using before passing to autosave.</p>
-<p>In addition the multiple <code class="docutils literal notranslate"><span class="pre">.req</span></code> files from multiple support modules need to be gathered into a single file for each of the autosave phases. These are to be called  <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_setting.req</span></code> and passed to the <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> function as we saw above.</p>
+<p>In addition the multiple <code class="docutils literal notranslate"><span class="pre">.req</span></code> files from multiple support modules need to be gathered into a single file for each of the autosave phases. These are to be called  <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_settings.req</span></code> and passed to the <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> function as we saw above.</p>
 <p>Both file gathering and substitution are handled by ibek in the <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> script that all epics-containers IOC instances use. The command that performs this step is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate-autosave
 </pre></div>
 </div>
 <p>This performs the following steps:</p>
 <ul class="simple">
-<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in the support modules of the generic IOC to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p></li>
-<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> support module folders to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code> (overwriting provides override facility)</p></li>
-<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in <code class="docutils literal notranslate"><span class="pre">\epics\ioc\config</span></code> to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code> (overwriting  as provides override facility)</p></li>
+<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in the support modules of the generic IOC to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p>
+<ul>
+<li><p>if the file exists then don’t overwrite - allowing the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> to provide overrides</p></li>
+</ul>
+</li>
+<li><p>symlinks all <code class="docutils literal notranslate"><span class="pre">.req</span></code> files found in <code class="docutils literal notranslate"><span class="pre">\epics\ioc\config</span></code> to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p>
+<ul>
+<li><p>overwriting any existing files thus providing instance overrides</p></li>
+</ul>
+</li>
 <li><p>generates two substitution files</p>
 <ul>
 <li><p>/epics/runtime/autosave_positions.subst</p></li>
@@ -576,7 +590,24 @@ asSetFilename $(PVLOGGING)/src/access.acf
 <li><p>runs MSI over the above substitution files, with the path pointing to <code class="docutils literal notranslate"><span class="pre">\epics\autosave</span></code></p></li>
 </ul>
 <p>The substitution files are copies of <code class="docutils literal notranslate"><span class="pre">/epics/runtime/ioc.subst</span></code> except that the EPICS Db template file names are replaced with autosave req file names using the naming convention described in <a class="reference internal" href="#req-sources"><span class="std std-ref">Sources of req files</span></a>.</p>
-<p>The MSI output is two files <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_setting.req</span></code> which are in turn passed to <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> in the startup script.z</p>
+<p>The MSI output is two files <code class="docutils literal notranslate"><span class="pre">autosave_positions.sav.req</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave_settings.req</span></code> which are in turn passed to <code class="docutils literal notranslate"><span class="pre">create_monitor_set</span></code> in the startup script.z</p>
+</section>
+<section id="diamond-light-source-autosave-approach">
+<span id="dls-autosave"></span><h2>Diamond Light Source Autosave Approach<a class="headerlink" href="#diamond-light-source-autosave-approach" title="Link to this heading">#</a></h2>
+<p>At DLS we generate our .req files from comments added to the template files. This has had the unfortunate side effect of making DLS forks of support modules deviate from upstream. This does not fit well with the epics-containers philosophy of using upstream support modules without modification.</p>
+<p>For this reason we supply a tool to extract the comment information from the internal DLS fork of the support modules and generate the <code class="docutils literal notranslate"><span class="pre">.req</span></code> files.</p>
+<p>This tool should be used when:</p>
+<ul class="simple">
+<li><p>the upstream support module does not provide <code class="docutils literal notranslate"><span class="pre">.req</span></code> files in the AreaDetector style</p></li>
+<li><p>the DLS fork of the support module has autosave comments in the template files</p></li>
+<li><p>the module is DLS internal or is public but originated from DLS</p></li>
+</ul>
+<p>The tool is called <code class="docutils literal notranslate"><span class="pre">builder2ibek</span></code> and can be installed from PyPi.</p>
+<p>The following example was used to extract the autosave information from the <code class="docutils literal notranslate"><span class="pre">pmac</span></code> module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/dls_sw/prod/R3.14.12.7/support/pmac/2-5-22
+builder2ibek<span class="w"> </span>autosave<span class="w"> </span>db/*<span class="w"> </span>--out-folder<span class="w"> </span>/scratch/hgv27681/work/ioc-pmac/ibek-support/pmac
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -631,7 +662,9 @@ asSetFilename $(PVLOGGING)/src/access.acf
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-autosave-for-iocs">Configuring autosave for IOCs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#startup-script">Startup Script</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources-of-req-files">Sources of req files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-time-behaviour">Build time behaviour</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runtime-behaviour">Runtime behaviour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diamond-light-source-autosave-approach">Diamond Light Source Autosave Approach</a></li>
 </ul>
   </nav></div>
 
