@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Docker Compose Quickstart &#8212; epics-containers 4.2.1.dev16+ge994109 documentation</title>
+    <title>Docker Compose Quickstart &#8212; epics-containers 4.2.1.dev18+ga148191 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=a8f7b2f4"></script>
+    <script src="../_static/documentation_options.js?v=fb7d9353"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,7 +468,7 @@
                   
   <section id="docker-compose-quickstart">
 <span id="quickstart"></span><h1>Docker Compose Quickstart<a class="headerlink" href="#docker-compose-quickstart" title="Link to this heading">#</a></h1>
-<p>Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform. This is a pre-requisite for most of the tutorials in this documentation.</p>
+<p>Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform.</p>
 <section id="docker-already-installed">
 <h2>Docker Already Installed<a class="headerlink" href="#docker-already-installed" title="Link to this heading">#</a></h2>
 <p>If you have any Linux distribution with Docker installed you are all set.</p>
@@ -494,7 +494,7 @@ sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> <
 <section id="windows">
 <h2>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Install WSL2 with Ubuntu Distro (for systemd)</p></li>
+<li><p>PowerShell: wsl –install -d Ubuntu</p></li>
 <li><p>Open Ubuntu terminal and follow <a class="reference internal" href="#linux-installation"><span class="std std-ref">Linux</span></a></p></li>
 </ul>
 </section>
@@ -506,15 +506,6 @@ sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> <
 <li><p>Follow ‘Podman Integration with Docker Compose’</p></li>
 <li><p>Add an X11 server like XQuartz</p></li>
 </ul>
-</section>
-<section id="docker-permissions">
-<h2>Docker permissions<a class="headerlink" href="#docker-permissions" title="Link to this heading">#</a></h2>
-<p>If you get docker permission errors do the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>groupadd<span class="w"> </span>docker
-sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
-sudo<span class="w"> </span>reboot
-</pre></div>
-</div>
 </section>
 </section>
 
@@ -569,7 +560,6 @@ sudo<span class="w"> </span>reboot
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mac-os">Mac OS</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-permissions">Docker permissions</a></li>
 </ul>
   </nav></div>
 
