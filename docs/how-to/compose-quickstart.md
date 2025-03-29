@@ -26,7 +26,7 @@ sudo apt install podman docker-compose-v2
 
 ```bash
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-sudo dnf install docker-compose-plugin
+sudo dnf install podman docker-compose-plugin
 ```
 
 **Podman Integration with Docker Compose**
