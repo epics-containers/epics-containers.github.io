@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Setup a Kubernetes Cluster &#8212; epics-containers 4.2.1.dev12+g6024073 documentation</title>
+    <title>Setup a Kubernetes Cluster &#8212; epics-containers 4.2.1.dev14+g461f004 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=088f56f1"></script>
+    <script src="../_static/documentation_options.js?v=1d98bfbd"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -650,8 +650,8 @@ As per <a class="reference external" href="https://kubernetes.io/docs/tasks/acce
 <span class="n">kubectl</span> <span class="n">apply</span> <span class="o">-</span><span class="n">n</span> <span class="n">argocd</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">argoproj</span><span class="o">/</span><span class="n">argo</span><span class="o">-</span><span class="n">cd</span><span class="o">/</span><span class="n">stable</span><span class="o">/</span><span class="n">manifests</span><span class="o">/</span><span class="n">install</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
-<p>To access the gui through a browser on <code class="docutils literal notranslate"><span class="pre">https://localhost:8080/</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">port</span><span class="o">-</span><span class="n">forward</span> <span class="n">svc</span><span class="o">/</span><span class="n">argocd</span><span class="o">-</span><span class="n">server</span> <span class="o">-</span><span class="n">n</span> <span class="n">argocd</span> <span class="mi">8080</span><span class="p">:</span><span class="mi">443</span>
+<p>To access the gui through a browser on <code class="docutils literal notranslate"><span class="pre">https://localhost:8081/</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">port</span><span class="o">-</span><span class="n">forward</span> <span class="n">svc</span><span class="o">/</span><span class="n">argocd</span><span class="o">-</span><span class="n">server</span> <span class="o">-</span><span class="n">n</span> <span class="n">argocd</span> <span class="mi">8081</span><span class="p">:</span><span class="mi">443</span>
 </pre></div>
 </div>
 <p>The user is <code class="docutils literal notranslate"><span class="pre">admin</span></code> and the password can be retrived using:</p>
@@ -665,12 +665,27 @@ As per <a class="reference external" href="https://kubernetes.io/docs/tasks/acce
 </pre></div>
 </div>
 <p>Create a new argocd project from the command line, with permissions to deploy into your namespace:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">argocd</span> <span class="n">login</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">argocd</span> <span class="n">login</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">8081</span>
 <span class="n">argocd</span> <span class="n">proj</span> <span class="n">create</span> <span class="n">t03</span> <span class="o">-</span><span class="n">d</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">kubernetes</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">svc</span><span class="p">,</span><span class="n">t03</span><span class="o">-</span><span class="n">beamline</span> <span class="o">-</span><span class="n">d</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">kubernetes</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">svc</span><span class="p">,</span><span class="n">argocd</span> <span class="o">-</span><span class="n">s</span> <span class="s2">&quot;*&quot;</span>
 </pre></div>
 </div>
 <p>When deploying to the same cluster that Argo CD is running in the destination cluster is by default aliased as “in-cluster”.
 Argocd Apps should be deployed into the argocd namespace.</p>
+</section>
+<section id="set-up-kube-prometheus-stack-optional">
+<h3>Set up kube-prometheus-stack (Optional)<a class="headerlink" href="#set-up-kube-prometheus-stack-optional" title="Link to this heading">#</a></h3>
+<p>Prometheus + Grafana + Alertmanager is a common stack used for cluster monitoring. The “kube-prometheus-stack” Helm chart already has Prometheus configured to scrape the cluster and Grafana comes with some prebuilt dashboards to visualize the data.</p>
+<p>As per <a class="github reference external" href="https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack">prometheus-community/helm-charts</a> it can be installed into the cluster as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helm</span> <span class="n">repo</span> <span class="n">add</span> <span class="n">prometheus</span><span class="o">-</span><span class="n">community</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">prometheus</span><span class="o">-</span><span class="n">community</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">helm</span><span class="o">-</span><span class="n">charts</span>
+<span class="n">helm</span> <span class="n">repo</span> <span class="n">update</span>
+<span class="n">helm</span> <span class="n">install</span> <span class="n">kube</span><span class="o">-</span><span class="n">prometheus</span><span class="o">-</span><span class="n">stack</span> <span class="n">prometheus</span><span class="o">-</span><span class="n">community</span><span class="o">/</span><span class="n">kube</span><span class="o">-</span><span class="n">prometheus</span><span class="o">-</span><span class="n">stack</span> <span class="o">--</span><span class="n">create</span><span class="o">-</span><span class="n">namespace</span> <span class="o">--</span><span class="n">namespace</span> <span class="n">monitoring</span> <span class="o">--</span><span class="nb">set</span> <span class="n">kube</span><span class="o">-</span><span class="n">state</span><span class="o">-</span><span class="n">metrics</span><span class="o">.</span><span class="n">extraArgs</span><span class="o">=</span><span class="s2">&quot;{--metric-labels-allowlist=pods=[*]}&quot;</span>
+</pre></div>
+</div>
+<p>To access the Grafana gui through a browser on <code class="docutils literal notranslate"><span class="pre">https://localhost:3000/</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">port</span><span class="o">-</span><span class="n">forward</span> <span class="n">svc</span><span class="o">/</span><span class="n">kube</span><span class="o">-</span><span class="n">prometheus</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">grafana</span> <span class="o">-</span><span class="n">n</span> <span class="n">monitoring</span> <span class="mi">3000</span><span class="p">:</span><span class="mi">80</span>
+</pre></div>
+</div>
+<p>The user is <code class="docutils literal notranslate"><span class="pre">admin</span></code> and the password is <code class="docutils literal notranslate"><span class="pre">prom-operator</span></code></p>
 </section>
 <section id="completed">
 <h3>Completed<a class="headerlink" href="#completed" title="Link to this heading">#</a></h3>
@@ -745,6 +760,7 @@ simply use this command:</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-persistent-volume-support">Install persistent volume support</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-k8s-dashboard-optional">Set up k8s dashboard (Optional)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-argo-cd">Set up Argo CD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-kube-prometheus-stack-optional">Set up kube-prometheus-stack (Optional)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#completed">Completed</a></li>
 </ul>
 </li>

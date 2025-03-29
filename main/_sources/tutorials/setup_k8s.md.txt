@@ -208,9 +208,9 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-To access the gui through a browser on `https://localhost:8080/`:
+To access the gui through a browser on `https://localhost:8081/`:
 ```
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8081:443
 ```
 
 The user is `admin` and the password can be retrived using:
@@ -227,12 +227,30 @@ rm argocd-linux-amd64
 
 Create a new argocd project from the command line, with permissions to deploy into your namespace:
 ```
-argocd login localhost:8080
+argocd login localhost:8081
 argocd proj create t03 -d https://kubernetes.default.svc,t03-beamline -d https://kubernetes.default.svc,argocd -s "*"
 ```
 
 When deploying to the same cluster that Argo CD is running in the destination cluster is by default aliased as "in-cluster".
 Argocd Apps should be deployed into the argocd namespace.
+
+### Set up kube-prometheus-stack (Optional)
+
+Prometheus + Grafana + Alertmanager is a common stack used for cluster monitoring. The "kube-prometheus-stack" Helm chart already has Prometheus configured to scrape the cluster and Grafana comes with some prebuilt dashboards to visualize the data.
+
+As per <https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack> it can be installed into the cluster as follows:
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack --create-namespace --namespace monitoring --set kube-state-metrics.extraArgs="{--metric-labels-allowlist=pods=[*]}"
+```
+
+To access the Grafana gui through a browser on `https://localhost:3000/`:
+```
+kubectl port-forward svc/kube-prometheus-stack-grafana -n monitoring 3000:80
+```
+The user is `admin` and the password is `prom-operator`
+
 
 ### Completed
 
