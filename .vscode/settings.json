@@ -14,4 +14,7 @@
             "scheme": "file"
         }
     ],
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#cc69b5",
+    },
 }
