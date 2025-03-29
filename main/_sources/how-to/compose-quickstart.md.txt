@@ -41,3 +41,13 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 - Install podman desktop <https://podman-desktop.io/docs/installation>
 - Follow [](linux-installation) above in a WSL2 or Mac terminal
 - For Mac, add an X11 server like XQuartz
+
+## Docker permissions
+
+If you get docker permission errors do the following:
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo reboot
+```
