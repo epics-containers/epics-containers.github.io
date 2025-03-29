@@ -43,18 +43,19 @@ See these how-to pages for more information:
 
 The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.
 
-Whatever your platform, if you can install virtualbox, then you can work using the applicance we provide.
+**UPDATE**: See the new [quickstart instructions](quickstart) for setting up the container runtime on any platform, therefore not requiring the virtualbox appliance unless that is your preferred option.
+
+Whatever your platform, if you can install virtualbox, then you can work using the appliance we provide.
 
 In all cases you will need an internet connection to download the software and the container images. (if you are at DLS you do not need access to DLS network resources, only the internet).
 
 | Platform | Requirements |
 |----------|--------------|
 | Any Linux | admin rights only: go to {ref}`installation-steps` |
-| Windows | Virtualbox: go to {ref}`appliance` |
-| Mac x86 | Virtualbox: go to {ref}`appliance` |
-| Mac M1 | ?? |
+| Windows | Virtualbox: go to {ref}`appliance`  or WSL2 and Podman Desktop |
+| Mac x86 | Virtualbox: go to {ref}`appliance` or Podman Desktop |
+| Mac M1 | Virtualbox: go to {ref}`appliance` or Podman Desktop |
 | DLS RHEL 8 | go to {ref}`installation-steps` |
-
 
 (appliance)=
 ## VirtualBox Appliance

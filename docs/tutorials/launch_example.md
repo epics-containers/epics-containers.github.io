@@ -4,15 +4,9 @@
 In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.
 
 :::{note}
-To run this demo you need docker-compose installed (not podman-compose) plus docker or podman. See {any}`podman-compose` for setup.
+To run this demo you need docker-compose installed (not podman-compose) plus docker or podman.
 
-This tutorial has been tested with the following versions of software. If you have issues then you may need to update your software to these versions or higher.
-
-- git 2.43.5
-- One of the following
-  - docker 27.2.0 and docker-compose 2.29.2
-  - podman 4.9.4 and docker-compose 2.29.2
-
+See [quickstart instructions](quickstart) for how to set these up on any platform.
 :::
 
 The example beamline will launch the following set of containers:
@@ -30,6 +24,7 @@ git clone https://github.com/epics-containers/example-services
 cd example-services
 # setup some environment variables
 source ./environment.sh
+# launch the example beamline and detach the logs
 docker compose up -d
 ```
 
@@ -73,7 +68,7 @@ docker compose down
 ```
 
 :::{note}
-Note that the above commands use `EPICS_CA_ADDR_LIST` to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter.
+Note that the above commands use `EPICS_CA_ADDR_LIST` to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter Via a ca-gateway.
 
 This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.
 :::
