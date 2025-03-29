@@ -5,13 +5,7 @@ Here are some minimal setup instructions to get you up and running with docker-c
 
 ## Docker Already Installed
 
-If you have one of the following then you are good to go with no further setup:
-
-- Docker Desktop on Windows WSL2
-- Docker Desktop on MacOS
-- Any Linux distribution with Docker installed
-
-For WSL2 check: Settings → Resources → WSL integration → ENABLE ... Apply and Restart
+If you have any Linux distribution with Docker installed you are all set.
 
 (linux-installation)=
 ## Linux
@@ -19,6 +13,7 @@ For WSL2 check: Settings → Resources → WSL integration → ENABLE ... Apply 
 **Debian Distros**
 
 ```bash
+sudo apt update
 sudo apt install podman docker-compose-v2
 ```
 
@@ -28,7 +23,7 @@ sudo apt install podman docker-compose-v2
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 sudo dnf install podman docker-compose-plugin
 ```
-
+(podman-integration)=
 **Podman Integration with Docker Compose**
 
 ```bash
@@ -36,11 +31,17 @@ systemctl enable --user podman.socket --now
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 ```
 
-## Windows or MacOS
+## Windows
 
-- Install podman desktop <https://podman-desktop.io/docs/installation>
-- Follow [](linux-installation) above in a WSL2 or Mac terminal
-- For Mac, add an X11 server like XQuartz
+- Install WSL2 with Ubuntu Distro (for systemd)
+- Open Ubuntu terminal and follow [](linux-installation)
+
+## Mac OS
+
+- brew install podman
+- brew install docker-compose
+- Follow 'Podman Integration with Docker Compose'
+- Add an X11 server like XQuartz
 
 ## Docker permissions
 
