@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Docker Compose Quickstart &#8212; epics-containers 4.2.1.dev14+g461f004 documentation</title>
+    <title>Docker Compose Quickstart &#8212; epics-containers 4.2.1.dev16+ge994109 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1d98bfbd"></script>
+    <script src="../_static/documentation_options.js?v=a8f7b2f4"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -471,18 +471,13 @@
 <p>Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform. This is a pre-requisite for most of the tutorials in this documentation.</p>
 <section id="docker-already-installed">
 <h2>Docker Already Installed<a class="headerlink" href="#docker-already-installed" title="Link to this heading">#</a></h2>
-<p>If you have one of the following then you are good to go with no further setup:</p>
-<ul class="simple">
-<li><p>Docker Desktop on Windows WSL2</p></li>
-<li><p>Docker Desktop on MacOS</p></li>
-<li><p>Any Linux distribution with Docker installed</p></li>
-</ul>
-<p>For WSL2 check: Settings → Resources → WSL integration → ENABLE … Apply and Restart</p>
+<p>If you have any Linux distribution with Docker installed you are all set.</p>
 </section>
 <section id="linux">
 <span id="linux-installation"></span><h2>Linux<a class="headerlink" href="#linux" title="Link to this heading">#</a></h2>
 <p><strong>Debian Distros</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose-v2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose-v2
 </pre></div>
 </div>
 <p><strong>RPM Distros</strong></p>
@@ -490,18 +485,26 @@
 sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose-plugin
 </pre></div>
 </div>
-<p><strong>Podman Integration with Docker Compose</strong></p>
+<p id="podman-integration"><strong>Podman Integration with Docker Compose</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
 <span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
 </pre></div>
 </div>
 </section>
-<section id="windows-or-macos">
-<h2>Windows or MacOS<a class="headerlink" href="#windows-or-macos" title="Link to this heading">#</a></h2>
+<section id="windows">
+<h2>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Install podman desktop <a class="reference external" href="https://podman-desktop.io/docs/installation">https://podman-desktop.io/docs/installation</a></p></li>
-<li><p>Follow <a class="reference internal" href="#linux-installation"><span class="std std-ref">Linux</span></a> above in a WSL2 or Mac terminal</p></li>
-<li><p>For Mac, add an X11 server like XQuartz</p></li>
+<li><p>Install WSL2 with Ubuntu Distro (for systemd)</p></li>
+<li><p>Open Ubuntu terminal and follow <a class="reference internal" href="#linux-installation"><span class="std std-ref">Linux</span></a></p></li>
+</ul>
+</section>
+<section id="mac-os">
+<h2>Mac OS<a class="headerlink" href="#mac-os" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>brew install podman</p></li>
+<li><p>brew install docker-compose</p></li>
+<li><p>Follow ‘Podman Integration with Docker Compose’</p></li>
+<li><p>Add an X11 server like XQuartz</p></li>
 </ul>
 </section>
 <section id="docker-permissions">
@@ -564,7 +567,8 @@ sudo<span class="w"> </span>reboot
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-already-installed">Docker Already Installed</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-or-macos">Windows or MacOS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mac-os">Mac OS</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-permissions">Docker permissions</a></li>
 </ul>
   </nav></div>
