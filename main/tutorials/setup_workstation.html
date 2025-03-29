@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers 4.2.1.dev4+gaf567c0 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers 4.2.1.dev6+gfd2bae8 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=dc760fbc"></script>
+    <script src="../_static/documentation_options.js?v=fa165cc4"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -514,7 +514,8 @@ If you have your own preferred code editor you can use that.</p>
 <section id="platform-support">
 <h2>Platform Support<a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h2>
 <p>The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.</p>
-<p>Whatever your platform, if you can install virtualbox, then you can work using the applicance we provide.</p>
+<p><strong>UPDATE</strong>: See the new <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart instructions</span></a> for setting up the container runtime on any platform, therefore not requiring the virtualbox appliance unless that is your preferred option.</p>
+<p>Whatever your platform, if you can install virtualbox, then you can work using the appliance we provide.</p>
 <p>In all cases you will need an internet connection to download the software and the container images. (if you are at DLS you do not need access to DLS network resources, only the internet).</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -527,13 +528,13 @@ If you have your own preferred code editor you can use that.</p>
 <td><p>admin rights only: go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Windows</p></td>
-<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a></p></td>
+<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a>  or WSL2 and Podman Desktop</p></td>
 </tr>
 <tr class="row-even"><td><p>Mac x86</p></td>
-<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a></p></td>
+<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a> or Podman Desktop</p></td>
 </tr>
 <tr class="row-odd"><td><p>Mac M1</p></td>
-<td><p>??</p></td>
+<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a> or Podman Desktop</p></td>
 </tr>
 <tr class="row-even"><td><p>DLS RHEL 8</p></td>
 <td><p>go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a></p></td>

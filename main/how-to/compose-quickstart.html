@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Kubernetes Resources in an IOC Instance &#8212; epics-containers 4.2.1.dev6+gfd2bae8 documentation</title>
+    <title>Docker Compose Quickstart &#8212; epics-containers 4.2.1.dev6+gfd2bae8 documentation</title>
   
   
   
@@ -47,7 +47,7 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=30646c52"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/k8s_resources';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'how-to/compose-quickstart';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Configuring a Services Repository for a Cluster" href="services_config.html" />
-    <link rel="prev" title="IOC Helm Chart Details" href="ioc_helm_chart.html" />
+    <link rel="next" title="Contributing to the project" href="contribute.html" />
+    <link rel="prev" title="Builder2ibek.support Conversion Tool" href="builder2ibek.support.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -153,7 +153,7 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../how-to.html">
     How-to Guides
   </a>
@@ -167,7 +167,7 @@
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -301,7 +301,7 @@
 </li>
 
 
-<li class="nav-item ">
+<li class="nav-item current active">
   <a class="nav-link nav-internal" href="../how-to.html">
     How-to Guides
   </a>
@@ -315,7 +315,7 @@
 </li>
 
 
-<li class="nav-item current active">
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../reference.html">
     Reference
   </a>
@@ -397,18 +397,15 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Kubernetes Resources in an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Docker Compose Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug.html">Debug an IOC instance locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
 </ul>
 </div>
 </nav></div>
@@ -450,9 +447,9 @@
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
+    <li class="breadcrumb-item"><a href="../how-to.html" class="nav-link">How-to Guides</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Kubernetes Resources in an IOC Instance</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Docker Compose Quickstart</span></li>
   </ul>
 </nav>
 </div>
@@ -469,36 +466,42 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="kubernetes-resources-in-an-ioc-instance">
-<h1>Kubernetes Resources in an IOC Instance<a class="headerlink" href="#kubernetes-resources-in-an-ioc-instance" title="Link to this heading">#</a></h1>
-<section id="learning-about-helm-and-kubernetes-manifests">
-<h2>Learning about Helm and Kubernetes Manifests<a class="headerlink" href="#learning-about-helm-and-kubernetes-manifests" title="Link to this heading">#</a></h2>
-<p>It is instructive to see what helm is doing when you deploy an IOC.</p>
-<p>Helm uses templates to generate a Kubernetes Manifest which defines a set
-of resources. It applies this manifest to the cluster using kubectl.</p>
-<p>To inspect the kubernetes manifest YAML that is created when we deploy the
-example IOC you can use the following command from inside of your example
-beamline repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>template<span class="w"> </span>services/bl01t-ea-ioc-01
+  <section id="docker-compose-quickstart">
+<span id="quickstart"></span><h1>Docker Compose Quickstart<a class="headerlink" href="#docker-compose-quickstart" title="Link to this heading">#</a></h1>
+<p>Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform. This is a pre-requisite for most of the tutorials in this documentation.</p>
+<section id="docker-already-installed">
+<h2>Docker Already Installed<a class="headerlink" href="#docker-already-installed" title="Link to this heading">#</a></h2>
+<p>If have one of the following then you are good to go with no further setup:</p>
+<ul class="simple">
+<li><p>Docker Desktop on Windows WSL2</p></li>
+<li><p>Docker Desktop on MacOS</p></li>
+<li><p>Any Linux distribution with Docker installed</p></li>
+</ul>
+<p>For WSL2 check: Settings → Resources → WSL integration → ENABLE … Apply and Restart</p>
+</section>
+<section id="linux">
+<span id="linux-installation"></span><h2>Linux<a class="headerlink" href="#linux" title="Link to this heading">#</a></h2>
+<p><strong>Debian Distros</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose-v2
 </pre></div>
 </div>
-<p>This is expanding the local helm chart in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01</span></code> folder and using
-its <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus the templates in <code class="docutils literal notranslate"><span class="pre">helm-ioc-lib</span></code>. These templates
-are expanded using the values in the <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-01/values.yaml</span></code> file and also
-<code class="docutils literal notranslate"><span class="pre">helm/shared/values.yaml</span></code> and finally the default <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> file
-from the helm-ioc-lib.</p>
-<p>For a description of the key resources we create in this Kubernetes manifest
-see the next heading.</p>
+<p><strong>RPM Distros</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://download.docker.com/linux/rhel/docker-ce.repo
+sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>docker-compose-plugin
+</pre></div>
+</div>
+<p><strong>Podman Integration with Docker Compose</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
+</pre></div>
+</div>
 </section>
-<section id="id1">
-<h2>Kubernetes Resources in an IOC Instance<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<p>TODO - This is a work in progress.</p>
-<p>The key resources that we are asking Kubernetes to create are:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Deployment</span></code>. Tells Kubernetes to run one and only one Generic IOC
-container. See deployments:</p>
-<p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">https://kubernetes.io/docs/concepts/workloads/controllers/deployment/</a></p>
-</li>
+<section id="windows-or-macos">
+<h2>Windows or MacOS<a class="headerlink" href="#windows-or-macos" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Install podman desktop <a class="reference external" href="https://podman-desktop.io/docs/installation">https://podman-desktop.io/docs/installation</a></p></li>
+<li><p>Follow <a class="reference internal" href="#linux-installation"><span class="std std-ref">Linux</span></a> above in a WSL2 or Mac terminal</p></li>
+<li><p>For Mac, add an X11 server like XQuartz</p></li>
 </ul>
 </section>
 </section>
@@ -514,20 +517,20 @@ container. See deployments:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ioc_helm_chart.html"
+       href="builder2ibek.support.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">IOC Helm Chart Details</p>
+        <p class="prev-next-title">Builder2ibek.support Conversion Tool</p>
       </div>
     </a>
     <a class="right-next"
-       href="services_config.html"
+       href="contribute.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Configuring a Services Repository for a Cluster</p>
+        <p class="prev-next-title">Contributing to the project</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -550,8 +553,9 @@ container. See deployments:</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-about-helm-and-kubernetes-manifests">Learning about Helm and Kubernetes Manifests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Kubernetes Resources in an IOC Instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-already-installed">Docker Already Installed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-or-macos">Windows or MacOS</a></li>
 </ul>
   </nav></div>
 
@@ -559,7 +563,7 @@ container. See deployments:</p>
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/reference/k8s_resources.md">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/how-to/compose-quickstart.md">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -575,7 +579,7 @@ container. See deployments:</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/reference/k8s_resources.md.txt"
+      <li><a href="../_sources/how-to/compose-quickstart.md.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Launch A Simulation Beamline &#8212; epics-containers 4.2.1.dev4+gaf567c0 documentation</title>
+    <title>Launch A Simulation Beamline &#8212; epics-containers 4.2.1.dev6+gfd2bae8 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=dc760fbc"></script>
+    <script src="../_static/documentation_options.js?v=fa165cc4"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -480,17 +480,8 @@
 <p>In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>To run this demo you need docker-compose installed (not podman-compose) plus docker or podman. See <a class="reference internal" href="setup_workstation.html#podman-compose"><span class="std std-ref">Docker Compose For Podman Users</span></a> for setup.</p>
-<p>This tutorial has been tested with the following versions of software. If you have issues then you may need to update your software to these versions or higher.</p>
-<ul class="simple">
-<li><p>git 2.43.5</p></li>
-<li><p>One of the following</p>
-<ul>
-<li><p>docker 27.2.0 and docker-compose 2.29.2</p></li>
-<li><p>podman 4.9.4 and docker-compose 2.29.2</p></li>
-</ul>
-</li>
-</ul>
+<p>To run this demo you need docker-compose installed (not podman-compose) plus docker or podman.</p>
+<p>See <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart instructions</span></a> for how to set these up on any platform.</p>
 </div>
 <p>The example beamline will launch the following set of containers:</p>
 <ul class="simple">
@@ -506,6 +497,7 @@
 <span class="nb">cd</span><span class="w"> </span>example-services
 <span class="c1"># setup some environment variables</span>
 <span class="nb">source</span><span class="w"> </span>./environment.sh
+<span class="c1"># launch the example beamline and detach the logs</span>
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </pre></div>
 </div>
@@ -549,7 +541,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>down
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note that the above commands use <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST</span></code> to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter.</p>
+<p>Note that the above commands use <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST</span></code> to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter Via a ca-gateway.</p>
 <p>This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.</p>
 </div>
 <p>This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.</p>
