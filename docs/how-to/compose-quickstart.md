@@ -34,12 +34,11 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 ## Windows
 
-- PowerShell: wsl --install -d Ubuntu
+- PowerShell: `wsl --install -d Ubuntu`
 - Open Ubuntu terminal and follow [](linux-installation)
 
 ## Mac OS
 
-- brew install podman
-- brew install docker-compose
-- Follow 'Podman Integration with Docker Compose'
-- Add an X11 server like XQuartz
+- Follow this gist <https://gist.github.com/kaaquist/dab64aeb52a815b935b11c86202761a3>
+- Install an X11 server like XQuartz
+
