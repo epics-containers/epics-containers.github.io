@@ -5,7 +5,7 @@ Here are some minimal setup instructions to get you up and running with docker-c
 
 ## Docker Already Installed
 
-If have one of the following then you are good to go with no further setup:
+If you have one of the following then you are good to go with no further setup:
 
 - Docker Desktop on Windows WSL2
 - Docker Desktop on MacOS
