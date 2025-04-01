@@ -8,13 +8,7 @@
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
     },
-    "grammarly.selectors": [
-        {
-            "language": "markdown",
-            "scheme": "file"
-        }
-    ],
     "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#cc69b5",
+        "titleBar.activeBackground": "#555555",
     },
 }
