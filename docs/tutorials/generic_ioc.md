@@ -146,44 +146,62 @@ Now is a good time to edit the README.md file and change it to describe your Gen
 
 The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container during the container image build phase. The initial container filesystem at the start of a build is determined by a `FROM` line at the top of the Dockerfile.
 
-In the Generic IOC template the `FROM` line gets a version of the epics-containers base image. It then demonstrates how to add a support module to the container image. The `iocStats` support module is added and built by the template. It is recommended to keep this module as the default
-behaviour in Kubernetes is to use `iocStats` to monitor the health of the IOC.
-
-Thus, you can start adding support modules by adding more `COPY` and `RUN` lines to the Dockerfile. Just like those for the `iocStats` module.
-
-The rest of the Dockerfile is boilerplate and for best results you only need to remove the comment below and replace it with the additional support modules you need. Doing this means it is easy to adopt changes to the original template Dockerfile in the future.
+In the Generic IOC template the `FROM` line gets a version of the epics-containers base image. It then adds a small selection of recommended support modules that we would expect to have in most generic IOCs. At the time of writing the support module installs look like this:
 
 ```dockerfile
-################################################################################
-#  TODO - Add further support module installations here
-################################################################################
+COPY ibek-support/_ansible _ansible
+ENV PATH=$PATH:${SOURCE_FOLDER}/ibek-support/_ansible
+
+COPY ibek-support/iocStats/ iocStats
+RUN ansible.sh iocStats
+
+COPY ibek-support/pvlogging/ pvlogging/
+RUN ansible.sh pvlogging
+
+COPY ibek-support/autosave/ autosave
+RUN ansible.sh autosave
 ```
+
+The first two lines are copying in the ansible tasks used to build all support modules. The following lines copy in the support module recipes for `iocStats`, `pvlogging` and `autosave`. For each of these we run the `ansible.sh` script which calls ansible and applies the recipe to build each support module into the container image.
+
+The recipe for each module just does standard EPICS build steps:
+- Clones the support module from upstream​ into /epics/support/module (a recent version that has been tested with epics-containers - default version may be overridden e.g. `ansible.sh -v 4.2.1 asyn`​)
+- Adds a RELEASE.local​
+- May patch RELEASE to include RELEASE.local if needed​
+- May create/update CONFIG_SITE.local.x.x​
+- May remove lines from Makefiles (e.g. docs and tests to minimize the container size)​
+- Compiles the module​
+- Records the dbds and libs to link into the IOC build​
+- Custom steps (bash script or ansible task) may also be supplied on the rare occasion they are needed
+
+You can add additional support modules by adding a pair of `COPY` and `RUN` lines to the Dockerfile for each module. You could also remove any of the existing ones if you thought they would never be useful to any IOC instance using your Generic IOC (for the lakeshore we will keep the existing modules).
+
+The rest of the Dockerfile is boilerplate and will rarely need changing.
 
 Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn` and `StreamDevice`. We will
 first install those inside our devcontainer as follows:
 
 ```bash
 # open a new terminal in VSCode (Terminal -> New Terminal)
-cd /workspaces/ioc-lakeshore340/ibek-support
-asyn/install.sh R4-44-2
-StreamDevice/install.sh 2.8.26
+ansible.sh asyn
+ansible.sh StreamDevice
 ```
 
 This uses ibek-support 'recipes' to pull the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.
 
 Having run the above commands you could look in **/epics/support** to see the additional built support modules.
 
-Next, make sure that the next build of our `ioc-lakeshore340` container image will have the same support built in by updating the Dockerfile as follows:
+Next, make sure that the next build of our `ioc-lakeshore340` container image will have the same support built in by updating the Dockerfile to match the manual steps we just did:
 
 ```dockerfile
 COPY ibek-support/asyn/ asyn/
-RUN asyn/install.sh R4-44-2
+ansible.sh asyn
 
 COPY ibek-support/StreamDevice/ StreamDevice/
-RUN StreamDevice/install.sh 2.8.26
+ansible.sh StreamDevice
 ```
 
-The above commands added `StreamDevice` and its dependency `asyn`. For each support module we copy it's `ibek-support` folder and then run the `install.sh` script. The only argument to `install.sh` is the git tag for the version of the support module required. `ibek-support` is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.
+The above commands added `StreamDevice` and its dependency `asyn`. For each support module we copy it's `ibek-support` folder and then run the `ansible.sh` script. The only argument to `ansible.sh` is the name of the support module required, you may also specify `-v <version>` as the first argument. `ibek-support` is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.
 
 You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
@@ -201,14 +219,11 @@ order to do so we must first add a recipe for it to `ibek-support`.
 The `ibek-support` submodule is used to share information about how to build
 and use support modules. It contains three kinds of files:
 
-1. install.sh - These are used to fetch and build support modules. They are run from the Dockerfile as described above.
-2. IBEK support YAML: These are used to help IOCs build their iocShell boot scripts and EPICS Database from YAML descriptions. These are the files that contribute to the schema used when making an ioc.yaml instance file for this Generic IOC.
+1. `<module>.build.yml`: These are used to fetch and build support modules. They are run from the Dockerfile as described above.
+2. `<module>.ibek.support.yaml`: These are used to help IOCs build their iocShell boot scripts and EPICS Database from YAML descriptions. These are the files that contribute to the schema used when making an ioc.yaml instance file for this Generic IOC.
 3. PVI definitions: These are used to add structure to the set of PV's a device exposes. This structure allows us to auto-generate engineering screens for the device. See <https://github.com/epics-containers/pvi>.
 
-`ibek-support` is curated for security reasons, therefore we need to work with
-a fork of it so we can add our own recipe for lakeshore340. If you make changes
-to `ibek-support` that are generally useful you can use a pull request to get them
-merged into the main repo.
+`ibek-support` is curated for security reasons, therefore we need to work with a fork of it so we can add our own recipe for lakeshore340. If you make changes to `ibek-support` that are generally useful you can use a pull request to get them merged into the main repo.
 
 Perform the following steps to create a fork and update the submodule:
 
@@ -228,14 +243,10 @@ git remote -v # verify that the origin is your fork
 cd ..
 ```
 
-We are using the `tutorial-KEEP` branch which is a snapshot of the `ibek-support` state
-appropriate for this tutorial. Normally you would use the `main` branch and
-then create your own branch off of that to work in, therefore you could skip the `git checkout tutorial-KEEP` line and instead do `git checkout -b my-new-feature-branch; git push -u origin my-new-feature-branch`.
+We are using the `tutorial-KEEP` branch which is a snapshot of the `ibek-support` state appropriate for this tutorial. Normally you would use the `main` branch and then create your own branch off of that to work in, so for normal development you  would skip the `git checkout tutorial-KEEP` line and instead do `git checkout -b my-new-feature-branch; git push -u origin my-new-feature-branch`.
 
 :::{note}
-IMPORTANT: we used an *HTTPS* URL for the `ibek-support` submodule, not
-a *SSH* URL. This is because other clones of `ioc-lakeshore340` will not
-be guaranteed to have the required SSH keys (i.e. when CI is running).
+IMPORTANT: we used an *HTTPS* URL for the `ibek-support` submodule, not a *SSH* URL. This is because other clones of `ioc-lakeshore340` will not be guaranteed to have the required SSH keys (i.e. when CI is running).
 
 HTTPS is fine for reading, but to write you need SSH. Therefore add the following to your `~/.gitconfig`:
 
@@ -249,119 +260,61 @@ This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.
 In order for this change to be picked up inside the Devcontainer it must be rebuilt. Press `Ctrl-Shift-P` and type `Dec Containers: Rebuild Container`.
 :::
 
-The git submodule allows us to share the `ibek-support` definitions between all
-ioc-XXX projects but also allows each project to have its copy fixed to
-a particular commit (until updated with `git pull`) see
-<https://git-scm.com/book/en/v2/Git-Tools-Submodules> for more information.
+The git submodule allows us to share the `ibek-support` definitions between all ioc-XXX projects but also allows each project to have its copy fixed to a particular commit (until updated with `git pull`) see <https://git-scm.com/book/en/v2/Git-Tools-Submodules> for more information.
 
-## Create install.sh for the lakeshore340
+## Create ansible variables file for the lakeshore340
 
-The first file we will create is the `install.sh` script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.
+The first file we will create is the `lakeshore340.build.yml` this contains some variable definitions to control the ansible tasks invoked by `ansible.sh`.
 
-These scripts draw heavily on the `ibek` tool to do common tasks that most support modules require. They are also are as close to identical as possible for simple support modules. `ibek` commands allow us to have a simple, consistent structure for all support module's `install.sh` scripts.
+Ansible is a widely used and well supported FOSS tool for automating the installation of software. If you want to understand the details of what the `ansible.sh` script is doing then you can look in the ansible role defined in `ibek-support/_ansible/roles/support`. If you are not familiar with ansible then excellent documentation is available at <https://docs.ansible.com>.
 
-IMPORTANT points to note are:
-
-- Although we are using `ibek` we are really just automating what an EPICS engineer would do manually. This is very much using the vanilla EPICS build system that comes with EPICS base, along with the vanilla Make and Config files that come with each support module. These steps are:-
-
-  - make sure we have the necessary system dependencies installed
-  - fetch a version of the support module from GitHub or other source
-  - add a RELEASE.local to enable dependency resolution
-  - optionally add CONFIG_SITE.local to apply settings for the build environment
-  - run make to build the support module
-  - take a note of the dbds and libs that we build so that we can link them in to our Generic IOC build later
-
-- This is a bash script so although we encourage a very standard structure,
-  you can do anything you like. For example this support module has to
-  compile a 3rd party library before it can build the support module itself.
-  [ADAravis install.sh](https://github.com/gilesknap/ibek-support/blob/72eaec2cfd9b2f51f20b7b2b34eeab7c0f51a0cd/ADAravis/install.sh#L17-L44)
-
-To make your lakeshore340 install.sh script:
+To create the `lakeshore340.build.yml` file, run the following commands:
 
 ```bash
 cd /workspaces/ioc-lakeshore340/ibek-support
 mkdir lakeshore340
-# use the relatively simple calc install.sh as a template
-cp calc/install.sh lakeshore340/install.sh
-code lakeshore340/install.sh
+code lakeshore340/lakeshore340.install.yml
 ```
 
-Now edit the install.sh script to look like the code block below.
+Add the following contents to the new file:
 
-The changes required for any support module you care to build would be:
+```yaml
+# yaml-language-server: $schema=../_scripts/support_install_variables.json
+module: lakeshore340
+version: 2-6-2
 
-- change the NAME variable to match the name of the support module
+organization: https://github.com/DiamondLightSource
 
-- add in `ibek support apt-install` lines for any build time system dependencies. Also add `ibek support add-runtime-packages` for any runtime dependencies (runs apt-get install in the runtime stage).
+# comment out the documentation from the Makefile
+comment_out:
+  - path: Makefile
+    regexp: documentation
+```
 
-- change the `ibek support add-*` lines to declare the libs and DBDs that this module will publish. For this StreamDevice module we don't need to add any libs or DBDs.
+The comment line tells a yaml language server to validate the file against a schema. If you install the Redhat YAML extension for VSCode, it will use this schema to provide auto-completion and validation of the file. Try typing `ctrl+space` on a blank line to see the available options. You can also see all the options and their defaults by looking in the file `ibek-support/_ansible/roles/support/vars/main.yml`.
 
-- add extra release macros for RELEASE.local (the RELEASE macro for the current support module is added automatically). Or add CONFIG entries for CONFIG_SITE.local as required. None of these were required for lakeshore340. To see how to use these functions see
+The values you are required to specify are pretty minimal:
 
-  - ibek support add-release-macro --help
-  - ibek support add-to-config-site --help
+- **module**: the name of the support module - this is the name of the upstream repository and by default the name of the folder in `/epics/support` into which it is cloned
+- **dbds**, **libs**: list of dbds and libs created by this module that should be linked into the IOC build. None specified here because this is a pure StreamDevice.
+- **version**: the version of the module to be built. This is the tag in the upstream repository. This should be a recent version - the whole of ibek-support will be tested to see if all support modules build during CI, so all of these versions of the support modules are know to all build.
+- **organization**: the prefix to the URL of the containing repo. Defaults to `https://github.com/epics-modules` the preferred location for all EPICS modules!
+- **comment_out**: uses the regex `documentation` to find lines in the root Makefile and comment them out.
 
-- occasionally we will use `sed` to modify files in the support module. In particular it is sometimes beneficial to comment out some of the lines in the root Makefile in order to skip over test and documentation building. This is done in the script below for the lakeshore340 documentation. Note that the sed command is idempotent, so it is safe to run the script more than once.
-
-- To see all commands for assisting in building support modules see **ibek support --help**
-
-- NOTE: all of the ibek support commands are idempotent. Therefore it is safe to run install.sh more than once. This is an advantage of using ibek instead of hand coding the build process.
+Having made these changes you can now test them by running:
 
 ```bash
-#!/bin/bash
-
-# ARGUMENTS:
-#  $1 VERSION to install (must match repo tag)
-VERSION=${1}
-NAME=lakeshore340
-FOLDER=$(dirname $(readlink -f $0))
-
-# log output and abort on failure
-set -xe
-
-# get the source and fix up the configure/RELEASE files
-ibek support git-clone ${NAME} ${VERSION} --org https://github.com/DiamondLightSource/
-ibek support register ${NAME}
-
-# declare the libs and DBDs that are required in ioc/iocApp/src/Makefile
-# NONE required for StreamDevice
-# ibek support add-libs
-# ibek support add-dbds
-
-# comment out the documentation from the Makefile - idempotent because it searches
-# for lines not starting with # and inserts a # at the start of the line.
-sed -i -E 's/(^[^#].*documentation)/# \1/' ${SUPPORT}/${NAME}/Makefile
-
-# global config settings
-${FOLDER}/../_global/install.sh
-
-# compile the support module
-ibek support compile ${NAME}
-# prepare *.bob, *.pvi, *.ibek.support.yaml for access outside the container.
-ibek support generate-links ${FOLDER}
-
-
+ansible.sh lakeshore340
 ```
 
-Having made these changes you can now test the script by running it:
-
-```bash
-cd /workspaces/ioc-lakeshore340/ibek-support
-chmod +x lakeshore340/install.sh
-lakeshore340/install.sh 2-6-2
-```
-
-You now have lakeshore340 support in your developer container. Let's go ahead
-and add that into the Dockerfile:
+You now have lakeshore340 support in your developer container. Let's go ahead and add that into the Dockerfile:
 
 ```dockerfile
 COPY ibek-support/lakeshore340/ lakeshore340/
-RUN lakeshore340/install.sh 2-6-2
+RUN ansible.sh lakeshore340
 ```
 
-This means you can compile an IOC with lakeshore340 support in this container
-but we don't yet have a way to generate startup scripts and EPICS Databases
-for the instances. We will do that next.
+This means you can compile an IOC with lakeshore340 support in this container but we don't yet have a way to generate startup scripts and EPICS Databases for the instances. We will do that next.
 
 ## Create Support YAML for the lakeshore340
 
@@ -408,20 +361,12 @@ See <https://jinja.palletsprojects.com/en/3.0.x/templates/>
 **TODO**: `ibek` also needs detailed documentation of the interfaces available to the Jinja interpreter. This is to include order of evaluation, what is available in the context, etc.
 
 :::{note}
-IMPORTANT: the file created below MUST have the suffix `.ibek.support.yaml`.
-This means it is a support yaml file for `ibek`. This is important because
-when `install.sh` calls `ibek support generate-links` it will look for
-files with this suffix and make links to them in the `ibek-defs` folder.
+IMPORTANT: the file created below MUST have the suffix `.ibek.support.yaml`. This means it is a support yaml file for `ibek`. This is important because `ansible.sh` will symlink the file it finds with this suffix into the `/epics/ibek-defs` folder. This is where `ibek` looks for support YAML files when it is generating the IOC instance YAML file.
 
-In turn when you run `ibek ioc generate-schema` it will look in the
-`ibek-defs` folder for all the support definition YAML files and combine
-them into a single schema file.
+In turn when you run `ibek ioc generate-schema` it will look in the `ibek-defs` folder for all the support definition YAML files and combine them into a single schema file.
 :::
 
-To make a lakeshore340 YAML file, go to the folder
-`/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/`
-and create a file called `lakeshore340.ibek.support.yaml`. Add the following
-contents:
+To make a lakeshore340 YAML file, go to the folder `/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/` and create a file called `lakeshore340.ibek.support.yaml`. Add the following contents:
 
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
@@ -525,13 +470,12 @@ DLS support module forks to work. See {any}`../how-to/builder2ibek.support`
 
 When a Generic IOC is built, each support module will register its support YAML by linking it into the folder `/epics/ibek-defs`. This is so that the `ibek` tool can find all the support module definitions and combine them into a single schema file. The schema file is then to validate your IOC instance YAML as you are editing it.
 
-This registration process happens as part of the `install.sh` script for the support module. It is done by the `ibek support generate-links` command.
+This registration process happens as part of the ansible recipe invoked by `ansible.sh`.
 
-Here we just need to go ahead and re-run our `install.sh` script to register the lakeshore340 support YAML that we just created. Because the ibek support commands are idempotent it is safe to run the `install.sh` script more than once.
+Here we just need to go ahead and re-run our `ansible.sh` script to register the lakeshore340 support YAML that we just created. Because ansible is idempotent it is safe to run the `ansible.sh` script more than once.
 
 ```bash
-cd /workspaces/ioc-lakeshore340/ibek-support
-lakeshore340/install.sh 2-6-2
+ansible.sh lakeshore340
 ```
 
 IMPORTANT: since we last built the IOC binary, we have added new support modules into the container image. Therefore we need to rebuild the IOC binary to include these new support modules. This is done by running `make` in the `/epics/ioc` folder.
@@ -657,7 +601,7 @@ IOC instance files, take a look at the following files.
 - `/epics/support/configure/RELEASE.shell` - created along with the global release file. Sets all the release macros as shell environment variables
   for passing into the ioc startup script.
 
-- `/epics/ibek-defs` - a folder containing all the support YAML files that were registered by the `install.sh` scripts. These are symlinks into the original files in ibek-support/XXX
+- `/epics/ibek-defs` - a folder containing all the support YAML files that were registered by the ansible role `support`. These are symlinks into the original files in ibek-support/XXX
 
 :::{note}
 Because this IOC instance is a copy of a real IOC at DLS it comes
