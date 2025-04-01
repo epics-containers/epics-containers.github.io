@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers 4.2.1.dev20+g9478d80 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers 4.2.1.dev23+gf645a6a documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=04d601a7"></script>
+    <script src="../_static/documentation_options.js?v=09c624fc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -610,34 +610,52 @@ to make your own Generic IOC.</p>
 <section id="initial-changes-to-the-dockerfile">
 <h2>Initial Changes to the Dockerfile<a class="headerlink" href="#initial-changes-to-the-dockerfile" title="Link to this heading">#</a></h2>
 <p>The Dockerfile is the recipe for building the container image. It is a set of steps that get run inside a container during the container image build phase. The initial container filesystem at the start of a build is determined by a <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line at the top of the Dockerfile.</p>
-<p>In the Generic IOC template the <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line gets a version of the epics-containers base image. It then demonstrates how to add a support module to the container image. The <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> support module is added and built by the template. It is recommended to keep this module as the default
-behaviour in Kubernetes is to use <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> to monitor the health of the IOC.</p>
-<p>Thus, you can start adding support modules by adding more <code class="docutils literal notranslate"><span class="pre">COPY</span></code> and <code class="docutils literal notranslate"><span class="pre">RUN</span></code> lines to the Dockerfile. Just like those for the <code class="docutils literal notranslate"><span class="pre">iocStats</span></code> module.</p>
-<p>The rest of the Dockerfile is boilerplate and for best results you only need to remove the comment below and replace it with the additional support modules you need. Doing this means it is easy to adopt changes to the original template Dockerfile in the future.</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="c">################################################################################</span>
-<span class="c">#  TODO - Add further support module installations here</span>
-<span class="c">################################################################################</span>
+<p>In the Generic IOC template the <code class="docutils literal notranslate"><span class="pre">FROM</span></code> line gets a version of the epics-containers base image. It then adds a small selection of recommended support modules that we would expect to have in most generic IOCs. At the time of writing the support module installs look like this:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/_ansible<span class="w"> </span>_ansible
+<span class="k">ENV</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="si">${</span><span class="nv">SOURCE_FOLDER</span><span class="si">}</span>/ibek-support/_ansible
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/iocStats/<span class="w"> </span>iocStats
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>iocStats
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/pvlogging/<span class="w"> </span>pvlogging/
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>pvlogging
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/autosave/<span class="w"> </span>autosave
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>autosave
 </pre></div>
 </div>
+<p>The first two lines are copying in the ansible tasks used to build all support modules. The following lines copy in the support module recipes for <code class="docutils literal notranslate"><span class="pre">iocStats</span></code>, <code class="docutils literal notranslate"><span class="pre">pvlogging</span></code> and <code class="docutils literal notranslate"><span class="pre">autosave</span></code>. For each of these we run the <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> script which calls ansible and applies the recipe to build each support module into the container image.</p>
+<p>The recipe for each module just does standard EPICS build steps:</p>
+<ul class="simple">
+<li><p>Clones the support module from upstream​ into /epics/support/module (a recent version that has been tested with epics-containers - default version may be overridden e.g. <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">-v</span> <span class="pre">4.2.1</span> <span class="pre">asyn</span></code>​)</p></li>
+<li><p>Adds a RELEASE.local​</p></li>
+<li><p>May patch RELEASE to include RELEASE.local if needed​</p></li>
+<li><p>May create/update CONFIG_SITE.local.x.x​</p></li>
+<li><p>May remove lines from Makefiles (e.g. docs and tests to minimize the container size)​</p></li>
+<li><p>Compiles the module​</p></li>
+<li><p>Records the dbds and libs to link into the IOC build​</p></li>
+<li><p>Custom steps (bash script or ansible task) may also be supplied on the rare occasion they are needed</p></li>
+</ul>
+<p>You can add additional support modules by adding a pair of <code class="docutils literal notranslate"><span class="pre">COPY</span></code> and <code class="docutils literal notranslate"><span class="pre">RUN</span></code> lines to the Dockerfile for each module. You could also remove any of the existing ones if you thought they would never be useful to any IOC instance using your Generic IOC (for the lakeshore we will keep the existing modules).</p>
+<p>The rest of the Dockerfile is boilerplate and will rarely need changing.</p>
 <p>Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code>. We will
 first install those inside our devcontainer as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a new terminal in VSCode (Terminal -&gt; New Terminal)</span>
-<span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
-asyn/install.sh<span class="w"> </span>R4-44-2
-StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.26
+ansible.sh<span class="w"> </span>asyn
+ansible.sh<span class="w"> </span>StreamDevice
 </pre></div>
 </div>
 <p>This uses ibek-support ‘recipes’ to pull the two support modules from GitHub and builds them in our devcontainer. Now any IOC instances we run in the devcontainer will be able to use these support modules.</p>
 <p>Having run the above commands you could look in <strong>/epics/support</strong> to see the additional built support modules.</p>
-<p>Next, make sure that the next build of our <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> container image will have the same support built in by updating the Dockerfile as follows:</p>
+<p>Next, make sure that the next build of our <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> container image will have the same support built in by updating the Dockerfile to match the manual steps we just did:</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/asyn/<span class="w"> </span>asyn/
-<span class="k">RUN</span><span class="w"> </span>asyn/install.sh<span class="w"> </span>R4-44-2
+ansible.sh<span class="w"> </span>asyn
 
 <span class="k">COPY</span><span class="w"> </span>ibek-support/StreamDevice/<span class="w"> </span>StreamDevice/
-<span class="k">RUN</span><span class="w"> </span>StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.26
+ansible.sh<span class="w"> </span>StreamDevice
 </pre></div>
 </div>
-<p>The above commands added <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> and its dependency <code class="docutils literal notranslate"><span class="pre">asyn</span></code>. For each support module we copy it’s <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> folder and then run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script. The only argument to <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> is the git tag for the version of the support module required. <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.</p>
+<p>The above commands added <code class="docutils literal notranslate"><span class="pre">StreamDevice</span></code> and its dependency <code class="docutils literal notranslate"><span class="pre">asyn</span></code>. For each support module we copy it’s <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> folder and then run the <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> script. The only argument to <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> is the name of the support module required, you may also specify <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">&lt;version&gt;</span></code> as the first argument. <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.</p>
 <p>You may think that there is a lot of duplication here e.g. <code class="docutils literal notranslate"><span class="pre">asyn</span></code> appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -652,14 +670,11 @@ order to do so we must first add a recipe for it to <code class="docutils litera
 <p>The <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule is used to share information about how to build
 and use support modules. It contains three kinds of files:</p>
 <ol class="arabic simple">
-<li><p>install.sh - These are used to fetch and build support modules. They are run from the Dockerfile as described above.</p></li>
-<li><p>IBEK support YAML: These are used to help IOCs build their iocShell boot scripts and EPICS Database from YAML descriptions. These are the files that contribute to the schema used when making an ioc.yaml instance file for this Generic IOC.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;module&gt;.build.yml</span></code>: These are used to fetch and build support modules. They are run from the Dockerfile as described above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;module&gt;.ibek.support.yaml</span></code>: These are used to help IOCs build their iocShell boot scripts and EPICS Database from YAML descriptions. These are the files that contribute to the schema used when making an ioc.yaml instance file for this Generic IOC.</p></li>
 <li><p>PVI definitions: These are used to add structure to the set of PV’s a device exposes. This structure allows us to auto-generate engineering screens for the device. See <a class="github reference external" href="https://github.com/epics-containers/pvi">epics-containers/pvi</a>.</p></li>
 </ol>
-<p><code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is curated for security reasons, therefore we need to work with
-a fork of it so we can add our own recipe for lakeshore340. If you make changes
-to <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> that are generally useful you can use a pull request to get them
-merged into the main repo.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is curated for security reasons, therefore we need to work with a fork of it so we can add our own recipe for lakeshore340. If you make changes to <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> that are generally useful you can use a pull request to get them merged into the main repo.</p>
 <p>Perform the following steps to create a fork and update the submodule:</p>
 <ul class="simple">
 <li><p>goto <a class="github reference external" href="https://github.com/epics-containers/ibek-support/fork">epics-containers/ibek-support</a></p></li>
@@ -677,14 +692,10 @@ git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w"> </sp
 <span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
 </div>
-<p>We are using the <code class="docutils literal notranslate"><span class="pre">tutorial-KEEP</span></code> branch which is a snapshot of the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> state
-appropriate for this tutorial. Normally you would use the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and
-then create your own branch off of that to work in, therefore you could skip the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">tutorial-KEEP</span></code> line and instead do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">my-new-feature-branch;</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">my-new-feature-branch</span></code>.</p>
+<p>We are using the <code class="docutils literal notranslate"><span class="pre">tutorial-KEEP</span></code> branch which is a snapshot of the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> state appropriate for this tutorial. Normally you would use the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and then create your own branch off of that to work in, so for normal development you  would skip the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">tutorial-KEEP</span></code> line and instead do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">my-new-feature-branch;</span> <span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">my-new-feature-branch</span></code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>IMPORTANT: we used an <em>HTTPS</em> URL for the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule, not
-a <em>SSH</em> URL. This is because other clones of <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> will not
-be guaranteed to have the required SSH keys (i.e. when CI is running).</p>
+<p>IMPORTANT: we used an <em>HTTPS</em> URL for the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule, not a <em>SSH</em> URL. This is because other clones of <code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340</span></code> will not be guaranteed to have the required SSH keys (i.e. when CI is running).</p>
 <p>HTTPS is fine for reading, but to write you need SSH. Therefore add the following to your <code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">url</span> <span class="s2">&quot;ssh://git@github.com/&quot;</span><span class="p">]</span>
         <span class="n">insteadOf</span> <span class="o">=</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span>
@@ -693,104 +704,50 @@ be guaranteed to have the required SSH keys (i.e. when CI is running).</p>
 <p>This tells git to use SSH for all GitHub URLs, when it sees an HTTP URL.</p>
 <p>In order for this change to be picked up inside the Devcontainer it must be rebuilt. Press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Dec</span> <span class="pre">Containers:</span> <span class="pre">Rebuild</span> <span class="pre">Container</span></code>.</p>
 </div>
-<p>The git submodule allows us to share the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> definitions between all
-ioc-XXX projects but also allows each project to have its copy fixed to
-a particular commit (until updated with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>) see
-<a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a> for more information.</p>
+<p>The git submodule allows us to share the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> definitions between all ioc-XXX projects but also allows each project to have its copy fixed to a particular commit (until updated with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code>) see <a class="reference external" href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a> for more information.</p>
 </section>
-<section id="create-install-sh-for-the-lakeshore340">
-<h2>Create install.sh for the lakeshore340<a class="headerlink" href="#create-install-sh-for-the-lakeshore340" title="Link to this heading">#</a></h2>
-<p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for lakeshore340. This is a simple script that fetches the support module from GitHub and builds it.</p>
-<p>These scripts draw heavily on the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool to do common tasks that most support modules require. They are also are as close to identical as possible for simple support modules. <code class="docutils literal notranslate"><span class="pre">ibek</span></code> commands allow us to have a simple, consistent structure for all support module’s <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> scripts.</p>
-<p>IMPORTANT points to note are:</p>
-<ul class="simple">
-<li><p>Although we are using <code class="docutils literal notranslate"><span class="pre">ibek</span></code> we are really just automating what an EPICS engineer would do manually. This is very much using the vanilla EPICS build system that comes with EPICS base, along with the vanilla Make and Config files that come with each support module. These steps are:-</p>
-<ul>
-<li><p>make sure we have the necessary system dependencies installed</p></li>
-<li><p>fetch a version of the support module from GitHub or other source</p></li>
-<li><p>add a RELEASE.local to enable dependency resolution</p></li>
-<li><p>optionally add CONFIG_SITE.local to apply settings for the build environment</p></li>
-<li><p>run make to build the support module</p></li>
-<li><p>take a note of the dbds and libs that we build so that we can link them in to our Generic IOC build later</p></li>
-</ul>
-</li>
-<li><p>This is a bash script so although we encourage a very standard structure,
-you can do anything you like. For example this support module has to
-compile a 3rd party library before it can build the support module itself.
-<a class="reference external" href="https://github.com/gilesknap/ibek-support/blob/72eaec2cfd9b2f51f20b7b2b34eeab7c0f51a0cd/ADAravis/install.sh#L17-L44">ADAravis install.sh</a></p></li>
-</ul>
-<p>To make your lakeshore340 install.sh script:</p>
+<section id="create-ansible-variables-file-for-the-lakeshore340">
+<h2>Create ansible variables file for the lakeshore340<a class="headerlink" href="#create-ansible-variables-file-for-the-lakeshore340" title="Link to this heading">#</a></h2>
+<p>The first file we will create is the <code class="docutils literal notranslate"><span class="pre">lakeshore340.build.yml</span></code> this contains some variable definitions to control the ansible tasks invoked by <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code>.</p>
+<p>Ansible is a widely used and well supported FOSS tool for automating the installation of software. If you want to understand the details of what the <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> script is doing then you can look in the ansible role defined in <code class="docutils literal notranslate"><span class="pre">ibek-support/_ansible/roles/support</span></code>. If you are not familiar with ansible then excellent documentation is available at <a class="reference external" href="https://docs.ansible.com">https://docs.ansible.com</a>.</p>
+<p>To create the <code class="docutils literal notranslate"><span class="pre">lakeshore340.build.yml</span></code> file, run the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
 mkdir<span class="w"> </span>lakeshore340
-<span class="c1"># use the relatively simple calc install.sh as a template</span>
-cp<span class="w"> </span>calc/install.sh<span class="w"> </span>lakeshore340/install.sh
-code<span class="w"> </span>lakeshore340/install.sh
+code<span class="w"> </span>lakeshore340/lakeshore340.install.yml
 </pre></div>
 </div>
-<p>Now edit the install.sh script to look like the code block below.</p>
-<p>The changes required for any support module you care to build would be:</p>
+<p>Add the following contents to the new file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=../_scripts/support_install_variables.json</span>
+<span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore340</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2-6-2</span>
+
+<span class="nt">organization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/DiamondLightSource</span>
+
+<span class="c1"># comment out the documentation from the Makefile</span>
+<span class="nt">comment_out</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Makefile</span>
+<span class="w">    </span><span class="nt">regexp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">documentation</span>
+</pre></div>
+</div>
+<p>The comment line tells a yaml language server to validate the file against a schema. If you install the Redhat YAML extension for VSCode, it will use this schema to provide auto-completion and validation of the file. Try typing <code class="docutils literal notranslate"><span class="pre">ctrl+space</span></code> on a blank line to see the available options. You can also see all the options and their defaults by looking in the file <code class="docutils literal notranslate"><span class="pre">ibek-support/_ansible/roles/support/vars/main.yml</span></code>.</p>
+<p>The values you are required to specify are pretty minimal:</p>
 <ul class="simple">
-<li><p>change the NAME variable to match the name of the support module</p></li>
-<li><p>add in <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">apt-install</span></code> lines for any build time system dependencies. Also add <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-runtime-packages</span></code> for any runtime dependencies (runs apt-get install in the runtime stage).</p></li>
-<li><p>change the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-*</span></code> lines to declare the libs and DBDs that this module will publish. For this StreamDevice module we don’t need to add any libs or DBDs.</p></li>
-<li><p>add extra release macros for RELEASE.local (the RELEASE macro for the current support module is added automatically). Or add CONFIG entries for CONFIG_SITE.local as required. None of these were required for lakeshore340. To see how to use these functions see</p>
-<ul>
-<li><p>ibek support add-release-macro –help</p></li>
-<li><p>ibek support add-to-config-site –help</p></li>
+<li><p><strong>module</strong>: the name of the support module - this is the name of the upstream repository and by default the name of the folder in <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code> into which it is cloned</p></li>
+<li><p><strong>dbds</strong>, <strong>libs</strong>: list of dbds and libs created by this module that should be linked into the IOC build. None specified here because this is a pure StreamDevice.</p></li>
+<li><p><strong>version</strong>: the version of the module to be built. This is the tag in the upstream repository. This should be a recent version - the whole of ibek-support will be tested to see if all support modules build during CI, so all of these versions of the support modules are know to all build.</p></li>
+<li><p><strong>organization</strong>: the prefix to the URL of the containing repo. Defaults to <code class="docutils literal notranslate"><span class="pre">https://github.com/epics-modules</span></code> the preferred location for all EPICS modules!</p></li>
+<li><p><strong>comment_out</strong>: uses the regex <code class="docutils literal notranslate"><span class="pre">documentation</span></code> to find lines in the root Makefile and comment them out.</p></li>
 </ul>
-</li>
-<li><p>occasionally we will use <code class="docutils literal notranslate"><span class="pre">sed</span></code> to modify files in the support module. In particular it is sometimes beneficial to comment out some of the lines in the root Makefile in order to skip over test and documentation building. This is done in the script below for the lakeshore340 documentation. Note that the sed command is idempotent, so it is safe to run the script more than once.</p></li>
-<li><p>To see all commands for assisting in building support modules see <strong>ibek support –help</strong></p></li>
-<li><p>NOTE: all of the ibek support commands are idempotent. Therefore it is safe to run install.sh more than once. This is an advantage of using ibek instead of hand coding the build process.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="c1"># ARGUMENTS:</span>
-<span class="c1">#  $1 VERSION to install (must match repo tag)</span>
-<span class="nv">VERSION</span><span class="o">=</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span>
-<span class="nv">NAME</span><span class="o">=</span>lakeshore340
-<span class="nv">FOLDER</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>readlink<span class="w"> </span>-f<span class="w"> </span><span class="nv">$0</span><span class="k">))</span>
-
-<span class="c1"># log output and abort on failure</span>
-<span class="nb">set</span><span class="w"> </span>-xe
-
-<span class="c1"># get the source and fix up the configure/RELEASE files</span>
-ibek<span class="w"> </span>support<span class="w"> </span>git-clone<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">VERSION</span><span class="si">}</span><span class="w"> </span>--org<span class="w"> </span>https://github.com/DiamondLightSource/
-ibek<span class="w"> </span>support<span class="w"> </span>register<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>
-
-<span class="c1"># declare the libs and DBDs that are required in ioc/iocApp/src/Makefile</span>
-<span class="c1"># NONE required for StreamDevice</span>
-<span class="c1"># ibek support add-libs</span>
-<span class="c1"># ibek support add-dbds</span>
-
-<span class="c1"># comment out the documentation from the Makefile - idempotent because it searches</span>
-<span class="c1"># for lines not starting with # and inserts a # at the start of the line.</span>
-sed<span class="w"> </span>-i<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;s/(^[^#].*documentation)/# \1/&#39;</span><span class="w"> </span><span class="si">${</span><span class="nv">SUPPORT</span><span class="si">}</span>/<span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>/Makefile
-
-<span class="c1"># global config settings</span>
-<span class="si">${</span><span class="nv">FOLDER</span><span class="si">}</span>/../_global/install.sh
-
-<span class="c1"># compile the support module</span>
-ibek<span class="w"> </span>support<span class="w"> </span>compile<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span>
-<span class="c1"># prepare *.bob, *.pvi, *.ibek.support.yaml for access outside the container.</span>
-ibek<span class="w"> </span>support<span class="w"> </span>generate-links<span class="w"> </span><span class="si">${</span><span class="nv">FOLDER</span><span class="si">}</span>
+<p>Having made these changes you can now test them by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>lakeshore340
 </pre></div>
 </div>
-<p>Having made these changes you can now test the script by running it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
-chmod<span class="w"> </span>+x<span class="w"> </span>lakeshore340/install.sh
-lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
-</pre></div>
-</div>
-<p>You now have lakeshore340 support in your developer container. Let’s go ahead
-and add that into the Dockerfile:</p>
+<p>You now have lakeshore340 support in your developer container. Let’s go ahead and add that into the Dockerfile:</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/lakeshore340/<span class="w"> </span>lakeshore340/
-<span class="k">RUN</span><span class="w"> </span>lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>lakeshore340
 </pre></div>
 </div>
-<p>This means you can compile an IOC with lakeshore340 support in this container
-but we don’t yet have a way to generate startup scripts and EPICS Databases
-for the instances. We will do that next.</p>
+<p>This means you can compile an IOC with lakeshore340 support in this container but we don’t yet have a way to generate startup scripts and EPICS Databases for the instances. We will do that next.</p>
 </section>
 <section id="create-support-yaml-for-the-lakeshore340">
 <h2>Create Support YAML for the lakeshore340<a class="headerlink" href="#create-support-yaml-for-the-lakeshore340" title="Link to this heading">#</a></h2>
@@ -831,18 +788,10 @@ See <a class="reference external" href="https://jinja.palletsprojects.com/en/3.0
 <p><strong>TODO</strong>: <code class="docutils literal notranslate"><span class="pre">ibek</span></code> also needs detailed documentation of the interfaces available to the Jinja interpreter. This is to include order of evaluation, what is available in the context, etc.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>IMPORTANT: the file created below MUST have the suffix <code class="docutils literal notranslate"><span class="pre">.ibek.support.yaml</span></code>.
-This means it is a support yaml file for <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. This is important because
-when <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> calls <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">generate-links</span></code> it will look for
-files with this suffix and make links to them in the <code class="docutils literal notranslate"><span class="pre">ibek-defs</span></code> folder.</p>
-<p>In turn when you run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">ioc</span> <span class="pre">generate-schema</span></code> it will look in the
-<code class="docutils literal notranslate"><span class="pre">ibek-defs</span></code> folder for all the support definition YAML files and combine
-them into a single schema file.</p>
+<p>IMPORTANT: the file created below MUST have the suffix <code class="docutils literal notranslate"><span class="pre">.ibek.support.yaml</span></code>. This means it is a support yaml file for <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. This is important because <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> will symlink the file it finds with this suffix into the <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> folder. This is where <code class="docutils literal notranslate"><span class="pre">ibek</span></code> looks for support YAML files when it is generating the IOC instance YAML file.</p>
+<p>In turn when you run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">ioc</span> <span class="pre">generate-schema</span></code> it will look in the <code class="docutils literal notranslate"><span class="pre">ibek-defs</span></code> folder for all the support definition YAML files and combine them into a single schema file.</p>
 </div>
-<p>To make a lakeshore340 YAML file, go to the folder
-<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/</span></code>
-and create a file called <code class="docutils literal notranslate"><span class="pre">lakeshore340.ibek.support.yaml</span></code>. Add the following
-contents:</p>
+<p>To make a lakeshore340 YAML file, go to the folder <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-lakeshore340/ibek-support/lakeshore340/</span></code> and create a file called <code class="docutils literal notranslate"><span class="pre">lakeshore340.ibek.support.yaml</span></code>. Add the following contents:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json</span>
 
 <span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore340</span>
@@ -938,10 +887,9 @@ DLS support module forks to work. See <a class="reference internal" href="../how
 <section id="register-the-support-yaml">
 <h2>Register the Support YAML<a class="headerlink" href="#register-the-support-yaml" title="Link to this heading">#</a></h2>
 <p>When a Generic IOC is built, each support module will register its support YAML by linking it into the folder <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>. This is so that the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool can find all the support module definitions and combine them into a single schema file. The schema file is then to validate your IOC instance YAML as you are editing it.</p>
-<p>This registration process happens as part of the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script for the support module. It is done by the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">generate-links</span></code> command.</p>
-<p>Here we just need to go ahead and re-run our <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script to register the lakeshore340 support YAML that we just created. Because the ibek support commands are idempotent it is safe to run the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> script more than once.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
-lakeshore340/install.sh<span class="w"> </span><span class="m">2</span>-6-2
+<p>This registration process happens as part of the ansible recipe invoked by <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code>.</p>
+<p>Here we just need to go ahead and re-run our <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> script to register the lakeshore340 support YAML that we just created. Because ansible is idempotent it is safe to run the <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> script more than once.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>lakeshore340
 </pre></div>
 </div>
 <p>IMPORTANT: since we last built the IOC binary, we have added new support modules into the container image. Therefore we need to rebuild the IOC binary to include these new support modules. This is done by running <code class="docutils literal notranslate"><span class="pre">make</span></code> in the <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> folder.</p>
@@ -1048,7 +996,7 @@ IOC instance files, take a look at the following files.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc/support/configure/RELEASE</span></code> - a global release file that contains macros for all the support built in the container. This is soft linked to <code class="docutils literal notranslate"><span class="pre">configure/RELEASE.local</span></code> in each support module.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/epics/support/configure/RELEASE.shell</span></code> - created along with the global release file. Sets all the release macros as shell environment variables
 for passing into the ioc startup script.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> - a folder containing all the support YAML files that were registered by the <code class="docutils literal notranslate"><span class="pre">install.sh</span></code> scripts. These are symlinks into the original files in ibek-support/XXX</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> - a folder containing all the support YAML files that were registered by the ansible role <code class="docutils literal notranslate"><span class="pre">support</span></code>. These are symlinks into the original files in ibek-support/XXX</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1172,7 +1120,7 @@ complete the Release process.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-new-repo-for-development">Prepare the New Repo for Development</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-changes-to-the-dockerfile">Initial Changes to the Dockerfile</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-ibek-support-submodule">Prepare the ibek-support Submodule</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-install-sh-for-the-lakeshore340">Create install.sh for the lakeshore340</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-ansible-variables-file-for-the-lakeshore340">Create ansible variables file for the lakeshore340</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-support-yaml-for-the-lakeshore340">Create Support YAML for the lakeshore340</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#register-the-support-yaml">Register the Support YAML</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ioc-instance">Example IOC instance</a></li>

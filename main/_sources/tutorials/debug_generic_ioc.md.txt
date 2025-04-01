@@ -26,15 +26,17 @@ In this tutorial we will look debugging the build from *inside* the container.
 
 Let us break the build of our ioc-lakeshore340 project in the last
 tutorial. Open the the file
-`ioc-lakeshore340/ibek-support/StreamDevice/install.sh`.
-Comment out the apt-install line like this:
+`ioc-lakeshore340/ibek-support/StreamDevice/StreamDevice.install.yml`.
+Comment out the app_developer section like this:
 
-```bash
-# ibek support apt-install libpcre3-dev
+```yaml
+# apt_developer:
+#   - libpcre3-dev
 ```
 
-Now rebuild the container - do this command from a new terminal *outside* of
-the devcontainer:
+This removes installation of the system dependency on the `libpcre3-dev` package and StreamDevice will therefore fail to build.
+
+Now rebuild the container - do this command from a new terminal *outside* of the devcontainer:
 
 ```bash
 # for docker users - builkit complicates debugging at present
@@ -66,21 +68,21 @@ investigate the build failure by running a shell in the container.
 - scroll up the page until you see the last successful build step e.g.
 
 ```bash
-STEP 14/19: COPY ibek-support/StreamDevice/ StreamDevice/
---> 631291db1751
-STEP 15/19: RUN StreamDevice/install.sh 2.8.24
+--> 43eb74c72eab
+STEP 17/22: COPY ibek-support/StreamDevice/ StreamDevice
+--> da81452bc214
+STEP 18/22: RUN ansible.sh StreamDevice
 ... etc ...
 ```
 
-- copy the hash of the step you want to debug e.g. `631291db1751` in this case
-- `docker run -it --entrypoint /bin/bash 631291db1751 # (the hash you copied)`
+- copy the hash of the step you want to debug e.g. `da81452bc214` in this case
+- `docker run -it --entrypoint /bin/bash da81452bc214 # (the hash you copied)`
 
 Now we have a prompt inside the part-built container and can retry the failed
 command.
 
 ```bash
-cd /workspaces/ioc-lakeshore340/ibek-support
-StreamDevice/install.sh 2.8.24
+ansible.sh StreamDevice
 ```
 
 You should see the same error again.
@@ -129,14 +131,17 @@ Now we can install the missing package in the container and retry the build:
 
 ```bash
 apt-get install -y libpcre3-dev
-StreamDevice/install.sh 2.8.24
+ansible.sh StreamDevice
 ```
 
-You should find the build succeeds. But this is not the whole story. There
-is another line in `install.h` that I added to make this work:
+You should find the build succeeds. But this is not the whole story. There is another section in `StreamDevice.install.yml` that I added to make this work:
 
-```bash
-ibek support add-config-macro ${NAME} PCRE_LIB /usr/lib/x86_64gnu
+```yaml
+patch_lines:
+  - path: "{{ config_linux_host }}"
+    regexp: PCRE_LIB
+    line: PCRE_LIB=/usr/lib/x86_64-linux-gnu
+    when: "{{ is_linux }}"
 ```
 
 This added a macro to `CONFIG_SITE.linux-x86_64.Common` that tells the
@@ -144,13 +149,11 @@ Makefiles to add an extra include path to the compiler command line. working
 out how to do this is a matter of taking a look in the Makefiles. But the
 nice thing is that you can experiment with things inside the container and
 get them working without having to keep rebuilding the container.
+(TODO: strictly speaking this could be improved, we should remove the {{ is_linux }} and use the path {{ config_linux_target }} instead, that updates CONFIG_SITE.Common.linux-x86_64 which only affects the linux-x86_64 target)
 
-Note that `ibek support add-config-macro` is idempotent, so you can run it
-multiple times without getting repeated entries in the CONFIG. All `ibek`
-commands behave this way as far as possible.
+Note that ansible is idempotent, so you can run it multiple times without getting repeated entries in the CONFIG.
 
-Once you are happy with your manual changes you can make them permanent by
-adding to the install.sh or Dockerfile, then try a full rebuild.
+Once you are happy with your manual changes you can make them permanent by adding to the `<module>install.yml` or Dockerfile, then try a full rebuild.
 
 ## Tools Inside the Container
 

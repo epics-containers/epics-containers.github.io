@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with Docker &#8212; epics-containers 4.2.1.dev20+g9478d80 documentation</title>
+    <title>Working with Docker &#8212; epics-containers 4.2.1.dev23+gf645a6a documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=04d601a7"></script>
+    <script src="../_static/documentation_options.js?v=09c624fc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -479,6 +479,7 @@
 <li><p>It is easiest to run <code class="docutils literal notranslate"><span class="pre">podman</span></code> containers as root for simplicity.</p></li>
 </ul>
 <p>We do fully support <code class="docutils literal notranslate"><span class="pre">docker</span></code>, please report any issues you find.</p>
+<p>If you would like to use docker in rootless mode then it is almost identical to podman and the following instructions are NOT required. To switch to rootless mode see the description of <code class="docutils literal notranslate"><span class="pre">dockerd-rootless-setuptool.sh</span></code> in  <a class="reference external" href="https://docs.docker.com/engine/security/rootless/#install">these instructions</a>.</p>
 <p>There are a few things to know if you are using <code class="docutils literal notranslate"><span class="pre">docker</span></code> in your developer containers:</p>
 <ol class="arabic">
 <li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=$USER</span></code> into your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users). The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>

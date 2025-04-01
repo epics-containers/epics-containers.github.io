@@ -11,6 +11,8 @@ Therefore:
 
 We do fully support `docker`, please report any issues you find.
 
+If you would like to use docker in rootless mode then it is almost identical to podman and the following instructions are NOT required. To switch to rootless mode see the description of `dockerd-rootless-setuptool.sh` in  [these instructions](https://docs.docker.com/engine/security/rootless/#install).
+
 There are a few things to know if you are using `docker` in your developer containers:
 
 1. add `export EC_REMOTE_USER=$USER` into your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users). The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.

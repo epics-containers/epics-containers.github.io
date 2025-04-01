@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers 4.2.1.dev20+g9478d80 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers 4.2.1.dev23+gf645a6a documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=04d601a7"></script>
+    <script src="../_static/documentation_options.js?v=09c624fc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -500,13 +500,14 @@ using the first approach above.</p></li>
 <h2>Break the Build<a class="headerlink" href="#break-the-build" title="Link to this heading">#</a></h2>
 <p>Let us break the build of our ioc-lakeshore340 project in the last
 tutorial. Open the the file
-<code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340/ibek-support/StreamDevice/install.sh</span></code>.
-Comment out the apt-install line like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># ibek support apt-install libpcre3-dev</span>
+<code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340/ibek-support/StreamDevice/StreamDevice.install.yml</span></code>.
+Comment out the app_developer section like this:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># apt_developer:</span>
+<span class="c1">#   - libpcre3-dev</span>
 </pre></div>
 </div>
-<p>Now rebuild the container - do this command from a new terminal <em>outside</em> of
-the devcontainer:</p>
+<p>This removes installation of the system dependency on the <code class="docutils literal notranslate"><span class="pre">libpcre3-dev</span></code> package and StreamDevice will therefore fail to build.</p>
+<p>Now rebuild the container - do this command from a new terminal <em>outside</em> of the devcontainer:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># for docker users - builkit complicates debugging at present</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_BUILDKIT</span><span class="o">=</span><span class="m">0</span>
 <span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
@@ -533,20 +534,20 @@ investigate the build failure by running a shell in the container.</p>
 <ul class="simple">
 <li><p>scroll up the page until you see the last successful build step e.g.</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>STEP<span class="w"> </span><span class="m">14</span>/19:<span class="w"> </span>COPY<span class="w"> </span>ibek-support/StreamDevice/<span class="w"> </span>StreamDevice/
---&gt;<span class="w"> </span>631291db1751
-STEP<span class="w"> </span><span class="m">15</span>/19:<span class="w"> </span>RUN<span class="w"> </span>StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--&gt;<span class="w"> </span>43eb74c72eab
+STEP<span class="w"> </span><span class="m">17</span>/22:<span class="w"> </span>COPY<span class="w"> </span>ibek-support/StreamDevice/<span class="w"> </span>StreamDevice
+--&gt;<span class="w"> </span>da81452bc214
+STEP<span class="w"> </span><span class="m">18</span>/22:<span class="w"> </span>RUN<span class="w"> </span>ansible.sh<span class="w"> </span>StreamDevice
 ...<span class="w"> </span>etc<span class="w"> </span>...
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>copy the hash of the step you want to debug e.g. <code class="docutils literal notranslate"><span class="pre">631291db1751</span></code> in this case</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--entrypoint</span> <span class="pre">/bin/bash</span> <span class="pre">631291db1751</span> <span class="pre">#</span> <span class="pre">(the</span> <span class="pre">hash</span> <span class="pre">you</span> <span class="pre">copied)</span></code></p></li>
+<li><p>copy the hash of the step you want to debug e.g. <code class="docutils literal notranslate"><span class="pre">da81452bc214</span></code> in this case</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--entrypoint</span> <span class="pre">/bin/bash</span> <span class="pre">da81452bc214</span> <span class="pre">#</span> <span class="pre">(the</span> <span class="pre">hash</span> <span class="pre">you</span> <span class="pre">copied)</span></code></p></li>
 </ul>
 <p>Now we have a prompt inside the part-built container and can retry the failed
 command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-lakeshore340/ibek-support
-StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>StreamDevice
 </pre></div>
 </div>
 <p>You should see the same error again.</p>
@@ -585,24 +586,25 @@ apt-file<span class="w"> </span>search<span class="w"> </span>pcre.h
 system package with a name ending in <code class="docutils literal notranslate"><span class="pre">-dev</span></code>.</p>
 <p>Now we can install the missing package in the container and retry the build:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libpcre3-dev
-StreamDevice/install.sh<span class="w"> </span><span class="m">2</span>.8.24
+ansible.sh<span class="w"> </span>StreamDevice
 </pre></div>
 </div>
-<p>You should find the build succeeds. But this is not the whole story. There
-is another line in <code class="docutils literal notranslate"><span class="pre">install.h</span></code> that I added to make this work:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>support<span class="w"> </span>add-config-macro<span class="w"> </span><span class="si">${</span><span class="nv">NAME</span><span class="si">}</span><span class="w"> </span>PCRE_LIB<span class="w"> </span>/usr/lib/x86_64gnu
+<p>You should find the build succeeds. But this is not the whole story. There is another section in <code class="docutils literal notranslate"><span class="pre">StreamDevice.install.yml</span></code> that I added to make this work:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">patch_lines</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">config_linux_host</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">regexp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PCRE_LIB</span>
+<span class="w">    </span><span class="nt">line</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PCRE_LIB=/usr/lib/x86_64-linux-gnu</span>
+<span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">is_linux</span><span class="nv"> </span><span class="s">}}&quot;</span>
 </pre></div>
 </div>
 <p>This added a macro to <code class="docutils literal notranslate"><span class="pre">CONFIG_SITE.linux-x86_64.Common</span></code> that tells the
 Makefiles to add an extra include path to the compiler command line. working
 out how to do this is a matter of taking a look in the Makefiles. But the
 nice thing is that you can experiment with things inside the container and
-get them working without having to keep rebuilding the container.</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">support</span> <span class="pre">add-config-macro</span></code> is idempotent, so you can run it
-multiple times without getting repeated entries in the CONFIG. All <code class="docutils literal notranslate"><span class="pre">ibek</span></code>
-commands behave this way as far as possible.</p>
-<p>Once you are happy with your manual changes you can make them permanent by
-adding to the install.sh or Dockerfile, then try a full rebuild.</p>
+get them working without having to keep rebuilding the container.
+(TODO: strictly speaking this could be improved, we should remove the {{ is_linux }} and use the path {{ config_linux_target }} instead, that updates CONFIG_SITE.Common.linux-x86_64 which only affects the linux-x86_64 target)</p>
+<p>Note that ansible is idempotent, so you can run it multiple times without getting repeated entries in the CONFIG.</p>
+<p>Once you are happy with your manual changes you can make them permanent by adding to the <code class="docutils literal notranslate"><span class="pre">&lt;module&gt;install.yml</span></code> or Dockerfile, then try a full rebuild.</p>
 </section>
 <section id="tools-inside-the-container">
 <h2>Tools Inside the Container<a class="headerlink" href="#tools-inside-the-container" title="Link to this heading">#</a></h2>
