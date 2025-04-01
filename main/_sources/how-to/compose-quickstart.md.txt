@@ -42,3 +42,16 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 - Follow this gist <https://gist.github.com/kaaquist/dab64aeb52a815b935b11c86202761a3>
 - Install an X11 server like XQuartz
 
+## Diamond Light Source workstation
+
+Setup a podman service and socket:
+```bash
+systemctl enable --user podman.socket --now
+```
+
+Add this to your `~/.profile` and logout and back in:
+```bash
+export PATH=/dls_sw/apps/docker-compose/2.33.1/bin/:$PATH
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+alias docker=podman
+```
