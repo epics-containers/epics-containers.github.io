@@ -3,4 +3,11 @@
 # custom initialization goes here - runs outside of the dev container
 # just before the container is launched but after the container is created
 
-echo "devcontainerID ${1}"
+echo "initializeCommand for devcontainerID ${1}"
+set -xe
+
+# make the config folder for the shared bash-config feature
+mkdir -p ${HOME}/.config/bash-config
+# make a folder for auto-generated opi screens
+mkdir -p ./opi/auto-generated
+
