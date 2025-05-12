@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers 4.2.1.dev25+g964707d documentation</title>
+    <title>Create a Beamline Repository &#8212; epics-containers 4.2.1.dev27+g155b559 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=64f37355"></script>
+    <script src="../_static/documentation_options.js?v=3503da46"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -511,7 +511,7 @@ IOC names. This is a restriction that helm introduces for package names.</p>
 <ol class="arabic">
 <li><p>Make sure you have activated the python virtual environment and that <code class="docutils literal notranslate"><span class="pre">copier</span></code> is installed. See instructions here: <a class="reference internal" href="setup_workstation.html#copier"><span class="std std-ref">copier</span></a>.</p></li>
 <li><p>Use copier to copy the services template repository to a new repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>gh:epics-containers/services-template-compose<span class="w"> </span>t01-services
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/services-template-compose<span class="w"> </span>t01-services
 </pre></div>
 </div>
 <p>Note the benefits of using copier to create a new repository:</p>
@@ -522,7 +522,7 @@ IOC names. This is a restriction that helm introduces for package names.</p>
 </li>
 <li><p>Answer the copier template questions with their default values as follows:</p>
 <pre><font color="#75507B">hgv27681</font>@<font color="#C4A000">pc0116</font>: <font color="#729FCF"><b>/scratch/hgv27681/work</b></font>
-$ copier copy gh:epics-containers/services-template-compose t01-services                                                                                     <font color="#4E9A06">[10:47:49]</font>
+$ copier copy https://github.com/epics-containers/services-template-compose t01-services                                                                                     <font color="#4E9A06">[10:47:49]</font>
 This template will create a new repository for deploying IOCs and services to
 the local machine using docker compose.
 <p><font color="#5F87AF">🎤</font><b> Short name for the collection of services, e.g. “t01”, “p47”, “i20-1”, “i21”</b>
