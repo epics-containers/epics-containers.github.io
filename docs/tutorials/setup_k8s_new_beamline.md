@@ -24,7 +24,7 @@ As before, we will use a copier template to create the new beamline repository. 
 
     ```bash
     # make sure your Python virtual environment is active and copier is pip installed
-    copier copy gh:epics-containers/services-template-helm t03-services
+    copier copy https://github.com/epics-containers/services-template-helm t03-services
     ```
 
     Answer the copier template questions as follows for your own local cluster:

@@ -75,7 +75,7 @@ your personal GitHub user space.
       ```bash
       source $HOME/ec-venv/bin/activate
       # this will create the folder ioc-lakeshore340 in the current directory
-      copier copy gh:epics-containers/ioc-template --trust ioc-lakeshore340
+      copier copy https://github.com/epics-containers/ioc-template --trust ioc-lakeshore340
       ```
 1. Answer the copier template questions as follows:
     <pre><font color="#5F87AF">🎤</font><b> A name for this project. By convention the name will start with ioc- and</b>
