@@ -64,13 +64,13 @@ In this case you can still do an update using the 'copy' command - you just need
 For the generic IOC case:
 
 ```bash
-copier copy gh:epics-containers/ioc-template --trust .
+copier copy https://github.com/epics-containers/ioc-template --trust .
 ```
 
 For the beamline case:
 
 ```bash
-copier copy gh:epics-containers/services-template-helm .
+copier copy https://github.com/epics-containers/services-template-helm .
 ```
 
 In both cases you should select Y for each notice of a conflict, then resolve those conflicts in your editor.

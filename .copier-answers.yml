@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier
 _commit: 1.3.0
-_src_path: gh:DiamondLightSource/python-copier-template
+_src_path: https://github.com/DiamondLightSource/python-copier-template
 author_email: giles.knap@diamond.ac.uk
 author_name: Giles Knap
 component_owner: group:default/sscc
