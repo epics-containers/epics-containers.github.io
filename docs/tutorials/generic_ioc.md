@@ -178,12 +178,13 @@ You can add additional support modules by adding a pair of `COPY` and `RUN` line
 
 The rest of the Dockerfile is boilerplate and will rarely need changing.
 
-Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn` and `StreamDevice`. We will
+Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn`, `calc` and `StreamDevice`. We will
 first install those inside our devcontainer as follows:
 
 ```bash
 # open a new terminal in VSCode (Terminal -> New Terminal)
 ansible.sh asyn
+ansible.sh calc
 ansible.sh StreamDevice
 ```
 
@@ -195,10 +196,13 @@ Next, make sure that the next build of our `ioc-lakeshore340` container image wi
 
 ```dockerfile
 COPY ibek-support/asyn/ asyn/
-ansible.sh asyn
+RUN ansible.sh asyn
+
+COPY ibek-support/calc/ calc/
+RUN ansible.sh calc
 
 COPY ibek-support/StreamDevice/ StreamDevice/
-ansible.sh StreamDevice
+RUN ansible.sh StreamDevice
 ```
 
 The above commands added `StreamDevice` and its dependency `asyn`. For each support module we copy it's `ibek-support` folder and then run the `ansible.sh` script. The only argument to `ansible.sh` is the name of the support module required, you may also specify `-v <version>` as the first argument. `ibek-support` is a submodule used by all the Generic IOC projects that contains recipes for building support modules, it will be covered in more detail as we learn to add our own recipe for the lakeshore340 below.
@@ -206,9 +210,11 @@ The above commands added `StreamDevice` and its dependency `asyn`. For each supp
 You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
 :::{note}
-These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the `asyn` and `StreamDevice` support modules to the container image.
+These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the `asyn`, `calc` and `StreamDevice` support modules to the container image.
 
 This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.
+
+You can also build the container outside of VSCode by running `./build` in the project directory. This is helpful for debugging build errors that may get buried in VSCode's developer container logs. Any cached build steps will still be used if you later rebuild the developer container.
 :::
 
 ## Prepare the ibek-support Submodule
