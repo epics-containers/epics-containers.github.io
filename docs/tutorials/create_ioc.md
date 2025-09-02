@@ -122,7 +122,7 @@ The config folder can contain a variety of different files [as listed here](http
 
 - define a set of parameters, that are to be used as substitutions below
 - add templated lines of code to the startup script with substitutions
-- instantiate 1 more more EPICS Database templates with a set of macro substitutions
+- instantiate 1 or more EPICS Database templates with a set of macro substitutions
 
 Each `entity` listed in the *IOC yaml* file will create an instance of the support module `entity_model` that it refers to. It will pass a number of arguments to the `entity_model` that will be used to generate the startup script entries and EPICS Database entries for that entity. The `entity_model` is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.
 
