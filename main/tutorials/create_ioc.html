@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers 4.2.1.dev27+g155b559 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers 4.2.1.dev29+g9cbfe193d documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=3503da46"></script>
+    <script src="../_static/documentation_options.js?v=37ab5d53"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -617,7 +617,7 @@ we use</p></td>
 <ul class="simple">
 <li><p>define a set of parameters, that are to be used as substitutions below</p></li>
 <li><p>add templated lines of code to the startup script with substitutions</p></li>
-<li><p>instantiate 1 more more EPICS Database templates with a set of macro substitutions</p></li>
+<li><p>instantiate 1 or more EPICS Database templates with a set of macro substitutions</p></li>
 </ul>
 <p>Each <code class="docutils literal notranslate"><span class="pre">entity</span></code> listed in the <em>IOC yaml</em> file will create an instance of the support module <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that it refers to. It will pass a number of arguments to the <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that will be used to generate the startup script entries and EPICS Database entries for that entity. The <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.</p>
 <p>We will be creating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. The following <em>Support yaml</em> for the simulation detector is baked into the container. Once you have your container up and running you can use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">bash</span></code> to get a shell inside and see this file at <strong>/epics/ibek-defs/ADSimDetector.ibek.support.yaml</strong>.</p>
