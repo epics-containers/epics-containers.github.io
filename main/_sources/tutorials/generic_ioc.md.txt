@@ -178,13 +178,12 @@ You can add additional support modules by adding a pair of `COPY` and `RUN` line
 
 The rest of the Dockerfile is boilerplate and will rarely need changing.
 
-Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn`, `calc` and `StreamDevice`. We will
+Because lakeshore340 support is a StreamDevice we will need to add in the required dependencies. These are `asyn` and `StreamDevice`. We will
 first install those inside our devcontainer as follows:
 
 ```bash
 # open a new terminal in VSCode (Terminal -> New Terminal)
 ansible.sh asyn
-ansible.sh calc
 ansible.sh StreamDevice
 ```
 
@@ -198,9 +197,6 @@ Next, make sure that the next build of our `ioc-lakeshore340` container image wi
 COPY ibek-support/asyn/ asyn/
 RUN ansible.sh asyn
 
-COPY ibek-support/calc/ calc/
-RUN ansible.sh calc
-
 COPY ibek-support/StreamDevice/ StreamDevice/
 RUN ansible.sh StreamDevice
 ```
@@ -210,7 +206,7 @@ The above commands added `StreamDevice` and its dependency `asyn`. For each supp
 You may think that there is a lot of duplication here e.g. `asyn` appears 3 times. However, this is explicitly done to make the build cache more efficient and speed up development. For example we could copy everything out of the ibek-support directory in a single command but then if I changed a StreamDevice ibek-support file the build would have to re-fetch and re-make all the support modules. By only copying the files we are about to use in the next step we can massively increase the build cache hit rate.
 
 :::{note}
-These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the `asyn`, `calc` and `StreamDevice` support modules to the container image.
+These changes to the Dockerfile mean that if we were to rebuild our developer container, it would add the `asyn` and `StreamDevice` support modules to the container image.
 
 This is a common pattern for working in these devcontainers. You can try out installing anything you need. Then once happy with it, add the commands you just used into the Dockerfile, so that these changes become permanent for future builds of the container image.
 
@@ -287,7 +283,7 @@ Add the following contents to the new file:
 ```yaml
 # yaml-language-server: $schema=../_scripts/support_install_variables.json
 module: lakeshore340
-version: 2-6-2
+version: 2-6-4
 
 organization: https://github.com/DiamondLightSource
 
@@ -554,7 +550,7 @@ entities:
   - type: lakeshore340.lakeshore340
     ADDR: 12
     LOOP: 2
-    P: BL16I-EA-LS340-01
+    P: BL00T-EA-TEST-01
     PORT: p1
     SCAN: 5
     TEMPSCAN: 2
