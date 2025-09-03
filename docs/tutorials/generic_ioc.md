@@ -550,7 +550,7 @@ entities:
   - type: lakeshore340.lakeshore340
     ADDR: 12
     LOOP: 2
-    P: BL16I-EA-LS340-01
+    P: BL00T-EA-TEST-01
     PORT: p1
     SCAN: 5
     TEMPSCAN: 2
