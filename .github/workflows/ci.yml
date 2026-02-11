@@ -2,13 +2,21 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
+    tags:
+      - "*"
   pull_request:
 
 jobs:
-  check:
-    uses: ./.github/workflows/_check.yml
-
   docs:
-    needs: check
-    if: needs.check.outputs.branch-pr == ''
     uses: ./.github/workflows/_docs.yml
+    permissions:
+      contents: write
+
+  release:
+    needs: [docs]
+    if: github.ref_type == 'tag'
+    uses: ./.github/workflows/_release.yml
+    permissions:
+      contents: write

@@ -54,4 +54,3 @@ The tutorials have now been updated. Recent changes include:
   - This provides greatly improved ability to adopt updates to the template into your own repositories.
 
 All tutorials are now up to date with the latest workflow. The exception is tutorials for the RTEMS platform which are now in active development.
-

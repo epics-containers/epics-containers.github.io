@@ -76,6 +76,3 @@ These instructions worked for me on Ubuntu 24.04. Assume docker default install 
     export DOCKER_HOST=unix:///var/run/docker.sock
     docker ps -a
     ```
-
-
-
