@@ -360,7 +360,7 @@ wheels = [
 ]
 
 [[package]]
-name = "epics-containers"
+name = "epics-containers-github-io"
 source = { editable = "." }
 
 [package.dev-dependencies]

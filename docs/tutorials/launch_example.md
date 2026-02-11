@@ -82,4 +82,3 @@ Before moving on to the next tutorial always make sure to stop and delete the co
 docker compose down
 ```
 :::
-

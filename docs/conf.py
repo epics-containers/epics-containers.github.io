@@ -15,7 +15,7 @@ import requests
 # -- General configuration ------------------------------------------------
 
 # General information about the project.
-project = "epics-containers"
+project = "epics-containers.github.io"
 
 # The full version, including alpha/beta/rc tags.
 release = metadata.version(project)
