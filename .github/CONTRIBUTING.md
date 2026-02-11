@@ -18,6 +18,10 @@ The [Developer Guide] contains information on setting up a development
 environment, building docs and what standards the documentation
 should follow.
 
-[developer guide]: https://epics-containers.github.io/main/developer/how-to/contribute.html
-[discussions]: https://github.com/epics-containers/epics-containers.github.io/discussions
-[github]: https://github.com/epics-containers/epics-containers.github.io/issues
+## Developer Information
+
+It is recommended that developers use a [vscode devcontainer](https://code.visualstudio.com/docs/devcontainers/containers). This repository contains configuration to set up a containerized development environment that suits its own needs.
+
+This project was created using the [Diamond Light Source Copier Template](https://github.com/DiamondLightSource/python-copier-template) for Python projects.
+
+For more information on common tasks like setting up a developer environment, running the tests, and setting a pre-commit hook, see the template's [How-to guides](https://diamondlightsource.github.io/python-copier-template/5.0.2/how-to.html).

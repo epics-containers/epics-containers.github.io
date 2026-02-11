@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 # This is a minimal toml file to allow us to do pip install
@@ -9,21 +9,20 @@ dynamic = ["version"]
 
 [tool.setuptools_scm]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "copier",
+    "mypy",
     "myst-parser",
-    "pipdeptree",
     "pre-commit",
     "pydata-sphinx-theme>=0.12",
-    "pyright",
     "pytest",
     "pytest-cov",
     "ruff",
     "sphinx-autobuild",
     "sphinx-copybutton",
     "sphinx-design",
-    "tox-direct",
+    "tox-uv",
     "types-mock",
 ]
 
@@ -35,8 +34,6 @@ addopts = """
 # Doctest python code in docs, python code in src docstrings, test functions in tests
 testpaths = "tests"
 
-# tox must currently be configured via an embedded ini string
-# See: https://github.com/tox-dev/tox/issues/999
 [tool.tox]
 legacy_tox_ini = """
 [tox]
@@ -61,9 +58,19 @@ commands =
 src = ["src", "tests"]
 line-length = 88
 lint.select = [
-    "C4",   # flake8-comprehensions - https://beta.ruff.rs/docs/rules/#flake8-comprehensions-c4
-    "E",    # pycodestyle errors - https://beta.ruff.rs/docs/rules/#error-e
-    "F",    # pyflakes rules - https://beta.ruff.rs/docs/rules/#pyflakes-f
-    "W",    # pycodestyle warnings - https://beta.ruff.rs/docs/rules/#warning-w
-    "I001", # isort
+    "B",   # flake8-bugbear - https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+    "C4",  # flake8-comprehensions - https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+    "E",   # pycodestyle errors - https://docs.astral.sh/ruff/rules/#error-e
+    "F",   # pyflakes rules - https://docs.astral.sh/ruff/rules/#pyflakes-f
+    "N",   # pep8-naming - https://docs.astral.sh/ruff/rules/#pep8-naming-n
+    "W",   # pycodestyle warnings - https://docs.astral.sh/ruff/rules/#warning-w
+    "I",   # isort - https://docs.astral.sh/ruff/rules/#isort-i
+    "UP",  # pyupgrade - https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "SLF", # self - https://docs.astral.sh/ruff/settings/#lintflake8-self
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# By default, private member access is allowed in tests
+# See https://github.com/DiamondLightSource/python-copier-template/issues/154
+# Remove this line to forbid private member access in tests
+"tests/**/*" = ["SLF001"]
