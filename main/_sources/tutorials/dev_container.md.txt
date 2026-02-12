@@ -209,7 +209,20 @@ cd /epics/ioc
 ./start.sh
 ```
 
-You will just see the default output of a Generic IOC that has no Instance configuration. Hit `Ctrl-C` to stop the default script.
+::: {note}
+You will expect to see an error at this point. You will see a log of the start.sh shell script and then drop into a your IOC shell prompt `epics>`, there will be an error regarding the startup script `st.cmd` and the IOC will have no records. The output will look like this:
+
+```text
++ /epics/ioc/bin/linux-x86_64/ioc /epics/runtime/st.cmd
+Can't open /epics/runtime/st.cmd: No such file or directory
+epics>
+```
+:::
+
+
+The reason for the error is you are running a purely **GENERIC** IOC. It has no DB or startup script. This is because we haven't supplied it with any instance configuration yet. The Generic IOC is designed to be configured at runtime by supplying it with the appropriate config from an IOC instance. We will do this in the next section.
+
+Hit `Ctrl-D` to exit the IOC.
 
 Next we will add some instance configuration from one of the IOC instances in the `t01-services` beamline.
 

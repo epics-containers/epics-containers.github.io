@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 4.2.1.dev36+g25b08dc90 documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 4.2.1.dev38+g845fe1060 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=9cddc922"></script>
+    <script src="../_static/documentation_options.js?v=87251b7a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -658,7 +658,17 @@ make
 ./start.sh
 </pre></div>
 </div>
-<p>You will just see the default output of a Generic IOC that has no Instance configuration. Hit <code class="docutils literal notranslate"><span class="pre">Ctrl-C</span></code> to stop the default script.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will expect to see an error at this point. You will see a log of the start.sh shell script and then drop into a your IOC shell prompt <code class="docutils literal notranslate"><span class="pre">epics&gt;</span></code>, there will be an error regarding the startup script <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and the IOC will have no records. The output will look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>+ /epics/ioc/bin/linux-x86_64/ioc /epics/runtime/st.cmd
+Can&#39;t open /epics/runtime/st.cmd: No such file or directory
+epics&gt;
+</pre></div>
+</div>
+</div>
+<p>The reason for the error is you are running a purely <strong>GENERIC</strong> IOC. It has no DB or startup script. This is because we haven’t supplied it with any instance configuration yet. The Generic IOC is designed to be configured at runtime by supplying it with the appropriate config from an IOC instance. We will do this in the next section.</p>
+<p>Hit <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> to exit the IOC.</p>
 <p>Next we will add some instance configuration from one of the IOC instances in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline.</p>
 <p>To do this we will add some other folders to our VSCode workspace to make it easier to work with <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> and to investigate the container filesystem.</p>
 </section>
