@@ -4,7 +4,7 @@
 
 This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
 
-For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
+For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
 
 ## Continuous Integration
 
@@ -49,7 +49,7 @@ source ./environment.sh
 
 The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:
 - sets permissions on **xhost** to allow local containers to display GUIs on the host.
-- sets **UIDGID** which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.
+- sets **UIDGID** which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman. Only required for developer workstations.
 - sets **COMPOSE_PROFILES** which determines which compose profile is launched. Defaults to the 'test' profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.
 - sets **EPICS_CA_ADDR_LIST** to localhost so that host can see the containerised IOC PVs on a developer workstation.
 
@@ -133,7 +133,7 @@ Once you have a shell inside the container you could inspect the following folde
 
 Being at a terminal prompt inside the IOC container can be useful for debugging and testing. You will have access EPICS command line tools including pvAccess, and you can inspect files such as the IOC startup script.
 
-In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require docker or podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure `EPICS_CA_ADDR_LIST=127.0.0.1`.
+In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure `EPICS_CA_ADDR_LIST=127.0.0.1`.
 
 ### Logging
 
@@ -184,4 +184,4 @@ dbl
 # ctrl-p ctrl-q to detach
 ```
 
-Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this docker will restart your IOC right away.
+Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this podman will restart your IOC right away.

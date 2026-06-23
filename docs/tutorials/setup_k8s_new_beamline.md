@@ -2,7 +2,7 @@
 
 # Create a New Kubernetes Beamline
 
-Up until now the tutorials have been deploying IOCs to the local docker or podman instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy's into a Kubernetes cluster.
+Up until now the tutorials have been deploying IOCs to the local podman instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy's into a Kubernetes cluster.
 
 Helm is a package manager for Kubernetes that allows you to define a set of resources that make up your application in a **Chart**. This is the most popular way to deploy applications to Kubernetes.
 
