@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev47+gf3967ae13 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev49+g612f8b1a2 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7f7990e2"></script>
+    <script src="../_static/documentation_options.js?v=4d40f4d3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -687,29 +687,40 @@ podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="
 <p>There are instructions for installing Python on all platforms here:
 <a class="reference external" href="https://docs.python-guide.org/starting/installation/">https://docs.python-guide.org/starting/installation/</a></p>
 </section>
-<section id="setup-virtual-environment">
-<h3>Setup virtual environment<a class="headerlink" href="#setup-virtual-environment" title="Link to this heading">#</a></h3>
-<p>Once you have python, set up a virtual environment for your epics-containers
-work. In the examples we will use <code class="docutils literal notranslate"><span class="pre">$HOME/ec-venv</span></code> as the virtual environment
-but you can choose any folder.</p>
+<section id="install-uv">
+<h3>Install uv<a class="headerlink" href="#install-uv" title="Link to this heading">#</a></h3>
+<p>We use <a class="reference external" href="https://docs.astral.sh/uv/">uv</a> to install and run the Python command
+line tools used in these tutorials (such as <code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code>). <code class="docutils literal notranslate"><span class="pre">uv</span></code> installs
+each tool into its own isolated environment and puts it on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, so there
+is no virtual environment to create or activate every time you open a shell.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: As <code class="docutils literal notranslate"><span class="pre">$HOME</span></code> is a network drive it has an 8GB limit, consider other locations such as <code class="docutils literal notranslate"><span class="pre">/dls/science/</span></code> or <code class="docutils literal notranslate"><span class="pre">/scratch/</span></code>. Read more <a class="reference external" href="https://dev-portal.diamond.ac.uk/guide/developer-environment/how-tos/disk-quota-troubleshooting/">here</a></p>
+<p><strong>DLS Users</strong>: you can obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code> instead of installing
+it yourself, in which case you can skip the install command below.</p>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span><span class="nv">$HOME</span>/ec-venv
-<span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/ec-venv/bin/activate
-python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+<p>Install <code class="docutils literal notranslate"><span class="pre">uv</span></code> with its standalone installer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
-<p>Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding <code class="docutils literal notranslate"><span class="pre">PATH=$HOME/ec-venv/bin:$PATH</span></code> in your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users)).</p>
+<p>See the <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">uv installation docs</a>
+for other installation methods (including Windows). <code class="docutils literal notranslate"><span class="pre">uv</span></code> can also manage Python
+versions for you, so the tools below will work even without the system Python
+installed above.</p>
 </section>
 <section id="copier">
 <span id="id2"></span><h3>copier<a class="headerlink" href="#copier" title="Link to this heading">#</a></h3>
-<p>Above we set up a python virtual environment. Now we will install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the services repositories and generic IOCs. Also you could take this opportunity to install the <code class="docutils literal notranslate"><span class="pre">ec</span></code> tool that we will use later when we get to the Kubernetes tutorials.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>copier
-pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
+<p>Now we will install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the
+services repositories and generic IOCs. Also you could take this opportunity to
+install the <code class="docutils literal notranslate"><span class="pre">ec</span></code> tool that we will use later when we get to the Kubernetes
+tutorials.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>copier
+uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 </pre></div>
 </div>
+<p>These commands put <code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code> on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> in every new shell, so there
+is nothing to activate. To upgrade them later run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">upgrade</span> <span class="pre">--all</span></code>. If a
+freshly installed tool is not found, run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">update-shell</span></code> (or add
+<code class="docutils literal notranslate"><span class="pre">$HOME/.local/bin</span></code> to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>) and open a new shell.</p>
 </section>
 <section id="git">
 <h3>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h3>
@@ -794,7 +805,7 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-docker-instead-of-podman">Using docker instead of podman</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-completion">Command Line Completion</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-virtual-environment">Setup virtual environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">Install uv</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copier">copier</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kubernetes">Kubernetes</a></li>

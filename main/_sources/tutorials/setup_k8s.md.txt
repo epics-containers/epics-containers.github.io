@@ -111,7 +111,6 @@ This should return the name of your single worker node (i.e. your server or work
 $ kubectl get node
 NAME    STATUS   ROLES                  AGE   VERSION
 ecws1   Ready    control-plane,master   25m   v1.30.4+k3s1
-(venv)
 ```
 
 ### Create an epics IOCs namespace and context

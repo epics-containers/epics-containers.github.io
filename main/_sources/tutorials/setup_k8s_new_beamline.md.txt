@@ -23,7 +23,7 @@ As before, we will use a copier template to create the new beamline repository. 
 1. We are going to call the new beamline **bl03t** with the repository name **t03-services**. It will be created in the namespace **t03-beamline** on the local cluster that we created in the last tutorial **OR** your *fedid* namespace on the **Pollux** cluster if you are using the DLS cluster.
 
     ```bash
-    # make sure your Python virtual environment is active and copier is pip installed
+    # make sure copier is installed (see the workstation setup)
     copier copy https://github.com/epics-containers/services-template-helm t03-services
     ```
 
@@ -116,11 +116,11 @@ If you have brought your own cluster then you may need to edit the **environment
 
 ## Setup the epics containers CLI
 
-To deploy and manage IOC istances requires **helm** and **kubectl** command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and add the `edge-containers-cli` python package to your virtual environment if it is not already there.
+To deploy and manage IOC istances requires **helm** and **kubectl** command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and install the `edge-containers-cli` python package if it is not already there.
 
 ```bash
-# make sure your Python virtual environment is active, then:
-pip install edge-containers-cli
+# install the ec CLI if you don't already have it:
+uv tool install edge-containers-cli
 # setup the environment for ec to know how to talk to the cluster
 # (make sure you are in the t03-services directory)
 source ./environment.sh

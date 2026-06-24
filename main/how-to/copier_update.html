@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev47+gf3967ae13 documentation</title>
+    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev49+g612f8b1a2 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7f7990e2"></script>
+    <script src="../_static/documentation_options.js?v=4d40f4d3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -473,11 +473,13 @@
 <p>Below are some details on how to use this tool.</p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>copier is a python package. To make use of it you require an activated python virtual environment with copier installed. If you don’t already have one of these then the following commands will set one up for you:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
-<span class="nb">source</span><span class="w"> </span>venv/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>copier
+<p>copier is a python command line tool. We recommend installing it with <a class="reference external" href="https://docs.astral.sh/uv/">uv</a>, which puts <code class="docutils literal notranslate"><span class="pre">copier</span></code> on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> without needing a virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>copier
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS Users</strong>: you can obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code>.</p>
 </div>
 <p>NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating a beamline repo to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in <a class="reference internal" href="../reference/changelog.html"><span class="std std-doc">Change Log</span></a>. Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.</p>
 </section>

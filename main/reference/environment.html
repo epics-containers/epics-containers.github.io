@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev47+gf3967ae13 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev49+g612f8b1a2 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7f7990e2"></script>
+    <script src="../_static/documentation_options.js?v=4d40f4d3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -557,8 +557,8 @@ commands. For more targeted debugging you can use <code class="docutils literal 
 <code class="docutils literal notranslate"><span class="pre">blxxi-template</span></code> project comes with a suggested way of doing this, but
 it would probably be best to have <code class="docutils literal notranslate"><span class="pre">ec</span></code> installed globally on your
 workstation and then omit this section from your <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> files.</p>
-<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> into your user space using the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>ec-cli
+<p>Perhaps the simplest way to achieve this is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> as a <code class="docutils literal notranslate"><span class="pre">uv</span></code> tool (DLS users can obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 </pre></div>
 </div>
 <p>Then add the following to your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users):</p>

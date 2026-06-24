@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev47+gf3967ae13 documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev49+g612f8b1a2 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7f7990e2"></script>
+    <script src="../_static/documentation_options.js?v=4d40f4d3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -491,7 +491,7 @@
 <p>As before, we will use a copier template to create the new beamline repository. The steps are similar to the first tutorial <a class="reference internal" href="create_beamline.html"><span class="doc">Create a Beamline Repository</span></a>.</p>
 <ol class="arabic">
 <li><p>We are going to call the new beamline <strong>bl03t</strong> with the repository name <strong>t03-services</strong>. It will be created in the namespace <strong>t03-beamline</strong> on the local cluster that we created in the last tutorial <strong>OR</strong> your <em>fedid</em> namespace on the <strong>Pollux</strong> cluster if you are using the DLS cluster.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure your Python virtual environment is active and copier is pip installed</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure copier is installed (see the workstation setup)</span>
 copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/services-template-helm<span class="w"> </span>t03-services
 </pre></div>
 </div>
@@ -583,9 +583,9 @@ git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span
 </section>
 <section id="setup-the-epics-containers-cli">
 <h2>Setup the epics containers CLI<a class="headerlink" href="#setup-the-epics-containers-cli" title="Link to this heading">#</a></h2>
-<p>To deploy and manage IOC istances requires <strong>helm</strong> and <strong>kubectl</strong> command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and add the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> python package to your virtual environment if it is not already there.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># make sure your Python virtual environment is active, then:</span>
-pip<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
+<p>To deploy and manage IOC istances requires <strong>helm</strong> and <strong>kubectl</strong> command line tools. However we supply a simple wrapper for these tools that saves typing and helps with learning the commands. Go ahead and install the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> python package if it is not already there.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># install the ec CLI if you don&#39;t already have it:</span>
+uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 <span class="c1"># setup the environment for ec to know how to talk to the cluster</span>
 <span class="c1"># (make sure you are in the t03-services directory)</span>
 <span class="nb">source</span><span class="w"> </span>./environment.sh

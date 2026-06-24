@@ -70,10 +70,9 @@ your personal GitHub user space.
 
 1. Create a new repository in your GitHub account using this link <https://github.com/new>. Give your new repository the name `ioc-lakeshore340` plus a description, then click 'Create repository'.
 
-1. From a command line with your virtual environment activated. Use copier to start to make a new repository like this:
+1. From a command line, use copier to start to make a new repository like this (if you don't have `copier` installed yet see {any}`copier`):
 
       ```bash
-      source $HOME/ec-venv/bin/activate
       # this will create the folder ioc-lakeshore340 in the current directory
       copier copy https://github.com/epics-containers/ioc-template --trust ioc-lakeshore340
       ```

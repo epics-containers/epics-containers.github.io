@@ -42,7 +42,7 @@ All `ec` SemVer components will always have their major version bumped simultane
 Updating user projects
 ----------------------
 
-A repository that was originally created using a copier template can be updated to a new version using the following command (assumes you have an active python venv with copier installed):
+A repository that was originally created using a copier template can be updated to a new version using the following command (assumes you have `copier` installed, e.g. with `uv tool install copier`):
 
 ```bash
 copier update -r VERSION_NUMBER --trust .
