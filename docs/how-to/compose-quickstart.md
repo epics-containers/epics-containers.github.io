@@ -51,6 +51,8 @@ systemctl enable --user podman.socket --now
 
 Add this to your `~/.profile` and logout and back in:
 ```bash
-export PATH=/dls_sw/apps/docker-compose/2.33.1/bin/:$PATH
+export PATH=/dls_sw/apps/docker-compose/5.1.4/bin/:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 ```
+
+NOTE: re above. You should first do `ls /dls_sw/apps/docker-compose/` to check which is the most recent version of docker-compose available. Use that version in preference to the example above.
