@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -398,7 +398,7 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Using Docker Instead of Podman</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -514,9 +514,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>~/.vscode/*<span class="w">
 <h2>Cleaning up Container Cache<a class="headerlink" href="#cleaning-up-container-cache" title="Link to this heading">#</a></h2>
 <p>Very occasionally it may be necessary to reset all of your container cache. You might want to do this if you have filled up your disk or if you just want to get back to a known state.</p>
 <p>To remove all container cache on a workstation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># clean out the docker local cache</span>
-docker<span class="w"> </span>system<span class="w"> </span>prune<span class="w"> </span>-af
-<span class="c1"># clean out the podman local cache</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># clean out the podman local cache</span>
 podman<span class="w"> </span>system<span class="w"> </span>reset<span class="w"> </span>-f
 </pre></div>
 </div>
@@ -529,14 +527,14 @@ podman<span class="w"> </span>system<span class="w"> </span>reset<span class="w"
 </ul>
 <p>If on the other hand you would like to just clear individual containers or images then:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># list all containers including stopped ones</span>
-docker<span class="w"> </span>ps<span class="w"> </span>-a
+podman<span class="w"> </span>ps<span class="w"> </span>-a
 <span class="c1"># use the generated name (last column) to remove some containers</span>
-docker<span class="w"> </span>rm<span class="w"> </span>container_name1<span class="w"> </span>container_name2
+podman<span class="w"> </span>rm<span class="w"> </span>container_name1<span class="w"> </span>container_name2
 
 <span class="c1"># list all images</span>
-docker<span class="w"> </span>images
+podman<span class="w"> </span>images
 <span class="c1"># use the image id to remove some images</span>
-docker<span class="w"> </span>rmi<span class="w"> </span>image_id1<span class="w"> </span>image_id2
+podman<span class="w"> </span>rmi<span class="w"> </span>image_id1<span class="w"> </span>image_id2
 </pre></div>
 </div>
 </section>
@@ -556,17 +554,20 @@ ssh-add ~/.ssh/id_rsa
 <p>Where <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> is the name of your private key file you use for connecting
 to GitHub.</p>
 </section>
-<section id="cannot-connect-to-the-docker-daemon">
-<h2>Cannot connect to the Docker daemon<a class="headerlink" href="#cannot-connect-to-the-docker-daemon" title="Link to this heading">#</a></h2>
-<p>Solution 1: start the daemon manually with <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code>,
-if the daemon was already running, add your user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group, then
-log out and in for the change to be effective.</p>
-<p>Solution 2: use rootless docker, the way to setup this depends on your
-distribution, in some cases, it’s a matter of installing a variant package
-like <code class="docutils literal notranslate"><span class="pre">docker-rootless</span></code>.</p>
+<section id="cannot-connect-to-the-container-service">
+<h2>Cannot connect to the container service<a class="headerlink" href="#cannot-connect-to-the-container-service" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">podman</span></code> is daemonless, but <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> talks to it through the podman
+socket. If compose cannot connect, make sure the podman user socket is running
+and that <code class="docutils literal notranslate"><span class="pre">DOCKER_HOST</span></code> points at it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
+<span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
+</pre></div>
+</div>
+<p>(If you are using docker instead of podman, see <a class="reference internal" href="docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> for docker
+daemon troubleshooting.)</p>
 </section>
-<section id="docker-daemon-errors-initializing-graphdriver">
-<h2>Docker daemon errors initializing graphdriver<a class="headerlink" href="#docker-daemon-errors-initializing-graphdriver" title="Link to this heading">#</a></h2>
+<section id="container-storage-errors-initializing-the-storage-driver">
+<h2>Container storage errors initializing the storage driver<a class="headerlink" href="#container-storage-errors-initializing-the-storage-driver" title="Link to this heading">#</a></h2>
 <p>Solution: The most likely reason is that you are using a filesystem like <code class="docutils literal notranslate"><span class="pre">zfs</span></code>
 or <code class="docutils literal notranslate"><span class="pre">btrfs</span></code> which requires a special storage driver, click
 <a class="reference external" href="https://docs.docker.com/engine/storage/drivers/select-storage-driver/">link</a>
@@ -621,8 +622,8 @@ for more information</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resetting-vscode-cache">Resetting VSCode Cache</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-up-container-cache">Cleaning up Container Cache</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-docker-daemon">Cannot connect to the Docker daemon</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-daemon-errors-initializing-graphdriver">Docker daemon errors initializing graphdriver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-container-service">Cannot connect to the container service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#container-storage-errors-initializing-the-storage-driver">Container storage errors initializing the storage driver</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-processing-a-compose-file">Error processing a compose file</a></li>
 </ul>
   </nav></div>

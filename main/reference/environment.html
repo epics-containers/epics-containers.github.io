@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Frequently Asked Questions" href="faq.html" />
-    <link rel="prev" title="Working with Docker" href="docker.html" />
+    <link rel="prev" title="Using Docker Instead of Podman" href="docker.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,7 +399,7 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker.html">Working with Docker</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Using Docker Instead of Podman</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -517,7 +517,7 @@ Instances will be deployed to. When you come to set up a cluster you will
 need to create a namespace for your domain. This is the name you should
 use here. If you are not using Kubernetes then you can leave this as
 <code class="docutils literal notranslate"><span class="pre">EC_K8S_NAMESPACE=local</span></code> and this will deploy IOC Instances to the local server’s
-docker or podman instance.</p></li>
+podman instance.</p></li>
 <li><p><strong>EC_SERVICES_REPO</strong>: this is a link back to the repository that defines this
 domain. For example the bl38p reference beamline repository uses
 <code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO=git&#64;github.com:epics-containers/bl38p.git</span></code>. This variable
@@ -538,12 +538,12 @@ IOC name is added to the URL using <code class="docutils literal notranslate"><s
 <code class="docutils literal notranslate"><span class="pre">{ioc_name}*'</span></code></p></li>
 </ul>
 </li>
-<li><p><strong>EC_CONTAINER_CLI</strong>: this sets the name of the container CLI to use. supported
-options are <code class="docutils literal notranslate"><span class="pre">podman</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span></code>. If not set then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will try to
-determine which one to use. You would only need this variable if you have
-both podman and docker installed and you want to use one over the other, or
-if you want to use a different container CLI such as <code class="docutils literal notranslate"><span class="pre">singularity</span></code>.
-IMPORTANT: the application you reference must have docker compatible CLI
+<li><p><strong>EC_CONTAINER_CLI</strong>: this sets the name of the container CLI to use. This
+defaults to <code class="docutils literal notranslate"><span class="pre">podman</span></code>. If not set then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will try to determine which one to
+use. You would only need this variable if you have more than one container CLI
+installed and you want to select a specific one (for example to use <code class="docutils literal notranslate"><span class="pre">docker</span></code> -
+see <a class="reference internal" href="docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> - or a different CLI such as <code class="docutils literal notranslate"><span class="pre">singularity</span></code>).
+IMPORTANT: the application you reference must have a docker compatible CLI
 (at least for common functions).</p></li>
 <li><p><strong>EC_DEBUG</strong>: causes the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command to output debug information for all
 commands. For more targeted debugging you can use <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-d</span> <span class="pre">...</span></code>.</p></li>
@@ -606,7 +606,7 @@ Kubernetes tools <code class="docutils literal notranslate"><span class="pre">ku
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Working with Docker</p>
+        <p class="prev-next-title">Using Docker Instead of Podman</p>
       </div>
     </a>
     <a class="right-next"

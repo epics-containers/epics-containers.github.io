@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers Part 2 &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Developer Containers Part 2 &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -507,7 +507,7 @@ caget<span class="w"> </span>-#100<span class="w"> </span>BL01T-EA-CAM-01:ARR:Ar
 </pre></div>
 </div>
 <p>This just shows that you have all the EPICS tools available to you inside the container.</p>
-<p>Note that you have the ability to install any other tools you might need inside the container using <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">update;</span> <span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span>&#160; <span class="pre">package-name</span></code>, the container is based on <strong>ubuntu 22.04 LTS</strong> (at time of writing) so all packages available for that distro are available to you. podman users should drop the <code class="docutils literal notranslate"><span class="pre">sudo</span></code> from the start of the commands because podman is already running as root inside the container.</p>
+<p>Note that you have the ability to install any other tools you might need inside the container using <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">update;</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">package-name</span></code> (no <code class="docutils literal notranslate"><span class="pre">sudo</span></code> is needed because podman makes you root inside the container). The container is based on <strong>ubuntu 22.04 LTS</strong> (at time of writing) so all packages available for that distro are available to you.</p>
 </section>
 <section id="auto-port-forwarding">
 <h2>Auto Port Forwarding<a class="headerlink" href="#auto-port-forwarding" title="Link to this heading">#</a></h2>

@@ -39,8 +39,6 @@ This removes installation of the system dependency on the `libpcre3-dev` package
 Now rebuild the container - do this command from a new terminal *outside* of the devcontainer:
 
 ```bash
-# for docker users - builkit complicates debugging at present
-export DOCKER_BUILDKIT=0
 cd ioc-lakeshore340 # where you cloned it
 ./build
 ```
@@ -76,7 +74,7 @@ STEP 18/22: RUN ansible.sh StreamDevice
 ```
 
 - copy the hash of the step you want to debug e.g. `da81452bc214` in this case
-- `docker run -it --entrypoint /bin/bash da81452bc214 # (the hash you copied)`
+- `podman run -it --entrypoint /bin/bash da81452bc214 # (the hash you copied)`
 
 Now we have a prompt inside the part-built container and can retry the failed
 command.
@@ -108,7 +106,7 @@ Whether inside the container or in your workstation terminal, install
 `apt-file` like this:
 
 ```bash
-# drop the sudo from the start of the command if using podman
+# inside a podman container you are root, so you can omit the sudo
 sudo apt update
 sudo apt install apt-file
 ```

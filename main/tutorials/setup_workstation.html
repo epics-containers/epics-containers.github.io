@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -482,7 +482,7 @@ in readiness for the remaining tutorials.
 The tools you need to install are:</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p></li>
-<li><p>a container platform, either docker or podman and docker-compose</p></li>
+<li><p>a container platform: podman (plus docker-compose)</p></li>
 <li><p>Python 3.10 or later + a Python virtual environment</p></li>
 <li><p>git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)</p></li>
 </ul>
@@ -555,14 +555,14 @@ If you have your own preferred code editor you can use that.</p>
 <li><p>Ubuntu 22.04</p></li>
 <li><p>Python 3.10</p></li>
 <li><p>Visual Studio Code</p></li>
-<li><p>Docker</p></li>
+<li><p>Podman</p></li>
 <li><p>zsh shell with oh-my-zsh</p></li>
 </ul>
 <p>You will need to complete the following steps to personalize the VM:</p>
 <ul class="simple">
 <li><p>Set up your github credentials</p></li>
 <li><p>Set up your python virtual environment</p></li>
-<li><p>Set up your docker or podman CLI completion if you want it</p></li>
+<li><p>Set up your podman CLI completion if you want it</p></li>
 </ul>
 <p>Now jump to <a class="reference internal" href="#cli-completion"><span class="std std-ref">Command Line Completion</span></a> below.</p>
 </section>
@@ -591,8 +591,8 @@ on how to do this.</p>
 <li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a></p></li>
 </ul>
 </section>
-<section id="setup-docker-or-podman">
-<h3>Setup Docker or Podman<a class="headerlink" href="#setup-docker-or-podman" title="Link to this heading">#</a></h3>
+<section id="setup-podman">
+<h3>Setup Podman<a class="headerlink" href="#setup-podman" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.</p>
@@ -604,21 +604,27 @@ sed<span class="w"> </span>-i<span class="w"> </span>~/.config/containers/contai
 </pre></div>
 </div>
 </div>
-<p>Next install docker or podman as your container platform. epics-containers
-has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.</p>
-<p>The podman version required is 4.0 or later. Any version of docker since 20.10 will also work.</p>
-<p>Because we use docker compose which is built in to later versions of docker, we recommend using docker if you have a choice.</p>
-<p>The links below have details of how to install your choice of container platform:</p>
+<p>We recommend <code class="docutils literal notranslate"><span class="pre">podman</span></code> as your container platform. epics-containers works best
+with <code class="docutils literal notranslate"><span class="pre">podman</span></code> because it is rootless by default, which is simpler and more
+secure for developing and running IOCs (see <a class="reference internal" href="../explanations/rootless.html#rootless"><span class="std std-ref">Rootless vs Rootful</span></a> for the details).
+epics-containers has been tested with podman 4.4.1 and higher on RedHat 8 and
+Ubuntu 22.04 and higher. The podman version required is 4.0 or later.</p>
+<p>The link below has details of how to install podman:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://docs.docker.com/engine/install/">Install docker</a></p></li>
 <li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
 </ul>
-<p>The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the “Supported Platforms” heading, for simplicity it is easiest to use the option “Install using the convenience script”.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Prefer to use docker?</strong> epics-containers fully supports <code class="docutils literal notranslate"><span class="pre">docker</span></code> as well. The
+rest of this documentation refers to <code class="docutils literal notranslate"><span class="pre">podman</span></code> throughout, so if you would rather
+use <code class="docutils literal notranslate"><span class="pre">docker</span></code> see <a class="reference internal" href="../reference/docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> for how to install it and the few
+extra steps it requires. Everything else in the tutorials works the same way.</p>
+</div>
 </section>
 <section id="docker-compose-for-podman-users">
 <span id="podman-compose"></span><h3>Docker Compose For Podman Users<a class="headerlink" href="#docker-compose-for-podman-users" title="Link to this heading">#</a></h3>
 <p>docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.</p>
-<p>If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.</p>
+<p>Since you installed podman you will need to install docker compose separately (the steps below show how). We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>DLS Users</strong>: docker compose integration with podman is available on RHEL 8 Workstations at DLS. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">docker-compose</span></code> to enable it.</p>
@@ -648,29 +654,25 @@ sudo<span class="w"> </span>pacman<span class="w"> </span>-R<span class="w"> </s
 </li>
 </ol>
 </section>
-<section id="important-notes-regarding-docker-and-podman">
-<h3>Important Notes Regarding docker and podman<a class="headerlink" href="#important-notes-regarding-docker-and-podman" title="Link to this heading">#</a></h3>
-<p>From here on when we refer to <code class="docutils literal notranslate"><span class="pre">docker</span></code> in a command line, you can replace it with <code class="docutils literal notranslate"><span class="pre">podman</span></code> if you are using podman. The two tools have (almost) the same CLI. For convenience if you are a podman user you might want to place</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">alias</span><span class="w"> </span><span class="nv">docker</span><span class="o">=</span>podman
-</pre></div>
-</div>
-<p>in your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users).</p>
-<p><code class="docutils literal notranslate"><span class="pre">docker</span></code> users should also take a look at this page: <a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Working with Docker</span></a> which describes a couple of extra steps that are required to make docker work in developer containers.</p>
+<section id="using-docker-instead-of-podman">
+<h3>Using docker instead of podman<a class="headerlink" href="#using-docker-instead-of-podman" title="Link to this heading">#</a></h3>
+<p>From here on the tutorials always refer to <code class="docutils literal notranslate"><span class="pre">podman</span></code> on the command line. If you
+have chosen to use <code class="docutils literal notranslate"><span class="pre">docker</span></code> instead, the two tools have (almost) the same CLI so
+every <code class="docutils literal notranslate"><span class="pre">podman</span></code> command has an identical <code class="docutils literal notranslate"><span class="pre">docker</span></code> equivalent. See
+<a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Using Docker Instead of Podman</span></a> for how to install docker, how to run it rootless
+(recommended) and the couple of extra steps that rootful docker requires to work
+in developer containers.</p>
 </section>
 <section id="command-line-completion">
 <span id="cli-completion"></span><h3>Command Line Completion<a class="headerlink" href="#command-line-completion" title="Link to this heading">#</a></h3>
-<p>This is an optional step to set up CLI completion for docker or podman.</p>
-<p>It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for docker and docker compose.</p>
+<p>This is an optional step to set up CLI completion for podman.</p>
+<p>It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for podman.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># these steps will make cli completion work for bash</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/share/bash-completion/completions
-docker<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/bash-completion/completions/docker
-<span class="c1"># OR</span>
 podman<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/bash-completion/completions/podman
 
 <span class="c1"># these steps will make cli completion work for zsh</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span>~/.oh-my-zsh/completions
-docker<span class="w"> </span>completion<span class="w"> </span>zsh<span class="w"> </span>&gt;<span class="w"> </span>~/.oh-my-zsh/completions/_docker
-<span class="c1"># OR</span>
 podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="w"> </span>&gt;<span class="w"> </span>~/.oh-my-zsh/completions/_podman
 </pre></div>
 </div>
@@ -729,7 +731,7 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">#</a></h3>
 <p>You don’t need Kubernetes yet.</p>
 <p>The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.</p>
-<p>For simplicity we don’t encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation’s docker or podman instance using docker compose.</p>
+<p>For simplicity we don’t encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation’s podman instance using docker compose.</p>
 <p>If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as <a class="reference external" href="https://www.portainer.io/">Portainer</a>. Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.</p>
 </section>
 </section>
@@ -787,9 +789,9 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtualbox-appliance">VirtualBox Appliance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-vscode">Setup VSCode</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-docker-or-podman">Setup Docker or Podman</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-podman">Setup Podman</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-compose-for-podman-users">Docker Compose For Podman Users</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notes-regarding-docker-and-podman">Important Notes Regarding docker and podman</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-docker-instead-of-podman">Using docker instead of podman</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-completion">Command Line Completion</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-virtual-environment">Setup virtual environment</a></li>

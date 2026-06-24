@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debug an IOC instance locally &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Debug an IOC instance locally &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -490,23 +490,23 @@ code<span class="w"> </span>.
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy-local<span class="w"> </span>services/bl01t-ea-test-02
 </pre></div>
 </div>
-<p>You should see something like this (for docker users - docker users will see something similar):</p>
+<p>You should see something like this:</p>
 <pre>$ ec -v deploy-local services/bl01t-ea-test-02
-<font color="#5F8787">docker --version</font>
-<font color="#5F8787">docker buildx version</font>
-Deploy TEMPORARY version 2024.2.17-b8.30 from /home/giles/tutorial/bl01t/services/bl01t-ea-test-02 to the local docker instance
+<font color="#5F8787">podman --version</font>
+<font color="#5F8787">podman version</font>
+Deploy TEMPORARY version 2024.2.17-b8.30 from /home/giles/tutorial/bl01t/services/bl01t-ea-test-02 to the local podman instance
 Are you sure ? [y/N]: y
-<font color="#5F8787">docker stop -t0 bl01t-ea-test-02</font>
-<font color="#5F8787">docker rm -f bl01t-ea-test-02</font>
-<font color="#5F8787">docker volume rm -f bl01t-ea-test-02_config</font>
-<font color="#5F8787">docker volume create bl01t-ea-test-02_config</font>
-<font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
-<font color="#5F8787">docker cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
-<font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
+<font color="#5F8787">podman stop -t0 bl01t-ea-test-02</font>
+<font color="#5F8787">podman rm -f bl01t-ea-test-02</font>
+<font color="#5F8787">podman volume rm -f bl01t-ea-test-02_config</font>
+<font color="#5F8787">podman volume create bl01t-ea-test-02_config</font>
+<font color="#5F8787">podman rm -f busybox</font>
+<font color="#5F8787">podman container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
+<font color="#5F8787">podman cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
+<font color="#5F8787">podman rm -f busybox</font>
+<font color="#5F8787">podman run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
 76c2834dac805780b3329af91c332abb90fb2692a510c11b888b82e48f60b44f
-<font color="#5F8787">docker ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
+<font color="#5F8787">podman ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
 </pre>
 <p>Now if you try these commands you should see that the IOC instance keeps restarting and that the logs show an error:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
@@ -518,7 +518,7 @@ ec<span class="w"> </span>logs<span class="w"> </span>bl01t-ea-test-02
 <h2>Debugging the IOC instance<a class="headerlink" href="#debugging-the-ioc-instance" title="Link to this heading">#</a></h2>
 <p>Now you can tell <code class="docutils literal notranslate"><span class="pre">ec</span></code> to stop the IOC instance and then run it in a way that you can debug it, by copying the command that <code class="docutils literal notranslate"><span class="pre">ec</span></code> used to run the IOC instance and adding the <code class="docutils literal notranslate"><span class="pre">--entrypoint</span> <span class="pre">bash</span></code> and removing <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag and <code class="docutils literal notranslate"><span class="pre">--restart</span> <span class="pre">unless-stopped</span></code>. Also change the name to have a <code class="docutils literal notranslate"><span class="pre">-debug</span></code> suffix, like so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop<span class="w"> </span>bl01t-ea-test-02
-docker<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--net<span class="w"> </span>host<span class="w"> </span>-l<span class="w"> </span><span class="nv">is_IOC</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="m">2024</span>.2.17-b8.30<span class="w"> </span>-v<span class="w"> </span>bl01t-ea-test-02_config:/epics/ioc/config/<span class="w"> </span>-e<span class="w"> </span><span class="nv">IOC_NAME</span><span class="o">=</span>bl01t-ea-test-02<span class="w">  </span>--name<span class="w"> </span>bl01t-ea-test-02-debug<span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
+podman<span class="w"> </span>run<span class="w"> </span>--entrypoint<span class="w"> </span>bash<span class="w"> </span>-it<span class="w"> </span>--net<span class="w"> </span>host<span class="w"> </span>-l<span class="w"> </span><span class="nv">is_IOC</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="m">2024</span>.2.17-b8.30<span class="w"> </span>-v<span class="w"> </span>bl01t-ea-test-02_config:/epics/ioc/config/<span class="w"> </span>-e<span class="w"> </span><span class="nv">IOC_NAME</span><span class="o">=</span>bl01t-ea-test-02<span class="w">  </span>--name<span class="w"> </span>bl01t-ea-test-02-debug<span class="w"> </span>ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
 </pre></div>
 </div>
 <p>You should now be in a shell inside the container. You can look at the files and run the IOC instance manually to see what the error is. You can re-run the IOC instance multiple times and you can even install your favourite editor or debugging tools.</p>
@@ -535,8 +535,8 @@ vim<span class="w"> </span>/epics/ioc/config/ioc.yaml
 ./start.sh
 </pre></div>
 </div>
-<p>When you are done you can exit the container with <code class="docutils literal notranslate"><span class="pre">ctrl-d</span></code> and then remove it (or you can keep it around for later and restart it with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">start</span> <span class="pre">-i</span> <span class="pre">bl01t-ea-test-02-debug</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>bl01t-ea-test-02-debug
+<p>When you are done you can exit the container with <code class="docutils literal notranslate"><span class="pre">ctrl-d</span></code> and then remove it (or you can keep it around for later and restart it with <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">start</span> <span class="pre">-i</span> <span class="pre">bl01t-ea-test-02-debug</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>bl01t-ea-test-02-debug
 </pre></div>
 </div>
 <p>You can now apply the fix you made to the local filesystem and retry the deployment.</p>

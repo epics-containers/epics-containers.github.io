@@ -75,7 +75,7 @@ TODO - these following sections are WORK IN PROGRESS.
 
 ## Environment Setup
 
-Every services repository has an `environment.sh` file used to configure your shell so that the command line tools know which cluster to talk to. Up to this point we have been using the local docker or podman instance, but here we have configured it to use the the cluster. The copier template should have created the correct settings in **environment.sh** for you. But you can review them by if needed here {any}`../reference/environment`.
+Every services repository has an `environment.sh` file used to configure your shell so that the command line tools know which cluster to talk to. Up to this point we have been using the local podman instance, but here we have configured it to use the the cluster. The copier template should have created the correct settings in **environment.sh** for you. But you can review them by if needed here {any}`../reference/environment`.
 
 TODO pull the above ref into this page and update it.
 

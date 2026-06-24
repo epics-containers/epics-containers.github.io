@@ -37,7 +37,7 @@ caget -#100 BL01T-EA-CAM-01:ARR:ArrayData
 
 This just shows that you have all the EPICS tools available to you inside the container.
 
-Note that you have the ability to install any other tools you might need inside the container using `sudo apt update; sudo apt install  package-name`, the container is based on **ubuntu 22.04 LTS** (at time of writing) so all packages available for that distro are available to you. podman users should drop the `sudo` from the start of the commands because podman is already running as root inside the container.
+Note that you have the ability to install any other tools you might need inside the container using `apt update; apt install package-name` (no `sudo` is needed because podman makes you root inside the container). The container is based on **ubuntu 22.04 LTS** (at time of writing) so all packages available for that distro are available to you.
 
 
 ## Auto Port Forwarding

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -480,7 +480,7 @@
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>This tutorial will show you how to deploy and manage the example IOC Instance <code class="docutils literal notranslate"><span class="pre">example-test-01</span></code> that came with the template beamline repository. You will need to have your own <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline repository from the previous tutorial.</p>
-<p>For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local docker or podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.</p>
+<p>For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.</p>
 </section>
 <section id="continuous-integration">
 <h2>Continuous Integration<a class="headerlink" href="#continuous-integration" title="Link to this heading">#</a></h2>
@@ -519,7 +519,7 @@ have followed the instructions in the previous tutorial correctly.</p>
 <p>The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:</p>
 <ul class="simple">
 <li><p>sets permissions on <strong>xhost</strong> to allow local containers to display GUIs on the host.</p></li>
-<li><p>sets <strong>UIDGID</strong> which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman and USERID:GROUPID for docker. Only required for developer workstations.</p></li>
+<li><p>sets <strong>UIDGID</strong> which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman. Only required for developer workstations.</p></li>
 <li><p>sets <strong>COMPOSE_PROFILES</strong> which determines which compose profile is launched. Defaults to the ‘test’ profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.</p></li>
 <li><p>sets <strong>EPICS_CA_ADDR_LIST</strong> to localhost so that host can see the containerised IOC PVs on a developer workstation.</p></li>
 </ul>
@@ -601,7 +601,7 @@ caget<span class="w"> </span>EXAMPLE:SUM
 </table>
 </div>
 <p>Being at a terminal prompt inside the IOC container can be useful for debugging and testing. You will have access EPICS command line tools including pvAccess, and you can inspect files such as the IOC startup script.</p>
-<p>In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require docker or podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST=127.0.0.1</span></code>.</p>
+<p>In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST=127.0.0.1</span></code>.</p>
 </section>
 <section id="logging">
 <h3>Logging<a class="headerlink" href="#logging" title="Link to this heading">#</a></h3>
@@ -644,7 +644,7 @@ dbl
 <span class="c1"># ctrl-p ctrl-q to detach</span>
 </pre></div>
 </div>
-<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However, there are issues with both VSCode and IOC shells capturing ctrl-P</strong>. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>. If you do this docker will restart your IOC right away.</p>
+<p>Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. <strong>However, there are issues with both VSCode and IOC shells capturing ctrl-P</strong>. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code>. If you do this podman will restart your IOC right away.</p>
 </section>
 </section>
 </section>

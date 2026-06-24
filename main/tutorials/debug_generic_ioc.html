@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -508,9 +508,7 @@ Comment out the app_developer section like this:</p>
 </div>
 <p>This removes installation of the system dependency on the <code class="docutils literal notranslate"><span class="pre">libpcre3-dev</span></code> package and StreamDevice will therefore fail to build.</p>
 <p>Now rebuild the container - do this command from a new terminal <em>outside</em> of the devcontainer:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># for docker users - builkit complicates debugging at present</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_BUILDKIT</span><span class="o">=</span><span class="m">0</span>
-<span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
 ./build
 </pre></div>
 </div>
@@ -543,7 +541,7 @@ STEP<span class="w"> </span><span class="m">18</span>/22:<span class="w"> </span
 </div>
 <ul class="simple">
 <li><p>copy the hash of the step you want to debug e.g. <code class="docutils literal notranslate"><span class="pre">da81452bc214</span></code> in this case</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--entrypoint</span> <span class="pre">/bin/bash</span> <span class="pre">da81452bc214</span> <span class="pre">#</span> <span class="pre">(the</span> <span class="pre">hash</span> <span class="pre">you</span> <span class="pre">copied)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--entrypoint</span> <span class="pre">/bin/bash</span> <span class="pre">da81452bc214</span> <span class="pre">#</span> <span class="pre">(the</span> <span class="pre">hash</span> <span class="pre">you</span> <span class="pre">copied)</span></code></p></li>
 </ul>
 <p>Now we have a prompt inside the part-built container and can retry the failed
 command.</p>
@@ -568,7 +566,7 @@ to install it once.</p></li>
 <p>TODO: consider adding apt-file to the base container developer target.</p>
 <p>Whether inside the container or in your workstation terminal, install
 <code class="docutils literal notranslate"><span class="pre">apt-file</span></code> like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># drop the sudo from the start of the command if using podman</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># inside a podman container you are root, so you can omit the sudo</span>
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>apt-file
 </pre></div>

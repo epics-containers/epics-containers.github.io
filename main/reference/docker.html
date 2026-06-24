@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with Docker &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Using Docker Instead of Podman &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -399,7 +399,7 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Docker</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Using Docker Instead of Podman</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
@@ -452,7 +452,7 @@
     
     <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Working with Docker</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Using Docker Instead of Podman</span></li>
   </ul>
 </nav>
 </div>
@@ -469,31 +469,149 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="working-with-docker">
-<h1>Working with Docker<a class="headerlink" href="#working-with-docker" title="Link to this heading">#</a></h1>
-<p>DLS is a <code class="docutils literal notranslate"><span class="pre">podman</span></code> shop and therefore more testing is done with <code class="docutils literal notranslate"><span class="pre">podman</span></code> than <code class="docutils literal notranslate"><span class="pre">docker</span></code> as the container CLI used with developer containers. <code class="docutils literal notranslate"><span class="pre">podman</span></code> works extremely well with developer containers, but <code class="docutils literal notranslate"><span class="pre">docker</span></code> needs a little more work sometimes.</p>
-<p>The primary difference is that <code class="docutils literal notranslate"><span class="pre">podman</span></code> does not require root access and <code class="docutils literal notranslate"><span class="pre">docker</span></code> does. When inside a <code class="docutils literal notranslate"><span class="pre">podman</span></code> container you appear to be root but you are running as your own host user id. When you write to any host mounted files you will be doing so with your host user permissions. In a docker container any host files written will be owned by the user id that the container is running as.</p>
-<p>Therefore:</p>
-<ul class="simple">
-<li><p>It is better not to run <code class="docutils literal notranslate"><span class="pre">docker</span></code> containers as root.</p></li>
-<li><p>It is easiest to run <code class="docutils literal notranslate"><span class="pre">podman</span></code> containers as root for simplicity.</p></li>
-</ul>
-<p>We do fully support <code class="docutils literal notranslate"><span class="pre">docker</span></code>, please report any issues you find.</p>
-<p>If you would like to use docker in rootless mode then it is almost identical to podman and the following instructions are NOT required. To switch to rootless mode see the description of <code class="docutils literal notranslate"><span class="pre">dockerd-rootless-setuptool.sh</span></code> in  <a class="reference external" href="https://docs.docker.com/engine/security/rootless/#install">these instructions</a>.</p>
-<p>There are a few things to know if you are using <code class="docutils literal notranslate"><span class="pre">docker</span></code> in your developer containers:</p>
+  <section id="using-docker-instead-of-podman">
+<span id="using-docker"></span><h1>Using Docker Instead of Podman<a class="headerlink" href="#using-docker-instead-of-podman" title="Link to this heading">#</a></h1>
+<p>epics-containers recommends <code class="docutils literal notranslate"><span class="pre">podman</span></code> as the container engine for the
+tutorials and for production use. The rest of this documentation refers to
+<code class="docutils literal notranslate"><span class="pre">podman</span></code> throughout. This page is the <strong>single place</strong> that describes how to
+use <code class="docutils literal notranslate"><span class="pre">docker</span></code> instead. If you would prefer to use <code class="docutils literal notranslate"><span class="pre">docker</span></code>, read this page and
+then continue with the rest of the documentation, mentally substituting
+<code class="docutils literal notranslate"><span class="pre">docker</span></code> wherever you see <code class="docutils literal notranslate"><span class="pre">podman</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">podman</span></code> and <code class="docutils literal notranslate"><span class="pre">docker</span></code> share (almost) the same command line interface, so every
+<code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">...</span></code> command in these tutorials has an identical <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">...</span></code>
+equivalent. For convenience you can add an alias so that you can copy and paste
+the <code class="docutils literal notranslate"><span class="pre">podman</span></code> commands verbatim:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># place this in $HOME/.bashrc (or $HOME/.zshrc for zsh users)</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">podman</span><span class="o">=</span>docker
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We continue to use <strong>docker compose</strong> with both engines. <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> is the
+multi-container orchestration tool used for the local-deployment tutorials and
+it works against either <code class="docutils literal notranslate"><span class="pre">podman</span></code> or <code class="docutils literal notranslate"><span class="pre">docker</span></code>. See <a class="reference internal" href="../tutorials/setup_workstation.html#podman-compose"><span class="std std-ref">Docker Compose For Podman Users</span></a> for how
+to use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> with <code class="docutils literal notranslate"><span class="pre">podman</span></code>; with <code class="docutils literal notranslate"><span class="pre">docker</span></code>, <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> is built
+in and needs no extra configuration.</p>
+</div>
+<section id="installing-docker">
+<h2>Installing Docker<a class="headerlink" href="#installing-docker" title="Link to this heading">#</a></h2>
+<p>Install the free Linux CLI tools from <a class="reference external" href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a>.</p>
+<p>The docker install page encourages you to install Docker Desktop. This is a paid
+for product and is not required for these tutorials. You can install the free
+Linux CLI tools by clicking on the appropriate Linux distribution link under the
+“Supported Platforms” heading; for simplicity it is easiest to use the option
+“Install using the convenience script”.</p>
+<p>epics-containers has been tested with docker 24.0.5 and higher. Any version of
+docker since 20.10 will work.</p>
+</section>
+<section id="rootless-vs-rootful-docker">
+<h2>Rootless vs Rootful Docker<a class="headerlink" href="#rootless-vs-rootful-docker" title="Link to this heading">#</a></h2>
+<p>The main difference between <code class="docutils literal notranslate"><span class="pre">podman</span></code> and <code class="docutils literal notranslate"><span class="pre">docker</span></code> is that <code class="docutils literal notranslate"><span class="pre">podman</span></code> is rootless by
+default while <code class="docutils literal notranslate"><span class="pre">docker</span></code> is rootful by default. See <a class="reference internal" href="../explanations/rootless.html#rootless"><span class="std std-ref">Rootless vs Rootful</span></a> for an
+explanation of why rootless operation is preferred for developing and running
+IOCs.</p>
+<p>The good news is that <code class="docutils literal notranslate"><span class="pre">docker</span></code> also supports a rootless mode. <strong>We recommend
+running docker in rootless mode</strong> because it then behaves almost identically to
+<code class="docutils literal notranslate"><span class="pre">podman</span></code> and none of the extra steps in the <a class="reference internal" href="#rootful-docker"><span class="std std-ref">Using Rootful Docker</span></a> section below
+are required.</p>
+<section id="recommended-rootless-docker">
+<h3>Recommended: Rootless Docker<a class="headerlink" href="#recommended-rootless-docker" title="Link to this heading">#</a></h3>
+<p>In rootless mode docker is, for our purposes, equivalent to podman and you can
+follow the rest of the documentation without any of the extra steps below.</p>
+<p>To switch an existing docker install to rootless mode see the description of
+<code class="docutils literal notranslate"><span class="pre">dockerd-rootless-setuptool.sh</span></code> in
+<a class="reference external" href="https://docs.docker.com/engine/security/rootless/#install">the docker rootless instructions</a>.</p>
+<p>The following worked on Ubuntu 24.04 with a default docker install at version
+27.2.0. Your mileage may vary on other distributions.</p>
 <ol class="arabic">
-<li><p>add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">EC_REMOTE_USER=$USER</span></code> into your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users). The epics-containers devcontainer.json files will use this to set the account that your user will use inside devcontainers.</p></li>
-<li><p>you may need to tell git that you are ok with the repository permissions. <code class="docutils literal notranslate"><span class="pre">vscode</span></code> may ask you about this or you may need to do the command:</p>
+<li><p>The docker install comes with a script to set up rootless operation. We use
+<code class="docutils literal notranslate"><span class="pre">--force</span></code> to tell it to run even though rootful is already set up.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dockerd-rootless-setuptool.sh<span class="w"> </span>--force
+</pre></div>
+</div>
+</li>
+<li><p>The script may report errors and explain how to get around them. In one case
+it asked for the <code class="docutils literal notranslate"><span class="pre">uidmap</span></code> package to be installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>uidmap
+</pre></div>
+</div>
+</li>
+<li><p>You can switch between rootless and rootful operation by changing the
+<code class="docutils literal notranslate"><span class="pre">DOCKER_HOST</span></code> environment variable.</p>
+<p>To use rootless docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/docker.sock
+docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
+</div>
+<p>To switch back to rootful docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix:///var/run/docker.sock
+docker<span class="w"> </span>ps<span class="w"> </span>-a
+</pre></div>
+</div>
+<p>(Make sure the rootful service is still running if you intend to switch back
+to it: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">--now</span> <span class="pre">docker.service</span> <span class="pre">docker.socket</span></code>.)</p>
+</li>
+</ol>
+</section>
+<section id="using-rootful-docker">
+<span id="rootful-docker"></span><h3>Using Rootful Docker<a class="headerlink" href="#using-rootful-docker" title="Link to this heading">#</a></h3>
+<p>If you cannot or do not want to use rootless docker then you can still use
+rootful docker, but a few extra steps are required. These are needed because a
+rootful docker container runs as the <code class="docutils literal notranslate"><span class="pre">root</span></code> user on the host, so any host files
+written by the container are owned by <code class="docutils literal notranslate"><span class="pre">root</span></code>.</p>
+<p>The differences when using rootful docker are:</p>
+<ul>
+<li><p><strong>It is best not to run containers as root.</strong> Tell developer containers to run
+as your own user id by adding the following to your <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> for zsh users):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_REMOTE_USER</span><span class="o">=</span><span class="nv">$USER</span>
+</pre></div>
+</div>
+<p>The epics-containers <code class="docutils literal notranslate"><span class="pre">devcontainer.json</span></code> files use this to set the account
+that you will use inside developer containers. If you do not set this, your
+developer container will run as root and all files written to your host
+workspace will be owned by root.</p>
+</li>
+<li><p><strong>UIDGID</strong> must be passed to the compose file so that the phoebus container
+runs as the correct user. The <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> files set <code class="docutils literal notranslate"><span class="pre">UIDGID</span></code> to
+<code class="docutils literal notranslate"><span class="pre">USERID:GROUPID</span></code> for docker (it is <code class="docutils literal notranslate"><span class="pre">0:0</span></code> for podman, which needs no special
+handling).</p></li>
+<li><p><strong>Git repository permissions.</strong> <code class="docutils literal notranslate"><span class="pre">vscode</span></code> may ask you to mark the repository as
+safe, or you may need to run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--add<span class="w"> </span>safe.directory<span class="w"> </span>&lt;Git<span class="w"> </span>folder&gt;
 </pre></div>
 </div>
 </li>
-<li><p>you can use <code class="docutils literal notranslate"><span class="pre">sudo</span></code> if you are having permissions issues. In particular the following will reset permissions on all of the epics files inside the container filesystem:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>-r<span class="w"> </span>vscode<span class="w"> </span>/epics
+<li><p><strong>Fixing file ownership.</strong> If you hit permissions issues you can use <code class="docutils literal notranslate"><span class="pre">sudo</span></code>
+inside the container. For example, the following resets ownership on all of
+the EPICS files inside the container filesystem:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>vscode<span class="w"> </span>/epics
 </pre></div>
 </div>
 </li>
-</ol>
+</ul>
+<p>We do fully support rootful <code class="docutils literal notranslate"><span class="pre">docker</span></code>, please report any issues you find.</p>
+</section>
+</section>
+<section id="troubleshooting-docker">
+<h2>Troubleshooting Docker<a class="headerlink" href="#troubleshooting-docker" title="Link to this heading">#</a></h2>
+<section id="cannot-connect-to-the-docker-daemon">
+<h3>Cannot connect to the Docker daemon<a class="headerlink" href="#cannot-connect-to-the-docker-daemon" title="Link to this heading">#</a></h3>
+<p>Solution 1: start the daemon manually with <code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">docker</span></code>. If the
+daemon was already running, add your user to the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group, then log out
+and in for the change to be effective.</p>
+<p>Solution 2: use rootless docker as described above; the way to set this up
+depends on your distribution and in some cases is a matter of installing a
+variant package like <code class="docutils literal notranslate"><span class="pre">docker-rootless</span></code>.</p>
+</section>
+<section id="docker-daemon-errors-initializing-graphdriver">
+<h3>Docker daemon errors initializing graphdriver<a class="headerlink" href="#docker-daemon-errors-initializing-graphdriver" title="Link to this heading">#</a></h3>
+<p>Solution: the most likely reason is that you are using a filesystem like <code class="docutils literal notranslate"><span class="pre">zfs</span></code>
+or <code class="docutils literal notranslate"><span class="pre">btrfs</span></code> which requires a special storage driver, click
+<a class="reference external" href="https://docs.docker.com/engine/storage/drivers/select-storage-driver/">link</a>
+for more information.</p>
+</section>
+</section>
 </section>
 
 
@@ -534,6 +652,28 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-docker">Installing Docker</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rootless-vs-rootful-docker">Rootless vs Rootful Docker</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-rootless-docker">Recommended: Rootless Docker</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-rootful-docker">Using Rootful Docker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-docker">Troubleshooting Docker</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-docker-daemon">Cannot connect to the Docker daemon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-daemon-errors-initializing-graphdriver">Docker daemon errors initializing graphdriver</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

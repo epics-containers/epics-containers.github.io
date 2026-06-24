@@ -1,11 +1,11 @@
 (quickstart)=
 # Docker Compose Quickstart
 
-Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform.
+Here are some minimal setup instructions to get you up and running with docker-compose and a container runtime on any platform. We recommend `podman` as the container runtime; if you would rather use `docker` see {any}`using-docker`.
 
-## Docker Already Installed
+## Podman Already Installed
 
-If you have any Linux distribution with Docker installed you are all set.
+If you have any Linux distribution with podman and docker-compose installed you are all set.
 
 (linux-installation)=
 ## Linux
@@ -51,7 +51,8 @@ systemctl enable --user podman.socket --now
 
 Add this to your `~/.profile` and logout and back in:
 ```bash
-export PATH=/dls_sw/apps/docker-compose/2.33.1/bin/:$PATH
+export PATH=/dls_sw/apps/docker-compose/5.1.4/bin/:$PATH
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
-alias docker=podman
 ```
+
+NOTE: re above. You should first do `ls /dls_sw/apps/docker-compose/` to check which is the most recent version of docker-compose available. Use that version in preference to the example above.

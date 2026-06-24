@@ -26,24 +26,24 @@ Add the phrase 'deliberate_error' to the top of the `ioc.yaml` file. Then try to
 ec -v deploy-local services/bl01t-ea-test-02
 ```
 
-You should see something like this (for docker users - docker users will see something similar):
+You should see something like this:
 
 <pre>$ ec -v deploy-local services/bl01t-ea-test-02
-<font color="#5F8787">docker --version</font>
-<font color="#5F8787">docker buildx version</font>
-Deploy TEMPORARY version 2024.2.17-b8.30 from /home/giles/tutorial/bl01t/services/bl01t-ea-test-02 to the local docker instance
+<font color="#5F8787">podman --version</font>
+<font color="#5F8787">podman version</font>
+Deploy TEMPORARY version 2024.2.17-b8.30 from /home/giles/tutorial/bl01t/services/bl01t-ea-test-02 to the local podman instance
 Are you sure ? [y/N]: y
-<font color="#5F8787">docker stop -t0 bl01t-ea-test-02</font>
-<font color="#5F8787">docker rm -f bl01t-ea-test-02</font>
-<font color="#5F8787">docker volume rm -f bl01t-ea-test-02_config</font>
-<font color="#5F8787">docker volume create bl01t-ea-test-02_config</font>
-<font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
-<font color="#5F8787">docker cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
-<font color="#5F8787">docker rm -f busybox</font>
-<font color="#5F8787">docker run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
+<font color="#5F8787">podman stop -t0 bl01t-ea-test-02</font>
+<font color="#5F8787">podman rm -f bl01t-ea-test-02</font>
+<font color="#5F8787">podman volume rm -f bl01t-ea-test-02_config</font>
+<font color="#5F8787">podman volume create bl01t-ea-test-02_config</font>
+<font color="#5F8787">podman rm -f busybox</font>
+<font color="#5F8787">podman container create --name busybox -v bl01t-ea-test-02_config:/copyto busybox</font>
+<font color="#5F8787">podman cp /home/giles/tutorial/bl01t/services/bl01t-ea-test-02/config/ioc.yaml busybox:copyto</font>
+<font color="#5F8787">podman rm -f busybox</font>
+<font color="#5F8787">podman run -dit --net host --restart unless-stopped -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02 ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2</font>
 76c2834dac805780b3329af91c332abb90fb2692a510c11b888b82e48f60b44f
-<font color="#5F8787">docker ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
+<font color="#5F8787">podman ps -f name=bl01t-ea-test-02 --format &apos;{{.Names}}&apos;</font>
 </pre>
 
 Now if you try these commands you should see that the IOC instance keeps restarting and that the logs show an error:
@@ -59,7 +59,7 @@ Now you can tell `ec` to stop the IOC instance and then run it in a way that you
 
 ```bash
 ec stop bl01t-ea-test-02
-docker run --entrypoint bash -it --net host -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02-debug ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
+podman run --entrypoint bash -it --net host -l is_IOC=true -l version=2024.2.17-b8.30 -v bl01t-ea-test-02_config:/epics/ioc/config/ -e IOC_NAME=bl01t-ea-test-02  --name bl01t-ea-test-02-debug ghcr.io/epics-containers/ioc-adsimdetectorruntime:2024.2.2
 ```
 
 You should now be in a shell inside the container. You can look at the files and run the IOC instance manually to see what the error is. You can re-run the IOC instance multiple times and you can even install your favourite editor or debugging tools.
@@ -79,10 +79,10 @@ vim /epics/ioc/config/ioc.yaml
 ./start.sh
 ```
 
-When you are done you can exit the container with `ctrl-d` and then remove it (or you can keep it around for later and restart it with `docker start -i bl01t-ea-test-02-debug`):
+When you are done you can exit the container with `ctrl-d` and then remove it (or you can keep it around for later and restart it with `podman start -i bl01t-ea-test-02-debug`):
 
 ```bash
-docker rm -f bl01t-ea-test-02-debug
+podman rm -f bl01t-ea-test-02-debug
 ```
 
 You can now apply the fix you made to the local filesystem and retry the deployment.

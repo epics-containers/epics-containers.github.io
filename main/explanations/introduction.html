@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev40+g3512595f7 documentation</title>
+    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev45+g1840c9b7b documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=e8236df6"></script>
+    <script src="../_static/documentation_options.js?v=f8bde1e1"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -414,7 +414,7 @@
 <li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
 <li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootfull</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
 </ul>
 </div>
 </nav></div>
@@ -516,9 +516,9 @@ Registry.</p>
 and their APIs such that container images can be interchanged between
 different frameworks.</p>
 <p>Thus, in this project we develop, build and test our container images
-using docker or podman but the images can be run under Kubernetes’ own
+using podman but the images can be run under Kubernetes’ own
 container runtime.</p>
-<p>This article does a good job of explaining the relationship between docker /
+<p>This article does a good job of explaining the relationship between
 containers and Kubernetes <a class="reference external" href="https://semaphoreci.com/blog/kubernetes-vs-docker">https://semaphoreci.com/blog/kubernetes-vs-docker</a></p>
 <p>An important outcome of using containers is that you can alter the
 environment inside the container to suit the IOC code, instead of altering the
@@ -578,8 +578,8 @@ implementing these features:</p>
 </section>
 <section id="kubernetes-alternatives">
 <h3>Kubernetes Alternatives<a class="headerlink" href="#kubernetes-alternatives" title="Link to this heading">#</a></h3>
-<p>If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local docker or podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.</p>
-<p>We provide a template services project that uses docker compose with docker or podman as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.</p>
+<p>If you do not wish to maintain a Kubernetes cluster then you could simply install IOCs directly into the local podman instance on each server. Instead of using Kubernetes and Helm, you can use docker compose to manage such IOC instances. But this is just an example, epics-containers is intended to be modular so that you can make use of any parts of it without adopting the whole framework as used at DLS.</p>
+<p>We provide a template services project that uses docker compose with podman as the runtime engine. Docker compose allows us to describe a set of IOCs and other services for each beamline server, similar to the way Helm does. Where a beamline has multiple servers, the distribution of IOCs across those servers could be managed by maintaining a separate docker-compose file for each server in the root of the services repository.</p>
 <p>If you choose to use this approach then you may find it useful to have another tool for viewing and managing the set of containers you have deployed across your beamline servers. There are various solutions for this, one that has been tested with <strong>epics-containers</strong> is Portainer <a class="reference external" href="https://www.portainer.io/">https://www.portainer.io/</a>. Portainer is a paid for product that provides excellent visibility and control of your containers through a web interface. Such a tool could allow you to centrally manage the containers on all your servers.</p>
 <p>The multi-server orchestration tool Docker Swarm might also serve to replace some of the functionality of Kubernetes. The epics-containers team have not yet tried Swarm, but it is compatible with the docker-compose files we template.</p>
 </section>
@@ -592,7 +592,7 @@ define a set of resources to apply to a Kubernetes cluster.</p>
 <p>Helm has functions to deploy Charts to a cluster and manage multiple versions
 of the Chart within the cluster.</p>
 <p>It also supports registries for storing version history of Charts,
-much like docker.</p>
+much like a container image registry.</p>
 <p>In this project we use Helm Charts to define and deploy IOC instances. IOCs are grouped into a <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>. Typical services repositories represent a beamline or accelerator technical area but any grouping is allowed. Each of these repositories holds the Helm Charts for its IOC Instances and any other services we require. Each IOC instance folder need only contain:</p>
 <ul class="simple">
 <li><p>a values.yaml file to override the default values in the repository’s global values.yaml.</p></li>

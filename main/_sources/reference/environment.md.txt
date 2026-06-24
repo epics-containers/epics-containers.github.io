@@ -48,7 +48,7 @@ be adjusted to suit your domain. The variables are as follows:
   need to create a namespace for your domain. This is the name you should
   use here. If you are not using Kubernetes then you can leave this as
   `EC_K8S_NAMESPACE=local` and this will deploy IOC Instances to the local server's
-  docker or podman instance.
+  podman instance.
 
 - **EC_SERVICES_REPO**: this is a link back to the repository that defines this
   domain. For example the bl38p reference beamline repository uses
@@ -67,12 +67,12 @@ be adjusted to suit your domain. The variables are as follows:
     `=message%2Csource&width=1489&highlightMessage=&relative=172800&q=pod_name%3A`
     `{ioc_name}*'`
 
-- **EC_CONTAINER_CLI**: this sets the name of the container CLI to use. supported
-  options are `podman` or `docker`. If not set then `ec` will try to
-  determine which one to use. You would only need this variable if you have
-  both podman and docker installed and you want to use one over the other, or
-  if you want to use a different container CLI such as `singularity`.
-  IMPORTANT: the application you reference must have docker compatible CLI
+- **EC_CONTAINER_CLI**: this sets the name of the container CLI to use. This
+  defaults to `podman`. If not set then `ec` will try to determine which one to
+  use. You would only need this variable if you have more than one container CLI
+  installed and you want to select a specific one (for example to use `docker` -
+  see {any}`using-docker` - or a different CLI such as `singularity`).
+  IMPORTANT: the application you reference must have a docker compatible CLI
   (at least for common functions).
 
 - **EC_DEBUG**: causes the `ec` command to output debug information for all
