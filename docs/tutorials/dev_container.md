@@ -118,7 +118,7 @@ docker compose down
 One issue with compose is that you must have the project available to use compose commands. If you have removed t01-services then you can stop all the services manually instead. To stop and remove all containers on your workstation use the following command:
 
 ```bash
-docker stop $(docker ps -q)
+podman stop $(podman ps -q)
 ```
 :::
 
@@ -137,25 +137,13 @@ Make sure you use the `--recursive` flag to fetch the `ibek-support` submodule. 
 
 If you forget to use the `--recursive` flag you can fetch the submodule with `git submodule update --init`.
 
-:::{important}
-Users of docker need to instruct the devcontainer to use their own user id inside the container. You can do this with the following command:
-
-```bash
-export EC_REMOTE_USER=$USER
-```
-
-It is recommended that you place this command in `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users) to make it permanent.
-
-If you do not do this, your devcontainer will run as root. This will cause problems as all files written on your host workspace will be owned by root.
-:::
-
 ### Launching the Developer Container
 
 In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files within the container filesystem. This is a very convenient way to work because:
 - the development environment is saved alongside the source code
 - you can easily share the development environment with other developers
 - your development environment is portable between machines
-- development has no dependencies on the host machine except for docker/podman
+- development has no dependencies on the host machine except for podman
 
 For epics-containers, the generic IOC *is* the developer container. When you build the developer target of the container in CI, it will contain all the build tools and dependencies needed to build the IOC. It will also contain the IOC source code and the support module source code. For this reason, we can also use the same developer target image to make the developer container itself. We then have an environment that encompasses all the source you could want to change inside of a Generic IOC, and the tools to build and test it.
 

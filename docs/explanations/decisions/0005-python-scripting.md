@@ -12,7 +12,7 @@ Inside the container, we use the `ibek` tool for scripting. Outside we
 use `ec` from `epics-containers-cli`.
 
 Much of what these tools do is
-call command line tools like `docker`, `helm`, `kubectl`, compilers,
+call command line tools like `podman`, `helm`, `kubectl`, compilers,
 etc. This seems like a natural fit for bash scripts.
 
 These features were originally implemented in bash but were converted to

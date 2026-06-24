@@ -53,8 +53,6 @@ Very occasionally it may be necessary to reset all of your container cache. You 
 To remove all container cache on a workstation:
 
 ```bash
-# clean out the docker local cache
-docker system prune -af
 # clean out the podman local cache
 podman system reset -f
 ```
@@ -71,14 +69,14 @@ If on the other hand you would like to just clear individual containers or image
 
 ```bash
 # list all containers including stopped ones
-docker ps -a
+podman ps -a
 # use the generated name (last column) to remove some containers
-docker rm container_name1 container_name2
+podman rm container_name1 container_name2
 
 # list all images
-docker images
+podman images
 # use the image id to remove some images
-docker rmi image_id1 image_id2
+podman rmi image_id1 image_id2
 ```
 
 ## Permissions issues with GitHub
@@ -101,17 +99,21 @@ ssh-add ~/.ssh/id_rsa
 Where `id_rsa` is the name of your private key file you use for connecting
 to GitHub.
 
-## Cannot connect to the Docker daemon
+## Cannot connect to the container service
 
-Solution 1: start the daemon manually with `systemctl start docker`,
-if the daemon was already running, add your user to the `docker` group, then
-log out and in for the change to be effective.
+`podman` is daemonless, but `docker compose` talks to it through the podman
+socket. If compose cannot connect, make sure the podman user socket is running
+and that `DOCKER_HOST` points at it:
 
-Solution 2: use rootless docker, the way to setup this depends on your
-distribution, in some cases, it's a matter of installing a variant package
-like `docker-rootless`.
+```bash
+systemctl enable --user podman.socket --now
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+```
 
-## Docker daemon errors initializing graphdriver
+(If you are using docker instead of podman, see {any}`using-docker` for docker
+daemon troubleshooting.)
+
+## Container storage errors initializing the storage driver
 
 Solution: The most likely reason is that you are using a filesystem like `zfs`
 or `btrfs` which requires a special storage driver, click

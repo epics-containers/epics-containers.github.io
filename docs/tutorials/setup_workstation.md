@@ -5,7 +5,7 @@ in readiness for the remaining tutorials.
 The tools you need to install are:
 
 - Visual Studio Code
-- a container platform, either docker or podman and docker-compose
+- a container platform: podman (plus docker-compose)
 - Python 3.10 or later + a Python virtual environment
 - git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)
 
@@ -74,13 +74,13 @@ This VM has the following software pre-installed:
 - Ubuntu 22.04
 - Python 3.10
 - Visual Studio Code
-- Docker
+- Podman
 - zsh shell with oh-my-zsh
 
 You will need to complete the following steps to personalize the VM:
 - Set up your github credentials
 - Set up your python virtual environment
-- Set up your docker or podman CLI completion if you want it
+- Set up your podman CLI completion if you want it
 
 Now jump to {ref}`cli-completion` below.
 
@@ -111,7 +111,7 @@ on how to do this.
 - Recommended: [VSCode EPICS]
 - Recommended: [Kubernetes]
 
-### Setup Docker or Podman
+### Setup Podman
 
 :::{Note}
 **DLS Users**: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.
@@ -126,26 +126,29 @@ sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containe
 ```
 :::
 
-Next install docker or podman as your container platform. epics-containers
-has been tested with podman 4.4.1 and higher on RedHat 8, and Docker 24.0.5 and higher on for Ubuntu 22.04 and higher.
+We recommend `podman` as your container platform. epics-containers works best
+with `podman` because it is rootless by default, which is simpler and more
+secure for developing and running IOCs (see {any}`rootless` for the details).
+epics-containers has been tested with podman 4.4.1 and higher on RedHat 8 and
+Ubuntu 22.04 and higher. The podman version required is 4.0 or later.
 
-The podman version required is 4.0 or later. Any version of docker since 20.10 will also work.
+The link below has details of how to install podman:
 
-Because we use docker compose which is built in to later versions of docker, we recommend using docker if you have a choice.
-
-The links below have details of how to install your choice of container platform:
-
-- [Install docker]
 - [Install podman]
 
-The docker install page encourages you to install Docker Desktop. This is a paid for product and is not required for this tutorial. You can install the free linux CLI tools by clicking on the appropriate linux distribution link under the "Supported Platforms" heading, for simplicity it is easiest to use the option "Install using the convenience script".
+:::{note}
+**Prefer to use docker?** epics-containers fully supports `docker` as well. The
+rest of this documentation refers to `podman` throughout, so if you would rather
+use `docker` see {any}`using-docker` for how to install it and the few
+extra steps it requires. Everything else in the tutorials works the same way.
+:::
 
 (podman-compose)=
 ### Docker Compose For Podman Users
 
 docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.
 
-If you installed docker using the above instructions then docker compose is already installed. If you installed podman then you will need to install docker compose separately. We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.
+Since you installed podman you will need to install docker compose separately (the steps below show how). We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.
 
 :::{Note}
 **DLS Users**: docker compose integration with podman is available on RHEL 8 Workstations at DLS. Run `module load docker-compose` to enable it.
@@ -177,34 +180,29 @@ Steps to combine podman and docker-compose:-
     sudo pacman -R podman-compose
     ```
 
-### Important Notes Regarding docker and podman
+### Using docker instead of podman
 
-From here on when we refer to `docker` in a command line, you can replace it with `podman` if you are using podman. The two tools have (almost) the same CLI. For convenience if you are a podman user you might want to place
-```bash
-alias docker=podman
-```
-in your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users).
-
-`docker` users should also take a look at this page: [](../reference/docker.md) which describes a couple of extra steps that are required to make docker work in developer containers.
+From here on the tutorials always refer to `podman` on the command line. If you
+have chosen to use `docker` instead, the two tools have (almost) the same CLI so
+every `podman` command has an identical `docker` equivalent. See
+[](../reference/docker.md) for how to install docker, how to run it rootless
+(recommended) and the couple of extra steps that rootful docker requires to work
+in developer containers.
 
 (cli-completion)=
 ### Command Line Completion
 
-This is an optional step to set up CLI completion for docker or podman.
+This is an optional step to set up CLI completion for podman.
 
-It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for docker and docker compose.
+It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for podman.
 
 ```bash
 # these steps will make cli completion work for bash
 mkdir -p ~/.local/share/bash-completion/completions
-docker completion bash > ~/.local/share/bash-completion/completions/docker
-# OR
 podman completion bash > ~/.local/share/bash-completion/completions/podman
 
 # these steps will make cli completion work for zsh
 mkdir -p ~/.oh-my-zsh/completions
-docker completion zsh > ~/.oh-my-zsh/completions/_docker
-# OR
 podman completion zsh > ~/.oh-my-zsh/completions/_podman
 ```
 
@@ -274,13 +272,12 @@ You don't need Kubernetes yet.
 
 The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.
 
-For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's docker or podman instance using docker compose.
+For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's podman instance using docker compose.
 
 If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as [Portainer](https://www.portainer.io/). Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.
 
 [download visual studio code]: https://code.visualstudio.com/download
 [how to use wsl2 and visual studio code]: https://code.visualstudio.com/blogs/2019/09/03/wsl2
-[install docker]: https://docs.docker.com/engine/install/
 [install podman]: https://podman.io/getting-started/installation
 [kubernetes]: https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools
 [remote development]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack

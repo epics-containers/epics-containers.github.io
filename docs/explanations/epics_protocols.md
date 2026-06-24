@@ -30,7 +30,7 @@ To get clients and servers connected we can use 3 approaches:
 
 Using Host Network or the same container network for client and host is compatible with both PVA and CA protocols.
 
-For podman and docker networks this is true even for UDP broadcast.
+For podman networks this is true even for UDP broadcast.
 
 For the majority of Kubernetes CNI's the broadcast does not work across pods. It is quite possible that broadcast within pods would work as this is equivalent to 'same container network'. However this would make management of large numbers of IOCs far more of a manual task.
 
