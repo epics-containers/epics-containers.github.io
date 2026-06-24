@@ -10,8 +10,16 @@ Quick Start
 See [Essential Concepts](https://epics-containers.github.io/main/explanations/introduction.html)
 and the [Getting Started Guide](https://epics-containers.github.io/main/tutorials/intro.html)
 
+<<<<<<< before updating
 Useful Links
 ============
+=======
+What            | Where
+:---:           | :---:
+Source          | <https://github.com/epics-containers/epics-containers>
+Documentation   | <https://epics-containers.github.io/epics-containers>
+Releases        | <https://github.com/epics-containers/epics-containers/releases>
+>>>>>>> after updating
 
 | Item           | Link
 | -------------- | ---------------------
