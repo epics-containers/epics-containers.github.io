@@ -52,6 +52,8 @@
         "--net=host",
         // Make sure SELinux does not disable with access to host filesystems like tmp
         "--security-opt=label=disable",
+        // Allow claude-sandbox to isolate the network see
+        // https://gilesknap.github.io/claude-sandbox/how-to/network-egress-jail.html
         "--device=/dev/net/tun"
     ],
     "mounts": [
