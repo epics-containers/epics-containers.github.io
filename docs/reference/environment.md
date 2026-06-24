@@ -86,10 +86,10 @@ The second section of the `environment.sh` file is used to install the
 it would probably be best to have `ec` installed globally on your
 workstation and then omit this section from your `environment.sh` files.
 
-Perhaps the simplest way to achieve this is to install `ec` into your user space using the following command:
+Perhaps the simplest way to achieve this is to install `ec` as a `uv` tool (DLS users can obtain `uv` with `module load uv`):
 
 ```bash
-pip install --user ec-cli
+uv tool install edge-containers-cli
 ```
 
 Then add the following to your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users):
