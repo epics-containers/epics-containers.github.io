@@ -10,13 +10,15 @@ Below are some details on how to use this tool.
 Introduction
 ------------
 
-copier is a python package. To make use of it you require an activated python virtual environment with copier installed. If you don't already have one of these then the following commands will set one up for you:
+copier is a python command line tool. We recommend installing it with [uv](https://docs.astral.sh/uv/), which puts `copier` on your `PATH` without needing a virtual environment:
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install copier
+uv tool install copier
 ```
+
+:::{Note}
+**DLS Users**: you can obtain `uv` with `module load uv`.
+:::
 
 NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating a beamline repo to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in [](../reference/changelog.md). Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.
 

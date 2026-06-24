@@ -18,8 +18,8 @@ git clone git@github.com:epics-containers/ibek-defs.git
 # clone an example domain repo with example IOC yaml
 git clone git@gitlab.diamond.ac.uk:controls/containers/accelerator/acc-psc.git
 
-# get latest ibek installed
-pip install ibek
+# get latest ibek installed (DLS users: module load uv)
+uv tool install ibek
 
 cd acc-psc/services/sr25a-ioc-01
 ibek build-startup config/ioc.boot.yaml ../../../ibek-defs/*/*.yaml

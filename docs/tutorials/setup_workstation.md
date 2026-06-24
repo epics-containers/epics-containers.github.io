@@ -219,34 +219,47 @@ There are instructions for installing Python on all platforms here:
 <https://docs.python-guide.org/starting/installation/>
 
 
-### Setup virtual environment
+### Install uv
 
-Once you have python, set up a virtual environment for your epics-containers
-work. In the examples we will use `$HOME/ec-venv` as the virtual environment
-but you can choose any folder.
+We use [uv](https://docs.astral.sh/uv/) to install and run the Python command
+line tools used in these tutorials (such as `copier` and `ec`). `uv` installs
+each tool into its own isolated environment and puts it on your `PATH`, so there
+is no virtual environment to create or activate every time you open a shell.
 
 :::{Note}
-**DLS Users**: As `$HOME` is a network drive it has an 8GB limit, consider other locations such as `/dls/science/` or `/scratch/`. Read more [here](https://dev-portal.diamond.ac.uk/guide/developer-environment/how-tos/disk-quota-troubleshooting/)
+**DLS Users**: you can obtain `uv` with `module load uv` instead of installing
+it yourself, in which case you can skip the install command below.
 :::
 
+Install `uv` with its standalone installer:
+
 ```bash
-python3 -m venv $HOME/ec-venv
-source $HOME/ec-venv/bin/activate
-python3 -m pip install --upgrade pip
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Note that each time you open a new shell you will need to activate the virtual environment again. (Or place its bin folder in your path by adding `PATH=$HOME/ec-venv/bin:$PATH` in your `$HOME/.bashrc` (or `$HOME/.zshrc` for zsh users)).
+See the [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/)
+for other installation methods (including Windows). `uv` can also manage Python
+versions for you, so the tools below will work even without the system Python
+installed above.
 
 (copier)=
 
 ### copier
 
-Above we set up a python virtual environment. Now we will install `copier` which is used to copy the templates for the services repositories and generic IOCs. Also you could take this opportunity to install the `ec` tool that we will use later when we get to the Kubernetes tutorials.
+Now we will install `copier` which is used to copy the templates for the
+services repositories and generic IOCs. Also you could take this opportunity to
+install the `ec` tool that we will use later when we get to the Kubernetes
+tutorials.
 
 ```bash
-pip install copier
-pip install edge-containers-cli
+uv tool install copier
+uv tool install edge-containers-cli
 ```
+
+These commands put `copier` and `ec` on your `PATH` in every new shell, so there
+is nothing to activate. To upgrade them later run `uv tool upgrade --all`. If a
+freshly installed tool is not found, run `uv tool update-shell` (or add
+`$HOME/.local/bin` to your `PATH`) and open a new shell.
 
 ### Git
 
