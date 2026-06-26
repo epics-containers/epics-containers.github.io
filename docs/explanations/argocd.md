@@ -53,8 +53,9 @@ See the {any}`services-repo` glossary entry for the full definition.
 The **deployment repository** records *which* of those services run, *where*,
 and at *what version*. It is deliberately tiny. You do not clone a ready-made
 one; you scaffold your own (named `t01-deployment` in the worked example) from
-the public `deployment-template-argocd` template. ArgoCD watches this
-repository, not the services repository.
+the public `deployment-template-argocd` template. ArgoCD watches the deployment
+repository for the root Application, while the generated child Applications
+watch the services repository for service charts.
 
 This separation matters because the two repositories change for different
 reasons and at different rates. Service definitions churn as IOCs are developed;
