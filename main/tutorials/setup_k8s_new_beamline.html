@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev51+gb22a1189a documentation</title>
+    <title>Create a New Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev59+g140481429 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=367bf817"></script>
+    <script src="../_static/documentation_options.js?v=34cf3ae6"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -477,6 +477,16 @@
                   
   <section id="create-a-new-kubernetes-beamline">
 <span id="setup-k8s-beamline"></span><h1>Create a New Kubernetes Beamline<a class="headerlink" href="#create-a-new-kubernetes-beamline" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>DLS users:</strong> to deploy to DLS infrastructure you should now switch over to our
+internal documentation at
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">https://dev-guide.diamond.ac.uk/epics-containers/</a>, which covers deploying to
+DLS beamlines and accelerators. Only continue with this tutorial if you want to
+set up your own cluster for learning.</p>
+<p>Note also that inside DLS you do <strong>not</strong> need an <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> — the module
+system configures <code class="docutils literal notranslate"><span class="pre">ec</span></code> for you.</p>
+</div>
 <p>Up until now the tutorials have been deploying IOCs to the local podman instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy’s into a Kubernetes cluster.</p>
 <p>Helm is a package manager for Kubernetes that allows you to define a set of resources that make up your application in a <strong>Chart</strong>. This is the most popular way to deploy applications to Kubernetes.</p>
 <p>Previously our beamline repository contained a <strong>services</strong> folder.  Each subfolder of <strong>services</strong> contained a <strong>compose.yaml</strong> with details of the generic IOC container image, plus a <strong>config</strong> folder that provided an IOC instance definition.</p>

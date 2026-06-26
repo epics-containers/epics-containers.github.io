@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pure Helm Deployments &#8212; epics-containers.github.io 4.2.1.dev51+gb22a1189a documentation</title>
+    <title>The ec Backend Model &#8212; epics-containers.github.io 4.2.1.dev59+g140481429 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=367bf817"></script>
+    <script src="../_static/documentation_options.js?v=34cf3ae6"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -403,7 +403,7 @@
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pure Helm Deployments</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
@@ -452,7 +452,7 @@
     
     <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Pure Helm Deployments</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</span></li>
   </ul>
 </nav>
 </div>
@@ -469,17 +469,81 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="pure-helm-deployments">
-<span id="helm"></span><h1>Pure Helm Deployments<a class="headerlink" href="#pure-helm-deployments" title="Link to this heading">#</a></h1>
-<p>At DLS we use helm charts in our services repos to describe our IOC instances. However we use ArgoCD continuous deployment to deploy them. ArgoCD is a Kubernetes native tool that knows how to keep a set of Helm charts in a git repository in sync with a set of Kubernetes resources.</p>
-<p>You are not required to use ArgoCD, you can use Helm directly if you prefer. This page discusses how to use the command line tool <code class="docutils literal notranslate"><span class="pre">ec</span></code> to deploy and manage IOC instances using Helm directly. <code class="docutils literal notranslate"><span class="pre">ec</span></code> adds some useful version management features to the workflow that to some extent replicates ArgoCD’s ability to track versions.</p>
-<section id="todo-this-is-wip">
-<h2>TODO this is WIP<a class="headerlink" href="#todo-this-is-wip" title="Link to this heading">#</a></h2>
-<p>If you set the <code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND</span></code> environment variable to <code class="docutils literal notranslate"><span class="pre">K8S</span></code> then <code class="docutils literal notranslate"><span class="pre">ec</span></code> will use Helm directly to deploy and manage IOC instances. You can get a feel for the commands available with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code>.</p>
+  <section id="the-ec-backend-model">
+<span id="helm"></span><h1>The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model<a class="headerlink" href="#the-ec-backend-model" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> (the <a class="reference external" href="https://epics-containers.github.io/edge-containers-cli/">edge-containers-cli</a>)
+is a thin wrapper around the tools that actually deploy and manage your
+services — <code class="docutils literal notranslate"><span class="pre">git</span></code>, <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>, <code class="docutils literal notranslate"><span class="pre">helm</span></code> and <code class="docutils literal notranslate"><span class="pre">argocd</span></code>. The tool it drives is
+selected by a <strong>backend</strong>, set with the <code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND</span></code> environment variable
+(or the <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-b/--backend</span></code> option). There are three backends:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Backend</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND</span></code></p></th>
+<th class="head"><p>Deploys via</p></th>
+<th class="head"><p>Typical use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ArgoCD</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ARGOCD</span></code> (default)</p></td>
+<td><p>A deployment repository reconciled by ArgoCD</p></td>
+<td><p>Production continuous deployment</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kubernetes</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">K8S</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">helm</span></code> directly against a cluster</p></td>
+<td><p>Pure-Helm clusters with no ArgoCD</p></td>
+</tr>
+<tr class="row-even"><td><p>Demo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DEMO</span></code></p></td>
+<td><p>An in-memory simulation</p></td>
+<td><p>Trying out <code class="docutils literal notranslate"><span class="pre">ec</span></code> / running the tutorials offline</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The available commands and options change per backend: when a command is not
+implemented for the selected backend it is dropped from <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code> entirely.
+So the output of <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code> reflects whichever backend is currently active.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span>K8S
-ec<span class="w"> </span>--help
+ec<span class="w"> </span>--help<span class="w">        </span><span class="c1"># shows only the commands the K8S backend implements</span>
 </pre></div>
 </div>
+<p>For the authoritative, per-command reference, see the
+<a class="reference external" href="https://epics-containers.github.io/edge-containers-cli/">edge-containers-cli documentation</a>.</p>
+<section id="argocd-default">
+<h2>ARGOCD (default)<a class="headerlink" href="#argocd-default" title="Link to this heading">#</a></h2>
+<p>This is the production continuous-deployment path used at DLS. The services
+repository describes IOC instances as Helm charts, but <code class="docutils literal notranslate"><span class="pre">ec</span></code> does not deploy
+them directly. Instead a companion <strong>deployment repository</strong> records which
+version of each service should be running, and
+<a class="reference external" href="https://argo-cd.readthedocs.io/">ArgoCD</a> — a Kubernetes-native tool that keeps
+a set of Helm charts in a git repository in sync with the cluster —
+continuously reconciles the cluster to match it.</p>
+<p>With this backend <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">&lt;version&gt;</span></code> works by committing the
+chosen version into the deployment repository; ArgoCD then rolls it out. Here
+<code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is <code class="docutils literal notranslate"><span class="pre">app-namespace/root-app</span></code> (the namespace hosting ArgoCD plus the
+name of the root app-of-apps Application).</p>
+</section>
+<section id="k8s">
+<h2>K8S<a class="headerlink" href="#k8s" title="Link to this heading">#</a></h2>
+<p>You are not required to use ArgoCD; the <code class="docutils literal notranslate"><span class="pre">K8S</span></code> backend uses Helm directly. <code class="docutils literal notranslate"><span class="pre">ec</span></code>
+adds version-management features on top of Helm that to some extent replicate
+ArgoCD’s ability to track versions, but without the git-driven audit trail.</p>
+<p>With this backend <code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is simply the Kubernetes <strong>namespace</strong> to deploy
+into. <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">[version]</span></code> shallow-clones <code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> at the
+requested git tag and runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span></code> on the service’s chart;
+<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">template</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code> operate on a local chart instead. Lifecycle
+commands map onto cluster operations — start/stop scale the StatefulSet,
+<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">delete</span></code> runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">delete</span></code>, and <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">logs</span></code>/<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">exec</span></code>/<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">attach</span></code> use
+<code class="docutils literal notranslate"><span class="pre">kubectl</span></code>.</p>
+</section>
+<section id="demo">
+<h2>DEMO<a class="headerlink" href="#demo" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DEMO</span></code> backend simulates a cluster in memory so you can explore the <code class="docutils literal notranslate"><span class="pre">ec</span></code>
+command set without any infrastructure. It is used by the introductory
+tutorials and for experimenting offline.</p>
 </section>
 </section>
 
@@ -530,7 +594,9 @@ ec<span class="w"> </span>--help
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#todo-this-is-wip">TODO this is WIP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#argocd-default">ARGOCD (default)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k8s">K8S</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demo">DEMO</a></li>
 </ul>
   </nav></div>
 

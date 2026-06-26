@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuring a Services Repository for a Cluster &#8212; epics-containers.github.io 4.2.1.dev51+gb22a1189a documentation</title>
+    <title>Configuring a Services Repository for a Cluster &#8212; epics-containers.github.io 4.2.1.dev59+g140481429 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=367bf817"></script>
+    <script src="../_static/documentation_options.js?v=34cf3ae6"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -403,7 +403,7 @@
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helm.html">Pure Helm Deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_helm_chart.html">IOC Helm Chart Details</a></li>
 <li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring a Services Repository for a Cluster</a></li>
@@ -471,6 +471,14 @@
                   
   <section id="configuring-a-services-repository-for-a-cluster">
 <h1>Configuring a Services Repository for a Cluster<a class="headerlink" href="#configuring-a-services-repository-for-a-cluster" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>DLS users — live deployments:</strong> you do <strong>not</strong> need to create or source an
+<code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> for production beamline or accelerator deployments. At DLS the
+module system configures <code class="docutils literal notranslate"><span class="pre">ec</span></code> to deploy to the production clusters for you.
+Sourcing <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> is only required for local/standalone work and for
+non-DLS clusters. See <a class="reference internal" href="environment.html"><span class="doc">The Environment Configuration File</span></a> for details.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This page is a work in progress.</p>

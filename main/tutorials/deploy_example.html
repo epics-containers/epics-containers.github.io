@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 4.2.1.dev51+gb22a1189a documentation</title>
+    <title>Deploying and Managing IOC Instances &#8212; epics-containers.github.io 4.2.1.dev59+g140481429 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=367bf817"></script>
+    <script src="../_static/documentation_options.js?v=34cf3ae6"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -477,6 +477,13 @@
                   
   <section id="deploying-and-managing-ioc-instances">
 <h1>Deploying and Managing IOC Instances<a class="headerlink" href="#deploying-and-managing-ioc-instances" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On this page <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> sets up your local <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> environment
+(container engine, <code class="docutils literal notranslate"><span class="pre">UIDGID</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPOSE_PROFILES</span></code>, EPICS name servers). See
+<a class="reference internal" href="../reference/environment.html"><span class="doc">The Environment Configuration File</span></a> for the full list of what <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> can
+set in each kind of repository.</p>
+</div>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>This tutorial will show you how to deploy and manage the example IOC Instance <code class="docutils literal notranslate"><span class="pre">example-test-01</span></code> that came with the template beamline repository. You will need to have your own <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline repository from the previous tutorial.</p>
