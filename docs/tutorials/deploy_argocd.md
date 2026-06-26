@@ -276,7 +276,7 @@ root plus its three seeded children:
 argocd app list --app-namespace t01-beamline
 ```
 
-```
+```text
 NAME                       SYNC STATUS   HEALTH
 t01-beamline/t01           Synced        Healthy
 t01-beamline/t01-epics-pvcs       Synced   Healthy
@@ -339,7 +339,7 @@ Verify the deployment with `ec ps`:
 ec ps
 ```
 
-```
+```text
  name                 label     version   ready   deployed
  t01-epics-pvcs       service   main      True    2026-06-25T09:10:00Z
  t01-epics-opis       service   main      True    2026-06-25T09:10:00Z
