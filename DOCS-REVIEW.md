@@ -278,7 +278,7 @@ Both were checked against the current local working copies of the implementation
 - **Fix:** Add `builder2ibek xml2yaml <ioc.xml> --yaml <out.yaml>` and mention `beamline2yaml`, `autosave`, `migrate-autosave`, `db-compare`, `reconvert`.
 - **Evidence:** `builder2ibek.md:11-12`; `builder2ibek/src/builder2ibek/__main__.py:12,34-50,53,66,82,137,169`.
 
-#### `docs/how-to/copier_update.md` — wrong templates symlink target [minor, wrong-path]
+#### `docs/how-to/copier_update.md` — wrong templates symlink target [minor, wrong-path] — FIXED (PR pending)
 - **Location:** line 40 (`points at ../../include/ioc/templates`)
 - **Issue:** No such path exists; templates symlinks point at `../../.helm-shared/templates`.
 - **Fix:** Change to `../../.helm-shared/templates`.
