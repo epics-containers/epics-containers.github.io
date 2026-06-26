@@ -6,7 +6,7 @@ The tools you need to install are:
 
 - Visual Studio Code
 - a container platform: podman (plus docker-compose)
-- Python 3.10 or later (uv can also install this for you)
+- Python 3.13 or later (uv can also install this for you)
 - uv, to install the Python CLI tools (copier and ec)
 - git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)
 
@@ -73,7 +73,7 @@ Now start the VM and log in as `ec-demo` with password `demo1`.
 
 This VM has the following software pre-installed:
 - Ubuntu 22.04
-- Python 3.10
+- Python 3.13
 - Visual Studio Code
 - Podman
 - zsh shell with oh-my-zsh
@@ -211,10 +211,10 @@ podman completion zsh > ~/.oh-my-zsh/completions/_podman
 ### Install Python
 
 :::{Note}
-**DLS Users**: for this step just use `module load python/3.11`
+**DLS Users**: for this step just use `module load python/3.13`
 :::
 
-Go ahead and install Python if it is not already installed, the minimum version you should use is 3.10. Virtualbox Appliance users will already have Python 3.10 installed.
+Go ahead and install Python if it is not already installed, the minimum version you should use is 3.13. Virtualbox Appliance users will already have Python 3.13 installed.
 
 There are instructions for installing Python on all platforms here:
 <https://docs.python-guide.org/starting/installation/>
