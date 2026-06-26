@@ -3,11 +3,14 @@
 # Create a New Kubernetes Beamline
 
 :::{warning}
-**DLS users — live deployments:** you do **not** need to create or source an
-`environment.sh` for production beamline or accelerator deployments. At DLS the
-module system configures `ec` to deploy to the production clusters for you.
-Sourcing `environment.sh` is only required for local/standalone work and for
-non-DLS clusters. See {any}`../reference/environment` for details.
+**DLS users:** to deploy to DLS infrastructure you should now switch over to our
+internal documentation at
+<https://dev-guide.diamond.ac.uk/epics-containers/>, which covers deploying to
+DLS beamlines and accelerators. Only continue with this tutorial if you want to
+set up your own cluster for learning.
+
+Note also that inside DLS you do **not** need an `environment.sh` — the module
+system configures `ec` for you.
 :::
 
 Up until now the tutorials have been deploying IOCs to the local podman instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy's into a Kubernetes cluster.
