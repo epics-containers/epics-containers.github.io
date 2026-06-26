@@ -1,301 +1,226 @@
 # Set up a Developer Workstation
 
-This page will guide you through the steps to set up a developer workstation
-in readiness for the remaining tutorials.
-The tools you need to install are:
+This page gets your workstation ready for the rest of the tutorials. By the end
+you will have the handful of tools the tutorials rely on:
 
-- Visual Studio Code
-- a container platform: podman (plus docker-compose)
-- Python 3.13 or later (uv can also install this for you)
-- uv, to install the Python CLI tools (copier and ec)
-- git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)
+- **Visual Studio Code** — the recommended editor, for its devcontainer,
+  Kubernetes, YAML and EPICS integration.
+- **A container platform** — `podman` (recommended) or `docker`, plus
+  `docker compose`.
+- **`uv`** — installs and runs the Python CLI tools (`copier` and `ec`).
+- **`git`** — configured for your user with access to your repositories.
+- **Python 3.13+** — optional; `uv` can provide it for you.
 
-If you prefer to use a virtual machine, we provide a VirtualBox appliance with all the software pre-installed. This is the easiest way to get started.
-
-Visual Studio Code is recommended because it has excellent integration with
-devcontainers. It also has useful extensions for working with Kubernetes,
-EPICS, Yaml files and more.
+Not using VSCode? You can use any editor — see {any}`own-editor`.
 
 :::{note}
-**Using a Personal Access Token (PAT):** If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens. Give your new token R/W access to Repository Contents and Workflows.
+**Personal Access Tokens (PAT).** On an untrusted machine, authenticate to
+GitHub with a fine-grained PAT (Settings → Developer Settings → Personal access
+tokens) scoped to **Repository Contents** and **Workflows**, rather than an SSH
+key. Cache it so you are not prompted repeatedly:
 
-```
-# Remember credentials for 5 hours duration
+```bash
 git config --global credential.helper 'cache --timeout 18000'
-# When asked to login
-Username for `https://github.com': <ENTER YOUR USERNAME>
-Password for `https://<YOUR USERNAME>@github.com': <ENTER YOUR PAT>
 ```
 
-When using Personal Access Tokens, replace `git@github.com:` with `https://github.com/` throughout these tutorials.
+When prompted, enter your username and the PAT as the password. With a PAT,
+clone over `https://github.com/...` rather than `git@github.com:...`.
 :::
 
+## Platform support
 
-## Options
+The tutorial container images are **x86_64 Linux**. The best experience is an
+Intel Linux workstation or laptop (`arm64` images exist but are less widely
+tested). On any other platform you have two options:
 
-You are not required to use VSCode to develop with epics-containers.
-If you have your own preferred code editor you can use that.
+- run the container runtime natively — see the [quickstart](quickstart);
+- or use the pre-built **VirtualBox appliance** below.
 
-See these how-to pages for more information:
+Either way you only need an internet connection to download the software and
+images. (At DLS you do *not* need DLS network resources — just the internet.)
 
-- {any}`own-editor`
-
-## Platform Support
-
-The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.
-
-**UPDATE**: See the new [quickstart instructions](quickstart) for setting up the container runtime on any platform, therefore not requiring the virtualbox appliance unless that is your preferred option.
-
-Whatever your platform, if you can install virtualbox, then you can work using the appliance we provide.
-
-In all cases you will need an internet connection to download the software and the container images. (if you are at DLS you do not need access to DLS network resources, only the internet).
-
-| Platform | Requirements |
-|----------|--------------|
-| Any Linux | admin rights only: go to {ref}`installation-steps` |
-| Windows | Virtualbox: go to {ref}`appliance`  or WSL2 and Podman Desktop |
-| Mac x86 | Virtualbox: go to {ref}`appliance` or Podman Desktop |
-| Mac M1 | Virtualbox: go to {ref}`appliance` or Podman Desktop |
-| DLS RHEL 8 | go to {ref}`installation-steps` |
+| Platform | Route |
+|----------|-------|
+| Any Linux (incl. DLS RHEL 8) | {ref}`installation-steps` |
+| Windows | {ref}`appliance`, or WSL2 + Podman Desktop |
+| Mac (Intel or Apple silicon) | {ref}`appliance`, or Podman Desktop |
 
 (appliance)=
 ## VirtualBox Appliance
 
-This section is for those that want to use a virtual machine to run the tutorials. If you already have a linux distribution with admin permissions and you want to work with that instead, please go to {ref}`installation-steps` below.
+If you are on Mac or Windows and would rather not configure a container runtime
+natively, use the Linux VM we provide with everything pre-installed. If you
+already have a Linux machine with admin rights, skip to {ref}`installation-steps`
+instead.
 
-If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide.
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
+2. Download the [virtual machine](https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing)
+   (an OVA file) and import it with **File → Import Appliance**. The default
+   resources are fine; 8 GB RAM and 4 CPUs is a sensible minimum.
+3. Start the VM and log in as `ec-demo` / `demo1`.
 
-First install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) and then download the [Virtual Machine](https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing). The downloaded file is an OVA file which can be imported into VirtualBox using ``File->Import Appliance ...``
-
-During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources. We recommend 8GB of RAM and 4 CPUs for the VM but more is better for the developer container tutorials!
-
-Now start the VM and log in as `ec-demo` with password `demo1`.
-
-This VM has the following software pre-installed:
-- Ubuntu 22.04
-- Python 3.13
-- Visual Studio Code
-- Podman
-- zsh shell with oh-my-zsh
-
-You will need to complete the following steps to personalize the VM:
-- Set up your github credentials
-- Install `uv` and the Python CLI tools (copier and ec)
-- Set up your podman CLI completion if you want it
-
-Now jump to {ref}`cli-completion` below.
-
+The VM ships with Ubuntu 22.04, Python 3.13, VSCode, podman and a zsh shell. To
+personalise it you only need to set up your git credentials and install the
+Python CLI tools — jump to {ref}`cli-completion`, then {ref}`python-setup`.
 
 (installation-steps)=
 ## Installation Steps
 
-If you are using your own Linux machine then follow all the steps below to install the required software.
+On your own Linux machine, work through the sections below.
 
-### Setup VSCode
+### VSCode
 
-:::{Note}
-**DLS Users**: You can access VSCode with `module load vscode`.
+:::{note}
+**DLS users:** load it with `module load vscode`, then open your project with
+`code .`.
 :::
 
-First download and install Visual Studio Code.
+[Download and install VSCode](https://code.visualstudio.com/download), then add
+the extensions you need. Only the first is required before the next tutorial;
+the devcontainer installs the in-container extensions (Python, YAML, EPICS,
+Ansible, …) for you.
 
-- [Download Visual Studio Code]
-- [Setup Visual Studio Code]
+- **Required:** [Remote Development] (the Dev Containers pack).
+- **Windows:** [VSCode WSL2] (see [using WSL2 with VSCode]).
+- Recommended: [VSCode EPICS] and [Kubernetes].
 
-VSCode has a huge library of extensions. The following list of extensions are
-useful for working with epics-containers. You will need to install the *Required*
-extensions before proceeding to the next tutorial. See the links for instructions
-on how to do this.
+### Podman
 
-- Required: [Remote Development]
-- Required for Windows: [VSCode WSL2] (see [How to use WSL2 and Visual Studio Code])
-- Recommended: [VSCode EPICS]
-- Recommended: [Kubernetes]
-
-### Setup Podman
-
-:::{Note}
-**DLS Users**: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.
-
-If this is the first time you have used podman **OR you are using a DLS Redhat laptop** then you must perform the following steps:
-
-```bash
-# setup the podman config folders in your home directory
-/dls_sw/apps/setup-podman/setup.sh
-# disable se labels in mounted folders for podman
-sed -i ~/.config/containers/containers.conf -e '/label=false/d' -e '/^\[containers\]$/a label=false'
-```
-:::
-
-We recommend `podman` as your container platform. epics-containers works best
-with `podman` because it is rootless by default, which is simpler and more
-secure for developing and running IOCs (see {any}`rootless` for the details).
-epics-containers has been tested with podman 4.4.1 and higher on RedHat 8 and
-Ubuntu 22.04 and higher. The podman version required is 4.0 or later.
-
-The link below has details of how to install podman:
+We recommend `podman` because it is rootless by default — simpler and more
+secure for developing and running IOCs (see {any}`rootless`). Version **4.0 or
+later** is required; it is tested on RHEL 8 and Ubuntu 22.04+.
 
 - [Install podman]
 
 :::{note}
-**Prefer to use docker?** epics-containers fully supports `docker` as well. The
-rest of this documentation refers to `podman` throughout, so if you would rather
-use `docker` see {any}`using-docker` for how to install it and the few
-extra steps it requires. Everything else in the tutorials works the same way.
+**DLS users:** RHEL 8 workstations ship podman 4.9.4 (RHEL 7 is not supported).
+The first time you use podman on a DLS machine, run the shared setup script:
+
+```bash
+/dls_sw/apps/setup-podman/setup.sh
+```
+:::
+
+:::{note}
+**Prefer docker?** epics-containers fully supports `docker` too. The tutorials
+say `podman` throughout, but every command has an identical `docker`
+equivalent; see {any}`using-docker` for how to install it and the couple of
+extra steps rootful docker needs in devcontainers.
 :::
 
 (podman-compose)=
-### Docker Compose For Podman Users
+### Docker Compose for podman users
 
-docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.
+`docker compose` runs a set of IOCs and other services together. The early
+tutorials use it before moving on to Kubernetes, and it can also underpin a
+non-Kubernetes production deployment.
 
-Since you installed podman you will need to install docker compose separately (the steps below show how). We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.
-
-:::{Note}
-**DLS Users**: docker compose integration with podman is available on RHEL 8 Workstations at DLS. Run `module load docker-compose` to enable it.
+:::{note}
+**DLS users:** run `module load docker-compose` and you can skip the steps
+below.
 :::
 
-Steps to combine podman and docker-compose:-
+1. Expose podman's docker-compatible API socket (once per workstation):
 
-1. Launch a podman user service and expose a docker API socket as follows. This step need only be done once per workstation.
+   ```bash
+   systemctl enable --user podman.socket --now
+   ```
 
-    ```bash
-    systemctl enable --user podman.socket --now
-    ```
-1. Add the following to your shell profile (e.g. ~/.bashrc or ~/.zshrc) to instruct docker-compose and any other docker tool to use podman's docker API socket.
+2. Point docker tooling at that socket from your shell profile
+   (`~/.bashrc` or `~/.zshrc`):
 
-    ```bash
-    export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
-    ```
+   ```bash
+   export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+   ```
 
-1. Use these instructions <https://docs.docker.com/compose/install/standalone> to install the docker compose binary. Some linux distributions have docker-compose in their package manager, this is the easiest way to install it if available.
-
-1. we recommend uninstalling podman-compose if you have it installed.
-
-    ```bash
-    # Debian/Ubuntu
-    sudo apt uninstall podman-compose
-    # RHEL/Centos
-    sudo dnf remove podman-compose
-    # Arch
-    sudo pacman -R podman-compose
-    ```
-
-### Using docker instead of podman
-
-From here on the tutorials always refer to `podman` on the command line. If you
-have chosen to use `docker` instead, the two tools have (almost) the same CLI so
-every `podman` command has an identical `docker` equivalent. See
-[](../reference/docker.md) for how to install docker, how to run it rootless
-(recommended) and the couple of extra steps that rootful docker requires to work
-in developer containers.
+3. Install the standalone `docker compose` binary using the
+   [docker compose install docs](https://docs.docker.com/compose/install/standalone).
+   We prefer it over `podman-compose`; uninstall `podman-compose` if present.
 
 (cli-completion)=
-### Command Line Completion
+### Command line completion (optional)
 
-This is an optional step to set up CLI completion for podman.
-
-It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for podman.
+Shell completion makes podman much easier to explore. Run once:
 
 ```bash
-# these steps will make cli completion work for bash
+# bash
 mkdir -p ~/.local/share/bash-completion/completions
 podman completion bash > ~/.local/share/bash-completion/completions/podman
 
-# these steps will make cli completion work for zsh
+# zsh (oh-my-zsh)
 mkdir -p ~/.oh-my-zsh/completions
 podman completion zsh > ~/.oh-my-zsh/completions/_podman
 ```
 
 (python-setup)=
-### Install Python
+### Python (optional)
 
-:::{Note}
-**DLS Users**: for this step just use `module load python/3.13`
+The CLI tools need Python **3.13 or later**. You do not have to install it
+yourself — `uv` (next) can manage Python versions for you. If you would rather
+use a system Python, see the
+[installation guide](https://docs.python-guide.org/starting/installation/).
+
+:::{note}
+**DLS users:** `module load python/3.13`.
 :::
 
-Go ahead and install Python if it is not already installed, the minimum version you should use is 3.13. Virtualbox Appliance users will already have Python 3.13 installed.
+### uv
 
-There are instructions for installing Python on all platforms here:
-<https://docs.python-guide.org/starting/installation/>
+We use [uv](https://docs.astral.sh/uv/) to install and run the Python CLI tools
+(`copier` and `ec`). It installs each tool into its own isolated environment and
+puts it on your `PATH`, so there is no virtual environment to activate.
 
-
-### Install uv
-
-We use [uv](https://docs.astral.sh/uv/) to install and run the Python command
-line tools used in these tutorials (such as `copier` and `ec`). `uv` installs
-each tool into its own isolated environment and puts it on your `PATH`, so there
-is no virtual environment to create or activate every time you open a shell.
-
-:::{Note}
-**DLS Users**: you can obtain `uv` with `module load uv` instead of installing
-it yourself, in which case you can skip the install command below.
+:::{note}
+**DLS users:** `module load uv` instead of running the installer below.
 :::
-
-Install `uv` with its standalone installer:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-See the [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/)
-for other installation methods (including Windows). `uv` can also manage Python
-versions for you, so the tools below will work even without the system Python
-installed above.
+See the [uv install docs](https://docs.astral.sh/uv/getting-started/installation/)
+for other methods (including Windows).
 
 (copier)=
+### copier and ec
 
-### copier
-
-Now we will install `copier` which is used to copy the templates for the
-services repositories and generic IOCs. Also you could take this opportunity to
-install the `ec` tool that we will use later when we get to the Kubernetes
-tutorials.
+`copier` stamps out the templates for services repositories and generic IOCs.
+Install it now, along with `ec` (the edge-containers CLI used in the Kubernetes
+tutorials):
 
 ```bash
 uv tool install copier
 uv tool install edge-containers-cli
 ```
 
-These commands put `copier` and `ec` on your `PATH` in every new shell, so there
-is nothing to activate. To upgrade them later run `uv tool upgrade --all`. If a
-freshly installed tool is not found, run `uv tool update-shell` (or add
-`$HOME/.local/bin` to your `PATH`) and open a new shell.
+Both are now on your `PATH` in every new shell — nothing to activate. Upgrade
+later with `uv tool upgrade --all`. If a freshly installed tool is not found,
+run `uv tool update-shell` and open a new shell.
 
-### Git
+### git
 
-If you don't already have git installed see
-<https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>. Any recent
-version of git will work.
-
-You will also want to set up your git user name and email address:
+Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) if
+you do not have it, then set your identity:
 
 ```bash
 git config --global user.name "Your Name"
-git config --global user.email "your email"
+git config --global user.email "you@example.com"
 ```
 
-And set up your git credentials so that you can access your personal github repositories. Your choices are:
-
-- use a Personal Access Token (PAT) as described in the first section above.
-- setup an ssh key following the instructions [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+Set up credentials for your GitHub repositories using either a PAT (see the note
+at the top of this page) or an
+[SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ### Kubernetes
 
-You don't need Kubernetes yet.
+You do **not** need Kubernetes yet. The next tutorials create, deploy and debug
+IOCs locally by deploying containers to your workstation's podman with
+`docker compose`. Kubernetes comes later.
 
-The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.
-
-For simplicity we don't encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation's podman instance using docker compose.
-
-If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as [Portainer](https://www.portainer.io/). Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.
-
-[download visual studio code]: https://code.visualstudio.com/download
-[how to use wsl2 and visual studio code]: https://code.visualstudio.com/blogs/2019/09/03/wsl2
+[download and install vscode]: https://code.visualstudio.com/download
+[using wsl2 with vscode]: https://code.visualstudio.com/blogs/2019/09/03/wsl2
 [install podman]: https://podman.io/getting-started/installation
 [kubernetes]: https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools
 [remote development]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
-[setup visual studio code]: https://code.visualstudio.com/learn/get-started/basics
 [vscode epics]: https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics
 [vscode wsl2]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
-[wsl2 installation instructions]: https://docs.microsoft.com/en-us/windows/wsl/install-win10
