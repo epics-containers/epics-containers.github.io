@@ -301,12 +301,6 @@ args:
   P: "{{ P + ':' + name + ':' }}"
 ```
 
-:::{note}
-The published recipe also adds a `pvi:` section so that PVI auto-generates
-engineering screens for the device. See
-<https://github.com/epics-containers/pvi>.
-:::
-
 :::{important}
 The file **must** end in `.ibek.support.yaml`. `ansible.sh` symlinks it into
 `/epics/ibek-defs`, where `ibek` collects every support definition into the
@@ -318,19 +312,19 @@ ansible.sh lakeshore340
 ```
 :::
 
-:::{note}
-DLS users: a DLS module carries an `etc/builder.py` for the legacy XML Builder.
-`ibek` can convert it into a support definition, but only at DLS (it needs the
-DLS support forks). See the dev-guide
-[convert-ioc how-to](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html).
-:::
-
 We have added new support since the IOC binary was last built, so rebuild it:
 
 ```bash
 cd /epics/ioc
 make
 ```
+
+:::{note}
+**DLS users:** a DLS module carries an `etc/builder.py` for the legacy XML
+Builder. `ibek` can convert it into a support definition, but only at DLS (it
+needs the DLS support forks). See the dev-guide
+[convert-ioc how-to](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html).
+:::
 
 ## Test with an example instance
 
@@ -405,16 +399,14 @@ receives. To iterate on the instance you do **not** need to rebuild the binary â
 edit `tests/config/ioc.yaml`, stop the IOC with `Ctrl-D`, and run `./start.sh`
 again. (Rebuild with `make` only after changing the *set of support modules*.)
 
-:::{note}
-DLS users: builder beamlines can convert existing builder XML instances into
-`ibek` YAML with `builder2ibek`. See the
-[builder2ibek documentation](https://epics-containers.github.io/builder2ibek).
-:::
-
-:::{note}
 To see what `ibek` generated, look in `/epics/runtime` (the expanded startup
 script and database) and `/epics/ibek-defs` (the registered support
 definitions). When a build *fails*, see {any}`debug_generic_ioc`.
+
+:::{note}
+**DLS users:** builder beamlines can convert existing builder XML instances into
+`ibek` YAML with `builder2ibek`. See the
+[builder2ibek documentation](https://epics-containers.github.io/builder2ibek).
 :::
 
 ## Publish the Generic IOC

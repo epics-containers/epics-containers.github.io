@@ -158,31 +158,12 @@ Reach it in a browser at `https://localhost:8080/` by port-forwarding:
 kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8080:443
 ```
 
-To log in you need a bearer token. Create an admin service account, bind it to
-the `cluster-admin` role, then mint a short-lived token:
+To log in you need a bearer token. Follow the upstream dashboard
+[Creating a sample user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
+guide to create an `admin-user` service account bound to `cluster-admin`, then
+mint a short-lived token:
 
 ```bash
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: admin-user
-  namespace: kubernetes-dashboard
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: admin-user
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: admin-user
-  namespace: kubernetes-dashboard
-EOF
-
 kubectl -n kubernetes-dashboard create token admin-user
 ```
 
