@@ -1,37 +1,40 @@
 # Updating and Testing ibek-support
 
-:::{Warning}
-This is draft only and out of date. It will be updated soon.
-:::
+The [ibek-support](https://github.com/epics-containers/ibek-support) repository
+contains `ibek` support YAML (files named `*.ibek.support.yaml`). Here is an
+example procedure for local testing of changes to support YAML in ibek-support
+alongside the IOC instance YAML that uses it.
 
-The ibek-defs repository contains ibek support yaml. Here is an example
-procedure for local testing of changes to support yaml in ibek-defs
-alongside IOC yaml that uses it.
-
-(Suggest you do this inside a dev-e7 workspace devcontainer)
+(Suggest you do this inside a developer workspace devcontainer.)
 
 ```bash
 cd my-workspace-folder
 
-# clone ibek-defs
-git clone git@github.com:epics-containers/ibek-defs.git
-# clone an example domain repo with example IOC yaml
-git clone git@gitlab.diamond.ac.uk:controls/containers/accelerator/acc-psc.git
+# clone ibek-support
+git clone https://github.com/epics-containers/ibek-support.git
+# clone a services repo that contains example IOC instance YAML
+git clone https://github.com/epics-containers/example-services.git
 
-# get latest ibek installed (DLS users: module load uv)
+# get the latest ibek installed (DLS users: module load uv)
 uv tool install ibek
 
-cd acc-psc/services/sr25a-ioc-01
-ibek build-startup config/ioc.boot.yaml ../../../ibek-defs/*/*.yaml
+cd example-services/services/bl01t-ea-test-01
+ibek runtime generate config/ioc.yaml ../../../ibek-support/*/*ibek.support.yaml
 ```
 
-This will get ibek generate a startup script and database generation script
-in the config folder. It uses config/ioc.boot.yaml as the description of
-the IOC 'entities' to instantiate and all of the support yaml files
-in ibek-defs as a source of the definitions of the classes of entities
-available.
+This gets `ibek` to generate a startup script and a database generation script.
+It uses `config/ioc.yaml` as the description of the IOC 'entities' to
+instantiate, and the support YAML files in ibek-support as the source of the
+definitions of the classes of entities available.
 
-The example currently uses the timingtemplates definitions only.
+By default the generated files are written to the runtime output folder
+(`/epics/runtime`); pass `-o <folder>` to write them somewhere else, for example
+`-o .` to write into the current directory.
 
-Note that at present ibek generates a script of msi invocations instead
-of a substitution file. This will be changed in the future.
+If your IOC instance is split across more than one entity file (for example a
+base `config/ioc.yaml` plus a services-repo `config/runtime.yaml`), use
+`generate2`, which takes the config folder and discovers both files:
+
+```bash
+ibek runtime generate2 config --definitions ../../../ibek-support/*/*ibek.support.yaml
+```

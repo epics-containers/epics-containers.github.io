@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev63+g130c291fb documentation</title>
+    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev65+g2edd45b77 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=726cee6d"></script>
+    <script src="../_static/documentation_options.js?v=16ac2cb5"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -468,36 +468,38 @@
                   
   <section id="updating-and-testing-ibek-support">
 <h1>Updating and Testing ibek-support<a class="headerlink" href="#updating-and-testing-ibek-support" title="Link to this heading">#</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This is draft only and out of date. It will be updated soon.</p>
-</div>
-<p>The ibek-defs repository contains ibek support yaml. Here is an example
-procedure for local testing of changes to support yaml in ibek-defs
-alongside IOC yaml that uses it.</p>
-<p>(Suggest you do this inside a dev-e7 workspace devcontainer)</p>
+<p>The <a class="reference external" href="https://github.com/epics-containers/ibek-support">ibek-support</a> repository
+contains <code class="docutils literal notranslate"><span class="pre">ibek</span></code> support YAML (files named <code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>). Here is an
+example procedure for local testing of changes to support YAML in ibek-support
+alongside the IOC instance YAML that uses it.</p>
+<p>(Suggest you do this inside a developer workspace devcontainer.)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my-workspace-folder
 
-<span class="c1"># clone ibek-defs</span>
-git<span class="w"> </span>clone<span class="w"> </span>git@github.com:epics-containers/ibek-defs.git
-<span class="c1"># clone an example domain repo with example IOC yaml</span>
-git<span class="w"> </span>clone<span class="w"> </span>git@gitlab.diamond.ac.uk:controls/containers/accelerator/acc-psc.git
+<span class="c1"># clone ibek-support</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/epics-containers/ibek-support.git
+<span class="c1"># clone a services repo that contains example IOC instance YAML</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/epics-containers/example-services.git
 
-<span class="c1"># get latest ibek installed (DLS users: module load uv)</span>
+<span class="c1"># get the latest ibek installed (DLS users: module load uv)</span>
 uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>ibek
 
-<span class="nb">cd</span><span class="w"> </span>acc-psc/services/sr25a-ioc-01
-ibek<span class="w"> </span>build-startup<span class="w"> </span>config/ioc.boot.yaml<span class="w"> </span>../../../ibek-defs/*/*.yaml
+<span class="nb">cd</span><span class="w"> </span>example-services/services/bl01t-ea-test-01
+ibek<span class="w"> </span>runtime<span class="w"> </span>generate<span class="w"> </span>config/ioc.yaml<span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml
 </pre></div>
 </div>
-<p>This will get ibek generate a startup script and database generation script
-in the config folder. It uses config/ioc.boot.yaml as the description of
-the IOC ‘entities’ to instantiate and all of the support yaml files
-in ibek-defs as a source of the definitions of the classes of entities
-available.</p>
-<p>The example currently uses the timingtemplates definitions only.</p>
-<p>Note that at present ibek generates a script of msi invocations instead
-of a substitution file. This will be changed in the future.</p>
+<p>This gets <code class="docutils literal notranslate"><span class="pre">ibek</span></code> to generate a startup script and a database generation script.
+It uses <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> as the description of the IOC ‘entities’ to
+instantiate, and the support YAML files in ibek-support as the source of the
+definitions of the classes of entities available.</p>
+<p>By default the generated files are written to the runtime output folder
+(<code class="docutils literal notranslate"><span class="pre">/epics/runtime</span></code>); pass <code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;folder&gt;</span></code> to write them somewhere else, for example
+<code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">.</span></code> to write into the current directory.</p>
+<p>If your IOC instance is split across more than one entity file (for example a
+base <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus a services-repo <code class="docutils literal notranslate"><span class="pre">config/runtime.yaml</span></code>), use
+<code class="docutils literal notranslate"><span class="pre">generate2</span></code>, which takes the config folder and discovers both files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate2<span class="w"> </span>config<span class="w"> </span>--definitions<span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml
+</pre></div>
+</div>
 </section>
 
 
