@@ -1,0 +1,847 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How ArgoCD Deploys Your IOCs &#8212; epics-containers.github.io 4.2.1.dev63+g130c291fb documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=726cee6d"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/argocd';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Autosave for IOCs" href="autosave.html" />
+    <link rel="prev" title="Explanations" href="../explanations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">epics-containers.github.io</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">How ArgoCD Deploys Your IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autosave.html">Autosave for IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Change Management Manifesto</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0002-switched-to-python-copier-template.html">2. Adopt python-copier-template for project structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0003-use-substitution-files.html">3. Use of substitution files to generate EPICS Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0004-autosave-req-files.html">4. How to configure autosave for IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../explanations.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How ArgoCD Deploys Your IOCs</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-argocd-deploys-your-iocs">
+<span id="argocd"></span><h1>How ArgoCD Deploys Your IOCs<a class="headerlink" href="#how-argocd-deploys-your-iocs" title="Link to this heading">#</a></h1>
+<p>epics-containers builds IOCs and other services as Helm charts, but it does
+not push them into your cluster with <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">install</span></code>. Instead the production
+deployment path is <em>GitOps</em>, driven by <a class="reference external" href="https://argo-cd.readthedocs.io/">ArgoCD</a>.
+This page explains the model: which Git repositories hold what, how a single
+root “app-of-apps” fans out into one ArgoCD <code class="docutils literal notranslate"><span class="pre">Application</span></code> per service, and how
+the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command line tool fits into the picture.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the conceptual companion to the hands-on walk-through in
+<a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy IOCs with ArgoCD</span></a>. If you want to follow along end to end with the <code class="docutils literal notranslate"><span class="pre">t01</span></code>
+worked example, start there and refer back here for the “why”.</p>
+</div>
+<section id="gitops-in-one-picture">
+<h2>GitOps in one picture<a class="headerlink" href="#gitops-in-one-picture" title="Link to this heading">#</a></h2>
+<p>The central idea of GitOps is that <strong>Git is the single source of truth for the
+desired state of the cluster</strong>, and a controller running <em>in</em> the cluster
+continuously reconciles reality to match. With ArgoCD you never run an
+imperative “deploy” command against the cluster. You change a file in Git, and
+ArgoCD notices and makes the cluster agree.</p>
+<p>That indirection buys you a lot:</p>
+<ul class="simple">
+<li><p><strong>The current desired state is discoverable.</strong> One file lists exactly which
+IOC versions are supposed to be running.</p></li>
+<li><p><strong>Deploys are consistent.</strong> The same reconciliation runs every time, so there
+is no “it worked on my machine” drift between operators.</p></li>
+<li><p><strong>You get a full history for free.</strong> Every change is a Git commit with an
+author, a timestamp and a message.</p></li>
+<li><p><strong>Rollback is just <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code>.</strong> Going back to the state from any past date
+is reverting a commit; ArgoCD reconciles the cluster back to it.</p></li>
+</ul>
+<p>ArgoCD itself is installed once into your Kubernetes cluster as part of cluster
+setup (see <a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Cluster</span></a>). Everything below assumes it is already
+running and that the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI is logged in.</p>
+</section>
+<section id="two-repositories-two-jobs">
+<h2>Two repositories, two jobs<a class="headerlink" href="#two-repositories-two-jobs" title="Link to this heading">#</a></h2>
+<p>The model deliberately splits responsibilities across <strong>two</strong> Git repositories.
+Keeping them separate is the single most important thing to understand.</p>
+<p>The <strong>services repository</strong> (the worked example is the public
+<a class="github reference external" href="https://github.com/epics-containers/t01-services">epics-containers/t01-services</a>) holds the <em>content</em> of each
+IOC and service: a Helm chart per service plus its <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>. This is where
+service definitions are authored and version-tagged, and it is what the earlier
+tutorials build up (see <a class="reference internal" href="../tutorials/create_beamline.html#create-beamline"><span class="std std-ref">Create a Beamline Repository</span></a> and <a class="reference internal" href="../tutorials/setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a New Kubernetes Beamline</span></a>).
+See the <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a> glossary entry for the full definition.</p>
+<p>The <strong>deployment repository</strong> records <em>which</em> of those services run, <em>where</em>,
+and at <em>what version</em>. It is deliberately tiny. You do not clone a ready-made
+one; you scaffold your own (named <code class="docutils literal notranslate"><span class="pre">t01-deployment</span></code> in the worked example) from
+the public <code class="docutils literal notranslate"><span class="pre">deployment-template-argocd</span></code> template. ArgoCD watches the deployment
+repository for the root Application, while the generated child Applications
+watch the services repository for service charts.</p>
+<p>This separation matters because the two repositories change for different
+reasons and at different rates. Service definitions churn as IOCs are developed;
+that activity stays in the services repository and keeps its history clean.
+Deciding to roll <code class="docutils literal notranslate"><span class="pre">bl01t-ea-fastcs-01</span></code> from one tag to the next is an
+<em>operational</em> decision, and it lands as a one-line change in the deployment
+repository. The two histories never get tangled.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>ArgoCD is not mandatory. If you would rather drive Helm yourself without a
+GitOps controller, the <a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">The ec Backend Model</span></a> page covers the pure-Helm (<code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=K8S</span></code>)
+alternative. The rest of this page describes the ArgoCD path.</p>
+</div>
+</section>
+<section id="the-root-application-app-of-apps">
+<h2>The root Application (app-of-apps)<a class="headerlink" href="#the-root-application-app-of-apps" title="Link to this heading">#</a></h2>
+<p>ArgoCD’s unit of deployment is the <code class="docutils literal notranslate"><span class="pre">Application</span></code> custom resource (an “App”). An
+App points at a Git repository, a path within it, and a target revision, and
+keeps the matching Kubernetes resources in sync.</p>
+<p>The deployment repository contains a single root App, defined in <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code> and
+named for the domain (<code class="docutils literal notranslate"><span class="pre">t01</span></code> in the worked example). Its source path is the
+<code class="docutils literal notranslate"><span class="pre">apps/</span></code> directory <strong>of the deployment repository itself</strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># apps.yaml (the root Application)</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01</span><span class="w">                       </span><span class="c1"># named for the domain</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps</span><span class="w">                    </span><span class="c1"># the apps/ chart in THIS (deployment) repo</span>
+<span class="w">    </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/your-org/t01-deployment</span>
+<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">  </span><span class="nt">syncPolicy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">automated</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">prune</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">selfHeal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>This is an <em>app-of-apps</em>: the one App you bootstrap by hand renders the <code class="docutils literal notranslate"><span class="pre">apps/</span></code>
+chart, which in turn produces all the other Apps. Bootstrapping it is a single
+command (<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">create</span> <span class="pre">--file</span> <span class="pre">apps.yaml</span></code>, or the equivalent action in your
+ArgoCD web UI), and from then on the domain manages itself. A freshly scaffolded
+deployment repository seeds a few shared children automatically:
+<code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs</span></code> (shared persistent storage), <code class="docutils literal notranslate"><span class="pre">t01-epics-opis</span></code> (auto-generated
+engineering screens served over HTTP), and, if you enabled gateways,
+<code class="docutils literal notranslate"><span class="pre">t01-epics-gateways</span></code>.</p>
+</section>
+<section id="the-control-surface-apps-values-yaml">
+<h2>The control surface: apps/values.yaml<a class="headerlink" href="#the-control-surface-apps-values-yaml" title="Link to this heading">#</a></h2>
+<p>The one file that humans and CI actually edit is <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. It is the
+values file for the <code class="docutils literal notranslate"><span class="pre">apps/</span></code> chart, and it declares both the defaults shared by
+every service and the per-service map of what to run:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span><span class="w">             </span><span class="c1"># ArgoCD project (= the namespace)</span>
+<span class="nt">destination</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-cluster</span><span class="w">              </span><span class="c1"># the cluster where the IOCs RUN</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="nt">source</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/epics-containers/t01-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
+<span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">            </span><span class="c1"># default branch/tag of the services repo</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t01-epics-pvcs</span><span class="p">:</span><span class="w">                 </span><span class="c1"># a bare entry inherits all the defaults</span>
+<span class="w">  </span><span class="nt">t01-epics-opis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bl01t-ea-fastcs-01</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">bl01t-di-cam-01</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">          </span><span class="c1"># per-service version override</span>
+</pre></div>
+</div>
+<p>The crucial detail is that <code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> here points at the <strong>services
+repository</strong>, not the deployment repository. The root App reads its chart
+(<code class="docutils literal notranslate"><span class="pre">apps/</span></code>) from the deployment repository; the <em>child</em> Apps it generates read
+their charts from the services repository. The deployment repository is the
+catalogue; the services repository is the warehouse.</p>
+<p>Each entry under <code class="docutils literal notranslate"><span class="pre">services:</span></code> is keyed by service name, and its (optional) value
+is a small dictionary. The keys you will use most are:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">enabled</span></code></strong> (default <code class="docutils literal notranslate"><span class="pre">true</span></code>): set to <code class="docutils literal notranslate"><span class="pre">false</span></code> to <em>stop</em> a service without
+forgetting it. The App stays, but its workload is scaled down.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">removed</span></code></strong> (default <code class="docutils literal notranslate"><span class="pre">false</span></code>): set to <code class="docutils literal notranslate"><span class="pre">true</span></code> to omit the App entirely, so
+ArgoCD prunes it from the cluster.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">targetRevision</span></code></strong>: a per-service override of the top-level
+<code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>, so one service can pin a different branch or tag.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">labels</span></code></strong>: labels applied to the service’s Kubernetes resources (for
+example a human-readable <code class="docutils literal notranslate"><span class="pre">description</span></code>).</p></li>
+</ul>
+<p>A bare entry with no value (such as <code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs:</span></code> above) is valid and simply
+inherits every default.</p>
+</section>
+<section id="how-one-file-becomes-many-applications">
+<h2>How one file becomes many Applications<a class="headerlink" href="#how-one-file-becomes-many-applications" title="Link to this heading">#</a></h2>
+<p>The expansion from “a map of services” to “many ArgoCD Apps” is done by a Helm
+library chart, not by hand. <code class="docutils literal notranslate"><span class="pre">apps/Chart.yaml</span></code> declares a single dependency on
+the <strong><code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code></strong> chart, pulled as an <strong>OCI dependency</strong> from
+<code class="docutils literal notranslate"><span class="pre">oci://ghcr.io/epics-containers/charts</span></code>. The one template in the deployment
+repository, <code class="docutils literal notranslate"><span class="pre">apps/templates/all_apps.yaml</span></code>, just includes it:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">{{</span><span class="nv">- include &quot;ec-helm-charts.argocd-apps&quot; . -</span><span class="p p-Indicator">}}</span>
+</pre></div>
+</div>
+<p>That library template iterates over the <code class="docutils literal notranslate"><span class="pre">services:</span></code> map and emits one child
+<code class="docutils literal notranslate"><span class="pre">Application</span></code> per entry (skipping any marked <code class="docutils literal notranslate"><span class="pre">removed:</span> <span class="pre">true</span></code>). Each child App is
+wired to track <code class="docutils literal notranslate"><span class="pre">services/&lt;service-name&gt;</span></code> in the services repository at the
+resolved revision. So the full chain is: you edit <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> → the root
+App renders the <code class="docutils literal notranslate"><span class="pre">apps/</span></code> chart → <code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code> expands the map → N child Apps →
+each one deploys its service’s chart from the services repository.</p>
+</section>
+<section id="auto-sync-automated-prune-selfheal">
+<h2>Auto-sync: automated, prune, selfHeal<a class="headerlink" href="#auto-sync-automated-prune-selfheal" title="Link to this heading">#</a></h2>
+<p>Both the root App and every child App carry the same automated/prune/selfHeal
+policy (child Apps additionally set a couple of <code class="docutils literal notranslate"><span class="pre">syncOptions</span></code>):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">syncPolicy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">automated</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">prune</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">selfHeal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>All three behaviours matter:</p>
+<ul class="simple">
+<li><p><strong>automated</strong> applies changes from Git as soon as ArgoCD sees them, with no
+manual “Sync” click.</p></li>
+<li><p><strong>prune</strong> deletes cluster resources once they disappear from Git, so removing
+a service from <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> really removes it from the cluster.</p></li>
+<li><p><strong>selfHeal</strong> reverts <em>out-of-band</em> changes. If someone edits a live resource
+with <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> directly, ArgoCD notices the drift from Git and undoes it.</p></li>
+</ul>
+<p>The combined consequence is that <strong>editing Git is the only action you ever need
+to take</strong>. There is no separate “now deploy it” step, and the cluster cannot
+quietly drift away from what the deployment repository says.</p>
+</section>
+<section id="when-does-it-sync-webhooks-vs-poll">
+<h2>When does it sync? webhooks vs poll<a class="headerlink" href="#when-does-it-sync-webhooks-vs-poll" title="Link to this heading">#</a></h2>
+<p>ArgoCD discovers Git changes in two ways. By default it <strong>polls</strong> each
+repository on a fixed interval, which is <strong>3 minutes</strong> (the ArgoCD default of
+180 seconds). If you configure a <strong>Git webhook</strong> on the deployment repository,
+a push triggers reconciliation immediately instead of waiting for the next poll.</p>
+<p>If automation is ever paused, or you simply do not want to wait for the poll,
+you can force a sync from the ArgoCD web UI with the <strong>Sync</strong> button (or the
+<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code> command). Note that this is a <em>manual</em> escape hatch; the
+normal flow needs none of it.</p>
+</section>
+<section id="revision-tracking-branch-vs-tag">
+<h2>Revision tracking: branch vs tag<a class="headerlink" href="#revision-tracking-branch-vs-tag" title="Link to this heading">#</a></h2>
+<p>Because <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> can be set globally and overridden per service, you can
+mix tracking strategies in one deployment repository. Services whose content is
+safe to follow continuously, such as auto-generated OPIs, can track a branch
+like <code class="docutils literal notranslate"><span class="pre">main</span></code>: merge a change in the services repository and it deploys. IOCs are
+usually pinned to a specific <strong>tag</strong> instead, so an IOC changes <em>only</em> when its
+tag is deliberately bumped in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. This is how individual IOCs
+get individual version control even though every chart lives in the one shared
+services repository.</p>
+</section>
+<section id="where-apps-live-vs-where-workloads-run">
+<h2>Where Apps live vs where workloads run<a class="headerlink" href="#where-apps-live-vs-where-workloads-run" title="Link to this heading">#</a></h2>
+<p>It is worth separating two locations that are easy to conflate. The
+<code class="docutils literal notranslate"><span class="pre">Application</span></code> objects are created in the cluster that hosts ArgoCD. The
+<em>workloads</em> those Apps deploy are sent wherever each App’s <code class="docutils literal notranslate"><span class="pre">destination.name</span></code>
+points, which can be the same cluster or a <strong>different</strong> one. A single ArgoCD
+can therefore reconcile into many target clusters, and a site may run more than
+one ArgoCD instance.</p>
+<p>Authorization follows ArgoCD <strong>Projects</strong>. Apps are grouped into a Project
+(named for the domain in this layout), and access is granted per namespace:
+whoever can create resources in a namespace can create Apps that deploy into it.
+An App is created in the same namespace as the resources it manages.</p>
+</section>
+<section id="the-ec-cli-s-role">
+<h2>The ec CLI’s role<a class="headerlink" href="#the-ec-cli-s-role" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> tool (<code class="docutils literal notranslate"><span class="pre">ec</span></code>) is a thin wrapper over <code class="docutils literal notranslate"><span class="pre">git</span></code>,
+<code class="docutils literal notranslate"><span class="pre">kubectl</span></code>, <code class="docutils literal notranslate"><span class="pre">helm</span></code> and <code class="docutils literal notranslate"><span class="pre">argocd</span></code>. Under the ArgoCD backend, selected with
+<code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=ARGOCD</span></code>, it is configured by three environment variables, all
+set for you when you <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">./environment.sh</span></code> from your deployment repository:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=ARGOCD</span></code></strong> selects the GitOps backend (it is also the
+default).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code></strong> is <code class="docutils literal notranslate"><span class="pre">&lt;namespace&gt;/&lt;root-app&gt;</span></code>, for example <code class="docutils literal notranslate"><span class="pre">t01-beamline/t01</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code></strong> is the services repository URL, for example
+<code class="docutils literal notranslate"><span class="pre">https://github.com/epics-containers/t01-services</span></code>.</p></li>
+</ul>
+<p>The important thing to understand is what <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> actually does. Running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-fastcs-01<span class="w"> </span><span class="m">2024</span>.12.1
+</pre></div>
+</div>
+<p>does <strong>not</strong> push anything into the cluster directly. It <strong>records the desired
+state in Git</strong>: it commits and pushes the new <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> for
+<code class="docutils literal notranslate"><span class="pre">services.bl01t-ea-fastcs-01</span></code> into <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> in the deployment
+repository, and then runs <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">get</span> <span class="pre">--refresh</span></code> so ArgoCD re-reads Git
+immediately rather than waiting for the next poll. The actual reconciliation is
+done by ArgoCD’s auto-sync. In other words, <strong><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> does not run
+<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code></strong> — it edits Git and lets the controller do its job. That is
+exactly the GitOps model from the top of this page, with <code class="docutils literal notranslate"><span class="pre">ec</span></code> providing a
+convenient front end to it.</p>
+<p>For the step-by-step version of all of this, including scaffolding the
+deployment repository, bootstrapping the root App and watching the sync in the
+web UI, see <a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy IOCs with ArgoCD</span></a>. For the contrasting local, non-Kubernetes
+workflow that the introductory tutorials use, see <a class="reference internal" href="../tutorials/deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the Example IOC Instance</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../explanations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Explanations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="autosave.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Autosave for IOCs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gitops-in-one-picture">GitOps in one picture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-repositories-two-jobs">Two repositories, two jobs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-root-application-app-of-apps">The root Application (app-of-apps)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-control-surface-apps-values-yaml">The control surface: apps/values.yaml</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-one-file-becomes-many-applications">How one file becomes many Applications</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-sync-automated-prune-selfheal">Auto-sync: automated, prune, selfHeal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-sync-webhooks-vs-poll">When does it sync? webhooks vs poll</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-tracking-branch-vs-tag">Revision tracking: branch vs tag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-apps-live-vs-where-workloads-run">Where Apps live vs where workloads run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ec-cli-s-role">The ec CLI’s role</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/explanations/argocd.md">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/explanations/argocd.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
