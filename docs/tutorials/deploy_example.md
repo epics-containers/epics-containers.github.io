@@ -1,11 +1,11 @@
 # Deploying and Managing IOC Instances
 
-:::{warning}
-**DLS users — live deployments:** you do **not** need to create or source an
-`environment.sh` for production beamline or accelerator deployments. At DLS the
-module system configures `ec` to deploy to the production clusters for you.
-Sourcing `environment.sh` is only required for local/standalone work and for
-non-DLS clusters. See {any}`../reference/environment` for details.
+:::{note}
+On this page `environment.sh` sets up your local `docker compose` environment
+(container engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers) — it does
+**not** configure `ec`, and you do need to source it. See
+{any}`../reference/environment` for the full list of what `environment.sh` can
+set in each kind of repository.
 :::
 
 ## Introduction

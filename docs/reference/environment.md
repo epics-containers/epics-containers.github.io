@@ -11,12 +11,17 @@ non-DLS clusters.
 :::{note}
 This page documents the environment variables understood by `ec`
 (the [edge-containers-cli](https://epics-containers.github.io/edge-containers-cli/)).
-The `environment.sh` file that sets them differs slightly between project
-types (services-using-compose, services-using-helm, and deployment repos),
-but the variables themselves are the same.
 
-For the full `ec` command reference and a detailed description of each
-backend, see the
+The role of `environment.sh` depends on the project type:
+
+- in **Helm/Kubernetes services repos** and **deployment repos** it sets the
+  `EC_*` variables documented below to point `ec` at your cluster;
+- in **compose-based services repos** it instead sets up your local
+  `docker compose` environment (container engine, `UIDGID`,
+  `COMPOSE_PROFILES`, EPICS name servers) and does **not** configure `ec`.
+
+The variables documented on this page are the `ec` ones. For the full `ec`
+command reference and a detailed description of each backend, see the
 [edge-containers-cli documentation](https://epics-containers.github.io/edge-containers-cli/).
 :::
 
