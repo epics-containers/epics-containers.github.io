@@ -11,7 +11,11 @@ TODO: this page is WIP and will be updated soon.
 `builder2ibek` is a tool to convert DLS builder XML to ibek instance YAML.
 It is for working with converting IOC instances to epics-containers.
 
-At present (until a new python app distribution mechanism is in place) it
-is installed at DLS in the following location:
+`builder2ibek` is published on [PyPI](https://pypi.org/project/builder2ibek/).
+Install it with [uv](https://docs.astral.sh/uv/):
 
-`/dls_sw/work/python3/ec-venv/bin/builder2ibek`
+```bash
+uv tool install builder2ibek
+```
+
+Or run it without installing first using `uvx builder2ibek`.
