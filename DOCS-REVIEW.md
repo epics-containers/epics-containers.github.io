@@ -180,7 +180,7 @@ Both were checked against the current local working copies of the implementation
 - **Fix:** Rewrite block + table per `rtems-proxy/.../globals.py` and `configure.py`: `K8S_IOC_ADDRESS`→`RTEMS_IOC_IP`; merge console addr/port into `RTEMS_CONSOLE` (`host:port`); drop auto-reboot/auto-pause; add the beamline-level vars. Also fix the YAML over-indentation of each `value:`.
 - **Evidence:** `rtems_ioc.md:146-179`; `rtems-proxy/src/rtems_proxy/globals.py:81,84,57-72`; `configure.py:46-55`; `telnet.py:52`.
 
-#### `docs/tutorials/rtems_ioc.md` — old flat Helm values schema [major, outdated-concept]
+#### `docs/tutorials/rtems_ioc.md` — old flat Helm values schema [major, outdated-concept] — WON'T FIX (for now): entangled with the rtems env-var/image-name findings; deferred to the full rtems refresh.
 - **Location:** values.yaml blocks lines 140-158 and 250-253
 - **Issue:** Uses top-level `base_image:`, `env:`, `nfsv2TftpClaim:`. Current `ioc-instance` chart has no `base_image`; `image`/`env`/`nfsv2TftpClaim` must nest under `ioc-instance:`. The top-level schema has `additionalProperties: false`, so the doc fails validation.
 - **Fix:** Nest under `ioc-instance:` and use `image` not `base_image`. Note `nfsv2TftpClaim` is referenced by the template but missing from the chart schema — maintainers should add it.
@@ -216,7 +216,7 @@ Both were checked against the current local working copies of the implementation
 - **Fix:** Update references to the `t01` beamline and change both `cd bl01t` → `cd t01-services`. Fold into the page's pending out-of-date refresh.
 - **Evidence:** `rtems_ioc.md:22-25,105-106,111,276`; `create_beamline.md:20,65-66,85`.
 
-#### `docs/tutorials/rtems_setup.md` — `loadBalancerIP` not user-settable [major, outdated-command]
+#### `docs/tutorials/rtems_setup.md` — `loadBalancerIP` not user-settable [major, outdated-command] — WON'T FIX (for now): deferred to the full rtems refresh; leave the rtems pages untouched.
 - **Location:** line 48 ("Change the `loadBalancerIP` value")
 - **Issue:** The nfsv2-tftp chart exposes only `static_ip` (mapped internally to `loadBalancerIP`). Setting `loadBalancerIP` has no effect.
 - **Fix:** Change to "Change the `static_ip` value in `values.yaml`".
@@ -808,10 +808,10 @@ Pages requiring substantial rewrite:
 - [ ] **Public** `docs/how-to/debug.md` — replace the removed podman `deploy-local` workflow with Kubernetes/Helm debugging. [critical]
 - [ ] **Public** `docs/reference/environment.md` — rewrite env-var list against the current `ENV` enum; fix EC_LOG_URL placeholder + package name + dead links. [critical]
 - [ ] **Public** `docs/how-to/ibek-support.md` — replace `build-startup`/`ioc.boot.yaml`, drop the false msi note, fix repo name. [critical]
-- [ ] **Public** `docs/reference/ioc_helm_chart.md` — rewrite against ec-helm-charts/services-template-helm (image/global, .helm-shared, paths, other charts, ioc.schema.json, USB/DRA). [major]
+- [x] **Public** `docs/reference/ioc_helm_chart.md` — DELETED for now (page was wholesale stale: blxxi-template 404, `base_image`/`prefix`/`helm/shared`). A fresh reference against ec-helm-charts/services-template-helm (image/global, .helm-shared, paths, other charts, ioc.schema.json, USB/DRA) can be written later. [major]
 - [ ] **Public** `docs/reference/helm.md` — flesh out the K8S-backend deployment reference (replace WIP stub). [major]
 - [ ] **Public** `docs/reference/k8s_resources.md` — StatefulSet (not Deployment); fix `ec template` example, paths, backend caveat. [major]
-- [ ] **Public** `docs/tutorials/rtems_ioc.md` + `rtems_setup.md` — refresh against current rtems-proxy env vars, nested `ioc-instance:` values, nfsv2-tftp chart source, and t01 beamline naming. [major]
+- [ ] **WON'T FIX (for now)** **Public** `docs/tutorials/rtems_ioc.md` + `rtems_setup.md` — refresh against current rtems-proxy env vars, nested `ioc-instance:` values, nfsv2-tftp chart source, and t01 beamline naming. [major] — deliberately deferred; leave the rtems pages untouched until the full rtems refresh is scheduled.
 - [ ] **Public** `docs/reference/glossary.md` — add Generic IOC, IOC instance, domain, support module, ibek-defs/ibek-support, ConfigMap, ec backends, pattern vocabulary; fix the garbled ec entry. [major]
 - [ ] **Internal** `topics/epics-containers/docs/reference/glossary.md` — replace the placeholder template with real DLS/epics-containers terms. [critical]
 - [ ] **Internal** `topics/epics-containers/docs/reference/setup.md` — add the EC_CLI_BACKEND / ec-backend-at-DLS section; fix docker-compose path. [critical]
