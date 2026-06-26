@@ -1,5 +1,12 @@
 # Deploying and Managing IOC Instances
 
+:::{note}
+On this page `environment.sh` sets up your local `docker compose` environment
+(container engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers). See
+{any}`../reference/environment` for the full list of what `environment.sh` can
+set in each kind of repository.
+:::
+
 ## Introduction
 
 This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.

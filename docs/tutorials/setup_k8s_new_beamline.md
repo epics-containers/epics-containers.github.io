@@ -2,6 +2,17 @@
 
 # Create a New Kubernetes Beamline
 
+:::{warning}
+**DLS users:** to deploy to DLS infrastructure you should now switch over to our
+internal documentation at
+<https://dev-guide.diamond.ac.uk/epics-containers/>, which covers deploying to
+DLS beamlines and accelerators. Only continue with this tutorial if you want to
+set up your own cluster for learning.
+
+Note also that inside DLS you do **not** need an `environment.sh` — the module
+system configures `ec` for you.
+:::
+
 Up until now the tutorials have been deploying IOCs to the local podman instance on your workstation using compose. In this tutorial we look into creating a beamline repository that deploy's into a Kubernetes cluster.
 
 Helm is a package manager for Kubernetes that allows you to define a set of resources that make up your application in a **Chart**. This is the most popular way to deploy applications to Kubernetes.
