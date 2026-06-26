@@ -2,7 +2,7 @@
 
 # Set up Argo CD
 
-:::{note}
+:::{warning}
 **DLS users:** Diamond runs a managed ArgoCD (Argus) — do not install your own.
 See the internal [developer guide](https://dev-guide.diamond.ac.uk/epics-containers/).
 This page targets self-hosted, non-DLS clusters only.

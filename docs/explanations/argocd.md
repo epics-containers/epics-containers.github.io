@@ -11,7 +11,7 @@ the `ec` command line tool fits into the picture.
 
 :::{note}
 This is the conceptual companion to the hands-on walk-through in
-{any}`deploy-argocd`. If you want to follow along end to end with the `t01`
+{any}`deploy-argocd`. If you want to follow along end to end with the `t02`
 worked example, start there and refer back here for the "why".
 :::
 
@@ -43,16 +43,16 @@ running and that the `argocd` CLI is logged in.
 The model deliberately splits responsibilities across **two** Git repositories.
 Keeping them separate is the single most important thing to understand.
 
-The **services repository** (the worked example is the public
-<https://github.com/epics-containers/t01-services>) holds the *content* of each
-IOC and service: a Helm chart per service plus its `values.yaml`. This is where
-service definitions are authored and version-tagged, and it is what the earlier
-tutorials build up (see {any}`create-beamline` and {any}`setup-k8s-beamline`).
-See the {any}`services-repo` glossary entry for the full definition.
+The **services repository** (`t02-services` in the worked example) holds the
+*content* of each IOC and service: a Helm chart per service plus its
+`values.yaml`. This is where service definitions are authored and
+version-tagged, and it is what the earlier cluster tutorials build up (see
+{any}`setup-k8s-beamline`). See the {any}`services-repo` glossary entry for the
+full definition.
 
 The **deployment repository** records *which* of those services run, *where*,
 and at *what version*. It is deliberately tiny. You do not clone a ready-made
-one; you scaffold your own (named `t01-deployment` in the worked example) from
+one; you scaffold your own (named `t02-deployment` in the worked example) from
 the public `deployment-template-argocd` template. ArgoCD watches the deployment
 repository for the root Application, while the generated child Applications
 watch the services repository for service charts.
@@ -60,7 +60,7 @@ watch the services repository for service charts.
 This separation matters because the two repositories change for different
 reasons and at different rates. Service definitions churn as IOCs are developed;
 that activity stays in the services repository and keeps its history clean.
-Deciding to roll `bl01t-ea-fastcs-01` from one tag to the next is an
+Deciding to roll `bl02t-ea-cam-01` from one tag to the next is an
 *operational* decision, and it lands as a one-line change in the deployment
 repository. The two histories never get tangled.
 
@@ -77,7 +77,7 @@ App points at a Git repository, a path within it, and a target revision, and
 keeps the matching Kubernetes resources in sync.
 
 The deployment repository contains a single root App, defined in `apps.yaml` and
-named for the domain (`t01` in the worked example). Its source path is the
+named for the domain (`t02` in the worked example). Its source path is the
 `apps/` directory **of the deployment repository itself**:
 
 ```yaml
@@ -85,12 +85,12 @@ named for the domain (`t01` in the worked example). Its source path is the
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: t01                       # named for the domain
-  namespace: t01-beamline
+  name: t02                       # named for the domain
+  namespace: t02-beamline
 spec:
   source:
     path: apps                    # the apps/ chart in THIS (deployment) repo
-    repoURL: https://github.com/your-org/t01-deployment
+    repoURL: https://github.com/<org>/t02-deployment
     targetRevision: main
   syncPolicy:
     automated:
@@ -103,9 +103,9 @@ chart, which in turn produces all the other Apps. Bootstrapping it is a single
 command (`argocd app create --file apps.yaml`, or the equivalent action in your
 ArgoCD web UI), and from then on the domain manages itself. A freshly scaffolded
 deployment repository seeds a few shared children automatically:
-`t01-epics-pvcs` (shared persistent storage), `t01-epics-opis` (auto-generated
+`t02-epics-pvcs` (shared persistent storage), `t02-epics-opis` (auto-generated
 engineering screens served over HTTP), and, if you enabled gateways,
-`t01-epics-gateways`.
+`t02-epics-gateways`.
 
 ## The control surface: apps/values.yaml
 
@@ -114,19 +114,19 @@ values file for the `apps/` chart, and it declares both the defaults shared by
 every service and the per-service map of what to run:
 
 ```yaml
-project: t01-beamline             # ArgoCD project (= the namespace)
+project: t02-beamline             # ArgoCD project (= the namespace)
 destination:
   name: your-cluster              # the cluster where the IOCs RUN
-  namespace: t01-beamline
+  namespace: t02-beamline
 source:
-  repoURL: https://github.com/epics-containers/t01-services   # the SERVICES repo
+  repoURL: https://github.com/<your-account>/t02-services   # the SERVICES repo
   targetRevision: main            # default branch/tag of the services repo
 services:
-  t01-epics-pvcs:                 # a bare entry inherits all the defaults
-  t01-epics-opis:
-  bl01t-ea-fastcs-01:
+  t02-epics-pvcs:                 # a bare entry inherits all the defaults
+  t02-epics-opis:
+  bl02t-ea-cam-01:
     enabled: true
-  bl01t-di-cam-01:
+  bl02t-ea-cam-02:
     targetRevision: main          # per-service version override
 ```
 
@@ -148,7 +148,7 @@ is a small dictionary. The keys you will use most are:
 - **`labels`**: labels applied to the service's Kubernetes resources (for
   example a human-readable `description`).
 
-A bare entry with no value (such as `t01-epics-pvcs:` above) is valid and simply
+A bare entry with no value (such as `t02-epics-pvcs:` above) is valid and simply
 inherits every default.
 
 ## How one file becomes many Applications
@@ -241,19 +241,19 @@ set for you when you `source ./environment.sh` from your deployment repository:
 
 - **`EC_CLI_BACKEND=ARGOCD`** selects the GitOps backend (it is also the
   default).
-- **`EC_TARGET`** is `<namespace>/<root-app>`, for example `t01-beamline/t01`.
+- **`EC_TARGET`** is `<namespace>/<root-app>`, for example `t02-beamline/t02`.
 - **`EC_SERVICES_REPO`** is the services repository URL, for example
-  `https://github.com/epics-containers/t01-services`.
+  `https://github.com/<your-account>/t02-services`.
 
 The important thing to understand is what `ec deploy` actually does. Running:
 
 ```bash
-ec deploy bl01t-ea-fastcs-01 2024.12.1
+ec deploy bl02t-ea-cam-01 2024.12.1
 ```
 
 does **not** push anything into the cluster directly. It **records the desired
 state in Git**: it commits and pushes the new `targetRevision` for
-`services.bl01t-ea-fastcs-01` into `apps/values.yaml` in the deployment
+`services.bl02t-ea-cam-01` into `apps/values.yaml` in the deployment
 repository, and then runs `argocd app get --refresh` so ArgoCD re-reads Git
 immediately rather than waiting for the next poll. The actual reconciliation is
 done by ArgoCD's auto-sync. In other words, **`ec deploy` does not run

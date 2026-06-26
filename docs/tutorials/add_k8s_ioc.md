@@ -55,7 +55,7 @@ with the SimDetector Generic IOC:
 # yaml-language-server: $schema=../../.helm-shared/values.schema.json
 
 ioc-instance:
-  image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2025.11.1
+  image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec1
 ```
 
 `ioc-instance:` is the key the chart imports its values under. Shared defaults

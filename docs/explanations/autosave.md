@@ -130,21 +130,14 @@ The MSI output is two files `autosave_positions.req` and `autosave_settings.req`
 (dls_autosave)=
 ## Diamond Light Source Autosave Approach
 
-
-At DLS we generate our .req files from comments added to the template files. This has had the unfortunate side effect of making DLS forks of support modules deviate from upstream. This does not fit well with the epics-containers philosophy of using upstream support modules without modification.
-
-For this reason we supply a tool to extract the comment information from the internal DLS fork of the support modules and generate the `.req` files.
-
-This tool should be used when:
-- the upstream support module does not provide `.req` files in the AreaDetector style
-- the DLS fork of the support module has autosave comments in the template files
-- the module is DLS internal or is public but originated from DLS
-
-The tool is called `builder2ibek` and can be installed from PyPi.
-
-The following example was used to extract the autosave information from the `pmac` module:
-
-```bash
-cd /dls_sw/prod/R3.14.12.7/support/pmac/2-5-22
-builder2ibek autosave db/* --out-folder /scratch/hgv27681/work/ioc-pmac/ibek-support/pmac
-```
+:::{note}
+**DLS users:** at DLS the `.req` files are generated from autosave comments
+embedded in the support-module template files. Historically this meant
+maintaining DLS forks of support modules, which does not fit the
+epics-containers principle of using upstream modules unmodified. The
+[`builder2ibek`](https://epics-containers.github.io/builder2ibek) tool extracts
+that autosave information from a DLS fork and writes the `.req` files into
+`ibek-support`. See the
+[DLS developer guide](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html)
+for the full conversion workflow.
+:::

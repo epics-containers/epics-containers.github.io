@@ -2,6 +2,13 @@
 
 # Deploy an IOC with ArgoCD
 
+:::{warning}
+**DLS users:** beamline and accelerator deployments are driven through the
+internal developer guide at <https://dev-guide.diamond.ac.uk/epics-containers/>
+(the DLS cluster, Argus ArgoCD and webhooks), not these public cluster steps.
+Follow along on your own test cluster only.
+:::
+
 You already deployed `t02-services` to the cluster with plain Helm
 ({any}`add_k8s_ioc`): the `ec` **K8S backend** ran `helm upgrade --install` for
 each service. That works, but nothing keeps the cluster in step with git — if a
@@ -11,13 +18,6 @@ This tutorial adds **GitOps**. You create a **deployment repository** from a
 template, bootstrap a single ArgoCD *root Application*, and switch the `ec`
 backend from **K8S to ARGOCD**. From that point on `ec deploy` only *records the
 desired version in git*, and ArgoCD continuously reconciles the cluster to match.
-
-:::{warning}
-**DLS users:** beamline and accelerator deployments are driven through the
-internal developer guide at <https://dev-guide.diamond.ac.uk/epics-containers/>
-(the DLS cluster, Argus ArgoCD and webhooks), not these public cluster steps.
-Follow along on your own test cluster only.
-:::
 
 By the end you will have:
 

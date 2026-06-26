@@ -58,7 +58,7 @@ The three variables you normally set for each domain are:
 (`EC_LOGIN`), historical logs (`EC_LOG_URL`), logging verbosity
 (`EC_LOG_LEVEL`) and diagnostics (`EC_VERBOSE`, `EC_DRYRUN`, `EC_DEBUG`).
 Rather than duplicate the catalogue here, see the
-[edge-containers-cli environment-variables reference](https://epics-containers.github.io/edge-containers-cli/reference/environment-variables.html)
+[edge-containers-cli environment-variables reference](https://epics-containers.github.io/edge-containers-cli/main/reference/environment-variables.html)
 for the full list, each variable's command-line flag and its default.
 
 ## Installation of `ec`
