@@ -1,5 +1,13 @@
 # The Environment Configuration File
 
+:::{warning}
+**DLS users — live deployments:** you do **not** need to create or source an
+`environment.sh` for production beamline or accelerator deployments. At DLS the
+module system configures `ec` to deploy to the production clusters for you.
+Sourcing `environment.sh` is only required for local/standalone work and for
+non-DLS clusters.
+:::
+
 :::{note}
 This page documents the environment variables understood by `ec`
 (the [edge-containers-cli](https://epics-containers.github.io/edge-containers-cli/)).

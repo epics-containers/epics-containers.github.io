@@ -1,5 +1,13 @@
 # Deploying and Managing IOC Instances
 
+:::{warning}
+**DLS users — live deployments:** you do **not** need to create or source an
+`environment.sh` for production beamline or accelerator deployments. At DLS the
+module system configures `ec` to deploy to the production clusters for you.
+Sourcing `environment.sh` is only required for local/standalone work and for
+non-DLS clusters. See {any}`../reference/environment` for details.
+:::
+
 ## Introduction
 
 This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.

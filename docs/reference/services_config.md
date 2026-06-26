@@ -1,6 +1,14 @@
 # Configuring a Services Repository for a Cluster
 
 :::{warning}
+**DLS users — live deployments:** you do **not** need to create or source an
+`environment.sh` for production beamline or accelerator deployments. At DLS the
+module system configures `ec` to deploy to the production clusters for you.
+Sourcing `environment.sh` is only required for local/standalone work and for
+non-DLS clusters. See {any}`environment` for details.
+:::
+
+:::{warning}
 This page is a work in progress.
 :::
 
