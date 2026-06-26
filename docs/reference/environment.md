@@ -46,57 +46,20 @@ the values `ec` is currently using with:
 ec env
 ```
 
-The variables are as follows:
+The three variables you normally set for each domain are:
 
-### Commonly set variables
+| Variable | Sets | Example |
+| :--- | :--- | :--- |
+| `EC_SERVICES_REPO` (`ec -r/--repo`) | the services repository that defines this domain; `ec` fetches a git-tagged copy of an instance's configuration from here at deploy time | `https://github.com/<your-org>/t02-services` |
+| `EC_TARGET` (`ec -t/--target`) | where `ec` deploys — the Kubernetes **namespace** (`K8S` backend) or `app-namespace/root-app` (`ARGOCD` backend) | `t02-beamline` or `t02-beamline/t02` |
+| `EC_CLI_BACKEND` (`ec -b/--backend`) | which backend `ec` drives: `ARGOCD` (the default), `K8S` or `DEMO`; the available commands change per backend — see {ref}`helm` | `K8S` |
 
-- **EC_SERVICES_REPO**: a link to the services repository that defines this
-  domain, for example
-  `EC_SERVICES_REPO=https://github.com/epics-containers/example-services`.
-  `ec` uses this to fetch a versioned (git-tagged) copy of an IOC instance's
-  configuration at deploy time. (`ec -r/--repo`.)
-
-- **EC_TARGET**: where `ec` deploys to. Its meaning depends on the backend:
-
-  - for the `K8S` backend it is the Kubernetes **namespace** your IOC
-    instances are deployed to, e.g. `EC_TARGET=t01`;
-  - for the default `ARGOCD` backend it is `app-namespace/root-app` — the
-    namespace that hosts ArgoCD together with the name of the root
-    (app-of-apps) Application, e.g. `EC_TARGET=t01-beamline/root`.
-
-  (`ec -t/--target`.)
-
-- **EC_CLI_BACKEND**: selects which backend `ec` drives. One of `ARGOCD`
-  (the default), `K8S`, or `DEMO`. The set of available commands and options
-  changes per backend — see {ref}`helm`. (`ec -b/--backend`.)
-
-### Optional variables
-
-- **EC_LOGIN**: an optional command that `ec` runs to authenticate to the
-  cluster/backend before performing an operation. Leave unset if your shell is
-  already authenticated (for example via `KUBECONFIG`, see below).
-
-- **EC_LOG_URL**: if you have a centralized logging service with a web UI then
-  you can set this variable to the URL of the web UI. It is displayed by
-  `ec log-history <service>`. The service name is inserted into the URL using
-  the `{service_name}` placeholder, e.g.
-
-  - `EC_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&fields`
-    `=message%2Csource&width=1489&highlightMessage=&relative=172800&q=pod_name%3A`
-    `{service_name}*'`
-
-- **EC_LOG_LEVEL**: sets the logging verbosity of `ec` itself. One of `DEBUG`,
-  `INFO`, `WARNING`, `ERROR`, `CRITICAL`.
-
-- **EC_VERBOSE**: print each external command (git, kubectl, helm, argocd) that
-  `ec` runs. Equivalent to `ec -v/--verbose`.
-
-- **EC_DRYRUN**: print the external commands that `ec` would run without
-  executing them. Equivalent to `ec --dryrun`.
-
-- **EC_DEBUG**: causes `ec` to output debug information (including Python
-  tracebacks) for all commands. For more targeted debugging you can use
-  `ec -d ...`.
+`ec` understands several more variables — for backend authentication
+(`EC_LOGIN`), historical logs (`EC_LOG_URL`), logging verbosity
+(`EC_LOG_LEVEL`) and diagnostics (`EC_VERBOSE`, `EC_DRYRUN`, `EC_DEBUG`).
+Rather than duplicate the catalogue here, see the
+[edge-containers-cli environment-variables reference](https://epics-containers.github.io/edge-containers-cli/reference/environment-variables.html)
+for the full list, each variable's command-line flag and its default.
 
 ## Installation of `ec`
 
@@ -135,9 +98,12 @@ If you are not deploying to Kubernetes (for example when using the `DEMO`
 backend or a local compose project) then you can leave this section out.
 
 :::{note}
-DLS users: the module system is used to connect us to each beamline/accelerator
-cluster. The example `environment.sh` file in
-[example-services](https://github.com/epics-containers/example-services/blob/main/environment.sh)
-shows how to do this, including how to set up command line completion for the
-Kubernetes tools `kubectl` and `helm`.
+**DLS users:** the module system connects you to each beamline/accelerator
+cluster, so you normally do not edit this section by hand. Your cluster
+services repo (for example `t02-services`, generated from
+[services-template-helm](https://github.com/epics-containers/services-template-helm))
+ships an `environment.sh` that shows the pattern, including shell completion for
+the Kubernetes tools `kubectl` and `helm`. See the
+[DLS developer guide](https://dev-guide.diamond.ac.uk/epics-containers/) for the
+module commands specific to Diamond.
 :::

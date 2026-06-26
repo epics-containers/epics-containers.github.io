@@ -1,5 +1,5 @@
 (helm)=
-# The `ec` Backend Model
+# Deploying with Helm (the `ec` backends)
 
 `ec` (the [edge-containers-cli](https://epics-containers.github.io/edge-containers-cli/))
 is a thin wrapper around the tools that actually deploy and manage your
@@ -27,18 +27,25 @@ For the authoritative, per-command reference, see the
 
 ## ARGOCD (default)
 
-This is the production continuous-deployment path used at DLS. The services
+This is the recommended path for production continuous deployment. The services
 repository describes IOC instances as Helm charts, but `ec` does not deploy
 them directly. Instead a companion **deployment repository** records which
 version of each service should be running, and
 [ArgoCD](https://argo-cd.readthedocs.io/) — a Kubernetes-native tool that keeps
 a set of Helm charts in a git repository in sync with the cluster —
-continuously reconciles the cluster to match it.
+continuously reconciles the cluster to match it. For the full picture of how
+this works, see {any}`argocd`.
 
 With this backend `ec deploy <service> <version>` works by committing the
 chosen version into the deployment repository; ArgoCD then rolls it out. Here
 `EC_TARGET` is `app-namespace/root-app` (the namespace hosting ArgoCD plus the
 name of the root app-of-apps Application).
+
+:::{note}
+DLS users: this is the deployment model in production across the facility. See
+the [DLS dev-guide](https://dev-guide.diamond.ac.uk/epics-containers/) for the
+site-specific accelerator and conventions.
+:::
 
 ## K8S
 
