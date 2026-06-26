@@ -2,18 +2,19 @@
 
 # Essential Concepts
 
-## The Problem
+## The Approach
 
-A large facility runs hundreds of EPICS IOCs. Traditionally each one is built
-against a facility-specific fork of EPICS base and support modules, deployed by
-hand to a known path on a shared filesystem, and started by bespoke scripts.
-There is no single record of what is running where, what version it is, or how
-to roll it back.
+A large facility runs hundreds of EPICS IOCs, and every facility has its own
+well-developed way of building and deploying them. These in-house solutions
+work, but each is bespoke — and maintaining the tooling, plus the expertise to
+run it, is a significant cost that every facility carries on its own.
 
-**epics-containers** replaces all of that with the same software-delivery
-practices the rest of the industry already relies on: build each IOC into a
-container image, version it in git, and let Kubernetes run it. Nothing lives in
-a special filesystem location and every change is tracked.
+**epics-containers** takes a different bet: rather than build and maintain our
+own deployment platform, adopt one the wider software industry has already
+standardised on. Each IOC is built into a container image, versioned in git, and
+run by Kubernetes — so orchestration, deployment, versioning and rollback are
+handled by mature, widely-used tools maintained by a community far larger than
+our field.
 
 ## Overview
 
