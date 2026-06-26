@@ -68,7 +68,7 @@ The variables are as follows:
 
 - **EC_CLI_BACKEND**: selects which backend `ec` drives. One of `ARGOCD`
   (the default), `K8S`, or `DEMO`. The set of available commands and options
-  changes per backend — see [](helm). (`ec -b/--backend`.)
+  changes per backend — see {ref}`helm`. (`ec -b/--backend`.)
 
 ### Optional variables
 
