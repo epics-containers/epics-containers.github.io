@@ -2,8 +2,7 @@
 
 :::{note}
 On this page `environment.sh` sets up your local `docker compose` environment
-(container engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers) — it does
-**not** configure `ec`, and you do need to source it. See
+(container engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers). See
 {any}`../reference/environment` for the full list of what `environment.sh` can
 set in each kind of repository.
 :::
