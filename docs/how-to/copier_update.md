@@ -20,7 +20,7 @@ uv tool install copier
 **DLS Users**: you can obtain `uv` with `module load uv`.
 :::
 
-NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating a beamline repo to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in [](../reference/changelog.md). Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.
+NOTE: generic IOCs with a given major version number template should work with beamline repos with the same major version number template. When updating a beamline repo to a new major version, you may also need to update the generic IOCs it references. If this is the case it will be noted in the [GitHub release notes](https://github.com/epics-containers/epics-containers.github.io/releases). Having said this, the two types of repo are reasonably well decoupled and we would aim to avoid this necessity. In which case update the beamline repo first and then the generic IOCs as and when new features are required.
 
 Updating a Beamline Repository
 ------------------------------

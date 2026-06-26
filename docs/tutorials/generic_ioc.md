@@ -464,7 +464,7 @@ Because this is a DLS module originally, it has an `etc/builder.py` file
 that is used by the `XML Builder` tool. `ibek` has a converter
 that will translate this file into an `ibek` YAML file. Only DLS users
 can take advantage of this because it needs access to all the dependent
-DLS support module forks to work. See {any}`../how-to/builder2ibek.support`
+DLS support module forks to work. See the DLS developer guide's [convert-ioc how-to](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html).
 :::
 
 ## Register the Support YAML
@@ -608,9 +608,8 @@ IOC instance files, take a look at the following files.
 Because this IOC instance is a copy of a real IOC at DLS it comes
 from a builder XML file originally. DLS users with builder beamlines
 can use `builder2ibek` to convert their builder XML files into
-`ibek` YAML IOC instance files. See {any}`../how-to/builder2ibek`.
-Note this is distinct from making support YAML files with
-`builder2ibek.support`.
+`ibek` YAML IOC instance files. See the
+[builder2ibek documentation](https://epics-containers.github.io/builder2ibek).
 :::
 
 ## Experimenting with Changes to the IOC Instance and Generic IOC

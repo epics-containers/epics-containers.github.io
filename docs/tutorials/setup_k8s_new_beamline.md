@@ -123,7 +123,7 @@ As before, we will use a copier template to create the new beamline repository. 
 
 ## Configure the new beamline repository
 
-If you have brought your own cluster then you may need to edit the **environment.sh** and **services/values.yaml** files to suit your cluster topology. If you are using the DLS Pollux cluster or the k3s local cluster then the template should have configured these correctly for you. See {any}`../reference/services_config` for more details.
+If you have brought your own cluster then you may need to edit the **environment.sh** and **services/values.yaml** files to suit your cluster topology. If you are using the DLS Pollux cluster or the k3s local cluster then the template should have configured these correctly for you.
 
 ## Setup the epics containers CLI
 

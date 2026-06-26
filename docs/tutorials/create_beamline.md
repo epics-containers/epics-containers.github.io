@@ -38,7 +38,7 @@ You will also need to set up ssh keys to authenticate to Github from git. See [a
 
 Here we will use a services template repository to make a new beamline.
 
-NOTE: for these tutorials we will use your personal GitHub Account to store everything we do, all source repositories and container images. For production, each facility will need its own policy for where to store these assets. See {any}`../explanations/repositories`.
+NOTE: for these tutorials we will use your personal GitHub Account to store everything we do, all source repositories and container images. For production, each facility will need its own policy for where to store these assets.
 
 ## Steps
 
