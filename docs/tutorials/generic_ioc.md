@@ -83,7 +83,7 @@ code .
 ```
 
 :::{note}
-DLS users: run `module load vscode` before `code .`, and start podman with
+**DLS users:** run `module load vscode` before `code .`, and start podman with
 `source /dls_sw/apps/setup-podman/setup.sh`.
 :::
 

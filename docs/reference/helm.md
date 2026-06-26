@@ -42,7 +42,7 @@ chosen version into the deployment repository; ArgoCD then rolls it out. Here
 name of the root app-of-apps Application).
 
 :::{note}
-DLS users: this is the deployment model in production across the facility. See
+**DLS users:** this is the deployment model in production across the facility. See
 the [DLS dev-guide](https://dev-guide.diamond.ac.uk/epics-containers/) for the
 site-specific accelerator and conventions.
 :::

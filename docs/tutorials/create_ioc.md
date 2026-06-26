@@ -32,7 +32,7 @@ code .
 ```
 
 :::{note}
-DLS users: `module load vscode` first, then `code .`.
+**DLS users:** `module load vscode` first, then `code .`.
 :::
 
 ### compose.yml

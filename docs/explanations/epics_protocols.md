@@ -35,7 +35,7 @@ There are three ways to connect clients and servers:
       into a rootless container network is awkward.
 
 :::{note}
-DLS users: managed Kubernetes beamlines run IOCs in host network for exactly
+**DLS users:** managed Kubernetes beamlines run IOCs in host network for exactly
 the reasons set out below. See the
 [DLS developer guide](https://dev-guide.diamond.ac.uk/epics-containers/).
 :::
@@ -140,7 +140,7 @@ Host network needs elevated privileges, so harden the pods:
   and `tolerations` so only the right IOCs land there.
 
 :::{note}
-DLS users: the production "Argus" cluster implements this pattern with remote
+**DLS users:** the production "Argus" cluster implements this pattern with remote
 beamline worker nodes. See the developer guide
 [argocd-accelerator](https://dev-guide.diamond.ac.uk/epics-containers/explanations/argocd-accelerator.html)
 explanation and the

@@ -104,7 +104,7 @@ production each facility sets its own policy for where these assets live.
    ```
 
    :::{note}
-   DLS users: first run `module load vscode`.
+   **DLS users:** first run `module load vscode`.
    :::
 
 ## Next steps

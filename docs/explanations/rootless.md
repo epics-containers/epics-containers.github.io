@@ -16,7 +16,7 @@ Advantages of rootless operation include:
 - Simplicity: no need to switch users in Dockerfiles - just stay as root and use psuedo-root during runtime. This maps nicely to using the same container in Kubernetes where control of the user id is up to the cluster.
 
 :::{note}
-DLS users: managed workstations run rootless containers for exactly these
+**DLS users:** managed workstations run rootless containers for exactly these
 reasons. See the
 [DLS dev-guide setup](https://dev-guide.diamond.ac.uk/epics-containers/reference/setup.html)
 for site-specific configuration.

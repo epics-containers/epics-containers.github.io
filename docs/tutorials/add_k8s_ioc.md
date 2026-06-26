@@ -39,7 +39,7 @@ code .
 ```
 
 :::{note}
-DLS users: `module load vscode` first, then `code .`.
+**DLS users:** `module load vscode` first, then `code .`.
 :::
 
 The skeleton's `Chart.yaml` and `templates/` are symlinks into the shared

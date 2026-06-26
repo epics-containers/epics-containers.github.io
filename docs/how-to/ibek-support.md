@@ -8,7 +8,7 @@ alongside the IOC instance YAML that uses it.
 (Suggest you do this inside a developer workspace devcontainer.)
 
 :::{note}
-DLS users: obtain `uv` with `module load uv` before running
+**DLS users:** obtain `uv` with `module load uv` before running
 `uv tool install ibek`.
 :::
 
