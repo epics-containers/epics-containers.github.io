@@ -1,22 +1,29 @@
 # Choose Your Developer Environment
 
-The tutorials walk through the use of a standard set of developer tools. You
-can use others if you wish but support is limited currently.
+The tutorials walk through a standard set of developer tools. You can use
+others if you wish, but support for them is limited at present.
 
 (own-editor)=
 
 ## Working with your own code editor
 
-If you have your own preferred code editor, you can use it instead of
-vscode. We recommend developing generic IOCs using
-a devcontainer. Devcontainer supporting tools are listed here
+If you have a preferred code editor you can use it instead of VSCode. We
+recommend developing Generic IOCs inside a developer container, as the
+[Developer Containers](../tutorials/dev_container.md) tutorial describes;
+editors with developer-container support are listed at
 <https://containers.dev/supporting>.
 
-epics-containers has been tested with
+epics-containers has been tested with:
 
-- vscode
-- Github Codespaces
+- VSCode
+- GitHub Codespaces
 
-If you prefer console based editors like neovim or emacs, then you will get the best results by launching the development containers defined in the epics-containers using the devcontainer CLI as described here <https://containers.dev/supporting#devcontainer-cli>.
+Terminal editors such as `neovim` or `emacs` work too. As that tutorial's
+note explains, launch the Generic IOC's developer container with the
+[devcontainer CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli)
+rather than by hand, so it picks up the host mounts and other settings from
+`.devcontainer/devcontainer.json`.
 
-In addition you could install your editor inside the developer container by adding an apt-install command into the `epics-containers` user personalization file. See [details here](https://github.com/epics-containers/epics-containers.github.io/blob/3a87e808e1c7983430a30c5a4dcd0d0661895d60/.devcontainer/postCreateCommand#L23-L27)
+To make your editor available inside the developer container, add an
+`apt install` line for it to the `developer` stage of the Generic IOC's
+`Dockerfile`.

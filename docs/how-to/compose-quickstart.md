@@ -25,12 +25,19 @@ sudo dnf install podman docker-compose-plugin
 ```
 
 (podman-integration)=
-**Podman Integration with Docker Compose**
+### Podman Integration with Docker Compose
+
+`docker compose` is daemonless podman's only blind spot: it talks to podman
+through a docker-compatible API socket. Enable the user socket and point
+`DOCKER_HOST` at it:
 
 ```bash
 systemctl enable --user podman.socket --now
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 ```
+
+Add the `export` line to your shell profile (`~/.bashrc` or `~/.zshrc`) so it
+is set in every new shell.
 
 ## Windows
 
@@ -39,20 +46,35 @@ export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
 
 ## Mac OS
 
-- Follow this gist <https://gist.github.com/kaaquist/dab64aeb52a815b935b11c86202761a3>
-- Install an X11 server like XQuartz
+Install podman and docker-compose with [Homebrew](https://brew.sh), then start
+a podman virtual machine:
+
+```bash
+brew install podman docker-compose
+podman machine init
+podman machine start
+```
+
+Point `docker compose` at the podman socket inside the machine:
+
+```bash
+export DOCKER_HOST="unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
+```
+
+To run EPICS GUI tools (e.g. Phoebus) you will also need an X11 server such as
+XQuartz.
 
 ## Diamond Light Source workstation
 
-Setup a podman service and socket:
+:::{note}
+**DLS users:** podman is already installed. The first time you use it on a
+workstation, run the shared setup script:
+
 ```bash
-systemctl enable --user podman.socket --now
+/dls_sw/apps/setup-podman/setup.sh
 ```
 
-Add this to your `~/.profile` and logout and back in:
-```bash
-export PATH=/dls_sw/apps/docker-compose/5.1.4/bin/:$PATH
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
-```
-
-NOTE: re above. You should first do `ls /dls_sw/apps/docker-compose/` to check which is the most recent version of docker-compose available. Use that version in preference to the example above.
+Make `docker compose` available with `module load docker-compose`, then enable
+the podman socket and `DOCKER_HOST` as shown under [](podman-integration)
+above (add the `export` to your `~/.profile` and log out and back in).
+:::

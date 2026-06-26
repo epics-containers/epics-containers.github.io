@@ -39,7 +39,7 @@ forks of these repositories.
 
 #### Generic IOCs and instances
 
-An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravis-runtime:2024.2.2 ](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravisruntime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
+An important principal of the approach presented here is that an IOC container image represents a 'Generic' IOC. The Generic IOC image is used for all IOC instances that connect to a given class of device. For example the Generic IOC image here: [ghcr.io/epics-containers/ioc-adaravis-runtime:2026.4.3](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-runtime) uses the AreaDetector driver ADAravis to connect to GigE cameras.
 
 The generic IOC image contains:
 
@@ -180,8 +180,8 @@ There are these types of CI:
 
 :Generic IOC source:
     - builds a Generic IOC container image
-    - runs some tests against that image - these will eventually include
-      system tests that talk to simulated hardware
+    - runs some tests against that image to verify that the container loads
+      and the Generic IOC starts with a sample configuration
     - publishes the image to github packages (only if the commit is tagged)
       or other OCI registry
 
@@ -213,9 +213,9 @@ In this fashion changes to IOC versions are tracked in git and it is easy to rol
 
 ## Scope
 
-This project initially targets x86_64 Linux Soft IOCs and RTEMS 'hard' IOCs running on MVME5500 hardware. Soft IOCs that require access to hardware on the server (e.g. USB or PCIe) will be supported by mounting the hardware into the container (these IOCS will not support Kubernetes failover).
+This project targets x86_64 Linux Soft IOCs. Soft IOCs that require access to hardware on the server (e.g. USB or PCIe) are supported by mounting the hardware into the container (these IOCs will not support Kubernetes failover).
 
-Other linux architectures could be added to the Kubernetes cluster. We have tested arm64 native builds and will add this as a supported architecture in the future.
+Other linux architectures could be added to the Kubernetes cluster. arm64 native builds have been prototyped but are not yet a supported architecture.
 
 Python soft IOCs are also supported. See <https://github.com/DiamondLightSource/pythonSoftIOC>
 

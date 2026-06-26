@@ -4,7 +4,7 @@
 (services-repo)=
 ## services repository
 
-A repository that contains the definitions for a group of IOCs instances and other services. The grouping of instances is up to the facility. At DLS the instances are grouped by beamline for beamline IOCs. Accelerator IOC groupings by technical domain as appropriate.
+A repository that contains the definitions for a group of IOC instances and other services. The grouping of instances is up to the facility - for example by beamline, or by technical domain for accelerator IOCs.
 
 epics-containers supports two kinds of services repositories:
 
@@ -27,5 +27,6 @@ A Python command line tool that provides services *inside* of the Generic IOC co
 - configuring global assets such as the RELEASE file at build time
 - converting developer containers into light-weight runtime containers
 - Generating startup assets for an IOC Instance from a set of yaml files at runtime.
+- Vendoring runtime-support patterns into a services repository via `ibek pattern`.
 
 Uses the command line entry point `ibek`.

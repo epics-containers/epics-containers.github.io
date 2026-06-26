@@ -7,6 +7,11 @@ alongside the IOC instance YAML that uses it.
 
 (Suggest you do this inside a developer workspace devcontainer.)
 
+:::{note}
+DLS users: obtain `uv` with `module load uv` before running
+`uv tool install ibek`.
+:::
+
 ```bash
 cd my-workspace-folder
 
@@ -15,7 +20,7 @@ git clone https://github.com/epics-containers/ibek-support.git
 # clone a services repo that contains example IOC instance YAML
 git clone https://github.com/epics-containers/example-services.git
 
-# get the latest ibek installed (DLS users: module load uv)
+# get the latest ibek installed
 uv tool install ibek
 
 cd example-services/services/bl01t-ea-test-01
