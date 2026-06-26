@@ -6,10 +6,9 @@ development and testing, and is a valid production option for sites that run
 IOCs on standalone servers. For the cluster-based GitOps path, see
 {any}`deploy-argocd`.
 
-You will use the example simulation beamline from {any}`launch_example` (the
-public [`example-services`](https://github.com/epics-containers/example-services)
-repo, beamline `bl01t`). Substitute your own services repository and service
-names throughout.
+You will deploy and manage the IOC instances in the `t01-services` repo you
+created in {any}`create-beamline` (the simulated beamline `bl01t`). Substitute
+your own services repository and service names throughout.
 
 :::{note}
 `environment.sh` sets up your local `docker compose` environment (container
@@ -24,7 +23,7 @@ kind of repository.
 From the root of the services repo, source its environment file:
 
 ```bash
-cd example-services
+cd t01-services
 source ./environment.sh
 ```
 

@@ -10,14 +10,14 @@ This is the local **`docker compose`** track — ideal for development, and for
 beamline servers without Kubernetes. To build a Helm/Kubernetes services repo
 instead, see {any}`setup-k8s-beamline`.
 
-The worked example builds your own copy of the `example-services` repo you ran
-in {any}`launch_example`, this time generated from
-[`services-template-compose`](https://github.com/epics-containers/services-template-compose).
-Substitute your own short name and repository throughout.
+Here you generate your own services repo, **`t01-services`**, from
+[`services-template-compose`](https://github.com/epics-containers/services-template-compose)
+— the same template behind the `example-services` repo you ran in
+{any}`launch_example`. Substitute your own short name and repository throughout.
 
 By the end you will have:
 
-- a new repository, `example-services`, generated from the template;
+- a new repository, `t01-services`, generated from the template;
 - three ready-made example IOC instances (`bl01t-ea-test-01`,
   `bl01t-di-cam-01`, `bl01t-mo-sim-01`) plus the `gateway`, `pvagw`, `phoebus`
   and `epics-opis` services that the local `docker compose` workflow uses;
@@ -45,12 +45,12 @@ production each facility sets its own policy for where these assets live.
 1. Generate the repo from the template with `copier`:
 
    ```bash
-   copier copy https://github.com/epics-containers/services-template-compose example-services
+   copier copy https://github.com/epics-containers/services-template-compose t01-services
    ```
 
    :::{note}
    If `copier` is not installed you can run it on demand with `uvx`:
-   `uvx copier copy https://github.com/epics-containers/services-template-compose example-services`.
+   `uvx copier copy https://github.com/epics-containers/services-template-compose t01-services`.
    :::
 
    `copier` asks two questions (defined in the template's `copier.yml`). Answer
@@ -58,8 +58,8 @@ production each facility sets its own policy for where these assets live.
 
    | Prompt | Worked-example answer |
    |---|---|
-   | Short name for the collection of services | `example` |
-   | A One line description of the module | *(accept the default — `example IOC Instances and Services`)* |
+   | Short name for the collection of services | `t01` |
+   | A One line description of the module | *(accept the default)* |
 
    The short name labels the repository as a whole; the bundled example IOCs
    keep their `bl01t-*` names (the simulated beamline is `bl01t`) until you
@@ -71,15 +71,15 @@ production each facility sets its own policy for where these assets live.
    losing your own changes.
    :::
 
-2. Create a new **empty** repository named `example-services` on GitHub
+2. Create a new **empty** repository named `t01-services` on GitHub
    (<https://github.com/new>), then push your generated files to it:
 
    ```bash
-   cd example-services
+   cd t01-services
    git init -b main
    git add .
    git commit -m "initial commit"
-   git remote add origin https://github.com/<your-org>/example-services
+   git remote add origin https://github.com/<your-org>/t01-services
    git push -u origin main
    ```
 

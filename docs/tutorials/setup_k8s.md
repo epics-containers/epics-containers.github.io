@@ -12,7 +12,7 @@ have a spare Linux machine and want to build your own test cluster.
 
 This tutorial stands up an experimental single-node Kubernetes cluster with
 [k3s](https://k3s.io/), ready for a test deployment of EPICS IOCs. It also
-installs the client tools (`kubectl`, `helm`, `argocd`) you will use in the
+installs the client tools (`kubectl` and `helm`) you will use in the
 later cluster tutorials. K3S ships a clean uninstaller, so there is no harm in
 trying it out — see [Clean up](#clean-up).
 
@@ -109,18 +109,18 @@ epics-containers uses one Kubernetes namespace per beamline or accelerator
 domain, to isolate each domain's resources. A *context* binds a cluster,
 namespace and user so `kubectl` knows where to send commands.
 
-Create a namespace and context for the test beamline `t03-beamline` (substitute
+Create a namespace and context for the test beamline `t02-beamline` (substitute
 your own name):
 
 ```bash
-kubectl create namespace t03-beamline
-kubectl config set-context t03-beamline --namespace=t03-beamline --user=default --cluster=default
-kubectl config use-context t03-beamline
+kubectl create namespace t02-beamline
+kubectl config set-context t02-beamline --namespace=t02-beamline --user=default --cluster=default
+kubectl config use-context t02-beamline
 ```
 
 ## Install persistent volume support
 
-The shared services that IOCs expect (for example `t03-epics-pvcs`) use
+The shared services that IOCs expect (for example `t02-epics-pvcs`) use
 `ReadWriteMany` persistent volume claims, which k3s' default Local Path
 Provisioner does not support. Per <https://docs.k3s.io/storage/>, install the
 Longhorn distributed block storage system to provide them:
@@ -185,40 +185,6 @@ EOF
 
 kubectl -n kubernetes-dashboard create token admin-user
 ```
-
-## Set up Argo CD
-
-[Argo CD](https://argo-cd.readthedocs.io/en/stable/) is the GitOps continuous
-delivery tool used by the {any}`deploy-argocd` tutorial. Install it into the
-cluster:
-
-```bash
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-
-Reach the web UI at `https://localhost:8081/` by port-forwarding:
-
-```bash
-kubectl port-forward svc/argocd-server -n argocd 8081:443
-```
-
-The user is `admin`; retrieve the initial password with:
-
-```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
-```
-
-Finally install the `argocd` CLI:
-
-```bash
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
-```
-
-The {any}`deploy-argocd` tutorial logs in with `argocd login localhost:8081`
-and creates the per-domain ArgoCD project from here.
 
 (clean-up)=
 
