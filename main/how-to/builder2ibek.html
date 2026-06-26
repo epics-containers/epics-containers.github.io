@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Builder2ibek Conversion Tool &#8212; epics-containers.github.io 4.2.1.dev65+g2edd45b77 documentation</title>
+    <title>Builder2ibek Conversion Tool &#8212; epics-containers.github.io 4.2.1.dev68+g8304c57af documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=16ac2cb5"></script>
+    <script src="../_static/documentation_options.js?v=256de248"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -477,9 +477,12 @@ have a BLxxY-BUILDER project.</p>
 <p>TODO: this page is WIP and will be updated soon.</p>
 <p><code class="docutils literal notranslate"><span class="pre">builder2ibek</span></code> is a tool to convert DLS builder XML to ibek instance YAML.
 It is for working with converting IOC instances to epics-containers.</p>
-<p>At present (until a new python app distribution mechanism is in place) it
-is installed at DLS in the following location:</p>
-<p><code class="docutils literal notranslate"><span class="pre">/dls_sw/work/python3/ec-venv/bin/builder2ibek</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">builder2ibek</span></code> is published on <a class="reference external" href="https://pypi.org/project/builder2ibek/">PyPI</a>.
+Install it with <a class="reference external" href="https://docs.astral.sh/uv/">uv</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>builder2ibek
+</pre></div>
+</div>
+<p>Or run it without installing first using <code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">builder2ibek</span></code>.</p>
 </section>
 
 

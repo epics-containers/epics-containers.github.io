@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev65+g2edd45b77 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev68+g8304c57af documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=16ac2cb5"></script>
+    <script src="../_static/documentation_options.js?v=256de248"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -484,7 +484,8 @@ The tools you need to install are:</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p></li>
 <li><p>a container platform: podman (plus docker-compose)</p></li>
-<li><p>Python 3.10 or later + a Python virtual environment</p></li>
+<li><p>Python 3.13 or later (uv can also install this for you)</p></li>
+<li><p>uv, to install the Python CLI tools (copier and ec)</p></li>
 <li><p>git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)</p></li>
 </ul>
 <p>If you prefer to use a virtual machine, we provide a VirtualBox appliance with all the software pre-installed. This is the easiest way to get started.</p>
@@ -554,7 +555,7 @@ If you have your own preferred code editor you can use that.</p>
 <p>This VM has the following software pre-installed:</p>
 <ul class="simple">
 <li><p>Ubuntu 22.04</p></li>
-<li><p>Python 3.10</p></li>
+<li><p>Python 3.13</p></li>
 <li><p>Visual Studio Code</p></li>
 <li><p>Podman</p></li>
 <li><p>zsh shell with oh-my-zsh</p></li>
@@ -562,7 +563,7 @@ If you have your own preferred code editor you can use that.</p>
 <p>You will need to complete the following steps to personalize the VM:</p>
 <ul class="simple">
 <li><p>Set up your github credentials</p></li>
-<li><p>Set up your python virtual environment</p></li>
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">uv</span></code> and the Python CLI tools (copier and ec)</p></li>
 <li><p>Set up your podman CLI completion if you want it</p></li>
 </ul>
 <p>Now jump to <a class="reference internal" href="#cli-completion"><span class="std std-ref">Command Line Completion</span></a> below.</p>
@@ -682,9 +683,9 @@ podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="
 <span id="python-setup"></span><h3>Install Python<a class="headerlink" href="#install-python" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: for this step just use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.11</span></code></p>
+<p><strong>DLS Users</strong>: for this step just use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.13</span></code></p>
 </div>
-<p>Go ahead and install Python if it is not already installed, the minimum version you should use is 3.10. Virtualbox Appliance users will already have Python 3.10 installed.</p>
+<p>Go ahead and install Python if it is not already installed, the minimum version you should use is 3.13. Virtualbox Appliance users will already have Python 3.13 installed.</p>
 <p>There are instructions for installing Python on all platforms here:
 <a class="reference external" href="https://docs.python-guide.org/starting/installation/">https://docs.python-guide.org/starting/installation/</a></p>
 </section>
