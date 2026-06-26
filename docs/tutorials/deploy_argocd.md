@@ -12,11 +12,11 @@ template, bootstrap a single ArgoCD *root Application*, and switch the `ec`
 backend from **K8S to ARGOCD**. From that point on `ec deploy` only *records the
 desired version in git*, and ArgoCD continuously reconciles the cluster to match.
 
-:::{note}
-**DLS users:** this page deploys to a Kubernetes cluster. Stop here and switch
-to the internal
-[developer guide](https://dev-guide.diamond.ac.uk/epics-containers/) for the DLS
-cluster, Argus ArgoCD and webhooks.
+:::{warning}
+**DLS users:** beamline and accelerator deployments are driven through the
+internal developer guide at <https://dev-guide.diamond.ac.uk/epics-containers/>
+(the DLS cluster, Argus ArgoCD and webhooks), not these public cluster steps.
+Follow along on your own test cluster only.
 :::
 
 By the end you will have:

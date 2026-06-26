@@ -2,10 +2,10 @@
 
 # Create a Kubernetes Beamline
 
-:::{note}
-**DLS users:** once your workstation is set up, switch to the internal
-[developer guide](https://dev-guide.diamond.ac.uk/epics-containers/) to deploy on
-DLS beamlines and accelerators. Continue here only to learn on your own cluster.
+:::{warning}
+**DLS users:** beamlines and accelerators are set up through the internal
+developer guide at <https://dev-guide.diamond.ac.uk/epics-containers/>, not these
+public cluster steps. Follow along on your own test cluster only.
 :::
 
 So far the tutorials have deployed IOCs to the local podman instance on your
