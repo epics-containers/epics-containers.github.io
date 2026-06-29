@@ -74,7 +74,20 @@ workstation, run the shared setup script:
 /dls_sw/apps/setup-podman/setup.sh
 ```
 
-Make `docker compose` available with `module load docker-compose`, then enable
-the podman socket and `DOCKER_HOST` as shown under [](podman-integration)
-above (add the `export` to your `~/.profile` and log out and back in).
+Then set up the podman service and socket:
+
+```bash
+systemctl enable --user podman.socket --now
+```
+
+Add this to your `~/.profile`, then log out and back in. The explicit `PATH`
+entry ensures `docker-compose` is also available to remote VSCode sessions:
+
+```bash
+export PATH=/dls_sw/apps/docker-compose/5.1.4/bin/:$PATH
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+```
+
+First run `ls /dls_sw/apps/docker-compose/` to check the most recent version of
+docker-compose available, and use that in place of `5.1.4` above.
 :::

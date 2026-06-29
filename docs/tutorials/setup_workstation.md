@@ -115,27 +115,7 @@ extra steps rootful docker needs in devcontainers.
 tutorials use it before moving on to Kubernetes, and it can also underpin a
 non-Kubernetes production deployment.
 
-:::{note}
-**DLS users:** run `module load docker-compose` and you can skip the steps
-below.
-:::
-
-1. Expose podman's docker-compatible API socket (once per workstation):
-
-   ```bash
-   systemctl enable --user podman.socket --now
-   ```
-
-2. Point docker tooling at that socket from your shell profile
-   (`~/.bashrc` or `~/.zshrc`):
-
-   ```bash
-   export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
-   ```
-
-3. Install the standalone `docker compose` binary using the
-   [docker compose install docs](https://docs.docker.com/compose/install/standalone).
-   We prefer it over `podman-compose`; uninstall `podman-compose` if present.
+Follow the [](quickstart) to install `docker compose` and point it at podman.
 
 (cli-completion)=
 ### Command line completion (optional)
