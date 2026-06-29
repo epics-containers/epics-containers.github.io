@@ -1,8 +1,7 @@
-# Add a Device Driver at Runtime with `ibek pattern`
+# Add a Stream Device with `ibek pattern`
 
 In {any}`detector_plugins` you vendored a *plugin set* into an existing instance
-with `ibek pattern`. Here you vendor a *device driver* the same way — but onto a
-new IOC, and with the device's own **simulator** running alongside it.
+with `ibek pattern`. Here you vendor a *stream device* definition the same way.
 
 You build a new IOC on the **generic** `ioc-streamdevice` image, vendor the
 `lakeshore340` temperature-controller support into it, and run the device
@@ -50,8 +49,8 @@ ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.1.1 services/bl01t-ea-
 ```
 
 :::{note}
-`ibek pattern` needs **ibek ≥ 4.6.1**. If it is not on your `PATH`, run it on
-demand with `uvx --from ibek ibek pattern add …`.
+`ibek pattern` needs **ibek ≥ 4.6.2**. If it is not on your `PATH`, add it with
+`uv tool install 'ibek>=4.6.2'`.
 :::
 
 `ibek-runtime-streamdevice` is one of ibek's built-in libraries, resolved from
@@ -101,7 +100,7 @@ entities:
 
   - type: asyn.AsynIP
     name: p1
-    port: lakeshore-sim:5401
+    port: 170.200.0.100:5401
 
   - type: lakeshore340.lakeshore340
     P: BL01T-EA-TEMP-01
@@ -111,9 +110,9 @@ entities:
 
 `STREAM_PROTOCOL_PATH` tells StreamDevice where to find the vendored `.proto`
 file at runtime; the IOC's `start.sh` copies it there at container start (via
-`ibek runtime place-files`). `PORT: p1` wires the
-device to the Asyn port, and `port: lakeshore-sim:5401` is the **service name**
-of the simulator on the compose network.
+`ibek runtime place-files`). `PORT: p1` wires the device to the Asyn port, and
+`port: 170.200.0.100:5401` is the fixed address the simulator will be given on
+the `channel_access` network (set up next).
 
 ## Run the simulator as a sidecar
 
@@ -138,18 +137,30 @@ script on a stock Python image, on the same `channel_access` network as the IOC:
 ```yaml
   lakeshore-sim:
     image: python:3-slim
-    command: python /sim/lakeshore340_sim.py 5401
+    command: python -u /sim/lakeshore340_sim.py 5401
     volumes:
       - ./lakeshore340_sim.py:/sim/lakeshore340_sim.py:ro
     security_opt:
       - label=disable
     networks:
-      - channel_access
+      channel_access:
+        ipv4_address: 170.200.0.100
 ```
 
-The IOC reaches it by service name (`lakeshore-sim:5401`); because both are on
-`channel_access`, compose provides the DNS. The whole instance — IOC, config and
-simulator — is now self-contained and reproducible.
+The IOC reaches the simulator at `170.200.0.100:5401`. A **fixed IP** is used
+deliberately: Diamond's rootless podman runs the CNI network backend without the
+`dnsname` plugin, so containers on `channel_access` cannot resolve each other by
+name — only by address. Pinning the simulator to `170.200.0.100` (any free
+address inside `CA_SUBNET`, which is set in `.env`) gives the IOC a stable target
+without relying on container DNS. If you change `CA_SUBNET`, change this address
+and the `port:` in `ioc.yaml` to match.
+
+`python -u` runs the script unbuffered so its `print()` output reaches
+`docker compose logs` immediately; without it, Python block-buffers stdout when
+it is not a terminal and the simulator log stays silent.
+
+The whole instance — IOC, config and simulator — is now self-contained and
+reproducible.
 
 ## Bring it up
 
@@ -200,16 +211,11 @@ BL01T-EA-TEMP-01:KRDG0  23.4
 ```
 
 :::{note}
-Unlike the AreaDetector plugins in {any}`detector_plugins`, StreamDevice device
-support such as `lakeshore340` ships no auto-generated PVI screen, so inspect
-its PVs directly with `caget` or the Phoebus **Probe** tool.
+There are is no PVI device file for this device yet, so no auto-generated PVI screen.
+For now, inspect its PVs directly with `caget`.
+TODO: add a PVI device file and auto-generated Phoebus screen for this tutorial.
 :::
 
-:::{note}
-**Figure (screenshot TODO — maintainer walkthrough):** the Phoebus **Probe**
-panel (or a PV table) showing `BL01T-EA-TEMP-01:ID` and the live `KRDG0`
-temperature reading from the simulator.
-:::
 
 Manage the running IOC and its sidecar with the same `docker compose` commands
 from {any}`deploy_example`.
