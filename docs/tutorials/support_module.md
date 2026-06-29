@@ -1,6 +1,6 @@
 # Create a New Support Module
 
-In {any}`generic_ioc` you wrapped an *existing* support module (`lakeshore340`)
+In {any}`generic_ioc` you wrapped an *existing* support module (`ADSimDetector`)
 in a Generic IOC. This tutorial covers the harder case: the EPICS support code
 does not exist upstream yet, so you are writing it yourself. This is a **type 3**
 change from {any}`ioc-change-types`.

@@ -6,26 +6,24 @@ but a YAML file. You will also embed an example instance for testing.
 
 This is a *type 2* change from {any}`ioc-change-types`.
 
-The worked example wraps the **Lakeshore 340** temperature controller, a
-StreamDevice support module. Substitute your own device and support module
-throughout. By convention a Generic IOC repository is named `ioc-<module>`, so
-here we build **`ioc-lakeshore340`**.
+The worked example wraps the **areaDetector simulation detector**
+([`ADSimDetector`](https://github.com/areaDetector/ADSimDetector)) — a camera
+that generates frames internally, so it needs no hardware and no external
+simulator. Substitute your own detector and support module throughout. By
+convention a Generic IOC repository is named `ioc-<module>`, so here we build
+**`ioc-adsimdetector`**.
 
-## Publish the support module
+:::{note}
+A detector is a good worked example because it shows the one real twist over a
+plain device: an areaDetector IOC builds on the **AreaDetector developer base
+image**, which already ships ADCore and ADSupport. You add only the
+detector-specific module on top.
+:::
 
-epics-containers builds support straight from public git repositories, so the
-first step is to make sure your support module is published and builds with a
-standard EPICS layout. The
-[Lakeshore 340](https://www.lakeshore.com/products/categories/overview/discontinued-products/discontinued-products/model-340-cryogenic-temperature-controller)
-module now lives at <https://github.com/DiamondLightSource/lakeshore340>;
-genericizing it required:
-
-- an Apache V2 `LICENSE` file in the root;
-- a `RELEASE.local` include at the end of `configure/RELEASE`;
-- a Makefile tweak to skip the DLS-specific `etc` folder.
-
-See the [commit](https://github.com/DiamondLightSource/lakeshore340/commit/0ff410a3e1131c96078837424b2dfcdb4af2c356)
-where these changes were made.
+epics-containers builds support straight from public git repositories, so a
+support module needs to be published with a standard EPICS layout. `ADSimDetector`
+already is, so there is nothing to prepare. When you wrap your *own* module,
+make sure it is public and standard first — see {any}`support_module`.
 
 :::{warning}
 Open-source your support modules before containerising where you can: it makes
@@ -41,20 +39,20 @@ Internal git repositories are fully supported.
 ## Create the Generic IOC project
 
 Like a beamline, a Generic IOC starts from a `copier` template. Create an empty
-GitHub repository named `ioc-lakeshore340` at <https://github.com/new>, then
+GitHub repository named `ioc-adsimdetector` at <https://github.com/new>, then
 generate the project into it (if you do not have `copier`, see {any}`copier`):
 
 ```bash
-# creates the folder ioc-lakeshore340 in the current directory
-copier copy https://github.com/epics-containers/ioc-template --trust ioc-lakeshore340
+# creates the folder ioc-adsimdetector in the current directory
+copier copy https://github.com/epics-containers/ioc-template --trust ioc-adsimdetector
 ```
 
 Answer the prompts:
 
 | Prompt | Worked-example answer |
 |---|---|
-| A name for this project (starts `ioc-`) | `ioc-lakeshore340` |
-| A one line description of the module | `Generic IOC for the Lakeshore 340` |
+| A name for this project (starts `ioc-`) | `ioc-adsimdetector` |
+| A one line description of the module | `Generic IOC for the areaDetector simulation detector` |
 | Git platform hosting the repository | `github.com` |
 | The GitHub organisation that will contain this repo | *your GitHub account or org* |
 | Remote URI of the repository | *(accept the default)* |
@@ -63,7 +61,7 @@ Accept the defaults for any remaining prompts. Then make the first commit and
 push:
 
 ```bash
-cd ioc-lakeshore340
+cd ioc-adsimdetector
 git add .
 git commit -m "initial commit"
 git push -u origin main
@@ -77,7 +75,7 @@ Finally open the project and launch its developer container, where all the work
 below happens:
 
 ```bash
-cd ioc-lakeshore340
+cd ioc-adsimdetector
 code .
 # then Ctrl-Shift-P -> "Dev Containers: Reopen in Container"
 ```
@@ -87,80 +85,53 @@ code .
 `source /dls_sw/apps/setup-podman/setup.sh`.
 :::
 
-## What you need to change
+## Switch to the AreaDetector base image
 
-The template is mostly boilerplate. For a typical Generic IOC you touch only
-three things:
+The `Dockerfile` builds the container image. Its `ARG` lines pick the
+**developer** base image to build in and the **runtime** base image to ship.
+The template defaults to the plain `epics-base` images and then builds a few
+common modules (`iocStats`, `pvlogging`, `autosave`) on top.
 
-1. **`Dockerfile`** — add the support modules you need.
-2. **`README.md`** — describe your Generic IOC.
-3. **`ibek-support`** — add build recipes and support definitions for new
-   modules (a git submodule, covered below).
-
-Advanced IOCs may customise more — for example `ioc-adaravis` overrides
-`start.sh` to interrogate its cameras at startup — but you rarely need to.
-
-## Add support modules to the Dockerfile
-
-The `Dockerfile` builds the container image. Its `FROM` line pulls an
-epics-containers developer base image, then a few common modules are built in:
+For an areaDetector IOC, point `DEVELOPER` at the AreaDetector developer base
+instead. It is built on `ioc-asyn` and already contains ADCore, ADSupport,
+`asyn` and the common modules — so you can **delete** those per-module
+`COPY`/`RUN` lines and add only the detector-specific module:
 
 ```dockerfile
-COPY ibek-support/iocStats/ iocStats
-RUN ansible.sh iocStats
+ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.10ec1
+ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:3.14ec2
+```
 
-COPY ibek-support/pvlogging/ pvlogging/
-RUN ansible.sh pvlogging
-
-COPY ibek-support/autosave/ autosave
-RUN ansible.sh autosave
+```dockerfile
+COPY ibek-support/ADSimDetector/ ADSimDetector
+RUN ansible.sh ADSimDetector
 ```
 
 Each module is built by copying its `ibek-support/<module>` folder and running
-`ansible.sh <module>`. That script applies an `ibek-support` *recipe* that clones
-the module from upstream, builds it with standard EPICS steps, and records its
-dbds and libs for the IOC link. Add `-v <version>` to override the tested default
-version, e.g. `ansible.sh -v R4-45 asyn`.
-
-lakeshore340 is a StreamDevice, so it needs `asyn` and `StreamDevice`. Build them
-in your running devcontainer first (Terminal -> New Terminal):
-
-```bash
-ansible.sh asyn
-ansible.sh StreamDevice
-```
-
-They now exist under `/epics/support`. Make the next image build include them by
-adding matching lines to the `Dockerfile`:
-
-```dockerfile
-COPY ibek-support/asyn/ asyn/
-RUN ansible.sh asyn
-
-COPY ibek-support/StreamDevice/ StreamDevice/
-RUN ansible.sh StreamDevice
-```
+`ansible.sh <module>`. That script applies an `ibek-support` *recipe* that
+clones the module from upstream, builds it with standard EPICS steps, and
+records its dbds and libs for the IOC link. ADCore is supplied by the base
+image — do **not** re-author or rebuild it.
 
 :::{note}
-This is the core devcontainer workflow: try something live, then make it
-permanent by adding the same command to the `Dockerfile`. The per-module
-`COPY`/`RUN` pairs look repetitive, but they maximise the build cache hit rate —
-editing one recipe does not force every module to rebuild. You can also build the
-image outside VSCode with `./build`.
+The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
+cache hit rate — editing one recipe does not force every module to rebuild. You
+can build the image at any time with `./build` (it calls `docker`, or `podman`
+if `USE_PODMAN` is set).
 :::
 
 ## Fork the ibek-support submodule
 
 New modules need recipes, which live in `ibek-support` — a submodule shared by
-all `ioc-*` projects. It is curated, so you work from a fork (open a pull request
-later if your recipe is generally useful).
+all `ioc-*` projects. It is curated, so you work from a fork (open a pull
+request later if your recipe is generally useful).
 
 - Fork it at <https://github.com/epics-containers/ibek-support/fork> (untick
   *Copy the main branch only*).
 - Copy the fork's **HTTPS** *Code* URL and point the submodule at it:
 
 ```bash
-cd /workspaces/ioc-lakeshore340
+cd /workspaces/ioc-adsimdetector
 git submodule set-url ibek-support <YOUR FORK HTTPS URL>
 git submodule update
 cd ibek-support
@@ -189,29 +160,31 @@ Rebuild the devcontainer (Ctrl-Shift-P -> *Dev Containers: Rebuild Container*)
 for this to take effect inside it.
 :::
 
-## Add a build recipe
+## Re-author the build recipe
 
-A recipe is a `<module>.install.yml` file that drives `ansible.sh`. Create one
-for lakeshore340:
+`ibek-support` already ships an `ADSimDetector` recipe, but re-authoring it from
+scratch is the whole lesson. Delete the stock folder and start clean:
 
 ```bash
-cd /workspaces/ioc-lakeshore340/ibek-support
-mkdir lakeshore340
-code lakeshore340/lakeshore340.install.yml
+cd /workspaces/ioc-adsimdetector/ibek-support
+rm -rf ADSimDetector
+mkdir ADSimDetector
+code ADSimDetector/ADSimDetector.install.yml
 ```
+
+A recipe is a `<module>.install.yml` file that drives `ansible.sh`:
 
 ```yaml
 # yaml-language-server: $schema=../_scripts/support_install_variables.json
-module: lakeshore340
-version: 2-6-4
-organization: https://github.com/DiamondLightSource/
 
-protocol_files:
-  - lakeshore340App/protocol/lakeshore340.proto
+module: ADSimDetector
+version: R2-11
+dbds:
+  - simDetectorSupport.dbd
+libs:
+  - simDetector
 
-comment_out:
-  - path: Makefile
-    regexp: documentation
+organization: http://github.com/areaDetector/
 ```
 
 The keys are minimal:
@@ -220,25 +193,22 @@ The keys are minimal:
 - **version** — the upstream tag to build. Use a recent one; `ibek-support` CI
   builds every module to confirm the set works together.
 - **organization** — URL prefix of the repo. Defaults to
-  `https://github.com/epics-modules`.
-- **protocol_files** — StreamDevice `.proto` files to copy into the runtime
-  protocol search path.
-- **comment_out** — regex of Makefile lines to drop (here, the docs build).
+  `https://github.com/epics-modules`; areaDetector modules live under
+  `areaDetector` instead.
+- **dbds** / **libs** — the database-definition and library to link into the
+  IOC. Most modules are inferred from the module name, but areaDetector modules
+  name them explicitly.
 
 The schema on the first line gives auto-completion and validation in VSCode (via
 the Red Hat YAML extension). Every available key is listed in
-`ibek-support/_ansible/roles/support/vars/main.yml`.
-
-Build it, then add it to the `Dockerfile`:
+`ibek-support/_ansible/roles/support/vars/main.yml`. Build it from a devcontainer
+terminal (Terminal -> New Terminal):
 
 ```bash
-ansible.sh lakeshore340
+ansible.sh ADSimDetector
 ```
 
-```dockerfile
-COPY ibek-support/lakeshore340/ lakeshore340/
-RUN ansible.sh lakeshore340
-```
+The module now exists under `/epics/support`.
 
 ## Add a support definition
 
@@ -248,67 +218,108 @@ still supply those files by hand — the Generic IOC accepts both.) Defining
 parameters in YAML means a schema-aware editor validates each instance as you
 type it, and your services repo's CI re-checks it on push.
 
-In the same folder create `lakeshore340.ibek.support.yaml`:
+In the same folder create `ADSimDetector.ibek.support.yaml`:
 
 ```yaml
 # yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json
 
-module: lakeshore340
+module: ADSimDetector
 
 entity_models:
-  - name: lakeshore340
-    description: Lakeshore 340 Temperature Controller
+  - name: simDetector
+    description: Creates a simulation detector
     parameters:
       P:
         type: str
-        description: Prefix for PV name
-      PORT:
+        description: Device Prefix
+      R:
         type: str
-        description: Asyn port name
-      ADDR:
-        type: int
-        description: Address on the bus
-        default: 0
-      SCAN:
-        type: int
-        description: SCAN rate for non-temperature parameters
-        default: 5
-      TEMPSCAN:
-        type: int
-        description: SCAN rate for temperature/voltage readings
-        default: 5
-      name:
+        description: Device Suffix
+      PORT:
         type: id
-        description: Object and GUI association name
-      LOOP:
+        description: Port name for the detector
+      TIMEOUT:
+        type: str
+        default: "1"
+        description: Timeout
+      ADDR:
+        type: str
+        default: "0"
+        description: Asyn Port address
+      WIDTH:
         type: int
-        description: Heater PID loop to control
+        default: 1280
+        description: Image Width
+      HEIGHT:
+        type: int
+        default: 1024
+        description: Image Height
+      DATATYPE:
+        type: int
         default: 1
+        description: Datatype
+      BUFFERS:
+        type: int
+        default: 50
+        description: Maximum number of NDArray buffers for plugin callbacks
+      MEMORY:
+        type: int
+        default: 0
+        description: Max memory to allocate (0 = unlimited)
+
+    pre_init:
+      - type: text
+        value: |
+          # simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)
+          simDetectorConfig("{{PORT}}", {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})
 
     databases:
-      - file: $(LAKESHORE340)/db/lakeshore340.template
-        # pass every instance parameter straight to the template
+      - file: $(ADSIMDETECTOR)/db/simDetector.template
         args:
-          .*:
+          P:
+          R:
+          PORT:
+          TIMEOUT:
+          ADDR:
+
+    pvi:
+      yaml_path: simDetector.pvi.device.yaml
+      ui_macros:
+        P:
+        R:
+      pv: true
+      pv_prefix: $(P)$(R)
 ```
 
 Each `entity_model` declares the parameters an instance may set, the database
-templates to instantiate, and any iocShell lines to add. Values are Jinja
-templates, so you can combine parameters — e.g. a richer PV prefix:
+templates to instantiate, and any iocShell lines to add (`pre_init` runs
+`simDetectorConfig` before `iocInit`). Values are Jinja templates, so you can
+combine parameters.
 
-```yaml
-args:
-  P: "{{ P + ':' + name + ':' }}"
-```
-
-:::{important}
-The file **must** end in `.ibek.support.yaml`. `ansible.sh` symlinks it into
-`/epics/ibek-defs`, where `ibek` collects every support definition into the
-schema used to validate instances. Re-run `ansible.sh` to register it (it is
-idempotent, so re-running is safe):
+The `pvi:` block points at a **PVI device description** that PVI turns into an
+auto-generated Phoebus screen. Hand-writing one is ~6 KB of GUI layout, so reuse
+the stock version rather than typing it out. You deleted it earlier, but it is
+still in the submodule's git history, so restore just that one file:
 
 ```bash
-ansible.sh lakeshore340
+cd /workspaces/ioc-adsimdetector/ibek-support
+git checkout HEAD -- ADSimDetector/simDetector.pvi.device.yaml
+```
+
+:::{note}
+Re-authoring is a teaching exercise, not a one-way door: every stock file you
+removed is recoverable from the `ibek-support` git history with
+`git checkout` or `git show`.
+:::
+
+:::{important}
+The support definition file **must** end in `.ibek.support.yaml`. `ansible.sh`
+symlinks it into `/epics/ibek-defs`, where `ibek` collects every support
+definition into the schema used to validate instances. Re-run `ansible.sh` to
+register it (it is idempotent, so re-running is safe):
+
+```bash
+ansible.sh ADSimDetector
 ```
 :::
 
@@ -319,21 +330,15 @@ cd /epics/ioc
 make
 ```
 
-:::{note}
-**DLS users:** a DLS module carries an `etc/builder.py` for the legacy XML
-Builder. `ibek` can convert it into a support definition, but only at DLS (it
-needs the DLS support forks). See the dev-guide
-[convert-ioc how-to](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html).
-:::
-
 ## Test with an example instance
 
 To exercise the Generic IOC you need an instance. The template ships one at
 `tests/config/ioc.yaml` — a great place to embed an example that doubles as a CI
-smoke test. Most real devices need a simulator to stand in for the hardware.
+smoke test. The simulation detector generates frames internally, so **no
+external simulator is required**.
 
 First generate a schema for *this* Generic IOC so your editor can validate the
-instance; it covers your new lakeshore340 model plus every other module in the
+instance; it covers your new `simDetector` model plus every other module in the
 container:
 
 ```bash
@@ -341,17 +346,18 @@ ibek ioc generate-schema > /tmp/ibek.ioc.schema.json
 ```
 
 Once the repo is released, the same schema is published with it at
-`https://github.com/<org>/ioc-lakeshore340/releases/download/<tag>/ibek.ioc.schema.json`,
+`https://github.com/<org>/ioc-adsimdetector/releases/download/<tag>/ibek.ioc.schema.json`,
 which is what real instances reference.
 
-Replace `tests/config/ioc.yaml` with a lakeshore example:
+Replace `tests/config/ioc.yaml` with a simDetector example, adding one
+`NDStdArrays` plugin so there is an image waveform to view:
 
 ```yaml
 # yaml-language-server: $schema=/tmp/ibek.ioc.schema.json
 
 ioc_name: "{{ ioc_yaml_file_name }}"
 
-description: example IOC for testing lakeshore340
+description: example IOC for testing ADSimDetector
 
 entities:
   - type: epics.EpicsEnvSet
@@ -361,43 +367,42 @@ entities:
   - type: devIocStats.iocAdminSoft
     IOC: "{{ ioc_name | upper }}"
 
-  - type: asyn.AsynIP
-    name: p1
-    port: 127.0.0.1:5401
+  - type: ADSimDetector.simDetector
+    P: BL01T-EA-CAM-01
+    R: ":DET:"
+    PORT: DET.DET
+    WIDTH: 1024
+    HEIGHT: 1024
+    DATATYPE: 0
 
-  - type: lakeshore340.lakeshore340
-    P: BL01T-EA-TEMP-01
-    PORT: p1
-    ADDR: 12
-    SCAN: 5
-    TEMPSCAN: 2
-    LOOP: 2
-    name: lakeshore
+  - type: ADCore.NDStdArrays
+    P: BL01T-EA-CAM-01
+    R: ":ARR:"
+    PORT: DET.ARR
+    NDARRAY_PORT: DET.DET
+    TYPE: Int8
+    FTVL: UCHAR
+    NELEMENTS: 1048576
+    ENABLED: 1
 ```
 
-This instance sets the timezone, adds devIocStats monitoring PVs, opens an asyn
-IP port to the simulator, and creates the lakeshore340 device on that port.
+This instance sets the timezone, adds devIocStats monitoring PVs, creates the
+simulation detector on asyn port `DET.DET`, and wires an `NDStdArrays` plugin to
+it so the frames are published as a Channel Access waveform.
 
-Start the simulator in one terminal:
-
-```bash
-cd /epics/support/lakeshore340/etc/simulations/
-./lakeshore340_sim.py
-```
-
-In a second terminal, link the instance in, build and run it:
+Link the instance in, build and run it:
 
 ```bash
-ibek dev instance /workspaces/ioc-lakeshore340/tests
+ibek dev instance /workspaces/ioc-adsimdetector/tests
 cd /epics/ioc
 make
 ./start.sh
 ```
 
-The IOC should start and connect to the simulator, which logs the queries it
-receives. To iterate on the instance you do **not** need to rebuild the binary —
-edit `tests/config/ioc.yaml`, stop the IOC with `Ctrl-D`, and run `./start.sh`
-again. (Rebuild with `make` only after changing the *set of support modules*.)
+The IOC should start and begin generating frames. To iterate on the instance you
+do **not** need to rebuild the binary — edit `tests/config/ioc.yaml`, stop the
+IOC with `Ctrl-D`, and run `./start.sh` again. (Rebuild with `make` only after
+changing the *set of support modules*.)
 
 To see what `ibek` generated, look in `/epics/runtime` (the expanded startup
 script and database) and `/epics/ibek-defs` (the registered support
@@ -414,29 +419,31 @@ definitions). When a build *fails*, see {any}`debug_generic_ioc`.
 Commit your `ibek-support` recipe (on a branch) and the IOC project, then push:
 
 ```bash
-cd /workspaces/ioc-lakeshore340/ibek-support
-git checkout -b add-lakeshore340
+cd /workspaces/ioc-adsimdetector/ibek-support
+git checkout -b add-adsimdetector
 git add .
-git commit -m "add lakeshore340 support module"
-git push -u origin add-lakeshore340
+git commit -m "re-author ADSimDetector support module"
+git push -u origin add-adsimdetector
 
 cd ..
 git add .
-git commit -m "add lakeshore340 support and dependencies"
+git commit -m "add ADSimDetector support and example instance"
 git push   # a tutorial may push to main; real projects use a PR
 ```
 
 The push triggers a CI image build (watch the **Actions** tab). To *publish* to
 GHCR, cut a release: on the repo's **Releases** tab choose **Create a new
-release**, pick a tag such as `0.1.0`, click **Generate release notes**, then
+release**, pick a tag such as `2.11ec3`, click **Generate release notes**, then
 **Publish release**.
 
-:::{figure} ../images/lakeshore_releases.png
-Create a new release on GitHub
+:::{note}
+**Figure (screenshot TODO — maintainer walkthrough):** the GitHub *Create a new
+release* form for `ioc-adsimdetector`, with a tag such as `2.11ec3` entered and
+the generated release notes shown.
 :::
 
 CI then builds and pushes the image, which appears under the repo's
-**Packages**.
+**Packages** as `ghcr.io/<org>/ioc-adsimdetector-runtime`.
 
 :::{note}
 If the `release` job fails with `Resource not accessible by integration`, go to
@@ -446,7 +453,11 @@ write permissions**.
 
 ## Next steps
 
-You now have a published `ioc-lakeshore340` image. As an exercise, add an
-instance that uses it to your `bl01t` beamline and run it with
-`docker compose up -d` (see {any}`deploy-example-instance`) — and try running a
-local simulator for it to talk to.
+You now have a published `ioc-adsimdetector` image.
+
+- {any}`detector_plugins` — add the standard areaDetector plugin set to an
+  instance **at runtime**, with no image rebuild.
+- {any}`custom_pattern` — author your *own* runtime support pattern (the
+  runtime-vendoring mirror of the build-time work you just did here).
+- As an exercise, add an instance that uses this image to your `bl01t` beamline
+  and run it with `docker compose up -d` (see {any}`deploy-example-instance`).

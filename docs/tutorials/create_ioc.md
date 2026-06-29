@@ -1,7 +1,8 @@
 # Create an IOC Instance
 
-In {any}`create-beamline` you generated `t01-services` with one example IOC
-instance (`example-test-01`). Now you will add your own: a simulated area
+In {any}`create-beamline` you generated `t01-services` with three example IOC
+instances (`bl01t-ea-test-01`, `bl01t-di-cam-01`, `bl01t-mo-sim-01`). Now you
+will add your own: a simulated area
 detector built on the public `ioc-adsimdetector` Generic IOC. Substitute your
 own names throughout.
 
@@ -43,7 +44,7 @@ with `bl01t-ea-cam-01`, and replace `replace_with_image_uri` with the
 SimDetector Generic IOC image:
 
 ```yaml
-    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec1
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3
 ```
 
 That name and that image are the only per-IOC content; everything else is
@@ -65,7 +66,7 @@ SimDetector Generic IOC, and add a `simDetector` plus a Standard Arrays plugin
 wired to it:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec1/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json
 
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 
@@ -108,7 +109,7 @@ repo-root `compose.yml`:
 
 ```yaml
 include:
-  - services/example-test-01/compose.yml
+  - services/bl01t-ea-test-01/compose.yml
   - services/bl01t-ea-cam-01/compose.yml
   ...
 ```
@@ -144,6 +145,9 @@ git add .
 git commit -m "Create bl01t-ea-cam-01 IOC"
 ```
 :::
+
+**Next:** add the standard AreaDetector plugins to this IOC in
+{any}`detector_plugins`.
 
 ## How ibek Builds the IOC
 

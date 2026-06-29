@@ -13,11 +13,14 @@ tutorials/launch_example
 tutorials/create_beamline
 tutorials/deploy_example
 tutorials/create_ioc
+tutorials/detector_plugins
+tutorials/stream_device
 tutorials/dev_container
 tutorials/dev_container2
 tutorials/ioc_changes1
 tutorials/ioc_changes2
 tutorials/generic_ioc
+tutorials/custom_pattern
 tutorials/debug_generic_ioc
 tutorials/support_module
 tutorials/setup_k8s
