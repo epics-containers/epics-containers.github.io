@@ -18,9 +18,9 @@ Here you generate your own services repo, **`t01-services`**, from
 By the end you will have:
 
 - a new repository, `t01-services`, generated from the template;
-- three ready-made example IOC instances (`bl01t-ea-test-01`,
-  `bl01t-di-cam-01`, `bl01t-mo-sim-01`) plus the `gateway`, `pvagw`, `phoebus`
-  and `epics-opis` services that the local `docker compose` workflow uses;
+- a ready-made example IOC instance (`example-test-01`) plus the `gateway`,
+  `pvagw`, `phoebus` and `epics-opis` services that the local `docker compose`
+  workflow uses;
 - the repo pushed to GitHub, where continuous integration (CI) validates every
   IOC configuration.
 
@@ -61,9 +61,9 @@ production each facility sets its own policy for where these assets live.
    | Short name for the collection of services | `t01` |
    | A One line description of the module | *(accept the default)* |
 
-   The short name labels the repository as a whole; the bundled example IOCs
-   keep their `bl01t-*` names (the simulated beamline is `bl01t`) until you
-   replace them with your own later.
+   The short name labels the repository as a whole; the bundled
+   `example-test-01` IOC keeps its name until you add IOCs of your own in the
+   tutorials that follow.
 
    :::{note}
    Using `copier` (rather than copying files by hand) lets you pull future
@@ -83,9 +83,7 @@ production each facility sets its own policy for where these assets live.
    git push -u origin main
    ```
 
-   This first push triggers CI on the repo's **Actions** tab:
-   `.github/workflows/ci_verify.sh` validates every IOC's `config/ioc.yaml` with
-   `ibek`.
+   This first push triggers the repo's CI (you will check it below).
 
 3. Tag a release so you have a versioned snapshot (CI runs on the tag too):
 
@@ -97,7 +95,14 @@ production each facility sets its own policy for where these assets live.
    A date-based tag (`YYYY.M.N`) is a common choice for services repos;
    epics-containers does not enforce any versioning scheme.
 
-4. Open the project in VSCode to work on it:
+4. Confirm CI passed. Open your repository's **Actions** tab
+   (`https://github.com/<your-org>/t01-services/actions`). You should see a CI
+   run for the `main` push and another for the tag. Each runs a **Run IOC
+   checks** step (`.github/workflows/ci_verify.sh`) that validates every IOC's
+   `config/ioc.yaml` with `ibek`. Confirm the latest run is green before
+   continuing.
+
+5. Open the project in VSCode to work on it:
 
    ```bash
    code .
@@ -109,7 +114,7 @@ production each facility sets its own policy for where these assets live.
 
 ## Next steps
 
-- {any}`deploy-example-instance` — deploy and manage these example IOC instances
+- {any}`deploy-example-instance` — deploy and manage this example IOC instance
   locally with `docker compose`.
 - The tutorials that follow turn this example into a real IOC instance of your
   own.

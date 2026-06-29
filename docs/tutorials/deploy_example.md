@@ -1,14 +1,15 @@
 # Deploy and Manage IOC Instances Locally
 
-This tutorial deploys and manages a set of IOC instances on your workstation
-with `docker compose` — no Kubernetes required. This local path is ideal for
+This tutorial deploys and manages the IOC instance and services in your
+`t01-services` repo on your workstation with `docker compose` — no Kubernetes
+required. This local path is ideal for
 development and testing, and is a valid production option for sites that run
 IOCs on standalone servers. For the cluster-based GitOps path, see
 {any}`deploy-argocd`.
 
-You will deploy and manage the IOC instances in the `t01-services` repo you
-created in {any}`create-beamline` (the simulated beamline `bl01t`). Substitute
-your own services repository and service names throughout.
+You will deploy and manage the example IOC and services in the `t01-services`
+repo you created in {any}`create-beamline`. Substitute your own services
+repository and service names throughout.
 
 :::{note}
 `environment.sh` sets up your local `docker compose` environment (container
@@ -39,7 +40,7 @@ repo. For the local `docker compose` track it:
   containerised PVs.
 
 (deploy-example-instance)=
-## Deploy the IOC instances
+## Deploy the services
 
 Bring up every service defined in the repo's `compose.yaml`:
 
@@ -58,30 +59,29 @@ Check what is running:
 docker compose ps
 ```
 
-Among the running services you should see the three example IOCs
-(`bl01t-ea-test-01`, `bl01t-di-cam-01`, `bl01t-mo-sim-01`), the Channel Access
-and PV Access gateways, the `epics-opis` OPI web server, the `phoebus` OPI
-viewer, and a one-shot `init` container that generates the PV Access gateway
-and phoebus config and then exits.
+Among the running services you should see the example IOC (`example-test-01`),
+the Channel Access and PV Access gateways, the `epics-opis` OPI web server, the
+`phoebus` OPI viewer, and a one-shot `init` container that generates the PV
+Access gateway and phoebus config and then exits.
 
 ## Start and stop a service
 
 Each service is managed by name; `docker compose ps -a` also lists stopped ones:
 
 ```bash
-docker compose stop bl01t-ea-test-01
+docker compose stop example-test-01
 docker compose ps -a
-docker compose start bl01t-ea-test-01
+docker compose start example-test-01
 ```
 
 :::{note}
-Tab completion expands service names: `docker compose start bl01t-ea<tab>`
-completes to `docker compose start bl01t-ea-test-01`.
+Tab completion expands service names: `docker compose start example-test<tab>`
+completes to `docker compose start example-test-01`.
 :::
 
 :::{note}
-**Generic IOCs.** `docker compose ps` shows `bl01t-ea-test-01` running the image
-`ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6`. Every IOC instance
+**Generic IOCs.** `docker compose ps` shows `example-test-01` running the image
+`ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`. Every IOC instance
 is built on a *Generic IOC* image like this; the instance only adds its
 `config/` folder. This particular Generic IOC carries just `devIocStats` support,
 enough to serve records from a database file. See {any}`generic_ioc`.
@@ -92,8 +92,8 @@ enough to serve records from a database file. See {any}`generic_ioc`.
 Open a shell inside the running IOC container and read one of its PVs:
 
 ```bash
-docker compose exec bl01t-ea-test-01 bash
-caget bl01t:SUM
+docker compose exec example-test-01 bash
+caget EXAMPLE:SUM
 ```
 
 Because this is a runtime image you see only binaries and generated files, not
@@ -113,8 +113,14 @@ requirement is a container engine.
 
 ## Follow the logs
 
+These `docker compose` commands run on your **host**, not inside the IOC
+container. If you are still in the container shell from the previous step, exit
+it first (`exit` or `ctrl-d`) or open a new terminal at the `t01-services` repo
+root — a new shell needs `source ./environment.sh` again before `docker
+compose` will work:
+
 ```bash
-docker compose logs bl01t-ea-test-01 -f      # ctrl-c to stop following
+docker compose logs example-test-01 -f      # ctrl-c to stop following
 ```
 
 At startup you will see `ibek` generate the IOC's `st.cmd` and database from
@@ -126,7 +132,7 @@ iocShell output.
 Attach to the live iocShell to run iocsh commands:
 
 ```bash
-docker compose attach bl01t-ea-test-01
+docker compose attach example-test-01
 dbl                 # list this IOC's records
 # ctrl-p ctrl-q to detach
 ```

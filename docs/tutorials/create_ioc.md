@@ -1,8 +1,7 @@
 # Create an IOC Instance
 
-In {any}`create-beamline` you generated `t01-services` with three example IOC
-instances (`bl01t-ea-test-01`, `bl01t-di-cam-01`, `bl01t-mo-sim-01`). Now you
-will add your own: a simulated area
+In {any}`create-beamline` you generated `t01-services` with a single example
+IOC instance (`example-test-01`). Now you will add your own: a simulated area
 detector built on the public `ioc-adsimdetector` Generic IOC. Substitute your
 own names throughout.
 
@@ -109,7 +108,7 @@ repo-root `compose.yml`:
 
 ```yaml
 include:
-  - services/bl01t-ea-test-01/compose.yml
+  - services/example-test-01/compose.yml
   - services/bl01t-ea-cam-01/compose.yml
   ...
 ```
@@ -131,7 +130,7 @@ into `opi/auto-generated/bl01t-ea-cam-01/`. In Phoebus, open
 drive your `BL01T-EA-CAM-01` PVs, and a moving simulation image appears.
 
 The hand-coded overview screen `opi/demo.bob` that Phoebus opens by default
-drives the *shipped* example IOCs, not your new one. To surface
+drives the *shipped* `example-test-01` IOC, not your new one. To surface
 `bl01t-ea-cam-01` there too, copy one of its panes and re-point the macros at
 `BL01T-EA-CAM-01` — but the auto-generated screens above already give you full
 control with no editing. Manage the running IOC with the same `docker compose`
