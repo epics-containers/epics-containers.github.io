@@ -4,10 +4,19 @@
 
 In {any}`create_ioc` you built `bl01t-ea-cam-01`, a simulated area detector with
 just a camera and a Standard Arrays plugin. Real detectors want more: live
-statistics, regions of interest, a file writer. This tutorial **vendors** the
-standard AreaDetector plugin set into that same instance with `ibek pattern` —
+statistics, regions of interest, a file writer. This tutorial **vendors**
+a set of AreaDetector plugins into that same instance, using `ibek pattern`:
 pinned, integrity-hashed, and loaded **at runtime with no image rebuild**.
 Substitute your own names throughout.
+
+:::{note}
+`detectorPlugins` provides a light set of four plugins, and is the recommended
+set for Diamond II. The prior gdaPlugins pattern also published in the same repo
+matches what we used to ship with builder IOCs.
+
+For non DLS users this just serves as a useful example and you are free to create
+your own pattern repositories.
+:::
 
 By the end you will have:
 
@@ -41,11 +50,40 @@ The qualified name is `<library>:<pattern>@<tag>`. That one command:
 |---|---|
 | **Copies** the pattern's file-set into `config/` | here just `detectorPlugins.ibek.support.yaml`, with a `# Vendored from … — DO NOT EDIT` header prepended |
 | **Pins + hashes** it in `runtime-lock.yaml` | records the `version`, `source` and a per-file `sha256` |
+| **Regenerates** the instance's `ioc.schema.json` | merges the vendored entity models into your image's schema, so the editor validates the new entity |
 
 :::{note}
 `runtime-lock.yaml` is written at the **instance root**, not inside `config/`.
 Only `config/` is mounted into the container, so it stays the small
 runtime-input bundle; the lock is developer-side metadata.
+:::
+
+### The local `ioc.schema.json`
+
+The last step writes a per-instance `ioc.schema.json` so your editor knows about
+the entities you just vendored. `ibek` reads the image you pinned in
+`compose.yml`, fetches that image's **published** schema, and merges the
+vendored pattern's entity models into it. The result is written next to
+`compose.yml` at the instance root (it is developer-side metadata, so it is not
+mounted into the container), and the schema line at the top of `config/ioc.yaml`
+is rewritten from the remote URL you set in {any}`create_ioc` to point at the
+new sibling file:
+
+```yaml
+# yaml-language-server: $schema=../ioc.schema.json
+```
+
+That schema is now the union of **the image's compiled-in entities** and **the
+vendored pattern's** — so when you add the plugin entity in the next step, the
+editor offers completion and validation for `detectorPlugins.detectorPlugins`
+just as it did for the camera. Re-run it standalone any time the vendored set
+changes with `ibek pattern schema services/bl01t-ea-cam-01`.
+
+:::{note}
+The schema is regenerated only if the image has **published** a schema release
+(as `ioc-adsimdetector` does). A generic image without one is reported and
+skipped — vendoring still works, you just edit `ioc.yaml` without local
+validation for the new entities.
 :::
 
 ## Add the plugin entity
@@ -104,10 +142,9 @@ Open `auto-generated/bl01t-ea-cam-01/index.bob` in Phoebus (as in
 capture), and a **PVA** panel exposing the image as a single pvAccess PV. Hit
 **Acquire** on the camera and the stats and ROI plots update per frame.
 
-:::{note}
-**Screenshot TODO — maintainer walkthrough.** A Phoebus capture of the new
-plugin panels (the stats histogram and the HDF5 writer) belongs here, taken
-against the rebuilt `ioc-adsimdetector` image.
+:::{figure} ../images/SimDetPlugins.png
+The auto-generated plugin panels for `bl01t-ea-cam-01` in Phoebus, alongside the
+camera — statistics, ROI-statistics, HDF5 file writer and PVA.
 :::
 
 ## Check what your IOC is running
