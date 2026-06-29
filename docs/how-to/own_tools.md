@@ -36,7 +36,7 @@ The `devcontainer` CLI builds and launches the same developer container that
 VSCode would, but driven entirely from the terminal. This is the route to take
 if you use a terminal editor, or want to script your workflow.
 
-### Install the CLI
+### Install the CLI once, shared across IOCs
 
 The CLI is an npm package, so you need Node.js and `npm` available first.
 
@@ -44,20 +44,22 @@ The CLI is an npm package, so you need Node.js and `npm` available first.
 **DLS users:** run `module load node` to get `npm` on your workstation.
 ```
 
-Install the CLI and check it runs:
+A plain `npm install @devcontainers/cli` drops a `node_modules/`,
+`package.json` and `package-lock.json` into the current folder — if you run it
+inside a Generic IOC clone, it leaves the repo dirty. Instead install the CLI
+**globally, once**, into a user-writable prefix. A single install then serves
+every IOC and keeps your repos clean:
 
 ```bash
-npm install @devcontainers/cli
-npx devcontainer --version
+npm config set prefix ~/.local          # one-time: a user-writable global prefix
+npm install -g @devcontainers/cli
+devcontainer --version                  # run from anywhere once ~/.local/bin is on PATH
 ```
 
 ```{note}
-`npm install` places the package in a `node_modules` directory **in the current
-folder**, not globally. The simplest approach is to run the install, and all
-subsequent `devcontainer` commands, from the same directory — your Generic IOC
-clone works well. If you prefer to run from elsewhere, pass the IOC directory
-explicitly with `--workspace-folder`, for example
-`npx devcontainer up --workspace-folder /path/to/ioc-xxx`.
+Make sure `~/.local/bin` is on your `PATH` so the `devcontainer` command is
+found. The rest of this page calls `devcontainer` directly; if you skipped the
+global install, prefix each command with `npx` and run it from the IOC folder.
 ```
 
 ### Build the Generic IOC first
@@ -84,7 +86,7 @@ From the IOC directory, bring the developer container up. It builds the image
 if needed and then runs in the background:
 
 ```bash
-npx devcontainer up
+devcontainer up --workspace-folder .
 # wait for the build to complete; the container is now running in the background
 podman ps   # confirm it is up
 ```
@@ -92,14 +94,33 @@ podman ps   # confirm it is up
 Attach as many shells inside the running container as you need:
 
 ```bash
-npx devcontainer exec bash
+devcontainer exec --workspace-folder . bash
 ```
 
 ```{note}
-Run `devcontainer up` and every `devcontainer exec` from the **same directory**
-(the IOC folder), or pass `--workspace-folder /path/to/ioc-xxx` to each command.
-The CLI uses the working directory to locate the right container, so a mismatch
-will start or target the wrong one.
+The CLI uses `--workspace-folder` to locate the right container. Point `up` and
+every `exec` at the **same** IOC folder (`.` when you are inside it, or an
+absolute path such as `/path/to/ioc-xxx` from elsewhere), or a mismatch will
+start or target the wrong container.
+```
+
+### Clean up
+
+The developer container keeps running in the background until you stop it. There
+is no `devcontainer down` command — the CLI creates an ordinary podman
+container, so tear it down with podman directly:
+
+```bash
+podman ps                  # find the container's name or id
+podman stop <name-or-id>   # stop it (keeps the container for a fast restart)
+podman rm -f <name-or-id>  # stop and remove it completely
+```
+
+To rebuild from scratch on the next launch — for example after editing the
+`Dockerfile` — recreate the container with:
+
+```bash
+devcontainer up --workspace-folder . --remove-existing-container
 ```
 
 ### Troubleshooting
