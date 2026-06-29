@@ -116,25 +116,33 @@ include:
 (change-the-opi-screen)=
 ## Run It and View the Screens
 
-Bring the beamline up:
+By default Phoebus opens `opi/demo.bob`, the hand-coded overview of the
+*shipped* `example-test-01` IOC. The template also ships `opi/demo-simdet.bob`,
+a ready-made screen wired to your new `BL01T-EA-CAM-01` detector — so have
+Phoebus open that one instead. Edit the `command:` line of the `phoebus` service
+in `services/phoebus/compose.yml`, changing `-resource /opi/demo.bob` to
+`-resource /opi/demo-simdet.bob`:
+
+```yaml
+    command: phoebus-product/phoebus.sh -settings /config/settings.ini -resource /opi/demo-simdet.bob -server 7010
+```
+
+Now bring the beamline up:
 
 ```bash
 source ./environment.sh
 docker compose up -d
 ```
 
-At startup PVI generates an **engineering screen per entity** for your new IOC
-into `opi/auto-generated/bl01t-ea-cam-01/`. In Phoebus, open
-`auto-generated/bl01t-ea-cam-01/index.bob`: on the `simDetector` panel hit
-**Acquire**, and on the `NDStdArrays` panel **Enable** the plugin. These widgets
-drive your `BL01T-EA-CAM-01` PVs, and a moving simulation image appears.
+Phoebus opens the detector screen directly. On the **CAMERA** pane hit
+**Acquire**, and on the **Standard Array** pane **Enable** the plugin — a moving
+simulation image appears in the **Image** pane.
 
-The hand-coded overview screen `opi/demo.bob` that Phoebus opens by default
-drives the *shipped* `example-test-01` IOC, not your new one. To surface
-`bl01t-ea-cam-01` there too, copy one of its panes and re-point the macros at
-`BL01T-EA-CAM-01` — but the auto-generated screens above already give you full
-control with no editing. Manage the running IOC with the same `docker compose`
-commands from {any}`deploy_example`.
+The screen's **`bl01t-ea-cam-01`** button opens the engineering screens that PVI
+auto-generates for every entity at startup (into
+`opi/auto-generated/bl01t-ea-cam-01/`), giving you full control over each PV.
+Manage the running IOC with the same `docker compose` commands from
+{any}`deploy_example`.
 
 :::{note}
 This IOC is reused by later tutorials, so commit it now:
@@ -154,8 +162,10 @@ You wrote no startup script or database. At container start,
 `ibek runtime generate2` reads `config/ioc.yaml` plus the support definitions
 baked into the image and writes the `st.cmd` and database into `/epics/runtime/`.
 The schema line at the top of `ioc.yaml` also drives completion and validation
-in VSCode — install the
-[Red Hat YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).
+in VSCode. The
+[Red Hat YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+will read the schema line and help you edit your `ioc.yaml`,
+install it now if you have not already done so.
 To learn where entity models come from and build your own, see
 {any}`generic_ioc`.
 
