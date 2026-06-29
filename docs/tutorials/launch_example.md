@@ -33,6 +33,16 @@ source ./environment.sh        # set the EPICS ports and compose variables
 docker compose up -d           # -d detaches; omit it to follow the combined logs
 ```
 
+:::{note}
+The `phoebus` container draws its window on your host X display. If Phoebus does
+not appear and its logs show X11 authorization errors — most likely on Wayland —
+grant the local user access to the display and bring the stack back up:
+
+```bash
+xhost +SI:localuser:$(id -un)
+```
+:::
+
 Phoebus opens with an overview of the running beamline:
 
 :::{figure} ../images/example_beamline.png

@@ -117,6 +117,18 @@ non-Kubernetes production deployment.
 
 Follow the [](quickstart) to install `docker compose` and point it at podman.
 
+:::{warning}
+**Wayland / X11 displays.** Several tutorials run GUI apps — notably Phoebus —
+*inside* containers, which need access to your X server. On Wayland, and some
+X11 setups, the container is refused and the app fails to open with an X11
+authorization error. Grant the local user access once per login session before
+launching:
+
+```bash
+xhost +SI:localuser:$(id -un)
+```
+:::
+
 (cli-completion)=
 ### Command line completion (optional)
 

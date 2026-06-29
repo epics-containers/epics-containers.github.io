@@ -9,25 +9,29 @@ want is not exposed as an instance parameter — for example to:
 - adjust the support YAML so instances can use new entities.
 
 :::{note}
-Tempted to add a second device to a Generic IOC? Prefer a *separate* Generic IOC
-per device: smaller images, fewer rebuilds, and records still link across IOCs
-via Channel Access. Kubernetes makes running many small services cleaner than a
-few monolithic ones. The exception is a set of devices always deployed and
+Avoid creating a single Generic IOC for many classes of device.
+
+Prefer a *separate* Generic IOC per device class and a single physical device per IOC instance. This makes for smaller images, fewer rebuilds, and records still can link across IOCs via Channel Access. Kubernetes makes running many small services cleaner than a few monolithic ones.
+
+The exception is a set of devices always deployed and
 restarted together — at DLS, for instance, one Generic IOC covers a beamline's
 vacuum equipment.
+
+The most important reason for this is to allow you to restart or turn off a device
+and at the same time restart/turn off just the software that talks to it, without
+affecting any other devices/IOCs.
 :::
 
 You test type 2 changes inside the Generic IOC's own devcontainer, against an
-example instance it bundles. `ioc-adsimdetector` bundles
-`services/bl01t-ea-ioc-02` (PV prefix `BL01T-DI-CAM-01`) and a ready-made
-Phoebus screen — a simulation detector is ideal here because it needs no real
-hardware. We will make changes locally and not push them; later tutorials cover
-forks and pull requests.
+IOC instance from a services repository selected with `ibek dev instance`.
 
 ## Preparation
 
-Open `ioc-adsimdetector` in its devcontainer (clone it if you did not keep it
-from earlier tutorials):
+This continues in the `ioc-adsimdetector` devcontainer, testing against the
+`bl01t-ea-cam-01` instance in your `t01-services` repo from the earlier
+tutorials. If you closed the devcontainer, reopen the `ioc-adsimdetector` folder
+in VSCode, press `Ctrl-Shift-P` and choose "Reopen in Container" — clone it next
+to `t01-services` first if you no longer have it:
 
 ```bash
 git clone --recursive https://github.com/epics-containers/ioc-adsimdetector.git
@@ -38,45 +42,26 @@ code .
 
 A fresh devcontainer needs two things before an IOC will run: a built binary and
 a selected instance. The IOC source is symlinked to `/epics/ioc`, so build there
-and select the bundled example:
+and select your `bl01t-ea-cam-01` instance:
 
 ```bash
 cd /epics/ioc
 make
-ibek dev instance /workspaces/ioc-adsimdetector/services/bl01t-ea-ioc-02
+ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
 ./start.sh
 ```
 
 `ibek dev instance` symlinks the chosen instance's `config` folder to
 `/epics/ioc/config`. You should see an iocShell prompt with no errors above it.
 
-## View the simulated image
-
-The bundled instance auto-starts acquisition — its `ioc.yaml` includes an
-`epics.PostStartupCommand` entity that sets `Acquire` and the plugin
-`EnableCallbacks` records — so an image is already streaming. To see it, launch
-Phoebus *from outside the devcontainer*:
-
-```bash
-cd ioc-adsimdetector
-./opi/phoebus-launch.sh
-```
-
-`phoebus-launch.sh` opens the auto-generated `index.bob` plus the hand-made
-`opi/bl01t-ea-ioc-02.bob`, which displays the detector's PVA image
-(`BL01T-DI-CAM-01:PVA:OUTPUT`). You should see the moving simulation image.
-
-:::{figure} ../images/phoebus2.png
-The bundled `bl01t-ea-ioc-02.bob` screen showing the simulated image.
-:::
-
 ## Make a change to the Generic IOC
 
-The example auto-starts acquisition the **per-instance** way: an
-`epics.PostStartupCommand` in its `ioc.yaml` (a type 1 change — see
-{any}`ioc-change-types`). To make the same behaviour part of the **Generic
-IOC**, so *every* instance built from it inherits the behaviour, edit the
-support YAML instead.
+The `bl01t-ea-cam-01` instance does not start acquiring on its own — in
+[Developer Containers Part 2](dev_container2.md) you had to set `:DET:Acquire`
+by hand with `caput` each time the IOC started. Suppose you want *every*
+simDetector built from this Generic IOC to acquire on startup. That is a change
+to the Generic IOC itself, made in the support YAML rather than in any single
+instance's `ioc.yaml`.
 
 The support YAML describes the *entities* an instance may use. Open
 `ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml`, find the
@@ -87,15 +72,17 @@ post_init:
   - type: text
     value: |
       dbpf {{P}}{{R}}Acquire 1
+      dbpf {{P}}:ARR:EnableCallbacks 1
 ```
 
 `{{P}}` and `{{R}}` are the entity's parameters, rendered with Jinja at runtime —
-here `BL01T-DI-CAM-01` and `:DET:`. Restart the IOC (`Ctrl-D` to exit the shell,
-then `./start.sh`). `start.sh` re-runs `ibek runtime generate2`, so your line now
-appears in the rendered startup script `/epics/runtime/st.cmd`:
+here `BL01T-EA-CAM-01` and `:DET:`. Restart the IOC (`Ctrl-D` to exit the shell,
+then `./start.sh`). `start.sh` re-runs `ibek runtime generate2`, so your lines now
+appear in the rendered startup script `/epics/runtime/st.cmd`:
 
 ```console
-dbpf BL01T-DI-CAM-01:DET:Acquire 1
+dbpf BL01T-EA-CAM-01:DET:Acquire 1
+dbpf BL01T-EA-CAM-01:ARR:EnableCallbacks 1
 ```
 
 Every instance of this Generic IOC now acquires on startup without needing the
@@ -105,12 +92,37 @@ command in its own config.
 This is deliberately artificial: a `post_init` here changes behaviour for *all*
 simDetector instances. For per-instance behaviour, prefer the `epics.dbpf` or
 `epics.PostStartupCommand` entity in `ioc.yaml` (both defined globally in
-`ibek-support/_global/epics.ibek.support.yaml`) — the type 1 approach the
-bundled example already uses.
+`ibek-support/_global/epics.ibek.support.yaml`) — the type 1 approach you used
+in [Changing the IOC Instance](ioc_changes1.md).
 :::
 
 Support YAML — entities, `pre_init`/`post_init`, and parameters — is covered in
 depth in {any}`generic_ioc`.
+
+## View the simulated image
+
+Launch Phoebus from outside the devcontainer to watch the detector, leaving the
+IOC running in its devcontainer terminal:
+
+```bash
+cd ioc-adsimdetector
+./opi/phoebus-launch.sh -resource /workspaces/t01-services/opi/demo-simdet.bob
+```
+
+This opens `demo-simdet.bob`, the hand-coded overview screen you made in
+{any}`change-the-opi-screen`. Because the Generic IOC now starts acquisition
+itself, the simulation image is already moving — no manual `caput` needed this
+time.
+
+:::{note}
+If you had Phoebus open while you restarted the IOC, it loses contact with the
+PVs and does not reconnect to the image on its own. Close Phoebus and relaunch
+it with the command above to pick the detector back up.
+:::
+
+:::{figure} ../images/custom_bob.png
+The `demo-simdet.bob` screen showing the simulated image.
+:::
 
 ## Publishing and cleaning up
 
