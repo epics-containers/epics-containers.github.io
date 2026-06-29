@@ -248,7 +248,7 @@ set for you when you `source ./environment.sh` from your deployment repository:
 The important thing to understand is what `ec deploy` actually does. Running:
 
 ```bash
-ec deploy bl02t-ea-cam-01 2024.12.1
+ec deploy bl02t-ea-cam-01 2026.7.1
 ```
 
 does **not** push anything into the cluster directly. It **records the desired

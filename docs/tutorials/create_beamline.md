@@ -90,8 +90,8 @@ production each facility sets its own policy for where these assets live.
 3. Tag a release so you have a versioned snapshot (CI runs on the tag too):
 
    ```bash
-   git tag 2024.9.1
-   git push origin 2024.9.1
+   git tag 2026.7.1
+   git push origin 2026.7.1
    ```
 
    A date-based tag (`YYYY.M.N`) is a common choice for services repos;

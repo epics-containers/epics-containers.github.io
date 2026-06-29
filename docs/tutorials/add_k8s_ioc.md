@@ -165,7 +165,7 @@ repo. Instead it:
 - runs `helm upgrade --install bl02t-ea-cam-01 ... --namespace t02-beamline`
   directly against the cluster.
 
-Use a git tag instead of `main` (for example `ec deploy bl02t-ea-cam-01 2026.6.1`)
+Use a git tag instead of `main` (for example `ec deploy bl02t-ea-cam-01 2026.7.1`)
 to pin a specific version, exactly as you tagged and deployed the shared services
 in {any}`setup-k8s-beamline`.
 
@@ -178,9 +178,9 @@ ec logs bl02t-ea-cam-01        # stream the IOC's container logs
 
 ```text
  name                version   ready   deployed
- t02-epics-pvcs      2026.6.1  True    2026-06-26T09:10:00Z
- t02-epics-opis      2026.6.1  True    2026-06-26T09:11:00Z
- bl02t-ea-cam-01     main      True    2026-06-26T09:20:00Z
+ t02-epics-pvcs      2026.7.1  True    2026-07-01T09:10:00Z
+ t02-epics-opis      2026.7.1  True    2026-07-01T09:11:00Z
+ bl02t-ea-cam-01     main      True    2026-07-01T09:20:00Z
 ```
 
 Pause and resume the IOC without removing it:

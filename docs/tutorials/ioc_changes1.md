@@ -80,8 +80,8 @@ cd /workspaces/t01-services
 git add .
 git commit -m "Add extra.db to bl01t-ea-cam-01"
 git push
-git tag 2026.6.1
-git push origin 2026.6.1
+git tag 2026.7.1
+git push origin 2026.7.1
 ```
 
 That tag pins the version you deploy to a real beamline — see

@@ -293,7 +293,7 @@ diagnose a service that will not start.
 Now deploy an IOC. The service `bl02t-ea-cam-01` already exists in
 `t02-services` — you added it in {any}`add_k8s_ioc` — so you can deploy it
 directly, this time through ArgoCD. Use a git tag instead of `main` (for example
-`2026.6.1`) to pin a specific version:
+`2026.7.1`) to pin a specific version:
 
 ```bash
 ec deploy bl02t-ea-cam-01 main

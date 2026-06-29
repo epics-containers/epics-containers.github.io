@@ -119,16 +119,16 @@ template:
 first:
 
 ```bash
-git tag 2026.6.1
-git push origin 2026.6.1
+git tag 2026.7.1
+git push origin 2026.7.1
 ```
 
 Then deploy each service at that tag (`-v` prints the underlying helm/kubectl
 commands):
 
 ```bash
-ec -v deploy t02-epics-pvcs 2026.6.1
-ec -v deploy t02-epics-opis 2026.6.1
+ec -v deploy t02-epics-pvcs 2026.7.1
+ec -v deploy t02-epics-opis 2026.7.1
 ```
 
 :::{note}
@@ -149,8 +149,8 @@ ec ps
 
 ```text
  name             label     version    ready   deployed
- t02-epics-pvcs   service   2026.6.1   True    2026-06-26T09:10:00Z
- t02-epics-opis   service   2026.6.1   True    2026-06-26T09:11:00Z
+ t02-epics-pvcs   service   2026.7.1   True    2026-07-01T09:10:00Z
+ t02-epics-opis   service   2026.7.1   True    2026-07-01T09:11:00Z
 ```
 
 Run `ec --help` to explore the other commands (`ec logs`, `ec exec`,
