@@ -160,20 +160,8 @@ autosave data:
 docker compose down
 ```
 
-## Preview the ec CLI
+## Managing IOCs on a cluster
 
-On a cluster, IOCs are managed with the `ec` CLI instead of `docker compose`
-(see {any}`deploy-argocd`). You can preview that interface now, without a
-cluster, by selecting its `DEMO` backend — it serves a set of fake services:
-
-```bash
-export EC_CLI_BACKEND=DEMO
-ec ps                     # list services
-ec logs demo-ea-01        # show a service's logs
-ec stop demo-ea-01        # stop / start by name
-ec monitor                # full-screen TUI (Escape to exit)
-```
-
-The same commands drive real services once `ec` is pointed at a cluster. For the
-full command and environment-variable reference, see the
-[edge-containers-cli documentation](https://epics-containers.github.io/edge-containers-cli/).
+This local `docker compose` workflow has a cluster equivalent: there you manage
+IOCs with the **`ec`** CLI rather than `docker compose`. The {any}`deploy-argocd`
+track introduces and configures it.
