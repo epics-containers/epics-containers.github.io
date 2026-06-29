@@ -26,7 +26,9 @@ cd /epics/ioc && make
 ## Channel Access
 
 The container ships the full set of EPICS tools, so `caget`, `caput` and
-`camonitor` work against the running IOC from any VSCode terminal:
+`camonitor` work against the running IOC from any VSCode terminal. The IOC shell
+is still occupying the terminal you started it in, so open a second terminal
+(`Terminal → New Terminal`) for these commands and leave the IOC running:
 
 ```bash
 caget BL01T-EA-CAM-01:DET:Acquire
@@ -35,6 +37,21 @@ caput BL01T-EA-CAM-01:ARR:EnableCallbacks 1
 # read the first 10 elements of the (changing) image array
 caget -#10 BL01T-EA-CAM-01:ARR:ArrayData
 ```
+
+:::{warning}
+Channel Access sees the IOC's PVs both via localhost and UDP broadcast
+so you will get a warning like:
+
+```
+Warning: "Identical process variable names on multiple servers"
+```
+
+To silence this warning, make CA look only at localhost before running `caget`/`caput`:
+
+```bash
+export EPICS_CA_ADDR_LIST=localhost EPICS_CA_AUTO_ADDR_LIST=NO
+```
+:::
 
 You are `root` inside the container (podman maps that back to your own user on
 the host), so no `sudo` is needed. The image is Ubuntu-based, so install any
@@ -77,11 +94,11 @@ For how a client outside the container reaches an IOC running inside it, see
 
 ## A nicer overview screen
 
-The auto-generated screens show the image array as raw integers. Earlier you
-made a hand-coded screen with a proper image widget (see
-{any}`change-the-opi-screen`). Open it in Phoebus with **File -> Open** and
-browse to `opi/demo.bob` in your services repo — from the Phoebus container that
-path is `/workspaces/t01-services/opi/demo.bob`.
+Earlier we used a hand-coded screen with a proper image widget that worked with the same IOC instance we are using now (see {any}`change-the-opi-screen`). To open it, close Phoebus and relaunch it pointing at that screen:
+
+```bash
+./opi/phoebus-launch.sh -resource /workspaces/t01-services/opi/demo-simdet.bob
+```
 
 :::{figure} ../images/custom_bob.png
 A hand-coded overview screen for bl01t-ea-cam-01.

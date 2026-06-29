@@ -73,9 +73,8 @@ developer environment.
 :::{note}
 This tutorial uses VSCode, which has first-class developer-container support.
 Any container-aware IDE works, and for terminal editors such as `neovim` you can
-launch the same container from the
-[devcontainer CLI](https://code.visualstudio.com/docs/devcontainers/devcontainer-cli)
-— it reads the host mounts and other settings from
+launch the same container from the command line — see {any}`devcontainer-cli`.
+It reads the host mounts and other settings from
 `.devcontainer/devcontainer.json`, so always start it that way rather than by
 hand.
 :::
@@ -118,6 +117,14 @@ Because epics-containers builds all support from source to avoid dependency-tree
 problems, building something as large as AreaDetector takes a few minutes the
 first time; the layers are cached, so rebuilds are near-instant up to whatever
 line you changed.
+
+:::{tip}
+VSCode hides the build output behind a progress notification, so a failing
+build can be hard to debug. The best way to watch it is to run `./build` in the
+project root *before* reopening in the container — it builds the same
+`developer` target and streams the full log to your terminal. Once it succeeds,
+reopening in the container reuses the cached layers.
+:::
 
 Once it finishes you are **inside** the container: every VSCode terminal and
 editor runs in the container filesystem. A few host folders are mounted in so
@@ -167,7 +174,18 @@ exit the IOC shell.
 The devcontainer mounts the parent of your project as `/workspaces`, so all
 peer repos (such as `t01-services`) are visible inside the container — use
 `File → Add Folder to Workspace` and pick from `/workspaces` to browse them in
-the Explorer. The most useful paths are:
+the Explorer.
+
+:::{note}
+It is instructive to add `/epics` to the workspace the same way
+(`File → Add Folder to Workspace` → type `/epics` → `OK`): it is the root that
+holds all the EPICS source and built files, so you can browse the support
+modules, EPICS base and generated runtime listed below. Adding a folder always
+restarts the container, and the first time you add one VSCode usually shows an
+error — it is safe to ignore, just click `Cancel`.
+:::
+
+The most useful paths are:
 
 | Path inside container | Host mount | Description |
 |---|---|---|
