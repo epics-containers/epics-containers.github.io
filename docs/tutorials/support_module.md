@@ -54,3 +54,12 @@ Then add a `COPY` / `RUN ansible.sh mymodule` pair to the Generic IOC
 `ibek dev instance` followed by `make` and `./start.sh`, and finally push both
 the `ibek-support` recipe and the Generic IOC repository. Each of these steps is
 covered in detail in {any}`generic_ioc`.
+
+:::{note}
+**TODO (maintainer walkthrough):** add a short section here on generating and
+using the instance schema for a brand-new module — `ibek ioc generate-schema >
+/tmp/ibek.ioc.schema.json`, pointing the instance's schema line at it for editor
+validation before the first release, and the published-release schema URL that
+real instances reference afterwards. (`generic_ioc` now glosses over this because
+it reuses an existing instance that already has a local schema.)
+:::

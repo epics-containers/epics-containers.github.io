@@ -71,13 +71,14 @@ Pushing triggers a GitHub Actions build of the (still empty) Generic IOC. It is
 not published — there is no release tag yet — but it primes the build cache so
 your later builds are fast. Watch it under the **Actions** tab.
 
-Finally open the project and launch its developer container, where all the work
-below happens:
+Open the project in VSCode — but **stay on the host for now**; do not reopen in
+the container yet. You will first point the `Dockerfile` at the correct base
+image and build it once, so the developer container you open afterwards is
+already the right image, cached:
 
 ```bash
 cd ioc-adsimdetector
 code .
-# then Ctrl-Shift-P -> "Dev Containers: Reopen in Container"
 ```
 
 :::{note}
@@ -115,10 +116,38 @@ image — do **not** re-author or rebuild it.
 
 :::{note}
 The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
-cache hit rate — editing one recipe does not force every module to rebuild. You
-can build the image at any time with `./build` (it calls `docker`, or `podman`
-if `USE_PODMAN` is set).
+cache hit rate — editing one recipe does not force every module to rebuild.
 :::
+
+## Build the image and open the devcontainer
+
+With the base image set, build the developer image **on the host** so you can
+watch the full log — VSCode otherwise hides it behind a progress notification.
+The AreaDetector base is large, so the first build takes a few minutes; the
+layers are cached for every build after that:
+
+```bash
+./build
+```
+
+`./build` calls `docker` (or `podman` if `USE_PODMAN` is set). Once it succeeds,
+reopen the project in its developer container — it reuses the image you just
+built, so it opens straight away:
+
+- `Ctrl-Shift-P` -> *Dev Containers: **Rebuild and Reopen in Container***
+
+Use **Rebuild and Reopen**, not plain *Reopen in Container*: VSCode keys its
+devcontainers by project name, so a plain reopen can attach you to a stale
+container left over from an earlier `ioc-adsimdetector` instead of your freshly
+built image.
+
+:::{tip}
+This is a recurring theme: whenever a devcontainer misbehaves or will not open,
+reach for the **Rebuild** option (`Ctrl-Shift-P` -> *Dev Containers: Rebuild
+Container*). The rebuild is still fast because the image layers are cached.
+:::
+
+All the work below happens inside this container.
 
 ## Fork the ibek-support submodule
 
@@ -126,8 +155,7 @@ New modules need recipes, which live in `ibek-support` — a submodule shared by
 all `ioc-*` projects. It is curated, so you work from a fork (open a pull
 request later if your recipe is generally useful).
 
-- Fork it at <https://github.com/epics-containers/ibek-support/fork> (untick
-  *Copy the main branch only*).
+- Fork it at <https://github.com/epics-containers/ibek-support/fork>.
 - Copy the fork's **HTTPS** *Code* URL and point the submodule at it:
 
 ```bash
@@ -136,16 +164,10 @@ git submodule set-url ibek-support <YOUR FORK HTTPS URL>
 git submodule update
 cd ibek-support
 git fetch
-git checkout tutorial-KEEP   # snapshot for this tutorial; see note
-git remote -v                # confirm origin is your fork
+git checkout main            # work from your fork's main branch
+git remote -v               # confirm origin is your fork
 cd ..
 ```
-
-:::{note}
-`tutorial-KEEP` is a frozen snapshot so this tutorial is reproducible. For real
-work, branch off `main` instead: `git checkout main`, then
-`git checkout -b my-feature && git push -u origin my-feature`.
-:::
 
 :::{important}
 Use the **HTTPS** URL, not SSH — CI clones have no SSH keys. HTTPS reads fine; to
@@ -163,7 +185,10 @@ for this to take effect inside it.
 ## Re-author the build recipe
 
 `ibek-support` already ships an `ADSimDetector` recipe, but re-authoring it from
-scratch is the whole lesson. Delete the stock folder and start clean:
+scratch is the whole lesson. Deleting the stock folder and rebuilding it here
+also keeps the tutorial self-contained: you end up with a known recipe you wrote
+yourself, rather than depending on whatever happens to be checked out in the
+submodule. Delete the stock folder and start clean:
 
 ```bash
 cd /workspaces/ioc-adsimdetector/ibek-support
@@ -195,9 +220,10 @@ The keys are minimal:
 - **organization** — URL prefix of the repo. Defaults to
   `https://github.com/epics-modules`; areaDetector modules live under
   `areaDetector` instead.
-- **dbds** / **libs** — the database-definition and library to link into the
-  IOC. Most modules are inferred from the module name, but areaDetector modules
-  name them explicitly.
+- **dbds** / **libs** — the database-definition(s) and library(ies) the module
+  publishes, to link into the IOC. They default to empty and are **not** inferred
+  from the module name, so almost every recipe lists them explicitly — here
+  `simDetectorSupport.dbd` and `simDetector`.
 
 The schema on the first line gives auto-completion and validation in VSCode (via
 the Red Hat YAML extension). Every available key is listed in
@@ -207,6 +233,18 @@ terminal (Terminal -> New Terminal):
 ```bash
 ansible.sh ADSimDetector
 ```
+
+`ansible.sh` runs the `ibek-support` Ansible role for the module, which:
+
+- installs any system packages the recipe declares;
+- clones the module from its git repository at the pinned `version`;
+- fixes up `configure/RELEASE` to point at the modules already in the image, and
+  applies any patches the recipe specifies;
+- builds it with the standard EPICS `make`;
+- appends its `dbds` and `libs` to the global `/epics/support/configure/dbd_list`
+  and `/epics/support/configure/lib_list` so the IOC links them in;
+- registers its runtime files — symlinking the `*.ibek.support.yaml`, PVI
+  device, autosave request and StreamDevice protocol files into `/epics`.
 
 The module now exists under `/epics/support`.
 
@@ -274,7 +312,7 @@ entity_models:
           simDetectorConfig("{{PORT}}", {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})
 
     databases:
-      - file: $(ADSIMDETECTOR)/db/simDetector.template
+      - file: simDetector.template
         args:
           P:
           R:
@@ -307,9 +345,8 @@ git checkout HEAD -- ADSimDetector/simDetector.pvi.device.yaml
 ```
 
 :::{note}
-Re-authoring is a teaching exercise, not a one-way door: every stock file you
-removed is recoverable from the `ibek-support` git history with
-`git checkout` or `git show`.
+TODO: Auto generation of PVI device descriptions from the module DB and screens
+is under development. For now, we copy the stock one from the submodule.
 :::
 
 :::{important}
@@ -332,76 +369,26 @@ make
 
 ## Test with an example instance
 
-To exercise the Generic IOC you need an instance. The template ships one at
-`tests/config/ioc.yaml` — a great place to embed an example that doubles as a CI
-smoke test. The simulation detector generates frames internally, so **no
-external simulator is required**.
+To exercise the Generic IOC you need an instance — and you already have a perfect
+one: the `bl01t-ea-cam-01` instance in your `t01-services` repo, which you have
+driven throughout the earlier tutorials. Now you can test it against the image
+you just built yourself. The simulation detector generates frames internally, so
+**no external simulator is required**. Its `ioc.yaml` already carries a local
+schema line from the earlier tutorials, so your editor validates it as-is.
 
-First generate a schema for *this* Generic IOC so your editor can validate the
-instance; it covers your new `simDetector` model plus every other module in the
-container:
-
-```bash
-ibek ioc generate-schema > /tmp/ibek.ioc.schema.json
-```
-
-Once the repo is released, the same schema is published with it at
-`https://github.com/<org>/ioc-adsimdetector/releases/download/<tag>/ibek.ioc.schema.json`,
-which is what real instances reference.
-
-Replace `tests/config/ioc.yaml` with a simDetector example, adding one
-`NDStdArrays` plugin so there is an image waveform to view:
-
-```yaml
-# yaml-language-server: $schema=/tmp/ibek.ioc.schema.json
-
-ioc_name: "{{ ioc_yaml_file_name }}"
-
-description: example IOC for testing ADSimDetector
-
-entities:
-  - type: epics.EpicsEnvSet
-    name: EPICS_TZ
-    value: GMT0BST
-
-  - type: devIocStats.iocAdminSoft
-    IOC: "{{ ioc_name | upper }}"
-
-  - type: ADSimDetector.simDetector
-    P: BL01T-EA-CAM-01
-    R: ":DET:"
-    PORT: DET.DET
-    WIDTH: 1024
-    HEIGHT: 1024
-    DATATYPE: 0
-
-  - type: ADCore.NDStdArrays
-    P: BL01T-EA-CAM-01
-    R: ":ARR:"
-    PORT: DET.ARR
-    NDARRAY_PORT: DET.DET
-    TYPE: Int8
-    FTVL: UCHAR
-    NELEMENTS: 1048576
-    ENABLED: 1
-```
-
-This instance sets the timezone, adds devIocStats monitoring PVs, creates the
-simulation detector on asyn port `DET.DET`, and wires an `NDStdArrays` plugin to
-it so the frames are published as a Channel Access waveform.
-
-Link the instance in, build and run it:
+Select the instance, build and run it:
 
 ```bash
-ibek dev instance /workspaces/ioc-adsimdetector/tests
+ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
 cd /epics/ioc
 make
 ./start.sh
 ```
 
 The IOC should start and begin generating frames. To iterate on the instance you
-do **not** need to rebuild the binary — edit `tests/config/ioc.yaml`, stop the
-IOC with `Ctrl-D`, and run `./start.sh` again. (Rebuild with `make` only after
+do **not** need to rebuild the binary — edit
+`/workspaces/t01-services/services/bl01t-ea-cam-01/config/ioc.yaml`, stop the IOC
+with `Ctrl-D`, and run `./start.sh` again. (Rebuild with `make` only after
 changing the *set of support modules*.)
 
 To see what `ibek` generated, look in `/epics/runtime` (the expanded startup
