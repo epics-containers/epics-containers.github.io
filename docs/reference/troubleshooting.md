@@ -21,7 +21,7 @@ export EPICS_PVA_NAME_SERVERS="127.0.0.1:5075 127.0.0.1:5076"
 The equivalent settings in phoebus' settings.ini file would be:
 
 ```ini
-org.phoebus.pv.ca/name_servers=127.0.0.1:5064 127.0.0.1:5064
+org.phoebus.pv.ca/name_servers=127.0.0.1:5064 127.0.0.1:5065
 org.phoebus.pv.pva/epics_pva_name_servers=127.0.0.1:5075 127.0.0.1:5076
 ```
 
@@ -102,13 +102,9 @@ to GitHub.
 ## Cannot connect to the container service
 
 `podman` is daemonless, but `docker compose` talks to it through the podman
-socket. If compose cannot connect, make sure the podman user socket is running
-and that `DOCKER_HOST` points at it:
-
-```bash
-systemctl enable --user podman.socket --now
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
-```
+socket. If compose cannot connect, the podman user socket is probably not
+running — see {any}`podman-integration` for how to enable it and point
+`DOCKER_HOST` at it.
 
 (If you are using docker instead of podman, see {any}`using-docker` for docker
 daemon troubleshooting.)
@@ -123,3 +119,16 @@ for more information
 ## Error processing a compose file
 
 Solution: make sure your docker compose is up to date
+
+## Disable recursive git-repository scanning in VSCode
+
+Generic IOC dev containers mount many git repositories under `/epics/support`
+(the `ibek-support` submodule plus support modules). Stop VSCode scanning them
+all by adding to your user settings (`Ctrl-Shift-P` ->
+`Preferences: Open User Settings (JSON)`):
+
+```json
+"scm.alwaysShowRepositories": true,
+"git.repositoryScanMaxDepth": 0,
+"scm.repositories.visible": 12,
+```

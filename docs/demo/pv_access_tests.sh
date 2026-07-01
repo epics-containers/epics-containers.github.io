@@ -10,7 +10,7 @@ from p4p.client.thread import Context
 Context("pva").get("EXAMPLE:IBEK:SUM", timeout=0.5)
 '
 
-cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.1.0'
+cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6'
 
 check () {
     podman run $args $env $ports $cmd > /dev/null

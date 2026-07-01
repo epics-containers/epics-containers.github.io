@@ -1,146 +1,123 @@
 # Changing the IOC Instance
 
-This tutorial will make a very simple change to the example IOC `bl01t-ea-cam-01`. This is a type 1 change from {any}`ioc-change-types`, types 2, 3 will be covered in the following 2 tutorials.
+This tutorial makes a small change to the example IOC `bl01t-ea-cam-01`: you add
+a hand-crafted EPICS database record and prove the change works. This is a
+**type 1** change from {any}`ioc-change-types` — you are only editing instance
+configuration, so nothing is recompiled. Types 2 and 3 follow in the next two
+tutorials.
 
-Strictly speaking, Type 1 changes do not require a devcontainer. You created and deployed the IOC instance in a previous tutorial without one. It is up to you how you choose to make these types of changes. Types 2,3 do require a devcontainer because they involve compiling Generic IOC / support module code.
+Type 1 changes do not strictly need a developer container (you deployed an IOC
+instance in an earlier tutorial without one), but we will use the
+`ioc-adsimdetector` devcontainer here because it lets you test the change
+instantly. If you closed it after the last tutorial, reopen the
+`ioc-adsimdetector` folder in VSCode, press `Ctrl-Shift-P` and choose "Reopen in
+Container", then re-select the instance:
 
-These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do so, open your `ioc-adsimdetector` folder in vscode and then press `Ctrl-Shift-P` and type `Remote-Containers: Reopen in Container`.
+```bash
+ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
+```
 
-We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used `ioc.yaml`. If you changed to using raw startup assets in the previous tutorial then revert to using `ioc.yaml` for this tutorial or see [](raw-startup-assets).
+:::{note}
+This tutorial assumes the `ioc.yaml`-based instance. If you switched to raw
+startup assets in the previous tutorial, either revert to `ioc.yaml` or apply
+the same change by appending the `dbLoadRecords` line to your `st.cmd` — see
+{any}`raw-startup-assets`.
+:::
 
-Make the following changes in your test IOC config folder
-(`/epics/ioc/config` which is currently the same as `/workspaces/t01-services/services/bl01t-ea-cam-01/config`):
+## Make the change
 
-1. Add a file called `extra.db` with the following contents.
+Your instance config folder `/epics/ioc/config` is symlinked to
+`/workspaces/t01-services/services/bl01t-ea-cam-01/config`, so every edit you
+make here lands directly in the `t01-services` repo, ready to commit.
+
+1. Add a file `extra.db` containing a single soft record:
 
    ```text
    record(ai, "BL01T-EA-CAM-01:TEST") {
       field(DESC, "Test record")
       field(DTYP, "Soft Channel")
-      field(SCAN, "Passive")
       field(VAL, "1")
    }
    ```
 
-2. Add the following lines to the end of `ioc.yaml` (verify that the indentation
-   matches the above entry so that `- type:` statements line up):
+2. Append a `StartupCommand` entity to `ioc.yaml` to load it (match the
+   indentation of the existing `- type:` entries so the `- type:` lines align):
 
    ```yaml
    - type: epics.StartupCommand
      command: dbLoadRecords(config/extra.db)
    ```
 
-## Locally Testing Your changes
+## Test it
 
-You can immediately test your changes by restarting the IOC instance inside the developer container as follows:
+Restart the IOC inside the devcontainer:
 
 ```bash
-# stop any existing IOC shell by hitting Ctrl-D or typing exit
+# stop the running IOC shell first with Ctrl-D (or type exit)
 cd /epics/ioc
 ./start.sh
 ```
 
-If all is well you should see your iocShell prompt and the output should show `dbLoadRecords(config/extra.db)`.
+`start.sh` runs `ibek runtime generate2` to regenerate the startup script and
+database from your edited `ioc.yaml`, so your `dbLoadRecords(config/extra.db)`
+line now appears in the startup log.
 
-Test your change from another terminal (VSCode menus -> Terminal -> New Terminal) like so:
+From a second terminal (Terminal -> New Terminal) read the new record:
 
 ```bash
 caget BL01T-EA-CAM-01:TEST
 ```
 
-If you see the value 1 then your change is working.
+A value of `1` confirms the change is live.
 
+## Commit the change
 
-Because of the symlink between `/epics/ioc/config` and `/workspaces/bl01t/services/bl01t-ea-cam-01/config` the same files you are testing by launching the IOC inside of the devcontainer are also ready to be committed and pushed to the `t01-services` repo. The following commands show how to do this:
+Because the config edits already live in `t01-services`, commit and push them,
+then tag a release of the services repo (substitute your own version):
 
 ```bash
 cd /workspaces/t01-services
 git add .
-git commit -m "Added extra.db"
+git commit -m "Add extra.db to bl01t-ea-cam-01"
 git push
-# tag a new version of the beamline repo
-git tag 2024.8.2
-git push origin 2024.8.2
+git tag 2026.7.1
+git push origin 2026.7.1
 ```
 
-If you like working entirely from the vscode window you can open a terminal in vscode *outside* of the devcontainer. To do so, press `Ctrl-Shift-P` and choose the commnd `Terminal: Create New Integrated Terminal (Local)`. This will open a terminal to the host. You can then run docker compose from there.
+That tag pins the version you deploy to a real beamline — see
+{any}`deploy-argocd` for the cluster deployment path.
 
-## Launching the Test Beamline
+## How it works
 
-Because the changes have been made in `t01-services` you can now launch the test beamline from outside of the devcontainer.
-
-Before you do this. You must stop the IOC running in the devcontainer, that IOC is currently auto port forwarding the Channel Access ports to the host. If you launch the test beamline without stopping the IOC in the devcontainer then the test beamline's gateway will not be able to bind to the ports.
-
-So stop the IOC in the devcontainer by typing `exit` in the IOC shell.
-
-Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: `caget BL01T-EA-CAM-01:TEST`.
-
-```bash
-# IMPORTANT: do this in a terminal outside of the devcontainer
-cd t01-services
-. ./environment.sh
-docker compose up -d
-docker compose exec example-test-01 caget BL01T-EA-CAM-01:TEST
-
-# Now shut down the beamline again so we can continue with further developer container tutorials
-docker compose down
-```
-
-:::{note}
-if you see the error "listen tcp 127.0.0.1:5064: bind: address already in use" they you have probably forgotten to stop the IOC in the devcontainer. Go back and stop the IOC in the devcontainer and type `docker compose up -d` again.
-:::
-
-## Raw Startup Assets
-
-If you plan not to use `ibek` runtime asset creation you could use the raw startup assets from {any}`raw-startup-assets`. If you do this then the process above is identical except that you will add the `dbLoadRecords` command to the end of raw `st.cmd`.
-
-## More about ibek Runtime Asset Creation
-
-The set of `entities` that you may create in your ioc.yaml is defined by the `ibek` IOC schema that we reference at the top of `ioc.yaml`. The schema is in turn defined by the set of support modules that were compiled into the Generic IOC (ioc-adsimdetector). Each support module has an `ibek` *support YAML* file that contributes to the schema.
-
-The *Support yaml* files are in the folder `/epics/ibek-defs` inside of the container. They were placed there during the compilation of the support modules at Generic IOC build time.
-
-It can be instructive to look at these files to see what entities are available to *IOC instances*. For example the global support yaml file `/epics/ibek-defs/epics.ibek.support.yaml` contains the following (snippet):
+The entities you may use in `ioc.yaml` are defined by *support YAML* files baked
+into the Generic IOC at build time — one per support module, under
+`/epics/ibek-defs`. `StartupCommand` comes from the global
+`/epics/ibek-defs/epics.ibek.support.yaml`:
 
 ```yaml
-  ---
-  - name: StartupCommand
-    description: Adds an arbitrary command in the startup script before iocInit
-    parameters:
-      command:
-        type: str
-        description: command string
-        default: ""
-    pre_init:
-      - type: text
-        value: "{{ command }}"
-
-  - name: PostStartupCommand
-    description: Adds an arbitrary command in the startup script after iocInit
-    parameters:
-      command:
-        type: str
-        description: command string
-        default: ""
-    post_init:
-      - type: text
-        value: "{{ command }}"
-  ---
+- name: StartupCommand
+  description: Adds an arbitrary command in the startup script before iocInit
+  parameters:
+    command:
+      type: str
+      description: command string
+      default: ""
+  pre_init:
+    - type: text
+      value: "{{ command }}"
 ```
 
-These two definitions allow you to add arbitrary commands to the startup script before and after iocInit. This is how we added the `dbLoadRecords` command.
+Its companion `PostStartupCommand` does the same *after* `iocInit`. For a command
+spanning several lines, use a YAML block scalar — the lines are emitted verbatim
+(the nesting whitespace is stripped):
 
-If you want to specify multiple lines in a command you can use the following syntax for multi-line strings:
+```yaml
+- type: epics.StartupCommand
+  command: |
+    # load extra records
+    dbLoadRecords(config/extra.db)
+    dbLoadRecords(config/extra2.db)
+```
 
-> ```yaml
-> - type: epics.StartupCommand
->   command: |
->     # loading extra records
->     dbLoadRecords(config/extra.db)
->     # loading even more records
->     dbLoadRecords(config/extra2.db)
-> ```
-
-This would place the 4 lines verbatim into the startup script (except that they would not be indented - the nesting whitespace is stripped).
-
-In later tutorials we will see where the *Support yaml* files come from and how to add your own.
+Later tutorials show where these support YAML files come from and how to add your
+own.

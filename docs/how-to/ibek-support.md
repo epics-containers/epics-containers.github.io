@@ -7,6 +7,11 @@ alongside the IOC instance YAML that uses it.
 
 (Suggest you do this inside a developer workspace devcontainer.)
 
+:::{note}
+**DLS users:** obtain `uv` with `module load uv` before running
+`uv tool install ibek`.
+:::
+
 ```bash
 cd my-workspace-folder
 
@@ -15,7 +20,7 @@ git clone https://github.com/epics-containers/ibek-support.git
 # clone a services repo that contains example IOC instance YAML
 git clone https://github.com/epics-containers/example-services.git
 
-# get the latest ibek installed (DLS users: module load uv)
+# get the latest ibek installed
 uv tool install ibek
 
 cd example-services/services/bl01t-ea-test-01
@@ -31,9 +36,10 @@ By default the generated files are written to the runtime output folder
 (`/epics/runtime`); pass `-o <folder>` to write them somewhere else, for example
 `-o .` to write into the current directory.
 
-If your IOC instance is split across more than one entity file (for example a
-base `config/ioc.yaml` plus a services-repo `config/runtime.yaml`), use
-`generate2`, which takes the config folder and discovers both files:
+If your IOC instance is split across more than one entity file (for example
+`config/ioc.yaml` plus extra entity YAML vendored into `config/` with
+`ibek pattern add`), use `generate2`, which takes the config folder and
+discovers all of them:
 
 ```bash
 ibek runtime generate2 config --definitions ../../../ibek-support/*/*ibek.support.yaml
