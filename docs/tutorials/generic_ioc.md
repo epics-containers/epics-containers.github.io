@@ -305,6 +305,12 @@ entity_models:
         default: 0
         description: Max memory to allocate (0 = unlimited)
 
+    post_init:
+      - type: text
+        value: |
+          # THIS IOC WAS GENERATED AS PART OF AN epics-container TUTORIAL
+          # SEE https://epics-containers.github.io/main/tutorials/generic_ioc.html
+
     pre_init:
       - type: text
         value: |
@@ -385,8 +391,15 @@ make
 ./start.sh
 ```
 
-The IOC should start and begin generating frames. To iterate on the instance you
-do **not** need to rebuild the binary — edit
+The IOC should start up and the output should end with:
+
+<pre>iocRun: All initialization complete
+<font color="#268BD2"><b># THIS IOC WAS GENERATED AS PART OF AN epics-containers TUTORIAL</b></font>
+<font color="#268BD2"><b># SEE https://epics-containers.github.io/main/tutorials/generic_ioc.html</b></font>
+<font color="#859900"><b>epics&gt; </b></font>
+</pre>
+
+To iterate on the instance you do **not** need to rebuild the binary — edit
 `/workspaces/t01-services/services/bl01t-ea-cam-01/config/ioc.yaml`, stop the IOC
 with `Ctrl-D`, and run `./start.sh` again. (Rebuild with `make` only after
 changing the *set of support modules*.)
@@ -414,19 +427,35 @@ git push -u origin add-adsimdetector
 
 cd ..
 git add .
-git commit -m "add ADSimDetector support and example instance"
+git commit -m "add ADSimDetector tutorial version"
 git push   # a tutorial may push to main; real projects use a PR
 ```
 
+:::{note}
+### Version naming convention for ioc-xxx generic IOC releases.
+
+We use `2.11ec1` below meaning that the primary support module inside this
+generic IOC is `2.11` (i.e. ADSimDetector Support module version). With
+`ec1` meaning this is the first epics-containers generic IOC published
+against that support module version.
+:::
+
 The push triggers a CI image build (watch the **Actions** tab). To *publish* to
 GHCR, cut a release: on the repo's **Releases** tab choose **Create a new
-release**, pick a tag such as `2.11ec3`, click **Generate release notes**, then
+release**, pick a tag such as `2.11ec1`, click **Generate release notes**, then
 **Publish release**.
 
-:::{note}
-**Figure (screenshot TODO — maintainer walkthrough):** the GitHub *Create a new
-release* form for `ioc-adsimdetector`, with a tag such as `2.11ec3` entered and
-the generated release notes shown.
+
+
+:::{figure} ../images/simDetActions.png
+The `build.yml` workflow running on the `ioc-adsimdetector` **Actions** tab after
+the push — the matrix `build` job compiles the image, then the `release` job
+publishes it.
+:::
+
+:::{figure} ../images/simDetRelease.png
+The resulting `2.11ec1` release for `ioc-adsimdetector`, with the published
+`ibek.ioc.schema.json` schema attached as a release asset.
 :::
 
 CI then builds and pushes the image, which appears under the repo's
