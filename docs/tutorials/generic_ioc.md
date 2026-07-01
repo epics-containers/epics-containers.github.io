@@ -453,13 +453,13 @@ the push — the matrix `build` job compiles the image, then the `release` job
 publishes it.
 :::
 
+CI then builds and pushes the image, which appears under the repo's
+**Packages** as `ghcr.io/<org>/ioc-adsimdetector-runtime`.
+
 :::{figure} ../images/simDetRelease.png
 The resulting `2.11ec1` release for `ioc-adsimdetector`, with the published
 `ibek.ioc.schema.json` schema attached as a release asset.
 :::
-
-CI then builds and pushes the image, which appears under the repo's
-**Packages** as `ghcr.io/<org>/ioc-adsimdetector-runtime`.
 
 :::{note}
 If the `release` job fails with `Resource not accessible by integration`, go to
