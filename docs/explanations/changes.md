@@ -8,7 +8,7 @@ This page represents a pledge to control breaking changes for users of `epics-co
 
 From version 3.4.0 onwards we will make changes in a controlled fashion that obeys SemVer 2.0.0 rules. We will also ensure that it is possible to apply updates in a gradual manner and not require a blanket update.
 
-The [](../reference/changelog.md) will give details of any things to be aware of between versions, including minor version updates.
+The [GitHub release notes](https://github.com/epics-containers/epics-containers.github.io/releases) will give details of any things to be aware of between versions, including minor version updates.
 
 Dependency Matrix
 -----------------
@@ -17,7 +17,7 @@ Users of the framework will develop two kinds of repository:
 
 |     |     |
 | --- | --- |
-| Beamline repo | A beamline or other grouping of IOC instance descriptions |
+| Services repository | A beamline (or other grouping) of IOC instances and services |
 | Generic IOC repo | A definition of a generic IOC container image for a particular class of device |
 
 Both of these types of repository are initially created using a copier template. The copier template version will have a SemVer version number that determines which component versions it is compatible with.
@@ -36,28 +36,22 @@ Users of the framework are only concerned with the top two boxes and these are a
 `epics-containers` dependency matrix
 :::
 
-All `ec` SemVer components will always have their major version bumped simultaneously. Likewise for `ibek` SemVer components. These are at versions 3.4.0 and 2.0.0 respectively at the time of writing.
+All `ec` SemVer components will always have their major version bumped simultaneously. Likewise for `ibek` SemVer components. These are at versions 5.2.1 and 4.6.1 respectively at the time of writing.
 
 
 Updating user projects
 ----------------------
 
-A repository that was originally created using a copier template can be updated to a new version using the following command (assumes you have `copier` installed, e.g. with `uv tool install copier`):
+A repository created from a copier template can be updated to a new template
+version with `copier update`. See {any}`copier` and [](../how-to/copier_update)
+for the full procedure.
 
-```bash
-copier update -r VERSION_NUMBER --trust .
-```
-
-You can supply the VERSION_NUMBER of the template you want or omit the -r option to get the latest released version.
-
-This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository.
-
-When a beamline repository is updated, it is still possible to deploy old versions of its IOC instances, even with a major version difference. That is because the deploy mechanism makes a temporary clone of the beamline repository and deploys the instance described in that version.
+When a services repository is updated, it is still possible to deploy old versions of its IOC instances, even with a major version difference. That is because the deploy mechanism makes a temporary clone of the services repository and deploys the instance described in that version.
 
 User Project Versioning
 -----------------------
 
-The documentation has recommended using DateVer for beamline repos and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.
+The documentation has recommended using DateVer for services repositories and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.
 
 It is easy to determine which template version and thus which `ec` SemVer version your repository was last updated from. Inspect the file `.copier_answers.yml` in the root of your repository. This file contains the version of the template that was used to create the repository in the field `_commit`.
 
@@ -74,7 +68,7 @@ Changes to the CLI commands inside of the container build/runtime are initiated 
 
 ### ec-helm-charts
 
-Changes here affect how IOCs and other services are deployed into Kubernetes. These would likely affect beamline repositories as they contain the versions of Helm Charts used to deploy their instances. Potentially changes to these Charts may require an update to the edge-services-cli to support new features.
+Changes here affect how IOCs and other services are deployed into Kubernetes. These would likely affect services repositories as they contain the versions of Helm Charts used to deploy their instances. Potentially changes to these Charts may require an update to the `edge-containers-cli` to support new features.
 
 ### ioc-template
 

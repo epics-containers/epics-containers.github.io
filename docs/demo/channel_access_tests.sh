@@ -11,7 +11,7 @@
 # (caRepeater can go down if the IOC that started it goes down, but it will get
 # restarted by the next IOC startup.)
 
-cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.1.0'
+cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6'
 
 check () {
     podman run $args $env $ports $cmd > /dev/null

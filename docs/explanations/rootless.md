@@ -8,10 +8,19 @@ default but also supports a rootless mode - see {any}`using-docker`.)
 Advantages of rootless operation include:
 
 - Security: rootless containers only have the same permissions as the user running them.
-- Ease of use: in an environment where users do not have root privileges, rootless containers can be run without needing to escalate privileges. This is why DLS uses rootless containers.
+- Ease of use: in an environment where users do not have root privileges (for
+  example a shared facility or managed workstation), rootless containers can be
+  run without needing to escalate privileges.
 - Host mounts: host mounts have the same permissions as the user running the container.
 - Developer containers: rootless containers can be 'root' inside the container, but not on the host.
 - Simplicity: no need to switch users in Dockerfiles - just stay as root and use psuedo-root during runtime. This maps nicely to using the same container in Kubernetes where control of the user id is up to the cluster.
+
+:::{note}
+**DLS users:** managed workstations run rootless containers for exactly these
+reasons. See the
+[DLS dev-guide setup](https://dev-guide.diamond.ac.uk/epics-containers/reference/setup.html)
+for site-specific configuration.
+:::
 
 Advantages of rootful operation include:
 

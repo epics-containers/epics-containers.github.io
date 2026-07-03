@@ -1,158 +1,154 @@
 # Debugging Generic IOC Builds
 
-This tutorial is a continuation of {any}`generic_ioc`. Here we will look into
-debugging failed builds of Generic IOCs.
+This tutorial continues from {any}`generic_ioc`, where we built the
+`ioc-adsimdetector` Generic IOC and re-authored its `ADSimDetector` recipe.
+Here we look at what to do when such a build *fails*.
 
-For the most part the recommended workflow is to always be working inside
-of a developer container. We always use a Generic IOC as the base for our
-developer containers. But what if the build of the Generic IOC fails, then
-you don't have a container to work in and need some other way to debug the
-build.
+The developer container is built **from the Generic IOC image** (the `developer`
+target of the same `Dockerfile`). That is normally a strength — you debug in the
+exact environment the image is built in — but it has one catch: when the *image*
+build fails, there is no container to open. The fix is a small trick:
 
-There are two ways to debug such a failed build:
+1. Comment out the failing `RUN ansible.sh …` line so the image — and therefore
+   the dev container built from it — builds again.
+2. Reopen the dev container.
+3. Run the failing command **by hand** inside the live container and iterate
+   until it passes.
+4. Uncomment the line and run a full `./build` to confirm.
 
-- Keep changing the Dockerfile and rebuilding the container until the build
-  succeeds. This is the simplest approach and is often sufficient since our
-  Dockerfile design maximizes the use of the build cache.
-- Investigate the build failure by running a shell inside the
-  partially-built container and retrying the failed command. This is particularly
-  useful if you are fixing something early in the Dockerfile that causes a
-  failure much later in the build. This type of failure is tedious to debug
-  using the first approach above.
+This makes the dev container the debugging surface, which is the project's
+gold-standard loop.
 
-In this tutorial we will look debugging the build from *inside* the container.
+## Break the build
 
-## Break the Build
-
-Let us break the build of our ioc-lakeshore340 project in the last
-tutorial. Open the the file
-`ioc-lakeshore340/ibek-support/StreamDevice/StreamDevice.install.yml`.
-Comment out the app_developer section like this:
+Let us introduce a realistic mistake into the `ADSimDetector` recipe you
+authored in {any}`generic_ioc`. Open
+`ibek-support/ADSimDetector/ADSimDetector.install.yml` and change `version` to a
+tag that does not exist:
 
 ```yaml
-# apt_developer:
-#   - libpcre3-dev
+module: ADSimDetector
+version: R2-111          # typo — there is no such tag
 ```
 
-This removes installation of the system dependency on the `libpcre3-dev` package and StreamDevice will therefore fail to build.
-
-Now rebuild the container - do this command from a new terminal *outside* of the devcontainer:
+Now rebuild from a terminal *outside* the dev container:
 
 ```bash
-cd ioc-lakeshore340 # where you cloned it
+cd ioc-adsimdetector     # wherever you cloned it
 ./build
 ```
 
-First of all, notice the build cache. The build rapidly skips
-over all the steps until it gets to the StreamDevice support module. The,
-cache fails only when you get to `COPY ibek-support/StreamDevice/ StreamDevice/`
-because a file in the source folder has changed.
+The build cache skips the unchanged steps and re-runs from
+`COPY ibek-support/ADSimDetector/ ADSimDetector` onwards. `ansible.sh` clones the
+module before building it, and the clone fails because the requested ref is not
+in the upstream repo:
 
-You should see the build fail with the following error:
-
-```bash
-../RegexpConverter.cc:27:10: fatal error: pcre.h: No such file or directory
-27 | #include "pcre.h"
-    |          ^~~~~~~~
-compilation terminated.
+```text
+fatal: Remote branch R2-111 not found in upstream origin
 ```
 
-## Investigate the Build Failure
+:::{note}
+A wrong `organization` (or a private repo with no credentials) fails at the same
+step with an *authentication* or *repository not found* error — same place,
+different message.
+:::
 
-When a container build fails the container image is created up to the point
-where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container.
+## Get a working dev container
 
-- scroll up the page until you see the last successful build step e.g.
+Because the image will not build, the dev container cannot open. Comment out the
+failing line in the `Dockerfile`, leaving its matching `COPY` in place:
 
-```bash
---> 43eb74c72eab
-STEP 17/22: COPY ibek-support/StreamDevice/ StreamDevice
---> da81452bc214
-STEP 18/22: RUN ansible.sh StreamDevice
-... etc ...
+```dockerfile
+COPY ibek-support/ADSimDetector/ ADSimDetector
+# RUN ansible.sh ADSimDetector
 ```
 
-- copy the hash of the step you want to debug e.g. `da81452bc214` in this case
-- `podman run -it --entrypoint /bin/bash da81452bc214 # (the hash you copied)`
-
-Now we have a prompt inside the part-built container and can retry the failed
-command.
+The `developer` image now builds again — it simply omits the `ADSimDetector`
+support for the moment. Reopen and rebuild the dev container so it picks up the
+edited `Dockerfile`:
 
 ```bash
-ansible.sh StreamDevice
+code .
+# then Ctrl-Shift-P -> "Dev Containers: Rebuild Container"
 ```
 
-You should see the same error again.
+## Fix it live inside the container
 
-This is a pretty common type of error
-when building a new support module. It implies that there is some dependency
-missing. There is a good chance this is a system dependency, in which case
-we want to search the Ubuntu repositories for the missing package.
-
-A really good way to investigate this kind of error is with `apt-file`
-which is a command line tool for searching Debian packages. `apt-file` is
-not currently installed in the devcontainer. So you have two choices:
-
-- Install it in the devcontainer - this is temporary and will be lost when
-  the container is rebuilt. Ideal if you don't have install rights on your
-  workstation.
-- Install it on your workstation - ideal if you have rights as you only need
-  to install it once.
-
-TODO: consider adding apt-file to the base container developer target.
-
-Whether inside the container or in your workstation terminal, install
-`apt-file` like this:
+Open a terminal in the dev container (Terminal -> New Terminal) and run the
+command that failed, by hand:
 
 ```bash
-# inside a podman container you are root, so you can omit the sudo
-sudo apt update
-sudo apt install apt-file
+ansible.sh ADSimDetector
 ```
 
-Now we can search for the missing file:
-
-```bash
-apt-file update
-apt-file search pcre.h
-```
-
-There are a few results, but the most promising is:
-
-> libpcre3-dev: /usr/include/pcre.h
-
-Pretty much every time you are missing a header file you will find it in a
-system package with a name ending in `-dev`.
-
-Now we can install the missing package in the container and retry the build:
-
-```bash
-apt-get install -y libpcre3-dev
-ansible.sh StreamDevice
-```
-
-You should find the build succeeds. But this is not the whole story. There is another section in `StreamDevice.install.yml` that I added to make this work:
+You get the same clone error — but now you can fix it in place. Correct the
+version in `ibek-support/ADSimDetector/ADSimDetector.install.yml` back to the
+real tag and re-run. `ansible.sh` is idempotent, so you can re-run it as often as
+you like:
 
 ```yaml
-patch_lines:
-  - path: "{{ config_linux_host }}"
-    regexp: PCRE_LIB
-    line: PCRE_LIB=/usr/lib/x86_64-linux-gnu
-    when: "{{ is_linux }}"
+version: R2-11
 ```
 
-This added a macro to `CONFIG_SITE.linux-x86_64.Common` that tells the
-Makefiles to add an extra include path to the compiler command line. working
-out how to do this is a matter of taking a look in the Makefiles. But the
-nice thing is that you can experiment with things inside the container and
-get them working without having to keep rebuilding the container.
-(TODO: strictly speaking this could be improved, we should remove the {{ is_linux }} and use the path {{ config_linux_target }} instead, that updates CONFIG_SITE.Common.linux-x86_64 which only affects the linux-x86_64 target)
+```bash
+ansible.sh ADSimDetector
+```
 
-Note that ansible is idempotent, so you can run it multiple times without getting repeated entries in the CONFIG.
+This time the module clones and builds.
 
-Once you are happy with your manual changes you can make them permanent by adding to the `<module>install.yml` or Dockerfile, then try a full rebuild.
+## Make the fix permanent
 
-## Tools Inside the Container
+Uncomment the `RUN ansible.sh ADSimDetector` line in the `Dockerfile`, then run a
+full build from outside the container to confirm the image builds cleanly from
+scratch:
 
-You will find that the developer container includes busybox tools, vim and ifconfig. These should provide enough tools to investigate and fix most build problems. You are also free to use apt-get to install any other tools you need as demonstrated above. (type busybox to see the list of available tools).
+```bash
+./build
+```
+
+:::{note}
+This is the same try-it-live-then-make-it-permanent loop you used to *add*
+modules in {any}`generic_ioc` — only here it starts from a failure. Anything you
+can fix interactively with `ansible.sh` can be recorded in the recipe or
+`Dockerfile` and replayed by `./build`.
+:::
+
+## Aside: a missing system header
+
+A different class of failure is a module that *clones* fine but fails to
+**compile** with a missing header:
+
+```text
+fatal error: tiffio.h: No such file or directory
+```
+
+A missing header almost always means a missing system `-dev` package. Inside the
+container you are `root`, so find which package provides the header and install
+it with no `sudo`:
+
+```bash
+apt update
+apt install apt-file
+apt-file update
+apt-file search tiffio.h
+```
+
+Once you know the package, record it in the module's `*.install.yml` so the next
+build installs it automatically. Recipes split their system packages into two
+keys:
+
+| Key | Installed | Holds |
+|---|---|---|
+| `apt_developer` | in the build stage only | headers and `-dev` packages needed to *compile* the module |
+| `apt_runtime` | into the slim runtime image | shared libraries the IOC needs at *run* time |
+
+For example `ADCore.install.yml` lists `libtiff-dev` under `apt_developer` and
+`libtiff6` under `apt_runtime`.
+
+## Tools inside the container
+
+The dev container is Ubuntu-based and you are `root` (podman maps that back to
+your own user on the host), so you can `apt-get install` anything you need to
+investigate a build. It also ships [`busybox`](https://www.busybox.net/), which
+provides network diagnostics such as `ifconfig` plus many small utilities — run
+`busybox` to list them.
