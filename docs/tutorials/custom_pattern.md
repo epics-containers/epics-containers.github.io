@@ -11,13 +11,15 @@ rebuilt — a generic IOC picks up your new support at its next container start,
 because `ibek pattern` vendors the file-set into the instance's `config/` and
 `ibek runtime generate2` discovers it at boot.
 
-You will use the same `bl01t` worked example. Substitute your own names
+For this tutorial you are back in your **`t01-services` compose project** on the
+workstation — the same repo you built up in {any}`create_ioc` and the earlier
+compose tutorials — **not** the generic-IOC devcontainer from {any}`generic_ioc`.
+You will use the same `bl01t` worked example; substitute your own names
 throughout.
 
 :::{note}
 `ibek pattern` runs on your **workstation** and needs **ibek ≥ 4.6.1**. If
-`ibek` is not installed, prefix the commands with `uvx --from ibek`, e.g.
-`uvx --from ibek ibek pattern add …`.
+`ibek` is not installed, run `uv tool install ibek --upgrade`.
 :::
 
 ## Fork the pattern library
@@ -85,13 +87,18 @@ entity_models:
         R: ":STAT:"
         PORT: "{{ PORTPREFIX }}.stat"
         NDARRAY_PORT: "{{ CAM }}"
+        HIST_SIZE: 256
+        XSIZE: 1280
+        YSIZE: 1024
 ```
 
-Only the three wiring parameters are exposed; the plugins' own tuning knobs
-(histogram size, channel count, queue depth …) keep their `ADCore` defaults,
-except `NELEMENTS`, which is set inline so the array is big enough to view. A
-production pattern like the real `detectorPlugins` promotes more of these to
-parameters — add them the same way when you need them.
+Only the three wiring parameters are exposed. Most of the plugins' tuning knobs
+(channel count, queue depth …) keep their `ADCore` defaults; the few that have
+**no** default are set inline — `NELEMENTS` so the array is big enough to view,
+and `NDStats`'s required `HIST_SIZE` / `XSIZE` / `YSIZE` (the histogram bin count
+and the maximum image dimensions it computes statistics over). A production
+pattern like the real `detectorPlugins` promotes more of these to parameters —
+add them the same way when you need them.
 
 The `ADCore` plugins it references are compiled into every AreaDetector image,
 so this pattern needs **no `.db` / `.template` of its own** — it only adds the
@@ -176,8 +183,27 @@ to the camera's Asyn port (`CAM: DET.DET`, the `simDetector` PORT above):
     PORTPREFIX: DET
 ```
 
-This single entity expands — via its `sub_entities` — into both plugins. Bring
-the instance up:
+This single entity expands — via its `sub_entities` — into both plugins.
+
+Now set the compose project up to run it. First register the instance in the
+repo-root `compose.yml` `include:` list:
+
+```yaml
+include:
+  - services/bl01t-ea-cam-01/compose.yml
+  - services/bl01t-ea-cam-02/compose.yml
+  ...
+```
+
+Then point Phoebus at the new instance. PVI auto-generates an `index.bob` for it
+at `opi/auto-generated/bl01t-ea-cam-02/index.bob`; open it on launch by editing
+the `command:` line of the `phoebus` service in `services/phoebus/compose.yml`:
+
+```yaml
+    command: phoebus-product/phoebus.sh -settings /config/settings.ini -resource /opi/auto-generated/bl01t-ea-cam-02/index.bob -server 7010
+```
+
+Bring the beamline up:
 
 ```bash
 source ./environment.sh
@@ -224,12 +250,3 @@ files, or a `.pvi.device.yaml` screen descriptor alongside its support yaml —
 whatever the support definition references. {any}`stream_device` vendors exactly
 such a multi-file device-support pattern.
 :::
-
-## Next steps
-
-- {any}`detector_plugins` — vendor the standard, published plugin set instead
-  of authoring your own.
-- {any}`generic_ioc` — the build-time counterpart: fork a support library and
-  bake new support into an image.
-- {any}`stream_device` — a runtime pattern that ships a protocol and database,
-  not just entities.
