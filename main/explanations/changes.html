@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Change Management Manifesto &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Change Management Manifesto &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -408,13 +408,9 @@
 <li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
 </ul>
 </div>
@@ -482,7 +478,7 @@
 <h2>Pledge<a class="headerlink" href="#pledge" title="Link to this heading">#</a></h2>
 <p>This page represents a pledge to control breaking changes for users of <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code>. The framework is still under development and there still may be breaking changes in future updates. However we now have a mechanism in place to allow users to adopt the framework, take advantage of the current features and then accept future updates in a controlled fashion.</p>
 <p>From version 3.4.0 onwards we will make changes in a controlled fashion that obeys SemVer 2.0.0 rules. We will also ensure that it is possible to apply updates in a gradual manner and not require a blanket update.</p>
-<p>The <a class="reference internal" href="../reference/changelog.html"><span class="std std-doc">Change Log</span></a> will give details of any things to be aware of between versions, including minor version updates.</p>
+<p>The <a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">GitHub release notes</a> will give details of any things to be aware of between versions, including minor version updates.</p>
 </section>
 <section id="dependency-matrix">
 <h2>Dependency Matrix<a class="headerlink" href="#dependency-matrix" title="Link to this heading">#</a></h2>
@@ -494,8 +490,8 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Beamline repo</p></td>
-<td><p>A beamline or other grouping of IOC instance descriptions</p></td>
+<tr class="row-even"><td><p>Services repository</p></td>
+<td><p>A beamline (or other grouping) of IOC instances and services</p></td>
 </tr>
 <tr class="row-odd"><td><p>Generic IOC repo</p></td>
 <td><p>A definition of a generic IOC container image for a particular class of device</p></td>
@@ -515,21 +511,18 @@
 <p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">epics-containers</span></code> dependency matrix</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>All <code class="docutils literal notranslate"><span class="pre">ec</span></code> SemVer components will always have their major version bumped simultaneously. Likewise for <code class="docutils literal notranslate"><span class="pre">ibek</span></code> SemVer components. These are at versions 3.4.0 and 2.0.0 respectively at the time of writing.</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">ec</span></code> SemVer components will always have their major version bumped simultaneously. Likewise for <code class="docutils literal notranslate"><span class="pre">ibek</span></code> SemVer components. These are at versions 5.2.1 and 4.6.1 respectively at the time of writing.</p>
 </section>
 <section id="updating-user-projects">
 <h2>Updating user projects<a class="headerlink" href="#updating-user-projects" title="Link to this heading">#</a></h2>
-<p>A repository that was originally created using a copier template can be updated to a new version using the following command (assumes you have <code class="docutils literal notranslate"><span class="pre">copier</span></code> installed, e.g. with <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">copier</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>update<span class="w"> </span>-r<span class="w"> </span>VERSION_NUMBER<span class="w"> </span>--trust<span class="w"> </span>.
-</pre></div>
-</div>
-<p>You can supply the VERSION_NUMBER of the template you want or omit the -r option to get the latest released version.</p>
-<p>This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository.</p>
-<p>When a beamline repository is updated, it is still possible to deploy old versions of its IOC instances, even with a major version difference. That is because the deploy mechanism makes a temporary clone of the beamline repository and deploys the instance described in that version.</p>
+<p>A repository created from a copier template can be updated to a new template
+version with <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code>. See <a class="reference internal" href="../tutorials/setup_workstation.html#copier"><span class="std std-ref">copier and ec</span></a> and <a class="reference internal" href="../how-to/copier_update.html"><span class="doc std std-doc">Updating User Repositories with Copier</span></a>
+for the full procedure.</p>
+<p>When a services repository is updated, it is still possible to deploy old versions of its IOC instances, even with a major version difference. That is because the deploy mechanism makes a temporary clone of the services repository and deploys the instance described in that version.</p>
 </section>
 <section id="user-project-versioning">
 <h2>User Project Versioning<a class="headerlink" href="#user-project-versioning" title="Link to this heading">#</a></h2>
-<p>The documentation has recommended using DateVer for beamline repos and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.</p>
+<p>The documentation has recommended using DateVer for services repositories and generic IOC repos. This is because SemVer is not really applicable to these. However, DateVer is not required and you are free to use any scheme you wish for these repositories.</p>
 <p>It is easy to determine which template version and thus which <code class="docutils literal notranslate"><span class="pre">ec</span></code> SemVer version your repository was last updated from. Inspect the file <code class="docutils literal notranslate"><span class="pre">.copier_answers.yml</span></code> in the root of your repository. This file contains the version of the template that was used to create the repository in the field <code class="docutils literal notranslate"><span class="pre">_commit</span></code>.</p>
 </section>
 <section id="types-of-changes">
@@ -541,7 +534,7 @@
 </section>
 <section id="ec-helm-charts">
 <h3>ec-helm-charts<a class="headerlink" href="#ec-helm-charts" title="Link to this heading">#</a></h3>
-<p>Changes here affect how IOCs and other services are deployed into Kubernetes. These would likely affect beamline repositories as they contain the versions of Helm Charts used to deploy their instances. Potentially changes to these Charts may require an update to the edge-services-cli to support new features.</p>
+<p>Changes here affect how IOCs and other services are deployed into Kubernetes. These would likely affect services repositories as they contain the versions of Helm Charts used to deploy their instances. Potentially changes to these Charts may require an update to the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> to support new features.</p>
 </section>
 <section id="ioc-template">
 <h3>ioc-template<a class="headerlink" href="#ioc-template" title="Link to this heading">#</a></h3>

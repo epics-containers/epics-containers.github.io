@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Add an IOC to the Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Deploy IOCs with ArgoCD" href="deploy_argocd.html" />
-    <link rel="prev" title="Create a New Kubernetes Beamline" href="setup_k8s_new_beamline.html" />
+    <link rel="next" title="Set up Argo CD" href="setup_argocd.html" />
+    <link rel="prev" title="Create a Kubernetes Beamline" href="setup_k8s_new_beamline.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,7 +461,7 @@
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Add an IOC to the Kubernetes Beamline</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Deploy an IOC with Helm</span></li>
   </ul>
 </nav>
 </div>
@@ -476,12 +478,199 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="add-an-ioc-to-the-kubernetes-beamline">
-<h1>Add an IOC to the Kubernetes Beamline<a class="headerlink" href="#add-an-ioc-to-the-kubernetes-beamline" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will add an additional IOC to the Kubernetes Simulation Beamline created in the previous tutorial.</p>
-<p>This IOC will be a Simulation Area Detector IOC, very like the one we made in <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>.</p>
-<p>Here we will also take a look at the helm chart and resulting Kubernetes Manifest that is created as part of this process.</p>
-<p>TODO: WIP</p>
+  <section id="deploy-an-ioc-with-helm">
+<span id="add-k8s-ioc"></span><h1>Deploy an IOC with Helm<a class="headerlink" href="#deploy-an-ioc-with-helm" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>DLS users:</strong> beamline and accelerator IOCs are deployed through the internal
+developer guide at <a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">https://dev-guide.diamond.ac.uk/epics-containers/</a>, not these
+public cluster steps. Follow along on your own test cluster only.</p>
+</div>
+<p>This is your <strong>first deployment of your own IOC onto the cluster</strong>, using plain
+Helm. In <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a> you created the services repo <code class="docutils literal notranslate"><span class="pre">t02-services</span></code>
+and deployed its shared services with the <code class="docutils literal notranslate"><span class="pre">ec</span></code> <strong>K8S backend</strong> (which runs
+<code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span></code> under the hood). Now you add <strong>your own</strong> IOC — a
+simulated area detector, much like the one built in <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>, but
+defined for a Helm <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repo</span></a> — and deploy it the same
+way, with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code>. Substitute your own names throughout.</p>
+<p>By the end you will have a new IOC instance folder in your services repo,
+committed, pushed and running on the cluster. Later, <a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a> puts
+this same repo under GitOps control with ArgoCD.</p>
+<section id="add-a-new-instance-folder">
+<h2>Add a new instance folder<a class="headerlink" href="#add-a-new-instance-folder" title="Link to this heading">#</a></h2>
+<p>An IOC instance is a folder under <code class="docutils literal notranslate"><span class="pre">services/</span></code>. Its folder name is the IOC name,
+and it holds two things:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">values.yaml</span></code></p></td>
+<td><p>Helm values for the <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart — chiefly <em>which container image</em> to run.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config/</span></code></p></td>
+<td><p>The IOC configuration, mounted into the container as a Kubernetes ConfigMap. Normally a single <code class="docutils literal notranslate"><span class="pre">ibek</span></code> file, <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Your services repo ships a <code class="docutils literal notranslate"><span class="pre">.ioc_template</span></code> skeleton to copy. From the repo root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t02-services
+cp<span class="w"> </span>-r<span class="w"> </span>services/.ioc_template<span class="w"> </span>services/bl02t-ea-cam-01
+code<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code> first, then <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">.</span></code>.</p>
+</div>
+<p>The skeleton’s <code class="docutils literal notranslate"><span class="pre">Chart.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">templates/</span></code> are symlinks into the shared
+<code class="docutils literal notranslate"><span class="pre">.helm-shared/</span></code> chart, so every instance reuses the same <code class="docutils literal notranslate"><span class="pre">ioc-instance</span></code> chart —
+you never edit them.</p>
+</section>
+<section id="set-the-image-values-yaml">
+<h2>Set the image — values.yaml<a class="headerlink" href="#set-the-image-values-yaml" title="Link to this heading">#</a></h2>
+<p>Edit <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/values.yaml</span></code> and replace the placeholder image
+with the SimDetector Generic IOC:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=../../.helm-shared/values.schema.json</span>
+
+<span class="nt">ioc-instance</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ioc-instance:</span></code> is the key the chart imports its values under. Shared defaults
+(such as <code class="docutils literal notranslate"><span class="pre">hostNetwork:</span> <span class="pre">true</span></code>) come from the repo-root <code class="docutils literal notranslate"><span class="pre">services/values.yaml</span></code>, so
+a per-instance file normally only overrides what differs — usually just <code class="docutils literal notranslate"><span class="pre">image</span></code>.</p>
+</section>
+<section id="configure-the-ioc-config-ioc-yaml">
+<h2>Configure the IOC — config/ioc.yaml<a class="headerlink" href="#configure-the-ioc-config-ioc-yaml" title="Link to this heading">#</a></h2>
+<p>An <code class="docutils literal notranslate"><span class="pre">ibek</span></code> <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">entities</span></code>; each instantiates a model
+contributed by a support module. The Generic IOC bakes in the support it can
+instantiate, so nothing extra is downloaded here. Open
+<code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/config/ioc.yaml</span></code> and replace its body:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=../ioc.schema.json</span>
+
+<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An IOC that simulates an area detector</span>
+
+<span class="nt">entities</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPICS_TZ</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GMT0BST</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">devIocStats.iocAdminSoft</span>
+<span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector.simDetector</span>
+<span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL02T-EA-CAM-01</span>
+<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:DET:&quot;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDStdArrays</span>
+<span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.ARR</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL02T-EA-CAM-01</span>
+<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:ARR:&quot;</span>
+<span class="w">    </span><span class="nt">NDARRAY_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
+<span class="w">    </span><span class="nt">TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Int8</span>
+<span class="w">    </span><span class="nt">FTVL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CHAR</span>
+<span class="w">    </span><span class="nt">NELEMENTS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1048576</span>
+</pre></div>
+</div>
+<p>This makes a simulation detector with PV prefix <code class="docutils literal notranslate"><span class="pre">BL02T-EA-CAM-01:DET:</span></code> and a
+Standard Arrays plugin that publishes its image over Channel Access.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>YAML indentation is significant: each <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> starts a new entity, and a value
+that begins with <code class="docutils literal notranslate"><span class="pre">:</span></code> must be quoted (as in <code class="docutils literal notranslate"><span class="pre">R:</span> <span class="pre">&quot;:DET:&quot;</span></code>).</p>
+</div>
+<p>The schema line points at <code class="docutils literal notranslate"><span class="pre">../ioc.schema.json</span></code>. Generate it once so VSCode (with
+the Red Hat YAML extension) offers completion and validation for exactly the
+entities this image provides:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>schema<span class="w"> </span>services/bl02t-ea-cam-01
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span></code> fetches the published schema for your pinned image and writes
+<code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/ioc.schema.json</span></code>. To learn where these entity models
+come from and build your own, see <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
+</section>
+<section id="vendor-extra-runtime-support-optional">
+<h2>Vendor extra runtime support (optional)<a class="headerlink" href="#vendor-extra-runtime-support-optional" title="Link to this heading">#</a></h2>
+<p>Some IOCs need runtime inputs that are <strong>not</strong> compiled into the image —
+StreamDevice protocol files, EPICS DB templates, and the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> models that
+describe them. Vendor them into the instance’s <code class="docutils literal notranslate"><span class="pre">config/</span></code> from a central pattern
+library:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> </span>&lt;library&gt;:&lt;pattern&gt;@&lt;tag&gt;<span class="w"> </span>services/bl02t-ea-cam-01
+</pre></div>
+</div>
+<p>This copies the files into <code class="docutils literal notranslate"><span class="pre">config/</span></code>, records each one with a pinned version and
+<code class="docutils literal notranslate"><span class="pre">sha256</span></code> hash in <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/runtime-lock.yaml</span></code>, and refreshes
+<code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code> so the new entities validate too. Because <code class="docutils literal notranslate"><span class="pre">config/</span></code> is mounted
+as the ConfigMap, keep its total content under 1 MiB. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span></code>
+verifies the vendored files still match the lock. The simulated detector above
+needs none of this, so you can skip the section.</p>
+</section>
+<section id="deploy-it">
+<h2>Deploy it<a class="headerlink" href="#deploy-it" title="Link to this heading">#</a></h2>
+<p>Make sure your environment is configured for the <strong>K8S backend</strong> — source the
+repo’s <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> (see <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>), which sets
+<code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=K8S</span></code>. Then commit your new instance and push it to the services
+repo that <code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys from (<code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code>):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>services/bl02t-ea-cam-01
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add bl02t-ea-cam-01 IOC&quot;</span>
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>Now deploy it (<code class="docutils literal notranslate"><span class="pre">-v</span></code> prints the underlying helm/kubectl commands):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>main
+</pre></div>
+</div>
+<p>Under the K8S backend <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> does <strong>not</strong> go through ArgoCD or a deployment
+repo. Instead it:</p>
+<ul class="simple">
+<li><p>clones <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> at the requested revision (<code class="docutils literal notranslate"><span class="pre">main</span></code> here);</p></li>
+<li><p>packages <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01</span></code> as a Helm chart, applying the shared
+<code class="docutils literal notranslate"><span class="pre">services/values.yaml</span></code> and the instance <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>;</p></li>
+<li><p>runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">...</span> <span class="pre">--namespace</span> <span class="pre">t02-beamline</span></code>
+directly against the cluster.</p></li>
+</ul>
+<p>Use a git tag instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">2026.7.1</span></code>)
+to pin a specific version, exactly as you tagged and deployed the shared services
+in <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>.</p>
+<p>Confirm it is running, then inspect it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w">                          </span><span class="c1"># list services in your namespace</span>
+ec<span class="w"> </span>logs<span class="w"> </span>bl02t-ea-cam-01<span class="w">        </span><span class="c1"># stream the IOC&#39;s container logs</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name                version   ready   deployed
+ t02-epics-pvcs      2026.7.1  True    2026-07-01T09:10:00Z
+ t02-epics-opis      2026.7.1  True    2026-07-01T09:11:00Z
+ bl02t-ea-cam-01     main      True    2026-07-01T09:20:00Z
+</pre></div>
+</div>
+<p>Pause and resume the IOC without removing it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>stop<span class="w"> </span>bl02t-ea-cam-01
+ec<span class="w"> </span>start<span class="w"> </span>bl02t-ea-cam-01
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a> for the full <code class="docutils literal notranslate"><span class="pre">ec</span></code> command and environment-variable
+reference.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="setup_argocd.html#setup-argocd"><span class="std std-ref">Set up Argo CD</span></a> — install ArgoCD, the next step towards GitOps deployment.</p></li>
+<li><p><a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a> — put this same repo under GitOps control with ArgoCD (the
+production continuous-deployment flow), switching the <code class="docutils literal notranslate"><span class="pre">ec</span></code> backend from K8S to
+ARGOCD.</p></li>
+<li><p><a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">Deploying with Helm (the ec backends)</span></a> — the pure-Helm reference for what <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> runs under the K8S
+backend.</p></li>
+<li><p><a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a> — build your own Generic IOC image when no published one
+fits.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -500,15 +689,15 @@
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Create a New Kubernetes Beamline</p>
+        <p class="prev-next-title">Create a Kubernetes Beamline</p>
       </div>
     </a>
     <a class="right-next"
-       href="deploy_argocd.html"
+       href="setup_argocd.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Deploy IOCs with ArgoCD</p>
+        <p class="prev-next-title">Set up Argo CD</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -522,6 +711,23 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-new-instance-folder">Add a new instance folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-image-values-yaml">Set the image — values.yaml</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-ioc-config-ioc-yaml">Configure the IOC — config/ioc.yaml</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-extra-runtime-support-optional">Vendor extra runtime support (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-it">Deploy it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

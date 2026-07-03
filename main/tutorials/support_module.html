@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with Support Modules &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Edit or Create a Support Module &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Setup a Kubernetes Cluster" href="setup_k8s.html" />
+    <link rel="next" title="Set up a Kubernetes Cluster" href="setup_k8s.html" />
     <link rel="prev" title="Debugging Generic IOC Builds" href="debug_generic_ioc.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,7 +461,7 @@
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Working with Support Modules</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Edit or Create a Support Module</span></li>
   </ul>
 </nav>
 </div>
@@ -476,30 +478,95 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="working-with-support-modules">
-<h1>Working with Support Modules<a class="headerlink" href="#working-with-support-modules" title="Link to this heading">#</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This tutorial is an early draft and is not yet complete.</p>
+  <section id="edit-or-create-a-support-module">
+<h1>Edit or Create a Support Module<a class="headerlink" href="#edit-or-create-a-support-module" title="Link to this heading">#</a></h1>
+<p>In <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a> you wrapped an <em>existing</em> support module (<code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code>)
+unchanged. This tutorial covers the case where you need to change the support
+code <strong>itself</strong> — either <strong>editing an existing module</strong> (by far the more common
+case: add a record, fix a driver bug, expose a new parameter) or <strong>writing a
+brand-new one</strong> from scratch. Both are a <strong>type 3</strong> change from
+<a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of change</span></a>.</p>
+<p>The two are essentially the same job: you develop EPICS support source inside a
+Generic IOC developer container, publish it, and point an <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe
+at it. The only difference is your starting point — an existing module you clone,
+or an empty folder you create. Almost everything else is identical to
+<a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>, so this page focuses on developing the support source and
+links back for the rest. The worked example uses a module called <code class="docutils literal notranslate"><span class="pre">mymodule</span></code>;
+substitute your own name.</p>
+<section id="develop-the-support-source">
+<h2>Develop the support source<a class="headerlink" href="#develop-the-support-source" title="Link to this heading">#</a></h2>
+<p>Start (or reopen) a Generic IOC project from
+<a class="reference external" href="https://github.com/epics-containers/ioc-template"><code class="docutils literal notranslate"><span class="pre">ioc-template</span></code></a> and open its
+developer container, exactly as in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. That container has the
+EPICS build tools you need.</p>
+<p>Get your support source under <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> so it is version-controlled and
+visible in the editor, then symlink it into <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code>, where the EPICS
+build system expects every module to live.</p>
+<p><strong>Editing an existing module</strong> — clone it (a fork if you do not have push
+rights) and symlink that:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-org/mymodule<span class="w">   </span><span class="c1"># the module you are editing</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/workspaces/mymodule<span class="w"> </span>/epics/support/mymodule
+</pre></div>
 </div>
-<p>This is a type 3. change from the list at <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
-<p>In the tutorial on <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>, we created a new Generic IOC container image that wrapped the existing support module <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code>.</p>
-<p>If you wanted to create a completely new support module then you would use a very similar workflow to the above.</p>
-<p>In brief, the steps are:</p>
+<p><strong>Creating a new module</strong> — start from an empty folder instead:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>/workspaces/mymodule<span class="w">          </span><span class="c1"># write your support code here</span>
+ln<span class="w"> </span>-s<span class="w"> </span>/workspaces/mymodule<span class="w"> </span>/epics/support/mymodule
+</pre></div>
+</div>
+<p>Now iterate with the standard EPICS build (<code class="docutils literal notranslate"><span class="pre">make</span></code>) until the module compiles
+inside the developer container, just as you would build any support module.</p>
+</section>
+<section id="publish-the-support-module">
+<h2>Publish the support module<a class="headerlink" href="#publish-the-support-module" title="Link to this heading">#</a></h2>
+<p>An <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe fetches a module from a git repository at a specific
+release, so your changes need a public home before CI can build your Generic IOC
+against them. Push the source — to its own new repository for a brand-new module,
+or to your fork/branch for an existing one — and tag a release. Once it is
+published you can drop the symlink and let the recipe clone it like any other
+module.</p>
+</section>
+<section id="add-the-ibek-support-recipe">
+<h2>Add the ibek-support recipe<a class="headerlink" href="#add-the-ibek-support-recipe" title="Link to this heading">#</a></h2>
+<p>From here on the steps are exactly those in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. <strong>When you are
+editing an existing module</strong> its recipe already lives in <code class="docutils literal notranslate"><span class="pre">ibek-support/mymodule/</span></code>
+— usually all you change is the <code class="docutils literal notranslate"><span class="pre">version</span></code> in <code class="docutils literal notranslate"><span class="pre">mymodule.install.yml</span></code> to point at
+your new release (and <code class="docutils literal notranslate"><span class="pre">organization</span></code>, if you pushed to a fork), then re-run
+<code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">mymodule</span></code>. <strong>For a brand-new module</strong> create the
+<code class="docutils literal notranslate"><span class="pre">ibek-support/mymodule/</span></code> folder containing:</p>
 <ul class="simple">
-<li><p>Create a new Generic IOC project using the <a class="github reference external" href="https://github.com/epics-containers/ioc-template">epics-containers/ioc-template</a></p></li>
-<li><p>Create a new folder in /workspaces/YOUR_SUPPORT_MODULE_NAME</p></li>
-<li><p>Link the new folder to the epics support folders:</p>
-<ul>
-<li><p>ln -s /workspaces/YOUR_SUPPORT_MODULE_NAME /epics/support/YOUR_SUPPORT_MODULE_NAME</p></li>
-<li><p>TODO the ibek command <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span> <span class="pre">YOUR_SUPPORT_MODULE_NAME</span></code> will do this in future</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mymodule.install.yml</span></code></strong> — fetch-and-build variables for <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code>. Set
+<code class="docutils literal notranslate"><span class="pre">module</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code> (your release tag or branch) and <code class="docutils literal notranslate"><span class="pre">organization</span></code> (the URL
+prefix of the repo, such as <code class="docutils literal notranslate"><span class="pre">https://github.com/your-org/</span></code>) so the recipe
+pulls <em>your</em> repository. Test it with <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">mymodule</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mymodule.ibek.support.yaml</span></code></strong> — the <code class="docutils literal notranslate"><span class="pre">entity_models</span></code> that IOC instances may
+use, with their parameters and the databases / startup lines they generate.</p></li>
 </ul>
-</li>
-<li><p>Now work on your support module and get it compiling</p></li>
-<li><p>Then add <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> for the new module as per <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a></p></li>
-<li><p>create an example instance in the Generic IOC project to test your work</p></li>
-<li><p>When ready, push your new support and new ioc-support projects.</p></li>
-</ul>
+<p>Then make sure the Generic IOC <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> has a <code class="docutils literal notranslate"><span class="pre">COPY</span></code> / <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">mymodule</span></code> pair (already present when you are editing a module the image already
+builds; add it for a new one), build an example instance in
+<code class="docutils literal notranslate"><span class="pre">tests/config/ioc.yaml</span></code>, test it with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> followed by <code class="docutils literal notranslate"><span class="pre">make</span></code> and
+<code class="docutils literal notranslate"><span class="pre">./start.sh</span></code>, and finally push both the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe and the Generic IOC
+repository. Each of these steps is covered in detail in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
+</section>
+<section id="validate-instances-before-the-first-release">
+<h2>Validate instances before the first release<a class="headerlink" href="#validate-instances-before-the-first-release" title="Link to this heading">#</a></h2>
+<p>A brand-new module has no published release yet, so there is no online schema for
+its example instance to validate against. Generate one locally from inside the
+developer container: once <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> has registered your
+<code class="docutils literal notranslate"><span class="pre">mymodule.ibek.support.yaml</span></code> into <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>, <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">ioc</span> <span class="pre">generate-schema</span></code>
+builds a schema covering exactly the entities your image provides:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>ioc<span class="w"> </span>generate-schema<span class="w"> </span>&gt;<span class="w"> </span>/tmp/ibek.ioc.schema.json
+</pre></div>
+</div>
+<p>Point your example instance’s schema line at that file so the editor offers
+completion and validation before you cut a release:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=/tmp/ibek.ioc.schema.json</span>
+</pre></div>
+</div>
+<p>Once the Generic IOC is published, real instances reference the schema attached
+to its release instead — the <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code> asset described in
+<a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. Swap the local path for that release URL at that point.</p>
+</section>
 </section>
 
 
@@ -526,7 +593,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Setup a Kubernetes Cluster</p>
+        <p class="prev-next-title">Set up a Kubernetes Cluster</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -540,6 +607,21 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#develop-the-support-source">Develop the support source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#publish-the-support-module">Publish the support module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-ibek-support-recipe">Add the ibek-support recipe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-instances-before-the-first-release">Validate instances before the first release</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Docker Compose Quickstart &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Docker Compose Quickstart &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Contributing to the project" href="contribute.html" />
-    <link rel="prev" title="Builder2ibek.support Conversion Tool" href="builder2ibek.support.html" />
+    <link rel="next" title="Updating User Repositories with Copier" href="copier_update.html" />
+    <link rel="prev" title="How-to Guides" href="../how-to.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -397,14 +397,10 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Docker Compose Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
 </ul>
 </div>
 </nav></div>
@@ -484,11 +480,18 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose-plugin
 </pre></div>
 </div>
-<p id="podman-integration"><strong>Podman Integration with Docker Compose</strong></p>
+<section id="podman-integration-with-docker-compose">
+<span id="podman-integration"></span><h3>Podman Integration with Docker Compose<a class="headerlink" href="#podman-integration-with-docker-compose" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> is daemonless podman’s only blind spot: it talks to podman
+through a docker-compatible API socket. Enable the user socket and point
+<code class="docutils literal notranslate"><span class="pre">DOCKER_HOST</span></code> at it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
 <span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
 </pre></div>
 </div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">export</span></code> line to your shell profile (<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">~/.zshrc</span></code>) so it
+is set in every new shell.</p>
+</section>
 </section>
 <section id="windows">
 <h2>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h2>
@@ -499,23 +502,42 @@ sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> <
 </section>
 <section id="mac-os">
 <h2>Mac OS<a class="headerlink" href="#mac-os" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Follow this gist <a class="reference external" href="https://gist.github.com/kaaquist/dab64aeb52a815b935b11c86202761a3">https://gist.github.com/kaaquist/dab64aeb52a815b935b11c86202761a3</a></p></li>
-<li><p>Install an X11 server like XQuartz</p></li>
-</ul>
+<p>Install podman and docker-compose with <a class="reference external" href="https://brew.sh">Homebrew</a>, then start
+a podman virtual machine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>podman<span class="w"> </span>docker-compose
+podman<span class="w"> </span>machine<span class="w"> </span>init
+podman<span class="w"> </span>machine<span class="w"> </span>start
+</pre></div>
+</div>
+<p>Point <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> at the podman socket inside the machine:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span><span class="s2">&quot;unix://</span><span class="k">$(</span>podman<span class="w"> </span>machine<span class="w"> </span>inspect<span class="w"> </span>--format<span class="w"> </span><span class="s1">&#39;{{.ConnectionInfo.PodmanSocket.Path}}&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>To run EPICS GUI tools (e.g. Phoebus) you will also need an X11 server such as
+XQuartz.</p>
 </section>
 <section id="diamond-light-source-workstation">
 <h2>Diamond Light Source workstation<a class="headerlink" href="#diamond-light-source-workstation" title="Link to this heading">#</a></h2>
-<p>Setup a podman service and socket:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> podman is already installed. The first time you use it on a
+workstation, run the shared setup script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/dls_sw/apps/setup-podman/setup.sh
+</pre></div>
+</div>
+<p>Then set up the podman service and socket:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
 </pre></div>
 </div>
-<p>Add this to your <code class="docutils literal notranslate"><span class="pre">~/.profile</span></code> and logout and back in:</p>
+<p>Add this to your <code class="docutils literal notranslate"><span class="pre">~/.profile</span></code>, then log out and back in. The explicit <code class="docutils literal notranslate"><span class="pre">PATH</span></code>
+entry ensures <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> is also available to remote VSCode sessions:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/dls_sw/apps/docker-compose/5.1.4/bin/:<span class="nv">$PATH</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
 </pre></div>
 </div>
-<p>NOTE: re above. You should first do <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">/dls_sw/apps/docker-compose/</span></code> to check which is the most recent version of docker-compose available. Use that version in preference to the example above.</p>
+<p>First run <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">/dls_sw/apps/docker-compose/</span></code> to check the most recent version of
+docker-compose available, and use that in place of <code class="docutils literal notranslate"><span class="pre">5.1.4</span></code> above.</p>
+</div>
 </section>
 </section>
 
@@ -530,20 +552,20 @@ sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> <
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="builder2ibek.support.html"
+       href="../how-to.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Builder2ibek.support Conversion Tool</p>
+        <p class="prev-next-title">How-to Guides</p>
       </div>
     </a>
     <a class="right-next"
-       href="contribute.html"
+       href="copier_update.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Contributing to the project</p>
+        <p class="prev-next-title">Updating User Repositories with Copier</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -567,7 +589,10 @@ sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> <
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#podman-already-installed">Podman Already Installed</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#podman-integration-with-docker-compose">Podman Integration with Docker Compose</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mac-os">Mac OS</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diamond-light-source-workstation">Diamond Light Source workstation</a></li>

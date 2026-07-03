@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tutorials Introduction &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Tutorials Introduction &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,44 +480,57 @@
                   
   <section id="tutorials-introduction">
 <h1>Tutorials Introduction<a class="headerlink" href="#tutorials-introduction" title="Link to this heading">#</a></h1>
-<p>Welcome to the epics-containers tutorial series.</p>
-<p>These tutorials will introduce you to building, deploying and managing
-containerized EPICS IOCs. They are intended to be self contained
-and should be possible to work through without any prior knowledge.</p>
-<p>However, to get the most out of the tutorials it would be best to start with
-some background in the following topics.</p>
+<p>Welcome to the epics-containers tutorial series. These tutorials introduce you
+to building, deploying and managing containerized EPICS IOCs. They are
+self-contained and assume no prior experience with the framework.</p>
+<p>The series builds up in two halves, in toctree order:</p>
+<ul class="simple">
+<li><p><strong>Workstation track</strong> — run everything locally with <code class="docutils literal notranslate"><span class="pre">podman</span></code> and
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>, starting from a ready-made example and working up to
+building your own Generic IOC. No cluster required.</p></li>
+<li><p><strong>Cluster track</strong> — move the same workflow onto a Kubernetes cluster and
+deploy IOCs with ArgoCD continuous deployment.</p></li>
+</ul>
+<p>If you only need IOCs on a single server you can stop after the workstation
+track; the cluster track is independent and can be tackled later.</p>
+<p>Before you start, it helps to have some background in the technologies the
+framework builds on:</p>
 <div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Topic</p></th>
+<th class="head"><p>Link</p></th>
+</tr>
+</thead>
 <tbody>
-<tr class="row-odd"><td><p><strong>An introduction to containers</strong></p></td>
+<tr class="row-even"><td><p>An introduction to containers</p></td>
 <td><p><a class="reference external" href="https://www.docker.com/resources/what-container/">https://www.docker.com/resources/what-container/</a></p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Managing containers on a workstation: introduction to podman</strong></p></td>
+<tr class="row-odd"><td><p>Managing containers with podman</p></td>
 <td><p><a class="reference external" href="https://docs.podman.io/en/latest/Introduction.html">https://docs.podman.io/en/latest/Introduction.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Introduction to docker compose</strong></p></td>
+<tr class="row-even"><td><p>Introduction to docker compose</p></td>
 <td><p><a class="reference external" href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a></p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Orchestrating containers in a cluster with Kubernetes</strong></p></td>
+<tr class="row-odd"><td><p>Orchestrating containers with Kubernetes</p></td>
 <td><p><a class="reference external" href="https://kubernetes.io/docs/concepts/overview/">https://kubernetes.io/docs/concepts/overview/</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Managing packages in a Kubernetes Cluster with Helm</strong></p></td>
+<tr class="row-even"><td><p>Managing packages with Helm</p></td>
 <td><p><a class="reference external" href="https://helm.sh/docs/intro/quickstart/">https://helm.sh/docs/intro/quickstart/</a></p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Introduction to EPICS</strong></p></td>
+<tr class="row-odd"><td><p>Introduction to EPICS</p></td>
 <td><p><a class="reference external" href="https://docs.epics-controls.org/en/latest/guides/EPICS_Intro.html">https://docs.epics-controls.org/en/latest/guides/EPICS_Intro.html</a></p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Argo CD continuous deployment for Kubernetes</strong></p></td>
+<tr class="row-even"><td><p>Continuous deployment with Argo CD</p></td>
 <td><p><a class="reference external" href="https://argo-cd.readthedocs.io/en/stable/">https://argo-cd.readthedocs.io/en/stable/</a></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>With the above background in hand you should then read the overview of
-epics-containers architecture here: <a class="reference internal" href="../explanations/introduction.html"><span class="doc">Essential Concepts</span></a></p>
-<p>To work through the tutorials you will need a workstation which can be
-Linux, Mac or Windows. All the software required is open source and available
-for download. You will also need to have a GitHub account which you can create
-for free.</p>
+<p>For an overview of how epics-containers fits these together, read
+<a class="reference internal" href="../explanations/introduction.html"><span class="doc">Essential Concepts</span></a>.</p>
+<p>You will need a workstation running Linux, Mac or Windows, plus a free GitHub
+account. All the required software is open source. The next tutorial,
+<a class="reference internal" href="setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a>, walks you through installing it.</p>
 </section>
 
 

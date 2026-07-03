@@ -1,194 +1,167 @@
-# Deploying and Managing IOC Instances
+# Deploy and Manage IOC Instances Locally
+
+This tutorial deploys and manages the IOC instance and services in your
+`t01-services` repo on your workstation with `docker compose` — no Kubernetes
+required. This local path is ideal for
+development and testing, and is a valid production option for sites that run
+IOCs on standalone servers. For the cluster-based GitOps path, see
+{any}`deploy-argocd`.
+
+You will deploy and manage the example IOC and services in the `t01-services`
+repo you created in {any}`create-beamline`. Substitute your own services
+repository and service names throughout.
 
 :::{note}
-On this page `environment.sh` sets up your local `docker compose` environment
-(container engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers). See
-{any}`../reference/environment` for the full list of what `environment.sh` can
-set in each kind of repository.
+`environment.sh` sets up your local `docker compose` environment (container
+engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers). See
+{any}`../reference/environment` for the full list of what it can set in each
+kind of repository.
 :::
-
-## Introduction
-
-This tutorial will show you how to deploy and manage the example IOC Instance `example-test-01` that came with the template beamline repository. You will need to have your own `t01-services` beamline repository from the previous tutorial.
-
-For these early tutorials we are not using Kubernetes and instead are deploying IOCs to the local podman instance. These kind of deployments are ideal for testing and development on a developer workstation. They could also potentially be used for production deployments to beamline servers where Kubernetes is not available.
-
-## Continuous Integration
-
-Before we change anything, we shall make sure that the beamline repository CI
-is working as expected. To do this go to the following URL (make sure you insert
-your GitHub account name where indicated):
-
-```
-https://github.com/YOUR_GITHUB_ACCOUNT/t01-services/actions
-```
-
-You should see something like the following:
-
-:::{figure} ../images/bl01t-actions.png
-the GitHub Actions page for the example beamline repository
-:::
-
-This is a list of all the Continuous Integration (CI) jobs that have been
-executed (or are executing) for your beamline repository. There should be
-two jobs listed, one for when you pushed the main branch and one for when you
-tagged with the `CalVer` version number.
-
-If you click on the most recent job you can drill in and see the steps that
-were executed. The most interesting step is `Run IOC checks`. This
-is executing the script `.github/workflows/ci_verify.sh`. This goes through
-each of the IOC Instances in the `services` folder and checks that they
-have a valid configuration.
-
-For the moment just check that your CI passed and if not review that you
-have followed the instructions in the previous tutorial correctly.
 
 (setup-beamline-t01)=
-## Set up Environment for the t01 Beamline
+## Set up the environment
 
-Make sure you have a terminal open and the current working directory is your `t01-services` project root folder.
-
-The standard way to set up your environment for any epics-containers services repository is to source the environment.sh script from the root of the services repo. i.e.
+From the root of the services repo, source its environment file:
 
 ```bash
+cd t01-services
 source ./environment.sh
 ```
 
-The environment file is the same for all local deployment services projects and sets up the following. The defaults supplied are all intended for developer workstation use:
-- sets permissions on **xhost** to allow local containers to display GUIs on the host.
-- sets **UIDGID** which is used to set which account and group the phoebus container is launched with. This is always 0:0 for podman. Only required for developer workstations.
-- sets **COMPOSE_PROFILES** which determines which compose profile is launched. Defaults to the 'test' profile intended for testing on developer workstations. It runs a ca-gateway container that publishes PVs on localhost and a container for phoebus to provide an OPI.
-- sets **EPICS_CA_ADDR_LIST** to localhost so that host can see the containerised IOC PVs on a developer workstation.
+This is the standard way to prepare your shell for any epics-containers services
+repo. For the local `docker compose` track it:
 
+- selects podman or docker as the container engine and sets `UIDGID` for the
+  phoebus container's X11 access;
+- sets `COMPOSE_PROFILES=test` so `docker compose` launches the
+  developer-workstation profile (IOCs, gateways and an OPI viewer);
+- points Channel Access and PV Access at the gateways on localhost
+  (`EPICS_CA_NAME_SERVERS=127.0.0.1:9064`) so host tools can see the
+  containerised PVs.
 
 (deploy-example-instance)=
-## Deploy the Example IOC Instance
+## Deploy the services
 
-To launch all the services described by the `compose.yml` file in the root of the services repository, make sure your current working directory is still the root of your your `t01-services` project and run the following command:
+Bring up every service defined in the repo's `compose.yaml`:
 
 ```bash
 docker compose up -d
 ```
 
-The `up` command tells compose to make sure all of the services are up and running.  The `-d` flag tells compose to detach and run the services in the background. If you don't specify -d then your terminal will attach to the stdout of the services and you will see their output as they start up. This can be useful and is done with colour coding so you can distinguish between the different services (terminal colours must be enabled).
+`up` creates and starts the services; `-d` detaches and runs them in the
+background — omit it to follow the colour-coded combined logs instead. The first
+run is slow while images download from the GitHub container registry; later runs
+start from the local cache.
 
-There will be a short delay the first time while the container images are downloaded from the GitHub container registry to your local image cache. Subsequent runs will be much faster.
-
-The default example project will launch:
-
-- a basic IOC instance with a few records
-- a ca-gateway container that publishes the IOC PVs on localhost over Channel Access
-- a pva-gateway container that publishes the IOC PVs on localhost over PVAccess
-- a phoebus container that can be used to view the IOC PVs using an example bob file that comes with the template.
-- you will also see an init container run which just configures settings for pvagw and phoebus, then exits.
-
-You can see the status of the services by running the following command:
+Check what is running:
 
 ```bash
 docker compose ps
 ```
 
-## Managing the Example IOC Instance
+Among the running services you should see the example IOC (`example-test-01`),
+the Channel Access and PV Access gateways, the `epics-opis` OPI web server, the
+`phoebus` OPI viewer, and a one-shot `init` container that generates the PV
+Access gateway and phoebus config and then exits.
 
-### Starting and Stopping IOCs
+## Start and stop a service
 
-To stop / start the example IOC try the following commands. Note that `docker compose ps -a` shows you all IOCs including stopped ones.
-
-Also note that tab completion should allow you to complete the names of your commands and services. e.g.
-`docker compose star <tab> ex <tab>`, should complete to `docker compose start example-test-01`.
+Each service is managed by name; `docker compose ps -a` also lists stopped ones:
 
 ```bash
-docker compose ps -a
 docker compose stop example-test-01
 docker compose ps -a
 docker compose start example-test-01
-docker compose ps
 ```
 
-:::{Note}
-Generic IOCs.
-
-You may have noticed that the IOC instance is showing that it has container image `ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`.
-
-This is a Generic IOC image and all IOC Instances must be based upon one of these images. ioc-template-example-runtime is an instantiation of the template project for creating new Generic IOCs. It has only deviocstats support and no other support modules. This generic IOC can be used for serving records out of a database file as we have done in this example.
+:::{note}
+Tab completion expands service names: `docker compose start example-test<tab>`
+completes to `docker compose start example-test-01`.
 :::
 
-### Exploring an IOC instance
+:::{note}
+**Generic IOCs.** `docker compose ps` shows `example-test-01` running the image
+`ghcr.io/epics-containers/ioc-template-example-runtime:3.5.1`. Every IOC instance
+is built on a *Generic IOC* image like this; the instance only adds its
+`config/` folder. This particular Generic IOC carries just `devIocStats` support,
+enough to serve records from a database file. See {any}`generic_ioc`.
+:::
 
-To run a bash shell inside the IOC container:
+## Explore an IOC instance
+
+Open a shell inside the running IOC container and read one of its PVs:
 
 ```bash
 docker compose exec example-test-01 bash
 caget EXAMPLE:SUM
-# or if you have the epics tools installed on your host
-export EPICS_CA_ADDR_LIST=127.0.0.1:5064
-caget EXAMPLE:SUM
 ```
 
-Once you have a shell inside the container you could inspect the following folders. Because this is the runtime container you will only see the binaries and runtime files, not the source code:
+Because this is a runtime image you see only binaries and generated files, not
+source:
 
-```{eval-rst}
-===================  =========================================================
-/epics/ioc           ioc code
-/epics/ioc/start.sh  IOC startup script
-/epics/support       support modules
-/epics/epics-base    EPICS base binaries
-/epics/ioc/config    IOC instance config used to generate runtime files
-/epics/runtime       IOC startup script and database file generated at runtime
-===================  =========================================================
-```
+| Path | Contents |
+|---|---|
+| `/epics/ioc` | Generic IOC binary and `start.sh` |
+| `/epics/ioc/config` | this instance's config (`ioc.yaml`, `ioc.db`) |
+| `/epics/runtime` | `st.cmd` and database generated at startup |
+| `/epics/support` | support modules |
+| `/epics/epics-base` | EPICS base |
 
-Being at a terminal prompt inside the IOC container can be useful for debugging and testing. You will have access EPICS command line tools including pvAccess, and you can inspect files such as the IOC startup script.
+A shell inside the container gives you the EPICS command-line tools (`caget`,
+`caput`, `pvget`, ...) without installing EPICS on your host — your only
+requirement is a container engine.
 
-In the Virtual Machine supplied for testing epics-containers we do not install EPICS into the host environment. Instead you can use an IOC container when you need EPICS tools. Working this way makes your developer environment very portable, you only require podman to work on any IOC project. It is equally possible to install EPICS on your host and use the host tools to interact with the IOC container, for the developer configuration you would just need to make sure `EPICS_CA_ADDR_LIST=127.0.0.1`.
+## Follow the logs
 
-### Logging
-
-To get the current logs for the example IOC:
+These `docker compose` commands run on your **host**, not inside the IOC
+container. If you are still in the container shell from the previous step, exit
+it first (`exit` or `ctrl-d`) or open a new terminal at the `t01-services` repo
+root — a new shell needs `source ./environment.sh` again before `docker
+compose` will work:
 
 ```bash
-docker compose logs example-test-01
+docker compose logs example-test-01 -f      # ctrl-c to stop following
 ```
 
-Or follow the IOC log until you hit ctrl-C:
+At startup you will see `ibek` generate the IOC's `st.cmd` and database from
+`/epics/ioc/config/ioc.yaml` (via `ibek runtime generate2`), followed by the
+iocShell output.
+
+## Attach to the IOC shell
+
+Attach to the live iocShell to run iocsh commands:
 
 ```bash
-docker compose logs example-test-01 -f
+docker compose attach example-test-01
+dbl                 # list this IOC's records
+# ctrl-p ctrl-q to detach
 ```
 
-You should see the log of ibek loading and generating the IOC startup assets and then the ioc shell startup script log. Ibek is the tool that runs inside of the IOC container and generates the ioc shell script and database file by interpreting the /epics/ioc/config/ioc.yaml at launch time.
+:::{warning}
+Both VSCode and the iocShell capture `ctrl-p`, so the `ctrl-p ctrl-q` detach
+sequence may not reach compose. If it does not, close the terminal window
+instead. Note that `ctrl-c`, `ctrl-d` or `exit` will stop the IOC — compose then
+restarts it automatically.
+:::
 
-### Shutdown
+## Shut down
 
-You can stop all the services with the following command.
+`stop` leaves the containers, networks and volumes in place so a later `start`
+is quick:
 
 ```bash
 docker compose stop
 ```
 
-This will stop all the currently running containers described in the `compose.yml` file.
-However this will leave the resources themselves in place:
-- stopped containers
-- container networks
-- container volumes
-
-To take down the services and remove all of their resources use the following command:
+`down` removes the containers and networks. Volumes are kept, preserving IOC
+autosave data:
 
 ```bash
 docker compose down
 ```
 
-### Monitoring and interacting with an IOC shell
+## Managing IOCs on a cluster
 
-To attach to the IOC shell you can use the following command. HOWEVER, this
-will attach you to nothing in the case of this example IOC as it has no
-shell. In the next tutorial we will use this command to interact with
-iocShell.
-
-```bash
-docker compose attach example-test-01
-dbl
-# ctrl-p ctrl-q to detach
-```
-
-Use the command sequence ctrl-P then ctrl-Q to detach from the IOC. **However, there are issues with both VSCode and IOC shells capturing ctrl-P**. Until this is resolved it may be necessary to close the terminal window to detach. You can also restart and detach from the IOC using ctrl-D or ctrl-C, or by typing `exit`. If you do this podman will restart your IOC right away.
+This local `docker compose` workflow has a cluster equivalent: there you manage
+IOCs with the **`ec`** CLI rather than `docker compose`. The {any}`deploy-argocd`
+track introduces and configures it.

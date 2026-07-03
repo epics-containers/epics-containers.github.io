@@ -1,0 +1,805 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Add the Standard Detector Plugins &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/detector_plugins';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Add a Stream Device with ibek pattern" href="stream_device.html" />
+    <link rel="prev" title="Create an IOC Instance" href="create_ioc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">epics-containers.github.io</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Add the Standard Detector Plugins</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="add-the-standard-detector-plugins">
+<span id="detector-plugins"></span><h1>Add the Standard Detector Plugins<a class="headerlink" href="#add-the-standard-detector-plugins" title="Link to this heading">#</a></h1>
+<p>In <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a> you built <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>, a simulated area detector with
+just a camera and a Standard Arrays plugin. Real detectors want more: live
+statistics, regions of interest, a file writer. This tutorial <strong>vendors</strong>
+a set of AreaDetector plugins into that same instance, using <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code>:
+pinned, integrity-hashed, and loaded <strong>at runtime with no image rebuild</strong>.
+Substitute your own names throughout.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code> provides a light set of four plugins, and is the recommended
+set for Diamond II. The prior gdaPlugins pattern also published in the same repo
+matches what we used to ship with builder IOCs.</p>
+<p>For non DLS users this just serves as a useful example and you are free to create
+your own pattern repositories.</p>
+</div>
+<p>By the end you will have:</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code> pattern vendored into <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> at a pinned
+version, recorded in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code>;</p></li>
+<li><p>four extra plugins — PVA, statistics, ROI-statistics and an HDF5 file writer —
+each with an auto-generated Phoebus screen.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This continues directly from <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>; you need the
+<code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance from that tutorial. Run the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> commands
+on your <strong>workstation</strong> with <strong>ibek ≥ 4.6.1</strong> installed (or prefix them with
+<code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">--from</span> <span class="pre">ibek</span></code>).</p>
+</div>
+<section id="vendor-the-plugin-pattern">
+<h2>Vendor the plugin pattern<a class="headerlink" href="#vendor-the-plugin-pattern" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code> lives in the public
+<a class="reference external" href="https://github.com/epics-containers/ibek-runtime-support"><code class="docutils literal notranslate"><span class="pre">ibek-runtime-support</span></code></a>
+library — one of two pattern libraries <code class="docutils literal notranslate"><span class="pre">ibek</span></code> knows about out of the box. From
+the services-repo root, vendor it into the instance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
+ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> </span>ibek-runtime-support:detectorPlugins@v0.1.0<span class="w"> </span>services/bl01t-ea-cam-01
+</pre></div>
+</div>
+<p>The qualified name is <code class="docutils literal notranslate"><span class="pre">&lt;library&gt;:&lt;pattern&gt;&#64;&lt;tag&gt;</span></code>. That one command:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Copies</strong> the pattern’s file-set into <code class="docutils literal notranslate"><span class="pre">config/</span></code></p></td>
+<td><p>here just <code class="docutils literal notranslate"><span class="pre">detectorPlugins.ibek.support.yaml</span></code>, with a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Vendored</span> <span class="pre">from</span> <span class="pre">…</span> <span class="pre">—</span> <span class="pre">DO</span> <span class="pre">NOT</span> <span class="pre">EDIT</span></code> header prepended</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Pins + hashes</strong> it in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code></p></td>
+<td><p>records the <code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span></code> and a per-file <code class="docutils literal notranslate"><span class="pre">sha256</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Regenerates</strong> the instance’s <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code></p></td>
+<td><p>merges the vendored entity models into your image’s schema, so the editor validates the new entity</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> is written at the <strong>instance root</strong>, not inside <code class="docutils literal notranslate"><span class="pre">config/</span></code>.
+Only <code class="docutils literal notranslate"><span class="pre">config/</span></code> is mounted into the container, so it stays the small
+runtime-input bundle; the lock is developer-side metadata.</p>
+</div>
+<section id="the-local-ioc-schema-json">
+<h3>The local <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code><a class="headerlink" href="#the-local-ioc-schema-json" title="Link to this heading">#</a></h3>
+<p>The last step writes a per-instance <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code> so your editor knows about
+the entities you just vendored. <code class="docutils literal notranslate"><span class="pre">ibek</span></code> reads the image you pinned in
+<code class="docutils literal notranslate"><span class="pre">compose.yml</span></code>, fetches that image’s <strong>published</strong> schema, and merges the
+vendored pattern’s entity models into it. The result is written next to
+<code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> at the instance root (it is developer-side metadata, so it is not
+mounted into the container), and the schema line at the top of <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code>
+is rewritten from the remote URL you set in <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a> to point at the
+new sibling file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=../ioc.schema.json</span>
+</pre></div>
+</div>
+<p>That schema is now the union of <strong>the image’s compiled-in entities</strong> and <strong>the
+vendored pattern’s</strong> — so when you add the plugin entity in the next step, the
+editor offers completion and validation for <code class="docutils literal notranslate"><span class="pre">detectorPlugins.detectorPlugins</span></code>
+just as it did for the camera. Re-run it standalone any time the vendored set
+changes with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">schema</span> <span class="pre">services/bl01t-ea-cam-01</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The schema is regenerated only if the image has <strong>published</strong> a schema release
+(as <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> does). A generic image without one is reported and
+skipped — vendoring still works, you just edit <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> without local
+validation for the new entities.</p>
+</div>
+</section>
+</section>
+<section id="add-the-plugin-entity">
+<h2>Add the plugin entity<a class="headerlink" href="#add-the-plugin-entity" title="Link to this heading">#</a></h2>
+<p>The vendored support file supplies a <code class="docutils literal notranslate"><span class="pre">detectorPlugins.detectorPlugins</span></code>
+entity_model. Append a single entity for it to
+<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/config/ioc.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">detectorPlugins.detectorPlugins</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-CAM-01</span>
+<span class="w">    </span><span class="nt">CAM</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span><span class="w">          </span><span class="c1"># the simDetector PORT from create_ioc</span>
+<span class="w">    </span><span class="nt">PORTPREFIX</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CAM</span></code> is the camera’s Asyn port (<code class="docutils literal notranslate"><span class="pre">DET.DET</span></code>, the <code class="docutils literal notranslate"><span class="pre">simDetector</span></code> from
+<a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>); <code class="docutils literal notranslate"><span class="pre">PORTPREFIX</span></code> namespaces the new plugin ports (<code class="docutils literal notranslate"><span class="pre">DET.stat</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DET.hdf5</span></code>, …) so they cannot clash with the camera or the existing
+<code class="docutils literal notranslate"><span class="pre">NDStdArrays</span></code> port <code class="docutils literal notranslate"><span class="pre">DET.ARR</span></code>.</p>
+<p>This one entity expands — via the support def’s <code class="docutils literal notranslate"><span class="pre">sub_entities</span></code> — into the four
+plugins of the lighter <strong>Ophyd</strong> set, all already compiled into the
+AreaDetector image:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Plugin</p></th>
+<th class="head"><p>PV prefix</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NDPvxsPlugin</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:PVA:</span></code></p></td>
+<td><p>re-publishes the camera image over pvAccess as one structured PV</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NDStats</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:STAT:</span></code></p></td>
+<td><p>live frame statistics — min/max/mean/sigma, centroid, histogram</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NDROIStat</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:ROISTAT:</span></code></p></td>
+<td><p>lightweight per-region statistics for up to 8 ROIs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">NDFileHDF5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:HDF5:</span></code></p></td>
+<td><p>writes frames to HDF5 files on disk</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The library also ships a heavier <code class="docutils literal notranslate"><span class="pre">gdaPlugins</span></code> model (ROIs, process, overlay,
+TIFF, ffmpeg stream, …). Stick with the light <code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code> set here —
+<code class="docutils literal notranslate"><span class="pre">gdaPlugins</span></code> pulls in <code class="docutils literal notranslate"><span class="pre">ffmpegServer</span></code>, which the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> image does
+not build.</p>
+</div>
+</section>
+<section id="run-it-and-view-the-new-screens">
+<h2>Run it and view the new screens<a class="headerlink" href="#run-it-and-view-the-new-screens" title="Link to this heading">#</a></h2>
+<p>Restart the instance so its <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> re-runs <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">generate2</span></code>, which
+discovers the vendored <code class="docutils literal notranslate"><span class="pre">config/detectorPlugins.ibek.support.yaml</span></code> and expands
+the new entity:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./environment.sh
+docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
+</pre></div>
+</div>
+<p>PVI generates one engineering screen per new plugin under
+<code class="docutils literal notranslate"><span class="pre">opi/auto-generated/bl01t-ea-cam-01/</span></code>, and adds them to that IOC’s <code class="docutils literal notranslate"><span class="pre">index.bob</span></code>.
+Open <code class="docutils literal notranslate"><span class="pre">auto-generated/bl01t-ea-cam-01/index.bob</span></code> in Phoebus (as in
+<a class="reference internal" href="create_ioc.html#change-the-opi-screen"><span class="std std-ref">Run It and View the Screens</span></a>) and new panels appear alongside the camera: a
+<strong>statistics</strong> panel plotting live mean/sigma and a histogram, a
+<strong>ROI-statistics</strong> panel, an <strong>HDF5 file-writer</strong> panel (file path, name,
+capture), and a <strong>PVA</strong> panel exposing the image as a single pvAccess PV. Hit
+<strong>Acquire</strong> on the camera and the stats and ROI plots update per frame.</p>
+<figure class="align-default" id="id1">
+<img alt="../_images/SimDetPlugins.png" src="../_images/SimDetPlugins.png" />
+<figcaption>
+<p><span class="caption-text">The auto-generated plugin panels for <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> in Phoebus, alongside the
+camera — statistics, ROI-statistics, HDF5 file writer and PVA.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="check-what-your-ioc-is-running">
+<h2>Check what your IOC is running<a class="headerlink" href="#check-what-your-ioc-is-running" title="Link to this heading">#</a></h2>
+<p>Because every vendored file is hashed in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code>, “what support is
+this IOC running?” is answerable from git with certainty. Re-verify the
+vendored files against their pins at any time — ideal in CI or a pre-commit
+hook:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>check<span class="w"> </span>services/bl01t-ea-cam-01
+</pre></div>
+</div>
+<p>It re-hashes each file and exits non-zero on any drift. To move to a newer
+release later,
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">update</span> <span class="pre">services/bl01t-ea-cam-01</span> <span class="pre">--name</span> <span class="pre">detectorPlugins</span> <span class="pre">-v</span> <span class="pre">&lt;tag&gt;</span></code>
+re-pins and refreshes the hashes.</p>
+</section>
+<section id="commit">
+<h2>Commit<a class="headerlink" href="#commit" title="Link to this heading">#</a></h2>
+<p>This instance is reused by later tutorials, so commit the vendored
+<code class="docutils literal notranslate"><span class="pre">config/detectorPlugins.ibek.support.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Vendor detectorPlugins into bl01t-ea-cam-01&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="stream_device.html"><span class="doc">Add a Stream Device with ibek pattern</span></a> — vendor a StreamDevice <strong>device</strong> pattern and run its
+simulator: the other half of consuming a published pattern.</p></li>
+<li><p><a class="reference internal" href="custom_pattern.html"><span class="doc">Author Your Own Runtime Pattern</span></a> — author your <strong>own</strong> runtime pattern (a cut-down plugin
+set) by forking <code class="docutils literal notranslate"><span class="pre">ibek-runtime-support</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="create_ioc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Create an IOC Instance</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="stream_device.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-the-plugin-pattern">Vendor the plugin pattern</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-local-ioc-schema-json">The local <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-plugin-entity">Add the plugin entity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it-and-view-the-new-screens">Run it and view the new screens</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-what-your-ioc-is-running">Check what your IOC is running</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commit">Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/tutorials/detector_plugins.md">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/detector_plugins.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

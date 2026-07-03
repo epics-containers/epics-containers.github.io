@@ -1,0 +1,819 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Add a Stream Device with ibek pattern &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/stream_device';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Developer Containers" href="dev_container.html" />
+    <link rel="prev" title="Add the Standard Detector Plugins" href="detector_plugins.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">epics-containers.github.io</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="add-a-stream-device-with-ibek-pattern">
+<h1>Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code><a class="headerlink" href="#add-a-stream-device-with-ibek-pattern" title="Link to this heading">#</a></h1>
+<p>In <a class="reference internal" href="detector_plugins.html"><span class="doc">Add the Standard Detector Plugins</span></a> you vendored a <em>plugin set</em> into an existing instance
+with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code>. Here you vendor a <em>stream device</em> definition the same way.</p>
+<p>You build a new IOC on the <strong>generic</strong> <code class="docutils literal notranslate"><span class="pre">ioc-streamdevice</span></code> image, vendor the
+<code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> temperature-controller support into it, and run the device
+simulator as a compose sidecar. Substitute your own names throughout.</p>
+<p>By the end you will have:</p>
+<ul class="simple">
+<li><p>a new IOC instance, <code class="docutils literal notranslate"><span class="pre">bl01t-ea-temp-01</span></code>, on the <code class="docutils literal notranslate"><span class="pre">ioc-streamdevice</span></code> image;</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> StreamDevice support vendored into it at a pinned version,
+recorded in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code>;</p></li>
+<li><p>a simulator running as a sidecar, with the IOC reading temperatures from it.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The same image can host <em>any</em> of the StreamDevice drivers in the library — you
+choose the device per instance by vendoring it, rather than by picking a
+different image. The IOC loads the vendored support at container start, so no
+rebuild is needed.</p>
+</div>
+<section id="create-the-instance">
+<h2>Create the instance<a class="headerlink" href="#create-the-instance" title="Link to this heading">#</a></h2>
+<p>An instance is a folder under <code class="docutils literal notranslate"><span class="pre">services/</span></code>; copy the skeleton and open the repo
+in your editor, exactly as in <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
+cp<span class="w"> </span>-r<span class="w"> </span>services/.ioc_template<span class="w"> </span>services/bl01t-ea-temp-01
+code<span class="w"> </span>.
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-temp-01/compose.yml</span></code>, replace <strong>every</strong> <code class="docutils literal notranslate"><span class="pre">ioc_default_name</span></code>
+with <code class="docutils literal notranslate"><span class="pre">bl01t-ea-temp-01</span></code>, and set the image to the generic StreamDevice IOC:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-streamdevice-runtime:2.8.26ec1</span>
+</pre></div>
+</div>
+</section>
+<section id="vendor-the-lakeshore340-support">
+<h2>Vendor the <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> support<a class="headerlink" href="#vendor-the-lakeshore340-support" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> runs on your <strong>workstation</strong>. From the repo root, vendor the
+driver into the instance you just created:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> </span>ibek-runtime-streamdevice:lakeshore340@0.1.1<span class="w"> </span>services/bl01t-ea-temp-01
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> needs <strong>ibek ≥ 4.6.2</strong>. If it is not on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, add it with
+<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">'ibek&gt;=4.6.2'</span></code>.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ibek-runtime-streamdevice</span></code> is one of ibek’s built-in libraries, resolved from
+its name to
+<a class="reference external" href="https://github.com/epics-containers/ibek-runtime-streamdevice">its GitHub repo</a>.
+The command vendors three files into <code class="docutils literal notranslate"><span class="pre">config/</span></code> — each with a
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Vendored</span> <span class="pre">…</span> <span class="pre">DO</span> <span class="pre">NOT</span> <span class="pre">EDIT</span></code> header — and writes a <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> at the
+instance root:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config/lakeshore340.ibek.support.yaml</span></code></p></td>
+<td><p>The entity model <code class="docutils literal notranslate"><span class="pre">lakeshore340.lakeshore340</span></code> you instantiate below.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config/lakeshore340.proto</span></code></p></td>
+<td><p>The StreamDevice protocol (the serial command set).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">config/lakeshore340.template</span></code></p></td>
+<td><p>The EPICS database of temperature/heater records.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code></p></td>
+<td><p>Pins the version and the per-file SHA-256 hashes.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Commit the lock with the instance. Anyone can later confirm the vendored files
+are untampered with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>check<span class="w"> </span>services/bl01t-ea-temp-01
+</pre></div>
+</div>
+</section>
+<section id="configure-the-ioc">
+<h2>Configure the IOC<a class="headerlink" href="#configure-the-ioc" title="Link to this heading">#</a></h2>
+<p>Open <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-temp-01/config/ioc.yaml</span></code> and define the device. The
+<code class="docutils literal notranslate"><span class="pre">asyn.AsynIP</span></code> entity opens a TCP connection to the simulator (added next); the
+<code class="docutils literal notranslate"><span class="pre">lakeshore340.lakeshore340</span></code> entity — supplied by the support file you just
+vendored — drives it over that port:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A simulated Lakeshore 340 temperature controller</span>
+
+<span class="nt">entities</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPICS_TZ</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GMT0BST</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">STREAM_PROTOCOL_PATH</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/epics/runtime/protocol/</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">devIocStats.iocAdminSoft</span>
+<span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}&quot;</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">asyn.AsynIP</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">p1</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">170.200.0.100:5401</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore340.lakeshore340</span>
+<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TEMP-01</span>
+<span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">p1</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lakeshore</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">STREAM_PROTOCOL_PATH</span></code> tells StreamDevice where to find the vendored <code class="docutils literal notranslate"><span class="pre">.proto</span></code>
+file at runtime; the IOC’s <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> copies it there at container start (via
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">place-files</span></code>). <code class="docutils literal notranslate"><span class="pre">PORT:</span> <span class="pre">p1</span></code> wires the device to the Asyn port, and
+<code class="docutils literal notranslate"><span class="pre">port:</span> <span class="pre">170.200.0.100:5401</span></code> is the fixed address the simulator will be given on
+the <code class="docutils literal notranslate"><span class="pre">channel_access</span></code> network (set up next).</p>
+</section>
+<section id="run-the-simulator-as-a-sidecar">
+<h2>Run the simulator as a sidecar<a class="headerlink" href="#run-the-simulator-as-a-sidecar" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> controller is an external serial device, so the IOC needs
+something to talk to. Diamond ships a small pure-stdlib simulator; download it
+into the instance folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-o<span class="w"> </span>services/bl01t-ea-temp-01/lakeshore340_sim.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://raw.githubusercontent.com/DiamondLightSource/lakeshore340/main/etc/simulations/lakeshore340_sim.py
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DiamondLightSource/lakeshore340</span></code> repository is being retired; the simulator
+will move into <code class="docutils literal notranslate"><span class="pre">ibek-runtime-streamdevice</span></code>. When it does, only the URL above
+needs updating.</p>
+</div>
+<p>Add a second service to <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-temp-01/compose.yml</span></code> that runs the
+script on a stock Python image, on the same <code class="docutils literal notranslate"><span class="pre">channel_access</span></code> network as the IOC:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">lakeshore-sim</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python:3-slim</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python -u /sim/lakeshore340_sim.py 5401</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./lakeshore340_sim.py:/sim/lakeshore340_sim.py:ro</span>
+<span class="w">    </span><span class="nt">security_opt</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">label=disable</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">channel_access</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">170.200.0.100</span>
+</pre></div>
+</div>
+<p>The IOC reaches the simulator at <code class="docutils literal notranslate"><span class="pre">170.200.0.100:5401</span></code>. A <strong>fixed IP</strong> is used
+deliberately: Diamond’s rootless podman runs the CNI network backend without the
+<code class="docutils literal notranslate"><span class="pre">dnsname</span></code> plugin, so containers on <code class="docutils literal notranslate"><span class="pre">channel_access</span></code> cannot resolve each other by
+name — only by address. Pinning the simulator to <code class="docutils literal notranslate"><span class="pre">170.200.0.100</span></code> (any free
+address inside <code class="docutils literal notranslate"><span class="pre">CA_SUBNET</span></code>, which is set in <code class="docutils literal notranslate"><span class="pre">.env</span></code>) gives the IOC a stable target
+without relying on container DNS. If you change <code class="docutils literal notranslate"><span class="pre">CA_SUBNET</span></code>, change this address
+and the <code class="docutils literal notranslate"><span class="pre">port:</span></code> in <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> to match.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-u</span></code> runs the script unbuffered so its <code class="docutils literal notranslate"><span class="pre">print()</span></code> output reaches
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">logs</span></code> immediately; without it, Python block-buffers stdout when
+it is not a terminal and the simulator log stays silent.</p>
+<p>The whole instance — IOC, config and simulator — is now self-contained and
+reproducible.</p>
+</section>
+<section id="bring-it-up">
+<h2>Bring it up<a class="headerlink" href="#bring-it-up" title="Link to this heading">#</a></h2>
+<p>Register the instance by adding it to the <code class="docutils literal notranslate"><span class="pre">include:</span></code> list in the repo-root
+<code class="docutils literal notranslate"><span class="pre">compose.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">include</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/bl01t-ea-temp-01/compose.yml</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</pre></div>
+</div>
+<p>Then start the beamline:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./environment.sh
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</pre></div>
+</div>
+</section>
+<section id="check-it-works">
+<h2>Check it works<a class="headerlink" href="#check-it-works" title="Link to this heading">#</a></h2>
+<p>The simulator logs every query it receives. Follow its output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>lakeshore-sim<span class="w"> </span>-f<span class="w">      </span><span class="c1"># ctrl-c to stop following</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Initialising ls340 simulator, V2.0 2024.01.21
+Listening on port: 5401
+Connection from: (&#39;170.200.0.3&#39;, 54312)
+RECEIVED: *IDN?
+RECEIVED: KRDG? 0
+RECEIVED: SETP? 1
+</pre></div>
+</div>
+<p>The IOC reads the device ID, the temperature channels (<code class="docutils literal notranslate"><span class="pre">KRDG0</span></code>–<code class="docutils literal notranslate"><span class="pre">KRDG3</span></code>), the
+setpoint (<code class="docutils literal notranslate"><span class="pre">SETP</span></code>) and the heater output (<code class="docutils literal notranslate"><span class="pre">HTR</span></code>). Confirm a couple of PVs from
+inside the IOC container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-temp-01<span class="w"> </span>caget<span class="w"> </span>BL01T-EA-TEMP-01:ID<span class="w"> </span>BL01T-EA-TEMP-01:KRDG0
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>BL01T-EA-TEMP-01:ID     LSCI,MODEL340,123456,02032001
+BL01T-EA-TEMP-01:KRDG0  23.4
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are is no PVI device file for this device yet, so no auto-generated PVI screen.
+For now, inspect its PVs directly with <code class="docutils literal notranslate"><span class="pre">caget</span></code>.
+TODO: add a PVI device file and auto-generated Phoebus screen for this tutorial.</p>
+</div>
+<p>Manage the running IOC and its sidecar with the same <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> commands
+from <a class="reference internal" href="deploy_example.html"><span class="doc">Deploy and Manage IOC Instances Locally</span></a>.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="detector_plugins.html"><span class="doc">Add the Standard Detector Plugins</span></a> — vendor a <em>plugin set</em> (the AreaDetector mirror of
+this device-support workflow) into an existing IOC.</p></li>
+<li><p><a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a> — go the other way and bake your own support into a Generic
+IOC at <strong>build</strong> time.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="detector_plugins.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Add the Standard Detector Plugins</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dev_container.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Developer Containers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-instance">Create the instance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-the-lakeshore340-support">Vendor the <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-ioc">Configure the IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-simulator-as-a-sidecar">Run the simulator as a sidecar</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bring-it-up">Bring it up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-it-works">Check it works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/tutorials/stream_device.md">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorials/stream_device.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Viewing Operator Interfaces with Phoebus" href="phoebus.html" />
+    <link rel="next" title="Explanations" href="../explanations.html" />
     <link rel="prev" title="Updating and Testing ibek-support" href="ibek-support.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -397,14 +397,10 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compose-quickstart.html">Docker Compose Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ibek-support.html">Updating and Testing ibek-support</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Choose Your Developer Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
 </ul>
 </div>
 </nav></div>
@@ -467,21 +463,128 @@
                   
   <section id="choose-your-developer-environment">
 <h1>Choose Your Developer Environment<a class="headerlink" href="#choose-your-developer-environment" title="Link to this heading">#</a></h1>
-<p>The tutorials walk through the use of a standard set of developer tools. You
-can use others if you wish but support is limited currently.</p>
+<p>The tutorials walk through a standard set of developer tools. You can use
+others if you wish, but support for them is limited at present.</p>
 <section id="working-with-your-own-code-editor">
 <span id="own-editor"></span><h2>Working with your own code editor<a class="headerlink" href="#working-with-your-own-code-editor" title="Link to this heading">#</a></h2>
-<p>If you have your own preferred code editor, you can use it instead of
-vscode. We recommend developing generic IOCs using
-a devcontainer. Devcontainer supporting tools are listed here
+<p>If you have a preferred code editor you can use it instead of VSCode. We
+recommend developing Generic IOCs inside a developer container, as the
+<a class="reference internal" href="../tutorials/dev_container.html"><span class="std std-doc">Developer Containers</span></a> tutorial describes;
+editors with developer-container support are listed at
 <a class="reference external" href="https://containers.dev/supporting">https://containers.dev/supporting</a>.</p>
-<p>epics-containers has been tested with</p>
+<p>epics-containers has been tested with:</p>
 <ul class="simple">
-<li><p>vscode</p></li>
-<li><p>Github Codespaces</p></li>
+<li><p>VSCode</p></li>
+<li><p>GitHub Codespaces</p></li>
 </ul>
-<p>If you prefer console based editors like neovim or emacs, then you will get the best results by launching the development containers defined in the epics-containers using the devcontainer CLI as described here <a class="reference external" href="https://containers.dev/supporting#devcontainer-cli">https://containers.dev/supporting#devcontainer-cli</a>.</p>
-<p>In addition you could install your editor inside the developer container by adding an apt-install command into the <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code> user personalization file. See <a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/blob/3a87e808e1c7983430a30c5a4dcd0d0661895d60/.devcontainer/postCreateCommand#L23-L27">details here</a></p>
+<p>Terminal editors such as <code class="docutils literal notranslate"><span class="pre">neovim</span></code> or <code class="docutils literal notranslate"><span class="pre">emacs</span></code> work too. As that tutorial’s
+note explains, launch the Generic IOC’s developer container with the
+<a class="reference external" href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli">devcontainer CLI</a>
+rather than by hand, so it picks up the host mounts and other settings from
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>.</p>
+<p>To make your editor available inside the developer container, add an
+<code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span></code> line for it to the <code class="docutils literal notranslate"><span class="pre">developer</span></code> stage of the Generic IOC’s
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>.</p>
+</section>
+<section id="using-the-devcontainer-cli">
+<span id="devcontainer-cli"></span><h2>Using the devcontainer CLI<a class="headerlink" href="#using-the-devcontainer-cli" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">devcontainer</span></code> CLI builds and launches the same developer container that
+VSCode would, but driven entirely from the terminal. This is the route to take
+if you use a terminal editor, or want to script your workflow.</p>
+<section id="install-the-cli-once-shared-across-iocs">
+<h3>Install the CLI once, shared across IOCs<a class="headerlink" href="#install-the-cli-once-shared-across-iocs" title="Link to this heading">#</a></h3>
+<p>The CLI is an npm package, so you need Node.js and <code class="docutils literal notranslate"><span class="pre">npm</span></code> available first.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">node</span></code> to get <code class="docutils literal notranslate"><span class="pre">npm</span></code> on your workstation.</p>
+</div>
+<p>A plain <code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">&#64;devcontainers/cli</span></code> drops a <code class="docutils literal notranslate"><span class="pre">node_modules/</span></code>,
+<code class="docutils literal notranslate"><span class="pre">package.json</span></code> and <code class="docutils literal notranslate"><span class="pre">package-lock.json</span></code> into the current folder — if you run it
+inside a Generic IOC clone, it leaves the repo dirty. Instead install the CLI
+<strong>globally, once</strong>, into a user-writable prefix. A single install then serves
+every IOC and keeps your repos clean:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>prefix<span class="w"> </span>~/.local<span class="w">          </span><span class="c1"># one-time: a user-writable global prefix</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>@devcontainers/cli
+devcontainer<span class="w"> </span>--version<span class="w">                  </span><span class="c1"># run from anywhere once ~/.local/bin is on PATH</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure <code class="docutils literal notranslate"><span class="pre">~/.local/bin</span></code> is on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> so the <code class="docutils literal notranslate"><span class="pre">devcontainer</span></code> command is
+found. The rest of this page calls <code class="docutils literal notranslate"><span class="pre">devcontainer</span></code> directly; if you skipped the
+global install, prefix each command with <code class="docutils literal notranslate"><span class="pre">npx</span></code> and run it from the IOC folder.</p>
+</div>
+</section>
+<section id="build-the-generic-ioc-first">
+<h3>Build the Generic IOC first<a class="headerlink" href="#build-the-generic-ioc-first" title="Link to this heading">#</a></h3>
+<p>Clone your Generic IOC repo and run its <code class="docutils literal notranslate"><span class="pre">./build</span></code> script before launching the
+container. This pulls in the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodules and surfaces any errors
+in the container build step up front, where they are easy to read:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;your-ioc-xxx-repo-url&gt;
+<span class="nb">cd</span><span class="w"> </span>ioc-xxx
+./build
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If a support module fails to build, comment it out of the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> so the
+container can build. You can then debug that module interactively from inside
+the developer container.</p>
+</div>
+</section>
+<section id="launch-and-attach">
+<h3>Launch and attach<a class="headerlink" href="#launch-and-attach" title="Link to this heading">#</a></h3>
+<p>From the IOC directory, bring the developer container up. It builds the image
+if needed and then runs in the background:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devcontainer<span class="w"> </span>up<span class="w"> </span>--workspace-folder<span class="w"> </span>.
+<span class="c1"># wait for the build to complete; the container is now running in the background</span>
+podman<span class="w"> </span>ps<span class="w">   </span><span class="c1"># confirm it is up</span>
+</pre></div>
+</div>
+<p>Attach as many shells inside the running container as you need:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devcontainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>--workspace-folder<span class="w"> </span>.<span class="w"> </span>bash
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The CLI uses <code class="docutils literal notranslate"><span class="pre">--workspace-folder</span></code> to locate the right container. Point <code class="docutils literal notranslate"><span class="pre">up</span></code> and
+every <code class="docutils literal notranslate"><span class="pre">exec</span></code> at the <strong>same</strong> IOC folder (<code class="docutils literal notranslate"><span class="pre">.</span></code> when you are inside it, or an
+absolute path such as <code class="docutils literal notranslate"><span class="pre">/path/to/ioc-xxx</span></code> from elsewhere), or a mismatch will
+start or target the wrong container.</p>
+</div>
+</section>
+<section id="clean-up">
+<h3>Clean up<a class="headerlink" href="#clean-up" title="Link to this heading">#</a></h3>
+<p>The developer container keeps running in the background until you stop it. There
+is no <code class="docutils literal notranslate"><span class="pre">devcontainer</span> <span class="pre">down</span></code> command — the CLI creates an ordinary podman
+container, so tear it down with podman directly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>ps<span class="w">                  </span><span class="c1"># find the container&#39;s name or id</span>
+podman<span class="w"> </span>stop<span class="w"> </span>&lt;name-or-id&gt;<span class="w">   </span><span class="c1"># stop it (keeps the container for a fast restart)</span>
+podman<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>&lt;name-or-id&gt;<span class="w">  </span><span class="c1"># stop and remove it completely</span>
+</pre></div>
+</div>
+<p>To rebuild from scratch on the next launch — for example after editing the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> — recreate the container with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>devcontainer<span class="w"> </span>up<span class="w"> </span>--workspace-folder<span class="w"> </span>.<span class="w"> </span>--remove-existing-container
+</pre></div>
+</div>
+</section>
+<section id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Error:</span> <span class="pre">spawn</span> <span class="pre">docker</span> <span class="pre">ENOENT</span></code> means the CLI cannot find a container engine. The
+devcontainer CLI expects <code class="docutils literal notranslate"><span class="pre">docker</span></code> on the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>; on a podman host you need
+podman configured to provide a <code class="docutils literal notranslate"><span class="pre">docker</span></code>-compatible command (a <code class="docutils literal notranslate"><span class="pre">docker</span></code> alias or
+the <code class="docutils literal notranslate"><span class="pre">podman-docker</span></code> shim). Confirm your developer container launches from VSCode
+first — if that works, the engine itself is fine and the CLI just needs the
+<code class="docutils literal notranslate"><span class="pre">docker</span></code> entry point. Running <code class="docutils literal notranslate"><span class="pre">./build</span></code> first is a good diagnostic, as it
+exercises the same engine and submodules.
+Otherwise, add <code class="docutils literal notranslate"> <span class="pre">export</span> <span class="pre">DOCKER_PATH=$(which</span> <span class="pre">podman)</span></code> to your local <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>.</p>
+<p>When building the container for the first time, if it tries to change ownership of
+vscode directories:
+<code class="docutils literal notranslate"><span class="pre">chown:</span> <span class="pre">changing</span> <span class="pre">ownership</span> <span class="pre">of</span> <span class="pre">'/home/vscode':</span> <span class="pre">Invalid</span> <span class="pre">argument</span> <span class="pre">(os</span> <span class="pre">error</span> <span class="pre">22)</span></code>,
+add the following to your devcontainer.json <code class="docutils literal notranslate"><span class="pre">&quot;updateRemoteUserUid&quot;:</span> <span class="pre">false</span></code>
+to avoid remapping of UIDs.</p>
+</section>
 </section>
 </section>
 
@@ -505,11 +608,11 @@ a devcontainer. Devcontainer supporting tools are listed here
       </div>
     </a>
     <a class="right-next"
-       href="phoebus.html"
+       href="../explanations.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Viewing Operator Interfaces with Phoebus</p>
+        <p class="prev-next-title">Explanations</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -533,6 +636,14 @@ a devcontainer. Devcontainer supporting tools are listed here
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-your-own-code-editor">Working with your own code editor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-devcontainer-cli">Using the devcontainer CLI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-cli-once-shared-across-iocs">Install the CLI once, shared across IOCs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-generic-ioc-first">Build the Generic IOC first</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-and-attach">Launch and attach</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-up">Clean up</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

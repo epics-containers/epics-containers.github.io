@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Developer Containers" href="dev_container.html" />
-    <link rel="prev" title="Deploying and Managing IOC Instances" href="deploy_example.html" />
+    <link rel="next" title="Add the Standard Detector Plugins" href="detector_plugins.html" />
+    <link rel="prev" title="Deploy and Manage IOC Instances Locally" href="deploy_example.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,230 +480,77 @@
                   
   <section id="create-an-ioc-instance">
 <h1>Create an IOC Instance<a class="headerlink" href="#create-an-ioc-instance" title="Link to this heading">#</a></h1>
-<section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>The last section covered deploying and managing the example IOC Instance that came with the template services repository. Here we will create a new IOC Instance that implements a simulated detector.</p>
-<p>For this tutorial some familiarity with the EPICS AreaDetector framework is useful. Take a look at this documentation if you have not yet come across AreaDetector: <a class="reference external" href="https://areadetector.github.io/areaDetector/index.html">https://areadetector.github.io/areaDetector/index.html</a>.</p>
-</section>
-<section id="add-a-new-ioc-instance-to-t01-services">
-<span id="create-new-ioc-instance"></span><h2>Add a New IOC Instance to t01-services<a class="headerlink" href="#add-a-new-ioc-instance-to-t01-services" title="Link to this heading">#</a></h2>
-<section id="id1">
-<h3>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<p>To create a new IOC Instance simply add a new folder to the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder in your services repo. The name of the folder will be the name of the IOC. This folder needs to contain these items:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<tbody>
-<tr class="row-odd"><td><p><strong>compose.yml</strong></p></td>
-<td><p>Instructions to compose to say what to deploy</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>config</strong></p></td>
-<td><p>A folder that contains the IOC instance
-configuration files.</p></td>
-</tr>
-</tbody>
-</table>
+<p>In <a class="reference internal" href="create_beamline.html#create-beamline"><span class="std std-ref">Create a Beamline Services Repository</span></a> you generated <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> with a single example
+IOC instance (<code class="docutils literal notranslate"><span class="pre">example-test-01</span></code>). Now you will add your own: a simulated area
+detector built on the public <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. Substitute your
+own names throughout.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A little familiarity with the EPICS
+<a class="reference external" href="https://areadetector.github.io/areaDetector/index.html">AreaDetector</a>
+framework is helpful but not required.</p>
 </div>
-<p>The configuration files in the config folder can take a number of forms <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/template/ioc/start.sh">listed here</a>. The recommended contents of this folder is a single ibek IOC description yaml file named <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>. But the generic IOCs support raw startup script, substitution files and database files as well. Thus, users that have their own preferred way of generating startup assets can use that method, including hand written files.</p>
-</section>
-<section id="using-ioc-template">
-<h3>Using .ioc-template<a class="headerlink" href="#using-ioc-template" title="Link to this heading">#</a></h3>
-<p>The template project added a folder to <code class="docutils literal notranslate"><span class="pre">services</span></code> called <code class="docutils literal notranslate"><span class="pre">.ioc-template</span></code> this is a useful starting point to make a new service. Let us call our new IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>. We will copy the <code class="docutils literal notranslate"><span class="pre">.ioc-template</span></code> folder to a new folder called <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> and then edit the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file to reflect the new IOC name:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
-code<span class="w"> </span>.
-<span class="c1"># navigate to the services folder and copy the .ioc-template folder</span>
-<span class="c1"># paste it into the services folder and rename it to bl01t-ea-cam-01</span>
-</pre></div>
-</div>
-</section>
-<section id="compose-yml">
-<h3>Compose.yml<a class="headerlink" href="#compose-yml" title="Link to this heading">#</a></h3>
-<p>Our new example IOC will be a simulation detector using the AreaDetector SimDetector. There is already a Generic IOC for the SimDetector, therefore to create an IOC Instance, we just need to refer to that Generic IOC container image and provide some configuration for it.</p>
-<p>You can find the Generic IOC container source for SimDetector here: <a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector">epics-containers/ioc-adsimdetector</a>. This repository publishes its container image at: <code class="docutils literal notranslate"><span class="pre">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</span></code>. Later tutorials will cover how to build and publish your own Generic IOC container images.</p>
-<p>Edit the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file in the <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> folder to reflect the new IOC name and to refer to the Generic IOC container image for the SimDetector:</p>
-<ul class="simple">
-<li><p>find and replace <strong>ioc_default_name</strong> with <strong>bl01t-ea-cam-01</strong></p></li>
-<li><p>replace <strong>replace_with_image_uri</strong> with <strong>ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</strong></p></li>
-</ul>
-<p>That’s it for the <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file. This file is essentially boilerplate and would look very similar for every IOC Instance you create. The two unique things that this file does are:</p>
-<ul class="simple">
-<li><p>determine the name of the IOC</p></li>
-<li><p>determine the container image to use</p></li>
-</ul>
-<p>Your compose.yml should now look like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
-
-<span class="w">  </span><span class="nt">bl01t-ea-cam-01</span><span class="p">:</span>
-
-<span class="w">    </span><span class="nt">extends</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linux_ioc</span>
-<span class="w">      </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../include/ioc.yml</span>
-
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2024.9.1</span>
-
-<span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span>
-
-<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">IOCSH_PS1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01 &gt;</span>
-<span class="w">      </span><span class="nt">IOC_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01</span>
-
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../../opi/auto-generated/bl01t-ea-cam-01:/epics/opi</span>
-
-<span class="w">    </span><span class="nt">configs</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bl01t-ea-cam-01_config</span>
-<span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics/ioc/config</span>
-
-<span class="nt">configs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bl01t-ea-cam-01_config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./config</span>
-
-<span class="nt">include</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span>
-<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">../../include/networks.yml</span>
-</pre></div>
-</div>
-<p>You can read about the format of a compose file here: <a class="reference external" href="https://docs.docker.com/compose/compose-file">https://docs.docker.com/compose/compose-file</a>. Below is a brief description of the fields in our compose file:</p>
+<section id="add-a-new-ioc-instance">
+<span id="create-new-ioc-instance"></span><h2>Add a New IOC Instance<a class="headerlink" href="#add-a-new-ioc-instance" title="Link to this heading">#</a></h2>
+<p>An IOC instance is just a folder under <code class="docutils literal notranslate"><span class="pre">services/</span></code>. Its folder name is the IOC
+name, and it contains two things:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>field</p></th>
-<th class="head"><p>description</p></th>
+<tr class="row-odd"><th class="head"><p>Item</p></th>
+<th class="head"><p>Purpose</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>bl01t-ea-cam-01</p></td>
-<td><p>declares that we are creating a service called
-<strong>bl01t-ea-cam-01</strong></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compose.yml</span></code></p></td>
+<td><p>Boilerplate that says <em>which container image</em> to run and <em>what to call it</em>.</p></td>
 </tr>
-<tr class="row-odd"><td><p>extends</p></td>
-<td><p>most of the definition of an ioc comes from the file
-<strong>include/ioc.yml</strong>, we are extending that, which
-means the dictionaries described by the two files are
-merged</p></td>
-</tr>
-<tr class="row-even"><td><p>image</p></td>
-<td><p>the container image to use</p></td>
-</tr>
-<tr class="row-odd"><td><p>labels</p></td>
-<td><p>arbitrary labels that can be used to filter services -
-we use one to indicate the version of the IOC Instance
-(as opposed to the version of the Generic IOC)</p></td>
-</tr>
-<tr class="row-even"><td><p>environment</p></td>
-<td><p>environment variables to set in the container</p></td>
-</tr>
-<tr class="row-odd"><td><p>IOCSH_PS1</p></td>
-<td><p>ioc shell prompt</p></td>
-</tr>
-<tr class="row-even"><td><p>IOC_NAME</p></td>
-<td><p>the name of the IOC</p></td>
-</tr>
-<tr class="row-odd"><td><p>volumes</p></td>
-<td><p>mount the IOC OPI files into the container at
-<strong>/epics/opi</strong></p></td>
-</tr>
-<tr class="row-even"><td><p>configs</p></td>
-<td><p>mount the IOC config folder into the container at
-<strong>/epics/ioc/config</strong></p></td>
-</tr>
-<tr class="row-odd"><td><p>include</p></td>
-<td><p>include a shared definition of the container networks
-we use</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">config/</span></code></p></td>
+<td><p>The IOC configuration, normally a single <code class="docutils literal notranslate"><span class="pre">ibek</span></code> file named <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="ioc-instance-config">
-<h3>IOC Instance Config<a class="headerlink" href="#ioc-instance-config" title="Link to this heading">#</a></h3>
-<p>The config folder can contain a variety of different files <a class="reference external" href="https://github.com/epics-containers/ioc-template/blob/main/ioc/start.sh">as listed here</a>. In this case we are going to define the Instance using an <code class="docutils literal notranslate"><span class="pre">ibek</span></code> IOC instance yaml file.</p>
-<p><em>IOC yaml</em> files are a sequence of <code class="docutils literal notranslate"><span class="pre">entities</span></code>. Each entity is an instance of an <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> declared in the <em>Support yaml</em> that one of the support modules provides. <code class="docutils literal notranslate"><span class="pre">entity_models</span></code> can:</p>
-<ul class="simple">
-<li><p>define a set of parameters, that are to be used as substitutions below</p></li>
-<li><p>add templated lines of code to the startup script with substitutions</p></li>
-<li><p>instantiate 1 or more EPICS Database templates with a set of macro substitutions</p></li>
-</ul>
-<p>Each <code class="docutils literal notranslate"><span class="pre">entity</span></code> listed in the <em>IOC yaml</em> file will create an instance of the support module <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that it refers to. It will pass a number of arguments to the <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> that will be used to generate the startup script entries and EPICS Database entries for that entity. The <code class="docutils literal notranslate"><span class="pre">entity_model</span></code> is responsible for declaring the parameters it expects and how they are used in the script and DB entries it generates. It supplies types and descriptions for each of these parameters, plus may supply default values.</p>
-<p>We will be creating a simulation detector from the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. The following <em>Support yaml</em> for the simulation detector is baked into the container. Once you have your container up and running you can use <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">exec</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">bash</span></code> to get a shell inside and see this file at <strong>/epics/ibek-defs/ADSimDetector.ibek.support.yaml</strong>.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ibek/releases/download/3.0.1/ibek.support.schema.json</span>
-
-<span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector</span>
-
-<span class="nt">entity_models</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simDetector</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-<span class="w">      </span><span class="no">Creates a simulation detector</span>
-<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">P</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Device Prefix</span>
-<span class="w">      </span><span class="nt">R</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Device Suffix</span>
-<span class="w">      </span><span class="nt">PORT</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Port name for the detector</span>
-<span class="w">      </span><span class="nt">TIMEOUT</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Timeout</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-<span class="w">      </span><span class="nt">ADDR</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0&quot;</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asyn Port address</span>
-<span class="w">      </span><span class="nt">WIDTH</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1280</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Image Width</span>
-<span class="w">      </span><span class="nt">HEIGHT</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Image Height</span>
-<span class="w">      </span><span class="nt">DATATYPE</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Datatype</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">      </span><span class="nt">BUFFERS</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Maximum number of NDArray buffers to be created for plugin callbacks</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
-<span class="w">      </span><span class="nt">MEMORY</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Max memory to allocate, should be maxw*maxh*nbuffer for driver and all attached plugins</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-
-<span class="w">    </span><span class="nt">pre_init</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no"># simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)</span>
-<span class="w">          </span><span class="no">simDetectorConfig(&quot;{{PORT}}&quot;, {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})</span>
-
-<span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$(ADSIMDETECTOR)/db/simDetector.template</span>
-<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">P</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">R</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">PORT</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">TIMEOUT</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">ADDR</span><span class="p">:</span>
-
-<span class="w">    </span><span class="nt">pvi</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">yaml_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simDetector.pvi.device.yaml</span>
-<span class="w">      </span><span class="nt">ui_macros</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">P</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">R</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">pv_prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$(P)$(R)</span>
+<p>Your services repo ships a <code class="docutils literal notranslate"><span class="pre">.ioc_template</span></code> skeleton to copy. In a terminal at
+the repo root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
+cp<span class="w"> </span>-r<span class="w"> </span>services/.ioc_template<span class="w"> </span>services/bl01t-ea-cam-01
+code<span class="w"> </span>.
 </pre></div>
 </div>
-<p>You can see that this lists a number of parameters that it requires and several others that have defaults. It then declares how these will be used to substitute values into the simDetector database template. Finally it declares some lines to go into the startup script (<code class="docutils literal notranslate"><span class="pre">pre_init</span></code> means this goes before <code class="docutils literal notranslate"><span class="pre">iocInit</span></code>).</p>
-<p>Note that the process for taking a <em>Support yaml</em> entity_model with values from <em>IOC yaml</em> entity and generating a startup script and EPICS Database uses Jinja templating. In its simplest form this just means that you can use <code class="docutils literal notranslate"><span class="pre">{{</span> <span class="pre">}}</span></code> to substitute values from the <em>IOC yaml</em> arguments into the <em>Support yaml</em> <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> and <code class="docutils literal notranslate"><span class="pre">databases</span></code> sections. When the database section provides no value for the parameters it lists this means that the argument is used verbatim, e.g. <strong>$(ADSIMDETECTOR)/db/simDetector.template</strong> is instantiated with <code class="docutils literal notranslate"><span class="pre">PORT=$(PORT)</span></code>, <code class="docutils literal notranslate"><span class="pre">P=$(P)</span></code> etc.</p>
-<p>To learn more about Jinja templating see here: <a class="reference external" href="https://jinja.palletsprojects.com/en/3.0.x/templates/">https://jinja.palletsprojects.com/en/3.0.x/templates/</a>.</p>
-<p>Therefore, we can update our <em>IOC yaml</em> file by adding an ADSimDetector entity to the entities list. In vscode, open <strong>services/bl01t-ea-cam-01/config/ioc.yaml</strong> and edit the boilerplate template so that it looks like the following:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json</span>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code> first, then <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">.</span></code>.</p>
+</div>
+<section id="compose-yml">
+<h3>compose.yml<a class="headerlink" href="#compose-yml" title="Link to this heading">#</a></h3>
+<p>The skeleton’s <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> has two placeholders. In
+<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/compose.yml</span></code>, replace <strong>every</strong> <code class="docutils literal notranslate"><span class="pre">ioc_default_name</span></code>
+with <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>, and replace <code class="docutils literal notranslate"><span class="pre">replace_with_image_uri</span></code> with the
+SimDetector Generic IOC image:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3</span>
+</pre></div>
+</div>
+<p>That name and that image are the only per-IOC content; everything else is
+boilerplate. <code class="docutils literal notranslate"><span class="pre">extends</span></code> merges in the shared IOC definition from
+<code class="docutils literal notranslate"><span class="pre">include/ioc.yml</span></code>, and <code class="docutils literal notranslate"><span class="pre">configs</span></code> mounts your <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder at
+<code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> inside the container. The
+<a class="reference external" href="https://docs.docker.com/compose/compose-file">compose file format</a> covers the
+rest.</p>
+</section>
+<section id="config-ioc-yaml">
+<h3>config/ioc.yaml<a class="headerlink" href="#config-ioc-yaml" title="Link to this heading">#</a></h3>
+<p>An <code class="docutils literal notranslate"><span class="pre">ibek</span></code> <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">entities</span></code>; each instantiates an
+<code class="docutils literal notranslate"><span class="pre">entity_model</span></code> from a support module, which turns its named parameters into
+startup-script lines and database records. The Generic IOC bakes in all the
+support it can instantiate, so nothing extra is downloaded here.</p>
+<p>Open <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/config/ioc.yaml</span></code>, point the schema line at the
+SimDetector Generic IOC, and add a <code class="docutils literal notranslate"><span class="pre">simDetector</span></code> plus a Standard Arrays plugin
+wired to it:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
 
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An IOC instance that simulates a detector</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An IOC that simulates an area detector</span>
 
 <span class="nt">entities</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.EpicsEnvSet</span>
@@ -715,18 +564,8 @@ we use</p></td>
 <span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
 <span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-CAM-01</span>
 <span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:DET:&quot;</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you are unfamiliar with YAML then you could take a look at the YAML spec here: <a class="reference external" href="https://yaml.org/spec/1.2.2/">https://yaml.org/spec/1.2.2/</a>. It is an extension of JSON (javascript object notation) that is designed to be human readable/writeable. It is also the format for all Kubernetes configuration files.</p>
-<p>Be aware that white space is significant. i.e. indentation represents nesting. Above we have a list of entities, each list item is denoted by <code class="docutils literal notranslate"><span class="pre">-</span></code>. There are currently 3 entities in the list, each of which is a dictionary
-of key value pairs. The last entry we just added has first key of <code class="docutils literal notranslate"><span class="pre">type</span></code> with value <code class="docutils literal notranslate"><span class="pre">ADSimDetector.simDetector</span></code>.</p>
-</div>
-<p>This will create us a simulation detector driver with PV prefix <code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:DET:</span></code> that publishes its output on the Asyn port <code class="docutils literal notranslate"><span class="pre">DET.DET</span></code>.</p>
-<p>Be aware that YAML tries to minimize the amount of punctuation used. So strings can usually be written without quotes. But ‘:’ and ‘{’ are significant characters and if your string starts with one of these you must quote it.</p>
-<p>Note that the Generic IOC includes all of the support modules that are dependencies of <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> and each of those contributes its own set of <code class="docutils literal notranslate"><span class="pre">entity_models</span></code> in its own <em>Support yaml</em> file. Let us also add an <code class="docutils literal notranslate"><span class="pre">AreaDetector</span></code> plugin and wire it to our simulation detector by adding this to our <em>IOC yaml</em> file:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDStdArrays</span>
+
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDStdArrays</span>
 <span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.ARR</span>
 <span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-CAM-01</span>
 <span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:ARR:&quot;</span>
@@ -736,170 +575,94 @@ of key value pairs. The last entry we just added has first key of <code class="d
 <span class="w">    </span><span class="nt">NELEMENTS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1048576</span>
 </pre></div>
 </div>
-<p>This adds a Standard Arrays plugin to the IOC that will publish the output of the simulation detector via channel access. The <em>Support yaml</em> that declared the plugin came from the ADCore module. This is a dependency of ADSimDetector and so is included in the Generic IOC container.</p>
-<p>You have now defined your first IOC instance.</p>
-</section>
-</section>
-<section id="trying-out-the-ioc-instance">
-<h2>Trying Out The IOC Instance<a class="headerlink" href="#trying-out-the-ioc-instance" title="Link to this heading">#</a></h2>
-<section id="update-the-services-list">
-<h3>Update the Services List<a class="headerlink" href="#update-the-services-list" title="Link to this heading">#</a></h3>
-<p>In the root of our services repository is the root compose.yml file that includes all of the services. We will edit that to add our new IOC. The result should look like this:</p>
+<p>This creates a simulation detector with PV prefix <code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01:DET:</span></code> on the
+Asyn port <code class="docutils literal notranslate"><span class="pre">DET.DET</span></code>, and a Standard Arrays plugin that publishes its image over
+Channel Access.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>YAML indentation is significant: each <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> starts a new entity. Quote any
+value that begins with <code class="docutils literal notranslate"><span class="pre">:</span></code> or <code class="docutils literal notranslate"><span class="pre">{</span></code> (as with <code class="docutils literal notranslate"><span class="pre">R:</span> <span class="pre">&quot;:DET:&quot;</span></code>).</p>
+</div>
+<p>Finally register the instance by adding it to the <code class="docutils literal notranslate"><span class="pre">include:</span></code> list in the
+repo-root <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">include</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># all profiles</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/example-test-01/compose.yml</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/bl01t-ea-cam-01/compose.yml</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/gateway/compose.yml</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/pvagw/compose.yml</span>
-
-<span class="w">    </span><span class="c1"># dev and test profiles</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/phoebus/compose.yml</span>
-
-<span class="w">    </span><span class="c1"># deploy profile only</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/epics-opis/compose.yml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/example-test-01/compose.yml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">services/bl01t-ea-cam-01/compose.yml</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </pre></div>
 </div>
 </section>
-<section id="change-the-opi-screen">
-<span id="id2"></span><h3>Change the OPI screen<a class="headerlink" href="#change-the-opi-screen" title="Link to this heading">#</a></h3>
-<p>To make this tutorial more interactive, the template includes a hand coded bob screen for the ADSimDetector you just made. It has the few widgets necessary to start the detector, enable the stdarrays plugin and view the stdarrays plugin output.</p>
-<p>You can make phoebus automatically load this screen upon startup by changing the <code class="docutils literal notranslate"><span class="pre">command</span></code> entrypoint in the <code class="docutils literal notranslate"><span class="pre">phoebus</span></code> service’s <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code> file. The bob file you need is called opi/demo-simdet.bob.</p>
-<p>i.e.</p>
+</section>
+<section id="run-it-and-view-the-screens">
+<span id="change-the-opi-screen"></span><h2>Run It and View the Screens<a class="headerlink" href="#run-it-and-view-the-screens" title="Link to this heading">#</a></h2>
+<p>By default Phoebus opens <code class="docutils literal notranslate"><span class="pre">opi/demo.bob</span></code>, the hand-coded overview of the
+<em>shipped</em> <code class="docutils literal notranslate"><span class="pre">example-test-01</span></code> IOC. The template also ships <code class="docutils literal notranslate"><span class="pre">opi/demo-simdet.bob</span></code>,
+a ready-made screen wired to your new <code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01</span></code> detector — so have
+Phoebus open that one instead. Edit the <code class="docutils literal notranslate"><span class="pre">command:</span></code> line of the <code class="docutils literal notranslate"><span class="pre">phoebus</span></code> service
+in <code class="docutils literal notranslate"><span class="pre">services/phoebus/compose.yml</span></code>, changing <code class="docutils literal notranslate"><span class="pre">-resource</span> <span class="pre">/opi/demo.bob</span></code> to
+<code class="docutils literal notranslate"><span class="pre">-resource</span> <span class="pre">/opi/demo-simdet.bob</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">phoebus-product/phoebus.sh -settings /config/settings.ini -resource /opi/demo-simdet.bob -server 7010</span>
 </pre></div>
 </div>
-</section>
-<section id="launch-the-ioc-instance">
-<h3>Launch the IOC Instance<a class="headerlink" href="#launch-the-ioc-instance" title="Link to this heading">#</a></h3>
-<p>We can launch all the services in the beamline as we did in the earlier tutorial as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
-<span class="nb">source</span><span class="w"> </span>./environment.sh
+<p>Now bring the beamline up:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./environment.sh
 docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
 </pre></div>
 </div>
-<p>The new screen will allow you to hit ‘Acquire’ on the CAMERA pane, and ‘Enable’ on the Standard Array pane. You should see the moving image from the simulation detector in the right hand image pane.</p>
-<p>The screen has a link to the autogenerated OPI screens for the IOC Instance. If you click the <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> button you will see a list of the ‘entities’ that were instantiated in the IOC Instance. You can click on each of these to see the engineering screen of the entity which includes all of the PVs that it made.</p>
-</section>
-</section>
-<section id="ibek-explanation">
-<h2>Ibek Explanation<a class="headerlink" href="#ibek-explanation" title="Link to this heading">#</a></h2>
-<section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h3>
-<p>Above we looked at some ibek <em>Support yaml</em> and created an <em>IOC yaml</em> file.
-The details of where <em>Support yaml</em> files come from and how to create your
-own are covered in a later tutorial <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
-<p>However, without looking into the set of <em>Support yaml</em> files that are
-inside a given Generic IOC we can still make a meaningful <em>IOC yaml</em> file.
-That is because every Generic IOC publishes an <em>IOC schema</em> that describes
-the set of entities that an instance of that IOC may instantiate.</p>
-<p>The Generic IOC we used was released at this location:
-<a class="github reference external" href="https://github.com/epics-containers/ioc-adsimdetector/releases/tag/2024.2.2">epics-containers/ioc-adsimdetector</a>.
-This page includes the assets that are published as part of the release and
-one of those is <code class="docutils literal notranslate"><span class="pre">ibek.ioc.schema.json</span></code>. This is the <em>IOC schema</em> for the
-<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC. This is what we referred to at the top of
-our <em>IOC yaml</em> file like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2024.12.2/ibek.ioc.schema.json</span>
-</pre></div>
-</div>
-<p>When editing with a YAML aware editor like VSCode this will enable auto
-completion and validation of the <em>IOC yaml</em> file. To enable this in VSCode
-you will need to install the YAML extension from here:
-<a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml</a></p>
-<p>Now is a good time to try installing the extension and experimenting with
-editing the <em>IOC yaml</em> file.</p>
-<p>Using <code class="docutils literal notranslate"><span class="pre">ibek</span></code> yaml files to describe IOC instances has the following advantages:</p>
-<ul class="simple">
-<li><p>there is pre-runtime checking that the IOC Instance is valid</p></li>
-<li><p>instance authors are guided by schema</p></li>
-<li><p>details of what a support module needs to be instantiated are under the
-control of the support module author (at Generic IOC specification time).</p></li>
-<li><p>functions with long argument lists are made easier to use because the
-instance author supplies named arguments only.</p></li>
-</ul>
-<p>However, if you already have a framework for generating startup assets or you
-prefer hand coding them, this is also supported.</p>
-</section>
-<section id="experiment-with-changes">
-<h3>Experiment With Changes<a class="headerlink" href="#experiment-with-changes" title="Link to this heading">#</a></h3>
-<p>The engineering screens are generated by PVI at startup. We will look into PVI in more detail in a later tutorial. But for now you could experiment with adding more AreaDetector plugins to your IOC Instance and seeing how the additional engineering screens get added. If you try editing your <em>IOC yaml</em> file you will see that what you can add is controlled by the schema that the Generic IOC publishes. This makes it easier to create valid IOC Instances.</p>
-<p>First make sure that you have the ‘Redhat YAML’ extension installed in VSCode. This will give you auto completion and validation of your <em>IOC yaml</em> file based on the schema line at the top of the file.</p>
-<p>Now try adding the following to the entities list in your <em>IOC yaml</em> file:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.N</span>
-</pre></div>
-</div>
-<p>You should find that auto-completion will list all the types of plugin that you can add. Go ahead and complete it with ‘NDProcess’.</p>
-<p>Now you will see a red squiggle at the start of ‘type’. Hover over this and it will show you the parameters that you are required to supply to NDProcess.</p>
-<figure class="align-default" id="id3">
-<img alt="../_images/ioc-yaml-schema.png" src="../_images/ioc-yaml-schema.png" />
-<figcaption>
-<p><span class="caption-text">using schema to add an NDProcess plugin</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Fill out the rest of your NDProcess entity as follows:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDProcess</span>
-<span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.PROC</span>
-<span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-CAM-01</span>
-<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:PROC:&quot;</span>
-<span class="w">    </span><span class="nt">NDARRAY_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
-</pre></div>
-</div>
-<p>Now restart your simulation detector IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
-</pre></div>
-</div>
-<p>Once it is back up you can click on the bl01t-ea-cam-01 button in the ‘Autogenerated Engineering Screens’ pane and you will see a new ‘NDProcess’ entity. If you know about wiring up AreaDetector you can now wire this plugin into your pipeline and make modifications to the image data as it passes through.</p>
+<p>Phoebus opens the detector screen directly. On the <strong>CAMERA</strong> pane hit
+<strong>Acquire</strong>, and on the <strong>Standard Array</strong> pane <strong>Enable</strong> the plugin — a moving
+simulation image appears in the <strong>Image</strong> pane.</p>
+<p>The screen’s <strong><code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code></strong> button opens the engineering screens that PVI
+auto-generates for every entity at startup (into
+<code class="docutils literal notranslate"><span class="pre">opi/auto-generated/bl01t-ea-cam-01/</span></code>), giving you full control over each PV.
+Manage the running IOC with the same <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> commands from
+<a class="reference internal" href="deploy_example.html"><span class="doc">Deploy and Manage IOC Instances Locally</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Now is a good point to commit out changes, as this is the expected state of the repo for future tutorials.</p>
+<p>This IOC is reused by later tutorials, so commit it now:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Create bl01t-ea-cam-01 IOC&quot;</span>
 </pre></div>
 </div>
 </div>
+<p><strong>Next:</strong> add the standard AreaDetector plugins to this IOC in
+<a class="reference internal" href="detector_plugins.html"><span class="doc">Add the Standard Detector Plugins</span></a>.</p>
 </section>
+<section id="how-ibek-builds-the-ioc">
+<h2>How ibek Builds the IOC<a class="headerlink" href="#how-ibek-builds-the-ioc" title="Link to this heading">#</a></h2>
+<p>You wrote no startup script or database. At container start,
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">generate2</span></code> reads <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus the support definitions
+baked into the image and writes the <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and database into <code class="docutils literal notranslate"><span class="pre">/epics/runtime/</span></code>.
+The schema line at the top of <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> also drives completion and validation
+in VSCode. The
+<a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml">Red Hat YAML extension</a>
+will read the schema line and help you edit your <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>,
+install it now if you have not already done so.
+To learn where entity models come from and build your own, see
+<a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
 </section>
 <section id="raw-startup-script-and-database">
 <span id="raw-startup-assets"></span><h2>Raw Startup Script and Database<a class="headerlink" href="#raw-startup-script-and-database" title="Link to this heading">#</a></h2>
-<p>This section demonstrates how to use your own startup assets. This involves
-placing your own <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> files in the <strong>config</strong>
-folder. Or alternatively you could override behaviour completely by placing
-<code class="docutils literal notranslate"><span class="pre">start.sh</span></code> in the <strong>config</strong> folder, this can contain any script you like.</p>
-<p>To see what ibek generated you can go and look inside the IOC container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-cam-01<span class="w"> </span>bash
-<span class="nb">cd</span><span class="w"> </span>/epics/runtime/
-cat<span class="w"> </span>ioc.subst
-cat<span class="w"> </span>st.cmd
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The startup script and database are generated at container run time,
-by <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. They are generated in the /epics/runtime folder
-of the container.
-In Kubernetes this will be a persistent volume so that it can be
-shared for easy debugging of IOC Instances.</p>
-</div>
-<p>If you would like to see an IOC Instance that uses a raw startup script and
-database then you can copy these two files out of the container and into
-your IOC Instance config folder like this:</p>
+<p>Prefer to hand-write startup assets? Drop your own <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code>
+(or an <code class="docutils literal notranslate"><span class="pre">ioc.db</span></code>) into <code class="docutils literal notranslate"><span class="pre">config/</span></code> instead of <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> — <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> copies those
+files straight through, and a <code class="docutils literal notranslate"><span class="pre">config/start.sh</span></code> overrides startup entirely.</p>
+<p>To start from what <code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated, copy it out of the running container,
+delete <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>, and restart:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>cp<span class="w"> </span>t01-services-bl01t-ea-cam-01-1:/epics/runtime/st.cmd<span class="w"> </span>services/bl01t-ea-cam-01/config
-podman<span class="w"> </span>cp<span class="w"> </span>t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.subst
-<span class="c1"># no longer need an ibek ioc yaml file</span>
+podman<span class="w"> </span>cp<span class="w"> </span>t01-services-bl01t-ea-cam-01-1:/epics/runtime/ioc.subst<span class="w"> </span>services/bl01t-ea-cam-01/config
 rm<span class="w"> </span>services/bl01t-ea-cam-01/config/ioc.yaml
+docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
 </pre></div>
 </div>
-<p>You will need to make a minor change to the <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code> file. Edit this and remove references to the three template files with <code class="docutils literal notranslate"><span class="pre">.pvi</span></code> in their name. These are PVI generated templates for use with OphydAsync and are not available in manually built IOC Instances.</p>
-<p>Your IOC Instance will now be using the raw startup script and database. But should behave exactly the same as before. You are free to experiment with changes in the startup script and substitution file and re-deploy the IOC.</p>
-<p>Restart the IOC to see it operating as before (except that engineering screen generation will no longer happen):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>restart<span class="w"> </span>bl01t-ea-cam-01
-</pre></div>
-</div>
+<p>The IOC then behaves as before, minus the auto-generated engineering screens:
+drop the <code class="docutils literal notranslate"><span class="pre">.pvi</span></code>-named template lines from <code class="docutils literal notranslate"><span class="pre">ioc.subst</span></code>, since those screens are
+only produced by the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> path.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This same IOC instance will be used in later tutorials. Therefore we should move these changes to a branch and restore the original <strong>ioc.yaml</strong> based version:</p>
+<p>Later tutorials assume the <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> version, so keep this experiment on a
+branch:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>raw-startup
-git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;use raw startup script and database&quot;</span>
+git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;use raw startup script and database&quot;</span>
 git<span class="w"> </span>checkout<span class="w"> </span>main
 </pre></div>
 </div>
@@ -923,15 +686,15 @@ git<span class="w"> </span>checkout<span class="w"> </span>main
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Deploying and Managing IOC Instances</p>
+        <p class="prev-next-title">Deploy and Manage IOC Instances Locally</p>
       </div>
     </a>
     <a class="right-next"
-       href="dev_container.html"
+       href="detector_plugins.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Developer Containers</p>
+        <p class="prev-next-title">Add the Standard Detector Plugins</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -954,25 +717,13 @@ git<span class="w"> </span>checkout<span class="w"> </span>main
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-new-ioc-instance-to-t01-services">Add a New IOC Instance to t01-services</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ioc-template">Using .ioc-template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compose-yml">Compose.yml</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ioc-instance-config">IOC Instance Config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-new-ioc-instance">Add a New IOC Instance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compose-yml">compose.yml</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config-ioc-yaml">config/ioc.yaml</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trying-out-the-ioc-instance">Trying Out The IOC Instance</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-the-services-list">Update the Services List</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-opi-screen">Change the OPI screen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-the-ioc-instance">Launch the IOC Instance</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ibek-explanation">Ibek Explanation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-with-changes">Experiment With Changes</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-it-and-view-the-screens">Run It and View the Screens</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ibek-builds-the-ioc">How ibek Builds the IOC</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-startup-script-and-database">Raw Startup Script and Database</a></li>
 </ul>
   </nav></div>

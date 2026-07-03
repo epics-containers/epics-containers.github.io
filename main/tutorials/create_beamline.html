@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Repository &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Create a Beamline Services Repository &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Deploying and Managing IOC Instances" href="deploy_example.html" />
-    <link rel="prev" title="Launch A Simulation Beamline" href="launch_example.html" />
+    <link rel="next" title="Deploy and Manage IOC Instances Locally" href="deploy_example.html" />
+    <link rel="prev" title="Launch a Simulation Beamline" href="launch_example.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,7 +461,7 @@
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Create a Beamline Repository</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Create a Beamline Services Repository</span></li>
   </ul>
 </nav>
 </div>
@@ -476,110 +478,128 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="create-a-beamline-repository">
-<span id="create-beamline"></span><h1>Create a Beamline Repository<a class="headerlink" href="#create-a-beamline-repository" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will create a new <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>.</p>
-<p>All IOC Instances that we deploy will be grouped into repositories that define a set of IOC and service instances. Typically each beamline would have its own repository and the accelerator would be split by technical area.</p>
-<p>In the case of Beamlines, the repo is named after the beamline itself. At DLS
-we use the naming convention <code class="docutils literal notranslate"><span class="pre">cxx</span></code> where <code class="docutils literal notranslate"><span class="pre">xx</span></code> is the beamline number,
-and c is the class of beamline. Our naming convention for beamline services repositories is
-cxx-services.</p>
+  <section id="create-a-beamline-services-repository">
+<span id="create-beamline"></span><h1>Create a Beamline Services Repository<a class="headerlink" href="#create-a-beamline-services-repository" title="Link to this heading">#</a></h1>
+<p>A <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a> holds the configuration for every IOC and service on a
+beamline. Here you generate one of your own from a template, so the tutorials
+that follow have a repository you can deploy, push and customise.</p>
+<p>This is the local <strong><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code></strong> track — ideal for development, and for
+beamline servers without Kubernetes. To build a Helm/Kubernetes services repo
+instead, see <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>.</p>
+<p>Here you generate your own services repo, <strong><code class="docutils literal notranslate"><span class="pre">t01-services</span></code></strong>, from
+<a class="reference external" href="https://github.com/epics-containers/services-template-compose"><code class="docutils literal notranslate"><span class="pre">services-template-compose</span></code></a>
+— the same template behind the <code class="docutils literal notranslate"><span class="pre">example-services</span></code> repo you ran in
+<a class="reference internal" href="launch_example.html"><span class="doc">Launch a Simulation Beamline</span></a>. Substitute your own short name and repository throughout.</p>
+<p>By the end you will have:</p>
+<ul class="simple">
+<li><p>a new repository, <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>, generated from the template;</p></li>
+<li><p>a ready-made example IOC instance (<code class="docutils literal notranslate"><span class="pre">example-test-01</span></code>) plus the <code class="docutils literal notranslate"><span class="pre">gateway</span></code>,
+<code class="docutils literal notranslate"><span class="pre">pvagw</span></code>, <code class="docutils literal notranslate"><span class="pre">phoebus</span></code> and <code class="docutils literal notranslate"><span class="pre">epics-opis</span></code> services that the local <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>
+workflow uses;</p></li>
+<li><p>the repo pushed to GitHub, where continuous integration (CI) validates every
+IOC configuration.</p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You may choose your own naming convention, but lower case letters,
-numbers and hyphens are the only characters allowed for both domain names and
-IOC names. This is a restriction that helm introduces for package names.</p>
+<p>Names may use only lower-case letters, numbers and hyphens, and must start with
+a letter (a restriction Helm imposes on package names). This applies to the
+services short name and to every service/IOC name.</p>
 </div>
-<p>Here we are going to create the test beamline repository <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. When the project is pushed to GitHub, continuous integration (CI) will verify each of the IOC instances.</p>
-<p>This beamline repository will be made from a template that comes with a single example IOC and further steps in the following tutorials will teach you how to add your own.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you are working in a shared environment you need not create a unique beamline name or PV prefix because the example runs with all PVs published on localhost only. Your example beamline will be isolated from other users on the same network.</p>
-</div>
-<section id="to-start">
-<h2>To Start<a class="headerlink" href="#to-start" title="Link to this heading">#</a></h2>
-<p>For this exercise you will require a github user account or organization in which to place the new repo. If you do not have one then follow GitHub’s <a class="reference external" href="https://docs.github.com/en/get-started/signing-up-for-github/signing-up-for-a-new-github-account">instructions</a>.</p>
-<p>Log in to your account by going here <a class="github reference external" href="https://github.com/login">login</a>.</p>
-<p>You will also need to set up ssh keys to authenticate to Github from git. See <a class="reference external" href="https://docs.github.com/en/enterprise-server&#64;3.0/github/authenticating-to-github/connecting-to-github-with-ssh/about-ssh">about ssh</a>.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A <a class="reference external" href="https://github.com/signup">GitHub account</a> (or organisation) to host the
+repository.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span></code>, and <code class="docutils literal notranslate"><span class="pre">copier</span></code> (see <a class="reference internal" href="setup_workstation.html#copier"><span class="std std-ref">copier and ec</span></a>), installed on your workstation.</p></li>
+</ul>
+<p>For these tutorials you store everything in your personal GitHub account; in
+production each facility sets its own policy for where these assets live.</p>
 </section>
-<section id="create-a-new-beamline-repo-for-local-deployments">
-<span id="create-new-beamline-local"></span><h2>Create a New Beamline Repo for local deployments<a class="headerlink" href="#create-a-new-beamline-repo-for-local-deployments" title="Link to this heading">#</a></h2>
-<p>Here we will use a services template repository to make a new beamline.</p>
-<p>NOTE: for these tutorials we will use your personal GitHub Account to store everything we do, all source repositories and container images. For production, each facility will need its own policy for where to store these assets. See <a class="reference internal" href="../explanations/repositories.html"><span class="doc">Source and Registry Locations</span></a>.</p>
-</section>
-<section id="steps">
-<h2>Steps<a class="headerlink" href="#steps" title="Link to this heading">#</a></h2>
+<section id="create-the-repository">
+<span id="create-new-beamline-local"></span><h2>Create the repository<a class="headerlink" href="#create-the-repository" title="Link to this heading">#</a></h2>
 <ol class="arabic">
-<li><p>Make sure <code class="docutils literal notranslate"><span class="pre">copier</span></code> is installed. See instructions here: <a class="reference internal" href="setup_workstation.html#copier"><span class="std std-ref">copier</span></a>.</p></li>
-<li><p>Use copier to copy the services template repository to a new repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>. Note that there are two services templates, one for local deployments (using docker compose) and one for deployments to Kubernetes. We will use the local deployment template here.</p>
+<li><p>Generate the repo from the template with <code class="docutils literal notranslate"><span class="pre">copier</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/services-template-compose<span class="w"> </span>t01-services
 </pre></div>
 </div>
-<p>Note the benefits of using copier to create a new repository:</p>
-<ul class="simple">
-<li><p>you can template the repository and use questions to fill in the template, making a unique result.</p></li>
-<li><p>if the template changes in future you can merge the changes into you repository without losing your changes, simply by running <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">.</span></code></p></li>
-</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">copier</span></code> is not installed you can run it on demand with <code class="docutils literal notranslate"><span class="pre">uvx</span></code>:
+<code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">copier</span> <span class="pre">copy</span> <span class="pre">https://github.com/epics-containers/services-template-compose</span> <span class="pre">t01-services</span></code>.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">copier</span></code> asks two questions (defined in the template’s <code class="docutils literal notranslate"><span class="pre">copier.yml</span></code>). Answer
+them as follows for the worked example:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Prompt</p></th>
+<th class="head"><p>Worked-example answer</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Short name for the collection of services</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">t01</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>A One line description of the module</p></td>
+<td><p><em>(accept the default)</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The short name labels the repository as a whole; the bundled
+<code class="docutils literal notranslate"><span class="pre">example-test-01</span></code> IOC keeps its name until you add IOCs of your own in the
+tutorials that follow.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">copier</span></code> (rather than copying files by hand) lets you pull future
+template improvements into your repo later with <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code>, without
+losing your own changes.</p>
+</div>
 </li>
-<li><p>Answer the copier template questions with their default values as follows:</p>
-<pre><font color="#75507B">hgv27681</font>@<font color="#C4A000">pc0116</font>: <font color="#729FCF"><b>/scratch/hgv27681/work</b></font>
-$ copier copy https://github.com/epics-containers/services-template-compose t01-services                                                                                     <font color="#4E9A06">[10:47:49]</font>
-This template will create a new repository for deploying IOCs and services to
-the local machine using docker compose.
-<p><font color="#5F87AF">🎤</font><b> Short name for the collection of services, e.g. “t01”, “p47”, “i20-1”, “i21”</b>
-<b>   </b><font color="#FFAF00"><b>t01</b></font>
-<font color="#5F87AF">🎤</font><b> A One line description of the module</b>
-<b>   </b><font color="#FFAF00"><b>t01 IOC Instances and Services</b></font></p>
-<p>Copying from template version 3.5.0
-<font color="#06989A"> … </font>
-</pre></p>
-</li>
-<li><p>Create your new repository on GitHub in your personal space by following this link <a class="github reference external" href="https://github.com/new">new</a>. Give it the name t01-services and a description of “t01 IOC Instances and Services”. Then click “Create repository”.</p>
-<p>Now copy the ssh address of your new repository from the GitHub page.</p>
-<figure class="align-default" id="id1">
-<img alt="../_images/copy_gh_repo_addr.png" src="../_images/copy_gh_repo_addr.png" />
-<figcaption>
-<p><span class="caption-text">copying the repository address from GitHub</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-</li>
-<li><p>Make the first commit and push the repository to GitHub.</p>
+<li><p>Create a new <strong>empty</strong> repository named <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> on GitHub
+(<a class="github reference external" href="https://github.com/new">new</a>), then push your generated files to it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
 git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial commit&quot;</span>
-git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>&gt;&gt;&gt;&gt;paste<span class="w"> </span>your<span class="w"> </span>ssh<span class="w"> </span>address<span class="w"> </span>here<span class="o">&lt;&lt;&lt;</span>&lt;
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/&lt;your-org&gt;/t01-services
 git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
+<p>This first push triggers the repo’s CI (you will check it below).</p>
 </li>
-<li><p>Open the project in vscode.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># DLS users make sure you have done: module load vscode</span>
-code<span class="w"> </span>.
+<li><p>Tag a release so you have a versioned snapshot (CI runs on the tag too):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
 </pre></div>
+</div>
+<p>A date-based tag (<code class="docutils literal notranslate"><span class="pre">YYYY.M.N</span></code>) is a common choice for services repos;
+epics-containers does not enforce any versioning scheme.</p>
+</li>
+<li><p>Confirm CI passed. Open your repository’s <strong>Actions</strong> tab
+(<code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-org&gt;/t01-services/actions</span></code>). You should see a CI
+run for the <code class="docutils literal notranslate"><span class="pre">main</span></code> push and another for the tag. Each runs a <strong>Run IOC
+checks</strong> step (<code class="docutils literal notranslate"><span class="pre">.github/workflows/ci_verify.sh</span></code>) that validates every IOC’s
+<code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> with <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. Confirm the latest run is green before
+continuing.</p></li>
+<li><p>Open the project in VSCode to work on it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> first run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>.</p>
 </div>
 </li>
 </ol>
 </section>
-<section id="wrapping-up">
-<h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
-<p>You should now have a working beamline repository. It contains a single IOC Instance which is a very basic example. In the following two tutorials we will investigate the example and then create a real IOC Instance.</p>
-<p>You can now give your repository a version tag like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a terminal in vscode: Menu -&gt; Terminal -&gt; New Terminal</span>
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.9.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.9.1
-</pre></div>
-</div>
-<p>We use <code class="docutils literal notranslate"><span class="pre">CalVer</span></code> version numbers for beamline repositories and Generic IOCs.
-This is a versioning scheme that uses the date of release as the version number.
-The last digit is the number of the release in that month.</p>
-<p>CalVer is described here: <a class="reference external" href="https://calver.org/">https://calver.org/</a> and is used where semantic
-versioning is not appropriate because the repository contains a mix of
-dependencies and does not have a clear API.</p>
-<p>Note that 2024.9 represents the date that this tutorial was last updated.
-For completeness you could use the current year and month instead. You
-are also free to choose your own versioning scheme as this is not enforced by
-any of the epics-containers tools.</p>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the services</span></a> — deploy and manage this example IOC instance
+locally with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>.</p></li>
+<li><p>The tutorials that follow turn this example into a real IOC instance of your
+own.</p></li>
+</ul>
 </section>
 </section>
 
@@ -599,7 +619,7 @@ any of the epics-containers tools.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Launch A Simulation Beamline</p>
+        <p class="prev-next-title">Launch a Simulation Beamline</p>
       </div>
     </a>
     <a class="right-next"
@@ -607,7 +627,7 @@ any of the epics-containers tools.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Deploying and Managing IOC Instances</p>
+        <p class="prev-next-title">Deploy and Manage IOC Instances Locally</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -630,10 +650,9 @@ any of the epics-containers tools.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#to-start">To Start</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-beamline-repo-for-local-deployments">Create a New Beamline Repo for local deployments</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-repository">Create the repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
 </ul>
   </nav></div>
 

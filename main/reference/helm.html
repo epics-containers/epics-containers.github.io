@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The ec Backend Model &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Deploying with Helm (the ec backends) &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Kubernetes Resources in an IOC Instance" href="k8s_resources.html" />
+    <link rel="next" title="Troubleshooting" href="troubleshooting.html" />
     <link rel="prev" title="Glossary" href="glossary.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -397,15 +397,11 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Using Docker Instead of Podman</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deploying with Helm (the <code class="docutils literal notranslate"><span class="pre">ec</span></code> backends)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
 </ul>
@@ -451,7 +447,7 @@
     
     <li class="breadcrumb-item"><a href="../reference.html" class="nav-link">Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Deploying with Helm (the <code class="docutils literal notranslate"><span class="pre">ec</span></code> backends)</span></li>
   </ul>
 </nav>
 </div>
@@ -468,8 +464,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="the-ec-backend-model">
-<span id="helm"></span><h1>The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model<a class="headerlink" href="#the-ec-backend-model" title="Link to this heading">#</a></h1>
+  <section id="deploying-with-helm-the-ec-backends">
+<span id="helm"></span><h1>Deploying with Helm (the <code class="docutils literal notranslate"><span class="pre">ec</span></code> backends)<a class="headerlink" href="#deploying-with-helm-the-ec-backends" title="Link to this heading">#</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">ec</span></code> (the <a class="reference external" href="https://epics-containers.github.io/edge-containers-cli/">edge-containers-cli</a>)
 is a thin wrapper around the tools that actually deploy and manage your
 services — <code class="docutils literal notranslate"><span class="pre">git</span></code>, <code class="docutils literal notranslate"><span class="pre">kubectl</span></code>, <code class="docutils literal notranslate"><span class="pre">helm</span></code> and <code class="docutils literal notranslate"><span class="pre">argocd</span></code>. The tool it drives is
@@ -513,17 +509,24 @@ ec<span class="w"> </span>--help<span class="w">        </span><span class="c1">
 <a class="reference external" href="https://epics-containers.github.io/edge-containers-cli/">edge-containers-cli documentation</a>.</p>
 <section id="argocd-default">
 <h2>ARGOCD (default)<a class="headerlink" href="#argocd-default" title="Link to this heading">#</a></h2>
-<p>This is the production continuous-deployment path used at DLS. The services
+<p>This is the recommended path for production continuous deployment. The services
 repository describes IOC instances as Helm charts, but <code class="docutils literal notranslate"><span class="pre">ec</span></code> does not deploy
 them directly. Instead a companion <strong>deployment repository</strong> records which
 version of each service should be running, and
 <a class="reference external" href="https://argo-cd.readthedocs.io/">ArgoCD</a> — a Kubernetes-native tool that keeps
 a set of Helm charts in a git repository in sync with the cluster —
-continuously reconciles the cluster to match it.</p>
+continuously reconciles the cluster to match it. For the full picture of how
+this works, see <a class="reference internal" href="../explanations/argocd.html#argocd"><span class="std std-ref">How ArgoCD Deploys Your IOCs</span></a>.</p>
 <p>With this backend <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">&lt;version&gt;</span></code> works by committing the
 chosen version into the deployment repository; ArgoCD then rolls it out. Here
 <code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is <code class="docutils literal notranslate"><span class="pre">app-namespace/root-app</span></code> (the namespace hosting ArgoCD plus the
 name of the root app-of-apps Application).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> this is the deployment model in production across the facility. See
+the <a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">DLS dev-guide</a> for the
+site-specific accelerator and conventions.</p>
+</div>
 </section>
 <section id="k8s">
 <h2>K8S<a class="headerlink" href="#k8s" title="Link to this heading">#</a></h2>
@@ -566,11 +569,11 @@ tutorials and for experimenting offline.</p>
       </div>
     </a>
     <a class="right-next"
-       href="k8s_resources.html"
+       href="troubleshooting.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Kubernetes Resources in an IOC Instance</p>
+        <p class="prev-next-title">Troubleshooting</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

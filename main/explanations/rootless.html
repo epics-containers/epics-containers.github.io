@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Rootless vs Rootful &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Rootless vs Rootful &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Reference" href="../reference.html" />
-    <link rel="prev" title="Source and Registry Locations" href="repositories.html" />
+    <link rel="prev" title="Dev Container vs Runtime Container" href="ioc-source.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -408,13 +408,9 @@
 <li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Rootless vs Rootful</a></li>
 </ul>
 </div>
@@ -484,11 +480,20 @@ default but also supports a rootless mode - see <a class="reference internal" hr
 <p>Advantages of rootless operation include:</p>
 <ul class="simple">
 <li><p>Security: rootless containers only have the same permissions as the user running them.</p></li>
-<li><p>Ease of use: in an environment where users do not have root privileges, rootless containers can be run without needing to escalate privileges. This is why DLS uses rootless containers.</p></li>
+<li><p>Ease of use: in an environment where users do not have root privileges (for
+example a shared facility or managed workstation), rootless containers can be
+run without needing to escalate privileges.</p></li>
 <li><p>Host mounts: host mounts have the same permissions as the user running the container.</p></li>
 <li><p>Developer containers: rootless containers can be ‘root’ inside the container, but not on the host.</p></li>
 <li><p>Simplicity: no need to switch users in Dockerfiles - just stay as root and use psuedo-root during runtime. This maps nicely to using the same container in Kubernetes where control of the user id is up to the cluster.</p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> managed workstations run rootless containers for exactly these
+reasons. See the
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/reference/setup.html">DLS dev-guide setup</a>
+for site-specific configuration.</p>
+</div>
 <p>Advantages of rootful operation include:</p>
 <ul class="simple">
 <li><p>networking: you can create rootable bridge networks that can be accessed from the host</p></li>
@@ -528,12 +533,12 @@ configuration steps are then required. Both options are described in
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="repositories.html"
+       href="ioc-source.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Source and Registry Locations</p>
+        <p class="prev-next-title">Dev Container vs Runtime Container</p>
       </div>
     </a>
     <a class="right-next"

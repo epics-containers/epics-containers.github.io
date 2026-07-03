@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Launch A Simulation Beamline &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Launch a Simulation Beamline &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Create a Beamline Repository" href="create_beamline.html" />
+    <link rel="next" title="Create a Beamline Services Repository" href="create_beamline.html" />
     <link rel="prev" title="Set up a Developer Workstation" href="setup_workstation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,7 +461,7 @@
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Launch A Simulation Beamline</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Launch a Simulation Beamline</span></li>
   </ul>
 </nav>
 </div>
@@ -477,82 +479,93 @@
                 <article class="bd-article">
                   
   <section id="launch-a-simulation-beamline">
-<h1>Launch A Simulation Beamline<a class="headerlink" href="#launch-a-simulation-beamline" title="Link to this heading">#</a></h1>
-<p>In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.</p>
+<h1>Launch a Simulation Beamline<a class="headerlink" href="#launch-a-simulation-beamline" title="Link to this heading">#</a></h1>
+<p>This tutorial launches a complete simulation beamline on your workstation with
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>. It proves the container engine you set up in
+<a class="reference internal" href="setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a> works, and gives you a running beamline to experiment
+with before you build your own.</p>
+<p>The example lives in the public
+<a class="reference external" href="https://github.com/epics-containers/example-services"><code class="docutils literal notranslate"><span class="pre">example-services</span></code></a>
+repository. One <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span></code> brings up a self-contained set of
+containers:</p>
+<ul class="simple">
+<li><p>a simulated area-detector IOC (<code class="docutils literal notranslate"><span class="pre">bl01t-di-cam-01</span></code>);</p></li>
+<li><p>a simulated motion IOC (<code class="docutils literal notranslate"><span class="pre">bl01t-mo-sim-01</span></code>);</p></li>
+<li><p>a simple example IOC with a sum record (<code class="docutils literal notranslate"><span class="pre">bl01t-ea-test-01</span></code>);</p></li>
+<li><p>a Channel Access gateway (<code class="docutils literal notranslate"><span class="pre">ca-gateway</span></code>) and a PVA gateway (<code class="docutils literal notranslate"><span class="pre">pvagw</span></code>) that
+expose the IOCs’ PVs to the host;</p></li>
+<li><p>a Phoebus instance to view the beamline.</p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>To run this demo you need docker-compose installed (not podman-compose) plus docker or podman.</p>
-<p>See <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart instructions</span></a> for how to set these up on any platform.</p>
+<p>You need <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> (the v2 plugin, <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">podman-compose</span></code>) plus a
+container engine — Docker or podman. See <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">Docker Compose Quickstart</span></a> to install these on
+any platform.</p>
 </div>
-<p>The example beamline will launch the following set of containers:</p>
-<ul class="simple">
-<li><p>a simulation Area Detector IOC</p></li>
-<li><p>a simulation Motion IOC</p></li>
-<li><p>a basic example IOC with a sum record</p></li>
-<li><p>a ca-gateway to expose PVs from the above to the host</p></li>
-<li><p>a pva-gateway to expose PVA image stream from ADPluginPVA</p></li>
-<li><p>a phoebus instance to view the beamline</p></li>
-</ul>
-<p>To launch simply run the following commands:</p>
+<section id="launch-it">
+<h2>Launch it<a class="headerlink" href="#launch-it" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/epics-containers/example-services
 <span class="nb">cd</span><span class="w"> </span>example-services
-<span class="c1"># setup some environment variables</span>
-<span class="nb">source</span><span class="w"> </span>./environment.sh
-<span class="c1"># launch the example beamline and detach the logs</span>
-docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+<span class="nb">source</span><span class="w"> </span>./environment.sh<span class="w">        </span><span class="c1"># set the EPICS ports and compose variables</span>
+docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w">           </span><span class="c1"># -d detaches; omit it to follow the combined logs</span>
 </pre></div>
 </div>
-<p>If all is well you should see phoebus launch with an overview of the beamline like the following:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">phoebus</span></code> container draws its window on your host X display. If Phoebus does
+not appear and its logs show X11 authorization errors — most likely on Wayland —
+grant the local user access to the display and bring the stack back up:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xhost<span class="w"> </span>+SI:localuser:<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>
+</pre></div>
+</div>
+</div>
+<p>Phoebus opens with an overview of the running beamline:</p>
 <figure class="align-default" id="id1">
 <img alt="../_images/example_beamline.png" src="../_images/example_beamline.png" />
 <figcaption>
-<p><span class="caption-text">The example beamline overview screen</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-text">The example beamline overview screen.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>You can now try out the following commands to interact with the beamline.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># use caget/put locally</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_ADDR_LIST</span><span class="o">=</span><span class="m">127</span>.0.0.1:5094
-caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
-
-<span class="c1"># OR if you don&#39;t have caget/put locally then use one of the containers instead:</span>
-<span class="c1"># execute caget from inside one of the example IOCs</span>
-docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
-<span class="c1"># or get a shell inside an example IOC and use caget</span>
-docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>bash
-caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
-
-<span class="c1"># attach to logs of a service (-f follows the logs, use ctrl-c to exit)</span>
-docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-f
-<span class="c1"># stop a service</span>
-docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>bl01t-di-cam-01
-<span class="c1"># restart a service</span>
-docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>bl01t-di-cam-01
-<span class="c1"># attach to a service stdio</span>
-docker<span class="w"> </span>compose<span class="w"> </span>attach<span class="w"> </span>bl01t-di-cam-01
-<span class="c1"># exec a process in a service</span>
-docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>bash
-<span class="c1"># delete a service (deletes the container)</span>
-docker<span class="w"> </span>compose<span class="w"> </span>down<span class="w"> </span>bl01t-di-cam-01
-<span class="c1"># create and launch a single service (plus its dependencies)</span>
-docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-d
-<span class="c1"># close down and delete all the containers</span>
-<span class="c1"># volumes are not deleted to preserve the data</span>
-docker<span class="w"> </span>compose<span class="w"> </span>down
+</section>
+<section id="talk-to-the-beamline">
+<h2>Talk to the beamline<a class="headerlink" href="#talk-to-the-beamline" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">./environment.sh</span></code> pointed your shell’s Channel Access at the gateway
+(<code class="docutils literal notranslate"><span class="pre">EPICS_CA_NAME_SERVERS=127.0.0.1:9064</span></code>), so if you have the EPICS tools
+installed locally you can read a PV straight away:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
+</pre></div>
+</div>
+<p>No local EPICS tools? Run <code class="docutils literal notranslate"><span class="pre">caget</span></code> inside one of the IOC containers instead:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bl01t-ea-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-DI-CAM-01:DET:Acquire_RBV
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note that the above commands use <code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST</span></code> to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter Via a ca-gateway.</p>
-<p>This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.</p>
+<p>The gateway binds the Channel Access ports to <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> only, so these PVs are
+reachable <strong>only</strong> from this host. That makes the example safe for tutorials —
+nothing leaks onto the wider network.</p>
 </div>
-<p>This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Before moving on to the next tutorial always make sure to stop and delete the containers from your current example as follows:</p>
+<p>Manage individual services with the usual compose subcommands (each takes a
+service name from the list above):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>logs<span class="w"> </span>bl01t-di-cam-01<span class="w"> </span>-f<span class="w">    </span><span class="c1"># follow a service&#39;s logs (ctrl-c to exit)</span>
+docker<span class="w"> </span>compose<span class="w"> </span>stop<span class="w"> </span>bl01t-di-cam-01<span class="w">       </span><span class="c1"># stop a service</span>
+docker<span class="w"> </span>compose<span class="w"> </span>start<span class="w"> </span>bl01t-di-cam-01<span class="w">      </span><span class="c1"># start it again</span>
+</pre></div>
+</div>
+</section>
+<section id="clean-up">
+<h2>Clean up<a class="headerlink" href="#clean-up" title="Link to this heading">#</a></h2>
+<p>Always tear the example down before moving on to the next tutorial. Volumes are
+kept, so IOC autosave data survives:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>down
 </pre></div>
 </div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">down</span></code> times out removing the PVA gateway, just run it again —
+the second pass clears the remaining container.</p>
 </div>
+</section>
 </section>
 
 
@@ -579,7 +592,7 @@ docker<span class="w"> </span>compose<span class="w"> </span>down
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Create a Beamline Repository</p>
+        <p class="prev-next-title">Create a Beamline Services Repository</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -593,6 +606,20 @@ docker<span class="w"> </span>compose<span class="w"> </span>down
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-it">Launch it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#talk-to-the-beamline">Talk to the beamline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-up">Clean up</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

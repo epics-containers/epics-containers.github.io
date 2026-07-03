@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Developer Containers &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Developer Containers Part 2" href="dev_container2.html" />
-    <link rel="prev" title="Create an IOC Instance" href="create_ioc.html" />
+    <link rel="prev" title="Add a Stream Device with ibek pattern" href="stream_device.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,304 +480,263 @@
                   
   <section id="developer-containers">
 <h1>Developer Containers<a class="headerlink" href="#developer-containers" title="Link to this heading">#</a></h1>
-<section id="types-of-changes">
-<span id="ioc-change-types"></span><h2>Types of Changes<a class="headerlink" href="#types-of-changes" title="Link to this heading">#</a></h2>
-<p>Containerized IOCs can be modified in 3 distinct places in order of decreasing frequency of change but increasing complexity:</p>
-<section id="changing-the-ioc-instance">
-<span id="changes-1"></span><h3>1. Changing the IOC instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h3>
-<p>This means making changes to the IOC instance folders which appear in the <code class="docutils literal notranslate"><span class="pre">services</span></code> folder of a <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>. e.g.:</p>
+<p>So far you have only changed <em>IOC instance</em> configuration, which needs no
+compiler. To change what is <em>built into</em> a Generic IOC you need build tools and
+system dependencies — and the Generic IOC’s own <strong>developer image</strong> already has
+them. This tutorial uses that image as a VSCode <em>developer container</em>: you build
+the IOC and run it against an instance from your services repo, testing changes
+locally with no build-and-publish round trip.</p>
+<p>The worked example uses the public <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC and the
+<code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance you created in earlier tutorials. Substitute your own
+names throughout.</p>
+<section id="types-of-change">
+<span id="ioc-change-types"></span><h2>Types of change<a class="headerlink" href="#types-of-change" title="Link to this heading">#</a></h2>
+<p>A containerized IOC can be modified in three places, in order of increasing
+effort:</p>
+<section id="change-the-ioc-instance">
+<span id="changes-1"></span><h3>1. Change the IOC instance<a class="headerlink" href="#change-the-ioc-instance" title="Link to this heading">#</a></h3>
+<p>Edit the instance configuration in your <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a> — the EPICS
+database, the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>, the Generic IOC version it points at, or the
+shared chart/compose settings. No compilation is involved, because you only
+change <em>configuration</em>, not the IOC binary. Re-launch the IOC to apply it
+(<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code> for compose, or redeploy for Kubernetes).</p>
+</section>
+<section id="change-the-generic-ioc">
+<span id="changes-2"></span><h3>2. Change the Generic IOC<a class="headerlink" href="#change-the-generic-ioc" title="Link to this heading">#</a></h3>
+<p>Alter the Generic IOC container image itself: change the EPICS base version, add
+or upgrade support modules compiled into the binary, or change the system
+packages installed. This requires:</p>
 <ul class="simple">
-<li><p>changing the EPICS DB (or the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> files that generate it)</p></li>
-<li><p>altering the IOC boot script (or the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> files that generate it)</p></li>
-<li><p>changing the version of the Generic IOC used</p></li>
-<li><p>changing any other configuration for the IOC instance i.e.</p>
-<ul>
-<li><p>changes to compose.yml in the IOC instance folder</p></li>
-<li><p>changes to any of the shared compose.yml files in the services repo</p></li>
-<li><p>for Kubernetes IOCs the same is true except that the compose.yml is replaced by Helm Chart configuration files</p></li>
-</ul>
-</li>
-</ul>
-<p>To make a change like this requires:</p>
-<ul class="simple">
-<li><p>change the IOC instance ioc.yaml or other configuration files in the services repository</p></li>
-<li><p>re-launch the IOC with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
-<li><p>that’s it. No compilation required because we are only changing instance configuration here, not the IOC binary or dbd.</p></li>
+<li><p>editing the Generic IOC <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> (covered in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>);</p></li>
+<li><p>pushing and tagging the repo, so CI builds and publishes a new image;</p></li>
+<li><p>pointing the instance at the new image and redeploying it.</p></li>
 </ul>
 </section>
-<section id="changing-the-generic-ioc">
-<span id="changes-2"></span><h3>2. Changing the Generic IOC<a class="headerlink" href="#changing-the-generic-ioc" title="Link to this heading">#</a></h3>
-<p>This involves altering the Generic IOC container image. This means making changes to a Generic IOC source repo, building and publishing a new version of the container image.</p>
-<p>Types of changes include:</p>
-<ul class="simple">
-<li><p>changing the EPICS base version</p></li>
-<li><p>changing the versions of EPICS support modules compiled into the IOC binary</p></li>
-<li><p>adding new support modules</p></li>
-<li><p>altering the system dependencies installed into the container image</p></li>
-</ul>
-<p>To make a change like this requires:</p>
-<ul class="simple">
-<li><p>make changes to the Generic IOC Dockerfile (which holds the build instructions for a Generic IOC - we will discuss this in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>)</p></li>
-<li><p>push the changes and tag the repo - this will build and publish a new container image using CI</p></li>
-<li><p>change the IOC instance in the services repo to point at the new container image</p></li>
-<li><p>redeploy the IOC with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">restart</span> <span class="pre">&lt;ioc-name&gt;</span></code></p></li>
-</ul>
-</section>
-<section id="changing-the-dependencies">
-<span id="changes-3"></span><h3>3. Changing the dependencies<a class="headerlink" href="#changing-the-dependencies" title="Link to this heading">#</a></h3>
-<p>Sometimes you will need to alter the support modules used by the Generic IOC. Reasons to do this include:</p>
-<ul class="simple">
-<li><p>developing a new support module for a new device</p></li>
-<li><p>fix a bug in a support module</p></li>
-<li><p>update to support a new version of the device</p></li>
-<li><p>update to support a feature of the device not yet implemented in the support module</p></li>
-</ul>
-<p>To make a change like this would require:</p>
-<ul class="simple">
-<li><p>making the change in the support module source code</p></li>
-<li><p>test and publish a release of the above</p></li>
-<li><p>repeat the steps in <a class="reference internal" href="#changes-2"><span class="std std-ref">2. Changing the Generic IOC</span></a></p></li>
-</ul>
+<section id="change-the-dependencies">
+<span id="changes-3"></span><h3>3. Change the dependencies<a class="headerlink" href="#change-the-dependencies" title="Link to this heading">#</a></h3>
+<p>Sometimes you must change a <em>support module</em> itself — to support a new device,
+add a feature, or fix a bug. This requires changing the support module source,
+releasing it, then repeating the steps in <a class="reference internal" href="#changes-2"><span class="std std-ref">2. Change the Generic IOC</span></a> to rebuild the Generic
+IOC against the new release.</p>
+<p>The developer container lets you test all three kinds of change <em>before</em>
+publishing anything, giving a fast inner loop. Type-1 changes needed only a
+container platform, an IDE and Python. Types 2 and 3 need compilers and
+build-time dependencies — which differ from one Generic IOC to the next, and
+which we deliberately never install on the host.</p>
 </section>
 </section>
-<section id="need-for-a-developer-container">
-<h2>Need for a Developer Container<a class="headerlink" href="#need-for-a-developer-container" title="Link to this heading">#</a></h2>
-<p>For all of the above types of changes, the epics-containers approach allows local testing of the changes before going through the publishing cycle. This allows us to have a fast ‘inner loop’ of development and testing.</p>
-<p>Also, epics-containers provides a mechanism for creating a separate workspace for working on all of the above elements in one place.</p>
-<p>The earlier tutorials were firmly in the realm of <a class="reference internal" href="#changes-1"><span class="std std-ref">1. Changing the IOC instance</span></a> above. It was adequate for us to install a container platform, IDE and python and that is all we needed.</p>
-<p>Once you get to the level of <a class="reference internal" href="#changes-2"><span class="std std-ref">2. Changing the Generic IOC</span></a> you need to have compilers and build tools installed. You might also require system level dependencies. AreaDetector, that we used earlier has a long list of system dependencies that need to be installed in order to compile it. Traditionally we have installed all of these onto developer workstations or separately compiled the dependencies as part of the build.</p>
-<p>These tools and dependencies will likely differ from one Generic IOC to the next.</p>
-<p>When using epics-containers we don’t need to install any of these tools or dependencies on our local machine. Instead we can use a developer container, and in fact our Generic IOC <em>is</em> our developer container.</p>
-<p>When the CI builds a Generic IOC it always creates <a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">two targets</a></p>
+<section id="why-the-generic-ioc-is-its-own-developer-container">
+<h2>Why the Generic IOC is its own developer container<a class="headerlink" href="#why-the-generic-ioc-is-its-own-developer-container" title="Link to this heading">#</a></h2>
+<p>CI builds every Generic IOC in two
+<a class="reference external" href="https://github.com/orgs/epics-containers/packages?repo_name=ioc-adsimdetector">targets</a>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p></p></th>
+<tr class="row-odd"><th class="head"><p>target</p></th>
+<th class="head"><p>contents</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>developer</strong></p></td>
-<td><p>this target installs all the build tools and build time dependencies into the container image. It then compiles the support modules and IOC.</p></td>
+<td><p>all build tools and build-time dependencies, plus the compiled support modules and IOC source.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>runtime</strong></p></td>
-<td><p>this target installs only the runtime dependencies into the container. It also extracts the built runtime assets from the developer target.</p></td>
+<td><p>only runtime dependencies, with the built assets copied in from the developer target.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>The developer stage of the build is a necessary step in order to get a
-working runtime container. However, we choose to keep this stage as an additional
-build target and it then becomes a perfect candidate for a developer container.</p>
-<p>VSCode has excellent support for using a container as a development environment.
-The next section will show you how to use this feature. Note that you can use
-any IDE that supports remote development in a container, you could also
-simply launch the developer container in a shell and use it via CLI only.</p>
-<p>If you want to use the CLI and terminal based editors like <code class="docutils literal notranslate"><span class="pre">neovim</span></code> then
-you should use the developer container CLI to get your developer container
-started. This means the configuration in <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>
-is used to start the container. This is necessary as that is where the
-useful host filesystem mounts and other config items are defined. See
-<a class="reference external" href="https://code.visualstudio.com/docs/devcontainers/devcontainer-cli">devcontainer-cli</a>
-for details.</p>
-</section>
-<section id="starting-a-developer-container">
-<h2>Starting a Developer Container<a class="headerlink" href="#starting-a-developer-container" title="Link to this heading">#</a></h2>
-<section id="preparation">
-<h3>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h3>
-<p>For this section we will work with the ADSimDetector Generic IOC that we used in previous tutorials. Let’s go and fetch a version of the Generic IOC source and build it locally.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">developer</span></code> target is a necessary build stage, and it already contains
+everything you could want to change inside a Generic IOC plus the tools to build
+it. So we reuse it directly as a developer container — the Generic IOC <em>is</em> your
+developer environment.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Before continuing this tutorial make sure you have not left any IOCs running from a previous tutorial. Execute this command outside of the devcontainer to stop it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
-.<span class="w"> </span>./environment.sh
-docker<span class="w"> </span>compose<span class="w"> </span>down
-</pre></div>
+<p>This tutorial uses VSCode, which has first-class developer-container support.
+Any container-aware IDE works, and for terminal editors such as <code class="docutils literal notranslate"><span class="pre">neovim</span></code> you can
+launch the same container from the command line — see <a class="reference internal" href="../how-to/own_tools.html#devcontainer-cli"><span class="std std-ref">Using the devcontainer CLI</span></a>.
+It reads the host mounts and other settings from
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>, so always start it that way rather than by
+hand.</p>
 </div>
-<p>One issue with compose is that you must have the project available to use compose commands. If you have removed t01-services then you can stop all the services manually instead. To stop and remove all containers on your workstation use the following command:</p>
+</section>
+<section id="fetch-a-generic-ioc">
+<h2>Fetch a Generic IOC<a class="headerlink" href="#fetch-a-generic-ioc" title="Link to this heading">#</a></h2>
+<p>First make sure no IOCs are left running from an earlier tutorial:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>stop<span class="w"> </span><span class="k">$(</span>podman<span class="w"> </span>ps<span class="w"> </span>-q<span class="k">)</span>
 </pre></div>
 </div>
-</div>
-<p>For the purposes of this tutorial we will place the source in a folder right
-next to your test beamline <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># start from folder t01-services, making the clone next to t01-services</span>
-<span class="nb">cd</span><span class="w"> </span>..
-git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
+<p>Clone the Generic IOC source as a <strong>peer</strong> of your services repo, so both appear
+side by side under <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> inside the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run this next to your t01-services folder</span>
+git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/epics-containers/ioc-adsimdetector.git
 </pre></div>
 </div>
-<p>Make sure you use the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> flag to fetch the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule. This submodule is shared between all the Generic IOC container images and contains the files that tell <code class="docutils literal notranslate"><span class="pre">ibek</span></code> how to build support modules inside the container environment and how to use them at runtime. Your container build will fail if this submodule is not present.</p>
-<p>If you forget to use the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> flag you can fetch the submodule with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> to fetch the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule — it tells <code class="docutils literal notranslate"><span class="pre">ibek</span></code> how to
+build and use each support module, and the container build fails without it. If
+you forget, run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span></code>.</p>
+</div>
 </section>
-<section id="launching-the-developer-container">
-<h3>Launching the Developer Container<a class="headerlink" href="#launching-the-developer-container" title="Link to this heading">#</a></h3>
-<p>In this section we are going to use vscode to launch a developer container. This means that all vscode terminals and editors will be running inside our container and browsing for files within the container filesystem. This is a very convenient way to work because:</p>
-<ul class="simple">
-<li><p>the development environment is saved alongside the source code</p></li>
-<li><p>you can easily share the development environment with other developers</p></li>
-<li><p>your development environment is portable between machines</p></li>
-<li><p>development has no dependencies on the host machine except for podman</p></li>
-</ul>
-<p>For epics-containers, the generic IOC <em>is</em> the developer container. When you build the developer target of the container in CI, it will contain all the build tools and dependencies needed to build the IOC. It will also contain the IOC source code and the support module source code. For this reason, we can also use the same developer target image to make the developer container itself. We then have an environment that encompasses all the source you could want to change inside of a Generic IOC, and the tools to build and test it.</p>
-<p>It is also important to understand that although your VSCode session is entirely inside the container, some of your host folders have been mounted into the container. This is done so that important changes to source code would not be lost if the container were rebuilt. See <a class="reference internal" href="#container-layout"><span class="std std-ref">Generic IOC Container Filesystem Layout</span></a> for details of which host folders are mounted into the container.</p>
-<p>First, open the ioc-adsimdetector project in VSCode:</p>
+<section id="launch-the-developer-container">
+<h2>Launch the developer container<a class="headerlink" href="#launch-the-developer-container" title="Link to this heading">#</a></h2>
+<p>Open the project in VSCode:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
 code<span class="w"> </span>.
 </pre></div>
 </div>
-<p>When it opens, VSCode may prompt you to open in a devcontainer, if so then choose to do so. If not then use <code class="docutils literal notranslate"><span class="pre">ctrl-shift-p</span></code> and type <code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
-<p>The first time you do this, vscode will build the container image from the Dockerfile in the project. The file .devcontainer/devcontainer.json is used to configure how this container build is done.</p>
-<p>This will take a few minutes to complete. A philosophy of epics-containers is that Generic IOCs build all of their own support from source. This is to avoid problematic dependency trees. For this reason building something as complex as AreaDetector will take a few minutes the first time.</p>
-<p>A nice thing about containers is that the build steps are cached so that a second build will be almost instant. When you change something in the Dockerfile all the steps before the line you change will still use the cache.</p>
-<p>Once the build completes you will see the project files in the Explorer pane on the left and will be able to open a terminal in vscode.</p>
-<p>You are now <em>inside</em> the container. All terminals started in VSCode will be running inside the container. Every file that you open with the VSCode editor will be inside the container.</p>
-<p>There are some caveats because some folders are mounted from the host file system. For example, the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> project folder is mounted into the container as a volume. It is mounted under <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector</span></code>. This means that you can edit the source code from your local machine and the changes will be visible inside the container and outside the container. This is a good thing as you should consider the container filesystem as temporary. The container filesystem will be destroyed when the container is rebuilt or deleted. Again, see <a class="reference internal" href="#container-layout"><span class="std std-ref">Generic IOC Container Filesystem Layout</span></a> for details of which host folders are mounted into the container.</p>
+<p>When prompted, choose to reopen in the container (or <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> →
+<code class="docutils literal notranslate"><span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>). The first time, VSCode builds the <code class="docutils literal notranslate"><span class="pre">developer</span></code> target
+from the project <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, guided by <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>.
+Because epics-containers builds all support from source to avoid dependency-tree
+problems, building something as large as AreaDetector takes a few minutes the
+first time; the layers are cached, so rebuilds are near-instant up to whatever
+line you changed.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>VSCode hides the build output behind a progress notification, so a failing
+build can be hard to debug. The best way to watch it is to run <code class="docutils literal notranslate"><span class="pre">./build</span></code> in the
+project root <em>before</em> reopening in the container — it builds the same
+<code class="docutils literal notranslate"><span class="pre">developer</span></code> target and streams the full log to your terminal. Once it succeeds,
+reopening in the container reuses the cached layers.</p>
+</div>
+<p>Once it finishes you are <strong>inside</strong> the container: every VSCode terminal and
+editor runs in the container filesystem. A few host folders are mounted in so
+your work survives a rebuild — most importantly the project itself, mounted at
+<code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code>. See <a class="reference internal" href="#container-layout"><span class="std std-ref">Generic IOC container filesystem layout</span></a> for the full map.</p>
 </section>
-<section id="preparing-the-ioc-for-testing">
-<h3>Preparing the IOC for Testing<a class="headerlink" href="#preparing-the-ioc-for-testing" title="Link to this heading">#</a></h3>
-<p>Now that you are <em>inside</em> the container you have access to the tools built into it, this includes <code class="docutils literal notranslate"><span class="pre">ibek</span></code>.</p>
-<p>The first commands you should run are as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># open a terminal: Menu -&gt; Terminal -&gt; New Terminal</span>
-<span class="nb">cd</span><span class="w"> </span>/epics/ioc
+<section id="build-and-run-the-generic-ioc">
+<h2>Build and run the Generic IOC<a class="headerlink" href="#build-and-run-the-generic-ioc" title="Link to this heading">#</a></h2>
+<p>Open a terminal (<code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">→</span> <span class="pre">New</span> <span class="pre">Terminal</span></code>) and build the IOC:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
 make
 </pre></div>
 </div>
+<p>The IOC source is boilerplate: <code class="docutils literal notranslate"><span class="pre">iocApp/src/Makefile</span></code> links the dbd and lib files
+that <code class="docutils literal notranslate"><span class="pre">ibek</span></code> listed in <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code> and <code class="docutils literal notranslate"><span class="pre">lib_list</span></code> during
+the image build. You may change it if you need different compile options.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">make</span></code> process may report warnings regarding unsupported Locale settings. These are benign and will not affect the build.</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> may warn about unsupported locale settings. These are benign.</p>
 </div>
-<p>The IOC source code is entirely boilerplate, <code class="docutils literal notranslate"><span class="pre">/epics/ioc/iocApp/src/Makefile</span></code> determines which dbd and lib files to link by including two files that <code class="docutils literal notranslate"><span class="pre">ibek</span></code> generated during the container build. You can see these files in <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>.</p>
-<p>Although all Generic IOCs derived from ioc-template start out with the same generic source, you are free to change them if there is a need for different compilation options etc.</p>
-<p>The Generic IOC should now be ready to run inside of the container. To do this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
-./start.sh
+<p>Now run it with the standard entry point:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./start.sh
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You will expect to see an error at this point. You will see a log of the start.sh shell script and then drop into a your IOC shell prompt <code class="docutils literal notranslate"><span class="pre">epics&gt;</span></code>, there will be an error regarding the startup script <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and the IOC will have no records. The output will look like this:</p>
+<p>You will see an error, and that is expected:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>+ /epics/ioc/bin/linux-x86_64/ioc /epics/runtime/st.cmd
 Can&#39;t open /epics/runtime/st.cmd: No such file or directory
 epics&gt;
 </pre></div>
 </div>
-</div>
-<p>The reason for the error is you are running a purely <strong>GENERIC</strong> IOC. It has no DB or startup script. This is because we haven’t supplied it with any instance configuration yet. The Generic IOC is designed to be configured at runtime by supplying it with the appropriate config from an IOC instance. We will do this in the next section.</p>
-<p>Hit <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> to exit the IOC.</p>
-<p>Next we will add some instance configuration from one of the IOC instances in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline.</p>
-<p>To do this we will add some other folders to our VSCode workspace to make it easier to work with <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> and to investigate the container filesystem.</p>
+<p>This is a purely <strong>generic</strong> IOC with no database or startup script, because you
+have not given it any instance configuration yet. A Generic IOC is configured at
+runtime from an IOC instance — which you will supply next. Press <code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> to
+exit the IOC shell.</p>
 </section>
-</section>
-<section id="adding-the-example-beamline-to-the-workspace">
-<h2>Adding the Example Beamline to the Workspace<a class="headerlink" href="#adding-the-example-beamline-to-the-workspace" title="Link to this heading">#</a></h2>
-<p>To meaningfully test the Generic IOC we will need an instance to test it against. We will use the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> beamline that you already made in earlier tutorials. The devcontainer has been configured to mount some useful host folders into the container including the parent folder of the workspace as <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> so we can work on multiple peer projects.</p>
-<p>In VSCode click the <code class="docutils literal notranslate"><span class="pre">File</span></code> menu and select <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">Folder</span> <span class="pre">to</span> <span class="pre">Workspace</span></code>. Navigate to <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> and you will see all the peers of your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. Choose the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> folder and add it to the workspace.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>At time of writing you will usually see this error the first time you add a folder to your devcontainer. It is safe to ignore it and click <code class="docutils literal notranslate"><span class="pre">Cancel</span></code></p>
-<figure class="align-default">
-<img alt="../_images/add-workspace-error.png" src="../_images/add-workspace-error.png" />
-</figure>
+<section id="generic-ioc-container-filesystem-layout">
+<span id="container-layout"></span><h2>Generic IOC container filesystem layout<a class="headerlink" href="#generic-ioc-container-filesystem-layout" title="Link to this heading">#</a></h2>
+<p>The devcontainer mounts the parent of your project as <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code>, so all
+peer repos (such as <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>) are visible inside the container — use
+<code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">→</span> <span class="pre">Add</span> <span class="pre">Folder</span> <span class="pre">to</span> <span class="pre">Workspace</span></code> and pick from <code class="docutils literal notranslate"><span class="pre">/workspaces</span></code> to browse them in
+the Explorer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is instructive to add <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace the same way
+(<code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">→</span> <span class="pre">Add</span> <span class="pre">Folder</span> <span class="pre">to</span> <span class="pre">Workspace</span></code> → type <code class="docutils literal notranslate"><span class="pre">/epics</span></code> → Click <code class="docutils literal notranslate"><span class="pre">Add</span></code>): it is the root that
+holds all the EPICS source and built files, so you can browse the support
+modules, EPICS base and generated runtime files listed below. Adding the first folder
+restarts the container, and VSCode usually shows an
+error - but it is safe to ignore, just click <code class="docutils literal notranslate"><span class="pre">Cancel</span></code>.</p>
 </div>
-<div class="docutils">
-<p>Also take this opportunity to add the folder <code class="docutils literal notranslate"><span class="pre">/epics</span></code> to the workspace. This is the root folder in which all of the EPICS source and built files are located.</p>
-<ul class="simple">
-<li><p>File -&gt; Add Folder to Workspace</p></li>
-<li><p>Select <code class="docutils literal notranslate"><span class="pre">/epics</span></code></p></li>
-<li><p>Click cancel if you see an error</p></li>
-</ul>
-<p>You can now easily browse around the <code class="docutils literal notranslate"><span class="pre">/epics</span></code> folder and see all the support modules and epics-base. This will give you a feel for the layout of files in the container. The table below summarizes the important folders in a generic IOC developer container. <code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}</span></code> is the root of the Generic IOC source repo (the directory containing <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>):</p>
-<p class="rubric" id="generic-ioc-container-filesystem-layout"><span id="container-layout"></span>Generic IOC Container Filesystem Layout</p>
-<div class="pst-scrollable-table-container"><table class="table" id="id1">
-<caption><span class="caption-text">Developer Container Layout</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
-<colgroup>
-<col style="width: 23.8%" />
-<col style="width: 33.3%" />
-<col style="width: 42.9%" />
-</colgroup>
+<p>The most useful paths are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Path Inside Container</p></th>
-<th class="head"><p>Host Mount Path</p></th>
+<tr class="row-odd"><th class="head"><p>Path inside container</p></th>
+<th class="head"><p>Host mount</p></th>
 <th class="head"><p>Description</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>/epics/support</p></td>
-<td><p>N/A</p></td>
-<td><p>root of compiled support modules</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}</span></code></p></td>
+<td><p>Generic IOC source repo (fixed mount so <code class="docutils literal notranslate"><span class="pre">ibek</span></code> finds it)</p></td>
 </tr>
-<tr class="row-odd"><td><p>/epics/epics-base</p></td>
-<td><p>N/A</p></td>
-<td><p>compiled epics-base</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code></p></td>
+<td><p>→ <code class="docutils literal notranslate"><span class="pre">/epics/generic-source/ioc</span></code></p></td>
+<td><p>IOC source tree (symlink into the mount)</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/ioc</p></td>
-<td><p>${localWorkspaceFolder}/ioc</p></td>
-<td><p>soft link to IOC source tree</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/opi</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}/opi/auto-generated</span></code></p></td>
+<td><p>auto-generated OPI screens (not in git)</p></td>
 </tr>
-<tr class="row-odd"><td><p>/epics/opi</p></td>
-<td><p>${localWorkspaceFolder}/opi/autogenerated</p></td>
-<td><p>auto generated OPI files for the IOC</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/workspaces</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}/..</span></code></p></td>
+<td><p>all peers of the Generic IOC repo</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/runtime</p></td>
-<td><p>N/A</p></td>
-<td><p>generated startup script and EPICS database files</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/support</span></code></p></td>
+<td><p><em>(container only)</em></p></td>
+<td><p>compiled support modules</p></td>
 </tr>
-<tr class="row-odd"><td><p>/epics/ibek-defs</p></td>
-<td><p>N/A</p></td>
-<td><p>All ibek <em>Support yaml</em> files</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/epics-base</span></code></p></td>
+<td><p><em>(container only)</em></p></td>
+<td><p>compiled EPICS base</p></td>
 </tr>
-<tr class="row-even"><td><p>/epics/pvi-defs</p></td>
-<td><p>N/A</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/runtime</span></code></p></td>
+<td><p><em>(container only)</em></p></td>
+<td><p>generated <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and EPICS database</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code></p></td>
+<td><p><em>(container only)</em></p></td>
+<td><p>all <code class="docutils literal notranslate"><span class="pre">ibek</span></code> <em>Support YAML</em> files</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">/epics/pvi-defs</span></code></p></td>
+<td><p><em>(container only)</em></p></td>
 <td><p>all PVI definitions from support modules</p></td>
-</tr>
-<tr class="row-odd"><td><p>/workspaces</p></td>
-<td><p>${localWorkspaceFolder}/../</p></td>
-<td><p>all peers to Generic IOC source repo</p></td>
-</tr>
-<tr class="row-even"><td><p>/workspaces/ioc-adsimdetector</p></td>
-<td><p>${localWorkspaceFolder}</p></td>
-<td><p>Generic IOC source repo (in this example)</p></td>
-</tr>
-<tr class="row-odd"><td><p>/epics/generic-source</p></td>
-<td><p>${localWorkspaceFolder}</p></td>
-<td><p>A second - fixed location mount of the Generic IOC source repo to allow <a class="reference internal" href="../reference/glossary.html#ibek"><span class="std std-ref">ibek</span></a> to find it easily.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>IMPORTANT: remember that the container filesystem is temporary and will be destroyed when the container is rebuilt or deleted. All folders above with <code class="docutils literal notranslate"><span class="pre">Host</span> <span class="pre">Mount</span> <span class="pre">Path</span></code> showing <code class="docutils literal notranslate"><span class="pre">N/A</span></code> are in the container filesystem. The devcontainer has been configured to mount the most useful host folders, but note that all support modules are in the container filesystem. Later we will learn how to work on support modules, first ensuring that they are made available in the host filesystem.</p>
-<p>Also note that VSCode keeps your developer container until you rebuild it
-or explicitly delete it. Restarting your PC and coming back to the same
-devcontainer does keep all state. This can make you complacent about doing
-work in the container filesystem, but it is still not recommended.</p>
-<p class="rubric" id="choose-the-ioc-instance-to-test"><span id="choose-ioc-instance"></span>Choose the IOC Instance to Test</p>
-<p>Now that we have the beamline repo visible in our container we can easily supply some instance configuration to the Generic IOC. This will use the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> tool convenience function <code class="docutils literal notranslate"><span class="pre">dev</span> <span class="pre">instance</span></code> which declares which IOC instance you want to work on in the developer container.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you have followed previous tutorials, you will need to swap back to the branch you created where the IOC “bl01t-ea-cam-01” is created.</p>
+<p><code class="docutils literal notranslate"><span class="pre">${localWorkspaceFolder}</span></code> is the root of the Generic IOC source repo — the
+directory that holds <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Paths marked <em>container only</em> live in the <strong>temporary</strong> container filesystem and
+are lost when the container is rebuilt or deleted — including all the support
+modules. VSCode keeps your container across PC restarts, which makes this easy to
+forget, so treat anything outside a host mount as disposable. A later tutorial
+shows how to bring support modules out into the host filesystem to work on them.</p>
 </div>
-</div>
-<p>Try the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ibek</span> <span class="n">dev</span> <span class="n">instance</span> <span class="o">/</span><span class="n">workspaces</span><span class="o">/</span><span class="n">t01</span><span class="o">-</span><span class="n">services</span><span class="o">/</span><span class="n">services</span><span class="o">/</span><span class="n">bl01t</span><span class="o">-</span><span class="n">ea</span><span class="o">-</span><span class="n">cam</span><span class="o">-</span><span class="mi">01</span>
+</section>
+<section id="choose-the-ioc-instance-to-test">
+<span id="choose-ioc-instance"></span><h2>Choose the IOC instance to test<a class="headerlink" href="#choose-the-ioc-instance-to-test" title="Link to this heading">#</a></h2>
+<p>To test the Generic IOC meaningfully, point it at one of your IOC instances. The
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> convenience symlinks an instance’s <code class="docutils literal notranslate"><span class="pre">config/</span></code> folder into
+<code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
 
-<span class="c1"># check the it worked - should see a symlink to the config folder</span>
-<span class="n">cd</span> <span class="o">/</span><span class="n">epics</span><span class="o">/</span><span class="n">ioc</span>
-<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">config</span>
-<span class="c1"># now start the IOC by running the standard entry point script</span>
-<span class="o">./</span><span class="n">start</span><span class="o">.</span><span class="n">sh</span>
-<span class="c1"># you should now see the IOC instance startup and show the ioc shell prompt</span>
+<span class="c1"># confirm the symlink, then start the IOC</span>
+<span class="nb">cd</span><span class="w"> </span>/epics/ioc
+ls<span class="w"> </span>-l<span class="w"> </span>config
+./start.sh
 </pre></div>
 </div>
-<p>This removed any existing config folder and replaced it with the config from the IOC instance bl01t-ea-cam-01 by symlinking to its config folder. Note that we used a soft link, this means we can edit the config, restart the IOC to test it and the changes will already be in place in the beamline repository.</p>
+<p>The IOC now starts with the instance’s configuration and drops you at the
+<code class="docutils literal notranslate"><span class="pre">epics&gt;</span></code> prompt with real records. Because <code class="docutils literal notranslate"><span class="pre">config</span></code> is a <em>symlink</em> into the
+beamline repo, edits you make are already in place there — change the config,
+restart, and re-test without leaving the container.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you followed earlier tutorials, switch back to the branch where you created
+<code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> before running the command above.</p>
+</div>
 </section>
 <section id="wrapping-up">
-<h2>Wrapping Up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
-<p>We now have a tidy development environment for working on the Generic IOC,
-IOC Instances and even the support modules inside the Generic IOC, all in one
-place. We can easily test our changes in place too. In particular note that
-we are able to test changes without having to go through a container build
-cycle.</p>
-<p>In the following tutorials we will look at how to make changes at each of the
-3 levels listed in <a class="reference internal" href="#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
+<h2>Wrapping up<a class="headerlink" href="#wrapping-up" title="Link to this heading">#</a></h2>
+<p>You now have one workspace for working on the Generic IOC, its IOC instances and
+even its support modules, with no build-and-publish cycle between edit and test.
+The following tutorials use this environment to make changes at each of the
+three levels in <a class="reference internal" href="#ioc-change-types"><span class="std std-ref">Types of change</span></a>.</p>
 </section>
 </section>
 
@@ -790,12 +751,12 @@ cycle.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="create_ioc.html"
+       href="stream_device.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Create an IOC Instance</p>
+        <p class="prev-next-title">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></p>
       </div>
     </a>
     <a class="right-next"
@@ -826,21 +787,19 @@ cycle.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-changes">Types of Changes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-ioc-instance">1. Changing the IOC instance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-generic-ioc">2. Changing the Generic IOC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-the-dependencies">3. Changing the dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-change">Types of change</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-ioc-instance">1. Change the IOC instance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-generic-ioc">2. Change the Generic IOC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-the-dependencies">3. Change the dependencies</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#need-for-a-developer-container">Need for a Developer Container</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-a-developer-container">Starting a Developer Container</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-developer-container">Launching the Developer Container</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-ioc-for-testing">Preparing the IOC for Testing</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-the-example-beamline-to-the-workspace">Adding the Example Beamline to the Workspace</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-the-generic-ioc-is-its-own-developer-container">Why the Generic IOC is its own developer container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fetch-a-generic-ioc">Fetch a Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-the-developer-container">Launch the developer container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-run-the-generic-ioc">Build and run the Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generic-ioc-container-filesystem-layout">Generic IOC container filesystem layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-the-ioc-instance-to-test">Choose the IOC instance to test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wrapping-up">Wrapping up</a></li>
 </ul>
   </nav></div>
 

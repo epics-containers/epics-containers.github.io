@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,183 +480,129 @@
                   
   <section id="changing-a-generic-ioc">
 <h1>Changing a Generic IOC<a class="headerlink" href="#changing-a-generic-ioc" title="Link to this heading">#</a></h1>
-<p>This is a type 2 change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>.</p>
-<p>The changes that you can make in an IOC instance are limited to what
-the author of the associated Generic IOC has made configurable.
-Therefore you will
-occasionally need to update the Generic IOC that your instance is using.
-Some of the reasons for doing this are:</p>
+<p>This is a <strong>type 2</strong> change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of change</span></a>: you change the Generic
+IOC itself, not just an instance’s config. You need this when the behaviour you
+want is not exposed as an instance parameter — for example to:</p>
 <ul class="simple">
-<li><p>Update one or more support modules to new versions</p></li>
-<li><p>Add additional support such as autosave or iocStats</p></li>
-<li><p>For ibek generated IOC instances, you may need to add or change functionality
-in the support YAML file.</p></li>
+<li><p>bump a support module to a new version,</p></li>
+<li><p>add support such as autosave or iocStats,</p></li>
+<li><p>adjust the support YAML so instances can use new entities.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are considering making a change to a Generic IOC because you want to add support for a second device, this is allowed but you should consider the alternative of creating a new Generic IOC for the second device. If you keep your Generic IOCs simple and focused on a single device, they will be smaller and there will be less of them. IOCs’ records can still be linked via CA links and this is preferable to recompiling a Generic IOC for every possible combination of devices. Using Kubernetes to manage multiple small services is cleaner than having a handful of monolithic services.</p>
-<p>Having said this. If there is a common collection of devices that are frequently deployed together and usually restarted together then there is merit in making a Generic IOC for that collection. For example, at DLS we have a Single generic IOC for the set of vacuum equipment that we deploy on every beamline.</p>
+<p>Avoid creating a single Generic IOC for many classes of device.</p>
+<p>Prefer a <em>separate</em> Generic IOC per device class and a single physical device per IOC instance. This makes for smaller images, fewer rebuilds, and records still can link across IOCs via Channel Access. Kubernetes makes running many small services cleaner than a few monolithic ones.</p>
+<p>The exception is a set of devices always deployed and
+restarted together — at DLS, for instance, one Generic IOC covers a beamline’s
+vacuum equipment.</p>
+<p>The most important reason for this is to allow you to restart or turn off a device
+and at the same time restart/turn off just the software that talks to it, without
+affecting any other devices/IOCs.</p>
 </div>
-<p>This tutorial will make some changes to the generic IOC <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> that you already used in earlier tutorials.</p>
-<p>For this exercise we will work locally inside the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> developer container and will not commit our changes back. Following tutorials will show how to fork repositories and push changes back to GitHub</p>
-<p>For this exercise we will be using an example IOC Instance to test our changes. Instead of working with a beamline repository, we will use the example ioc instance that is already inside <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. It is a good idea for Generic IOC authors to include an example IOC Instance in their repository for testing changes in isolation. Obviously, this is easy for a simulation IOC, for IOCs that normally connect to real hardware this would require a simulator of some kind.</p>
+<p>You test type 2 changes inside the Generic IOC’s own devcontainer, against an
+IOC instance from a services repository selected with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code>.</p>
 <section id="preparation">
 <h2>Preparation<a class="headerlink" href="#preparation" title="Link to this heading">#</a></h2>
-<p>First, clone the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository and make sure the container build is working. You may also use the existing clone you have from previous tutorials.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>git@github.com:epics-containers/ioc-adsimdetector.git
+<p>This continues in the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> devcontainer, testing against the
+<code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance in your <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repo from the earlier
+tutorials. If you closed the devcontainer, reopen the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> folder
+in VSCode, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose “Reopen in Container” — clone it next
+to <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> first if you no longer have it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/epics-containers/ioc-adsimdetector.git
 <span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
 code<span class="w"> </span>.
-<span class="c1"># ctrl+shift+p and choose &quot;Remote-Containers: Reopen in Container&quot;</span>
+<span class="c1"># Ctrl-Shift-P -&gt; &quot;Reopen in Container&quot;</span>
 </pre></div>
 </div>
-</section>
-<section id="verify-the-example-ioc-instance-is-working">
-<h2>Verify the Example IOC Instance is working<a class="headerlink" href="#verify-the-example-ioc-instance-is-working" title="Link to this heading">#</a></h2>
-<p>When a new Generic IOC developer container is opened, there are two things that need to be done before you can run an IOC instance inside of it.</p>
-<ul class="simple">
-<li><p>Build the IOC binary</p></li>
-<li><p>Select an IOC instance definition to run</p></li>
-</ul>
-<p>The folder <code class="docutils literal notranslate"><span class="pre">ioc</span></code> inside of the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> is where the IOC source code resides. However our containers always make a symlink to this folder at <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code>. This is so that it is always in the same place and can easily be found by ibek (and the developer!). Therefore you can build the IOC binary with the following command:</p>
+<p>A fresh devcontainer needs two things before an IOC will run: a built binary and
+a selected instance. The IOC source is symlinked to <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code>, so build there
+and select your <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/epics/ioc
 make
+ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
+./start.sh
 </pre></div>
 </div>
-<p>The IOC instance definition is a YAML file that tells <code class="docutils literal notranslate"><span class="pre">ibek</span></code> what the runtime assets (ie. EPICS DB and startup script) should look like. Previous tutorials selected the IOC instance definition from a beamline repository. In this case we will use the example IOC instance that comes with <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>. It can be found in <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-ioc-02</span></code>. The following command will select the example IOC instance:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/ioc-adsimdetector/services/bl01t-ea-ioc-02
-</pre></div>
-</div>
-<p>The above command removes the existing config folder <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and symlinks in the chosen IOC instance definition’s <code class="docutils literal notranslate"><span class="pre">config</span></code> folder to  <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>.</p>
-<p>Now run the IOC:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./start.sh
-</pre></div>
-</div>
-<p>You should see an iocShell prompt and no error messages above.</p>
-<p>Let us also make sure we can see the simulation images that the IOC is producing. For this we will use phoebus and we will create a screen to display the image. Previously we had a pre-defined screen from the template project for this - but this example IOC uses a different PV prefix so we need to create a new screen.</p>
-<p>From <em>outside of the developer container</em> start up phoebus using the supplied script:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
-./opi/phoebus-launch.sh
-</pre></div>
-</div>
-<p>Phoebus should now be up and running and showing the auto generated <strong>index.bob</strong>, In phoebus do the following steps:</p>
-<ul class="simple">
-<li><p>right click in the index.bob screen and choose “Open in editor”</p></li>
-<li><p>from the plots section of the widget pallet select “Image” and drag a rectangle for you image widget in the index.bob screen.</p></li>
-<li><p>in the properties pane</p>
-<ul>
-<li><p>deselect X and Y axis Visible checkboxes</p></li>
-<li><p>set PV Name to ‘BL01T-EA-TST-02:ARR:ArrayData’</p></li>
-<li><p>set Name to ‘SimDetector Image’</p></li>
-<li><p>set Data Width and Data Height to 1024</p></li>
-</ul>
-</li>
-<li><p>choose File -&gt; Save As and save as <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/services/opi/bl01t-ea-ioc-02.bob</span></code></p></li>
-<li><p>note you will need to create the opi folder under services</p></li>
-<li><p>click the ‘Execute Display’ green arrow button on the right of the top toolbar</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We saved the screen in <strong>services/opi</strong> because this is a hand crafted overview screen specific to an IOC instance described in that <strong>services</strong> folder. The root <strong>opi</strong> folder is reserved for generic screens (i.e. with macros) and as a place for auto-generated screens to go when running the developer container.</p>
-</div>
-<p>Back inside the developer container, you can now start the detector and the Std Arrays plugin, by opening a new terminal and running the following:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caput<span class="w"> </span>BL01T-EA-TST-02:ARR:EnableCallbacks<span class="w"> </span><span class="m">1</span>
-caput<span class="w"> </span>BL01T-EA-TST-02:DET:Acquire<span class="w"> </span><span class="m">1</span>
-</pre></div>
-</div>
-<p>You should see the moving image in the Phoebus window. We now have a working
-IOC instance that we can use to test our changes.</p>
-<figure class="align-default" id="id1">
-<img alt="../_images/phoebus2.png" src="../_images/phoebus2.png" />
-<figcaption>
-<p><span class="caption-text">Phoebus with image widget</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Note: the buttons to launch the engineering screens won’t work right away because your new screen is in a different folder. To fix this, go back into the screen editor and add <code class="docutils literal notranslate"><span class="pre">../../opi/auto-generated/</span></code> to the beginning of the <code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">Path</span></code> in the <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Display</span></code> action for each button.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> symlinks the chosen instance’s <code class="docutils literal notranslate"><span class="pre">config</span></code> folder to
+<code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>. You should see an iocShell prompt with no errors above it.</p>
 </section>
-<section id="making-a-change-to-the-generic-ioc">
-<h2>Making a change to the Generic IOC<a class="headerlink" href="#making-a-change-to-the-generic-ioc" title="Link to this heading">#</a></h2>
-<p>One interesting way of changing a Generic IOC is to modify the support YAML
-for one of the support modules. The support YAML describes the <code class="docutils literal notranslate"><span class="pre">entities</span></code> that
-an IOC instance can make use of in its instance YAML file. This will be
-covered in much more detail in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
-<p>For this exercise we will make a change to the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> support
-YAML file. We will change the startup script that it generates so that the
-simulation detector is automatically started when the IOC starts.</p>
-<p>To make this change we just need to have the startup script set the values
-of the records <code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:DET:Acquire</span></code> and
-<code class="docutils literal notranslate"><span class="pre">BL01T-EA-TST-02:ARR:EnableCallbacks</span></code> to 1.</p>
-<p>To make this change, open the file
-<code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml</span></code>
-and add a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> section just after the <code class="docutils literal notranslate"><span class="pre">pre_init</span></code> section:</p>
+<section id="make-a-change-to-the-generic-ioc">
+<h2>Make a change to the Generic IOC<a class="headerlink" href="#make-a-change-to-the-generic-ioc" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance does not start acquiring on its own — in
+<a class="reference internal" href="dev_container2.html"><span class="std std-doc">Developer Containers Part 2</span></a> you had to set <code class="docutils literal notranslate"><span class="pre">:DET:Acquire</span></code>
+by hand with <code class="docutils literal notranslate"><span class="pre">caput</span></code> each time the IOC started. Suppose you want <em>every</em>
+simDetector built from this Generic IOC to acquire on startup. That is a change
+to the Generic IOC itself, made in the support YAML rather than in any single
+instance’s <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>.</p>
+<p>The support YAML describes the <em>entities</em> an instance may use. Open
+<code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.ibek.support.yaml</span></code>, find the
+<code class="docutils literal notranslate"><span class="pre">simDetector</span></code> entity, and add a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> section after its <code class="docutils literal notranslate"><span class="pre">pre_init</span></code>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">post_init</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
 <span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">      </span><span class="no">dbpf {{P}}{{R}}Acquire 1</span>
+<span class="w">      </span><span class="no">dbpf {{P}}:ARR:EnableCallbacks 1</span>
 </pre></div>
 </div>
-<p>Next make a change to the file <code class="docutils literal notranslate"><span class="pre">/workspaces/ioc-adsimdetector/ibek-support/ADCore/ADCore.ibek.support.yaml</span></code>.
-Find the <code class="docutils literal notranslate"><span class="pre">NDStdArrays</span></code>, <code class="docutils literal notranslate"><span class="pre">NDROI</span></code>, and <code class="docutils literal notranslate"><span class="pre">NDProcess</span></code> sections and also add a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> section to each one:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">post_init</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">dbpf {{P}}{{R}}EnableCallbacks 1</span>
+<p><code class="docutils literal notranslate"><span class="pre">{{P}}</span></code> and <code class="docutils literal notranslate"><span class="pre">{{R}}</span></code> are the entity’s parameters, rendered with Jinja at runtime —
+here <code class="docutils literal notranslate"><span class="pre">BL01T-EA-CAM-01</span></code> and <code class="docutils literal notranslate"><span class="pre">:DET:</span></code>. Restart the IOC (<code class="docutils literal notranslate"><span class="pre">Ctrl-D</span></code> to exit the shell,
+then <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code>). <code class="docutils literal notranslate"><span class="pre">start.sh</span></code> re-runs <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">generate2</span></code>, so your lines now
+appear in the rendered startup script <code class="docutils literal notranslate"><span class="pre">/epics/runtime/st.cmd</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-CAM-01:DET:Acquire 1</span>
+<span class="go">dbpf BL01T-EA-CAM-01:ARR:EnableCallbacks 1</span>
 </pre></div>
 </div>
-<p>The values that you add into entities like the above are rendered at runtime to make the startup script. The <code class="docutils literal notranslate"><span class="pre">{{P}}</span></code> and <code class="docutils literal notranslate"><span class="pre">{{R}}</span></code> are placeholders that are replaced with the PV prefix and record name of the IOC instance. They are rendered using Jinja with a context that includes all of the values of the parameters in the entity. You can go and look at your rendered startup script in <code class="docutils literal notranslate"><span class="pre">/epics/runtime/st.cmd</span></code>.</p>
-<p>If you now go to the terminal where you ran your IOC, you can stop it with
-<code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> and then start it again with <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code>. You should see the
-following output at the end of the startup log:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">dbpf BL01T-EA-TST-02:DET:Acquire 1</span>
-<span class="go">DBF_STRING:         &quot;Acquire&quot;</span>
-<span class="go">dbpf BL01T-EA-TST-02:ROI:EnableCallbacks 1</span>
-<span class="go">DBF_STRING:         &quot;Enable&quot;</span>
-<span class="go">dbpf BL01T-EA-TST-02:PROC:EnableCallbacks 1</span>
-<span class="go">DBF_STRING:         &quot;Enable&quot;</span>
-<span class="go">dbpf BL01T-EA-TST-02:ARR:EnableCallbacks 1</span>
-<span class="go">DBF_STRING:         &quot;Enable&quot;</span>
-<span class="go">epics&gt;</span>
+<p>Every instance of this Generic IOC now acquires on startup without needing the
+command in its own config.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is deliberately artificial: a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> here changes behaviour for <em>all</em>
+simDetector instances. For per-instance behaviour, prefer the <code class="docutils literal notranslate"><span class="pre">epics.dbpf</span></code> or
+<code class="docutils literal notranslate"><span class="pre">epics.PostStartupCommand</span></code> entity in <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> (both defined globally in
+<code class="docutils literal notranslate"><span class="pre">ibek-support/_global/epics.ibek.support.yaml</span></code>) — the type 1 approach you used
+in <a class="reference internal" href="ioc_changes1.html"><span class="std std-doc">Changing the IOC Instance</span></a>.</p>
+</div>
+<p>Support YAML — entities, <code class="docutils literal notranslate"><span class="pre">pre_init</span></code>/<code class="docutils literal notranslate"><span class="pre">post_init</span></code>, and parameters — is covered in
+depth in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>.</p>
+</section>
+<section id="view-the-simulated-image">
+<h2>View the simulated image<a class="headerlink" href="#view-the-simulated-image" title="Link to this heading">#</a></h2>
+<p>Launch Phoebus from outside the devcontainer to watch the detector, leaving the
+IOC running in its devcontainer terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
+./opi/phoebus-launch.sh<span class="w"> </span>-resource<span class="w"> </span>/workspaces/t01-services/opi/demo-simdet.bob
 </pre></div>
 </div>
-<p>You should also see the demo window update with the moving image again.</p>
-<p>If you wanted to publish these changes you would have to commit both the
-<code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule and the <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repository and push
-them in that order because of the sub-module dependency. But we won’t be
-pushing these changes as they are just for demonstration purposes. In later
-tutorials we will cover making forks and doing pull requests for when you have
-changes to share back with the community.</p>
-<p>Note: this is a slightly artificial example, as it would change the behaviour
-for all instances of a StdArray plugin and a simDetector. In a real IOC you would
-do this on a per instance basis.</p>
-<p>Let us quickly do the instance YAML change to demonstrate the correct approach
-to this auto-starting detector.</p>
-<p>Undo the support yaml changes:</p>
+<p>This opens <code class="docutils literal notranslate"><span class="pre">demo-simdet.bob</span></code>, the hand-coded overview screen you made in
+<a class="reference internal" href="create_ioc.html#change-the-opi-screen"><span class="std std-ref">Run It and View the Screens</span></a>. Because the Generic IOC now starts acquisition
+itself, the simulation image is already moving — no manual <code class="docutils literal notranslate"><span class="pre">caput</span></code> needed this
+time.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you had Phoebus open while you restarted the IOC, it loses contact with the
+PVs and does not reconnect to the image on its own. Close Phoebus and relaunch
+it with the command above to pick the detector back up.</p>
+<p>This is just an artifact of using vscode devcontainer port forwarding and would
+not happen in a real deployment.</p>
+</div>
+<figure class="align-default" id="id1">
+<img alt="../_images/custom_bob.png" src="../_images/custom_bob.png" />
+<figcaption>
+<p><span class="caption-text">The <code class="docutils literal notranslate"><span class="pre">demo-simdet.bob</span></code> screen showing the simulated image.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="publishing-and-cleaning-up">
+<h2>Publishing and cleaning up<a class="headerlink" href="#publishing-and-cleaning-up" title="Link to this heading">#</a></h2>
+<p>We will not push these demo changes. To publish a real Generic IOC change you
+would commit the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule first, then the parent
+<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> repo, because of the submodule dependency. Later tutorials
+cover forks and pull requests for sharing changes back.</p>
+<p>Undo the demo edit:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsimdetector/ibek-support
 git<span class="w"> </span>reset<span class="w"> </span>--hard
 </pre></div>
 </div>
-<p>If you restart the IOC now you will see that the detector does not start.</p>
-<p>Add the following to
-<code class="docutils literal notranslate"><span class="pre">/epics/ioc/config/ioc.yaml</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">    </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:DET:Acquire</span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">    </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:ROI:EnableCallbacks</span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">    </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:PROC:EnableCallbacks</span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.dbpf</span>
-<span class="w">    </span><span class="nt">pv</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL01T-EA-TST-02:ARR:EnableCallbacks</span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
-</pre></div>
-</div>
-<p>Now restart the IOC and you should see the same behaviour as before. Here
-we have made the change on a per instance basis, and used the <code class="docutils literal notranslate"><span class="pre">dbpf</span></code> entity
-declared globally in <code class="docutils literal notranslate"><span class="pre">ibek-support/_global/epics.ibek.support.yaml</span></code>.</p>
 </section>
 </section>
 
@@ -706,8 +654,9 @@ declared globally in <code class="docutils literal notranslate"><span class="pre
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparation">Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-the-example-ioc-instance-is-working">Verify the Example IOC Instance is working</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-a-change-to-the-generic-ioc">Making a change to the Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-a-change-to-the-generic-ioc">Make a change to the Generic IOC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-the-simulated-image">View the simulated image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#publishing-and-cleaning-up">Publishing and cleaning up</a></li>
 </ul>
   </nav></div>
 

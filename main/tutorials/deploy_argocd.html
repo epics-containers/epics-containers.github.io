@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy IOCs with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="RTEMS - Creating a File Server" href="rtems_setup.html" />
-    <link rel="prev" title="Add an IOC to the Kubernetes Beamline" href="add_k8s_ioc.html" />
+    <link rel="next" title="How-to Guides" href="../how-to.html" />
+    <link rel="prev" title="Set up Argo CD" href="setup_argocd.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -459,7 +461,7 @@
     
     <li class="breadcrumb-item"><a href="../tutorials.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Deploy IOCs with ArgoCD</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Deploy an IOC with ArgoCD</span></li>
   </ul>
 </nav>
 </div>
@@ -476,89 +478,86 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="deploy-iocs-with-argocd">
-<span id="deploy-argocd"></span><h1>Deploy IOCs with ArgoCD<a class="headerlink" href="#deploy-iocs-with-argocd" title="Link to this heading">#</a></h1>
-<p>This tutorial walks you through the production <em>continuous deployment</em> (CD)
-path for epics-containers: you create a <strong>deployment repository</strong> from a
-template, bootstrap a single ArgoCD <em>root Application</em>, and then deploy an IOC
-with one <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> command. From that point on, ArgoCD keeps your cluster in
-sync with what is recorded in git.</p>
+  <section id="deploy-an-ioc-with-argocd">
+<span id="deploy-argocd"></span><h1>Deploy an IOC with ArgoCD<a class="headerlink" href="#deploy-an-ioc-with-argocd" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>DLS users:</strong> beamline and accelerator deployments are driven through the
+internal developer guide at <a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">https://dev-guide.diamond.ac.uk/epics-containers/</a>
+(the DLS cluster, Argus ArgoCD and webhooks), not these public cluster steps.
+Follow along on your own test cluster only.</p>
+</div>
+<p>You already deployed <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> to the cluster with plain Helm
+(<a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a>): the <code class="docutils literal notranslate"><span class="pre">ec</span></code> <strong>K8S backend</strong> ran <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span></code> for
+each service. That works, but nothing keeps the cluster in step with git — if a
+resource drifts or a pod is deleted, it stays gone until you redeploy by hand.</p>
+<p>This tutorial adds <strong>GitOps</strong>. You create a <strong>deployment repository</strong> from a
+template, bootstrap a single ArgoCD <em>root Application</em>, and switch the <code class="docutils literal notranslate"><span class="pre">ec</span></code>
+backend from <strong>K8S to ARGOCD</strong>. From that point on <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> only <em>records the
+desired version in git</em>, and ArgoCD continuously reconciles the cluster to match.</p>
 <p>By the end you will have:</p>
 <ul class="simple">
-<li><p>a deployment repo (<code class="docutils literal notranslate"><span class="pre">t01-deployment</span></code>) generated from
+<li><p>a deployment repo (<code class="docutils literal notranslate"><span class="pre">t02-deployment</span></code>) generated from
 <a class="reference external" href="https://github.com/epics-containers/deployment-template-argocd"><code class="docutils literal notranslate"><span class="pre">deployment-template-argocd</span></code></a>;</p></li>
-<li><p>a root ArgoCD Application (<code class="docutils literal notranslate"><span class="pre">t01</span></code>) that owns a set of child Applications;</p></li>
-<li><p>the IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-fastcs-01</span></code> running on your cluster, with its desired
-version recorded in git.</p></li>
+<li><p>a root ArgoCD Application (<code class="docutils literal notranslate"><span class="pre">t02</span></code>) that owns a set of child Applications;</p></li>
+<li><p>the IOC <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> from <a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a> running on your cluster, now
+with its desired version recorded in git and reconciled by ArgoCD.</p></li>
 </ul>
-<p>The worked example uses the domain <strong><code class="docutils literal notranslate"><span class="pre">t01</span></code></strong> (beamline <strong><code class="docutils literal notranslate"><span class="pre">bl01t</span></code></strong>), the
-namespace <strong><code class="docutils literal notranslate"><span class="pre">t01-beamline</span></code></strong>, and the public services repository
-<a class="reference external" href="https://github.com/epics-containers/t01-services"><code class="docutils literal notranslate"><span class="pre">t01-services</span></code></a>. Substitute
-your own names throughout.</p>
+<p>The worked example continues the domain <strong><code class="docutils literal notranslate"><span class="pre">t02</span></code></strong> (beamline <strong><code class="docutils literal notranslate"><span class="pre">bl02t</span></code></strong>) and the
+namespace <strong><code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code></strong> from the earlier cluster tutorials, tracking the
+services repository <strong><code class="docutils literal notranslate"><span class="pre">t02-services</span></code></strong> you built in <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>.
+Substitute your own names throughout.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This is the GitOps deployment model. If you only want to understand <em>how</em> it
-works (the two-repository split, app-of-apps, auto-sync) without running the
-commands, read <a class="reference internal" href="../explanations/argocd.html"><span class="doc">How ArgoCD Deploys Your IOCs</span></a> first and come back here.</p>
+<p>This is the GitOps deployment model. To understand <em>how</em> it works (the
+two-repository split, app-of-apps, auto-sync) before running anything, read
+<a class="reference internal" href="../explanations/argocd.html"><span class="doc">How ArgoCD Deploys Your IOCs</span></a> first.</p>
 </div>
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
-<p>This tutorial assumes the pieces below are already in place. It deliberately
-does <strong>not</strong> repeat the installation steps.</p>
+<p>This tutorial assumes the pieces below are already in place; it does <strong>not</strong>
+repeat the installation steps.</p>
 <ol class="arabic">
-<li><p><strong>A Kubernetes cluster with ArgoCD installed</strong>, and the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI
-installed and logged in. The <a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Cluster</span></a> tutorial installs
-ArgoCD into a cluster, installs the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI, and shows how to reach the
-ArgoCD web UI (for a self-hosted install, typically by port-forwarding it to
-<code class="docutils literal notranslate"><span class="pre">https://localhost:8081/</span></code>). Follow that tutorial first if you have not
-already.</p></li>
-<li><p><strong>A workstation with <code class="docutils literal notranslate"><span class="pre">ec</span></code>, <code class="docutils literal notranslate"><span class="pre">copier</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span></code> and <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> available.</strong> See
-<a class="reference internal" href="setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a> for the workstation setup. <code class="docutils literal notranslate"><span class="pre">ec</span></code> must already be
-installed on your workstation; the generated <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> only checks
-that <code class="docutils literal notranslate"><span class="pre">ec</span></code> is present and enables its shell completion (see
-<a class="reference internal" href="#configure-your-environment">Configure your environment</a> below) — it does
-not install <code class="docutils literal notranslate"><span class="pre">ec</span></code> for you.</p></li>
-<li><p><strong>A services repository to deploy from.</strong> A services repo holds the Helm
-charts and per-service <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> files that <em>define</em> each IOC or service
-(see <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>). This tutorial uses the public
-<a class="reference external" href="https://github.com/epics-containers/t01-services"><code class="docutils literal notranslate"><span class="pre">t01-services</span></code></a>, so you do
-<strong>not</strong> need to create one. If you want to build your own beamline’s
-services repo, see <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a New Kubernetes Beamline</span></a> and <a class="reference internal" href="create_beamline.html#create-beamline"><span class="std std-ref">Create a Beamline Repository</span></a>.</p></li>
-<li><p><strong>A namespace and a matching ArgoCD project for your domain.</strong> ArgoCD
-Applications are authorised per-namespace and per-project. Create the
-namespace your IOCs will run in, and an ArgoCD project that is allowed to
-deploy into it:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>t01-beamline
-argocd<span class="w"> </span>proj<span class="w"> </span>create<span class="w"> </span>t01-beamline<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span>https://kubernetes.default.svc,t01-beamline<span class="w"> </span><span class="se">\</span>
+<li><p><strong>A Kubernetes cluster with ArgoCD installed</strong>, plus the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI
+installed and logged in. <a class="reference internal" href="setup_argocd.html#setup-argocd"><span class="std std-ref">Set up Argo CD</span></a> installs ArgoCD into the cluster
+from <a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Set up a Kubernetes Cluster</span></a> and shows how to reach its web UI (for a
+self-hosted install, by port-forwarding it to <code class="docutils literal notranslate"><span class="pre">https://localhost:8081/</span></code>). Do
+that first.</p></li>
+<li><p><strong>A workstation with <code class="docutils literal notranslate"><span class="pre">ec</span></code>, <code class="docutils literal notranslate"><span class="pre">copier</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span></code> and <code class="docutils literal notranslate"><span class="pre">kubectl</span></code></strong> — see
+<a class="reference internal" href="setup_workstation.html"><span class="doc">Set up a Developer Workstation</span></a>. <code class="docutils literal notranslate"><span class="pre">ec</span></code> must already be installed; the generated
+<code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> only <em>checks</em> that it is present, it does not install it.</p></li>
+<li><p><strong>A services repository to deploy from</strong>, holding the Helm charts and
+per-service <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> files that <em>define</em> each IOC (see
+<a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a>). This tutorial uses the <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> repo you built in
+<a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a> and extended in <a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a>; substitute your
+own <code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> URL throughout.</p></li>
+<li><p><strong>An ArgoCD project for your namespace.</strong> The <code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code> namespace already
+exists from <a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Set up a Kubernetes Cluster</span></a>. ArgoCD Applications are authorised
+per-namespace and per-project, so create an ArgoCD project allowed to deploy
+into it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>proj<span class="w"> </span>create<span class="w"> </span>t02-beamline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span>https://kubernetes.default.svc,t02-beamline<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-s<span class="w"> </span><span class="s2">&quot;*&quot;</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The deployment template sets the Application <code class="docutils literal notranslate"><span class="pre">project:</span></code> field to your
-<em>namespace name</em> (the <code class="docutils literal notranslate"><span class="pre">cluster_namespace</span></code> you give <code class="docutils literal notranslate"><span class="pre">copier</span></code> below). That is
-why the ArgoCD project here is named <strong><code class="docutils literal notranslate"><span class="pre">t01-beamline</span></code></strong>, matching the
-namespace. The <code class="docutils literal notranslate"><span class="pre">-d</span></code> flag whitelists the destination
+<p>The template sets each Application’s <code class="docutils literal notranslate"><span class="pre">project:</span></code> field to your <em>namespace
+name</em> (the <code class="docutils literal notranslate"><span class="pre">cluster_namespace</span></code> you give <code class="docutils literal notranslate"><span class="pre">copier</span></code> below), so the ArgoCD
+project is named <strong><code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code></strong> to match. <code class="docutils literal notranslate"><span class="pre">-d</span></code> whitelists the destination
 <code class="docutils literal notranslate"><span class="pre">cluster,namespace</span></code>; <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">&quot;*&quot;</span></code> permits any source repo. Adjust the cluster
-URL/name if your IOCs run on a different cluster from the one hosting
-ArgoCD.</p>
+URL/name if your IOCs run on a different cluster from the one hosting ArgoCD.</p>
 </div>
 </li>
 </ol>
 </section>
 <section id="scaffold-a-deployment-repo">
 <h2>Scaffold a deployment repo<a class="headerlink" href="#scaffold-a-deployment-repo" title="Link to this heading">#</a></h2>
-<p>The deployment repo is generated from the public
+<p>Generate the deployment repo from the public
 <a class="reference external" href="https://github.com/epics-containers/deployment-template-argocd"><code class="docutils literal notranslate"><span class="pre">deployment-template-argocd</span></code></a>
-template using <code class="docutils literal notranslate"><span class="pre">copier</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/deployment-template-argocd<span class="w"> </span>t01-deployment
+template with <code class="docutils literal notranslate"><span class="pre">copier</span></code> (use <code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">copier</span> <span class="pre">...</span></code> if <code class="docutils literal notranslate"><span class="pre">copier</span></code> is not installed):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/deployment-template-argocd<span class="w"> </span>t02-deployment
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">copier</span></code> is not installed on your workstation you can run it on demand with
-<code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">copier</span> <span class="pre">copy</span> <span class="pre">https://github.com/epics-containers/deployment-template-argocd</span> <span class="pre">t01-deployment</span></code>.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">copier</span></code> asks a series of questions (defined in the template’s <code class="docutils literal notranslate"><span class="pre">copier.yml</span></code>).
 Answer them as follows for the worked example:</p>
@@ -572,7 +571,7 @@ Answer them as follows for the worked example:</p>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">domain</span></code></p></td>
 <td><p>Short name for this collection of IOCs/services. Becomes the <strong>root Application name</strong>.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">t01</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">t02</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">description</span></code></p></td>
 <td><p>One-line repo description.</p></td>
@@ -587,12 +586,12 @@ Answer them as follows for the worked example:</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">in-cluster</span></code> <em>(single-cluster install)</em></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cluster_name</span></code></p></td>
-<td><p>The cluster where the <strong>IOCs run</strong> (<code class="docutils literal notranslate"><span class="pre">destination.name</span></code>).</p></td>
+<td><p>The cluster where the <strong>IOCs run</strong> (child <code class="docutils literal notranslate"><span class="pre">destination.name</span></code>).</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">in-cluster</span></code> <em>(same cluster)</em></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cluster_namespace</span></code></p></td>
 <td><p>The namespace where IOCs run, <strong>and</strong> the ArgoCD project.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">t01-beamline</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">git_platform</span></code></p></td>
 <td><p>Where this repo will be hosted.</p></td>
@@ -604,11 +603,11 @@ Answer them as follows for the worked example:</p>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">deployment_repo</span></code></p></td>
 <td><p>URL of <strong>this</strong> deployment repo.</p></td>
-<td><p><em>(accept default — <code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;org&gt;/t01-deployment</span></code>)</em></p></td>
+<td><p><em>(accept default — <code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;org&gt;/t02-deployment</span></code>)</em></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">services_repo</span></code></p></td>
 <td><p>URL of the <strong>services</strong> repo to track.</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">https://github.com/epics-containers/t01-services</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-account&gt;/t02-services</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">services_release</span></code></p></td>
 <td><p>Initial branch or tag of the services repo to track.</p></td>
@@ -624,33 +623,32 @@ Answer them as follows for the worked example:</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The template defaults are placeholders and <strong>will not work unchanged</strong>. The two
-URLs that matter most are <code class="docutils literal notranslate"><span class="pre">deployment_repo</span></code> (must point at the repo you are
-about to push) and <code class="docutils literal notranslate"><span class="pre">services_repo</span></code> (must point at
-<code class="docutils literal notranslate"><span class="pre">https://github.com/epics-containers/t01-services</span></code>). Set both correctly.</p>
+URLs that matter most are <code class="docutils literal notranslate"><span class="pre">deployment_repo</span></code> (the repo you are about to push) and
+<code class="docutils literal notranslate"><span class="pre">services_repo</span></code> (here <code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-account&gt;/t02-services</span></code>). Set
+both correctly.</p>
 </div>
 <p>Now create the git repository, commit the generated files, and push to the
 remote you named in <code class="docutils literal notranslate"><span class="pre">deployment_repo</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>init
-git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial deployment repo from template&quot;</span>
-git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>branch<span class="w"> </span>-M<span class="w"> </span>main
-git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/&lt;org&gt;/t01-deployment
-git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>init
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial deployment repo from template&quot;</span>
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>branch<span class="w"> </span>-M<span class="w"> </span>main
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/&lt;org&gt;/t02-deployment
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>ArgoCD must be able to <strong>read</strong> this repo. The simplest option is a public
-repo. If you use a private repo, register the credentials with ArgoCD first —
+<p>ArgoCD must be able to <strong>read</strong> this repo. The simplest option is a public repo.
+If you use a private repo, register the credentials with ArgoCD first —
 otherwise the root Application reports
 <code class="docutils literal notranslate"><span class="pre">ComparisonError:</span> <span class="pre">authentication</span> <span class="pre">required</span></code>.</p>
 </div>
 </section>
 <section id="tour-the-generated-repo">
 <h2>Tour the generated repo<a class="headerlink" href="#tour-the-generated-repo" title="Link to this heading">#</a></h2>
-<p>Before bootstrapping, take a moment to look at what the template produced. The
-deployment repo is deliberately tiny — it records only <em>which</em> services run and
-<em>at what version</em>; the service content lives in the services repo.</p>
+<p>The deployment repo is deliberately tiny — it records only <em>which</em> services run
+and <em>at what version</em>; the service content lives in the services repo.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Path</p></th>
@@ -668,7 +666,7 @@ deployment repo is deliberately tiny — it records only <em>which</em> services
 <td><p>A Helm chart whose only dependency is the <code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code> library chart, pulled as an <strong>OCI</strong> artifact from <code class="docutils literal notranslate"><span class="pre">oci://ghcr.io/epics-containers/charts</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">apps/templates/all_apps.yaml</span></code></p></td>
-<td><p>A one-line template that expands <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>’s <code class="docutils literal notranslate"><span class="pre">services:</span></code> map into one child Application per service.</p></td>
+<td><p>A one-line template that expands the <code class="docutils literal notranslate"><span class="pre">services:</span></code> map into one child Application per service.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">environment.sh</span></code></p></td>
 <td><p>Sourced to set the <code class="docutils literal notranslate"><span class="pre">EC_*</span></code> environment variables, enable <code class="docutils literal notranslate"><span class="pre">ec</span></code> shell completion, and log into ArgoCD.</p></td>
@@ -676,23 +674,23 @@ deployment repo is deliberately tiny — it records only <em>which</em> services
 </tbody>
 </table>
 </div>
-<p>The root <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code> looks like this (genericized):</p>
+<p>The root <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code> (genericized):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="w">  </span><span class="nt">finalizers</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources-finalizer.argocd.argoproj.io/background</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">resources-finalizer.argocd.argoproj.io/foreground</span>
 <span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="w">  </span><span class="nt">destination</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">in-cluster</span>
-<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="w">  </span><span class="nt">source</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps</span>
-<span class="w">    </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;org&gt;/t01-deployment</span><span class="w">   </span><span class="c1"># THIS (deployment) repo</span>
+<span class="w">    </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;org&gt;/t02-deployment</span><span class="w">   </span><span class="c1"># THIS (deployment) repo</span>
 <span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 <span class="w">    </span><span class="nt">helm</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v3</span>
@@ -703,29 +701,28 @@ deployment repo is deliberately tiny — it records only <em>which</em> services
 </pre></div>
 </div>
 <p>And <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> — the control surface:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="nt">destination</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">in-cluster</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="nt">source</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/epics-containers/t01-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
+<span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;your-account&gt;/t02-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
 <span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 
 <span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-pvcs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-gateways</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Note that <code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> here points at the <strong>services</strong> repo, not the
-deployment repo. The root Application’s <code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> (in <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code>) points
-at the deployment repo; every <em>child</em> Application sources its Helm chart from
-<code class="docutils literal notranslate"><span class="pre">services/&lt;service&gt;</span></code> in the <strong>services</strong> repo. The template seeds three child
-services: <code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs</span></code> (shared storage), <code class="docutils literal notranslate"><span class="pre">t01-epics-opis</span></code> (auto-generated
-OPIs) and <code class="docutils literal notranslate"><span class="pre">t01-epics-gateways</span></code> (a Channel Access gateway). A bare entry with no
-value — like <code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs:</span></code> — inherits all the defaults above.</p>
+<p><code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> here points at the <strong>services</strong> repo, not this one: every
+<em>child</em> Application sources its Helm chart from <code class="docutils literal notranslate"><span class="pre">services/&lt;service&gt;</span></code> in the
+services repo. The template seeds three children — <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> (shared
+storage), <code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code> (auto-generated OPIs) and <code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code> (a
+Channel Access gateway). A bare entry like <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs:</span></code> inherits all the
+defaults above.</p>
 </div>
 <p>For the full model behind these files — the two-repository split, the
 <code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code> library chart, and how one map becomes many Applications — see
@@ -733,152 +730,144 @@ value — like <code class="docutils literal notranslate"><span class="pre">t01-
 </section>
 <section id="configure-your-environment">
 <span id="id1"></span><h2>Configure your environment<a class="headerlink" href="#configure-your-environment" title="Link to this heading">#</a></h2>
-<p>The generated <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> wires up your shell. Source it from the directory
-that contains the deployment repo:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./t01-deployment/environment.sh
+<p>Source the generated <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> from the directory that contains the
+deployment repo:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>./t02-deployment/environment.sh
 </pre></div>
 </div>
 <p>This sets the <code class="docutils literal notranslate"><span class="pre">EC_*</span></code> environment variables, enables <code class="docutils literal notranslate"><span class="pre">ec</span></code> shell completion, and
 logs you into ArgoCD. The variables it exports are:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span><span class="s2">&quot;ARGOCD&quot;</span><span class="w">            </span><span class="c1"># use the ArgoCD continuous-deployment backend</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EC_TARGET</span><span class="o">=</span>t01-beamline/t01<span class="w">         </span><span class="c1"># &lt;namespace&gt;/&lt;root-app-name&gt;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EC_SERVICES_REPO</span><span class="o">=</span>https://github.com/epics-containers/t01-services
-<span class="nb">export</span><span class="w"> </span><span class="nv">EC_LOG_URL</span><span class="o">=</span><span class="w">                        </span><span class="c1"># central log server URL (empty — logging_url was Skipped)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span><span class="s2">&quot;ARGOCD&quot;</span><span class="w">            </span><span class="c1"># the ArgoCD continuous-deployment backend</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EC_TARGET</span><span class="o">=</span>t02-beamline/t02<span class="w">         </span><span class="c1"># &lt;namespace&gt;/&lt;root-app-name&gt;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EC_SERVICES_REPO</span><span class="o">=</span>https://github.com/&lt;your-account&gt;/t02-services
+<span class="nb">export</span><span class="w"> </span><span class="nv">EC_LOG_URL</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w">                      </span><span class="c1"># central log server (empty — logging_url Skipped)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is the namespace of your Application objects followed by the root
-Application name (<code class="docutils literal notranslate"><span class="pre">t01-beamline/t01</span></code>); <code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> is the services repo
-that <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> validates versions against; <code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=ARGOCD</span></code> selects the
-ArgoCD backend (see <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a>).</p>
+<p><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> is the repo that <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> validates versions against; for
+the full <code class="docutils literal notranslate"><span class="pre">EC_*</span></code> reference see <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>Site setup varies.</strong> The template’s <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> ends with a generic
-<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">login</span> <span class="pre">&lt;server&gt;</span> <span class="pre">--grpc-web</span> <span class="pre">--sso</span></code>. Adapt this line to your own server and
-auth method. For a self-hosted install reached via port-forward, that is
-typically:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>login<span class="w"> </span>localhost:8081
-</pre></div>
+<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">login</span> <span class="pre">&lt;server&gt;</span> <span class="pre">--grpc-web</span> <span class="pre">--sso</span></code>. Adapt it to your own server and auth
+method. For a self-hosted install reached via port-forward, that is typically
+<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">login</span> <span class="pre">localhost:8081</span></code>, logging in as <code class="docutils literal notranslate"><span class="pre">admin</span></code> with the password from your
+ArgoCD install (see <a class="reference internal" href="setup_argocd.html#setup-argocd"><span class="std std-ref">Set up Argo CD</span></a>).</p>
 </div>
-<p>logging in as <code class="docutils literal notranslate"><span class="pre">admin</span></code> with the password from your ArgoCD install (see
-<a class="reference internal" href="setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Cluster</span></a>).</p>
-</div>
-<p>Check that the CLI is configured. Until you bootstrap the root Application
-(next section) the target does not exist yet, so <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span></code> reports
-<code class="docutils literal notranslate"><span class="pre">Target</span> <span class="pre">'t01-beamline/t01'</span> <span class="pre">not</span> <span class="pre">found</span></code>:</p>
+<p>Check that the CLI is configured. Until you bootstrap the root Application (next
+section) the target does not exist, so <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span></code> reports
+<code class="docutils literal notranslate"><span class="pre">Target</span> <span class="pre">'t02-beamline/t02'</span> <span class="pre">not</span> <span class="pre">found</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
 </pre></div>
 </div>
-<p>That error is expected at this stage; it confirms <code class="docutils literal notranslate"><span class="pre">ec</span></code> is configured and talking
-to ArgoCD with the right target. Once the root Application exists, the same
-command lists your services.</p>
+<p>That error is expected here; it confirms <code class="docutils literal notranslate"><span class="pre">ec</span></code> is talking to ArgoCD with the
+right target. Once the root Application exists, the same command lists your
+services.</p>
 </section>
 <section id="bootstrap-the-root-application">
 <h2>Bootstrap the root Application<a class="headerlink" href="#bootstrap-the-root-application" title="Link to this heading">#</a></h2>
 <p>This is the single manual step. From the directory that contains the deployment
-repo, create the root Application from <code class="docutils literal notranslate"><span class="pre">t01-deployment/apps.yaml</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>t01-deployment/apps.yaml
+repo, create the root Application from <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>create<span class="w"> </span>--file<span class="w"> </span>t02-deployment/apps.yaml
 </pre></div>
 </div>
-<p>ArgoCD now creates the root Application <code class="docutils literal notranslate"><span class="pre">t01</span></code>, which in turn creates one child
+<p>ArgoCD creates the root Application <code class="docutils literal notranslate"><span class="pre">t02</span></code>, which in turn creates one child
 Application per entry in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. Within a moment you should see the
 root plus its three seeded children:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>list<span class="w"> </span>--app-namespace<span class="w"> </span>t01-beamline
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>list<span class="w"> </span>--app-namespace<span class="w"> </span>t02-beamline
 </pre></div>
 </div>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NAME                       SYNC STATUS   HEALTH
-t01-beamline/t01           Synced        Healthy
-t01-beamline/t01-epics-pvcs       Synced   Healthy
-t01-beamline/t01-epics-opis       Synced   Healthy
-t01-beamline/t01-epics-gateways   Synced   Healthy
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>NAME                              SYNC STATUS   HEALTH
+t02-beamline/t02                  Synced        Healthy
+t02-beamline/t02-epics-pvcs       Synced        Healthy
+t02-beamline/t02-epics-opis       Synced        Healthy
+t02-beamline/t02-epics-gateways   Synced        Healthy
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span> <span class="pre">-f</span> <span class="pre">apps.yaml</span></code> is the equivalent Kubernetes-native form
-(<code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code> is a valid <code class="docutils literal notranslate"><span class="pre">Application</span></code> resource). It works, but relies on your
-direct cluster RBAC rather than ArgoCD’s project authorisation — prefer the
-<code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI form shown above.</p>
+<p><code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">apply</span> <span class="pre">-f</span> <span class="pre">apps.yaml</span></code> is the equivalent Kubernetes-native form (<code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code>
+is a valid <code class="docutils literal notranslate"><span class="pre">Application</span></code> resource). It works, but relies on your direct cluster
+RBAC rather than ArgoCD’s project authorisation — prefer the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI form
+above.</p>
 </div>
 </section>
 <section id="watch-it-sync-in-the-argocd-web-ui">
 <h2>Watch it sync in the ArgoCD web UI<a class="headerlink" href="#watch-it-sync-in-the-argocd-web-ui" title="Link to this heading">#</a></h2>
 <p>Open your ArgoCD web UI (for a port-forwarded install, <code class="docutils literal notranslate"><span class="pre">https://localhost:8081/</span></code>)
-and filter the Applications view by project <code class="docutils literal notranslate"><span class="pre">t01-beamline</span></code>. You will see a card
-for the root <code class="docutils literal notranslate"><span class="pre">t01</span></code> and one for each child. As ArgoCD reconciles, the cards turn
-green (<code class="docutils literal notranslate"><span class="pre">Synced</span></code> / <code class="docutils literal notranslate"><span class="pre">Healthy</span></code>). Click a card to drill into the individual
-Kubernetes resources (StatefulSets, Services, ConfigMaps) it manages — this is
-the quickest way to diagnose a service that will not start.</p>
+and filter the Applications view by project <code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code>. You will see a card
+for the root <code class="docutils literal notranslate"><span class="pre">t02</span></code> and one per child; as ArgoCD reconciles, the cards turn green
+(<code class="docutils literal notranslate"><span class="pre">Synced</span></code> / <code class="docutils literal notranslate"><span class="pre">Healthy</span></code>). Click a card to drill into the individual Kubernetes
+resources (StatefulSets, Services, ConfigMaps) it manages — the quickest way to
+diagnose a service that will not start.</p>
 </section>
 <section id="deploy-a-service">
 <h2>Deploy a service<a class="headerlink" href="#deploy-a-service" title="Link to this heading">#</a></h2>
-<p>Now deploy an IOC. The service <code class="docutils literal notranslate"><span class="pre">bl01t-ea-fastcs-01</span></code> exists in the
-<code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repo, so you can deploy it directly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-fastcs-01<span class="w"> </span>main
+<p>Now deploy an IOC. The service <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> already exists in
+<code class="docutils literal notranslate"><span class="pre">t02-services</span></code> — you added it in <a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a> — so you can deploy it
+directly, this time through ArgoCD. Use a git tag instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example
+<code class="docutils literal notranslate"><span class="pre">2026.7.1</span></code>) to pin a specific version:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>main
 </pre></div>
 </div>
-<p>Use a git tag instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl01t-ea-fastcs-01</span> <span class="pre">2024.12.1</span></code>)
-to pin a specific version.</p>
 <p>Here is exactly what happened, and what did <strong>not</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> checked that <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-fastcs-01</span></code> exists in <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> at
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> checked that <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01</span></code> exists in <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> at
 the requested revision.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> then <strong>committed and pushed</strong> an entry under
-<code class="docutils literal notranslate"><span class="pre">services.bl01t-ea-fastcs-01</span></code> in the deployment repo’s <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>,
+<code class="docutils literal notranslate"><span class="pre">services.bl02t-ea-cam-01</span></code> in the deployment repo’s <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>,
 recording the desired version. This commit is the source of truth.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> ran <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">get</span> <span class="pre">--refresh</span></code> to ask ArgoCD to re-read git immediately
-(otherwise ArgoCD would notice on its next poll — every 3 minutes by default,
-or instantly if you have configured a git webhook).</p></li>
+(otherwise ArgoCD notices on its next poll — every 3 minutes by default, or
+instantly if you have configured a git webhook).</p></li>
 <li><p>ArgoCD’s <strong>auto-sync</strong> (the <code class="docutils literal notranslate"><span class="pre">automated</span></code>/<code class="docutils literal notranslate"><span class="pre">prune</span></code>/<code class="docutils literal notranslate"><span class="pre">selfHeal</span></code> policy) then
 reconciles the cluster to match git.</p></li>
 </ul>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> does <strong>not</strong> run <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code>. Under the ArgoCD backend it only
-<em>records desired state in git</em> and refreshes ArgoCD; the actual reconciliation
-is performed by ArgoCD’s auto-sync. To force an immediate sync manually (for
-example if auto-sync has been paused), use the <strong>Sync</strong> button in the ArgoCD web
-UI, or <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code>.</p>
+<em>records desired state in git</em> and refreshes ArgoCD; the reconciliation is done
+by ArgoCD’s auto-sync. To force an immediate sync (e.g. if auto-sync is paused),
+use the <strong>Sync</strong> button in the web UI, or <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code>.</p>
 </div>
-<p>Verify the deployment with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span></code>:</p>
+<p>Verify with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps
 </pre></div>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name                 label     version   ready   deployed
- t01-epics-pvcs       service   main      True    2026-06-25T09:10:00Z
- t01-epics-opis       service   main      True    2026-06-25T09:10:00Z
- t01-epics-gateways   service   main      True    2026-06-25T09:10:00Z
- bl01t-ea-fastcs-01   service   main      True    2026-06-25T09:14:00Z
+ t02-epics-pvcs       service   main      True    2026-06-25T09:10:00Z
+ t02-epics-opis       service   main      True    2026-06-25T09:10:00Z
+ t02-epics-gateways   service   main      True    2026-06-25T09:10:00Z
+ bl02t-ea-cam-01   service   main      True    2026-06-25T09:14:00Z
 </pre></div>
 </div>
 <p>And confirm the git record — pull the deployment repo and look at
 <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t01-deployment<span class="w"> </span>pull
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>pull
 </pre></div>
 </div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-pvcs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-gateways</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bl01t-ea-fastcs-01</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 <span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </pre></div>
 </div>
-<p>A new card for <code class="docutils literal notranslate"><span class="pre">bl01t-ea-fastcs-01</span></code> also appears in the ArgoCD web UI.</p>
+<p>A new card for <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> also appears in the ArgoCD web UI.</p>
 </section>
 <section id="stop-start-and-remove-a-service-optional">
 <h2>Stop, start and remove a service (optional)<a class="headerlink" href="#stop-start-and-remove-a-service-optional" title="Link to this heading">#</a></h2>
 <p>The rest of the service lifecycle is also driven through <code class="docutils literal notranslate"><span class="pre">ec</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">stop</span> <span class="pre">bl01t-ea-fastcs-01</span></code> / <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">start</span> <span class="pre">bl01t-ea-fastcs-01</span></code> — pause or resume
-a service as a <strong>live patch</strong>. Add <code class="docutils literal notranslate"><span class="pre">--commit</span></code> to also record the change in
-<code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> (without <code class="docutils literal notranslate"><span class="pre">--commit</span></code>, <code class="docutils literal notranslate"><span class="pre">selfHeal</span></code> would otherwise revert a
-manual cluster change — the live patch sets the parameter directly).</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">delete</span> <span class="pre">bl01t-ea-fastcs-01</span></code> — removes the entry from <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>,
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">stop</span> <span class="pre">bl02t-ea-cam-01</span></code> / <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">start</span> <span class="pre">bl02t-ea-cam-01</span></code> — pause or resume
+a service as a live ArgoCD parameter override. Add <code class="docutils literal notranslate"><span class="pre">--commit</span></code> to also record
+the change in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> as a git audit trail.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">delete</span> <span class="pre">bl02t-ea-cam-01</span></code> — removes the entry from <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>,
 commits and pushes; auto-sync then prunes the resources from the cluster.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">logs</span> <span class="pre">bl01t-ea-fastcs-01</span></code> — stream a service’s logs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">logs</span> <span class="pre">bl02t-ea-cam-01</span></code> — stream a service’s logs.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">monitor</span></code> — a terminal UI to browse and manage all services at once.</p></li>
 </ul>
 </section>
@@ -887,12 +876,12 @@ commits and pushes; auto-sync then prunes the resources from the cluster.</p></l
 <p>Because all desired state lives in git, teardown and rebuild are cheap and
 reversible. Delete the root Application and, via <code class="docutils literal notranslate"><span class="pre">prune</span></code> plus finalizers, all of
 its children are removed:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>delete<span class="w"> </span>t01-beamline/t01<span class="w"> </span>-y
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>delete<span class="w"> </span>t02-beamline/t02<span class="w"> </span>-y
 </pre></div>
 </div>
-<p>Re-bootstrap any time with <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">create</span> <span class="pre">--file</span> <span class="pre">t01-deployment/apps.yaml</span></code> —
+<p>Re-bootstrap any time with <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">create</span> <span class="pre">--file</span> <span class="pre">t02-deployment/apps.yaml</span></code> —
 ArgoCD recreates everything from git (the persistent volume claims behind
-<code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs</span></code> are usually the slow part).</p>
+<code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> are usually the slow part).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The cluster is fully reconstructable from git, with one caveat: IOC autosave
@@ -905,11 +894,11 @@ underlying PVCs discards that state.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../explanations/argocd.html"><span class="doc">How ArgoCD Deploys Your IOCs</span></a> — the GitOps model in depth: two repositories,
 app-of-apps, auto-sync, and the <code class="docutils literal notranslate"><span class="pre">ec</span></code> CLI’s role.</p></li>
-<li><p><a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">The ec Backend Model</span></a> — deploy with pure Helm instead of ArgoCD (the manual, non-GitOps
+<li><p><a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">Deploying with Helm (the ec backends)</span></a> — deploy with pure Helm instead of ArgoCD (the manual, non-GitOps
 alternative).</p></li>
-<li><p><a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Add an IOC to the Kubernetes Beamline</span></a> — add and configure your own IOC instances in a services
+<li><p><a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a> — add and configure your own IOC instances in a services
 repo, ready to deploy here.</p></li>
-<li><p><a class="reference internal" href="deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the Example IOC Instance</span></a> — the local / <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> deployment path,
+<li><p><a class="reference internal" href="deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the services</span></a> — the local / <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> deployment path,
 for contrast with this cluster-based CD flow.</p></li>
 </ul>
 </section>
@@ -926,20 +915,20 @@ for contrast with this cluster-based CD flow.</p></li>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="add_k8s_ioc.html"
+       href="setup_argocd.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Add an IOC to the Kubernetes Beamline</p>
+        <p class="prev-next-title">Set up Argo CD</p>
       </div>
     </a>
     <a class="right-next"
-       href="rtems_setup.html"
+       href="../how-to.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">RTEMS - Creating a File Server</p>
+        <p class="prev-next-title">How-to Guides</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

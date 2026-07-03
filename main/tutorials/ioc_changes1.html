@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,126 +480,113 @@
                   
   <section id="changing-the-ioc-instance">
 <h1>Changing the IOC Instance<a class="headerlink" href="#changing-the-ioc-instance" title="Link to this heading">#</a></h1>
-<p>This tutorial will make a very simple change to the example IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>. This is a type 1 change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of Changes</span></a>, types 2, 3 will be covered in the following 2 tutorials.</p>
-<p>Strictly speaking, Type 1 changes do not require a devcontainer. You created and deployed the IOC instance in a previous tutorial without one. It is up to you how you choose to make these types of changes. Types 2,3 do require a devcontainer because they involve compiling Generic IOC / support module code.</p>
-<p>These instructions are for running inside the devcontainer. If you closed your developer container from the last tutorial, then open it again now. To do so, open your <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> folder in vscode and then press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and type <code class="docutils literal notranslate"><span class="pre">Remote-Containers:</span> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code>.</p>
-<p>We are going to add a hand crafted EPICS DB file to the IOC instance. This will be a simple record that we will be able to query to verify that the change is working. We will use the version of the IOC instance that used <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>. If you changed to using raw startup assets in the previous tutorial then revert to using <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> for this tutorial or see <a class="reference internal" href="create_ioc.html#raw-startup-assets"><span class="std std-ref">Raw Startup Script and Database</span></a>.</p>
-<p>Make the following changes in your test IOC config folder
-(<code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> which is currently the same as <code class="docutils literal notranslate"><span class="pre">/workspaces/t01-services/services/bl01t-ea-cam-01/config</span></code>):</p>
+<p>This tutorial makes a small change to the example IOC <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>: you add
+a hand-crafted EPICS database record and prove the change works. This is a
+<strong>type 1</strong> change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of change</span></a> — you are only editing instance
+configuration, so nothing is recompiled. Types 2 and 3 follow in the next two
+tutorials.</p>
+<p>Type 1 changes do not strictly need a developer container (you deployed an IOC
+instance in an earlier tutorial without one), but we will use the
+<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> devcontainer here because it lets you test the change
+instantly. If you closed it after the last tutorial, reopen the
+<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> folder in VSCode, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose “Reopen in
+Container”, then re-select the instance:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This tutorial assumes the <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>-based instance. If you switched to raw
+startup assets in the previous tutorial, either revert to <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> or apply
+the same change by appending the <code class="docutils literal notranslate"><span class="pre">dbLoadRecords</span></code> line to your <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> — see
+<a class="reference internal" href="create_ioc.html#raw-startup-assets"><span class="std std-ref">Raw Startup Script and Database</span></a>.</p>
+</div>
+<section id="make-the-change">
+<h2>Make the change<a class="headerlink" href="#make-the-change" title="Link to this heading">#</a></h2>
+<p>Your instance config folder <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> is symlinked to
+<code class="docutils literal notranslate"><span class="pre">/workspaces/t01-services/services/bl01t-ea-cam-01/config</span></code>, so every edit you
+make here lands directly in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repo, ready to commit.</p>
 <ol class="arabic">
-<li><p>Add a file called <code class="docutils literal notranslate"><span class="pre">extra.db</span></code> with the following contents.</p>
+<li><p>Add a file <code class="docutils literal notranslate"><span class="pre">extra.db</span></code> containing a single soft record:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, &quot;BL01T-EA-CAM-01:TEST&quot;) {
    field(DESC, &quot;Test record&quot;)
    field(DTYP, &quot;Soft Channel&quot;)
-   field(SCAN, &quot;Passive&quot;)
    field(VAL, &quot;1&quot;)
 }
 </pre></div>
 </div>
 </li>
-<li><p>Add the following lines to the end of <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> (verify that the indentation
-matches the above entry so that <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> statements line up):</p>
+<li><p>Append a <code class="docutils literal notranslate"><span class="pre">StartupCommand</span></code> entity to <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> to load it (match the
+indentation of the existing <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> entries so the <code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">type:</span></code> lines align):</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.StartupCommand</span>
 <span class="w">  </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dbLoadRecords(config/extra.db)</span>
 </pre></div>
 </div>
 </li>
 </ol>
-<section id="locally-testing-your-changes">
-<h2>Locally Testing Your changes<a class="headerlink" href="#locally-testing-your-changes" title="Link to this heading">#</a></h2>
-<p>You can immediately test your changes by restarting the IOC instance inside the developer container as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># stop any existing IOC shell by hitting Ctrl-D or typing exit</span>
+</section>
+<section id="test-it">
+<h2>Test it<a class="headerlink" href="#test-it" title="Link to this heading">#</a></h2>
+<p>Restart the IOC inside the devcontainer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># stop the running IOC shell first with Ctrl-D (or type exit)</span>
 <span class="nb">cd</span><span class="w"> </span>/epics/ioc
 ./start.sh
 </pre></div>
 </div>
-<p>If all is well you should see your iocShell prompt and the output should show <code class="docutils literal notranslate"><span class="pre">dbLoadRecords(config/extra.db)</span></code>.</p>
-<p>Test your change from another terminal (VSCode menus -&gt; Terminal -&gt; New Terminal) like so:</p>
+<p><code class="docutils literal notranslate"><span class="pre">start.sh</span></code> runs <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">generate2</span></code> to regenerate the startup script and
+database from your edited <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>, so your <code class="docutils literal notranslate"><span class="pre">dbLoadRecords(config/extra.db)</span></code>
+line now appears in the startup log.</p>
+<p>From a second terminal (Terminal -&gt; New Terminal) read the new record:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>caget<span class="w"> </span>BL01T-EA-CAM-01:TEST
 </pre></div>
 </div>
-<p>If you see the value 1 then your change is working.</p>
-<p>Because of the symlink between <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code> and <code class="docutils literal notranslate"><span class="pre">/workspaces/bl01t/services/bl01t-ea-cam-01/config</span></code> the same files you are testing by launching the IOC inside of the devcontainer are also ready to be committed and pushed to the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repo. The following commands show how to do this:</p>
+<p>A value of <code class="docutils literal notranslate"><span class="pre">1</span></code> confirms the change is live.</p>
+</section>
+<section id="commit-the-change">
+<h2>Commit the change<a class="headerlink" href="#commit-the-change" title="Link to this heading">#</a></h2>
+<p>Because the config edits already live in <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>, commit and push them,
+then tag a release of the services repo (substitute your own version):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/t01-services
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Added extra.db&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add extra.db to bl01t-ea-cam-01&quot;</span>
 git<span class="w"> </span>push
-<span class="c1"># tag a new version of the beamline repo</span>
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2024</span>.8.2
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2024</span>.8.2
+git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
 </pre></div>
 </div>
-<p>If you like working entirely from the vscode window you can open a terminal in vscode <em>outside</em> of the devcontainer. To do so, press <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> and choose the commnd <code class="docutils literal notranslate"><span class="pre">Terminal:</span> <span class="pre">Create</span> <span class="pre">New</span> <span class="pre">Integrated</span> <span class="pre">Terminal</span> <span class="pre">(Local)</span></code>. This will open a terminal to the host. You can then run docker compose from there.</p>
+<p>That tag pins the version you deploy to a real beamline — see
+<a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a> for the cluster deployment path.</p>
 </section>
-<section id="launching-the-test-beamline">
-<h2>Launching the Test Beamline<a class="headerlink" href="#launching-the-test-beamline" title="Link to this heading">#</a></h2>
-<p>Because the changes have been made in <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> you can now launch the test beamline from outside of the devcontainer.</p>
-<p>Before you do this. You must stop the IOC running in the devcontainer, that IOC is currently auto port forwarding the Channel Access ports to the host. If you launch the test beamline without stopping the IOC in the devcontainer then the test beamline’s gateway will not be able to bind to the ports.</p>
-<p>So stop the IOC in the devcontainer by typing <code class="docutils literal notranslate"><span class="pre">exit</span></code> in the IOC shell.</p>
-<p>Now you can launch your test beamline and it will have picked up the new extras.db. Note that we run caget inside the IOC container because not all users will have caget on their host. Those that have it on the host can just type: <code class="docutils literal notranslate"><span class="pre">caget</span> <span class="pre">BL01T-EA-CAM-01:TEST</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># IMPORTANT: do this in a terminal outside of the devcontainer</span>
-<span class="nb">cd</span><span class="w"> </span>t01-services
-.<span class="w"> </span>./environment.sh
-docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
-docker<span class="w"> </span>compose<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>example-test-01<span class="w"> </span>caget<span class="w"> </span>BL01T-EA-CAM-01:TEST
-
-<span class="c1"># Now shut down the beamline again so we can continue with further developer container tutorials</span>
-docker<span class="w"> </span>compose<span class="w"> </span>down
+<section id="how-it-works">
+<h2>How it works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h2>
+<p>The entities you may use in <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> are defined by <em>support YAML</em> files baked
+into the Generic IOC at build time — one per support module, under
+<code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>. <code class="docutils literal notranslate"><span class="pre">StartupCommand</span></code> comes from the global
+<code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs/epics.ibek.support.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StartupCommand</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adds an arbitrary command in the startup script before iocInit</span>
+<span class="w">  </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
+<span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">command string</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">  </span><span class="nt">pre_init</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">command</span><span class="nv"> </span><span class="s">}}&quot;</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>if you see the error “listen tcp 127.0.0.1:5064: bind: address already in use” they you have probably forgotten to stop the IOC in the devcontainer. Go back and stop the IOC in the devcontainer and type <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">up</span> <span class="pre">-d</span></code> again.</p>
-</div>
-</section>
-<section id="raw-startup-assets">
-<h2>Raw Startup Assets<a class="headerlink" href="#raw-startup-assets" title="Link to this heading">#</a></h2>
-<p>If you plan not to use <code class="docutils literal notranslate"><span class="pre">ibek</span></code> runtime asset creation you could use the raw startup assets from <a class="reference internal" href="create_ioc.html#raw-startup-assets"><span class="std std-ref">Raw Startup Script and Database</span></a>. If you do this then the process above is identical except that you will add the <code class="docutils literal notranslate"><span class="pre">dbLoadRecords</span></code> command to the end of raw <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code>.</p>
-</section>
-<section id="more-about-ibek-runtime-asset-creation">
-<h2>More about ibek Runtime Asset Creation<a class="headerlink" href="#more-about-ibek-runtime-asset-creation" title="Link to this heading">#</a></h2>
-<p>The set of <code class="docutils literal notranslate"><span class="pre">entities</span></code> that you may create in your ioc.yaml is defined by the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> IOC schema that we reference at the top of <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code>. The schema is in turn defined by the set of support modules that were compiled into the Generic IOC (ioc-adsimdetector). Each support module has an <code class="docutils literal notranslate"><span class="pre">ibek</span></code> <em>support YAML</em> file that contributes to the schema.</p>
-<p>The <em>Support yaml</em> files are in the folder <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> inside of the container. They were placed there during the compilation of the support modules at Generic IOC build time.</p>
-<p>It can be instructive to look at these files to see what entities are available to <em>IOC instances</em>. For example the global support yaml file <code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs/epics.ibek.support.yaml</span></code> contains the following (snippet):</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">---</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">- name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StartupCommand</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">description</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adds an arbitrary command in the startup script before iocInit</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="nt">command</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">command string</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
-<span class="w">  </span><span class="w w-Error">  </span><span class="nt">pre_init</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">command</span><span class="nv"> </span><span class="s">}}&quot;</span>
-
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PostStartupCommand</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adds an arbitrary command in the startup script after iocInit</span>
-<span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">command</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">command string</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
-<span class="w">    </span><span class="nt">post_init</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">command</span><span class="nv"> </span><span class="s">}}&quot;</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">---</span>
-</pre></div>
-</div>
-<p>These two definitions allow you to add arbitrary commands to the startup script before and after iocInit. This is how we added the <code class="docutils literal notranslate"><span class="pre">dbLoadRecords</span></code> command.</p>
-<p>If you want to specify multiple lines in a command you can use the following syntax for multi-line strings:</p>
-<blockquote>
-<div><div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.StartupCommand</span>
+<p>Its companion <code class="docutils literal notranslate"><span class="pre">PostStartupCommand</span></code> does the same <em>after</em> <code class="docutils literal notranslate"><span class="pre">iocInit</span></code>. For a command
+spanning several lines, use a YAML block scalar — the lines are emitted verbatim
+(the nesting whitespace is stripped):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">epics.StartupCommand</span>
 <span class="w">  </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">    </span><span class="no"># loading extra records</span>
+<span class="w">    </span><span class="no"># load extra records</span>
 <span class="w">    </span><span class="no">dbLoadRecords(config/extra.db)</span>
-<span class="w">    </span><span class="no"># loading even more records</span>
 <span class="w">    </span><span class="no">dbLoadRecords(config/extra2.db)</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p>This would place the 4 lines verbatim into the startup script (except that they would not be indented - the nesting whitespace is stripped).</p>
-<p>In later tutorials we will see where the <em>Support yaml</em> files come from and how to add your own.</p>
+<p>Later tutorials show where these support YAML files come from and how to add your
+own.</p>
 </section>
 </section>
 
@@ -648,10 +637,10 @@ docker<span class="w"> </span>compose<span class="w"> </span>down
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#locally-testing-your-changes">Locally Testing Your changes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-test-beamline">Launching the Test Beamline</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-startup-assets">Raw Startup Assets</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-about-ibek-runtime-asset-creation">More about ibek Runtime Asset Creation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-change">Make the change</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-it">Test it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-the-change">Commit the change</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-it-works">How it works</a></li>
 </ul>
   </nav></div>
 

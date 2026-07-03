@@ -1,84 +1,95 @@
 
-# Launch A Simulation Beamline
+# Launch a Simulation Beamline
 
-In this tutorial we will launch a simulation beamline using docker compose. This demonstrates that a containerised beamline is portable and that the setup instructions from the previous tutorial have been successful.
+This tutorial launches a complete simulation beamline on your workstation with
+`docker compose`. It proves the container engine you set up in
+{any}`setup_workstation` works, and gives you a running beamline to experiment
+with before you build your own.
+
+The example lives in the public
+[`example-services`](https://github.com/epics-containers/example-services)
+repository. One `docker compose up` brings up a self-contained set of
+containers:
+
+- a simulated area-detector IOC (`bl01t-di-cam-01`);
+- a simulated motion IOC (`bl01t-mo-sim-01`);
+- a simple example IOC with a sum record (`bl01t-ea-test-01`);
+- a Channel Access gateway (`ca-gateway`) and a PVA gateway (`pvagw`) that
+  expose the IOCs' PVs to the host;
+- a Phoebus instance to view the beamline.
 
 :::{note}
-To run this demo you need docker-compose installed (not podman-compose) plus docker or podman.
-
-See [quickstart instructions](quickstart) for how to set these up on any platform.
+You need `docker compose` (the v2 plugin, **not** `podman-compose`) plus a
+container engine — Docker or podman. See {any}`quickstart` to install these on
+any platform.
 :::
 
-The example beamline will launch the following set of containers:
-- a simulation Area Detector IOC
-- a simulation Motion IOC
-- a basic example IOC with a sum record
-- a ca-gateway to expose PVs from the above to the host
-- a pva-gateway to expose PVA image stream from ADPluginPVA
-- a phoebus instance to view the beamline
-
-To launch simply run the following commands:
+## Launch it
 
 ```bash
 git clone https://github.com/epics-containers/example-services
 cd example-services
-# setup some environment variables
-source ./environment.sh
-# launch the example beamline and detach the logs
-docker compose up -d
-```
-
-If all is well you should see phoebus launch with an overview of the beamline like the following:
-
-:::{figure} ../images/example_beamline.png
-The example beamline overview screen
-:::
-
-You can now try out the following commands to interact with the beamline.
-
-```bash
-# use caget/put locally
-export EPICS_CA_ADDR_LIST=127.0.0.1:5094
-caget BL01T-DI-CAM-01:DET:Acquire_RBV
-
-# OR if you don't have caget/put locally then use one of the containers instead:
-# execute caget from inside one of the example IOCs
-docker compose exec bl01t-ea-test-01 caget BL01T-DI-CAM-01:DET:Acquire_RBV
-# or get a shell inside an example IOC and use caget
-docker compose exec bl01t-ea-test-01 bash
-caget BL01T-DI-CAM-01:DET:Acquire_RBV
-
-# attach to logs of a service (-f follows the logs, use ctrl-c to exit)
-docker compose logs bl01t-di-cam-01 -f
-# stop a service
-docker compose stop bl01t-di-cam-01
-# restart a service
-docker compose start bl01t-di-cam-01
-# attach to a service stdio
-docker compose attach bl01t-di-cam-01
-# exec a process in a service
-docker compose exec bl01t-di-cam-01 bash
-# delete a service (deletes the container)
-docker compose down bl01t-di-cam-01
-# create and launch a single service (plus its dependencies)
-docker compose up bl01t-di-cam-01 -d
-# close down and delete all the containers
-# volumes are not deleted to preserve the data
-docker compose down
+source ./environment.sh        # set the EPICS ports and compose variables
+docker compose up -d           # -d detaches; omit it to follow the combined logs
 ```
 
 :::{note}
-Note that the above commands use `EPICS_CA_ADDR_LIST` to point channel access clients at the localhost because the containers are only exposing the Channel Access Ports to the loopback adapter Via a ca-gateway.
+The `phoebus` container draws its window on your host X display. If Phoebus does
+not appear and its logs show X11 authorization errors — most likely on Wayland —
+grant the local user access to the display and bring the stack back up:
 
-This means that the PVs are only accessible from the host running the containers. Which makes it ideal for tutorials.
+```bash
+xhost +SI:localuser:$(id -un)
+```
 :::
 
-This tutorial is a simple introduction to validate that the setup is working. In the following tutorials you will get to create your own beamline and start adding IOCs to it.
+Phoebus opens with an overview of the running beamline:
 
-::: {important}
-Before moving on to the next tutorial always make sure to stop and delete the containers from your current example as follows:
+:::{figure} ../images/example_beamline.png
+The example beamline overview screen.
+:::
+
+## Talk to the beamline
+
+`source ./environment.sh` pointed your shell's Channel Access at the gateway
+(`EPICS_CA_NAME_SERVERS=127.0.0.1:9064`), so if you have the EPICS tools
+installed locally you can read a PV straight away:
+
+```bash
+caget BL01T-DI-CAM-01:DET:Acquire_RBV
+```
+
+No local EPICS tools? Run `caget` inside one of the IOC containers instead:
+
+```bash
+docker compose exec bl01t-ea-test-01 caget BL01T-DI-CAM-01:DET:Acquire_RBV
+```
+
+:::{note}
+The gateway binds the Channel Access ports to `127.0.0.1` only, so these PVs are
+reachable **only** from this host. That makes the example safe for tutorials —
+nothing leaks onto the wider network.
+:::
+
+Manage individual services with the usual compose subcommands (each takes a
+service name from the list above):
+
+```bash
+docker compose logs bl01t-di-cam-01 -f    # follow a service's logs (ctrl-c to exit)
+docker compose stop bl01t-di-cam-01       # stop a service
+docker compose start bl01t-di-cam-01      # start it again
+```
+
+## Clean up
+
+Always tear the example down before moving on to the next tutorial. Volumes are
+kept, so IOC autosave data survives:
 
 ```bash
 docker compose down
 ```
+
+:::{important}
+If `docker compose down` times out removing the PVA gateway, just run it again —
+the second pass clears the remaining container.
 :::

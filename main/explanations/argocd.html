@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How ArgoCD Deploys Your IOCs &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>How ArgoCD Deploys Your IOCs &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -408,13 +408,9 @@
 <li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
 </ul>
 </div>
@@ -487,7 +483,7 @@ the <code class="docutils literal notranslate"><span class="pre">ec</span></code
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the conceptual companion to the hands-on walk-through in
-<a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy IOCs with ArgoCD</span></a>. If you want to follow along end to end with the <code class="docutils literal notranslate"><span class="pre">t01</span></code>
+<a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>. If you want to follow along end to end with the <code class="docutils literal notranslate"><span class="pre">t02</span></code>
 worked example, start there and refer back here for the “why”.</p>
 </div>
 <section id="gitops-in-one-picture">
@@ -509,35 +505,35 @@ author, a timestamp and a message.</p></li>
 is reverting a commit; ArgoCD reconciles the cluster back to it.</p></li>
 </ul>
 <p>ArgoCD itself is installed once into your Kubernetes cluster as part of cluster
-setup (see <a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Setup a Kubernetes Cluster</span></a>). Everything below assumes it is already
+setup (see <a class="reference internal" href="../tutorials/setup_k8s.html#setup-kubernetes"><span class="std std-ref">Set up a Kubernetes Cluster</span></a>). Everything below assumes it is already
 running and that the <code class="docutils literal notranslate"><span class="pre">argocd</span></code> CLI is logged in.</p>
 </section>
 <section id="two-repositories-two-jobs">
 <h2>Two repositories, two jobs<a class="headerlink" href="#two-repositories-two-jobs" title="Link to this heading">#</a></h2>
 <p>The model deliberately splits responsibilities across <strong>two</strong> Git repositories.
 Keeping them separate is the single most important thing to understand.</p>
-<p>The <strong>services repository</strong> (the worked example is the public
-<a class="github reference external" href="https://github.com/epics-containers/t01-services">epics-containers/t01-services</a>) holds the <em>content</em> of each
-IOC and service: a Helm chart per service plus its <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>. This is where
-service definitions are authored and version-tagged, and it is what the earlier
-tutorials build up (see <a class="reference internal" href="../tutorials/create_beamline.html#create-beamline"><span class="std std-ref">Create a Beamline Repository</span></a> and <a class="reference internal" href="../tutorials/setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a New Kubernetes Beamline</span></a>).
-See the <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a> glossary entry for the full definition.</p>
+<p>The <strong>services repository</strong> (<code class="docutils literal notranslate"><span class="pre">t02-services</span></code> in the worked example) holds the
+<em>content</em> of each IOC and service: a Helm chart per service plus its
+<code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>. This is where service definitions are authored and
+version-tagged, and it is what the earlier cluster tutorials build up (see
+<a class="reference internal" href="../tutorials/setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>). See the <a class="reference internal" href="../reference/glossary.html#services-repo"><span class="std std-ref">services repository</span></a> glossary entry for the
+full definition.</p>
 <p>The <strong>deployment repository</strong> records <em>which</em> of those services run, <em>where</em>,
 and at <em>what version</em>. It is deliberately tiny. You do not clone a ready-made
-one; you scaffold your own (named <code class="docutils literal notranslate"><span class="pre">t01-deployment</span></code> in the worked example) from
+one; you scaffold your own (named <code class="docutils literal notranslate"><span class="pre">t02-deployment</span></code> in the worked example) from
 the public <code class="docutils literal notranslate"><span class="pre">deployment-template-argocd</span></code> template. ArgoCD watches the deployment
 repository for the root Application, while the generated child Applications
 watch the services repository for service charts.</p>
 <p>This separation matters because the two repositories change for different
 reasons and at different rates. Service definitions churn as IOCs are developed;
 that activity stays in the services repository and keeps its history clean.
-Deciding to roll <code class="docutils literal notranslate"><span class="pre">bl01t-ea-fastcs-01</span></code> from one tag to the next is an
+Deciding to roll <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> from one tag to the next is an
 <em>operational</em> decision, and it lands as a one-line change in the deployment
 repository. The two histories never get tangled.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>ArgoCD is not mandatory. If you would rather drive Helm yourself without a
-GitOps controller, the <a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">The ec Backend Model</span></a> page covers the pure-Helm (<code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=K8S</span></code>)
+GitOps controller, the <a class="reference internal" href="../reference/helm.html#helm"><span class="std std-ref">Deploying with Helm (the ec backends)</span></a> page covers the pure-Helm (<code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=K8S</span></code>)
 alternative. The rest of this page describes the ArgoCD path.</p>
 </div>
 </section>
@@ -547,18 +543,18 @@ alternative. The rest of this page describes the ArgoCD path.</p>
 App points at a Git repository, a path within it, and a target revision, and
 keeps the matching Kubernetes resources in sync.</p>
 <p>The deployment repository contains a single root App, defined in <code class="docutils literal notranslate"><span class="pre">apps.yaml</span></code> and
-named for the domain (<code class="docutils literal notranslate"><span class="pre">t01</span></code> in the worked example). Its source path is the
+named for the domain (<code class="docutils literal notranslate"><span class="pre">t02</span></code> in the worked example). Its source path is the
 <code class="docutils literal notranslate"><span class="pre">apps/</span></code> directory <strong>of the deployment repository itself</strong>:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># apps.yaml (the root Application)</span>
 <span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argoproj.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01</span><span class="w">                       </span><span class="c1"># named for the domain</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02</span><span class="w">                       </span><span class="c1"># named for the domain</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">source</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps</span><span class="w">                    </span><span class="c1"># the apps/ chart in THIS (deployment) repo</span>
-<span class="w">    </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/your-org/t01-deployment</span>
+<span class="w">    </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;org&gt;/t02-deployment</span>
 <span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 <span class="w">  </span><span class="nt">syncPolicy</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">automated</span><span class="p">:</span>
@@ -571,28 +567,28 @@ chart, which in turn produces all the other Apps. Bootstrapping it is a single
 command (<code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">create</span> <span class="pre">--file</span> <span class="pre">apps.yaml</span></code>, or the equivalent action in your
 ArgoCD web UI), and from then on the domain manages itself. A freshly scaffolded
 deployment repository seeds a few shared children automatically:
-<code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs</span></code> (shared persistent storage), <code class="docutils literal notranslate"><span class="pre">t01-epics-opis</span></code> (auto-generated
+<code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> (shared persistent storage), <code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code> (auto-generated
 engineering screens served over HTTP), and, if you enabled gateways,
-<code class="docutils literal notranslate"><span class="pre">t01-epics-gateways</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code>.</p>
 </section>
 <section id="the-control-surface-apps-values-yaml">
 <h2>The control surface: apps/values.yaml<a class="headerlink" href="#the-control-surface-apps-values-yaml" title="Link to this heading">#</a></h2>
 <p>The one file that humans and CI actually edit is <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. It is the
 values file for the <code class="docutils literal notranslate"><span class="pre">apps/</span></code> chart, and it declares both the defaults shared by
 every service and the per-service map of what to run:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span><span class="w">             </span><span class="c1"># ArgoCD project (= the namespace)</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span><span class="w">             </span><span class="c1"># ArgoCD project (= the namespace)</span>
 <span class="nt">destination</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-cluster</span><span class="w">              </span><span class="c1"># the cluster where the IOCs RUN</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t01-beamline</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="nt">source</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/epics-containers/t01-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
+<span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;your-account&gt;/t02-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
 <span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">            </span><span class="c1"># default branch/tag of the services repo</span>
 <span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t01-epics-pvcs</span><span class="p">:</span><span class="w">                 </span><span class="c1"># a bare entry inherits all the defaults</span>
-<span class="w">  </span><span class="nt">t01-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bl01t-ea-fastcs-01</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span><span class="w">                 </span><span class="c1"># a bare entry inherits all the defaults</span>
+<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">bl01t-di-cam-01</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bl02t-ea-cam-02</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">          </span><span class="c1"># per-service version override</span>
 </pre></div>
 </div>
@@ -613,7 +609,7 @@ ArgoCD prunes it from the cluster.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">labels</span></code></strong>: labels applied to the service’s Kubernetes resources (for
 example a human-readable <code class="docutils literal notranslate"><span class="pre">description</span></code>).</p></li>
 </ul>
-<p>A bare entry with no value (such as <code class="docutils literal notranslate"><span class="pre">t01-epics-pvcs:</span></code> above) is valid and simply
+<p>A bare entry with no value (such as <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs:</span></code> above) is valid and simply
 inherits every default.</p>
 </section>
 <section id="how-one-file-becomes-many-applications">
@@ -700,17 +696,17 @@ set for you when you <code class="docutils literal notranslate"><span class="pre
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=ARGOCD</span></code></strong> selects the GitOps backend (it is also the
 default).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code></strong> is <code class="docutils literal notranslate"><span class="pre">&lt;namespace&gt;/&lt;root-app&gt;</span></code>, for example <code class="docutils literal notranslate"><span class="pre">t01-beamline/t01</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code></strong> is <code class="docutils literal notranslate"><span class="pre">&lt;namespace&gt;/&lt;root-app&gt;</span></code>, for example <code class="docutils literal notranslate"><span class="pre">t02-beamline/t02</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code></strong> is the services repository URL, for example
-<code class="docutils literal notranslate"><span class="pre">https://github.com/epics-containers/t01-services</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-account&gt;/t02-services</span></code>.</p></li>
 </ul>
 <p>The important thing to understand is what <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> actually does. Running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl01t-ea-fastcs-01<span class="w"> </span><span class="m">2024</span>.12.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span><span class="m">2026</span>.7.1
 </pre></div>
 </div>
 <p>does <strong>not</strong> push anything into the cluster directly. It <strong>records the desired
 state in Git</strong>: it commits and pushes the new <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> for
-<code class="docutils literal notranslate"><span class="pre">services.bl01t-ea-fastcs-01</span></code> into <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> in the deployment
+<code class="docutils literal notranslate"><span class="pre">services.bl02t-ea-cam-01</span></code> into <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> in the deployment
 repository, and then runs <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">get</span> <span class="pre">--refresh</span></code> so ArgoCD re-reads Git
 immediately rather than waiting for the next poll. The actual reconciliation is
 done by ArgoCD’s auto-sync. In other words, <strong><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> does not run
@@ -719,8 +715,8 @@ exactly the GitOps model from the top of this page, with <code class="docutils l
 convenient front end to it.</p>
 <p>For the step-by-step version of all of this, including scaffolding the
 deployment repository, bootstrapping the root App and watching the sync in the
-web UI, see <a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy IOCs with ArgoCD</span></a>. For the contrasting local, non-Kubernetes
-workflow that the introductory tutorials use, see <a class="reference internal" href="../tutorials/deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the Example IOC Instance</span></a>.</p>
+web UI, see <a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>. For the contrasting local, non-Kubernetes
+workflow that the introductory tutorials use, see <a class="reference internal" href="../tutorials/deploy_example.html#deploy-example-instance"><span class="std std-ref">Deploy the services</span></a>.</p>
 </section>
 </section>
 

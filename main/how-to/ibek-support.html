@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -397,14 +397,10 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.html">Builder2ibek Conversion Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="builder2ibek.support.html">Builder2ibek.support Conversion Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="compose-quickstart.html">Docker Compose Quickstart</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contribute.html">Contributing to the project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copier_update.html">Updating User Repositories with Copier</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Updating and Testing ibek-support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="own_tools.html">Choose Your Developer Environment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="phoebus.html">Viewing Operator Interfaces with Phoebus</a></li>
 </ul>
 </div>
 </nav></div>
@@ -472,6 +468,11 @@ contains <code class="docutils literal notranslate"><span class="pre">ibek</span
 example procedure for local testing of changes to support YAML in ibek-support
 alongside the IOC instance YAML that uses it.</p>
 <p>(Suggest you do this inside a developer workspace devcontainer.)</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code> before running
+<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">ibek</span></code>.</p>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my-workspace-folder
 
 <span class="c1"># clone ibek-support</span>
@@ -479,7 +480,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/epics
 <span class="c1"># clone a services repo that contains example IOC instance YAML</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/epics-containers/example-services.git
 
-<span class="c1"># get the latest ibek installed (DLS users: module load uv)</span>
+<span class="c1"># get the latest ibek installed</span>
 uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>ibek
 
 <span class="nb">cd</span><span class="w"> </span>example-services/services/bl01t-ea-test-01
@@ -493,9 +494,10 @@ definitions of the classes of entities available.</p>
 <p>By default the generated files are written to the runtime output folder
 (<code class="docutils literal notranslate"><span class="pre">/epics/runtime</span></code>); pass <code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&lt;folder&gt;</span></code> to write them somewhere else, for example
 <code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">.</span></code> to write into the current directory.</p>
-<p>If your IOC instance is split across more than one entity file (for example a
-base <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus a services-repo <code class="docutils literal notranslate"><span class="pre">config/runtime.yaml</span></code>), use
-<code class="docutils literal notranslate"><span class="pre">generate2</span></code>, which takes the config folder and discovers both files:</p>
+<p>If your IOC instance is split across more than one entity file (for example
+<code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus extra entity YAML vendored into <code class="docutils literal notranslate"><span class="pre">config/</span></code> with
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code>), use <code class="docutils literal notranslate"><span class="pre">generate2</span></code>, which takes the config folder and
+discovers all of them:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate2<span class="w"> </span>config<span class="w"> </span>--definitions<span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml
 </pre></div>
 </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,8 +58,8 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working with Support Modules" href="support_module.html" />
-    <link rel="prev" title="Create a Generic IOC" href="generic_ioc.html" />
+    <link rel="next" title="Edit or Create a Support Module" href="support_module.html" />
+    <link rel="prev" title="Author Your Own Runtime Pattern" href="custom_pattern.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_workstation.html">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,136 +480,151 @@
                   
   <section id="debugging-generic-ioc-builds">
 <h1>Debugging Generic IOC Builds<a class="headerlink" href="#debugging-generic-ioc-builds" title="Link to this heading">#</a></h1>
-<p>This tutorial is a continuation of <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. Here we will look into
-debugging failed builds of Generic IOCs.</p>
-<p>For the most part the recommended workflow is to always be working inside
-of a developer container. We always use a Generic IOC as the base for our
-developer containers. But what if the build of the Generic IOC fails, then
-you don’t have a container to work in and need some other way to debug the
-build.</p>
-<p>There are two ways to debug such a failed build:</p>
-<ul class="simple">
-<li><p>Keep changing the Dockerfile and rebuilding the container until the build
-succeeds. This is the simplest approach and is often sufficient since our
-Dockerfile design maximizes the use of the build cache.</p></li>
-<li><p>Investigate the build failure by running a shell inside the
-partially-built container and retrying the failed command. This is particularly
-useful if you are fixing something early in the Dockerfile that causes a
-failure much later in the build. This type of failure is tedious to debug
-using the first approach above.</p></li>
-</ul>
-<p>In this tutorial we will look debugging the build from <em>inside</em> the container.</p>
+<p>This tutorial continues from <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>, where we built the
+<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC and re-authored its <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe.
+Here we look at what to do when such a build <em>fails</em>.</p>
+<p>The developer container is built <strong>from the Generic IOC image</strong> (the <code class="docutils literal notranslate"><span class="pre">developer</span></code>
+target of the same <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>). That is normally a strength — you debug in the
+exact environment the image is built in — but it has one catch: when the <em>image</em>
+build fails, there is no container to open. The fix is a small trick:</p>
+<ol class="arabic simple">
+<li><p>Comment out the failing <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">…</span></code> line so the image — and therefore
+the dev container built from it — builds again.</p></li>
+<li><p>Reopen the dev container.</p></li>
+<li><p>Run the failing command <strong>by hand</strong> inside the live container and iterate
+until it passes.</p></li>
+<li><p>Uncomment the line and run a full <code class="docutils literal notranslate"><span class="pre">./build</span></code> to confirm.</p></li>
+</ol>
+<p>This makes the dev container the debugging surface, which is the project’s
+gold-standard loop.</p>
 <section id="break-the-build">
-<h2>Break the Build<a class="headerlink" href="#break-the-build" title="Link to this heading">#</a></h2>
-<p>Let us break the build of our ioc-lakeshore340 project in the last
-tutorial. Open the the file
-<code class="docutils literal notranslate"><span class="pre">ioc-lakeshore340/ibek-support/StreamDevice/StreamDevice.install.yml</span></code>.
-Comment out the app_developer section like this:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># apt_developer:</span>
-<span class="c1">#   - libpcre3-dev</span>
+<h2>Break the build<a class="headerlink" href="#break-the-build" title="Link to this heading">#</a></h2>
+<p>Let us introduce a realistic mistake into the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe you
+authored in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. Open
+<code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code> and change <code class="docutils literal notranslate"><span class="pre">version</span></code> to a
+tag that does not exist:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R2-111</span><span class="w">          </span><span class="c1"># typo — there is no such tag</span>
 </pre></div>
 </div>
-<p>This removes installation of the system dependency on the <code class="docutils literal notranslate"><span class="pre">libpcre3-dev</span></code> package and StreamDevice will therefore fail to build.</p>
-<p>Now rebuild the container - do this command from a new terminal <em>outside</em> of the devcontainer:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-lakeshore340<span class="w"> </span><span class="c1"># where you cloned it</span>
+<p>Now rebuild from a terminal <em>outside</em> the dev container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector<span class="w">     </span><span class="c1"># wherever you cloned it</span>
 ./build
 </pre></div>
 </div>
-<p>First of all, notice the build cache. The build rapidly skips
-over all the steps until it gets to the StreamDevice support module. The,
-cache fails only when you get to <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">ibek-support/StreamDevice/</span> <span class="pre">StreamDevice/</span></code>
-because a file in the source folder has changed.</p>
-<p>You should see the build fail with the following error:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>../RegexpConverter.cc:27:10:<span class="w"> </span>fatal<span class="w"> </span>error:<span class="w"> </span>pcre.h:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
-<span class="m">27</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="c1">#include &quot;pcre.h&quot;</span>
-<span class="w">    </span><span class="p">|</span><span class="w">          </span>^~~~~~~~
-compilation<span class="w"> </span>terminated.
+<p>The build cache skips the unchanged steps and re-runs from
+<code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">ibek-support/ADSimDetector/</span> <span class="pre">ADSimDetector</span></code> onwards. <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> clones the
+module before building it, and the clone fails because the requested ref is not
+in the upstream repo:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>fatal: Remote branch R2-111 not found in upstream origin
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A wrong <code class="docutils literal notranslate"><span class="pre">organization</span></code> (or a private repo with no credentials) fails at the same
+step with an <em>authentication</em> or <em>repository not found</em> error — same place,
+different message.</p>
+</div>
+</section>
+<section id="get-a-working-dev-container">
+<h2>Get a working dev container<a class="headerlink" href="#get-a-working-dev-container" title="Link to this heading">#</a></h2>
+<p>Because the image will not build, the dev container cannot open. Comment out the
+failing line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, leaving its matching <code class="docutils literal notranslate"><span class="pre">COPY</span></code> in place:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/ADSimDetector/<span class="w"> </span>ADSimDetector
+<span class="c"># RUN ansible.sh ADSimDetector</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">developer</span></code> image now builds again — it simply omits the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code>
+support for the moment. Reopen and rebuild the dev container so it picks up the
+edited <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
+<span class="c1"># then Ctrl-Shift-P -&gt; &quot;Dev Containers: Rebuild Container&quot;</span>
 </pre></div>
 </div>
 </section>
-<section id="investigate-the-build-failure">
-<h2>Investigate the Build Failure<a class="headerlink" href="#investigate-the-build-failure" title="Link to this heading">#</a></h2>
-<p>When a container build fails the container image is created up to the point
-where the last successful Dockerfile command was run. This means that we can
-investigate the build failure by running a shell in the container.</p>
-<ul class="simple">
-<li><p>scroll up the page until you see the last successful build step e.g.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--&gt;<span class="w"> </span>43eb74c72eab
-STEP<span class="w"> </span><span class="m">17</span>/22:<span class="w"> </span>COPY<span class="w"> </span>ibek-support/StreamDevice/<span class="w"> </span>StreamDevice
---&gt;<span class="w"> </span>da81452bc214
-STEP<span class="w"> </span><span class="m">18</span>/22:<span class="w"> </span>RUN<span class="w"> </span>ansible.sh<span class="w"> </span>StreamDevice
-...<span class="w"> </span>etc<span class="w"> </span>...
+<section id="fix-it-live-inside-the-container">
+<h2>Fix it live inside the container<a class="headerlink" href="#fix-it-live-inside-the-container" title="Link to this heading">#</a></h2>
+<p>Open a terminal in the dev container (Terminal -&gt; New Terminal) and run the
+command that failed, by hand:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>ADSimDetector
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>copy the hash of the step you want to debug e.g. <code class="docutils literal notranslate"><span class="pre">da81452bc214</span></code> in this case</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--entrypoint</span> <span class="pre">/bin/bash</span> <span class="pre">da81452bc214</span> <span class="pre">#</span> <span class="pre">(the</span> <span class="pre">hash</span> <span class="pre">you</span> <span class="pre">copied)</span></code></p></li>
-</ul>
-<p>Now we have a prompt inside the part-built container and can retry the failed
-command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>StreamDevice
+<p>You get the same clone error — but now you can fix it in place. Correct the
+version in <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code> back to the
+real tag and re-run. <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> is idempotent, so you can re-run it as often as
+you like:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R2-11</span>
 </pre></div>
 </div>
-<p>You should see the same error again.</p>
-<p>This is a pretty common type of error
-when building a new support module. It implies that there is some dependency
-missing. There is a good chance this is a system dependency, in which case
-we want to search the Ubuntu repositories for the missing package.</p>
-<p>A really good way to investigate this kind of error is with <code class="docutils literal notranslate"><span class="pre">apt-file</span></code>
-which is a command line tool for searching Debian packages. <code class="docutils literal notranslate"><span class="pre">apt-file</span></code> is
-not currently installed in the devcontainer. So you have two choices:</p>
-<ul class="simple">
-<li><p>Install it in the devcontainer - this is temporary and will be lost when
-the container is rebuilt. Ideal if you don’t have install rights on your
-workstation.</p></li>
-<li><p>Install it on your workstation - ideal if you have rights as you only need
-to install it once.</p></li>
-</ul>
-<p>TODO: consider adding apt-file to the base container developer target.</p>
-<p>Whether inside the container or in your workstation terminal, install
-<code class="docutils literal notranslate"><span class="pre">apt-file</span></code> like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># inside a podman container you are root, so you can omit the sudo</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>apt-file
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>ADSimDetector
 </pre></div>
 </div>
-<p>Now we can search for the missing file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-file<span class="w"> </span>update
-apt-file<span class="w"> </span>search<span class="w"> </span>pcre.h
+<p>This time the module clones and builds.</p>
+</section>
+<section id="make-the-fix-permanent">
+<h2>Make the fix permanent<a class="headerlink" href="#make-the-fix-permanent" title="Link to this heading">#</a></h2>
+<p>Uncomment the <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code> line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, then run a
+full build from outside the container to confirm the image builds cleanly from
+scratch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build
 </pre></div>
 </div>
-<p>There are a few results, but the most promising is:</p>
-<blockquote>
-<div><p>libpcre3-dev: /usr/include/pcre.h</p>
-</div></blockquote>
-<p>Pretty much every time you are missing a header file you will find it in a
-system package with a name ending in <code class="docutils literal notranslate"><span class="pre">-dev</span></code>.</p>
-<p>Now we can install the missing package in the container and retry the build:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libpcre3-dev
-ansible.sh<span class="w"> </span>StreamDevice
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the same try-it-live-then-make-it-permanent loop you used to <em>add</em>
+modules in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a> — only here it starts from a failure. Anything you
+can fix interactively with <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> can be recorded in the recipe or
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> and replayed by <code class="docutils literal notranslate"><span class="pre">./build</span></code>.</p>
+</div>
+</section>
+<section id="aside-a-missing-system-header">
+<h2>Aside: a missing system header<a class="headerlink" href="#aside-a-missing-system-header" title="Link to this heading">#</a></h2>
+<p>A different class of failure is a module that <em>clones</em> fine but fails to
+<strong>compile</strong> with a missing header:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>fatal error: tiffio.h: No such file or directory
 </pre></div>
 </div>
-<p>You should find the build succeeds. But this is not the whole story. There is another section in <code class="docutils literal notranslate"><span class="pre">StreamDevice.install.yml</span></code> that I added to make this work:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">patch_lines</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">config_linux_host</span><span class="nv"> </span><span class="s">}}&quot;</span>
-<span class="w">    </span><span class="nt">regexp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PCRE_LIB</span>
-<span class="w">    </span><span class="nt">line</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PCRE_LIB=/usr/lib/x86_64-linux-gnu</span>
-<span class="w">    </span><span class="nt">when</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">is_linux</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<p>A missing header almost always means a missing system <code class="docutils literal notranslate"><span class="pre">-dev</span></code> package. Inside the
+container you are <code class="docutils literal notranslate"><span class="pre">root</span></code>, so find which package provides the header and install
+it with no <code class="docutils literal notranslate"><span class="pre">sudo</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt<span class="w"> </span>update
+apt<span class="w"> </span>install<span class="w"> </span>apt-file
+apt-file<span class="w"> </span>update
+apt-file<span class="w"> </span>search<span class="w"> </span>tiffio.h
 </pre></div>
 </div>
-<p>This added a macro to <code class="docutils literal notranslate"><span class="pre">CONFIG_SITE.linux-x86_64.Common</span></code> that tells the
-Makefiles to add an extra include path to the compiler command line. working
-out how to do this is a matter of taking a look in the Makefiles. But the
-nice thing is that you can experiment with things inside the container and
-get them working without having to keep rebuilding the container.
-(TODO: strictly speaking this could be improved, we should remove the {{ is_linux }} and use the path {{ config_linux_target }} instead, that updates CONFIG_SITE.Common.linux-x86_64 which only affects the linux-x86_64 target)</p>
-<p>Note that ansible is idempotent, so you can run it multiple times without getting repeated entries in the CONFIG.</p>
-<p>Once you are happy with your manual changes you can make them permanent by adding to the <code class="docutils literal notranslate"><span class="pre">&lt;module&gt;install.yml</span></code> or Dockerfile, then try a full rebuild.</p>
+<p>Once you know the package, record it in the module’s <code class="docutils literal notranslate"><span class="pre">*.install.yml</span></code> so the next
+build installs it automatically. Recipes split their system packages into two
+keys:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Installed</p></th>
+<th class="head"><p>Holds</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">apt_developer</span></code></p></td>
+<td><p>in the build stage only</p></td>
+<td><p>headers and <code class="docutils literal notranslate"><span class="pre">-dev</span></code> packages needed to <em>compile</em> the module</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">apt_runtime</span></code></p></td>
+<td><p>into the slim runtime image</p></td>
+<td><p>shared libraries the IOC needs at <em>run</em> time</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For example <code class="docutils literal notranslate"><span class="pre">ADCore.install.yml</span></code> lists <code class="docutils literal notranslate"><span class="pre">libtiff-dev</span></code> under <code class="docutils literal notranslate"><span class="pre">apt_developer</span></code> and
+<code class="docutils literal notranslate"><span class="pre">libtiff6</span></code> under <code class="docutils literal notranslate"><span class="pre">apt_runtime</span></code>.</p>
 </section>
 <section id="tools-inside-the-container">
-<h2>Tools Inside the Container<a class="headerlink" href="#tools-inside-the-container" title="Link to this heading">#</a></h2>
-<p>You will find that the developer container includes busybox tools, vim and ifconfig. These should provide enough tools to investigate and fix most build problems. You are also free to use apt-get to install any other tools you need as demonstrated above. (type busybox to see the list of available tools).</p>
+<h2>Tools inside the container<a class="headerlink" href="#tools-inside-the-container" title="Link to this heading">#</a></h2>
+<p>The dev container is Ubuntu-based and you are <code class="docutils literal notranslate"><span class="pre">root</span></code> (podman maps that back to
+your own user on the host), so you can <code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span></code> anything you need to
+investigate a build. It also ships <a class="reference external" href="https://www.busybox.net/"><code class="docutils literal notranslate"><span class="pre">busybox</span></code></a>, which
+provides network diagnostics such as <code class="docutils literal notranslate"><span class="pre">ifconfig</span></code> plus many small utilities — run
+<code class="docutils literal notranslate"><span class="pre">busybox</span></code> to list them.</p>
 </section>
 </section>
 
@@ -622,12 +639,12 @@ get them working without having to keep rebuilding the container.
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="generic_ioc.html"
+       href="custom_pattern.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Create a Generic IOC</p>
+        <p class="prev-next-title">Author Your Own Runtime Pattern</p>
       </div>
     </a>
     <a class="right-next"
@@ -635,7 +652,7 @@ get them working without having to keep rebuilding the container.
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Support Modules</p>
+        <p class="prev-next-title">Edit or Create a Support Module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -658,9 +675,12 @@ get them working without having to keep rebuilding the container.
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-the-build">Break the Build</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#investigate-the-build-failure">Investigate the Build Failure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-inside-the-container">Tools Inside the Container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-the-build">Break the build</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-a-working-dev-container">Get a working dev container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-it-live-inside-the-container">Fix it live inside the container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-fix-permanent">Make the fix permanent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-a-missing-system-header">Aside: a missing system header</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-inside-the-container">Tools inside the container</a></li>
 </ul>
   </nav></div>
 

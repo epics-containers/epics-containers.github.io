@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>EPICS Network Protocols in Containers &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>EPICS Network Protocols in Containers &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Essential Concepts" href="introduction.html" />
-    <link rel="prev" title="About the documentation" href="docs-structure.html" />
+    <link rel="prev" title="5. Use Python for scripting inside and outside containers" href="decisions/0005-python-scripting.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="main" />
@@ -408,13 +408,9 @@
 <li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="docs-structure.html">About the documentation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">EPICS Network Protocols in Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc-source.html">Dev Container vs Runtime Container</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kubernetes_cluster.html">Kubernetes Cluster Config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="net_protocols.html">Channel Access and Other Protocols</a></li>
-<li class="toctree-l1"><a class="reference internal" href="repositories.html">Source and Registry Locations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
 </ul>
 </div>
@@ -478,73 +474,89 @@
                   
   <section id="epics-network-protocols-in-containers">
 <h1>EPICS Network Protocols in Containers<a class="headerlink" href="#epics-network-protocols-in-containers" title="Link to this heading">#</a></h1>
-<p>When EPICS IOCs run in containers, Channel Access or PVAcess protocols must be made available to clients. There are some challenges around this that are discussed in this page.</p>
+<p>When EPICS IOCs run in containers, their Channel Access (CA) and PV Access
+(PVA) traffic must still reach clients. Both protocols predate containers and
+make assumptions - UDP broadcast for discovery, freely negotiated ephemeral
+ports - that container networks do not always honour. This page explains the
+options and why epics-containers makes the choices it does.</p>
 <section id="approaches-to-network-protocols">
 <h2>Approaches to Network Protocols<a class="headerlink" href="#approaches-to-network-protocols" title="Link to this heading">#</a></h2>
-<p>To get clients and servers connected we can use 3 approaches:</p>
+<p>There are three ways to connect clients and servers:</p>
 <ol class="arabic simple">
-<li><p>Run IOC containers in <strong>Host Network</strong>:</p>
+<li><p>Run IOC containers in <strong>host network</strong>:</p>
 <ul class="simple">
-<li><p>This is the approach that DLS has adopted for IOCs running in Kubernetes.</p></li>
-<li><p>The container uses the host network stack.</p></li>
-<li><p>This looks identical to running the IOC on the host machine as far as clients are concerned.</p></li>
-<li><p>See a discussion of the reasoning here: <a class="reference internal" href="net_protocols.html"><span class="std std-doc">Channel Access and Other Protocols</span></a></p></li>
-<li><p>This reduces the isolation of the container from the host so additional security measures may be needed.</p></li>
+<li><p>The container uses the host’s network stack, so it looks identical to a
+native IOC running on that machine.</p></li>
+<li><p>This is the approach epics-containers uses for IOCs in Kubernetes - see
+<a class="reference internal" href="#kubernetes-networking"><span class="std std-ref">Running IOCs in Kubernetes</span></a> for why.</p></li>
+<li><p>It reduces isolation between container and host, so additional security
+measures may be needed.</p></li>
 </ul>
 </li>
-<li><p>Use <strong>Port Mapping</strong>:</p>
+<li><p>Use <strong>port mapping</strong>:</p>
 <ul class="simple">
-<li><p>This approach is used in the developer containers defined by <a class="reference external" href="https://github.com/epics-containers/example-services">ioc-template</a></p></li>
-<li><p>The container runs in a container network.</p></li>
-<li><p>The necessary ports are mapped from the host network to the container network.</p></li>
-<li><p>VSCode can do this port mapping automatically when it detects processes binding to ports.</p></li>
-<li><p>This approach is good for local development and running tutorials as the mapping can be made to localhost only and PVs can be isolated to the developer’s machine.</p></li>
+<li><p>Used by the developer containers in
+<a class="reference external" href="https://github.com/epics-containers/example-services">example-services</a>.</p></li>
+<li><p>The container runs in a container network and the required ports are
+mapped from the host. VS Code can do this automatically when it detects
+a process binding to a port.</p></li>
+<li><p>Good for local development and tutorials: the mapping can be bound to
+localhost only, isolating PVs to the developer’s machine.</p></li>
 </ul>
 </li>
-<li><p>Run the clients in the <strong>same container network</strong> as the IOCs:</p>
+<li><p>Run clients in the <strong>same container network</strong> as the IOCs:</p>
 <ul class="simple">
-<li><p>This approach is used in <a class="reference external" href="https://github.com/epics-containers/example-services">example-services</a>.</p></li>
-<li><p><strong>example-services</strong> runs a PVA and a CA gateway in the same container network as the IOCs.</p>
-<ul>
-<li><p>The gateways use Port Mapping to give access to their own clients.</p></li>
-<li><p>The gateways can use any ports and UDP broadcast to communicate with the IOCs.</p></li>
-</ul>
-</li>
-<li><p>If your client is a GUI app, like phoebus, then this may not work as it can be difficult to do X11 forwarding into a rootless container network.</p></li>
+<li><p>Also used by
+<a class="reference external" href="https://github.com/epics-containers/example-services">example-services</a>,
+which runs a CA and a PVA gateway alongside the IOCs.</p></li>
+<li><p>The gateways reach the IOCs over any ports and UDP broadcast, and use
+port mapping to publish to their own clients.</p></li>
+<li><p>A GUI client such as Phoebus may still struggle here, as X11 forwarding
+into a rootless container network is awkward.</p></li>
 </ul>
 </li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> managed Kubernetes beamlines run IOCs in host network for exactly
+the reasons set out below. See the
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">DLS developer guide</a>.</p>
+</div>
 </section>
 <section id="general-observations">
 <h2>General Observations<a class="headerlink" href="#general-observations" title="Link to this heading">#</a></h2>
-<p>Using Host Network or the same container network for client and host is compatible with both PVA and CA protocols.</p>
-<p>For podman networks this is true even for UDP broadcast.</p>
-<p>For the majority of Kubernetes CNI’s the broadcast does not work across pods. It is quite possible that broadcast within pods would work as this is equivalent to ‘same container network’. However this would make management of large numbers of IOCs far more of a manual task.</p>
+<p>Host network, or sharing one container network between client and server, is
+compatible with both CA and PVA - and with UDP broadcast on podman networks.</p>
+<p>Most Kubernetes CNIs do not pass broadcast between pods. Broadcast <em>within</em> a
+pod would work (equivalent to “same container network”), but that would make
+managing large numbers of IOCs a manual chore.</p>
 </section>
 <section id="channel-access">
 <h2>Channel Access<a class="headerlink" href="#channel-access" title="Link to this heading">#</a></h2>
-<p>Specification <a class="reference external" href="https://docs.epics-controls.org/en/latest/internal/ca_protocol.html">https://docs.epics-controls.org/en/latest/internal/ca_protocol.html</a>.</p>
-<p>Experiments with Channel Access servers running in containers reveal:</p>
+<p>Specification: <a class="reference external" href="https://docs.epics-controls.org/en/latest/internal/ca_protocol.html">https://docs.epics-controls.org/en/latest/internal/ca_protocol.html</a>.</p>
+<p>Experiments with CA servers in containers show:</p>
 <ul class="simple">
-<li><p>Port Mapping works for CA including UDP broadcast.</p></li>
-<li><p>But UDP broadcast or unicast only works if the container does not remap the port to a different number inside the container.</p></li>
-<li><p>Using EPICS_CA_NAME_SERVERS always works with Port Mapping</p></li>
+<li><p>Port mapping works for CA, including UDP broadcast.</p></li>
+<li><p>Broadcast or unicast only works if the container does <strong>not</strong> remap the port
+to a different number inside the container.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EPICS_CA_NAME_SERVERS</span></code> always works with port mapping.</p></li>
 </ul>
 </section>
 <section id="pv-access">
 <h2>PV Access<a class="headerlink" href="#pv-access" title="Link to this heading">#</a></h2>
-<p>Specification <a class="reference external" href="https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html">https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html</a>.</p>
-<p>Experimentation with PV Access servers running in containers reveal:</p>
+<p>Specification: <a class="reference external" href="https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html">https://docs.epics-controls.org/en/latest/pv-access/Protocol-Messages.html</a>.</p>
+<p>Experiments with PVA servers in containers show:</p>
 <ul class="simple">
-<li><p>Port Mapping for PVA using UDP always fails because PVA servers open a new random port for each circuit and this is not NAT friendly.</p></li>
-<li><p>Using EPICS_PVA_NAME_SERVERS always works with Port Mapping</p></li>
-<li><p>But the client and server must both be PVXS</p></li>
-<li><p>To talk to a non PVXS server, a pvagw running in the same container network may be used.</p></li>
+<li><p>Port mapping over UDP always fails: a PVA server opens a new random port per
+circuit, which is not NAT friendly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EPICS_PVA_NAME_SERVERS</span></code> always works with port mapping, but both client and
+server must be PVXS.</p></li>
+<li><p>To talk to a non-PVXS server, run a <code class="docutils literal notranslate"><span class="pre">pvagw</span></code> in the same container network.</p></li>
 </ul>
 </section>
-<section id="code">
-<h2>Code<a class="headerlink" href="#code" title="Link to this heading">#</a></h2>
-<p>The following bash scripts can be run to test the assertions made above:</p>
+<section id="test-scripts">
+<h2>Test Scripts<a class="headerlink" href="#test-scripts" title="Link to this heading">#</a></h2>
+<p>The following scripts exercise the assertions above against a demo IOC:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
 
 # demo of exposing Channel Access outside of a container
@@ -558,7 +570,7 @@
 # (caRepeater can go down if the IOC that started it goes down, but it will get
 # restarted by the next IOC startup.)
 
-cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.1.0&#39;
+cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6&#39;
 
 check () {
     podman run $args $env $ports $cmd &gt; /dev/null
@@ -685,7 +697,7 @@ from p4p.client.thread import Context
 Context(&quot;pva&quot;).get(&quot;EXAMPLE:IBEK:SUM&quot;, timeout=0.5)
 &#39;
 
-cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.1.0&#39;
+cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6&#39;
 
 check () {
     podman run $args $env $ports $cmd &gt; /dev/null
@@ -745,6 +757,70 @@ check () {
 </pre></div>
 </div>
 </section>
+<section id="running-iocs-in-kubernetes">
+<span id="kubernetes-networking"></span><h2>Running IOCs in Kubernetes<a class="headerlink" href="#running-iocs-in-kubernetes" title="Link to this heading">#</a></h2>
+<p>A Kubernetes cluster connects pods through a CNI (Container Network Interface)</p>
+<ul class="simple">
+<li><p>a virtual network overlay. To reach a pod from outside you normally define a
+Service, which provides Network Address Translation (NAT) and an external
+IP/port. CNIs typically do <strong>not</strong> carry broadcast traffic on this virtual
+LAN.</p></li>
+</ul>
+<p>That breaks two things EPICS relies on:</p>
+<ul class="simple">
+<li><p><strong>UDP broadcast</strong> for IOC discovery.</p></li>
+<li><p><strong>Application-negotiated ephemeral ports</strong> - NAT cannot route to a port it
+has not already seen, so the reply looks like a brand-new connection.</p></li>
+</ul>
+<p>When prototyping IOCs in Kubernetes we hit these problems with Channel Access,
+PV Access and GVSP (GigE Vision Streaming Protocol).</p>
+<section id="why-per-protocol-workarounds-fail">
+<h3>Why per-protocol workarounds fail<a class="headerlink" href="#why-per-protocol-workarounds-fail" title="Link to this heading">#</a></h3>
+<p>We first tried protocol-specific proxies. The diagram below shows a
+“ca-forwarder” on the EPICS client subnet relaying requests to IOCs in the
+cluster:</p>
+<figure class="align-default">
+<img alt="../_images/caforwarder.png" src="../_images/caforwarder.png" />
+</figure>
+<p>But this breaks down as soon as a client lives <em>inside</em> the cluster:</p>
+<figure class="align-default">
+<img alt="../_images/cabackwarder.png" src="../_images/cabackwarder.png" />
+</figure>
+<p>Each workaround was fiddly, had to be redone per protocol, and gave no
+guarantee that every protocol we might need could be solved at all.</p>
+</section>
+<section id="solution-host-network">
+<h3>Solution: host network<a class="headerlink" href="#solution-host-network" title="Link to this heading">#</a></h3>
+<p>Instead we bypass the CNI entirely:</p>
+<ul class="simple">
+<li><p>Run IOC pods on worker nodes that sit in the <strong>beamline subnet</strong>.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">hostNetwork:</span> <span class="pre">true</span></code> so pods get direct access to the host node’s network.</p></li>
+</ul>
+<p>From a networking point of view the IOC is then indistinguishable from a
+traditional IOC on a beamline server: it listens on the host’s IP, receives
+broadcasts, and can open ephemeral ports that clients reach with no NAT in the
+way. <code class="docutils literal notranslate"><span class="pre">hostNetwork:</span> <span class="pre">true</span></code> is the default in the
+<a class="reference external" href="https://github.com/epics-containers/ec-helm-charts">ioc-instance Helm chart</a>.</p>
+<p>Host network needs elevated privileges, so harden the pods:</p>
+<ul class="simple">
+<li><p><strong>Drop unneeded Linux capabilities</strong> in the pod’s <code class="docutils literal notranslate"><span class="pre">securityContext</span></code>, keeping
+only what EPICS needs (for example <code class="docutils literal notranslate"><span class="pre">NET_ADMIN</span></code> and <code class="docutils literal notranslate"><span class="pre">NET_BROADCAST</span></code>). This
+shrinks the attack surface.</p></li>
+<li><p><strong>Pin IOC pods to beamline nodes.</strong> Label and taint the beamline worker
+nodes with the beamline name; IOC pods then set a matching <code class="docutils literal notranslate"><span class="pre">nodeSelector</span></code>
+and <code class="docutils literal notranslate"><span class="pre">tolerations</span></code> so only the right IOCs land there.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>DLS users:</strong> the production “Argus” cluster implements this pattern with remote
+beamline worker nodes. See the developer guide
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/explanations/argocd-accelerator.html">argocd-accelerator</a>
+explanation and the
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/reference/where.html">where</a>
+reference.</p>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -758,12 +834,12 @@ check () {
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="docs-structure.html"
+       href="decisions/0005-python-scripting.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">About the documentation</p>
+        <p class="prev-next-title">5. Use Python for scripting inside and outside containers</p>
       </div>
     </a>
     <a class="right-next"
@@ -798,7 +874,12 @@ check () {
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-observations">General Observations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#channel-access">Channel Access</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pv-access">PV Access</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code">Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-scripts">Test Scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-iocs-in-kubernetes">Running IOCs in Kubernetes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-per-protocol-workarounds-fail">Why per-protocol workarounds fail</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-host-network">Solution: host network</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Launch A Simulation Beamline" href="launch_example.html" />
+    <link rel="next" title="Launch a Simulation Beamline" href="launch_example.html" />
     <link rel="prev" title="Tutorials Introduction" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -399,23 +399,25 @@
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Tutorials Introduction</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Set up a Developer Workstation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch A Simulation Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Repository</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploying and Managing IOC Instances</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_example.html">Launch a Simulation Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_beamline.html">Create a Beamline Services Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_example.html">Deploy and Manage IOC Instances Locally</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create_ioc.html">Create an IOC Instance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detector_plugins.html">Add the Standard Detector Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stream_device.html">Add a Stream Device with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container.html">Developer Containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_container2.html">Developer Containers Part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes1.html">Changing the IOC Instance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ioc_changes2.html">Changing a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="debug_generic_ioc.html">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Working with Support Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Setup a Kubernetes Cluster</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a New Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Add an IOC to the Kubernetes Beamline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy IOCs with ArgoCD</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_setup.html">RTEMS - Creating a File Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rtems_ioc.html">RTEMS - Deploying an Example IOC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup_argocd.html">Set up Argo CD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy_argocd.html">Deploy an IOC with ArgoCD</a></li>
 </ul>
 </div>
 </nav></div>
@@ -478,68 +480,56 @@
                   
   <section id="set-up-a-developer-workstation">
 <h1>Set up a Developer Workstation<a class="headerlink" href="#set-up-a-developer-workstation" title="Link to this heading">#</a></h1>
-<p>This page will guide you through the steps to set up a developer workstation
-in readiness for the remaining tutorials.
-The tools you need to install are:</p>
+<p>This page gets your workstation ready for the rest of the tutorials. By the end
+you will have the handful of tools the tutorials rely on:</p>
 <ul class="simple">
-<li><p>Visual Studio Code</p></li>
-<li><p>a container platform: podman (plus docker-compose)</p></li>
-<li><p>Python 3.13 or later (uv can also install this for you)</p></li>
-<li><p>uv, to install the Python CLI tools (copier and ec)</p></li>
-<li><p>git client for version control (Configured for the current user, with read-write access for Repository Contents and Workflows.)</p></li>
+<li><p><strong>Visual Studio Code</strong> — the recommended editor, for its devcontainer,
+Kubernetes, YAML and EPICS integration.</p></li>
+<li><p><strong>A container platform</strong> — <code class="docutils literal notranslate"><span class="pre">podman</span></code> (recommended) or <code class="docutils literal notranslate"><span class="pre">docker</span></code>, plus
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">uv</span></code></strong> — installs and runs the Python CLI tools (<code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code>).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">git</span></code></strong> — configured for your user with access to your repositories.</p></li>
+<li><p><strong>Python 3.13+</strong> — optional; <code class="docutils literal notranslate"><span class="pre">uv</span></code> can provide it for you.</p></li>
 </ul>
-<p>If you prefer to use a virtual machine, we provide a VirtualBox appliance with all the software pre-installed. This is the easiest way to get started.</p>
-<p>Visual Studio Code is recommended because it has excellent integration with
-devcontainers. It also has useful extensions for working with Kubernetes,
-EPICS, Yaml files and more.</p>
+<p>Not using VSCode? You can use any editor — see <a class="reference internal" href="../how-to/own_tools.html#own-editor"><span class="std std-ref">Working with your own code editor</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Using a Personal Access Token (PAT):</strong> If following the tutorials on an untrusted machine, using a PAT for authentication is encouraged as it can be scoped and time bound. For Github users a new token can be created via Settings -&gt; Developer Settings -&gt; Personal access tokens -&gt; Fine-grained tokens. Give your new token R/W access to Repository Contents and Workflows.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Remember credentials for 5 hours duration
-git config --global credential.helper &#39;cache --timeout 18000&#39;
-# When asked to login
-Username for `https://github.com&#39;: &lt;ENTER YOUR USERNAME&gt;
-Password for `https://&lt;YOUR USERNAME&gt;@github.com&#39;: &lt;ENTER YOUR PAT&gt;
+<p><strong>Personal Access Tokens (PAT).</strong> On an untrusted machine, authenticate to
+GitHub with a fine-grained PAT (Settings → Developer Settings → Personal access
+tokens) scoped to <strong>Repository Contents</strong> and <strong>Workflows</strong>, rather than an SSH
+key. Cache it so you are not prompted repeatedly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>credential.helper<span class="w"> </span><span class="s1">&#39;cache --timeout 18000&#39;</span>
 </pre></div>
 </div>
-<p>When using Personal Access Tokens, replace <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:</span></code> with <code class="docutils literal notranslate"><span class="pre">https://github.com/</span></code> throughout these tutorials.</p>
+<p>When prompted, enter your username and the PAT as the password. With a PAT,
+clone over <code class="docutils literal notranslate"><span class="pre">https://github.com/...</span></code> rather than <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:...</span></code>.</p>
 </div>
-<section id="options">
-<h2>Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h2>
-<p>You are not required to use VSCode to develop with epics-containers.
-If you have your own preferred code editor you can use that.</p>
-<p>See these how-to pages for more information:</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="../how-to/own_tools.html#own-editor"><span class="std std-ref">Working with your own code editor</span></a></p></li>
-</ul>
-</section>
 <section id="platform-support">
-<h2>Platform Support<a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h2>
-<p>The containers used in the tutorials are x86_64 Linux. The best way to experience the tutorials is to use an Intel Linux workstation or laptop. arm64 container images have been tested but are not yet widely used in the available images.</p>
-<p><strong>UPDATE</strong>: See the new <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart instructions</span></a> for setting up the container runtime on any platform, therefore not requiring the virtualbox appliance unless that is your preferred option.</p>
-<p>Whatever your platform, if you can install virtualbox, then you can work using the appliance we provide.</p>
-<p>In all cases you will need an internet connection to download the software and the container images. (if you are at DLS you do not need access to DLS network resources, only the internet).</p>
+<h2>Platform support<a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h2>
+<p>The tutorial container images are <strong>x86_64 Linux</strong>. The best experience is an
+Intel Linux workstation or laptop (<code class="docutils literal notranslate"><span class="pre">arm64</span></code> images exist but are less widely
+tested). On any other platform you have two options:</p>
+<ul class="simple">
+<li><p>run the container runtime natively — see the <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart</span></a>;</p></li>
+<li><p>or use the pre-built <strong>VirtualBox appliance</strong> below.</p></li>
+</ul>
+<p>Either way you only need an internet connection to download the software and
+images. (At DLS you do <em>not</em> need DLS network resources — just the internet.)</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Platform</p></th>
-<th class="head"><p>Requirements</p></th>
+<th class="head"><p>Route</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Any Linux</p></td>
-<td><p>admin rights only: go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a></p></td>
+<tr class="row-even"><td><p>Any Linux (incl. DLS RHEL 8)</p></td>
+<td><p><a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p>Windows</p></td>
-<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a>  or WSL2 and Podman Desktop</p></td>
+<td><p><a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a>, or WSL2 + Podman Desktop</p></td>
 </tr>
-<tr class="row-even"><td><p>Mac x86</p></td>
-<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a> or Podman Desktop</p></td>
-</tr>
-<tr class="row-odd"><td><p>Mac M1</p></td>
-<td><p>Virtualbox: go to <a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a> or Podman Desktop</p></td>
-</tr>
-<tr class="row-even"><td><p>DLS RHEL 8</p></td>
-<td><p>go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a></p></td>
+<tr class="row-even"><td><p>Mac (Intel or Apple silicon)</p></td>
+<td><p><a class="reference internal" href="#appliance"><span class="std std-ref">VirtualBox Appliance</span></a>, or Podman Desktop</p></td>
 </tr>
 </tbody>
 </table>
@@ -547,205 +537,152 @@ If you have your own preferred code editor you can use that.</p>
 </section>
 <section id="virtualbox-appliance">
 <span id="appliance"></span><h2>VirtualBox Appliance<a class="headerlink" href="#virtualbox-appliance" title="Link to this heading">#</a></h2>
-<p>This section is for those that want to use a virtual machine to run the tutorials. If you already have a linux distribution with admin permissions and you want to work with that instead, please go to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a> below.</p>
-<p>If you are using a Mac or Windows then the simplest approach is to use the Linux Virtual Machine with pre-installed software that we provide.</p>
-<p>First install <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> and then download the <a class="reference external" href="https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing">Virtual Machine</a>. The downloaded file is an OVA file which can be imported into VirtualBox using <code class="docutils literal notranslate"><span class="pre">File-&gt;Import</span> <span class="pre">Appliance</span> <span class="pre">...</span></code></p>
-<p>During the import process you will be able to modify the resources that the VM uses, the defaults are recommended, but you may decrease them if your host machine has limited resources. We recommend 8GB of RAM and 4 CPUs for the VM but more is better for the developer container tutorials!</p>
-<p>Now start the VM and log in as <code class="docutils literal notranslate"><span class="pre">ec-demo</span></code> with password <code class="docutils literal notranslate"><span class="pre">demo1</span></code>.</p>
-<p>This VM has the following software pre-installed:</p>
-<ul class="simple">
-<li><p>Ubuntu 22.04</p></li>
-<li><p>Python 3.13</p></li>
-<li><p>Visual Studio Code</p></li>
-<li><p>Podman</p></li>
-<li><p>zsh shell with oh-my-zsh</p></li>
-</ul>
-<p>You will need to complete the following steps to personalize the VM:</p>
-<ul class="simple">
-<li><p>Set up your github credentials</p></li>
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">uv</span></code> and the Python CLI tools (copier and ec)</p></li>
-<li><p>Set up your podman CLI completion if you want it</p></li>
-</ul>
-<p>Now jump to <a class="reference internal" href="#cli-completion"><span class="std std-ref">Command Line Completion</span></a> below.</p>
+<p>If you are on Mac or Windows and would rather not configure a container runtime
+natively, use the Linux VM we provide with everything pre-installed. If you
+already have a Linux machine with admin rights, skip to <a class="reference internal" href="#installation-steps"><span class="std std-ref">Installation Steps</span></a>
+instead.</p>
+<ol class="arabic simple">
+<li><p>Install <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a>.</p></li>
+<li><p>Download the <a class="reference external" href="https://drive.google.com/file/d/1AZ1ptVqTV4-YjCsNKQXdjOkA-d77hWp7/view?usp=sharing">virtual machine</a>
+(an OVA file) and import it with <strong>File → Import Appliance</strong>. The default
+resources are fine; 8 GB RAM and 4 CPUs is a sensible minimum.</p></li>
+<li><p>Start the VM and log in as <code class="docutils literal notranslate"><span class="pre">ec-demo</span></code> / <code class="docutils literal notranslate"><span class="pre">demo1</span></code>.</p></li>
+</ol>
+<p>The VM ships with Ubuntu 22.04, Python 3.13, VSCode, podman and a zsh shell. To
+personalise it you only need to set up your git credentials and install the
+Python CLI tools — jump to <a class="reference internal" href="#cli-completion"><span class="std std-ref">Command line completion (optional)</span></a>, then <a class="reference internal" href="#python-setup"><span class="std std-ref">Python (optional)</span></a>.</p>
 </section>
 <section id="installation-steps">
 <span id="id1"></span><h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Link to this heading">#</a></h2>
-<p>If you are using your own Linux machine then follow all the steps below to install the required software.</p>
-<section id="setup-vscode">
-<h3>Setup VSCode<a class="headerlink" href="#setup-vscode" title="Link to this heading">#</a></h3>
+<p>On your own Linux machine, work through the sections below.</p>
+<section id="vscode">
+<h3>VSCode<a class="headerlink" href="#vscode" title="Link to this heading">#</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: You can access VSCode with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>.</p>
+<p><strong>DLS users:</strong> load it with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code>, then open your project with
+<code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">.</span></code>.</p>
 </div>
-<p>First download and install Visual Studio Code.</p>
+<p><a class="reference external" href="https://code.visualstudio.com/download">Download and install VSCode</a>, then add
+the extensions you need. Only the first is required before the next tutorial;
+the devcontainer installs the in-container extensions (Python, YAML, EPICS,
+Ansible, …) for you.</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://code.visualstudio.com/download">Download Visual Studio Code</a></p></li>
-<li><p><a class="reference external" href="https://code.visualstudio.com/learn/get-started/basics">Setup Visual Studio Code</a></p></li>
-</ul>
-<p>VSCode has a huge library of extensions. The following list of extensions are
-useful for working with epics-containers. You will need to install the <em>Required</em>
-extensions before proceeding to the next tutorial. See the links for instructions
-on how to do this.</p>
-<ul class="simple">
-<li><p>Required: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a></p></li>
-<li><p>Required for Windows: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">VSCode WSL2</a> (see <a class="reference external" href="https://code.visualstudio.com/blogs/2019/09/03/wsl2">How to use WSL2 and Visual Studio Code</a>)</p></li>
-<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics">VSCode EPICS</a></p></li>
-<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a></p></li>
+<li><p><strong>Required:</strong> <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> (the Dev Containers pack).</p></li>
+<li><p><strong>Windows:</strong> <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl">VSCode WSL2</a> (see <a class="reference external" href="https://code.visualstudio.com/blogs/2019/09/03/wsl2">using WSL2 with VSCode</a>).</p></li>
+<li><p>Recommended: <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=nsd.vscode-epics">VSCode EPICS</a> and <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools">Kubernetes</a>.</p></li>
 </ul>
 </section>
-<section id="setup-podman">
-<h3>Setup Podman<a class="headerlink" href="#setup-podman" title="Link to this heading">#</a></h3>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: RHEL 8 Workstations at DLS have podman 4.9.4 installed by default. RHEL 7 Workstations are not supported.</p>
-<p>If this is the first time you have used podman <strong>OR you are using a DLS Redhat laptop</strong> then you must perform the following steps:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup the podman config folders in your home directory</span>
-/dls_sw/apps/setup-podman/setup.sh
-<span class="c1"># disable se labels in mounted folders for podman</span>
-sed<span class="w"> </span>-i<span class="w"> </span>~/.config/containers/containers.conf<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/label=false/d&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;/^\[containers\]$/a label=false&#39;</span>
-</pre></div>
-</div>
-</div>
-<p>We recommend <code class="docutils literal notranslate"><span class="pre">podman</span></code> as your container platform. epics-containers works best
-with <code class="docutils literal notranslate"><span class="pre">podman</span></code> because it is rootless by default, which is simpler and more
-secure for developing and running IOCs (see <a class="reference internal" href="../explanations/rootless.html#rootless"><span class="std std-ref">Rootless vs Rootful</span></a> for the details).
-epics-containers has been tested with podman 4.4.1 and higher on RedHat 8 and
-Ubuntu 22.04 and higher. The podman version required is 4.0 or later.</p>
-<p>The link below has details of how to install podman:</p>
+<section id="podman">
+<h3>Podman<a class="headerlink" href="#podman" title="Link to this heading">#</a></h3>
+<p>We recommend <code class="docutils literal notranslate"><span class="pre">podman</span></code> because it is rootless by default — simpler and more
+secure for developing and running IOCs (see <a class="reference internal" href="../explanations/rootless.html#rootless"><span class="std std-ref">Rootless vs Rootful</span></a>). Version <strong>4.0 or
+later</strong> is required; it is tested on RHEL 8 and Ubuntu 22.04+.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://podman.io/getting-started/installation">Install podman</a></p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Prefer to use docker?</strong> epics-containers fully supports <code class="docutils literal notranslate"><span class="pre">docker</span></code> as well. The
-rest of this documentation refers to <code class="docutils literal notranslate"><span class="pre">podman</span></code> throughout, so if you would rather
-use <code class="docutils literal notranslate"><span class="pre">docker</span></code> see <a class="reference internal" href="../reference/docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> for how to install it and the few
-extra steps it requires. Everything else in the tutorials works the same way.</p>
+<p><strong>DLS users:</strong> RHEL 8 workstations ship podman 4.9.4 (RHEL 7 is not supported).
+The first time you use podman on a DLS machine, run the shared setup script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/dls_sw/apps/setup-podman/setup.sh
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Prefer docker?</strong> epics-containers fully supports <code class="docutils literal notranslate"><span class="pre">docker</span></code> too. The tutorials
+say <code class="docutils literal notranslate"><span class="pre">podman</span></code> throughout, but every command has an identical <code class="docutils literal notranslate"><span class="pre">docker</span></code>
+equivalent; see <a class="reference internal" href="../reference/docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> for how to install it and the couple of
+extra steps rootful docker needs in devcontainers.</p>
 </div>
 </section>
 <section id="docker-compose-for-podman-users">
-<span id="podman-compose"></span><h3>Docker Compose For Podman Users<a class="headerlink" href="#docker-compose-for-podman-users" title="Link to this heading">#</a></h3>
-<p>docker compose allows you to define and run multi-container Docker applications. epics-containers uses it for describing a set of IOCs and other services that are deployed together. It is a useful starting point for tutorials before moving on to Kubernetes. It could also form the basis of a production deployment for those not using Kubernetes.</p>
-<p>Since you installed podman you will need to install docker compose separately (the steps below show how). We prefer to use docker-compose instead of podman-compose because it is more widely used and there are still some issues with podman-compose at the time of writing.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: docker compose integration with podman is available on RHEL 8 Workstations at DLS. Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">docker-compose</span></code> to enable it.</p>
-</div>
-<p>Steps to combine podman and docker-compose:-</p>
-<ol class="arabic">
-<li><p>Launch a podman user service and expose a docker API socket as follows. This step need only be done once per workstation.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--user<span class="w"> </span>podman.socket<span class="w"> </span>--now
+<span id="podman-compose"></span><h3>Docker Compose for podman users<a class="headerlink" href="#docker-compose-for-podman-users" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> runs a set of IOCs and other services together. The early
+tutorials use it before moving on to Kubernetes, and it can also underpin a
+non-Kubernetes production deployment.</p>
+<p>Follow the <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">Docker Compose Quickstart</span></a> to install <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> and point it at podman.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Wayland / X11 displays.</strong> Several tutorials run GUI apps — notably Phoebus —
+<em>inside</em> containers, which need access to your X server. On Wayland, and some
+X11 setups, the container is refused and the app fails to open with an X11
+authorization error. Grant the local user access once per login session before
+launching:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xhost<span class="w"> </span>+SI:localuser:<span class="k">$(</span>id<span class="w"> </span>-un<span class="k">)</span>
 </pre></div>
 </div>
-</li>
-<li><p>Add the following to your shell profile (e.g. ~/.bashrc or ~/.zshrc) to instruct docker-compose and any other docker tool to use podman’s docker API socket.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DOCKER_HOST</span><span class="o">=</span>unix://<span class="nv">$XDG_RUNTIME_DIR</span>/podman/podman.sock
-</pre></div>
 </div>
-</li>
-<li><p>Use these instructions <a class="reference external" href="https://docs.docker.com/compose/install/standalone">https://docs.docker.com/compose/install/standalone</a> to install the docker compose binary. Some linux distributions have docker-compose in their package manager, this is the easiest way to install it if available.</p></li>
-<li><p>we recommend uninstalling podman-compose if you have it installed.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Debian/Ubuntu</span>
-sudo<span class="w"> </span>apt<span class="w"> </span>uninstall<span class="w"> </span>podman-compose
-<span class="c1"># RHEL/Centos</span>
-sudo<span class="w"> </span>dnf<span class="w"> </span>remove<span class="w"> </span>podman-compose
-<span class="c1"># Arch</span>
-sudo<span class="w"> </span>pacman<span class="w"> </span>-R<span class="w"> </span>podman-compose
-</pre></div>
-</div>
-</li>
-</ol>
 </section>
-<section id="using-docker-instead-of-podman">
-<h3>Using docker instead of podman<a class="headerlink" href="#using-docker-instead-of-podman" title="Link to this heading">#</a></h3>
-<p>From here on the tutorials always refer to <code class="docutils literal notranslate"><span class="pre">podman</span></code> on the command line. If you
-have chosen to use <code class="docutils literal notranslate"><span class="pre">docker</span></code> instead, the two tools have (almost) the same CLI so
-every <code class="docutils literal notranslate"><span class="pre">podman</span></code> command has an identical <code class="docutils literal notranslate"><span class="pre">docker</span></code> equivalent. See
-<a class="reference internal" href="../reference/docker.html"><span class="std std-doc">Using Docker Instead of Podman</span></a> for how to install docker, how to run it rootless
-(recommended) and the couple of extra steps that rootful docker requires to work
-in developer containers.</p>
-</section>
-<section id="command-line-completion">
-<span id="cli-completion"></span><h3>Command Line Completion<a class="headerlink" href="#command-line-completion" title="Link to this heading">#</a></h3>
-<p>This is an optional step to set up CLI completion for podman.</p>
-<p>It is much easier to investigate the commands available to you with command line completion enabled. You need only do the following steps once to permanently enable this feature for podman.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># these steps will make cli completion work for bash</span>
+<section id="command-line-completion-optional">
+<span id="cli-completion"></span><h3>Command line completion (optional)<a class="headerlink" href="#command-line-completion-optional" title="Link to this heading">#</a></h3>
+<p>Shell completion makes podman much easier to explore. Run once:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># bash</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span>~/.local/share/bash-completion/completions
 podman<span class="w"> </span>completion<span class="w"> </span>bash<span class="w"> </span>&gt;<span class="w"> </span>~/.local/share/bash-completion/completions/podman
 
-<span class="c1"># these steps will make cli completion work for zsh</span>
+<span class="c1"># zsh (oh-my-zsh)</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span>~/.oh-my-zsh/completions
 podman<span class="w"> </span>completion<span class="w"> </span>zsh<span class="w"> </span>&gt;<span class="w"> </span>~/.oh-my-zsh/completions/_podman
 </pre></div>
 </div>
 </section>
-<section id="install-python">
-<span id="python-setup"></span><h3>Install Python<a class="headerlink" href="#install-python" title="Link to this heading">#</a></h3>
+<section id="python-optional">
+<span id="python-setup"></span><h3>Python (optional)<a class="headerlink" href="#python-optional" title="Link to this heading">#</a></h3>
+<p>The CLI tools need Python <strong>3.13 or later</strong>. You do not have to install it
+yourself — <code class="docutils literal notranslate"><span class="pre">uv</span></code> (next) can manage Python versions for you. If you would rather
+use a system Python, see the
+<a class="reference external" href="https://docs.python-guide.org/starting/installation/">installation guide</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: for this step just use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.13</span></code></p>
+<p><strong>DLS users:</strong> <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">python/3.13</span></code>.</p>
 </div>
-<p>Go ahead and install Python if it is not already installed, the minimum version you should use is 3.13. Virtualbox Appliance users will already have Python 3.13 installed.</p>
-<p>There are instructions for installing Python on all platforms here:
-<a class="reference external" href="https://docs.python-guide.org/starting/installation/">https://docs.python-guide.org/starting/installation/</a></p>
 </section>
-<section id="install-uv">
-<h3>Install uv<a class="headerlink" href="#install-uv" title="Link to this heading">#</a></h3>
-<p>We use <a class="reference external" href="https://docs.astral.sh/uv/">uv</a> to install and run the Python command
-line tools used in these tutorials (such as <code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code>). <code class="docutils literal notranslate"><span class="pre">uv</span></code> installs
-each tool into its own isolated environment and puts it on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, so there
-is no virtual environment to create or activate every time you open a shell.</p>
+<section id="uv">
+<h3>uv<a class="headerlink" href="#uv" title="Link to this heading">#</a></h3>
+<p>We use <a class="reference external" href="https://docs.astral.sh/uv/">uv</a> to install and run the Python CLI tools
+(<code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code>). It installs each tool into its own isolated environment and
+puts it on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, so there is no virtual environment to activate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>DLS Users</strong>: you can obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code> instead of installing
-it yourself, in which case you can skip the install command below.</p>
+<p><strong>DLS users:</strong> <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code> instead of running the installer below.</p>
 </div>
-<p>Install <code class="docutils literal notranslate"><span class="pre">uv</span></code> with its standalone installer:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
-<p>See the <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">uv installation docs</a>
-for other installation methods (including Windows). <code class="docutils literal notranslate"><span class="pre">uv</span></code> can also manage Python
-versions for you, so the tools below will work even without the system Python
-installed above.</p>
+<p>See the <a class="reference external" href="https://docs.astral.sh/uv/getting-started/installation/">uv install docs</a>
+for other methods (including Windows).</p>
 </section>
-<section id="copier">
-<span id="id2"></span><h3>copier<a class="headerlink" href="#copier" title="Link to this heading">#</a></h3>
-<p>Now we will install <code class="docutils literal notranslate"><span class="pre">copier</span></code> which is used to copy the templates for the
-services repositories and generic IOCs. Also you could take this opportunity to
-install the <code class="docutils literal notranslate"><span class="pre">ec</span></code> tool that we will use later when we get to the Kubernetes
-tutorials.</p>
+<section id="copier-and-ec">
+<span id="copier"></span><h3>copier and ec<a class="headerlink" href="#copier-and-ec" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">copier</span></code> stamps out the templates for services repositories and generic IOCs.
+Install it now, along with <code class="docutils literal notranslate"><span class="pre">ec</span></code> (the edge-containers CLI used in the Kubernetes
+tutorials):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>copier
 uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>edge-containers-cli
 </pre></div>
 </div>
-<p>These commands put <code class="docutils literal notranslate"><span class="pre">copier</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span></code> on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> in every new shell, so there
-is nothing to activate. To upgrade them later run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">upgrade</span> <span class="pre">--all</span></code>. If a
-freshly installed tool is not found, run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">update-shell</span></code> (or add
-<code class="docutils literal notranslate"><span class="pre">$HOME/.local/bin</span></code> to your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>) and open a new shell.</p>
+<p>Both are now on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code> in every new shell — nothing to activate. Upgrade
+later with <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">upgrade</span> <span class="pre">--all</span></code>. If a freshly installed tool is not found,
+run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">update-shell</span></code> and open a new shell.</p>
 </section>
 <section id="git">
-<h3>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h3>
-<p>If you don’t already have git installed see
-<a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">https://git-scm.com/book/en/v2/Getting-Started-Installing-Git</a>. Any recent
-version of git will work.</p>
-<p>You will also want to set up your git user name and email address:</p>
+<h3>git<a class="headerlink" href="#git" title="Link to this heading">#</a></h3>
+<p>Install <a class="reference external" href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a> if
+you do not have it, then set your identity:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;your email&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
 </pre></div>
 </div>
-<p>And set up your git credentials so that you can access your personal github repositories. Your choices are:</p>
-<ul class="simple">
-<li><p>use a Personal Access Token (PAT) as described in the first section above.</p></li>
-<li><p>setup an ssh key following the instructions <a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">here</a>.</p></li>
-</ul>
+<p>Set up credentials for your GitHub repositories using either a PAT (see the note
+at the top of this page) or an
+<a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">SSH key</a>.</p>
 </section>
 <section id="kubernetes">
 <h3>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">#</a></h3>
-<p>You don’t need Kubernetes yet.</p>
-<p>The following tutorials will take you through creating, deploying and debugging IOC instances, generic IOCs and support modules.</p>
-<p>For simplicity we don’t encourage using Kubernetes at this stage. Instead we will deploy containers to the local workstation’s podman instance using docker compose.</p>
-<p>If you are planning not to use Kubernetes at all then now might be a good time to install an alternative container management platform such as <a class="reference external" href="https://www.portainer.io/">Portainer</a>. Such tools will help you visualise and manage your containers across a number of servers. These are not required and you could just manage everything from the docker compose command line if you prefer.</p>
+<p>You do <strong>not</strong> need Kubernetes yet. The next tutorials create, deploy and debug
+IOCs locally by deploying containers to your workstation’s podman with
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code>. Kubernetes comes later.</p>
 </section>
 </section>
 </section>
@@ -774,7 +711,7 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Launch A Simulation Beamline</p>
+        <p class="prev-next-title">Launch a Simulation Beamline</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -797,19 +734,17 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options">Options</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-support">Platform Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-support">Platform support</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#virtualbox-appliance">VirtualBox Appliance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-vscode">Setup VSCode</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-podman">Setup Podman</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-compose-for-podman-users">Docker Compose For Podman Users</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-docker-instead-of-podman">Using docker instead of podman</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-completion">Command Line Completion</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">Install uv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copier">copier</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode">VSCode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#podman">Podman</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-compose-for-podman-users">Docker Compose for podman users</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-completion-optional">Command line completion (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-optional">Python (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uv">uv</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copier-and-ec">copier and ec</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">git</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kubernetes">Kubernetes</a></li>
 </ul>
 </li>

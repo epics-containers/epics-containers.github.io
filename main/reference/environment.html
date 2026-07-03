@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev72+gee83b145c documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev112+gd7a165300 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d5e447d9"></script>
+    <script src="../_static/documentation_options.js?v=804da9ce"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -397,15 +397,11 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration for epics-containers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Using Docker Instead of Podman</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The Environment Configuration File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="helm.html">The <code class="docutils literal notranslate"><span class="pre">ec</span></code> Backend Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="k8s_resources.html">Kubernetes Resources in an IOC Instance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="services_config.html">Configuring a Services Repository for a Cluster</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helm.html">Deploying with Helm (the <code class="docutils literal notranslate"><span class="pre">ec</span></code> backends)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/epics-containers/epics-containers.github.io/releases">Release Notes</a></li>
 </ul>
@@ -510,57 +506,36 @@ the values <code class="docutils literal notranslate"><span class="pre">ec</span
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>env
 </pre></div>
 </div>
-<p>The variables are as follows:</p>
-<section id="commonly-set-variables">
-<h3>Commonly set variables<a class="headerlink" href="#commonly-set-variables" title="Link to this heading">#</a></h3>
-<ul>
-<li><p><strong>EC_SERVICES_REPO</strong>: a link to the services repository that defines this
-domain, for example
-<code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO=https://github.com/epics-containers/example-services</span></code>.
-<code class="docutils literal notranslate"><span class="pre">ec</span></code> uses this to fetch a versioned (git-tagged) copy of an IOC instance’s
-configuration at deploy time. (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-r/--repo</span></code>.)</p></li>
-<li><p><strong>EC_TARGET</strong>: where <code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys to. Its meaning depends on the backend:</p>
-<ul class="simple">
-<li><p>for the <code class="docutils literal notranslate"><span class="pre">K8S</span></code> backend it is the Kubernetes <strong>namespace</strong> your IOC
-instances are deployed to, e.g. <code class="docutils literal notranslate"><span class="pre">EC_TARGET=t01</span></code>;</p></li>
-<li><p>for the default <code class="docutils literal notranslate"><span class="pre">ARGOCD</span></code> backend it is <code class="docutils literal notranslate"><span class="pre">app-namespace/root-app</span></code> — the
-namespace that hosts ArgoCD together with the name of the root
-(app-of-apps) Application, e.g. <code class="docutils literal notranslate"><span class="pre">EC_TARGET=t01-beamline/root</span></code>.</p></li>
-</ul>
-<p>(<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-t/--target</span></code>.)</p>
-</li>
-<li><p><strong>EC_CLI_BACKEND</strong>: selects which backend <code class="docutils literal notranslate"><span class="pre">ec</span></code> drives. One of <code class="docutils literal notranslate"><span class="pre">ARGOCD</span></code>
-(the default), <code class="docutils literal notranslate"><span class="pre">K8S</span></code>, or <code class="docutils literal notranslate"><span class="pre">DEMO</span></code>. The set of available commands and options
-changes per backend — see <a class="reference internal" href="helm.html#helm"><span class="std std-ref">The ec Backend Model</span></a>. (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-b/--backend</span></code>.)</p></li>
-</ul>
-</section>
-<section id="optional-variables">
-<h3>Optional variables<a class="headerlink" href="#optional-variables" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>EC_LOGIN</strong>: an optional command that <code class="docutils literal notranslate"><span class="pre">ec</span></code> runs to authenticate to the
-cluster/backend before performing an operation. Leave unset if your shell is
-already authenticated (for example via <code class="docutils literal notranslate"><span class="pre">KUBECONFIG</span></code>, see below).</p></li>
-<li><p><strong>EC_LOG_URL</strong>: if you have a centralized logging service with a web UI then
-you can set this variable to the URL of the web UI. It is displayed by
-<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">log-history</span> <span class="pre">&lt;service&gt;</span></code>. The service name is inserted into the URL using
-the <code class="docutils literal notranslate"><span class="pre">{service_name}</span></code> placeholder, e.g.</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">EC_LOG_URL='https://graylog2.diamond.ac.uk/search?rangetype=relative&amp;fields</span></code>
-<code class="docutils literal notranslate"><span class="pre">=message%2Csource&amp;width=1489&amp;highlightMessage=&amp;relative=172800&amp;q=pod_name%3A</span></code>
-<code class="docutils literal notranslate"><span class="pre">{service_name}*'</span></code></p></li>
-</ul>
-</li>
-<li><p><strong>EC_LOG_LEVEL</strong>: sets the logging verbosity of <code class="docutils literal notranslate"><span class="pre">ec</span></code> itself. One of <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>,
-<code class="docutils literal notranslate"><span class="pre">INFO</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>, <code class="docutils literal notranslate"><span class="pre">ERROR</span></code>, <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code>.</p></li>
-<li><p><strong>EC_VERBOSE</strong>: print each external command (git, kubectl, helm, argocd) that
-<code class="docutils literal notranslate"><span class="pre">ec</span></code> runs. Equivalent to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-v/--verbose</span></code>.</p></li>
-<li><p><strong>EC_DRYRUN</strong>: print the external commands that <code class="docutils literal notranslate"><span class="pre">ec</span></code> would run without
-executing them. Equivalent to <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--dryrun</span></code>.</p></li>
-<li><p><strong>EC_DEBUG</strong>: causes <code class="docutils literal notranslate"><span class="pre">ec</span></code> to output debug information (including Python
-tracebacks) for all commands. For more targeted debugging you can use
-<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-d</span> <span class="pre">...</span></code>.</p></li>
-</ul>
-</section>
+<p>The three variables you normally set for each domain are:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Variable</p></th>
+<th class="head text-left"><p>Sets</p></th>
+<th class="head text-left"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-r/--repo</span></code>)</p></td>
+<td class="text-left"><p>the services repository that defines this domain; <code class="docutils literal notranslate"><span class="pre">ec</span></code> fetches a git-tagged copy of an instance’s configuration from here at deploy time</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-org&gt;/t02-services</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-t/--target</span></code>)</p></td>
+<td class="text-left"><p>where <code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys — the Kubernetes <strong>namespace</strong> (<code class="docutils literal notranslate"><span class="pre">K8S</span></code> backend) or <code class="docutils literal notranslate"><span class="pre">app-namespace/root-app</span></code> (<code class="docutils literal notranslate"><span class="pre">ARGOCD</span></code> backend)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code> or <code class="docutils literal notranslate"><span class="pre">t02-beamline/t02</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND</span></code> (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-b/--backend</span></code>)</p></td>
+<td class="text-left"><p>which backend <code class="docutils literal notranslate"><span class="pre">ec</span></code> drives: <code class="docutils literal notranslate"><span class="pre">ARGOCD</span></code> (the default), <code class="docutils literal notranslate"><span class="pre">K8S</span></code> or <code class="docutils literal notranslate"><span class="pre">DEMO</span></code>; the available commands change per backend — see <a class="reference internal" href="helm.html#helm"><span class="std std-ref">Deploying with Helm (the ec backends)</span></a></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">K8S</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> understands several more variables — for backend authentication
+(<code class="docutils literal notranslate"><span class="pre">EC_LOGIN</span></code>), historical logs (<code class="docutils literal notranslate"><span class="pre">EC_LOG_URL</span></code>), logging verbosity
+(<code class="docutils literal notranslate"><span class="pre">EC_LOG_LEVEL</span></code>) and diagnostics (<code class="docutils literal notranslate"><span class="pre">EC_VERBOSE</span></code>, <code class="docutils literal notranslate"><span class="pre">EC_DRYRUN</span></code>, <code class="docutils literal notranslate"><span class="pre">EC_DEBUG</span></code>).
+Rather than duplicate the catalogue here, see the
+<a class="reference external" href="https://epics-containers.github.io/edge-containers-cli/main/reference/environment-variables.html">edge-containers-cli environment-variables reference</a>
+for the full list, each variable’s command-line flag and its default.</p>
 </section>
 <section id="installation-of-ec">
 <h2>Installation of <code class="docutils literal notranslate"><span class="pre">ec</span></code><a class="headerlink" href="#installation-of-ec" title="Link to this heading">#</a></h2>
@@ -592,11 +567,14 @@ your admins for the correct configuration.</p>
 backend or a local compose project) then you can leave this section out.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>DLS users: the module system is used to connect us to each beamline/accelerator
-cluster. The example <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> file in
-<a class="reference external" href="https://github.com/epics-containers/example-services/blob/main/environment.sh">example-services</a>
-shows how to do this, including how to set up command line completion for the
-Kubernetes tools <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> and <code class="docutils literal notranslate"><span class="pre">helm</span></code>.</p>
+<p><strong>DLS users:</strong> the module system connects you to each beamline/accelerator
+cluster, so you normally do not edit this section by hand. Your cluster
+services repo (for example <code class="docutils literal notranslate"><span class="pre">t02-services</span></code>, generated from
+<a class="reference external" href="https://github.com/epics-containers/services-template-helm">services-template-helm</a>)
+ships an <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> that shows the pattern, including shell completion for
+the Kubernetes tools <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> and <code class="docutils literal notranslate"><span class="pre">helm</span></code>. See the
+<a class="reference external" href="https://dev-guide.diamond.ac.uk/epics-containers/">DLS developer guide</a> for the
+module commands specific to Diamond.</p>
 </div>
 </section>
 </section>
@@ -648,11 +626,7 @@ Kubernetes tools <code class="docutils literal notranslate"><span class="pre">ku
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables-setup">Environment Variables Setup</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commonly-set-variables">Commonly set variables</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-variables">Optional variables</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables-setup">Environment Variables Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-of-ec">Installation of <code class="docutils literal notranslate"><span class="pre">ec</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-a-namespace-on-your-kubernetes-cluster">Connecting to a Namespace on your Kubernetes Cluster</a></li>
 </ul>
