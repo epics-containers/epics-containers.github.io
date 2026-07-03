@@ -83,8 +83,7 @@ code .
 ```
 
 :::{note}
-**DLS users:** run `module load vscode` before `code .`, and start podman with
-`source /dls_sw/apps/setup-podman/setup.sh`.
+**DLS users:** run `module load vscode` before `code .`
 :::
 
 ## Switch to the AreaDetector base image
@@ -96,29 +95,20 @@ common modules (`iocStats`, `pvlogging`, `autosave`) on top.
 
 For an areaDetector IOC, point `DEVELOPER` at the AreaDetector developer base
 instead. It is built on `ioc-asyn` and already contains ADCore, ADSupport,
-`asyn` and the common modules — so you can **delete** those per-module
-`COPY`/`RUN` lines and add only the detector-specific module:
+`asyn` and the common modules:
 
 ```dockerfile
-ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.10ec1
-ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:3.14ec2
+ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.10ec2
+ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:3.14ec3
 ```
 
-```dockerfile
-COPY ibek-support/ADSimDetector/ ADSimDetector
-RUN ansible.sh ADSimDetector
-```
+## Delete the redundant support module builds
 
-Each module is built by copying its `ibek-support/<module>` folder and running
-`ansible.sh <module>`. That script applies an `ibek-support` *recipe* that
-clones the module from upstream, builds it with standard EPICS steps, and
-records its dbds and libs for the IOC link. ADCore is supplied by the base
-image — do **not** re-author or rebuild it.
+Because the base image already ships `asyn` and the common modules
+(`iocStats`, `pvlogging`, `autosave`), you can **delete** their per-module
+`COPY`/`RUN` lines from the `Dockerfile`.
 
-:::{note}
-The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
-cache hit rate — editing one recipe does not force every module to rebuild.
-:::
+This first build contains no support beyond what the base image already ships and should build quite quickly. You will add the detector module next.
 
 ## Build the image and open the devcontainer
 
@@ -131,20 +121,15 @@ layers are cached for every build after that:
 ./build
 ```
 
-`./build` calls `docker` (or `podman` if `USE_PODMAN` is set). Once it succeeds,
+`./build` calls podman to build the container image. Once it succeeds,
 reopen the project in its developer container — it reuses the image you just
 built, so it opens straight away:
 
-- `Ctrl-Shift-P` -> *Dev Containers: **Rebuild and Reopen in Container***
-
-Use **Rebuild and Reopen**, not plain *Reopen in Container*: VSCode keys its
-devcontainers by project name, so a plain reopen can attach you to a stale
-container left over from an earlier `ioc-adsim-demo` instead of your freshly
-built image.
+- `Ctrl-Shift-P` -> *Dev Containers: **Reopen in Container***
 
 :::{tip}
-This is a recurring theme: whenever a devcontainer misbehaves or will not open,
-reach for the **Rebuild** option (`Ctrl-Shift-P` -> *Dev Containers: Rebuild
+If you ever have problems opening a devcontainer
+try the **Rebuild** option (`Ctrl-Shift-P` -> *Dev Containers: Rebuild
 Container*). The rebuild is still fast because the image layers are cached.
 :::
 
@@ -234,6 +219,11 @@ terminal (Terminal -> New Terminal):
 ```bash
 ansible.sh ADSimDetector
 ```
+
+:::{note}
+If you want to read exactly what this does, follow the Ansible playbook at
+`/workspaces/ioc-adsim-demo/ibek-support/_ansible/playbook.yml`.
+:::
 
 `ansible.sh` runs the `ibek-support` Ansible role for the module, which:
 
@@ -392,6 +382,27 @@ make
 ./start.sh
 ```
 
+:::{note}
+During startup you may see an error like:
+
+```
+ERROR: Record 'BL01T-EA-CAM-01:STAT:TSAcquiring' not found
+```
+
+This is benign and will be fixed soon — the IOC still starts normally.
+:::
+
+:::{warning}
+If instead you see an error like:
+
+```
+Input tag 'ADSimDetector.simDetector' found using 'type' does not match any of the expected tags:
+```
+
+your support definition is not registered. Re-run `ansible.sh ADSimDetector` to
+symlink the `.ibek.support.yaml` into `/epics/ibek-defs`, then try again.
+:::
+
 The IOC should start up and the output should end with:
 
 <pre>iocRun: All initialization complete
@@ -413,6 +424,27 @@ definitions). When a build *fails*, see {any}`debug_generic_ioc`.
 **DLS users:** builder beamlines can convert existing builder XML instances into
 `ibek` YAML with `builder2ibek`. See the
 [builder2ibek documentation](https://epics-containers.github.io/builder2ibek).
+:::
+
+## Add the module to the Dockerfile
+
+The recipe works inside the devcontainer, but the *published* image is built by
+CI from the `Dockerfile`, which does not yet know about the detector. Now that
+the recipe exists, add its `COPY`/`RUN` pair below the base-image `ARG`s:
+
+```dockerfile
+COPY ibek-support/ADSimDetector/ ADSimDetector
+RUN ansible.sh ADSimDetector
+```
+
+Each module is built by copying its `ibek-support/<module>` folder and running
+`ansible.sh <module>`. That script applies the `ibek-support` recipe that clones
+the module from upstream, builds it with standard EPICS steps, and records its
+dbds and libs for the IOC link.
+
+:::{note}
+The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
+cache hit rate — editing one recipe does not force every module to rebuild.
 :::
 
 ## Publish the Generic IOC
@@ -472,8 +504,6 @@ write permissions**.
 
 You now have a published `ioc-adsim-demo` image.
 
-- {any}`detector_plugins` — add the standard areaDetector plugin set to an
-  instance **at runtime**, with no image rebuild.
 - {any}`custom_pattern` — author your *own* runtime support pattern (the
   runtime-vendoring mirror of the build-time work you just did here).
 - As an exercise, add an instance that uses this image to your `bl01t` beamline
