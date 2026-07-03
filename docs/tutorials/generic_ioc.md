@@ -10,8 +10,9 @@ The worked example wraps the **areaDetector simulation detector**
 ([`ADSimDetector`](https://github.com/areaDetector/ADSimDetector)) — a camera
 that generates frames internally, so it needs no hardware and no external
 simulator. Substitute your own detector and support module throughout. By
-convention a Generic IOC repository is named `ioc-<module>`, so here we build
-**`ioc-adsimdetector`**.
+convention a Generic IOC repository is named `ioc-<module>` (which would make
+this `ioc-adsimdetector`); to keep the tutorial repo separate from the published
+`ioc-adsimdetector` example we build **`ioc-adsim-demo`** here instead.
 
 :::{note}
 A detector is a good worked example because it shows the one real twist over a
@@ -39,19 +40,19 @@ Internal git repositories are fully supported.
 ## Create the Generic IOC project
 
 Like a beamline, a Generic IOC starts from a `copier` template. Create an empty
-GitHub repository named `ioc-adsimdetector` at <https://github.com/new>, then
+GitHub repository named `ioc-adsim-demo` at <https://github.com/new>, then
 generate the project into it (if you do not have `copier`, see {any}`copier`):
 
 ```bash
-# creates the folder ioc-adsimdetector in the current directory
-copier copy https://github.com/epics-containers/ioc-template --trust ioc-adsimdetector
+# creates the folder ioc-adsim-demo in the current directory
+copier copy https://github.com/epics-containers/ioc-template --trust ioc-adsim-demo
 ```
 
 Answer the prompts:
 
 | Prompt | Worked-example answer |
 |---|---|
-| A name for this project (starts `ioc-`) | `ioc-adsimdetector` |
+| A name for this project (starts `ioc-`) | `ioc-adsim-demo` |
 | A one line description of the module | `Generic IOC for the areaDetector simulation detector` |
 | Git platform hosting the repository | `github.com` |
 | The GitHub organisation that will contain this repo | *your GitHub account or org* |
@@ -61,7 +62,7 @@ Accept the defaults for any remaining prompts. Then make the first commit and
 push:
 
 ```bash
-cd ioc-adsimdetector
+cd ioc-adsim-demo
 git add .
 git commit -m "initial commit"
 git push -u origin main
@@ -77,7 +78,7 @@ image and build it once, so the developer container you open afterwards is
 already the right image, cached:
 
 ```bash
-cd ioc-adsimdetector
+cd ioc-adsim-demo
 code .
 ```
 
@@ -138,7 +139,7 @@ built, so it opens straight away:
 
 Use **Rebuild and Reopen**, not plain *Reopen in Container*: VSCode keys its
 devcontainers by project name, so a plain reopen can attach you to a stale
-container left over from an earlier `ioc-adsimdetector` instead of your freshly
+container left over from an earlier `ioc-adsim-demo` instead of your freshly
 built image.
 
 :::{tip}
@@ -159,7 +160,7 @@ request later if your recipe is generally useful).
 - Copy the fork's **HTTPS** *Code* URL and point the submodule at it:
 
 ```bash
-cd /workspaces/ioc-adsimdetector
+cd /workspaces/ioc-adsim-demo
 git submodule set-url ibek-support <YOUR FORK HTTPS URL>
 git submodule update
 cd ibek-support
@@ -191,7 +192,7 @@ yourself, rather than depending on whatever happens to be checked out in the
 submodule. Delete the stock folder and start clean:
 
 ```bash
-cd /workspaces/ioc-adsimdetector/ibek-support
+cd /workspaces/ioc-adsim-demo/ibek-support
 rm -rf ADSimDetector
 mkdir ADSimDetector
 code ADSimDetector/ADSimDetector.install.yml
@@ -346,7 +347,7 @@ the stock version rather than typing it out. You deleted it earlier, but it is
 still in the submodule's git history, so restore just that one file:
 
 ```bash
-cd /workspaces/ioc-adsimdetector/ibek-support
+cd /workspaces/ioc-adsim-demo/ibek-support
 git checkout HEAD -- ADSimDetector/simDetector.pvi.device.yaml
 ```
 
@@ -419,7 +420,7 @@ definitions). When a build *fails*, see {any}`debug_generic_ioc`.
 Commit your `ibek-support` recipe (on a branch) and the IOC project, then push:
 
 ```bash
-cd /workspaces/ioc-adsimdetector/ibek-support
+cd /workspaces/ioc-adsim-demo/ibek-support
 git checkout -b add-adsimdetector
 git add .
 git commit -m "re-author ADSimDetector support module"
@@ -448,16 +449,16 @@ release**, pick a tag such as `2.11ec1`, click **Generate release notes**, then
 
 
 :::{figure} ../images/simDetActions.png
-The `build.yml` workflow running on the `ioc-adsimdetector` **Actions** tab after
+The `build.yml` workflow running on the `ioc-adsim-demo` **Actions** tab after
 the push — the matrix `build` job compiles the image, then the `release` job
 publishes it.
 :::
 
 CI then builds and pushes the image, which appears under the repo's
-**Packages** as `ghcr.io/<org>/ioc-adsimdetector-runtime`.
+**Packages** as `ghcr.io/<org>/ioc-adsim-demo-runtime`.
 
 :::{figure} ../images/simDetRelease.png
-The resulting `2.11ec1` release for `ioc-adsimdetector`, with the published
+The resulting `2.11ec1` release for `ioc-adsim-demo`, with the published
 `ibek.ioc.schema.json` schema attached as a release asset.
 :::
 
@@ -469,7 +470,7 @@ write permissions**.
 
 ## Next steps
 
-You now have a published `ioc-adsimdetector` image.
+You now have a published `ioc-adsim-demo` image.
 
 - {any}`detector_plugins` — add the standard areaDetector plugin set to an
   instance **at runtime**, with no image rebuild.
