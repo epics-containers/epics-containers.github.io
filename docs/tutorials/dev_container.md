@@ -178,11 +178,11 @@ the Explorer.
 
 :::{note}
 It is instructive to add `/epics` to the workspace the same way
-(`File → Add Folder to Workspace` → type `/epics` → `OK`): it is the root that
+(`File → Add Folder to Workspace` → type `/epics` → Click `Add`): it is the root that
 holds all the EPICS source and built files, so you can browse the support
-modules, EPICS base and generated runtime listed below. Adding a folder always
-restarts the container, and the first time you add one VSCode usually shows an
-error — it is safe to ignore, just click `Cancel`.
+modules, EPICS base and generated runtime files listed below. Adding the first folder
+restarts the container, and VSCode usually shows an
+error - but it is safe to ignore, just click `Cancel`.
 :::
 
 The most useful paths are:
