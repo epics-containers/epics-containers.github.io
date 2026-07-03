@@ -118,6 +118,9 @@ time.
 If you had Phoebus open while you restarted the IOC, it loses contact with the
 PVs and does not reconnect to the image on its own. Close Phoebus and relaunch
 it with the command above to pick the detector back up.
+
+This is just an artifact of using vscode devcontainer port forwarding and would
+not happen in a real deployment.
 :::
 
 :::{figure} ../images/custom_bob.png
