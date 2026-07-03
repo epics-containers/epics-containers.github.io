@@ -132,3 +132,10 @@ the `podman-docker` shim). Confirm your developer container launches from VSCode
 first — if that works, the engine itself is fine and the CLI just needs the
 `docker` entry point. Running `./build` first is a good diagnostic, as it
 exercises the same engine and submodules.
+Otherwise, add ` export DOCKER_PATH=$(which podman)` to your local `.bashrc`.
+
+When building the container for the first time, if it tries to change ownership of
+vscode directories: 
+`chown: changing ownership of '/home/vscode': Invalid argument (os error 22)`, 
+add the following to your devcontainer.json `"updateRemoteUserUid": false` 
+to avoid remapping of UIDs.
