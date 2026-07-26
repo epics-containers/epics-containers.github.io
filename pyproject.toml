@@ -4,7 +4,21 @@ build-backend = "setuptools.build_meta"
 
 # This is a minimal toml file to allow us to do pip install
 [project]
+<<<<<<< before updating
 name = "epics-containers.github.io"
+=======
+name = "epics-containers"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+description = "Documentation for the epics-containers framework"
+dependencies = [] # Add project dependencies here, e.g. ["click", "numpy"]
+>>>>>>> after updating
 dynamic = ["version"]
 
 [tool.setuptools_scm]
