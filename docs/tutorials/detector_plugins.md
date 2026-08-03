@@ -28,8 +28,10 @@ By the end you will have:
 :::{note}
 This continues directly from {any}`create_ioc`; you need the
 `bl01t-ea-cam-01` instance from that tutorial. Run the `ibek pattern` commands
-on your **workstation** with **ibek ≥ 4.6.1** installed (or prefix them with
-`uvx --from ibek`).
+on your **workstation** with an **ibek newer than 4.6.2** installed (or prefix
+them with `uvx --from 'ibek>4.6.2'`). 4.6.2 and earlier stamp a `DO NOT EDIT`
+header into each vendored file and write an older `runtime-lock.yaml` than the
+one shown below; `uv tool install ibek --upgrade` refreshes an existing install.
 :::
 
 ## Vendor the plugin pattern
@@ -48,7 +50,7 @@ The qualified name is `<library>:<pattern>@<tag>`. That one command:
 
 | Step | Result |
 |---|---|
-| **Copies** the pattern's file-set into `config/` | here just `detectorPlugins.ibek.support.yaml`, with a `# Vendored from … — DO NOT EDIT` header prepended |
+| **Copies** the pattern's file-set into `config/` | here just `detectorPlugins.ibek.support.yaml`, byte-for-byte as the library holds it |
 | **Pins + hashes** it in `runtime-lock.yaml` | records the `version`, `source` and a per-file `sha256` |
 | **Regenerates** the instance's `ioc.schema.json` | merges the vendored entity models into your image's schema, so the editor validates the new entity |
 
@@ -56,6 +58,15 @@ The qualified name is `<library>:<pattern>@<tag>`. That one command:
 `runtime-lock.yaml` is written at the **instance root**, not inside `config/`.
 Only `config/` is mounted into the container, so it stays the small
 runtime-input bundle; the lock is developer-side metadata.
+:::
+
+:::{warning}
+**Never hand-edit a vendored file.** A vendored copy is indistinguishable from
+any other file in `config/` — it carries no marker of its own — so
+`runtime-lock.yaml` is the only thing that says which files are copies. Anything
+it lists belongs to the library: change it there, publish a new tag and
+re-vendor. An edit made in `config/` is lost at the next `update` or `restore`,
+and fails `ibek pattern check` before that.
 :::
 
 ### The local `ioc.schema.json`
@@ -149,19 +160,55 @@ camera — statistics, ROI-statistics, HDF5 file writer and PVA.
 
 ## Check what your IOC is running
 
-Because every vendored file is hashed in `runtime-lock.yaml`, "what support is
-this IOC running?" is answerable from git with certainty. Re-verify the
-vendored files against their pins at any time — ideal in CI or a pre-commit
-hook:
+The lock is the record. `services/bl01t-ea-cam-01/runtime-lock.yaml` now reads:
+
+```yaml
+version: 1
+patterns:
+  detectorPlugins:
+    version: v0.1.0
+    source: github.com/epics-containers/ibek-runtime-support
+    files:
+      config/detectorPlugins.ibek.support.yaml: sha256:…
+```
+
+Each key under `files:` is a path **relative to the instance root** — which is
+why `config/` is part of it — so the lock names exactly which files under
+`config/` came from the library. "What support is this IOC running?" is
+answerable from git with certainty. Re-verify the vendored files against their
+pins at any time:
 
 ```bash
 ibek pattern check services/bl01t-ea-cam-01
 ```
 
-It re-hashes each file and exits non-zero on any drift. To move to a newer
-release later,
+It re-hashes each file and exits non-zero on any drift. Wire it into a
+pre-commit hook and into CI for any services repo you run in production — the
+Kubernetes services template already runs it from both. Since a vendored copy
+says nothing about itself, that check is the only thing standing between a
+well-meant edit and an IOC quietly running support that exists in no library.
+
+To move to a newer release later,
 `ibek pattern update services/bl01t-ea-cam-01 --name detectorPlugins -v <tag>`
 re-pins and refreshes the hashes.
+
+:::{note}
+**One-off migration.** A `runtime-lock.yaml` written before this format has no
+`version:`/`patterns:` wrapper, keys its files relative to `config/` rather than
+to the instance root, and its hashes cover a `DO NOT EDIT` header that vendored
+files no longer carry. `ibek pattern check` reports every file as missing and
+names the fix: run
+
+```bash
+ibek pattern update services/<instance>
+```
+
+once, with **no `--name`**, so every pattern is re-vendored at its pinned version
+and the whole lock is rewritten in the current format. The vendored files change
+too — one line shorter, the header going away — so commit them with the lock.
+It is a one-off per instance; {any}`legacy-runtime-lock` has the error messages
+in full.
+:::
 
 ## Commit
 

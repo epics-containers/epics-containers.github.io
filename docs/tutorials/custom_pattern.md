@@ -18,8 +18,11 @@ You will use the same `bl01t` worked example; substitute your own names
 throughout.
 
 :::{note}
-`ibek pattern` runs on your **workstation** and needs **ibek ≥ 4.6.1**. If
-`ibek` is not installed, run `uv tool install ibek --upgrade`.
+`ibek pattern` runs on your **workstation**. The `ibek.manifest.yaml` and
+`runtime-lock.yaml` shown on this page need an `ibek` **newer than 4.6.2**:
+4.6.2 and earlier ignore the manifest, stamp a `DO NOT EDIT` header into every
+vendored file and write the older lock format. Install or refresh it with
+`uv tool install ibek --upgrade`, and confirm with `ibek --version`.
 :::
 
 ## Fork the pattern library
@@ -104,6 +107,49 @@ The `ADCore` plugins it references are compiled into every AreaDetector image,
 so this pattern needs **no `.db` / `.template` of its own** — it only adds the
 `ibek` entities that instantiate and connect them at runtime.
 
+### Optional: declare what gets vendored
+
+`basicPlugins` holds one file and every byte of it belongs in the IOC, so there
+is nothing to declare. That is the usual case: **a pattern with no manifest
+vendors every file in its folder into the instance's `config/`**, exactly as
+patterns always have.
+
+Write one only when the folder holds something an IOC must not receive — a
+`README`, a datasheet, device notes you want browsable in the library.
+Everything in `config/` is mounted into the IOC container (and on Kubernetes it
+*is* the ConfigMap), so whatever lands there travels to the beamline. An
+`ibek.manifest.yaml` at the root of the pattern folder lists what counts as a
+runtime file:
+
+```yaml
+version: 1
+vendor:
+  - src: '.*\.(template|db|req|proto|protocol|ibek\.support\.yaml|pvi\.device\.yaml)$'
+    dest: config
+```
+
+`src` is a regular expression that must match a file's **whole** path within the
+pattern folder — `ibek` matches with `re.fullmatch`, so a rule of `'\.proto$'`
+on its own matches nothing; lead each one with `.*`. `dest` is where the matched
+files land, relative to the instance root, and `config` is the only destination
+a services repo needs.
+
+The list is an **allow-list**: a file matched by no entry is not vendored, which
+is exactly how the `README` stays out of the IOC. The manifest itself is never
+vendored either. That cuts both ways — a runtime file your rules forget is
+dropped just as quietly, with no error and a passing `ibek pattern check` — so
+the alternation has to name every extension the pattern really ships. Only a
+manifest matching *nothing at all* is reported as a mistake.
+
+Narrowing a manifest later takes effect the next time the instance is
+re-vendored **from a version that carries it**. A bare
+`ibek pattern update services/<instance>` re-fetches each pattern at the version
+already pinned, so a manifest added after that tag is not seen: cut a new tag
+and re-pin with `-v <tag>` (below, a local `--source` pins `HEAD`, so re-running
+`ibek pattern add` is enough). When it does re-vendor, files the manifest
+stopped matching are deleted from `config/`, so the instance never keeps a copy
+the pattern no longer claims.
+
 ## Create a fresh instance to vendor into
 
 Make a new instance `bl01t-ea-cam-02` exactly as you made `bl01t-ea-cam-01` in
@@ -151,8 +197,8 @@ ibek pattern add --source ../ibek-runtime-support basicPlugins services/bl01t-ea
 ```
 
 This writes `basicPlugins.ibek.support.yaml` into
-`services/bl01t-ea-cam-02/config/` with a `# Vendored from … — DO NOT EDIT`
-header and records its `sha256` in `services/bl01t-ea-cam-02/runtime-lock.yaml`.
+`services/bl01t-ea-cam-02/config/` — an exact copy of the file in your fork —
+and records its `sha256` in `services/bl01t-ea-cam-02/runtime-lock.yaml`.
 That is all the vendor step needs: at container start `ibek runtime generate2
 config` discovers the vendored support file and loads your entity — no image
 rebuild, and nothing else to wire up.
@@ -160,16 +206,37 @@ rebuild, and nothing else to wire up.
 The lock now pins the pattern. A local source pins to `HEAD`:
 
 ```yaml
-basicPlugins:
-  version: HEAD
-  source: ../ibek-runtime-support
-  files:
-    basicPlugins.ibek.support.yaml: "sha256:…"
+version: 1
+patterns:
+  basicPlugins:
+    version: HEAD
+    source: ../ibek-runtime-support
+    files:
+      config/basicPlugins.ibek.support.yaml: sha256:…
 ```
+
+The `files:` keys are relative to the **instance root**, which is why `config/`
+appears in them.
+
+:::{warning}
+Keep editing the pattern **in your fork** and re-run `ibek pattern add` — never
+the copy under `config/`. The copy looks like any other file, and only the lock
+records that it is not yours: an edit there is overwritten by the next `add`,
+`update` or `restore`, and fails `ibek pattern check` before that.
+:::
 
 `ibek pattern check services/bl01t-ea-cam-02` re-hashes the vendored file and
 exits non-zero if it has drifted from the lock — run it in CI or a pre-commit
-hook to guarantee the committed `config/` matches what was pinned.
+hook to guarantee the committed `config/` matches what was pinned. Because the
+copy is byte-for-byte the file in the library, plain `diff` works as a second
+opinion:
+
+```bash
+diff -r services/bl01t-ea-cam-02/config/ ../ibek-runtime-support/basicPlugins/
+```
+
+Vendored files that appear on both sides compare equal; your own `ioc.yaml` and
+anything the pattern does not vendor show up as `Only in …` lines.
 
 ## Use the new entity
 
@@ -247,6 +314,7 @@ it shareable:
 A pattern's file-set is **not** fixed to a single file. The lock simply hashes
 a *file list*, so a pattern may also ship `.template` / `.db`, autosave `.req`
 files, or a `.pvi.device.yaml` screen descriptor alongside its support yaml —
-whatever the support definition references. {any}`stream_device` vendors exactly
-such a multi-file device-support pattern.
+whatever the support definition references. All of it is vendored unless an
+`ibek.manifest.yaml` narrows the set. {any}`stream_device` vendors exactly such
+a multi-file device-support pattern.
 :::
