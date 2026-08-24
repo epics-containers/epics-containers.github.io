@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -533,10 +533,10 @@ the same change by appending the <code class="docutils literal notranslate"><spa
 make here lands directly in the <code class="docutils literal notranslate"><span class="pre">t01-services</span></code> repo, ready to commit.</p>
 <ol class="arabic">
 <li><p>Add a file <code class="docutils literal notranslate"><span class="pre">extra.db</span></code> containing a single soft record:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, &quot;BL01T-EA-CAM-01:TEST&quot;) {
-   field(DESC, &quot;Test record&quot;)
-   field(DTYP, &quot;Soft Channel&quot;)
-   field(VAL, &quot;1&quot;)
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>record(ai, "BL01T-EA-CAM-01:TEST") {
+   field(DESC, "Test record")
+   field(DTYP, "Soft Channel")
+   field(VAL, "1")
 }
 </pre></div>
 </div>
@@ -573,7 +573,7 @@ line now appears in the startup log.</p>
 then tag a release of the services repo (substitute your own version):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/t01-services
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add extra.db to bl01t-ea-cam-01&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add extra.db to bl01t-ea-cam-01"</span>
 git<span class="w"> </span>push
 git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
 git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
@@ -594,10 +594,10 @@ into the Generic IOC at build time — one per support module, under
 <span class="w">    </span><span class="nt">command</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
 <span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">command string</span>
-<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">      </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
 <span class="w">  </span><span class="nt">pre_init</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
-<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">command</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">command</span><span class="nv"> </span><span class="s">}}"</span>
 </pre></div>
 </div>
 <p>Its companion <code class="docutils literal notranslate"><span class="pre">PostStartupCommand</span></code> does the same <em>after</em> <code class="docutils literal notranslate"><span class="pre">iocInit</span></code>. For a command

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -583,7 +583,7 @@ start or target the wrong container.</p>
 <p>The developer container keeps running in the background until you stop it. There
 is no <code class="docutils literal notranslate"><span class="pre">devcontainer</span> <span class="pre">down</span></code> command — the CLI creates an ordinary podman
 container, so tear it down with podman directly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>ps<span class="w">                  </span><span class="c1"># find the container&#39;s name or id</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>ps<span class="w">                  </span><span class="c1"># find the container's name or id</span>
 podman<span class="w"> </span>stop<span class="w"> </span>&lt;name-or-id&gt;<span class="w">   </span><span class="c1"># stop it (keeps the container for a fast restart)</span>
 podman<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>&lt;name-or-id&gt;<span class="w">  </span><span class="c1"># stop and remove it completely</span>
 </pre></div>

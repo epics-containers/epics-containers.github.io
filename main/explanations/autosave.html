@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Autosave for IOCs &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Autosave for IOCs &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -525,9 +525,9 @@
 <p>The startup script entries that handle autosave will look the similar for all IOC instances as follows.</p>
 <p>First in pre init stage we have:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autosave pre iocInit</span>
-<span class="n">set_requestfile_path</span><span class="p">(</span><span class="s2">&quot;/epics&quot;</span><span class="p">,</span> <span class="s2">&quot;autosave&quot;</span><span class="p">)</span>
-<span class="n">set_requestfile_path</span><span class="p">(</span><span class="s2">&quot;/epics&quot;</span><span class="p">,</span> <span class="s2">&quot;runtime&quot;</span><span class="p">)</span>
-<span class="n">set_savefile_path</span><span class="p">(</span><span class="s2">&quot;/autosave&quot;</span><span class="p">)</span>
+<span class="n">set_requestfile_path</span><span class="p">(</span><span class="s2">"/epics"</span><span class="p">,</span> <span class="s2">"autosave"</span><span class="p">)</span>
+<span class="n">set_requestfile_path</span><span class="p">(</span><span class="s2">"/epics"</span><span class="p">,</span> <span class="s2">"runtime"</span><span class="p">)</span>
+<span class="n">set_savefile_path</span><span class="p">(</span><span class="s2">"/autosave"</span><span class="p">)</span>
 <span class="n">save_restoreSet_status_prefix</span> <span class="n">BL47P</span><span class="o">-</span><span class="n">MO</span><span class="o">-</span><span class="n">IOC</span><span class="o">-</span><span class="mi">01</span>
 <span class="n">save_restoreSet_Debug</span> <span class="mi">0</span>
 <span class="n">save_restoreSet_NumSeqFiles</span> <span class="mi">3</span>
@@ -548,8 +548,8 @@
 <p>Hence a pod that mounts the root of the PVC <code class="docutils literal notranslate"><span class="pre">p47-autosave-claim</span></code> will be able to browse the autosave files of all IOC instances in the namespace.</p>
 <p>After iocInit we have</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autosave post iocInit</span>
-<span class="n">create_monitor_set</span> <span class="n">autosave_positions</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
-<span class="n">create_monitor_set</span> <span class="n">autosave_settings</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+<span class="n">create_monitor_set</span> <span class="n">autosave_positions</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">""</span>
+<span class="n">create_monitor_set</span> <span class="n">autosave_settings</span><span class="o">.</span><span class="n">req</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s2">""</span>
 </pre></div>
 </div>
 <p>The two req files list the PVs and have fixed names in epics-containers:</p>

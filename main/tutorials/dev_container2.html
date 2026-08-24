@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Containers Part 2 &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Developer Containers Part 2 &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -515,7 +515,7 @@ view the IOC’s auto-generated engineering screens.</p>
 <p>If you closed the container after the last tutorial, reopen it and restart the
 IOC:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector
-code<span class="w"> </span>.<span class="w">            </span><span class="c1"># then ctrl-shift-p -&gt; &quot;Reopen in Container&quot;</span>
+code<span class="w"> </span>.<span class="w">            </span><span class="c1"># then ctrl-shift-p -&gt; "Reopen in Container"</span>
 
 <span class="c1"># only if the container was rebuilt do you need to rebuild the IOC:</span>
 ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/t01-services/services/bl01t-ea-cam-01
@@ -543,7 +543,7 @@ caget<span class="w"> </span>-#10<span class="w"> </span>BL01T-EA-CAM-01:ARR:Arr
 <p class="admonition-title">Warning</p>
 <p>Channel Access sees the IOC’s PVs both via localhost and UDP broadcast
 so you will get a warning like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Warning</span><span class="p">:</span> <span class="s2">&quot;Identical process variable names on multiple servers&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Warning</span><span class="p">:</span> <span class="s2">"Identical process variable names on multiple servers"</span>
 </pre></div>
 </div>
 <p>To silence this warning, make CA look only at localhost before running <code class="docutils literal notranslate"><span class="pre">caget</span></code>/<code class="docutils literal notranslate"><span class="pre">caput</span></code>:</p>

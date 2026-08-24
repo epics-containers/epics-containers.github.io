@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -562,7 +562,7 @@ per-namespace and per-project, so create an ArgoCD project allowed to deploy
 into it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>proj<span class="w"> </span>create<span class="w"> </span>t02-beamline<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span>https://kubernetes.default.svc,t02-beamline<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-s<span class="w"> </span><span class="s2">&quot;*&quot;</span>
+<span class="w">  </span>-s<span class="w"> </span><span class="s2">"*"</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -656,7 +656,7 @@ both correctly.</p>
 remote you named in <code class="docutils literal notranslate"><span class="pre">deployment_repo</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>init
 git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial deployment repo from template&quot;</span>
+git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Initial deployment repo from template"</span>
 git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>branch<span class="w"> </span>-M<span class="w"> </span>main
 git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/&lt;org&gt;/t02-deployment
 git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
@@ -762,10 +762,10 @@ deployment repo:</p>
 </div>
 <p>This sets the <code class="docutils literal notranslate"><span class="pre">EC_*</span></code> environment variables, enables <code class="docutils literal notranslate"><span class="pre">ec</span></code> shell completion, and
 logs you into ArgoCD. The variables it exports are:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span><span class="s2">&quot;ARGOCD&quot;</span><span class="w">            </span><span class="c1"># the ArgoCD continuous-deployment backend</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EC_CLI_BACKEND</span><span class="o">=</span><span class="s2">"ARGOCD"</span><span class="w">            </span><span class="c1"># the ArgoCD continuous-deployment backend</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">EC_TARGET</span><span class="o">=</span>t02-beamline/t02<span class="w">         </span><span class="c1"># &lt;namespace&gt;/&lt;root-app-name&gt;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">EC_SERVICES_REPO</span><span class="o">=</span>https://github.com/&lt;your-account&gt;/t02-services
-<span class="nb">export</span><span class="w"> </span><span class="nv">EC_LOG_URL</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="w">                      </span><span class="c1"># central log server (empty — logging_url Skipped)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EC_LOG_URL</span><span class="o">=</span><span class="s1">''</span><span class="w">                      </span><span class="c1"># central log server (empty — logging_url Skipped)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> is the repo that <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> validates versions against; for

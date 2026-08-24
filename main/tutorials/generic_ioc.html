@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -575,7 +575,7 @@ copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epi
 push:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial commit&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"initial commit"</span>
 git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
@@ -653,7 +653,7 @@ git<span class="w"> </span>submodule<span class="w"> </span>set-url<span class="
 git<span class="w"> </span>submodule<span class="w"> </span>update
 <span class="nb">cd</span><span class="w"> </span>ibek-support
 git<span class="w"> </span>fetch
-git<span class="w"> </span>checkout<span class="w"> </span>main<span class="w">            </span><span class="c1"># work from your fork&#39;s main branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>main<span class="w">            </span><span class="c1"># work from your fork's main branch</span>
 git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w">               </span><span class="c1"># confirm origin is your fork</span>
 <span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
@@ -662,7 +662,7 @@ git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w">     
 <p class="admonition-title">Important</p>
 <p>Use the <strong>HTTPS</strong> URL, not SSH — CI clones have no SSH keys. HTTPS reads fine; to
 <em>push</em>, tell git to swap in SSH by adding this to your <code class="docutils literal notranslate"><span class="pre">~/.gitconfig</span></code>:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[url &quot;ssh://git@github.com/&quot;]
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[url "ssh://git@github.com/"]
         insteadOf = https://github.com/
 </pre></div>
 </div>
@@ -762,11 +762,11 @@ type it, and your services repo’s CI re-checks it on push.</p>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Port name for the detector</span>
 <span class="w">      </span><span class="nt">TIMEOUT</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">"1"</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Timeout</span>
 <span class="w">      </span><span class="nt">ADDR</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str</span>
-<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0&quot;</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="s">"0"</span>
 <span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Asyn Port address</span>
 <span class="w">      </span><span class="nt">WIDTH</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int</span>
@@ -799,7 +799,7 @@ type it, and your services repo’s CI re-checks it on push.</p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">text</span>
 <span class="w">        </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">          </span><span class="no"># simDetectorConfig(portName, maxSizeX, maxSizeY, dataType, maxBuffers, maxMemory)</span>
-<span class="w">          </span><span class="no">simDetectorConfig(&quot;{{PORT}}&quot;, {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})</span>
+<span class="w">          </span><span class="no">simDetectorConfig("{{PORT}}", {{WIDTH}}, {{HEIGHT}}, {{DATATYPE}}, {{BUFFERS}}, {{MEMORY}})</span>
 
 <span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">simDetector.template</span>
@@ -870,7 +870,7 @@ make
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>During startup you may see an error like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ERROR</span><span class="p">:</span> <span class="n">Record</span> <span class="s1">&#39;BL01T-EA-CAM-01:STAT:TSAcquiring&#39;</span> <span class="ow">not</span> <span class="n">found</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ERROR</span><span class="p">:</span> <span class="n">Record</span> <span class="s1">'BL01T-EA-CAM-01:STAT:TSAcquiring'</span> <span class="ow">not</span> <span class="n">found</span>
 </pre></div>
 </div>
 <p>This is benign and will be fixed soon — the IOC still starts normally.</p>
@@ -878,7 +878,7 @@ make
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If instead you see an error like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span> <span class="n">tag</span> <span class="s1">&#39;ADSimDetector.simDetector&#39;</span> <span class="n">found</span> <span class="n">using</span> <span class="s1">&#39;type&#39;</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">match</span> <span class="nb">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">expected</span> <span class="n">tags</span><span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span> <span class="n">tag</span> <span class="s1">'ADSimDetector.simDetector'</span> <span class="n">found</span> <span class="n">using</span> <span class="s1">'type'</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">match</span> <span class="nb">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">expected</span> <span class="n">tags</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>your support definition is not registered. Re-run <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code> to
@@ -929,12 +929,12 @@ cache hit rate — editing one recipe does not force every module to rebuild.</p
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsim-demo/ibek-support
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add-adsimdetector
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;re-author ADSimDetector support module&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"re-author ADSimDetector support module"</span>
 git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>add-adsimdetector
 
 <span class="nb">cd</span><span class="w"> </span>..
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;add ADSimDetector tutorial version&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"add ADSimDetector tutorial version"</span>
 git<span class="w"> </span>push<span class="w">   </span><span class="c1"># a tutorial may push to main; real projects use a PR</span>
 </pre></div>
 </div>

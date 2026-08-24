@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>EPICS Network Protocols in Containers &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>EPICS Network Protocols in Containers &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -595,16 +595,16 @@ server must be PVXS.</p></li>
 # (caRepeater can go down if the IOC that started it goes down, but it will get
 # restarted by the next IOC startup.)
 
-cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6&#39;
+cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6'
 
 check () {
     podman run $args $env $ports $cmd &gt; /dev/null
-    podman logs -f test | grep -q -m 1 &quot;iocInit&quot;
+    podman logs -f test | grep -q -m 1 "iocInit"
 
     if caget EXAMPLE:IBEK:SUM &amp;&gt;/dev/null; then
-        echo &quot;CA Success&quot;
+        echo "CA Success"
     else
-        echo &quot;CA Failure&quot;
+        echo "CA Failure"
     fi
 
     podman stop test &amp;&gt; /dev/null; sleep 1
@@ -614,35 +614,35 @@ check () {
 (
     echo no ports, network host, broadcast
     ports=
-    args=&quot;--network host&quot;
+    args="--network host"
     check
     # the default sledgehammer approach works like native IOCs
 )
 
-# I guess broadcasts don&#39;t go to the loopback
+# I guess broadcasts don't go to the loopback
 (
     echo 5064, broadcast: FAILURE
-    ports=&quot;-p 5064:5064 -p 5064:5064/udp&quot;
+    ports="-p 5064:5064 -p 5064:5064/udp"
     check
 )
 
 (
     echo 5064 no UDP, broadcast: FAILURE
-    ports=&quot;-p 5064:5064&quot;
+    ports="-p 5064:5064"
     check
 )
 
 (
     echo 5064, unicast
-    export EPICS_CA_ADDR_LIST=&quot;localhost&quot;
-    ports=&quot;-p 5064:5064 -p 5064:5064/udp&quot;
+    export EPICS_CA_ADDR_LIST="localhost"
+    ports="-p 5064:5064 -p 5064:5064/udp"
     check
 )
 
 (
     echo 5064 no UDP, unicast: FAILURE
-    export EPICS_CA_ADDR_LIST=&quot;localhost&quot;
-    ports=&quot;-p 5064:5064&quot;
+    export EPICS_CA_ADDR_LIST="localhost"
+    ports="-p 5064:5064"
     check
     # EPICS_CA_ADDR_LIST uses UDP Unicast
 )
@@ -652,31 +652,31 @@ check () {
 # on the whole subnet.
 (
     echo 5064, broadcast, localhost: FAILURE
-    ports=&quot;-p 127.0.0.1:5064:5064 -p 127.0.0.1:5064:5064/udp&quot;
+    ports="-p 127.0.0.1:5064:5064 -p 127.0.0.1:5064:5064/udp"
     check
     # why does this fail? - I guess broadcasts do not go to localhost
 )
 
 (
     echo 5064, unicast, localhost
-    export EPICS_CA_ADDR_LIST=&quot;localhost&quot;
-    ports=&quot;-p 127.0.0.1:5064:5064 -p 127.0.0.1:5064:5064/udp&quot;
+    export EPICS_CA_ADDR_LIST="localhost"
+    ports="-p 127.0.0.1:5064:5064 -p 127.0.0.1:5064:5064/udp"
     check
 )
 
 (
     echo  8064, broadcast
     export EPICS_CA_SERVER_PORT=8064
-    env=&quot;-e EPICS_CA_SERVER_PORT=8064&quot;
-    ports=&quot;-p 8064:8064 -p 8064:8064/udp&quot;
+    env="-e EPICS_CA_SERVER_PORT=8064"
+    ports="-p 8064:8064 -p 8064:8064/udp"
     check
 )
 
 (
     echo  8064, unicast, localhost
-    export EPICS_CA_ADDR_LIST=&quot;localhost&quot; EPICS_CA_SERVER_PORT=8064
-    env=&quot;-e EPICS_CA_SERVER_PORT=8064&quot;
-    ports=&quot;-p 127.0.0.1:8064:8064 -p 127.0.0.1:8064:8064/udp&quot;
+    export EPICS_CA_ADDR_LIST="localhost" EPICS_CA_SERVER_PORT=8064
+    env="-e EPICS_CA_SERVER_PORT=8064"
+    ports="-p 127.0.0.1:8064:8064 -p 127.0.0.1:8064:8064/udp"
     check
 )
 
@@ -684,28 +684,28 @@ check () {
 (
     echo  8064:5064, broadcast: FAILURE
     export EPICS_CA_SERVER_PORT=8064
-    ports=&quot;-p 8064:5064 -p 8064:5064/udp&quot;
+    ports="-p 8064:5064 -p 8064:5064/udp"
     check
 )
 
 (
     echo  8064:5064, unicast, localhost: FAILURE
-    export EPICS_CA_ADDR_LIST=&quot;localhost&quot; EPICS_CA_SERVER_PORT=8064
-    ports=&quot;-p 127.0.0.1:8064:5064 -p 127.0.0.1:8064:5064/udp&quot;
+    export EPICS_CA_ADDR_LIST="localhost" EPICS_CA_SERVER_PORT=8064
+    ports="-p 127.0.0.1:8064:5064 -p 127.0.0.1:8064:5064/udp"
     check
 )
 
 (
     echo  5064 no UDP, NAME_SERVER, localhost
-    export EPICS_CA_NAME_SERVERS=&quot;localhost:5064&quot;
-    ports=&quot;-p 127.0.0.1:5064:5064&quot;
+    export EPICS_CA_NAME_SERVERS="localhost:5064"
+    ports="-p 127.0.0.1:5064:5064"
     check
 )
 
 (
     echo  8064:5064 no UDP, NAME_SERVER, localhost
-    export EPICS_CA_NAME_SERVERS=&quot;localhost:8064&quot;
-    ports=&quot;-p 127.0.0.1:8064:5064&quot;
+    export EPICS_CA_NAME_SERVERS="localhost:8064"
+    ports="-p 127.0.0.1:8064:5064"
     check
 )
 </pre></div>
@@ -716,22 +716,22 @@ check () {
 
 # requires a venv with p4p installed
 
-pvget=&#39;
+pvget='
 from p4p.client.thread import Context
 
-Context(&quot;pva&quot;).get(&quot;EXAMPLE:IBEK:SUM&quot;, timeout=0.5)
-&#39;
+Context("pva").get("EXAMPLE:IBEK:SUM", timeout=0.5)
+'
 
-cmd=&#39;-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6&#39;
+cmd='-dit --rm --name test ghcr.io/epics-containers/ioc-template-example-runtime:4.4.6'
 
 check () {
     podman run $args $env $ports $cmd &gt; /dev/null
-    podman logs -f test | grep -q -m 1 &quot;iocInit&quot;
+    podman logs -f test | grep -q -m 1 "iocInit"
 
-    if python -c &quot;$pvget&quot; 2&gt;/dev/null; then
-        echo &quot;PVA Success&quot;
+    if python -c "$pvget" 2&gt;/dev/null; then
+        echo "PVA Success"
     else
-        echo &quot;PVA Failure&quot;
+        echo "PVA Failure"
     fi
 
     podman stop test &amp;&gt; /dev/null
@@ -741,7 +741,7 @@ check () {
 (
     echo no ports, network host, broadcast
     ports=
-    args=&quot;--network host&quot;
+    args="--network host"
     check
     # the default sledgehammer approach works like native IOCs
 )
@@ -750,14 +750,14 @@ check () {
 # port for the server to make the TCP circuit but that is not NAT friendly.
 (
     echo 5075, broadcast: FAILURE
-    ports=&quot;-p 5075:5075 -p 5075:5075/udp&quot;
+    ports="-p 5075:5075 -p 5075:5075/udp"
     check
 )
 
 (
     echo 5075, unicast: FAILURE
-    export EPICS_PVA_ADDR_LIST=&quot;localhost&quot;
-    ports=&quot;-p 5075:5075 -p 5075:5075/udp&quot;
+    export EPICS_PVA_ADDR_LIST="localhost"
+    ports="-p 5075:5075 -p 5075:5075/udp"
     check
 )
 
@@ -768,15 +768,15 @@ check () {
 # network to proxy the traffic
 (
     echo 5075, NAME SERVER
-    export EPICS_PVA_NAME_SERVERS=&quot;localhost:5075&quot;
-    ports=&quot;-p 5075:5075&quot;
+    export EPICS_PVA_NAME_SERVERS="localhost:5075"
+    ports="-p 5075:5075"
     check
 )
 
 (
     echo 8057:5075, NAME SERVER
-    export EPICS_PVA_NAME_SERVERS=&quot;localhost:8075&quot;
-    ports=&quot;-p 8075:5075&quot;
+    export EPICS_PVA_NAME_SERVERS="localhost:8075"
+    ports="-p 8075:5075"
     check
 )
 </pre></div>

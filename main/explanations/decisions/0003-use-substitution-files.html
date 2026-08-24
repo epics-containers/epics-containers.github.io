@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Use of substitution files to generate EPICS Databases &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>3. Use of substitution files to generate EPICS Databases &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../../_static/documentation_options.js?v=64201540"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -527,8 +527,8 @@ in-line. Removing the need for a substitution file.</p></li>
 <p>Proposal 1 is accepted.</p>
 <p>Some template files such as those in the <code class="docutils literal notranslate"><span class="pre">pmac</span></code> support module use the
 following pattern:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">substitute</span> <span class="s2">&quot;P=$(PMAC):, M=CS$(CS):M1, ADDR=1, DESC=CS Motor A&quot;</span>
-<span class="n">include</span> <span class="s2">&quot;pmacDirectMotor.template&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">substitute</span> <span class="s2">"P=$(PMAC):, M=CS$(CS):M1, ADDR=1, DESC=CS Motor A"</span>
+<span class="n">include</span> <span class="s2">"pmacDirectMotor.template"</span>
 </pre></div>
 </div>
 <p>This pattern is supported by msi but not by the EPICS dbLoadRecord command which

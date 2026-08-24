@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -501,8 +501,8 @@
 </figcaption>
 </figure>
 <p>You will be able to interact with each of these IOCs as usual inside the container but what if you want to connect to both of them from outside the container? This can be done by adding the list of ports to the appropriate environment variables. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_NAME_SERVERS</span><span class="o">=</span><span class="s2">&quot;127.0.0.1:5064 127.0.0.1:5065&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_PVA_NAME_SERVERS</span><span class="o">=</span><span class="s2">&quot;127.0.0.1:5075 127.0.0.1:5076&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_CA_NAME_SERVERS</span><span class="o">=</span><span class="s2">"127.0.0.1:5064 127.0.0.1:5065"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EPICS_PVA_NAME_SERVERS</span><span class="o">=</span><span class="s2">"127.0.0.1:5075 127.0.0.1:5076"</span>
 </pre></div>
 </div>
 <p>The equivalent settings in phoebus’ settings.ini file would be:</p>
@@ -567,7 +567,7 @@ fatal: Could not read from remote repository.
 </div>
 <p>Solution: you may need to add your github ssh key to the ssh-agent as
 follows:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eval &quot;$(ssh-agent -s)&quot;
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 </pre></div>
 </div>
@@ -600,9 +600,9 @@ for more information</p>
 (the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule plus support modules). Stop VSCode scanning them
 all by adding to your user settings (<code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt;
 <code class="docutils literal notranslate"><span class="pre">Preferences:</span> <span class="pre">Open</span> <span class="pre">User</span> <span class="pre">Settings</span> <span class="pre">(JSON)</span></code>):</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;scm.alwaysShowRepositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="nt">&quot;git.repositoryScanMaxDepth&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="nt">&quot;scm.repositories.visible&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"scm.alwaysShowRepositories"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="nt">"git.repositoryScanMaxDepth"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="nt">"scm.repositories.visible"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span>
 </pre></div>
 </div>
 </section>

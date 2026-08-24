@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev116+gcb3288805 documentation</title>
+    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev117+gbc8bfdadb documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=04f33da8"></script>
+    <script src="../_static/documentation_options.js?v=64201540"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -577,7 +577,7 @@ instantiate, so nothing extra is downloaded here. Open
 <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/config/ioc.yaml</span></code> and replace its body:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=../ioc.schema.json</span>
 
-<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">_global.get_env(&#39;IOC_NAME&#39;)</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_global.get_env('IOC_NAME')</span><span class="nv"> </span><span class="s">}}"</span>
 
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">An IOC that simulates an area detector</span>
 
@@ -587,17 +587,17 @@ instantiate, so nothing extra is downloaded here. Open
 <span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">GMT0BST</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">devIocStats.iocAdminSoft</span>
-<span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}&quot;</span>
+<span class="w">    </span><span class="nt">IOC</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">ioc_name</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">upper</span><span class="nv"> </span><span class="s">}}"</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector.simDetector</span>
 <span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
 <span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL02T-EA-CAM-01</span>
-<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:DET:&quot;</span>
+<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">":DET:"</span>
 
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADCore.NDStdArrays</span>
 <span class="w">    </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.ARR</span>
 <span class="w">    </span><span class="nt">P</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BL02T-EA-CAM-01</span>
-<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;:ARR:&quot;</span>
+<span class="w">    </span><span class="nt">R</span><span class="p">:</span><span class="w"> </span><span class="s">":ARR:"</span>
 <span class="w">    </span><span class="nt">NDARRAY_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DET.DET</span>
 <span class="w">    </span><span class="nt">TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Int8</span>
 <span class="w">    </span><span class="nt">FTVL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CHAR</span>
@@ -644,7 +644,7 @@ repo’s <code class="docutils literal notranslate"><span class="pre">environmen
 <code class="docutils literal notranslate"><span class="pre">EC_CLI_BACKEND=K8S</span></code>. Then commit your new instance and push it to the services
 repo that <code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys from (<code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>services/bl02t-ea-cam-01
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add bl02t-ea-cam-01 IOC&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add bl02t-ea-cam-01 IOC"</span>
 git<span class="w"> </span>push
 </pre></div>
 </div>
@@ -666,7 +666,7 @@ to pin a specific version, exactly as you tagged and deployed the shared service
 in <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>.</p>
 <p>Confirm it is running, then inspect it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w">                          </span><span class="c1"># list services in your namespace</span>
-ec<span class="w"> </span>logs<span class="w"> </span>bl02t-ea-cam-01<span class="w">        </span><span class="c1"># stream the IOC&#39;s container logs</span>
+ec<span class="w"> </span>logs<span class="w"> </span>bl02t-ea-cam-01<span class="w">        </span><span class="c1"># stream the IOC's container logs</span>
 </pre></div>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name                version   ready   deployed
