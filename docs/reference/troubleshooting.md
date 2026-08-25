@@ -120,6 +120,40 @@ for more information
 
 Solution: make sure your docker compose is up to date
 
+(legacy-runtime-lock)=
+
+## `ibek pattern` rejects an existing `runtime-lock.yaml`
+
+Problem: on an instance you have not touched, `ibek pattern check
+services/<instance>` fails with a `missing vendored file` line per file and:
+
+```none
+error: <pattern>: this lock predates destination-root-relative keys (no 'patterns:' root key) and its hashes cover the removed vendored header; run 'ibek pattern update' to rewrite it
+```
+
+Or `ibek pattern add …` / `ibek pattern update --name …` on that instance
+refuses to run at all:
+
+```none
+error: services/<instance>/runtime-lock.yaml predates destination-root-relative lock keys, and this would leave <pattern>, <pattern> half-rewritten; run 'ibek pattern update' (all patterns) first
+```
+
+Solution: the instance's `runtime-lock.yaml` is in the older format — no
+`version:`/`patterns:` wrapper, file keys relative to `config/` instead of to the
+instance root, and hashes covering the `DO NOT EDIT` header that vendored files
+no longer carry. Re-vendor the whole lock once:
+
+```bash
+ibek pattern update services/<instance>
+```
+
+Omit `--name`: every pattern has to be re-vendored together at its pinned
+version, and `ibek` refuses to rewrite only part of an old lock. The commit that
+follows shows the lock in its new shape and each vendored file one line shorter
+— the header going away. It is a one-off per instance; afterwards `add`,
+`update --name` and `check` all behave normally. See {any}`detector-plugins` for
+the vendoring workflow.
+
 ## Disable recursive git-repository scanning in VSCode
 
 Generic IOC dev containers mount many git repositories under `/epics/support`

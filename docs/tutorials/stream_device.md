@@ -49,16 +49,18 @@ ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.1.1 services/bl01t-ea-
 ```
 
 :::{note}
-`ibek pattern` needs **ibek ≥ 4.6.2**. If it is not on your `PATH`, add it with
-`uv tool install 'ibek>=4.6.2'`.
+`ibek pattern` needs an **ibek newer than 4.6.2** — 4.6.2 and earlier stamp a
+`DO NOT EDIT` header into each vendored file and write an older
+`runtime-lock.yaml` format. If it is not on your `PATH`, add it with
+`uv tool install 'ibek>4.6.2'`.
 :::
 
 `ibek-runtime-streamdevice` is one of ibek's built-in libraries, resolved from
 its name to
 [its GitHub repo](https://github.com/epics-containers/ibek-runtime-streamdevice).
-The command vendors three files into `config/` — each with a
-`# Vendored … DO NOT EDIT` header — and writes a `runtime-lock.yaml` at the
-instance root:
+The command vendors three files into `config/` — exact copies of the library's,
+with nothing added to them — and writes a `runtime-lock.yaml` at the instance
+root:
 
 | File | Role |
 |---|---|
@@ -67,8 +69,16 @@ instance root:
 | `config/lakeshore340.template` | The EPICS database of temperature/heater records. |
 | `runtime-lock.yaml` | Pins the version and the per-file SHA-256 hashes. |
 
-Commit the lock with the instance. Anyone can later confirm the vendored files
-are untampered with:
+Three files, because that is everything the `lakeshore340` folder holds. A
+pattern whose folder also holds files an IOC has no use for — a `README`, device
+documentation, calibration notes — declares the runtime subset in an
+`ibek.manifest.yaml` beside them, and only that subset is vendored. Most
+patterns have no manifest and vendor everything they contain into `config/`; see
+{any}`custom_pattern` to write one.
+
+Commit the lock with the instance. It is what marks those three files as copies —
+edit them in the library, never here. Anyone can later confirm they are
+untampered with:
 
 ```bash
 ibek pattern check services/bl01t-ea-temp-01

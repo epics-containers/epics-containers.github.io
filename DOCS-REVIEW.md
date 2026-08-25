@@ -16,6 +16,8 @@ Both were checked against the current local working copies of the implementation
 
 **Caveat:** `i21-deployment` was not available locally (it lives on Diamond GitLab), so `t01-deployment` was used as the deployment-repo stand-in. All findings are stated against local working copies; line numbers refer to those copies.
 
+**Update (issue #250 / ibek#361):** the vendoring findings below were written when `ibek pattern` stamped a `# Vendored from … — DO NOT EDIT` header into every vendored file. That header is gone: vendored files are now byte-identical to the library, `runtime-lock.yaml` is the only record of which files under `config/` are copies, and `ibek pattern check` (pre-commit + `ci_verify.sh`) is what enforces "never hand-edit". A pattern may also carry an `ibek.manifest.yaml` allow-list declaring which of its files are vendored. The **Fix** prescriptions below have been reworded so that acting on them does not reintroduce the header; the findings themselves are unchanged.
+
 ---
 
 ## Executive summary
@@ -33,7 +35,7 @@ Both were checked against the current local working copies of the implementation
 
 ### Top themes (highest impact)
 
-1. **`ibek pattern` runtime-support vendoring is undocumented everywhere.** The entire vendoring model (`add/update/check/restore/schema`, `runtime-lock.yaml`, per-instance `ioc.schema.json`, DO-NOT-EDIT headers, strict sha256 integrity, `DIRTY` opt-out, central pattern libraries) appears in zero public or internal pages — despite being wired into pre-commit, CI and Renovate. New pages are needed.
+1. **`ibek pattern` runtime-support vendoring is undocumented everywhere.** The entire vendoring model (`add/update/check/restore/schema`, `runtime-lock.yaml`, per-instance `ioc.schema.json`, the never-hand-edit rule, strict sha256 integrity, `DIRTY` opt-out, `ibek.manifest.yaml`, central pattern libraries) appears in zero public or internal pages — despite being wired into pre-commit, CI and Renovate. New pages are needed.
 2. **ArgoCD deployment model has no tutorial/reference page.** The production CD path (deployment repo, app-of-apps, `apps/values.yaml` control surface, `ec deploy` → git commit → autosync) is only mentioned in passing prose.
 3. **`ec` backend model is undocumented and `reference/environment.md` is wrong.** Three documented env vars no longer exist; the available commands/options change per backend; there is no `ec` command reference page.
 4. **`uv`/`uvx` vs `venv`/`pip` drift.** Tutorials switched to `uv tool install`, but intro bullets, environment.sh fallbacks, and a few reference pages still teach `python -m venv`/`pip`.
@@ -627,7 +629,7 @@ Both were checked against the current local working copies of the implementation
 #### `docs/how-tos/new-ioc.md` — no runtime-support vendoring section [critical, missing-content]
 - **Location:** "Edit the IOC Configuration", lines 48-54
 - **Issue:** Tells engineers to supply only `config/ioc.yaml` (or hand-written st.cmd/ioc.subst). The current workflow requires vendoring runtime support into `config/` via `ibek pattern`, enforced by pre-commit (`ibek-ioc-schema`, `ibek-pattern-check`) and `ci_verify.sh` (loops `services/*/runtime-lock.yaml`). A StreamDevice IOC fails CI/pre-commit and lacks `ioc.schema.json` without it.
-- **Fix:** Add a "Vendoring Runtime Support" section: `ibek pattern add [<library>:]<pattern>[@<tag>] services/<instance>`, `update`, `check`, `restore`; default libraries; DO-NOT-EDIT/sha256-pinned files (never hand-edit; CI fails on mismatch unless marked `DIRTY`); one-off editable `*.ibek.support.yaml` in config/. Cross-link the services-template-helm README "Vendoring runtime support".
+- **Fix:** Add a "Vendoring Runtime Support" section: `ibek pattern add [<library>:]<pattern>[@<tag>] services/<instance>`, `update`, `check`, `restore`; default libraries; sha256-pinned files (never hand-edit — a vendored copy carries no marker of its own, so `runtime-lock.yaml` is the record and CI fails on mismatch unless marked `DIRTY`); one-off editable `*.ibek.support.yaml` in config/. Cross-link the services-template-helm README "Vendoring runtime support".
 - **Evidence:** `new-ioc.md:48-54`; `README.md.jinja:19-67`; `.pre-commit-config.yaml:58-73`; `ci_verify.sh:67-81`; `ibek/.../pattern_cmds/commands.py:66-141`, `sources.py:23-27`.
 
 #### `docs/how-tos/new-ioc.md` — no deploy steps [minor, missing-content]
@@ -740,8 +742,8 @@ Both were checked against the current local working copies of the implementation
 
 #### Public: new how-to page for `ibek pattern` vendoring [critical, missing-content]
 - **Repo:** public, `docs/how-to/vendor-runtime-support.md` (NEW)
-- **Issue:** No public how-to page documents the five subcommands, the `[library:]name[@version]` syntax, the `config/`-vendored file set vs instance-root `runtime-lock.yaml`/`ioc.schema.json`, the DO-NOT-EDIT headers, the strict per-branch sha256 check, the `DIRTY` opt-out, built-in libraries, or the `IBEK_PATTERN_LIBRARIES`/`IBEK_ALLOW_DIRTY`/`IBEK_SCHEMA_CACHE` env vars.
-- **Fix:** Add `docs/how-to/vendor-runtime-support.md` (to the how-to TOC) documenting the syntax; the five commands from the repo root (e.g. `ibek pattern add ibek-runtime-streamdevice:lakeshore340@1.0.0 services/<instance>`); placement (`config/` is the ConfigMap payload; `runtime-lock.yaml`/`ioc.schema.json` at instance root); integrity policy + `DIRTY # <reason>`; built-in libraries + env vars; the DO-NOT-EDIT header; the Renovate flow (Renovate bumps the version string, maintainer runs `ibek pattern update`). Cross-link ADR 0004.
+- **Issue:** No public how-to page documents the five subcommands, the `[library:]name[@version]` syntax, the `config/`-vendored file set vs instance-root `runtime-lock.yaml`/`ioc.schema.json`, the never-hand-edit rule, the strict per-branch sha256 check, the `DIRTY` opt-out, built-in libraries, or the `IBEK_PATTERN_LIBRARIES`/`IBEK_ALLOW_DIRTY`/`IBEK_SCHEMA_CACHE` env vars.
+- **Fix:** Add `docs/how-to/vendor-runtime-support.md` (to the how-to TOC) documenting the syntax; the five commands from the repo root (e.g. `ibek pattern add ibek-runtime-streamdevice:lakeshore340@1.0.0 services/<instance>`); placement (`config/` is the ConfigMap payload; `runtime-lock.yaml`/`ioc.schema.json` at instance root); integrity policy + `DIRTY # <reason>`; built-in libraries + env vars; the never-hand-edit rule (vendored files are byte-identical to the library, so `runtime-lock.yaml` is the only thing that says which files are copies); the Renovate flow (Renovate bumps the version string, maintainer runs `ibek pattern update`). Cross-link ADR 0004.
 - **Evidence:** `docs/how-to/` listing (absent); `ibek/.../pattern_cmds/{commands,sources,lock,vendor,schema}.py`; ADR 0004; `services-template-helm` hooks/CI/renovate; `README.md.jinja:19-63`.
 
 #### Public: new tutorial/reference page for the ArgoCD deployment model [critical, missing-content]
@@ -788,8 +790,8 @@ Both were checked against the current local working copies of the implementation
 
 #### Internal: new-ioc.md (topics path) — same vendoring gap [critical, missing-content]
 - **Repo:** internal, `topics/epics-containers/docs/how-tos/new-ioc.md`
-- **Issue:** Same gap as the developer-guide-root `new-ioc.md` (no vendoring section). A StreamDevice IOC has no documented path; engineers could hand-edit a DO-NOT-EDIT vendored file and break CI's sha256 check. The public create_ioc tutorial it cross-links does not cover vendoring either.
-- **Fix:** Add a "Vendoring Runtime Support" section (commands, default libraries, DO-NOT-EDIT/sha256, `DIRTY`, one-off editable `*.ibek.support.yaml`). Cross-link the services-template-helm README as authoritative (do NOT rely on the public create_ioc tutorial).
+- **Issue:** Same gap as the developer-guide-root `new-ioc.md` (no vendoring section). A StreamDevice IOC has no documented path; engineers could hand-edit a vendored file — which looks like any other file under `config/` — and break CI's sha256 check. The public create_ioc tutorial it cross-links does not cover vendoring either.
+- **Fix:** Add a "Vendoring Runtime Support" section (commands, default libraries, never-hand-edit/sha256, `DIRTY`, one-off editable `*.ibek.support.yaml`). Cross-link the services-template-helm README as authoritative (do NOT rely on the public create_ioc tutorial).
 - **Evidence:** `new-ioc.md:48-54`; grep 0 for `ibek pattern`/`runtime-lock`/`vendor` in internal docs; `README.md.jinja:19-67`; `.pre-commit-config.yaml:58-73`; `ci_verify.sh:67-81`; `pattern_cmds/commands.py:66-141`, `sources.py:23-27`; `create_ioc.md:117,214,327-332`.
 
 ---

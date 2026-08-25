@@ -134,8 +134,14 @@ This copies the files into `config/`, records each one with a pinned version and
 `sha256` hash in `services/bl02t-ea-cam-01/runtime-lock.yaml`, and refreshes
 `ioc.schema.json` so the new entities validate too. Because `config/` is mounted
 as the ConfigMap, keep its total content under 1 MiB. `ibek pattern check`
-verifies the vendored files still match the lock. The simulated detector above
-needs none of this, so you can skip the section.
+verifies the vendored files still match the lock; the repo's pre-commit hook runs
+it over the instances you touch and `ci_verify.sh` runs it over every instance in
+CI, and that is what enforces the rule, because a vendored copy is otherwise
+indistinguishable from a file you wrote.
+Every file under `config/` that the lock lists belongs to the library: edit the
+pattern there and re-vendor, never the copy. {any}`detector_plugins` walks
+through the whole workflow. The simulated detector above needs none of this, so
+you can skip the section.
 
 ## Deploy it
 

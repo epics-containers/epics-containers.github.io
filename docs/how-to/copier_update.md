@@ -45,6 +45,17 @@ After a **major** template update you may need to re-vendor runtime support for 
 ```bash
 ibek pattern add <library>:<pattern>@<tag> services/<instance>
 ```
+
+If an instance already has a `runtime-lock.yaml` that predates the current lock
+format, `add` refuses rather than rewrite half of it:
+
+```none
+error: services/<instance>/runtime-lock.yaml predates destination-root-relative lock keys, and this would leave <pattern>, <pattern> half-rewritten; run 'ibek pattern update' (all patterns) first
+```
+
+Do exactly that first — `ibek pattern update services/<instance>` with no
+`--name` — then `add`. See {any}`legacy-runtime-lock` for what the old format
+looks like and what changes when it is rewritten.
 :::
 
 
