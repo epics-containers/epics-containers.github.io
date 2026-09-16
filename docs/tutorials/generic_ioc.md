@@ -426,6 +426,7 @@ definitions). When a build *fails*, see {any}`debug_generic_ioc`.
 [builder2ibek documentation](https://epics-containers.github.io/builder2ibek).
 :::
 
+(module-build-order)=
 ## Add the module to the Dockerfile
 
 The recipe works inside the devcontainer, but the *published* image is built by
@@ -445,6 +446,14 @@ dbds and libs for the IOC link.
 :::{note}
 The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
 cache hit rate — editing one recipe does not force every module to rebuild.
+:::
+
+:::{important}
+Put the `COPY`/`RUN` pairs in dependency order, with each module after the
+modules it depends on. A module build needs its dependencies already in
+`/epics/support`. The order also sets the order of `dbd_list`, and the IOC
+link needs each DBD file after the DBD files it depends on. See
+{any}`dbd-order`.
 :::
 
 ## Publish the Generic IOC
