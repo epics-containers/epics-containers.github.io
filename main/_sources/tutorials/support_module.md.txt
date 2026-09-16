@@ -45,6 +45,12 @@ ln -s /workspaces/mymodule /epics/support/mymodule
 Now iterate with the standard EPICS build (`make`) until the module compiles
 inside the developer container, just as you would build any support module.
 
+:::{warning}
+The order of the `<module>_DBD` lines in `*App/src/Makefile` matters. List each
+DBD file after the DBD files it depends on, or the Generic IOC build fails. See
+{any}`dbd-order`.
+:::
+
 ## Publish the support module
 
 An `ibek-support` recipe fetches a module from a git repository at a specific

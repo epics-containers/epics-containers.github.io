@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Edit or Create a Support Module &#8212; epics-containers.github.io 4.2.1.dev120+ga841358f2 documentation</title>
+    <title>Edit or Create a Support Module &#8212; epics-containers.github.io 4.2.1.dev121+g42e30906c documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=692d2ae3"></script>
+    <script src="../_static/documentation_options.js?v=aa9c85d0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -541,6 +541,12 @@ ln<span class="w"> </span>-s<span class="w"> </span>/workspaces/mymodule<span cl
 </div>
 <p>Now iterate with the standard EPICS build (<code class="docutils literal notranslate"><span class="pre">make</span></code>) until the module compiles
 inside the developer container, just as you would build any support module.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The order of the <code class="docutils literal notranslate"><span class="pre">&lt;module&gt;_DBD</span></code> lines in <code class="docutils literal notranslate"><span class="pre">*App/src/Makefile</span></code> matters. List each
+DBD file after the DBD files it depends on, or the Generic IOC build fails. See
+<a class="reference internal" href="../reference/troubleshooting.html#dbd-order"><span class="std std-ref">DBD files must be combined in the correct order</span></a>.</p>
+</div>
 </section>
 <section id="publish-the-support-module">
 <h2>Publish the support module<a class="headerlink" href="#publish-the-support-module" title="Link to this heading">#</a></h2>

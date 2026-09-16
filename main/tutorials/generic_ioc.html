@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev120+ga841358f2 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev121+g42e30906c documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=692d2ae3"></script>
+    <script src="../_static/documentation_options.js?v=aa9c85d0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -905,7 +905,7 @@ definitions). When a build <em>fails</em>, see <a class="reference internal" hre
 </div>
 </section>
 <section id="add-the-module-to-the-dockerfile">
-<h2>Add the module to the Dockerfile<a class="headerlink" href="#add-the-module-to-the-dockerfile" title="Link to this heading">#</a></h2>
+<span id="module-build-order"></span><h2>Add the module to the Dockerfile<a class="headerlink" href="#add-the-module-to-the-dockerfile" title="Link to this heading">#</a></h2>
 <p>The recipe works inside the devcontainer, but the <em>published</em> image is built by
 CI from the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, which does not yet know about the detector. Now that
 the recipe exists, add its <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pair below the base-image <code class="docutils literal notranslate"><span class="pre">ARG</span></code>s:</p>
@@ -921,6 +921,14 @@ dbds and libs for the IOC link.</p>
 <p class="admonition-title">Note</p>
 <p>The per-module <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pairs look repetitive, but they maximise the build
 cache hit rate — editing one recipe does not force every module to rebuild.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Put the <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pairs in dependency order, with each module after the
+modules it depends on. A module build needs its dependencies already in
+<code class="docutils literal notranslate"><span class="pre">/epics/support</span></code>. The order also sets the order of <code class="docutils literal notranslate"><span class="pre">dbd_list</span></code>, and the IOC
+link needs each DBD file after the DBD files it depends on. See
+<a class="reference internal" href="../reference/troubleshooting.html#dbd-order"><span class="std std-ref">DBD files must be combined in the correct order</span></a>.</p>
 </div>
 </section>
 <section id="publish-the-generic-ioc">
