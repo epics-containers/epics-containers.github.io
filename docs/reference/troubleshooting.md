@@ -132,3 +132,46 @@ all by adding to your user settings (`Ctrl-Shift-P` ->
 "git.repositoryScanMaxDepth": 0,
 "scm.repositories.visible": 12,
 ```
+
+(dbd-order)=
+## DBD files must be combined in the correct order
+
+A Generic IOC build fails with an error such as:
+
+```bash
+dbdExpand.pl: Device 'stream' refers to unknown record type 'scalcout'.
+        DBD files must be combined in the correct order.
+Context: file '/epics/support/StreamDevice/dbd/stream.dbd'
+  while reading 'stream.dbd' to create '../O.Common/oxCryo.dbd.d'
+Creating dbd file oxCryo.dbd
+```
+
+Cause: `dbdExpand.pl` reads DBD files in the order they are listed. A DBD file
+that uses a record type must come after the DBD file that defines that record
+type. Here `stream.dbd` uses the `scalcout` record, which `calcSupport.dbd`
+defines.
+
+Solution: in the support module's `*App/src/Makefile`, list each DBD file after
+the DBD files it depends on. For example, the oxCryo module had:
+
+```Makefile
+oxCryo_DBD += base.dbd
+oxCryo_DBD += stream.dbd
+oxCryo_DBD += asyn.dbd
+oxCryo_DBD += calcSupport.dbd
+oxCryo_DBD += alarmlookup.dbd
+```
+
+The fix moves `calcSupport.dbd` before `stream.dbd`:
+
+```Makefile
+oxCryo_DBD += base.dbd
+oxCryo_DBD += calcSupport.dbd
+oxCryo_DBD += stream.dbd
+oxCryo_DBD += asyn.dbd
+oxCryo_DBD += alarmlookup.dbd
+```
+
+If the error names the IOC DBD file instead of a support module DBD file, check
+the order of the `ansible.sh` lines in the Generic IOC `Dockerfile`. See
+{any}`module-build-order`.
