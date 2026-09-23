@@ -99,6 +99,7 @@ ssh-add ~/.ssh/id_rsa
 Where `id_rsa` is the name of your private key file you use for connecting
 to GitHub.
 
+(ghcr-denied)=
 ## Pulling a public image from ghcr.io fails with "denied"
 
 Problem: pulling an epics-containers image or Helm chart fails even though it is
@@ -106,6 +107,14 @@ public, for example:
 
 ```none
 Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimdetector-runtime/manifests/2.11ec3": denied: denied
+```
+
+or, from Helm:
+
+```none
+Error: could not download oci://ghcr.io/epics-containers/ioc-instance: failed to authorize:
+failed to fetch oauth token: unexpected status from GET request to
+https://ghcr.io/token?...: 403 Forbidden
 ```
 
 Cause: epics-containers images and charts on `ghcr.io` can be pulled without
@@ -120,11 +129,16 @@ podman logout ghcr.io      # or: docker logout ghcr.io
 helm registry logout ghcr.io
 ```
 
-If you do need to log in, for example to push your own images, use a current
-token with the `read:packages` scope (and `write:packages` to push).
+Either command may report that you were not logged in; that is fine.
 
-GHCR also returns occasional transient `403 Forbidden` errors when fetching a
-token. If a pull that normally works fails once, retry it.
+If you do need to log in, for example to push your own images, use a current
+**personal access token (classic)** with the `read:packages` scope
+(`write:packages` to push). Fine-grained tokens are not accepted by GitHub
+Packages; see
+[Working with the Container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
+
+If a pull still fails after logging out, GHCR occasionally returns a transient
+`403 Forbidden` when fetching a token; retry it.
 
 ## Cannot connect to the container service
 
