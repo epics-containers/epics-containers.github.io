@@ -101,6 +101,20 @@ The first time you use podman on a DLS machine, run the shared setup script:
 ```
 :::
 
+(vscode-podman)=
+
+VSCode's Dev Containers extension runs `docker` by default. To make it use
+podman, open your user settings (`Ctrl-Shift-P` ->
+`Preferences: Open User Settings (JSON)`) and add:
+
+```json
+"dev.containers.dockerPath": "podman",
+```
+
+This is the **Dev > Containers: Docker Path** setting in the settings UI. You
+do not need it if `docker` on your `PATH` is already podman (for example
+through the `podman-docker` package).
+
 :::{note}
 **Prefer docker?** epics-containers fully supports `docker` too. The tutorials
 say `podman` throughout, but every command has an identical `docker`
