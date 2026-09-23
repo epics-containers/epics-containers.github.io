@@ -61,6 +61,54 @@ copier update -r VERSION_NUMBER --trust .
 
 Typically the only file that the user will have changed is the Dockerfile and typically merges will work well. It is still a good idea to validate the changes to the repo before committing them.
 
+(copier-drift)=
+Checking for Template Drift
+---------------------------
+
+`copier update` is a three-way merge, not a re-render. It renders the template
+at your old `_commit` and at the new one, then applies only the difference
+between them to your files. If a template-managed file has diverged (a hand
+edit, or a merge that applied cleanly in the wrong place) and the template
+stops changing that file, no later update will touch it again.
+
+So `_commit` in `.copier-answers.yml` can report the latest template version
+while files such as `.pre-commit-config.yaml`, `renovate.json` or
+`ci_verify.sh` still hold an old version. Copier leaves no `.rej` files or
+conflict markers to warn you.
+
+To check whether your repository matches a clean render, re-render it in a
+throwaway clone and look at the diff:
+
+```bash
+tmp=$(mktemp -d)
+git clone --quiet . "$tmp" && cd "$tmp"
+copier recopy -f --skip-tasks --trust -r "$(sed -n 's/^_commit: //p' .copier-answers.yml)"
+git diff --stat
+```
+
+`copier recopy` renders the template from scratch using your recorded answers.
+`-f` accepts those answers and overwrites existing files. `-r` pins the render
+to the template version in `_commit`: without it `recopy` uses the latest
+template release, and the diff would also include upstream changes.
+
+An empty diff means you are in sync. Otherwise the diff lists every drifted
+file, plus any files you customised on purpose.
+
+To fix the drift, run the same `recopy` in your real repository on a clean,
+committed working tree. `git diff` then shows every change. Keep your
+intentional edits and commit the rest. Add `--pretend` first if you want to
+see which files would be written. Files that are not in the template, such as
+your IOC instances under `services/`, are not touched.
+
+To make drift less likely during routine updates:
+
+- Update from a clean working tree and review the whole diff. A very small
+  diff for a release that changed the template's scaffolding is a warning
+  sign.
+- `copier update --conflict rej` writes failed hunks to `.rej` files instead
+  of inline conflict markers, so they are harder to miss.
+- `copier update --pretend` previews an update without writing anything.
+
 When Update fails
 -----------------
 
