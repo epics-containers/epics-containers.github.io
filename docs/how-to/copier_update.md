@@ -77,28 +77,41 @@ while files such as `.pre-commit-config.yaml`, `renovate.json` or
 conflict markers to warn you.
 
 To check whether your repository matches a clean render, re-render it in a
-throwaway clone and look at the diff:
+throwaway clone and look at the result. Run this from the root of your
+repository with everything committed:
 
 ```bash
 tmp=$(mktemp -d)
-git clone --quiet . "$tmp" && cd "$tmp"
-copier recopy -f --skip-tasks --trust -r "$(sed -n 's/^_commit: //p' .copier-answers.yml)"
-git diff --stat
+git clone --quiet . "$tmp" && cd "$tmp" &&
+  copier recopy -f --skip-tasks --trust -r :current: &&
+  git status --short
 ```
 
 `copier recopy` renders the template from scratch using your recorded answers.
-`-f` accepts those answers and overwrites existing files. `-r` pins the render
-to the template version in `_commit`: without it `recopy` uses the latest
-template release, and the diff would also include upstream changes.
+`-f` accepts those answers and overwrites existing files. `-r :current:` pins
+the render to the template version in `_commit` (this needs copier 9.8.0 or
+later): without it `recopy` uses the latest template release, and the result
+would also include upstream changes.
 
-An empty diff means you are in sync. Otherwise the diff lists every drifted
-file, plus any files you customised on purpose.
+Empty output means you are in sync. Otherwise each line is a drifted file:
+`M` is a file that differs from the template render, and `??` is a template
+file that is missing from your repository. Use `git diff` in the clone to see
+the details. The output also includes files you customised on purpose.
 
 To fix the drift, run the same `recopy` in your real repository on a clean,
-committed working tree. `git diff` then shows every change. Keep your
-intentional edits and commit the rest. Add `--pretend` first if you want to
-see which files would be written. Files that are not in the template, such as
-your IOC instances under `services/`, are not touched.
+committed working tree. `git status` and `git diff` then show every change.
+Add `--pretend` first if you want to see which files would be written. Files
+that are not in the template, such as your IOC instances under `services/`,
+are not touched, but every file the template renders is overwritten. Expect
+the diff to include files you customise on purpose:
+
+- in a beamline or services repo: `services/values.yaml`, `environment.sh`,
+  `synoptic/`, the gateway and opis `values.yaml` files under `services/`,
+  and `README.md`;
+- in a generic IOC repo: the `Dockerfile`, `README.md` and files under `ioc/`.
+
+Restore those with `git checkout -- <file>` (or keep the parts of the template
+change you want), then commit the rest.
 
 To make drift less likely during routine updates:
 
