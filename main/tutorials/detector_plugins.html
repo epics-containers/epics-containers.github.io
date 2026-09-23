@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Add the Standard Detector Plugins &#8212; epics-containers.github.io 4.2.1.dev122+gbef7a5147 documentation</title>
+    <title>Add the Standard Detector Plugins &#8212; epics-containers.github.io 4.2.1.dev127+gc15b9e718 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=be1206ac"></script>
+    <script src="../_static/documentation_options.js?v=7fb584df"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -530,8 +530,9 @@ each with an auto-generated Phoebus screen.</p></li>
 <p class="admonition-title">Note</p>
 <p>This continues directly from <a class="reference internal" href="create_ioc.html"><span class="doc">Create an IOC Instance</span></a>; you need the
 <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code> instance from that tutorial. Run the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> commands
-on your <strong>workstation</strong> with <strong>ibek ≥ 4.6.1</strong> installed (or prefix them with
-<code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">--from</span> <span class="pre">ibek</span></code>).</p>
+on your <strong>workstation</strong> with <strong>ibek ≥ 4.8.0</strong> installed (or prefix them with
+<code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">--from</span> <span class="pre">'ibek&gt;=4.8.0'</span></code>). <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">ibek</span> <span class="pre">--upgrade</span></code> refreshes an
+existing install.</p>
 </div>
 <section id="vendor-the-plugin-pattern">
 <h2>Vendor the plugin pattern<a class="headerlink" href="#vendor-the-plugin-pattern" title="Link to this heading">#</a></h2>
@@ -552,7 +553,7 @@ ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> <
 </thead>
 <tbody>
 <tr class="row-even"><td><p><strong>Copies</strong> the pattern’s file-set into <code class="docutils literal notranslate"><span class="pre">config/</span></code></p></td>
-<td><p>here just <code class="docutils literal notranslate"><span class="pre">detectorPlugins.ibek.support.yaml</span></code>, with a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Vendored</span> <span class="pre">from</span> <span class="pre">…</span> <span class="pre">—</span> <span class="pre">DO</span> <span class="pre">NOT</span> <span class="pre">EDIT</span></code> header prepended</p></td>
+<td><p>here just <code class="docutils literal notranslate"><span class="pre">detectorPlugins.ibek.support.yaml</span></code>, byte-for-byte as the library holds it</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Pins + hashes</strong> it in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code></p></td>
 <td><p>records the <code class="docutils literal notranslate"><span class="pre">version</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span></code> and a per-file <code class="docutils literal notranslate"><span class="pre">sha256</span></code></p></td>
@@ -568,6 +569,15 @@ ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> <
 <p><code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> is written at the <strong>instance root</strong>, not inside <code class="docutils literal notranslate"><span class="pre">config/</span></code>.
 Only <code class="docutils literal notranslate"><span class="pre">config/</span></code> is mounted into the container, so it stays the small
 runtime-input bundle; the lock is developer-side metadata.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Never hand-edit a vendored file.</strong> A vendored copy is indistinguishable from
+any other file in <code class="docutils literal notranslate"><span class="pre">config/</span></code> — it carries no marker of its own — so
+<code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> is the only thing that says which files are copies. Anything
+it lists belongs to the library: change it there, publish a new tag and
+re-vendor. An edit made in <code class="docutils literal notranslate"><span class="pre">config/</span></code> is lost at the next <code class="docutils literal notranslate"><span class="pre">update</span></code> or <code class="docutils literal notranslate"><span class="pre">restore</span></code>,
+and fails <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span></code> before that.</p>
 </div>
 <section id="the-local-ioc-schema-json">
 <h3>The local <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code><a class="headerlink" href="#the-local-ioc-schema-json" title="Link to this heading">#</a></h3>
@@ -676,15 +686,30 @@ camera — statistics, ROI-statistics, HDF5 file writer and PVA.</span><a class=
 </section>
 <section id="check-what-your-ioc-is-running">
 <h2>Check what your IOC is running<a class="headerlink" href="#check-what-your-ioc-is-running" title="Link to this heading">#</a></h2>
-<p>Because every vendored file is hashed in <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code>, “what support is
-this IOC running?” is answerable from git with certainty. Re-verify the
-vendored files against their pins at any time — ideal in CI or a pre-commit
-hook:</p>
+<p>The lock is the record. <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/runtime-lock.yaml</span></code> now reads:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">patterns</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">detectorPlugins</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.1.0</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.com/epics-containers/ibek-runtime-support</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">config/detectorPlugins.ibek.support.yaml</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sha256:…</span>
+</pre></div>
+</div>
+<p>Each key under <code class="docutils literal notranslate"><span class="pre">files:</span></code> is a path <strong>relative to the instance root</strong> — which is
+why <code class="docutils literal notranslate"><span class="pre">config/</span></code> is part of it — so the lock names exactly which files under
+<code class="docutils literal notranslate"><span class="pre">config/</span></code> came from the library. “What support is this IOC running?” is
+answerable from git with certainty. Re-verify the vendored files against their
+pins at any time:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>check<span class="w"> </span>services/bl01t-ea-cam-01
 </pre></div>
 </div>
-<p>It re-hashes each file and exits non-zero on any drift. To move to a newer
-release later,
+<p>It re-hashes each file and exits non-zero on any drift. Wire it into a
+pre-commit hook and into CI for any services repo you run in production — the
+Kubernetes services template already runs it from both. Since a vendored copy
+says nothing about itself, that check is the only thing standing between a
+well-meant edit and an IOC quietly running support that exists in no library.</p>
+<p>To move to a newer release later,
 <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">update</span> <span class="pre">services/bl01t-ea-cam-01</span> <span class="pre">--name</span> <span class="pre">detectorPlugins</span> <span class="pre">-v</span> <span class="pre">&lt;tag&gt;</span></code>
 re-pins and refreshes the hashes.</p>
 </section>

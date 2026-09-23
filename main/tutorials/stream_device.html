@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Add a Stream Device with ibek pattern &#8212; epics-containers.github.io 4.2.1.dev122+gbef7a5147 documentation</title>
+    <title>Add a Stream Device with ibek pattern &#8212; epics-containers.github.io 4.2.1.dev127+gc15b9e718 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=be1206ac"></script>
+    <script src="../_static/documentation_options.js?v=7fb584df"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -548,15 +548,15 @@ driver into the instance you just created:</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> needs <strong>ibek ≥ 4.6.2</strong>. If it is not on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, add it with
-<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">'ibek&gt;=4.6.2'</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> needs <strong>ibek ≥ 4.8.0</strong>. If it is not on your <code class="docutils literal notranslate"><span class="pre">PATH</span></code>, add it with
+<code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">'ibek&gt;=4.8.0'</span></code>.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">ibek-runtime-streamdevice</span></code> is one of ibek’s built-in libraries, resolved from
 its name to
 <a class="reference external" href="https://github.com/epics-containers/ibek-runtime-streamdevice">its GitHub repo</a>.
-The command vendors three files into <code class="docutils literal notranslate"><span class="pre">config/</span></code> — each with a
-<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Vendored</span> <span class="pre">…</span> <span class="pre">DO</span> <span class="pre">NOT</span> <span class="pre">EDIT</span></code> header — and writes a <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> at the
-instance root:</p>
+The command vendors three files into <code class="docutils literal notranslate"><span class="pre">config/</span></code> — exact copies of the library’s,
+with nothing added to them — and writes a <code class="docutils literal notranslate"><span class="pre">runtime-lock.yaml</span></code> at the instance
+root:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>File</p></th>
@@ -579,8 +579,15 @@ instance root:</p>
 </tbody>
 </table>
 </div>
-<p>Commit the lock with the instance. Anyone can later confirm the vendored files
-are untampered with:</p>
+<p>Three files, because that is everything the <code class="docutils literal notranslate"><span class="pre">lakeshore340</span></code> folder holds. A
+pattern whose folder also holds files an IOC has no use for — a <code class="docutils literal notranslate"><span class="pre">README</span></code>, device
+documentation, calibration notes — declares the runtime subset in an
+<code class="docutils literal notranslate"><span class="pre">ibek.manifest.yaml</span></code> beside them, and only that subset is vendored. Most
+patterns have no manifest and vendor everything they contain into <code class="docutils literal notranslate"><span class="pre">config/</span></code>; see
+<a class="reference internal" href="custom_pattern.html"><span class="doc">Author Your Own Runtime Pattern</span></a> to write one.</p>
+<p>Commit the lock with the instance. It is what marks those three files as copies —
+edit them in the library, never here. Anyone can later confirm they are
+untampered with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>pattern<span class="w"> </span>check<span class="w"> </span>services/bl01t-ea-temp-01
 </pre></div>
 </div>

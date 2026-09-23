@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev122+gbef7a5147 documentation</title>
+    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev127+gc15b9e718 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=be1206ac"></script>
+    <script src="../_static/documentation_options.js?v=7fb584df"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,8 +634,14 @@ library:</p>
 <code class="docutils literal notranslate"><span class="pre">sha256</span></code> hash in <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01/runtime-lock.yaml</span></code>, and refreshes
 <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code> so the new entities validate too. Because <code class="docutils literal notranslate"><span class="pre">config/</span></code> is mounted
 as the ConfigMap, keep its total content under 1 MiB. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span></code>
-verifies the vendored files still match the lock. The simulated detector above
-needs none of this, so you can skip the section.</p>
+verifies the vendored files still match the lock; the repo’s pre-commit hook runs
+it over the instances you touch and <code class="docutils literal notranslate"><span class="pre">ci_verify.sh</span></code> runs it over every instance in
+CI, and that is what enforces the rule, because a vendored copy is otherwise
+indistinguishable from a file you wrote.
+Every file under <code class="docutils literal notranslate"><span class="pre">config/</span></code> that the lock lists belongs to the library: edit the
+pattern there and re-vendor, never the copy. <a class="reference internal" href="detector_plugins.html"><span class="doc">Add the Standard Detector Plugins</span></a> walks
+through the whole workflow. The simulated detector above needs none of this, so
+you can skip the section.</p>
 </section>
 <section id="deploy-it">
 <h2>Deploy it<a class="headerlink" href="#deploy-it" title="Link to this heading">#</a></h2>

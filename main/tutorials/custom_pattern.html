@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Author Your Own Runtime Pattern &#8212; epics-containers.github.io 4.2.1.dev122+gbef7a5147 documentation</title>
+    <title>Author Your Own Runtime Pattern &#8212; epics-containers.github.io 4.2.1.dev127+gc15b9e718 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../_static/documentation_options.js?v=be1206ac"></script>
+    <script src="../_static/documentation_options.js?v=7fb584df"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -521,7 +521,7 @@ You will use the same <code class="docutils literal notranslate"><span class="pr
 throughout.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> runs on your <strong>workstation</strong> and needs <strong>ibek ≥ 4.6.1</strong>. If
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> runs on your <strong>workstation</strong> and needs <strong>ibek ≥ 4.8.0</strong>. If
 <code class="docutils literal notranslate"><span class="pre">ibek</span></code> is not installed, run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">tool</span> <span class="pre">install</span> <span class="pre">ibek</span> <span class="pre">--upgrade</span></code>.</p>
 </div>
 <section id="fork-the-pattern-library">
@@ -600,6 +600,48 @@ add them the same way when you need them.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">ADCore</span></code> plugins it references are compiled into every AreaDetector image,
 so this pattern needs <strong>no <code class="docutils literal notranslate"><span class="pre">.db</span></code> / <code class="docutils literal notranslate"><span class="pre">.template</span></code> of its own</strong> — it only adds the
 <code class="docutils literal notranslate"><span class="pre">ibek</span></code> entities that instantiate and connect them at runtime.</p>
+<section id="optional-declare-what-gets-vendored">
+<h3>Optional: declare what gets vendored<a class="headerlink" href="#optional-declare-what-gets-vendored" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">basicPlugins</span></code> holds one file and every byte of it belongs in the IOC, so there
+is nothing to declare. That is the usual case: <strong>a pattern with no manifest
+vendors every file in its folder into the instance’s <code class="docutils literal notranslate"><span class="pre">config/</span></code></strong> — ibek
+supplies a default manifest for it:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">vendor</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="s">'.*'</span>
+<span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+</pre></div>
+</div>
+<p>Write one only when the folder holds something an IOC must not receive — a
+<code class="docutils literal notranslate"><span class="pre">README</span></code>, a datasheet, device notes you want browsable in the library.
+Everything in <code class="docutils literal notranslate"><span class="pre">config/</span></code> is mounted into the IOC container (and on Kubernetes it
+<em>is</em> the ConfigMap), so whatever lands there travels to the beamline. An
+<code class="docutils literal notranslate"><span class="pre">ibek.manifest.yaml</span></code> at the root of the pattern folder lists what counts as a
+runtime file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">vendor</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="s">'.*\.(template|db|req|proto|protocol|ibek\.support\.yaml|pvi\.device\.yaml)$'</span>
+<span class="w">    </span><span class="nt">dest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">config</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">src</span></code> is a regular expression that must match a file’s <strong>whole</strong> path within the
+pattern folder — <code class="docutils literal notranslate"><span class="pre">ibek</span></code> matches with <code class="docutils literal notranslate"><span class="pre">re.fullmatch</span></code>, so a rule of <code class="docutils literal notranslate"><span class="pre">'\.proto$'</span></code>
+on its own matches nothing; lead each one with <code class="docutils literal notranslate"><span class="pre">.*</span></code>. <code class="docutils literal notranslate"><span class="pre">dest</span></code> is where the matched
+files land, relative to the instance root, and <code class="docutils literal notranslate"><span class="pre">config</span></code> is the only destination
+a services repo needs.</p>
+<p>The list is an <strong>allow-list</strong>: a file matched by no entry is not vendored, which
+is exactly how the <code class="docutils literal notranslate"><span class="pre">README</span></code> stays out of the IOC. The manifest itself is never
+vendored either. That cuts both ways — a runtime file your rules forget is
+dropped just as quietly, with no error and a passing <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span></code> — so
+the alternation has to name every extension the pattern really ships. Only a
+manifest matching <em>nothing at all</em> is reported as a mistake.</p>
+<p>A manifest change only takes effect once the instance is re-vendored <strong>at a
+version that carries it</strong> — cut a new tag and re-pin with <code class="docutils literal notranslate"><span class="pre">-v</span> <span class="pre">&lt;tag&gt;</span></code> (below, a
+local <code class="docutils literal notranslate"><span class="pre">--source</span></code> pins <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>, so re-running <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code> is enough). When
+it re-vendors, files that fall outside the manifest’s rules are deleted from
+<code class="docutils literal notranslate"><span class="pre">config/</span></code>, so the instance only ever keeps the files the pattern currently
+claims.</p>
+</section>
 </section>
 <section id="create-a-fresh-instance-to-vendor-into">
 <h2>Create a fresh instance to vendor into<a class="headerlink" href="#create-a-fresh-instance-to-vendor-into" title="Link to this heading">#</a></h2>
@@ -643,21 +685,39 @@ ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> <
 </pre></div>
 </div>
 <p>This writes <code class="docutils literal notranslate"><span class="pre">basicPlugins.ibek.support.yaml</span></code> into
-<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-02/config/</span></code> with a <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">Vendored</span> <span class="pre">from</span> <span class="pre">…</span> <span class="pre">—</span> <span class="pre">DO</span> <span class="pre">NOT</span> <span class="pre">EDIT</span></code>
-header and records its <code class="docutils literal notranslate"><span class="pre">sha256</span></code> in <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-02/runtime-lock.yaml</span></code>.
+<code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-02/config/</span></code> — an exact copy of the file in your fork —
+and records its <code class="docutils literal notranslate"><span class="pre">sha256</span></code> in <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-02/runtime-lock.yaml</span></code>.
 That is all the vendor step needs: at container start <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">runtime</span> <span class="pre">generate2</span> <span class="pre">config</span></code> discovers the vendored support file and loads your entity — no image
 rebuild, and nothing else to wire up.</p>
 <p>The lock now pins the pattern. A local source pins to <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">basicPlugins</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HEAD</span>
-<span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../ibek-runtime-support</span>
-<span class="w">  </span><span class="nt">files</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">basicPlugins.ibek.support.yaml</span><span class="p">:</span><span class="w"> </span><span class="s">"sha256:…"</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="nt">patterns</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">basicPlugins</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HEAD</span>
+<span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../ibek-runtime-support</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">config/basicPlugins.ibek.support.yaml</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sha256:…</span>
 </pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">files:</span></code> keys are relative to the <strong>instance root</strong>, which is why <code class="docutils literal notranslate"><span class="pre">config/</span></code>
+appears in them.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Keep editing the pattern <strong>in your fork</strong> and re-run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code> — never
+the copy under <code class="docutils literal notranslate"><span class="pre">config/</span></code>. The copy looks like any other file, and only the lock
+records that it is not yours: an edit there is overwritten by the next <code class="docutils literal notranslate"><span class="pre">add</span></code>,
+<code class="docutils literal notranslate"><span class="pre">update</span></code> or <code class="docutils literal notranslate"><span class="pre">restore</span></code>, and fails <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span></code> before that.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">check</span> <span class="pre">services/bl01t-ea-cam-02</span></code> re-hashes the vendored file and
 exits non-zero if it has drifted from the lock — run it in CI or a pre-commit
-hook to guarantee the committed <code class="docutils literal notranslate"><span class="pre">config/</span></code> matches what was pinned.</p>
+hook to guarantee the committed <code class="docutils literal notranslate"><span class="pre">config/</span></code> matches what was pinned. Because the
+copy is byte-for-byte the file in the library, plain <code class="docutils literal notranslate"><span class="pre">diff</span></code> works as a second
+opinion:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>diff<span class="w"> </span>-r<span class="w"> </span>services/bl01t-ea-cam-02/config/<span class="w"> </span>../ibek-runtime-support/basicPlugins/
+</pre></div>
+</div>
+<p>Vendored files that appear on both sides compare equal; your own <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> and
+anything the pattern does not vendor show up as <code class="docutils literal notranslate"><span class="pre">Only</span> <span class="pre">in</span> <span class="pre">…</span></code> lines.</p>
 </section>
 <section id="use-the-new-entity">
 <h2>Use the new entity<a class="headerlink" href="#use-the-new-entity" title="Link to this heading">#</a></h2>
@@ -725,8 +785,9 @@ so every beamline can vendor it.</p></li>
 <p>A pattern’s file-set is <strong>not</strong> fixed to a single file. The lock simply hashes
 a <em>file list</em>, so a pattern may also ship <code class="docutils literal notranslate"><span class="pre">.template</span></code> / <code class="docutils literal notranslate"><span class="pre">.db</span></code>, autosave <code class="docutils literal notranslate"><span class="pre">.req</span></code>
 files, or a <code class="docutils literal notranslate"><span class="pre">.pvi.device.yaml</span></code> screen descriptor alongside its support yaml —
-whatever the support definition references. <a class="reference internal" href="stream_device.html"><span class="doc">Add a Stream Device with ibek pattern</span></a> vendors exactly
-such a multi-file device-support pattern.</p>
+whatever the support definition references. All of it is vendored unless an
+<code class="docutils literal notranslate"><span class="pre">ibek.manifest.yaml</span></code> narrows the set. <a class="reference internal" href="stream_device.html"><span class="doc">Add a Stream Device with ibek pattern</span></a> vendors exactly such
+a multi-file device-support pattern.</p>
 </div>
 </section>
 </section>
@@ -779,7 +840,10 @@ such a multi-file device-support pattern.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-the-pattern-library">Fork the pattern library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author-the-pattern">Author the pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#author-the-pattern">Author the pattern</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-declare-what-gets-vendored">Optional: declare what gets vendored</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-fresh-instance-to-vendor-into">Create a fresh instance to vendor into</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vendor-your-pattern">Vendor your pattern</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-new-entity">Use the new entity</a></li>
