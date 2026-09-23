@@ -99,6 +99,33 @@ ssh-add ~/.ssh/id_rsa
 Where `id_rsa` is the name of your private key file you use for connecting
 to GitHub.
 
+## Pulling a public image from ghcr.io fails with "denied"
+
+Problem: pulling an epics-containers image or Helm chart fails even though it is
+public, for example:
+
+```none
+Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimdetector-runtime/manifests/2.11ec3": denied: denied
+```
+
+Cause: epics-containers images and charts on `ghcr.io` can be pulled without
+logging in. If you have stored credentials for `ghcr.io` and they are no longer
+valid, for example an expired or deleted GitHub token, the registry rejects
+the pull instead of falling back to anonymous access.
+
+Solution: remove the stored credentials and try again:
+
+```bash
+podman logout ghcr.io      # or: docker logout ghcr.io
+helm registry logout ghcr.io
+```
+
+If you do need to log in, for example to push your own images, use a current
+token with the `read:packages` scope (and `write:packages` to push).
+
+GHCR also returns occasional transient `403 Forbidden` errors when fetching a
+token. If a pull that normally works fails once, retry it.
+
 ## Cannot connect to the container service
 
 `podman` is daemonless, but `docker compose` talks to it through the podman
