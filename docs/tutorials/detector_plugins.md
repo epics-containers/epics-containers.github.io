@@ -28,10 +28,9 @@ By the end you will have:
 :::{note}
 This continues directly from {any}`create_ioc`; you need the
 `bl01t-ea-cam-01` instance from that tutorial. Run the `ibek pattern` commands
-on your **workstation** with an **ibek newer than 4.6.2** installed (or prefix
-them with `uvx --from 'ibek>4.6.2'`). 4.6.2 and earlier stamp a `DO NOT EDIT`
-header into each vendored file and write an older `runtime-lock.yaml` than the
-one shown below; `uv tool install ibek --upgrade` refreshes an existing install.
+on your **workstation** with **ibek ≥ 4.8.0** installed (or prefix them with
+`uvx --from 'ibek>=4.8.0'`). `uv tool install ibek --upgrade` refreshes an
+existing install.
 :::
 
 ## Vendor the plugin pattern
@@ -191,24 +190,6 @@ well-meant edit and an IOC quietly running support that exists in no library.
 To move to a newer release later,
 `ibek pattern update services/bl01t-ea-cam-01 --name detectorPlugins -v <tag>`
 re-pins and refreshes the hashes.
-
-:::{note}
-**One-off migration.** A `runtime-lock.yaml` written before this format has no
-`version:`/`patterns:` wrapper, keys its files relative to `config/` rather than
-to the instance root, and its hashes cover a `DO NOT EDIT` header that vendored
-files no longer carry. `ibek pattern check` reports every file as missing and
-names the fix: run
-
-```bash
-ibek pattern update services/<instance>
-```
-
-once, with **no `--name`**, so every pattern is re-vendored at its pinned version
-and the whole lock is rewritten in the current format. The vendored files change
-too — one line shorter, the header going away — so commit them with the lock.
-It is a one-off per instance; {any}`legacy-runtime-lock` has the error messages
-in full.
-:::
 
 ## Commit
 

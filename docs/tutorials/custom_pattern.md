@@ -18,11 +18,8 @@ You will use the same `bl01t` worked example; substitute your own names
 throughout.
 
 :::{note}
-`ibek pattern` runs on your **workstation**. The `ibek.manifest.yaml` and
-`runtime-lock.yaml` shown on this page need an `ibek` **newer than 4.6.2**:
-4.6.2 and earlier ignore the manifest, stamp a `DO NOT EDIT` header into every
-vendored file and write the older lock format. Install or refresh it with
-`uv tool install ibek --upgrade`, and confirm with `ibek --version`.
+`ibek pattern` runs on your **workstation** and needs **ibek ≥ 4.8.0**. If
+`ibek` is not installed, run `uv tool install ibek --upgrade`.
 :::
 
 ## Fork the pattern library
@@ -111,8 +108,15 @@ so this pattern needs **no `.db` / `.template` of its own** — it only adds the
 
 `basicPlugins` holds one file and every byte of it belongs in the IOC, so there
 is nothing to declare. That is the usual case: **a pattern with no manifest
-vendors every file in its folder into the instance's `config/`**, exactly as
-patterns always have.
+vendors every file in its folder into the instance's `config/`** — ibek
+supplies a default manifest for it:
+
+```yaml
+version: 1
+vendor:
+  - src: '.*'
+    dest: config
+```
 
 Write one only when the folder holds something an IOC must not receive — a
 `README`, a datasheet, device notes you want browsable in the library.
@@ -141,14 +145,12 @@ dropped just as quietly, with no error and a passing `ibek pattern check` — so
 the alternation has to name every extension the pattern really ships. Only a
 manifest matching *nothing at all* is reported as a mistake.
 
-Narrowing a manifest later takes effect the next time the instance is
-re-vendored **from a version that carries it**. A bare
-`ibek pattern update services/<instance>` re-fetches each pattern at the version
-already pinned, so a manifest added after that tag is not seen: cut a new tag
-and re-pin with `-v <tag>` (below, a local `--source` pins `HEAD`, so re-running
-`ibek pattern add` is enough). When it does re-vendor, files the manifest
-stopped matching are deleted from `config/`, so the instance never keeps a copy
-the pattern no longer claims.
+A manifest change only takes effect once the instance is re-vendored **at a
+version that carries it** — cut a new tag and re-pin with `-v <tag>` (below, a
+local `--source` pins `HEAD`, so re-running `ibek pattern add` is enough). When
+it re-vendors, files that fall outside the manifest's rules are deleted from
+`config/`, so the instance only ever keeps the files the pattern currently
+claims.
 
 ## Create a fresh instance to vendor into
 

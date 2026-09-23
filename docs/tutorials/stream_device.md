@@ -49,10 +49,8 @@ ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.1.1 services/bl01t-ea-
 ```
 
 :::{note}
-`ibek pattern` needs an **ibek newer than 4.6.2** — 4.6.2 and earlier stamp a
-`DO NOT EDIT` header into each vendored file and write an older
-`runtime-lock.yaml` format. If it is not on your `PATH`, add it with
-`uv tool install 'ibek>4.6.2'`.
+`ibek pattern` needs **ibek ≥ 4.8.0**. If it is not on your `PATH`, add it with
+`uv tool install 'ibek>=4.8.0'`.
 :::
 
 `ibek-runtime-streamdevice` is one of ibek's built-in libraries, resolved from
