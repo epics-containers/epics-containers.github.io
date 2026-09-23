@@ -52,14 +52,21 @@ afterwards:
 
 Each starter file loads a set of opinionated defaults. Add your own aliases,
 prompt and environment variables below that line, or delete the line to drop
-the defaults. The `bashrc` also has a block for commands that should run only
-once, when a container is created. Shell history is kept in the same folder
+the defaults. Both `bashrc` and `zshrc` also have a block for commands that
+should run only once per container, on the first shell started in it. Shell history is kept in the same folder
 (`.bash_eternal_history`, `.zsh_eternal_history`), so it survives container
 rebuilds and is shared between projects.
 
 These files replace the older `.bashrc_dev_container`,
 `.bashprofile_dev_container` and `/workspaces/.devcontainer_rc` mechanisms,
 which are no longer used.
+
+:::{note}
+These hooks are installed in `/root/.bashrc`, `/root/.zshrc` and
+`/root/.inputrc`, so they apply when the container runs as root (podman or
+rootless docker). With rootful docker and `EC_REMOTE_USER` set to your own user
+(see {doc}`../reference/docker`), your shell does not load them.
+:::
 
 ### VSCode extensions
 

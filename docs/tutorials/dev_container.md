@@ -211,15 +211,16 @@ container starts.
 ### What the mounts hide
 
 A bind mount *replaces* whatever the image had at that path. The image build
-puts the project at `/epics/generic-source` too, so inside the devcontainer the
-image's copy is hidden (shadowed) by your host checkout:
+copies the parts of the project it needs to `/epics/generic-source` too, so
+inside the devcontainer the image's copy is hidden (shadowed) by your host
+checkout:
 
 | Path | In the runtime image (no mount) | In the devcontainer (mounted) |
 |---|---|---|
-| `/epics/generic-source` | the repo as it was at image build time | your live host checkout |
+| `/epics/generic-source` | only what the `Dockerfile` `COPY`s: `ioc/`, plus `ibek-support/_ansible` and the `ibek-support/<module>` folders it names, as they were at build time | your live host checkout |
 | `/epics/generic-source/ioc` (= `/epics/ioc`) | IOC source **plus compiled binaries** | source only — run `make` to rebuild the binaries |
-| `/epics/generic-source/ibek-support` | the submodule as built into the image | your host submodule checkout, which may be a different commit or uninitialised |
-| `/epics/opi` | empty | `opi/auto-generated` in your repo |
+| `/epics/generic-source/ibek-support` | only `_ansible` and the modules the `Dockerfile` copies, at the submodule commit it was built from | your host submodule checkout, which may be a different commit or uninitialised |
+| `/epics/opi` | not in the image; created by `ibek` at IOC startup | `opi/auto-generated` in your repo |
 
 This matters because some container-only folders point *into*
 `/epics/generic-source`. When `ansible.sh` builds a module it **symlinks** its
@@ -235,10 +236,13 @@ In the devcontainer those links therefore resolve to your host checkout, so:
   image was built with, or is not initialised (`git submodule update --init`),
   the links show that version, or dangle;
 - a module added to the host `ibek-support` gets no links until you run
-  `ansible.sh <module>` for it;
-- StreamDevice protocol files are **copied**, not linked, into
-  `/epics/support/configure/protocol`, so re-run `ansible.sh <module>` after
-  editing a `.proto` file.
+  `ansible.sh <module>` for it.
+
+Unrelated to the mounts: StreamDevice protocol files are **copied**, not linked,
+from the support module's own source under `/epics/support/<module>/` into
+`/epics/support/configure/protocol` when the module is built. After editing a
+protocol file there, re-run `ansible.sh <module>`. Like the rest of
+`/epics/support`, those edits are container only.
 
 In the runtime image nothing is mounted, so every link resolves to the source
 baked in at build time. Commit and push the `ibek-support` submodule change
