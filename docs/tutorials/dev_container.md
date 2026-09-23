@@ -118,6 +118,10 @@ problems, building something as large as AreaDetector takes a few minutes the
 first time; the layers are cached, so rebuilds are near-instant up to whatever
 line you changed.
 
+If VSCode reports that Docker is not installed on a podman host, set
+`dev.containers.dockerPath` as described in
+{ref}`the workstation setup guide <vscode-podman>`.
+
 :::{tip}
 VSCode hides the build output behind a progress notification, so a failing
 build can be hard to debug. The best way to watch it is to run `./build` in the

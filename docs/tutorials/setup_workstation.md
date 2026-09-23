@@ -101,6 +101,8 @@ The first time you use podman on a DLS machine, run the shared setup script:
 ```
 :::
 
+(vscode-podman)=
+
 VSCode's Dev Containers extension runs `docker` by default. To make it use
 podman, open your user settings (`Ctrl-Shift-P` ->
 `Preferences: Open User Settings (JSON)`) and add:
