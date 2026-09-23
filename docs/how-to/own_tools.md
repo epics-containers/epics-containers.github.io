@@ -28,6 +28,53 @@ To make your editor available inside the developer container, add an
 `apt install` line for it to the `developer` stage of the Generic IOC's
 `Dockerfile`.
 
+(personalise-shell)=
+
+## Personalise the developer container
+
+### Shell settings and history
+
+Generic IOC developer containers are built on
+[ubuntu-devcontainer](https://github.com/DiamondLightSource/ubuntu-devcontainer),
+which reads your shell configuration from a host folder, so one set of
+personal settings is shared by every developer container you use.
+
+`$HOME/.config/terminal-config` on the host is mounted at
+`/user-terminal-config` in the container. The first time a container is
+created it adds three starter files there, and it never overwrites them
+afterwards:
+
+| File | Purpose |
+|---|---|
+| `bashrc` | sourced by every `bash` terminal in the container |
+| `zshrc` | the same for `zsh` |
+| `inputrc` | readline behaviour, such as history search on the up arrow |
+
+Each starter file loads a set of opinionated defaults. Add your own aliases,
+prompt and environment variables below that line, or delete the line to drop
+the defaults. The `bashrc` also has a block for commands that should run only
+once, when a container is created. Shell history is kept in the same folder
+(`.bash_eternal_history`, `.zsh_eternal_history`), so it survives container
+rebuilds and is shared between projects.
+
+These files replace the older `.bashrc_dev_container`,
+`.bashprofile_dev_container` and `/workspaces/.devcontainer_rc` mechanisms,
+which are no longer used.
+
+### VSCode extensions
+
+The extensions a Generic IOC needs are listed in its
+`.devcontainer/devcontainer.json`. To add your own favourites to **every**
+developer container without editing each project, list them in the
+`dev.containers.defaultExtensions` setting in your VSCode *user* settings:
+
+```json
+"dev.containers.defaultExtensions": [
+    "eamodio.gitlens",
+    "vscodevim.vim"
+]
+```
+
 (devcontainer-cli)=
 
 ## Using the devcontainer CLI

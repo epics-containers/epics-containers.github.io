@@ -193,14 +193,56 @@ The most useful paths are:
 | `/epics/ioc` | → `/epics/generic-source/ioc` | IOC source tree (symlink into the mount) |
 | `/epics/opi` | `${localWorkspaceFolder}/opi/auto-generated` | auto-generated OPI screens (not in git) |
 | `/workspaces` | `${localWorkspaceFolder}/..` | all peers of the Generic IOC repo |
+| `/user-terminal-config` | `$HOME/.config/terminal-config` | your shell config and history (see {any}`personalise-shell`) |
+| `/root/.cache/uv` | `$HOME/.cache/uv` | `uv` package cache, shared by all your dev containers |
 | `/epics/support` | *(container only)* | compiled support modules |
 | `/epics/epics-base` | *(container only)* | compiled EPICS base |
 | `/epics/runtime` | *(container only)* | generated `st.cmd` and EPICS database |
-| `/epics/ibek-defs` | *(container only)* | all `ibek` *Support YAML* files |
-| `/epics/pvi-defs` | *(container only)* | all PVI definitions from support modules |
+| `/epics/ibek-defs` | *(container only)* | symlinks to the `ibek` *Support YAML* files, plus the generated `ioc.schema.json` |
+| `/epics/pvi-defs` | *(container only)* | symlinks to the PVI definitions from support modules |
 
 `${localWorkspaceFolder}` is the root of the Generic IOC source repo — the
-directory that holds `.devcontainer/devcontainer.json`.
+directory that holds `.devcontainer/devcontainer.json`. The two host folders
+under `$HOME` are created for you by `.devcontainer/initializeCommand` before the
+container starts.
+
+(mount-shadowing)=
+
+### What the mounts hide
+
+A bind mount *replaces* whatever the image had at that path. The image build
+puts the project at `/epics/generic-source` too, so inside the devcontainer the
+image's copy is hidden (shadowed) by your host checkout:
+
+| Path | In the runtime image (no mount) | In the devcontainer (mounted) |
+|---|---|---|
+| `/epics/generic-source` | the repo as it was at image build time | your live host checkout |
+| `/epics/generic-source/ioc` (= `/epics/ioc`) | IOC source **plus compiled binaries** | source only — run `make` to rebuild the binaries |
+| `/epics/generic-source/ibek-support` | the submodule as built into the image | your host submodule checkout, which may be a different commit or uninitialised |
+| `/epics/opi` | empty | `opi/auto-generated` in your repo |
+
+This matters because some container-only folders point *into*
+`/epics/generic-source`. When `ansible.sh` builds a module it **symlinks** its
+`*.ibek.support.yaml` into `/epics/ibek-defs` and its `*.pvi.device.yaml` into
+`/epics/pvi-defs`, pointing at `/epics/generic-source/ibek-support/<module>/`.
+In the devcontainer those links therefore resolve to your host checkout, so:
+
+- edits to a support YAML in your `ibek-support` checkout are picked up
+  straight away, but the `/epics/ibek-defs/ioc.schema.json` generated at image
+  build time is not; regenerate it with `ansible.sh ioc` (or
+  `ibek ioc generate-schema --output /epics/ibek-defs/ioc.schema.json`);
+- if the host `ibek-support` submodule is at a different commit from the one the
+  image was built with, or is not initialised (`git submodule update --init`),
+  the links show that version, or dangle;
+- a module added to the host `ibek-support` gets no links until you run
+  `ansible.sh <module>` for it;
+- StreamDevice protocol files are **copied**, not linked, into
+  `/epics/support/configure/protocol`, so re-run `ansible.sh <module>` after
+  editing a `.proto` file.
+
+In the runtime image nothing is mounted, so every link resolves to the source
+baked in at build time. Commit and push the `ibek-support` submodule change
+together with the Generic IOC so that CI builds the same thing you tested.
 
 :::{important}
 Paths marked *container only* live in the **temporary** container filesystem and
