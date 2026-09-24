@@ -9,6 +9,26 @@ on:
   pull_request:
 
 jobs:
+<<<<<<< before updating
+=======
+
+  lint:
+    uses: ./.github/workflows/_tox.yml
+    with:
+      tox: pre-commit,type-checking
+
+  test:
+    strategy:
+      matrix:
+        runs-on: ["ubuntu-latest"] # can add windows-latest, macos-latest
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+      fail-fast: false
+    uses: ./.github/workflows/_test.yml
+    with:
+      runs-on: ${{ matrix.runs-on }}
+      python-version: ${{ matrix.python-version }}
+
+>>>>>>> after updating
   docs:
     uses: ./.github/workflows/_docs.yml
     permissions:
