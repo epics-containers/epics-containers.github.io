@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Changing the IOC Instance &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -568,18 +568,19 @@ line now appears in the startup log.</p>
 </section>
 <section id="commit-the-change">
 <h2>Commit the change<a class="headerlink" href="#commit-the-change" title="Link to this heading">#</a></h2>
-<p>Because the config edits already live in <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>, commit and push them,
-then tag a release of the services repo (substitute your own version):</p>
+<p>Because the config edits already live in <code class="docutils literal notranslate"><span class="pre">t01-services</span></code>, commit them on a
+branch and push it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/t01-services
+git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>add-extra-db
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add extra.db to bl01t-ea-cam-01"</span>
-git<span class="w"> </span>push
-git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>add-extra-db
 </pre></div>
 </div>
-<p>That tag pins the version you deploy to a real beamline — see
-<a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a> for the cluster deployment path.</p>
+<p>Open a pull request to <code class="docutils literal notranslate"><span class="pre">main</span></code> and merge it once CI passes. On a cluster you
+would first test the branch live with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">add-extra-db</span></code>,
+then merge and run <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl01t-ea-cam-01</span> <span class="pre">main</span></code> — see <a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>
+for the cluster deployment path.</p>
 </section>
 <section id="how-it-works">
 <h2>How it works<a class="headerlink" href="#how-it-works" title="Link to this heading">#</a></h2>

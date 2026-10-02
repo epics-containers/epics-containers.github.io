@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploying with Helm (the ec backends) &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Deploying with Helm (the ec backends) &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -542,7 +542,9 @@ a set of Helm charts in a git repository in sync with the cluster —
 continuously reconciles the cluster to match it. For the full picture of how
 this works, see <a class="reference internal" href="../explanations/argocd.html#argocd"><span class="std std-ref">How ArgoCD Deploys Your IOCs</span></a>.</p>
 <p>With this backend <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">&lt;version&gt;</span></code> works by committing the
-chosen version into the deployment repository; ArgoCD then rolls it out. Here
+chosen branch or tag into the deployment repository; ArgoCD then rolls it out.
+Deploying the revision the service already follows (usually <code class="docutils literal notranslate"><span class="pre">main</span></code>) removes its
+per-service override instead (see <a class="reference internal" href="../explanations/argocd.html#argocd"><span class="std std-ref">How ArgoCD Deploys Your IOCs</span></a>). Here
 <code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is <code class="docutils literal notranslate"><span class="pre">app-namespace/root-app</span></code> (the namespace hosting ArgoCD plus the
 name of the root app-of-apps Application).</p>
 <div class="admonition note">
@@ -559,7 +561,7 @@ adds version-management features on top of Helm that to some extent replicate
 ArgoCD’s ability to track versions, but without the git-driven audit trail.</p>
 <p>With this backend <code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> is simply the Kubernetes <strong>namespace</strong> to deploy
 into. <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">[version]</span></code> shallow-clones <code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> at the
-requested git tag and runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span></code> on the service’s chart;
+requested branch or tag and runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span></code> on the service’s chart;
 <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">template</span></code> and <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy-local</span></code> operate on a local chart instead. Lifecycle
 commands map onto cluster operations — start/stop scale the StatefulSet,
 <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">delete</span></code> runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">delete</span></code>, and <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">logs</span></code>/<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">exec</span></code>/<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">attach</span></code> use

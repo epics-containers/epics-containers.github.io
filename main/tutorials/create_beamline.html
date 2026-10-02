@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Beamline Services Repository &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Create a Beamline Services Repository &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -591,18 +591,10 @@ git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span
 </div>
 <p>This first push triggers the repo’s CI (you will check it below).</p>
 </li>
-<li><p>Tag a release so you have a versioned snapshot (CI runs on the tag too):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
-</pre></div>
-</div>
-<p>A date-based tag (<code class="docutils literal notranslate"><span class="pre">YYYY.M.N</span></code>) is a common choice for services repos;
-epics-containers does not enforce any versioning scheme.</p>
-</li>
 <li><p>Confirm CI passed. Open your repository’s <strong>Actions</strong> tab
 (<code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-org&gt;/t01-services/actions</span></code>). You should see a CI
-run for the <code class="docutils literal notranslate"><span class="pre">main</span></code> push and another for the tag. Each runs a <strong>Run IOC
-checks</strong> step (<code class="docutils literal notranslate"><span class="pre">.github/workflows/ci_verify.sh</span></code>) that validates every IOC’s
+run for the <code class="docutils literal notranslate"><span class="pre">main</span></code> push. It runs a <strong>Run IOC checks</strong> step
+(<code class="docutils literal notranslate"><span class="pre">.github/workflows/ci_verify.sh</span></code>) that validates every IOC’s
 <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> with <code class="docutils literal notranslate"><span class="pre">ibek</span></code>. Confirm the latest run is green before
 continuing.</p></li>
 <li><p>Open the project in VSCode to work on it:</p>

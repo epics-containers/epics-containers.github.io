@@ -37,7 +37,9 @@ continuously reconciles the cluster to match it. For the full picture of how
 this works, see {any}`argocd`.
 
 With this backend `ec deploy <service> <version>` works by committing the
-chosen version into the deployment repository; ArgoCD then rolls it out. Here
+chosen branch or tag into the deployment repository; ArgoCD then rolls it out.
+Deploying the revision the service already follows (usually `main`) removes its
+per-service override instead (see {any}`argocd`). Here
 `EC_TARGET` is `app-namespace/root-app` (the namespace hosting ArgoCD plus the
 name of the root app-of-apps Application).
 
@@ -55,7 +57,7 @@ ArgoCD's ability to track versions, but without the git-driven audit trail.
 
 With this backend `EC_TARGET` is simply the Kubernetes **namespace** to deploy
 into. `ec deploy <service> [version]` shallow-clones `EC_SERVICES_REPO` at the
-requested git tag and runs `helm upgrade --install` on the service's chart;
+requested branch or tag and runs `helm upgrade --install` on the service's chart;
 `ec template` and `ec deploy-local` operate on a local chart instead. Lifecycle
 commands map onto cluster operations — start/stop scale the StatefulSet,
 `ec delete` runs `helm delete`, and `ec logs`/`ec exec`/`ec attach` use

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How ArgoCD Deploys Your IOCs &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>How ArgoCD Deploys Your IOCs &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -551,9 +551,10 @@ watch the services repository for service charts.</p>
 <p>This separation matters because the two repositories change for different
 reasons and at different rates. Service definitions churn as IOCs are developed;
 that activity stays in the services repository and keeps its history clean.
-Deciding to roll <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> from one tag to the next is an
-<em>operational</em> decision, and it lands as a one-line change in the deployment
-repository. The two histories never get tangled.</p>
+Pointing <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> at a branch to test a change, or pointing a group of
+services back at a tag, is an <em>operational</em> decision, and it lands as a
+one-line change in the deployment repository. The two histories never get
+tangled.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>ArgoCD is not mandatory. If you would rather drive Helm yourself without a
@@ -606,14 +607,18 @@ every service and the per-service map of what to run:</p>
 <span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">t02-beamline</span>
 <span class="nt">source</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;your-account&gt;/t02-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
-<span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">            </span><span class="c1"># default branch/tag of the services repo</span>
+<span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">            </span><span class="c1"># the revision every service tracks</span>
+<span class="nt">versions</span><span class="p">:</span><span class="w">                         </span><span class="c1"># named revision lines</span>
+<span class="w">  </span><span class="nt">daq</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">  </span><span class="nt">techui</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 <span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span><span class="w">                 </span><span class="c1"># a bare entry inherits all the defaults</span>
-<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span><span class="w">              </span><span class="c1"># {} inherits all the defaults</span>
+<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 <span class="w">  </span><span class="nt">bl02t-ea-cam-02</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">          </span><span class="c1"># per-service version override</span>
+<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fix-exposure</span><span class="w">  </span><span class="c1"># per-service override, while testing a branch</span>
+<span class="w">  </span><span class="nt">t02-blueapi</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">daq</span><span class="w">                    </span><span class="c1"># follows versions.daq</span>
 </pre></div>
 </div>
 <p>The crucial detail is that <code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> here points at the <strong>services
@@ -628,13 +633,18 @@ is a small dictionary. The keys you will use most are:</p>
 forgetting it. The App stays, but its workload is scaled down.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">removed</span></code></strong> (default <code class="docutils literal notranslate"><span class="pre">false</span></code>): set to <code class="docutils literal notranslate"><span class="pre">true</span></code> to omit the App entirely, so
 ArgoCD prunes it from the cluster.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">targetRevision</span></code></strong>: a per-service override of the top-level
-<code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>, so one service can pin a different branch or tag.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">labels</span></code></strong>: labels applied to the service’s Kubernetes resources (for
-example a human-readable <code class="docutils literal notranslate"><span class="pre">description</span></code>).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">group</span></code></strong>: the name of an entry in <code class="docutils literal notranslate"><span class="pre">versions:</span></code> for this service to follow
+instead of <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>. A group with no matching entry fails the
+render.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">targetRevision</span></code></strong>: a per-service override of the service’s line, so one
+service can run a different branch or tag.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">description</span></code></strong>: free text shown alongside the service, for example by
+<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">ps</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">labels</span></code></strong>: labels applied to the service’s Kubernetes resources.</p></li>
 </ul>
-<p>A bare entry with no value (such as <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs:</span></code> above) is valid and simply
-inherits every default.</p>
+<p>An entry of <code class="docutils literal notranslate"><span class="pre">{}</span></code> (such as <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs:</span> <span class="pre">{}</span></code> above) inherits every default.
+Write <code class="docutils literal notranslate"><span class="pre">{}</span></code> rather than leaving the value empty: Helm drops a key whose value is
+null, and the service is removed.</p>
 </section>
 <section id="how-one-file-becomes-many-applications">
 <h2>How one file becomes many Applications<a class="headerlink" href="#how-one-file-becomes-many-applications" title="Link to this heading">#</a></h2>
@@ -687,16 +697,25 @@ you can force a sync from the ArgoCD web UI with the <strong>Sync</strong> butto
 <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code> command). Note that this is a <em>manual</em> escape hatch; the
 normal flow needs none of it.</p>
 </section>
-<section id="revision-tracking-branch-vs-tag">
-<h2>Revision tracking: branch vs tag<a class="headerlink" href="#revision-tracking-branch-vs-tag" title="Link to this heading">#</a></h2>
-<p>Because <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> can be set globally and overridden per service, you can
-mix tracking strategies in one deployment repository. Services whose content is
-safe to follow continuously, such as auto-generated OPIs, can track a branch
-like <code class="docutils literal notranslate"><span class="pre">main</span></code>: merge a change in the services repository and it deploys. IOCs are
-usually pinned to a specific <strong>tag</strong> instead, so an IOC changes <em>only</em> when its
-tag is deliberately bumped in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. This is how individual IOCs
-get individual version control even though every chart lives in the one shared
-services repository.</p>
+<section id="revision-tracking-lines-and-overrides">
+<h2>Revision tracking: lines and overrides<a class="headerlink" href="#revision-tracking-lines-and-overrides" title="Link to this heading">#</a></h2>
+<p>Every service tracks <code class="docutils literal notranslate"><span class="pre">main</span></code> of the services repository: merge a change there and
+it deploys. Each child App resolves its revision in this order:</p>
+<ol class="arabic simple">
+<li><p>the service’s own <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code>, if set;</p></li>
+<li><p>otherwise <code class="docutils literal notranslate"><span class="pre">versions[group]</span></code>, if the service has a <code class="docutils literal notranslate"><span class="pre">group</span></code>;</p></li>
+<li><p>otherwise <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code> and each entry in <code class="docutils literal notranslate"><span class="pre">versions:</span></code> is a <em>line</em> that a set of
+services follows. The template creates <code class="docutils literal notranslate"><span class="pre">daq</span></code> and <code class="docutils literal notranslate"><span class="pre">techui</span></code> lines; any name is
+allowed, and services with no <code class="docutils literal notranslate"><span class="pre">group</span></code> follow <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>. Changing
+one line moves every service on it, for example to point them at a branch that
+holds a change affecting all of them, or back at a tag to recover from a fault.
+Point the line back at <code class="docutils literal notranslate"><span class="pre">main</span></code> afterwards.</p>
+<p>A per-service <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> is for testing one service on a branch. It
+overrides the service’s line, so the line no longer moves that service: remove
+it with <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">&lt;service&gt;</span> <span class="pre">main</span></code> once the branch is merged. A tag on <code class="docutils literal notranslate"><span class="pre">main</span></code> is
+a rollback point to go back to, not something services track.</p>
 </section>
 <section id="where-apps-live-vs-where-workloads-run">
 <h2>Where Apps live vs where workloads run<a class="headerlink" href="#where-apps-live-vs-where-workloads-run" title="Link to this heading">#</a></h2>
@@ -725,11 +744,11 @@ default).</p></li>
 <code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-account&gt;/t02-services</span></code>.</p></li>
 </ul>
 <p>The important thing to understand is what <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> actually does. Running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span><span class="m">2026</span>.7.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>fix-exposure
 </pre></div>
 </div>
 <p>does <strong>not</strong> push anything into the cluster directly. It <strong>records the desired
-state in Git</strong>: it commits and pushes the new <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> for
+state in Git</strong>: it commits and pushes <code class="docutils literal notranslate"><span class="pre">targetRevision:</span> <span class="pre">fix-exposure</span></code> for
 <code class="docutils literal notranslate"><span class="pre">services.bl02t-ea-cam-01</span></code> into <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> in the deployment
 repository, and then runs <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">get</span> <span class="pre">--refresh</span></code> so ArgoCD re-reads Git
 immediately rather than waiting for the next poll. The actual reconciliation is
@@ -737,6 +756,14 @@ done by ArgoCD’s auto-sync. In other words, <strong><code class="docutils lite
 <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">sync</span></code></strong> — it edits Git and lets the controller do its job. That is
 exactly the GitOps model from the top of this page, with <code class="docutils literal notranslate"><span class="pre">ec</span></code> providing a
 convenient front end to it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">main</span></code> reverses this: <code class="docutils literal notranslate"><span class="pre">main</span></code> is the line the service
+already follows, so <code class="docutils literal notranslate"><span class="pre">ec</span></code> removes the per-service <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> rather than
+writing one.</p>
+<p>If the service is not yet listed in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> adds it
+there instead: <code class="docutils literal notranslate"><span class="pre">{}</span></code> when the given revision matches the service’s line,
+otherwise a <code class="docutils literal notranslate"><span class="pre">targetRevision</span></code> override — then commits and pushes exactly as
+above. The service must already exist in the services repository; <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code>
+for one that does not is an error.</p>
 <p>For the step-by-step version of all of this, including scaffolding the
 deployment repository, bootstrapping the root App and watching the sync in the
 web UI, see <a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>. For the contrasting local, non-Kubernetes
@@ -798,7 +825,7 @@ workflow that the introductory tutorials use, see <a class="reference internal" 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-one-file-becomes-many-applications">How one file becomes many Applications</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-sync-automated-prune-selfheal">Auto-sync: automated, prune, selfHeal</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-sync-webhooks-vs-poll">When does it sync? webhooks vs poll</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-tracking-branch-vs-tag">Revision tracking: branch vs tag</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revision-tracking-lines-and-overrides">Revision tracking: lines and overrides</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-apps-live-vs-where-workloads-run">Where Apps live vs where workloads run</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ec-cli-s-role">The ec CLI’s role</a></li>
 </ul>

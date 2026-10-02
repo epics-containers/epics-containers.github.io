@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -540,7 +540,7 @@ the values <code class="docutils literal notranslate"><span class="pre">ec</span
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EC_SERVICES_REPO</span></code> (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-r/--repo</span></code>)</p></td>
-<td class="text-left"><p>the services repository that defines this domain; <code class="docutils literal notranslate"><span class="pre">ec</span></code> fetches a git-tagged copy of an instance’s configuration from here at deploy time</p></td>
+<td class="text-left"><p>the services repository that defines this domain; <code class="docutils literal notranslate"><span class="pre">ec</span></code> checks that the branch or tag being deployed holds the service, and the K8S backend fetches the service’s configuration from here at that revision</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-org&gt;/t02-services</span></code></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EC_TARGET</span></code> (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">-t/--target</span></code>)</p></td>

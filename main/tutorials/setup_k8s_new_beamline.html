@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Create a Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,16 +634,10 @@ template:</p>
 generated GUIs and other data.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code></strong> — an nginx server that serves those GUI files.</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys a service at a <strong>git tag</strong> of the repo, so tag the current state
-first:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span><span class="m">2026</span>.7.1
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="m">2026</span>.7.1
-</pre></div>
-</div>
-<p>Then deploy each service at that tag (<code class="docutils literal notranslate"><span class="pre">-v</span></code> prints the underlying helm/kubectl
-commands):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t02-epics-pvcs<span class="w"> </span><span class="m">2026</span>.7.1
-ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t02-epics-opis<span class="w"> </span><span class="m">2026</span>.7.1
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> deploys a service from a branch or tag of the repo you pushed. Deploy each
+service from <code class="docutils literal notranslate"><span class="pre">main</span></code> (<code class="docutils literal notranslate"><span class="pre">-v</span></code> prints the underlying helm/kubectl commands):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t02-epics-pvcs<span class="w"> </span>main
+ec<span class="w"> </span>-v<span class="w"> </span>deploy<span class="w"> </span>t02-epics-opis<span class="w"> </span>main
 </pre></div>
 </div>
 <div class="admonition note">
@@ -662,8 +656,8 @@ personal namespaces — instead run a Channel Access gateway; answer <strong>Yes
 </pre></div>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name             label     version    ready   deployed
- t02-epics-pvcs   service   2026.7.1   True    2026-07-01T09:10:00Z
- t02-epics-opis   service   2026.7.1   True    2026-07-01T09:11:00Z
+ t02-epics-pvcs   service   main       True    2026-07-01T09:10:00Z
+ t02-epics-opis   service   main       True    2026-07-01T09:11:00Z
 </pre></div>
 </div>
 <p>Run <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">--help</span></code> to explore the other commands (<code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">logs</span></code>, <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">exec</span></code>,

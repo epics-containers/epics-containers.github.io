@@ -50,7 +50,7 @@ The three variables you normally set for each domain are:
 
 | Variable | Sets | Example |
 | :--- | :--- | :--- |
-| `EC_SERVICES_REPO` (`ec -r/--repo`) | the services repository that defines this domain; `ec` fetches a git-tagged copy of an instance's configuration from here at deploy time | `https://github.com/<your-org>/t02-services` |
+| `EC_SERVICES_REPO` (`ec -r/--repo`) | the services repository that defines this domain; `ec` checks that the branch or tag being deployed holds the service, and the K8S backend fetches the service's configuration from here at that revision | `https://github.com/<your-org>/t02-services` |
 | `EC_TARGET` (`ec -t/--target`) | where `ec` deploys — the Kubernetes **namespace** (`K8S` backend) or `app-namespace/root-app` (`ARGOCD` backend) | `t02-beamline` or `t02-beamline/t02` |
 | `EC_CLI_BACKEND` (`ec -b/--backend`) | which backend `ec` drives: `ARGOCD` (the default), `K8S` or `DEMO`; the available commands change per backend — see {ref}`helm` | `K8S` |
 

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Frequently Asked Questions &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Frequently Asked Questions &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -495,19 +495,21 @@
 <p>The examples all use cloud registries for storing the Generic IOC images and
 IOC instances. However it is still possible to roll back an IOC version when
 the internet is not available.</p>
-<p>Rollback is a git operation. Every <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> records the desired version of
-a service as a commit in the deployment repository — for the ArgoCD backend,
-an entry under <code class="docutils literal notranslate"><span class="pre">services.&lt;name&gt;</span></code> in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> (see
-<a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>). git is the single source of truth, so to roll back you
-<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> that commit and push:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>&lt;deployment-repo&gt;<span class="w"> </span>revert<span class="w"> </span>&lt;commit&gt;
-git<span class="w"> </span>-C<span class="w"> </span>&lt;deployment-repo&gt;<span class="w"> </span>push
+<p>Rollback is a git operation. With the ArgoCD backend every service tracks
+<code class="docutils literal notranslate"><span class="pre">main</span></code> of the services repository (see <a class="reference internal" href="../tutorials/deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a>), so either revert
+the change on <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>&lt;services-repo&gt;<span class="w"> </span>revert<span class="w"> </span>&lt;commit&gt;
+git<span class="w"> </span>-C<span class="w"> </span>&lt;services-repo&gt;<span class="w"> </span>push
 </pre></div>
 </div>
-<p>ArgoCD’s auto-sync then reconciles the cluster back to the reverted state,
-recreating each IOC’s StatefulSet at the previous version. The git server and
-cluster can both be on premises, so the revert and re-sync need no internet
-connection.</p>
+<p>or point the service at an earlier tag in the deployment repository, which
+commits the change to its <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>&lt;service&gt;<span class="w"> </span>&lt;tag&gt;
+</pre></div>
+</div>
+<p>ArgoCD’s auto-sync then reconciles the cluster back to that state, recreating
+the IOC’s StatefulSet at the previous version. The git server and cluster can
+both be on premises, so the rollback and re-sync need no internet connection.</p>
 <p>What Kubernetes does still need is to pull the Generic IOC image for the
 version it is rolling back to. If the beamline has only one Kubernetes worker
 node then the previous image is already in that node’s local cache. If you have

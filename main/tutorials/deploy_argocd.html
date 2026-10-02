@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -634,7 +634,7 @@ Answer them as follows for the worked example:</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">https://github.com/&lt;your-account&gt;/t02-services</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">services_release</span></code></p></td>
-<td><p>Initial branch or tag of the services repo to track.</p></td>
+<td><p>The branch of the services repo that every service tracks.</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logging_url</span></code></p></td>
@@ -684,7 +684,7 @@ and <em>at what version</em>; the service content lives in the services repo.</p
 <td><p>The ArgoCD <strong>root Application</strong> (“app of apps”). <code class="docutils literal notranslate"><span class="pre">source.path:</span> <span class="pre">apps</span></code> points at the <code class="docutils literal notranslate"><span class="pre">apps/</span></code> chart in this repo; <code class="docutils literal notranslate"><span class="pre">syncPolicy</span></code> is <code class="docutils literal notranslate"><span class="pre">automated</span></code> with <code class="docutils literal notranslate"><span class="pre">prune</span></code> and <code class="docutils literal notranslate"><span class="pre">selfHeal</span></code>. You bootstrap this once.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code></p></td>
-<td><p>The <strong>control surface</strong> — the only file you (or CI) normally edit. Declares the project, destination, the <strong>services-repo</strong> source, and the <code class="docutils literal notranslate"><span class="pre">services:</span></code> map.</p></td>
+<td><p>The <strong>control surface</strong> — the only file you (or CI) normally edit. Declares the project, destination, the <strong>services-repo</strong> source and revision, the <code class="docutils literal notranslate"><span class="pre">versions:</span></code> lines, and the <code class="docutils literal notranslate"><span class="pre">services:</span></code> map.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">apps/Chart.yaml</span></code></p></td>
 <td><p>A Helm chart whose only dependency is the <code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code> library chart, pulled as an <strong>OCI</strong> artifact from <code class="docutils literal notranslate"><span class="pre">oci://ghcr.io/epics-containers/charts</span></code>.</p></td>
@@ -733,10 +733,14 @@ and <em>at what version</em>; the service content lives in the services repo.</p
 <span class="w">  </span><span class="nt">repoURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/&lt;your-account&gt;/t02-services</span><span class="w">   </span><span class="c1"># the SERVICES repo</span>
 <span class="w">  </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 
+<span class="nt">versions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">daq</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">  </span><span class="nt">techui</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+
 <span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -745,9 +749,13 @@ and <em>at what version</em>; the service content lives in the services repo.</p
 <em>child</em> Application sources its Helm chart from <code class="docutils literal notranslate"><span class="pre">services/&lt;service&gt;</span></code> in the
 services repo. The template seeds three children — <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> (shared
 storage), <code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code> (auto-generated OPIs) and <code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code> (a
-Channel Access gateway). A bare entry like <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs:</span></code> inherits all the
-defaults above.</p>
+Channel Access gateway). An entry of <code class="docutils literal notranslate"><span class="pre">{}</span></code> inherits all the defaults above, so
+the service tracks <code class="docutils literal notranslate"><span class="pre">main</span></code> through <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>. Always write <code class="docutils literal notranslate"><span class="pre">{}</span></code>:
+Helm drops a key with an empty value, which removes the service.</p>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">versions:</span></code> holds named revision lines. A service with <code class="docutils literal notranslate"><span class="pre">group:</span> <span class="pre">daq</span></code> follows
+<code class="docutils literal notranslate"><span class="pre">versions.daq</span></code> instead of <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>, so one edit moves every
+service in that group; see <a class="reference internal" href="../explanations/argocd.html"><span class="doc">How ArgoCD Deploys Your IOCs</span></a>.</p>
 <p>For the full model behind these files — the two-repository split, the
 <code class="docutils literal notranslate"><span class="pre">argocd-apps</span></code> library chart, and how one map becomes many Applications — see
 <a class="reference internal" href="../explanations/argocd.html"><span class="doc">How ArgoCD Deploys Your IOCs</span></a>.</p>
@@ -827,19 +835,17 @@ diagnose a service that will not start.</p>
 <section id="deploy-a-service">
 <h2>Deploy a service<a class="headerlink" href="#deploy-a-service" title="Link to this heading">#</a></h2>
 <p>Now deploy an IOC. The service <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> already exists in
-<code class="docutils literal notranslate"><span class="pre">t02-services</span></code> — you added it in <a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a> — so you can deploy it
-directly, this time through ArgoCD. Use a git tag instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example
-<code class="docutils literal notranslate"><span class="pre">2026.7.1</span></code>) to pin a specific version:</p>
+<code class="docutils literal notranslate"><span class="pre">t02-services</span></code> — you added it in <a class="reference internal" href="add_k8s_ioc.html"><span class="doc">Deploy an IOC with Helm</span></a>. Deploy it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>main
 </pre></div>
 </div>
 <p>Here is exactly what happened, and what did <strong>not</strong>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> checked that <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01</span></code> exists in <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> at
-the requested revision.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> then <strong>committed and pushed</strong> an entry under
-<code class="docutils literal notranslate"><span class="pre">services.bl02t-ea-cam-01</span></code> in the deployment repo’s <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>,
-recording the desired version. This commit is the source of truth.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span></code> checked that <code class="docutils literal notranslate"><span class="pre">services/bl02t-ea-cam-01</span></code> exists in <code class="docutils literal notranslate"><span class="pre">t02-services</span></code>
+at <code class="docutils literal notranslate"><span class="pre">main</span></code>, then added <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01:</span> <span class="pre">{}</span></code> to the <code class="docutils literal notranslate"><span class="pre">services:</span></code> map in the
+deployment repo’s <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code> — <code class="docutils literal notranslate"><span class="pre">{}</span></code> because <code class="docutils literal notranslate"><span class="pre">main</span></code> is the revision
+the service already follows under <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code> — and committed
+and pushed that change.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ec</span></code> ran <code class="docutils literal notranslate"><span class="pre">argocd</span> <span class="pre">app</span> <span class="pre">get</span> <span class="pre">--refresh</span></code> to ask ArgoCD to re-read git immediately
 (otherwise ArgoCD notices on its next poll — every 3 minutes by default, or
 instantly if you have configured a git webhook).</p></li>
@@ -864,23 +870,29 @@ use the <strong>Sync</strong> button in the web UI, or <code class="docutils lit
  bl02t-ea-cam-01   service   main      True    2026-06-25T09:14:00Z
 </pre></div>
 </div>
-<p>And confirm the git record — pull the deployment repo and look at
-<code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>-C<span class="w"> </span>t02-deployment<span class="w"> </span>pull
-</pre></div>
-</div>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
-<span class="w">    </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</pre></div>
-</div>
 <p>A new card for <code class="docutils literal notranslate"><span class="pre">bl02t-ea-cam-01</span></code> also appears in the ArgoCD web UI.</p>
+</section>
+<section id="try-a-change-on-a-branch">
+<h2>Try a change on a branch<a class="headerlink" href="#try-a-change-on-a-branch" title="Link to this heading">#</a></h2>
+<p>From here on every merge to <code class="docutils literal notranslate"><span class="pre">main</span></code> of <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> deploys automatically. To
+test a change before merging it, push it on a branch of <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> and
+point just that service at the branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>fix-exposure
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> commits a per-service override to <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>; nothing else moves:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bl02t-ea-cam-01</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">targetRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fix-exposure</span>
+</pre></div>
+</div>
+<p>When the change works, merge the branch to <code class="docutils literal notranslate"><span class="pre">main</span></code> and put the service back on
+<code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>deploy<span class="w"> </span>bl02t-ea-cam-01<span class="w"> </span>main
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ec</span></code> removes the override, so the service follows <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>
+again.</p>
 </section>
 <section id="stop-start-and-remove-a-service-optional">
 <h2>Stop, start and remove a service (optional)<a class="headerlink" href="#stop-start-and-remove-a-service-optional" title="Link to this heading">#</a></h2>
@@ -982,6 +994,7 @@ for contrast with this cluster-based CD flow.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bootstrap-the-root-application">Bootstrap the root Application</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#watch-it-sync-in-the-argocd-web-ui">Watch it sync in the ArgoCD web UI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deploy-a-service">Deploy a service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-a-change-on-a-branch">Try a change on a branch</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stop-start-and-remove-a-service-optional">Stop, start and remove a service (optional)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-up">Clean up</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>

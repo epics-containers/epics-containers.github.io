@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev128+g828945060 documentation</title>
+    <title>Deploy an IOC with Helm &#8212; epics-containers.github.io 4.2.1.dev130+ga4e9b3ed5 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
 
-    <script src="../_static/documentation_options.js?v=3905e6f7"></script>
+    <script src="../_static/documentation_options.js?v=ac904444"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -666,17 +666,17 @@ repo. Instead it:</p>
 <li><p>runs <code class="docutils literal notranslate"><span class="pre">helm</span> <span class="pre">upgrade</span> <span class="pre">--install</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">...</span> <span class="pre">--namespace</span> <span class="pre">t02-beamline</span></code>
 directly against the cluster.</p></li>
 </ul>
-<p>Use a git tag instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">2026.7.1</span></code>)
-to pin a specific version, exactly as you tagged and deployed the shared services
-in <a class="reference internal" href="setup_k8s_new_beamline.html#setup-k8s-beamline"><span class="std std-ref">Create a Kubernetes Beamline</span></a>.</p>
+<p>To try a change before merging it, push it on a branch and deploy that branch
+instead of <code class="docutils literal notranslate"><span class="pre">main</span></code> (for example <code class="docutils literal notranslate"><span class="pre">ec</span> <span class="pre">deploy</span> <span class="pre">bl02t-ea-cam-01</span> <span class="pre">fix-exposure</span></code>). Once
+the change is merged, deploy <code class="docutils literal notranslate"><span class="pre">main</span></code> again.</p>
 <p>Confirm it is running, then inspect it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ec<span class="w"> </span>ps<span class="w">                          </span><span class="c1"># list services in your namespace</span>
 ec<span class="w"> </span>logs<span class="w"> </span>bl02t-ea-cam-01<span class="w">        </span><span class="c1"># stream the IOC's container logs</span>
 </pre></div>
 </div>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name                version   ready   deployed
- t02-epics-pvcs      2026.7.1  True    2026-07-01T09:10:00Z
- t02-epics-opis      2026.7.1  True    2026-07-01T09:11:00Z
+ t02-epics-pvcs      main      True    2026-07-01T09:10:00Z
+ t02-epics-opis      main      True    2026-07-01T09:11:00Z
  bl02t-ea-cam-01     main      True    2026-07-01T09:20:00Z
 </pre></div>
 </div>

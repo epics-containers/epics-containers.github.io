@@ -60,9 +60,10 @@ watch the services repository for service charts.
 This separation matters because the two repositories change for different
 reasons and at different rates. Service definitions churn as IOCs are developed;
 that activity stays in the services repository and keeps its history clean.
-Deciding to roll `bl02t-ea-cam-01` from one tag to the next is an
-*operational* decision, and it lands as a one-line change in the deployment
-repository. The two histories never get tangled.
+Pointing `bl02t-ea-cam-01` at a branch to test a change, or pointing a group of
+services back at a tag, is an *operational* decision, and it lands as a
+one-line change in the deployment repository. The two histories never get
+tangled.
 
 :::{note}
 ArgoCD is not mandatory. If you would rather drive Helm yourself without a
@@ -120,14 +121,18 @@ destination:
   namespace: t02-beamline
 source:
   repoURL: https://github.com/<your-account>/t02-services   # the SERVICES repo
-  targetRevision: main            # default branch/tag of the services repo
+  targetRevision: main            # the revision every service tracks
+versions:                         # named revision lines
+  daq: main
+  techui: main
 services:
-  t02-epics-pvcs:                 # a bare entry inherits all the defaults
-  t02-epics-opis:
-  bl02t-ea-cam-01:
-    enabled: true
+  t02-epics-pvcs: {}              # {} inherits all the defaults
+  t02-epics-opis: {}
+  bl02t-ea-cam-01: {}
   bl02t-ea-cam-02:
-    targetRevision: main          # per-service version override
+    targetRevision: fix-exposure  # per-service override, while testing a branch
+  t02-blueapi:
+    group: daq                    # follows versions.daq
 ```
 
 The crucial detail is that `source.repoURL` here points at the **services
@@ -143,13 +148,18 @@ is a small dictionary. The keys you will use most are:
   forgetting it. The App stays, but its workload is scaled down.
 - **`removed`** (default `false`): set to `true` to omit the App entirely, so
   ArgoCD prunes it from the cluster.
-- **`targetRevision`**: a per-service override of the top-level
-  `source.targetRevision`, so one service can pin a different branch or tag.
-- **`labels`**: labels applied to the service's Kubernetes resources (for
-  example a human-readable `description`).
+- **`group`**: the name of an entry in `versions:` for this service to follow
+  instead of `source.targetRevision`. A group with no matching entry fails the
+  render.
+- **`targetRevision`**: a per-service override of the service's line, so one
+  service can run a different branch or tag.
+- **`description`**: free text shown alongside the service, for example by
+  `ec ps`.
+- **`labels`**: labels applied to the service's Kubernetes resources.
 
-A bare entry with no value (such as `t02-epics-pvcs:` above) is valid and simply
-inherits every default.
+An entry of `{}` (such as `t02-epics-pvcs: {}` above) inherits every default.
+Write `{}` rather than leaving the value empty: Helm drops a key whose value is
+null, and the service is removed.
 
 ## How one file becomes many Applications
 
@@ -207,16 +217,26 @@ you can force a sync from the ArgoCD web UI with the **Sync** button (or the
 `argocd app sync` command). Note that this is a *manual* escape hatch; the
 normal flow needs none of it.
 
-## Revision tracking: branch vs tag
+## Revision tracking: lines and overrides
 
-Because `targetRevision` can be set globally and overridden per service, you can
-mix tracking strategies in one deployment repository. Services whose content is
-safe to follow continuously, such as auto-generated OPIs, can track a branch
-like `main`: merge a change in the services repository and it deploys. IOCs are
-usually pinned to a specific **tag** instead, so an IOC changes *only* when its
-tag is deliberately bumped in `apps/values.yaml`. This is how individual IOCs
-get individual version control even though every chart lives in the one shared
-services repository.
+Every service tracks `main` of the services repository: merge a change there and
+it deploys. Each child App resolves its revision in this order:
+
+1. the service's own `targetRevision`, if set;
+2. otherwise `versions[group]`, if the service has a `group`;
+3. otherwise `source.targetRevision`.
+
+`source.targetRevision` and each entry in `versions:` is a *line* that a set of
+services follows. The template creates `daq` and `techui` lines; any name is
+allowed, and services with no `group` follow `source.targetRevision`. Changing
+one line moves every service on it, for example to point them at a branch that
+holds a change affecting all of them, or back at a tag to recover from a fault.
+Point the line back at `main` afterwards.
+
+A per-service `targetRevision` is for testing one service on a branch. It
+overrides the service's line, so the line no longer moves that service: remove
+it with `ec deploy <service> main` once the branch is merged. A tag on `main` is
+a rollback point to go back to, not something services track.
 
 ## Where Apps live vs where workloads run
 
@@ -248,11 +268,11 @@ set for you when you `source ./environment.sh` from your deployment repository:
 The important thing to understand is what `ec deploy` actually does. Running:
 
 ```bash
-ec deploy bl02t-ea-cam-01 2026.7.1
+ec deploy bl02t-ea-cam-01 fix-exposure
 ```
 
 does **not** push anything into the cluster directly. It **records the desired
-state in Git**: it commits and pushes the new `targetRevision` for
+state in Git**: it commits and pushes `targetRevision: fix-exposure` for
 `services.bl02t-ea-cam-01` into `apps/values.yaml` in the deployment
 repository, and then runs `argocd app get --refresh` so ArgoCD re-reads Git
 immediately rather than waiting for the next poll. The actual reconciliation is
@@ -260,6 +280,16 @@ done by ArgoCD's auto-sync. In other words, **`ec deploy` does not run
 `argocd app sync`** — it edits Git and lets the controller do its job. That is
 exactly the GitOps model from the top of this page, with `ec` providing a
 convenient front end to it.
+
+`ec deploy bl02t-ea-cam-01 main` reverses this: `main` is the line the service
+already follows, so `ec` removes the per-service `targetRevision` rather than
+writing one.
+
+If the service is not yet listed in `apps/values.yaml`, `ec deploy` adds it
+there instead: `{}` when the given revision matches the service's line,
+otherwise a `targetRevision` override — then commits and pushes exactly as
+above. The service must already exist in the services repository; `ec deploy`
+for one that does not is an error.
 
 For the step-by-step version of all of this, including scaffolding the
 deployment repository, bootstrapping the root App and watching the sync in the

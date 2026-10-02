@@ -103,7 +103,7 @@ Answer them as follows for the worked example:
 | `github_org` | The GitHub account/org that will own the repo. | *your GitHub account or org* |
 | `deployment_repo` | URL of **this** deployment repo. | *(accept default — `https://github.com/<org>/t02-deployment`)* |
 | `services_repo` | URL of the **services** repo to track. | `https://github.com/<your-account>/t02-services` |
-| `services_release` | Initial branch or tag of the services repo to track. | `main` |
+| `services_release` | The branch of the services repo that every service tracks. | `main` |
 | `logging_url` | Central log server URL (optional). | `Skip` |
 
 :::{warning}
@@ -140,7 +140,7 @@ and *at what version*; the service content lives in the services repo.
 | Path | Role |
 |---|---|
 | `apps.yaml` | The ArgoCD **root Application** ("app of apps"). `source.path: apps` points at the `apps/` chart in this repo; `syncPolicy` is `automated` with `prune` and `selfHeal`. You bootstrap this once. |
-| `apps/values.yaml` | The **control surface** — the only file you (or CI) normally edit. Declares the project, destination, the **services-repo** source, and the `services:` map. |
+| `apps/values.yaml` | The **control surface** — the only file you (or CI) normally edit. Declares the project, destination, the **services-repo** source and revision, the `versions:` lines, and the `services:` map. |
 | `apps/Chart.yaml` | A Helm chart whose only dependency is the `argocd-apps` library chart, pulled as an **OCI** artifact from `oci://ghcr.io/epics-containers/charts`. |
 | `apps/templates/all_apps.yaml` | A one-line template that expands the `services:` map into one child Application per service. |
 | `environment.sh` | Sourced to set the `EC_*` environment variables, enable `ec` shell completion, and log into ArgoCD. |
@@ -184,10 +184,14 @@ source:
   repoURL: https://github.com/<your-account>/t02-services   # the SERVICES repo
   targetRevision: main
 
+versions:
+  daq: main
+  techui: main
+
 services:
-  t02-epics-pvcs:
-  t02-epics-opis:
-  t02-epics-gateways:
+  t02-epics-pvcs: {}
+  t02-epics-opis: {}
+  t02-epics-gateways: {}
 ```
 
 :::{note}
@@ -195,9 +199,14 @@ services:
 *child* Application sources its Helm chart from `services/<service>` in the
 services repo. The template seeds three children — `t02-epics-pvcs` (shared
 storage), `t02-epics-opis` (auto-generated OPIs) and `t02-epics-gateways` (a
-Channel Access gateway). A bare entry like `t02-epics-pvcs:` inherits all the
-defaults above.
+Channel Access gateway). An entry of `{}` inherits all the defaults above, so
+the service tracks `main` through `source.targetRevision`. Always write `{}`:
+Helm drops a key with an empty value, which removes the service.
 :::
+
+`versions:` holds named revision lines. A service with `group: daq` follows
+`versions.daq` instead of `source.targetRevision`, so one edit moves every
+service in that group; see {any}`../explanations/argocd`.
 
 For the full model behind these files — the two-repository split, the
 `argocd-apps` library chart, and how one map becomes many Applications — see
@@ -291,9 +300,7 @@ diagnose a service that will not start.
 ## Deploy a service
 
 Now deploy an IOC. The service `bl02t-ea-cam-01` already exists in
-`t02-services` — you added it in {any}`add_k8s_ioc` — so you can deploy it
-directly, this time through ArgoCD. Use a git tag instead of `main` (for example
-`2026.7.1`) to pin a specific version:
+`t02-services` — you added it in {any}`add_k8s_ioc`. Deploy it:
 
 ```bash
 ec deploy bl02t-ea-cam-01 main
@@ -301,11 +308,11 @@ ec deploy bl02t-ea-cam-01 main
 
 Here is exactly what happened, and what did **not**:
 
-- `ec` checked that `services/bl02t-ea-cam-01` exists in `t02-services` at
-  the requested revision.
-- `ec` then **committed and pushed** an entry under
-  `services.bl02t-ea-cam-01` in the deployment repo's `apps/values.yaml`,
-  recording the desired version. This commit is the source of truth.
+- `ec deploy` checked that `services/bl02t-ea-cam-01` exists in `t02-services`
+  at `main`, then added `bl02t-ea-cam-01: {}` to the `services:` map in the
+  deployment repo's `apps/values.yaml` — `{}` because `main` is the revision
+  the service already follows under `source.targetRevision` — and committed
+  and pushed that change.
 - `ec` ran `argocd app get --refresh` to ask ArgoCD to re-read git immediately
   (otherwise ArgoCD notices on its next poll — every 3 minutes by default, or
   instantly if you have configured a git webhook).
@@ -333,26 +340,35 @@ ec ps
  bl02t-ea-cam-01   service   main      True    2026-06-25T09:14:00Z
 ```
 
-And confirm the git record — pull the deployment repo and look at
-`apps/values.yaml`:
+A new card for `bl02t-ea-cam-01` also appears in the ArgoCD web UI.
+
+## Try a change on a branch
+
+From here on every merge to `main` of `t02-services` deploys automatically. To
+test a change before merging it, push it on a branch of `t02-services` and
+point just that service at the branch:
 
 ```bash
-git -C t02-deployment pull
+ec deploy bl02t-ea-cam-01 fix-exposure
 ```
+
+`ec` commits a per-service override to `apps/values.yaml`; nothing else moves:
 
 ```yaml
 services:
-  t02-epics-pvcs:
-  t02-epics-opis:
-  t02-epics-gateways:
   bl02t-ea-cam-01:
-    enabled: true
-    targetRevision: main
-    labels:
-      description: ...
+    targetRevision: fix-exposure
 ```
 
-A new card for `bl02t-ea-cam-01` also appears in the ArgoCD web UI.
+When the change works, merge the branch to `main` and put the service back on
+`main`:
+
+```bash
+ec deploy bl02t-ea-cam-01 main
+```
+
+`ec` removes the override, so the service follows `source.targetRevision`
+again.
 
 ## Stop, start and remove a service (optional)
 
