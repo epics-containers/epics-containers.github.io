@@ -72,20 +72,21 @@ A value of `1` confirms the change is live.
 
 ## Commit the change
 
-Because the config edits already live in `t01-services`, commit and push them,
-then tag a release of the services repo (substitute your own version):
+Because the config edits already live in `t01-services`, commit them on a
+branch and push it:
 
 ```bash
 cd /workspaces/t01-services
+git switch -c add-extra-db
 git add .
 git commit -m "Add extra.db to bl01t-ea-cam-01"
-git push
-git tag 2026.7.1
-git push origin 2026.7.1
+git push -u origin add-extra-db
 ```
 
-That tag pins the version you deploy to a real beamline — see
-{any}`deploy-argocd` for the cluster deployment path.
+Open a pull request to `main` and merge it once CI passes. On a cluster you
+would first test the branch live with `ec deploy bl01t-ea-cam-01 add-extra-db`,
+then merge and run `ec deploy bl01t-ea-cam-01 main` — see {any}`deploy-argocd`
+for the cluster deployment path.
 
 ## How it works
 

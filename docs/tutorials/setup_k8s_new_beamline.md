@@ -115,20 +115,12 @@ template:
   generated GUIs and other data.
 - **`t02-epics-opis`** — an nginx server that serves those GUI files.
 
-`ec` deploys a service at a **git tag** of the repo, so tag the current state
-first:
+`ec` deploys a service from a branch or tag of the repo you pushed. Deploy each
+service from `main` (`-v` prints the underlying helm/kubectl commands):
 
 ```bash
-git tag 2026.7.1
-git push origin 2026.7.1
-```
-
-Then deploy each service at that tag (`-v` prints the underlying helm/kubectl
-commands):
-
-```bash
-ec -v deploy t02-epics-pvcs 2026.7.1
-ec -v deploy t02-epics-opis 2026.7.1
+ec -v deploy t02-epics-pvcs main
+ec -v deploy t02-epics-opis main
 ```
 
 :::{note}
@@ -149,8 +141,8 @@ ec ps
 
 ```text
  name             label     version    ready   deployed
- t02-epics-pvcs   service   2026.7.1   True    2026-07-01T09:10:00Z
- t02-epics-opis   service   2026.7.1   True    2026-07-01T09:11:00Z
+ t02-epics-pvcs   service   main       True    2026-07-01T09:10:00Z
+ t02-epics-opis   service   main       True    2026-07-01T09:11:00Z
 ```
 
 Run `ec --help` to explore the other commands (`ec logs`, `ec exec`,

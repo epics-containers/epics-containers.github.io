@@ -85,24 +85,14 @@ production each facility sets its own policy for where these assets live.
 
    This first push triggers the repo's CI (you will check it below).
 
-3. Tag a release so you have a versioned snapshot (CI runs on the tag too):
-
-   ```bash
-   git tag 2026.7.1
-   git push origin 2026.7.1
-   ```
-
-   A date-based tag (`YYYY.M.N`) is a common choice for services repos;
-   epics-containers does not enforce any versioning scheme.
-
-4. Confirm CI passed. Open your repository's **Actions** tab
+3. Confirm CI passed. Open your repository's **Actions** tab
    (`https://github.com/<your-org>/t01-services/actions`). You should see a CI
-   run for the `main` push and another for the tag. Each runs a **Run IOC
-   checks** step (`.github/workflows/ci_verify.sh`) that validates every IOC's
+   run for the `main` push. It runs a **Run IOC checks** step
+   (`.github/workflows/ci_verify.sh`) that validates every IOC's
    `config/ioc.yaml` with `ibek`. Confirm the latest run is green before
    continuing.
 
-5. Open the project in VSCode to work on it:
+4. Open the project in VSCode to work on it:
 
    ```bash
    code .
