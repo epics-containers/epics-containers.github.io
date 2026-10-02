@@ -6,21 +6,25 @@ The examples all use cloud registries for storing the Generic IOC images and
 IOC instances. However it is still possible to roll back an IOC version when
 the internet is not available.
 
-Rollback is a git operation. Every `ec deploy` records the desired version of
-a service as a commit in the deployment repository — for the ArgoCD backend,
-an entry under `services.<name>` in `apps/values.yaml` (see
-{any}`deploy-argocd`). git is the single source of truth, so to roll back you
-`git revert` that commit and push:
+Rollback is a git operation. With the ArgoCD backend every service tracks
+`main` of the services repository (see {any}`deploy-argocd`), so either revert
+the change on `main`:
 
 ```bash
-git -C <deployment-repo> revert <commit>
-git -C <deployment-repo> push
+git -C <services-repo> revert <commit>
+git -C <services-repo> push
 ```
 
-ArgoCD's auto-sync then reconciles the cluster back to the reverted state,
-recreating each IOC's StatefulSet at the previous version. The git server and
-cluster can both be on premises, so the revert and re-sync need no internet
-connection.
+or point the service at an earlier tag in the deployment repository, which
+commits the change to its `apps/values.yaml`:
+
+```bash
+ec deploy <service> <tag>
+```
+
+ArgoCD's auto-sync then reconciles the cluster back to that state, recreating
+the IOC's StatefulSet at the previous version. The git server and cluster can
+both be on premises, so the rollback and re-sync need no internet connection.
 
 What Kubernetes does still need is to pull the Generic IOC image for the
 version it is rolling back to. If the beamline has only one Kubernetes worker
