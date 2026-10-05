@@ -480,6 +480,9 @@ We use `2.11ec1` below meaning that the primary support module inside this
 generic IOC is `2.11` (i.e. ADSimDetector Support module version). With
 `ec1` meaning this is the first epics-containers generic IOC published
 against that support module version.
+
+A generic IOC with no clear primary support module is tagged with the date
+instead, e.g. `2026.9.1` meaning the first release of September 2026.
 :::
 
 The push triggers a CI image build (watch the **Actions** tab). To *publish* to
