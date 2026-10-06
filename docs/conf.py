@@ -18,7 +18,9 @@ import requests
 project = "epics-containers.github.io"
 
 # The full version, including alpha/beta/rc tags.
-release = metadata.version(project)
+# Looked up by the installed distribution name, which differs from the
+# Sphinx project title above (pyproject.toml [project].name == "epics-containers").
+release = metadata.version("epics-containers")
 
 # The short X.Y version.
 if "+" in release:
