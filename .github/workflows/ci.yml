@@ -9,8 +9,6 @@ on:
   pull_request:
 
 jobs:
-<<<<<<< before updating
-=======
 
   lint:
     uses: ./.github/workflows/_tox.yml
@@ -28,7 +26,6 @@ jobs:
       runs-on: ${{ matrix.runs-on }}
       python-version: ${{ matrix.python-version }}
 
->>>>>>> after updating
   docs:
     uses: ./.github/workflows/_docs.yml
     permissions:
