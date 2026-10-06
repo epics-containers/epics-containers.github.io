@@ -16,6 +16,7 @@ classifiers = [
 description = "Documentation for the epics-containers framework"
 dependencies = [] # Add project dependencies here, e.g. ["click", "numpy"]
 dynamic = ["version"]
+requires-python = ">=3.11"
 
 [tool.setuptools_scm]
 
