@@ -109,6 +109,13 @@ running — see {any}`podman-integration` for how to enable it and point
 (If you are using docker instead of podman, see {any}`using-docker` for docker
 daemon troubleshooting.)
 
+## Reopen in Container fails: Docker not found
+
+On a podman host, VSCode's Dev Containers extension looks for a `docker`
+binary by default and offers to install Docker when it cannot find one. Point it
+at podman instead by setting `dev.containers.dockerPath` in your user settings;
+see {ref}`the workstation setup guide <vscode-podman>`.
+
 ## Container storage errors initializing the storage driver
 
 Solution: The most likely reason is that you are using a filesystem like `zfs`
