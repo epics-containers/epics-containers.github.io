@@ -109,6 +109,18 @@ running — see {any}`podman-integration` for how to enable it and point
 (If you are using docker instead of podman, see {any}`using-docker` for docker
 daemon troubleshooting.)
 
+## Template files out of date after copier update
+
+Problem: `.copier-answers.yml` reports the latest template `_commit`, but a
+template-managed file (for example `.pre-commit-config.yaml` or `renovate.json`)
+still has an old version. No `.rej` files or conflict markers were left behind.
+
+Cause: `copier update` applies only the changes between two template versions,
+so a file that diverged once is never corrected by later updates.
+
+Solution: see {any}`copier-drift` to detect the drifted files with
+`copier recopy` and restore them.
+
 ## Container storage errors initializing the storage driver
 
 Solution: The most likely reason is that you are using a filesystem like `zfs`
