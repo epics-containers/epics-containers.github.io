@@ -36,6 +36,29 @@ dev = [
     "types-mock",
 ]
 
+<<<<<<< before updating
+=======
+[project.scripts]
+epics-containers = "epics_containers.__main__:main"
+
+[project.urls]
+GitHub = "https://github.com/epics-containers/epics-containers"
+
+[[project.authors]] # Further authors may be added by duplicating this section
+email = "giles.knap@diamond.ac.uk"
+name = "Giles Knap"
+
+[tool.uv]
+# Minimum uv to fix eMudhra CA cert incident (see discuss.python.org/t/109576)
+required-version = ">=0.13.5"
+
+[tool.setuptools_scm]
+version_file = "src/epics_containers/_version.py"
+
+[tool.mypy]
+ignore_missing_imports = true # Ignore missing stubs in imported modules
+
+>>>>>>> after updating
 [tool.pytest.ini_options]
 # Run pytest with all our checkers, and don't spam us with massive tracebacks on error
 addopts = """
