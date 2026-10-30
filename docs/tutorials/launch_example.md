@@ -33,6 +33,8 @@ source ./environment.sh        # set the EPICS ports and compose variables
 docker compose up -d           # -d detaches; omit it to follow the combined logs
 ```
 
+If the image pull fails with `denied`, see {any}`ghcr-denied`.
+
 :::{note}
 The `phoebus` container draws its window on your host X display. If Phoebus does
 not appear and its logs show X11 authorization errors — most likely on Wayland —
