@@ -205,6 +205,60 @@ The combined consequence is that **editing Git is the only action you ever need
 to take**. There is no separate "now deploy it" step, and the cluster cannot
 quietly drift away from what the deployment repository says.
 
+## What restarts a service?
+
+A new commit does not by itself restart anything. ArgoCD renders the Helm chart
+for each service and compares the resulting Kubernetes **manifests** with what is
+running. A service restarts only when the rendered `StatefulSet` pod template
+changes, because that is what makes Kubernetes replace the pod. A commit that
+leaves the rendered manifest identical, for example an edit to another service
+or to a README, leaves the service `Synced` and running.
+
+For an IOC the pod template changes when you change:
+
+- **the image**: `ioc-instance.image` in the service's `values.yaml`, including
+  a new tag.
+- **any other value that is rendered into the pod**: environment variables,
+  resources, volumes, probes, and so on, whether set in the service's
+  `values.yaml` or in the shared `services/values.yaml`.
+- **a file in the service's `config/` folder**. The chart hashes the folder
+  and puts the hash in the pod's `configHash` label, so editing
+  `config/ioc.yaml` replaces the pod even though the image is unchanged.
+- **the version of the `ioc-instance` chart**, if the new chart renders
+  differently.
+- **`enabled`**, which sets the replica count to 0 or 1.
+
+Two things look like they should restart a service, but do not:
+
+- **Moving `targetRevision`** (for example `ec deploy <service> main` after
+  testing on a branch). If the two revisions render the same manifest, nothing
+  restarts. This is why merging a tested change to `main` and pointing the
+  service back at `main` does not normally restart it: its configuration has not
+  changed.
+- **The commit hash.** ArgoCD passes the synced commit to every service as
+  `global.commitHash`, but the chart renders it only when the IOC sets
+  `rebootEveryCommit: true`, which defaults to `false`. Set it if you want every
+  commit to restart the IOC; leave it off otherwise.
+
+This is also a guideline for anything you add to a chart or to a service's
+values: do not put values that change on every render, such as timestamps or
+commit hashes, into the pod template, because each one restarts every service.
+
+The child Apps also set `ApplyOutOfSyncOnly=true`, so when a sync does happen
+ArgoCD applies only the resources that differ, and leaves the rest alone.
+
+To see exactly what ArgoCD will deploy for a service, and so whether a commit
+will restart it, ask for the rendered manifest, or for the difference between
+the live service and another revision:
+
+```bash
+argocd app manifests <project>/<service>
+argocd app diff <project>/<service> --revision <branch-or-commit>
+```
+
+The project is the namespace the Apps live in (for example `i03-beamline`).
+`argocd app diff` with no differences means the service will not restart.
+
 ## When does it sync? webhooks vs poll
 
 ArgoCD discovers Git changes in two ways. By default it **polls** each
