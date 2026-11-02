@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev142+g6edaab2e3 documentation</title>
+    <title>Choose Your Developer Environment &#8212; epics-containers.github.io 4.2.1.dev145+ge3d7d374a documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=98ad6f0b"></script>
+    <script src="../_static/documentation_options.js?v=15ee4fb3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -511,6 +511,68 @@ rather than by hand, so it picks up the host mounts and other settings from
 <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span></code> line for it to the <code class="docutils literal notranslate"><span class="pre">developer</span></code> stage of the Generic IOC’s
 <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>.</p>
 </section>
+<section id="personalise-the-developer-container">
+<span id="personalise-shell"></span><h2>Personalise the developer container<a class="headerlink" href="#personalise-the-developer-container" title="Link to this heading">#</a></h2>
+<section id="shell-settings-and-history">
+<h3>Shell settings and history<a class="headerlink" href="#shell-settings-and-history" title="Link to this heading">#</a></h3>
+<p>Generic IOC developer containers are built on
+<a class="reference external" href="https://github.com/DiamondLightSource/ubuntu-devcontainer">ubuntu-devcontainer</a>,
+which reads your shell configuration from a host folder, so one set of
+personal settings is shared by every developer container you use.</p>
+<p><code class="docutils literal notranslate"><span class="pre">$HOME/.config/terminal-config</span></code> on the host is mounted at
+<code class="docutils literal notranslate"><span class="pre">/user-terminal-config</span></code> in the container. The first time a container is
+created it adds three starter files there, and it never overwrites them
+afterwards:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bashrc</span></code></p></td>
+<td><p>sourced by every <code class="docutils literal notranslate"><span class="pre">bash</span></code> terminal in the container</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">zshrc</span></code></p></td>
+<td><p>the same for <code class="docutils literal notranslate"><span class="pre">zsh</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">inputrc</span></code></p></td>
+<td><p>readline behaviour, such as history search on the up arrow</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each starter file loads a set of opinionated defaults. Add your own aliases,
+prompt and environment variables below that line, or delete the line to drop
+the defaults. Both <code class="docutils literal notranslate"><span class="pre">bashrc</span></code> and <code class="docutils literal notranslate"><span class="pre">zshrc</span></code> also have a block for commands that
+should run only once per container, on the first shell started in it. Shell history is kept in the same folder
+(<code class="docutils literal notranslate"><span class="pre">.bash_eternal_history</span></code>, <code class="docutils literal notranslate"><span class="pre">.zsh_eternal_history</span></code>), so it survives container
+rebuilds and is shared between projects.</p>
+<p>These files replace the older <code class="docutils literal notranslate"><span class="pre">.bashrc_dev_container</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.bashprofile_dev_container</span></code> and <code class="docutils literal notranslate"><span class="pre">/workspaces/.devcontainer_rc</span></code> mechanisms,
+which are no longer used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These hooks are installed in <code class="docutils literal notranslate"><span class="pre">/root/.bashrc</span></code>, <code class="docutils literal notranslate"><span class="pre">/root/.zshrc</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/root/.inputrc</span></code>, so they apply when the container runs as root (podman or
+rootless docker). With rootful docker and <code class="docutils literal notranslate"><span class="pre">EC_REMOTE_USER</span></code> set to your own user
+(see <a class="reference internal" href="../reference/docker.html"><span class="doc">Using Docker Instead of Podman</span></a>), your shell does not load them.</p>
+</div>
+</section>
+<section id="vscode-extensions">
+<h3>VSCode extensions<a class="headerlink" href="#vscode-extensions" title="Link to this heading">#</a></h3>
+<p>The extensions a Generic IOC needs are listed in its
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code>. To add your own favourites to <strong>every</strong>
+developer container without editing each project, list them in the
+<code class="docutils literal notranslate"><span class="pre">dev.containers.defaultExtensions</span></code> setting in your VSCode <em>user</em> settings:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"dev.containers.defaultExtensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"eamodio.gitlens"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"vscodevim.vim"</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="using-the-devcontainer-cli">
 <span id="devcontainer-cli"></span><h2>Using the devcontainer CLI<a class="headerlink" href="#using-the-devcontainer-cli" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">devcontainer</span></code> CLI builds and launches the same developer container that
@@ -661,6 +723,11 @@ to avoid remapping of UIDs.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-your-own-code-editor">Working with your own code editor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#personalise-the-developer-container">Personalise the developer container</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shell-settings-and-history">Shell settings and history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vscode-extensions">VSCode extensions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-devcontainer-cli">Using the devcontainer CLI</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-cli-once-shared-across-iocs">Install the CLI once, shared across IOCs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-generic-ioc-first">Build the Generic IOC first</a></li>
