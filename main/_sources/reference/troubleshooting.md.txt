@@ -45,6 +45,16 @@ rm -rf ~/.vscode/* ~/.vscode-server/*
 # restart vscode
 ```
 
+## Reopen in Container fails: Docker not found
+
+Problem: on a podman host, VSCode's **Reopen in Container** reports that
+Docker is not installed and offers to install it.
+
+Cause: the Dev Containers extension runs a `docker` binary by default.
+
+Solution: point the extension at podman by setting `dev.containers.dockerPath`
+in your user settings; see {ref}`the workstation setup guide <vscode-podman>`.
+
 
 ## Cleaning up Container Cache
 

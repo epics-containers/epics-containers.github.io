@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev149+gd8116202a documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev152+gf64d39b4e documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=3d149a49"></script>
+    <script src="../_static/documentation_options.js?v=9fcc10ca"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -530,6 +530,14 @@ rm<span class="w"> </span>-rf<span class="w"> </span>~/.vscode/*<span class="w">
 </pre></div>
 </div>
 </section>
+<section id="reopen-in-container-fails-docker-not-found">
+<h2>Reopen in Container fails: Docker not found<a class="headerlink" href="#reopen-in-container-fails-docker-not-found" title="Link to this heading">#</a></h2>
+<p>Problem: on a podman host, VSCode’s <strong>Reopen in Container</strong> reports that
+Docker is not installed and offers to install it.</p>
+<p>Cause: the Dev Containers extension runs a <code class="docutils literal notranslate"><span class="pre">docker</span></code> binary by default.</p>
+<p>Solution: point the extension at podman by setting <code class="docutils literal notranslate"><span class="pre">dev.containers.dockerPath</span></code>
+in your user settings; see <a class="reference internal" href="../tutorials/setup_workstation.html#vscode-podman"><span class="std std-ref">the workstation setup guide</span></a>.</p>
+</section>
 <section id="cleaning-up-container-cache">
 <h2>Cleaning up Container Cache<a class="headerlink" href="#cleaning-up-container-cache" title="Link to this heading">#</a></h2>
 <p>Very occasionally it may be necessary to reset all of your container cache. You might want to do this if you have filled up your disk or if you just want to get back to a known state.</p>
@@ -695,6 +703,7 @@ the order of the <code class="docutils literal notranslate"><span class="pre">an
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-multiple-iocs-in-devcontainers-on-one-workstation">Running Multiple IOCs in DevContainers on one Workstation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unable-to-contact-ioc-pvs-from-outside-the-developer-container">Unable to contact IOC PVs from outside the developer container</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resetting-vscode-cache">Resetting VSCode Cache</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reopen-in-container-fails-docker-not-found">Reopen in Container fails: Docker not found</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-up-container-cache">Cleaning up Container Cache</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-container-service">Cannot connect to the container service</a></li>
