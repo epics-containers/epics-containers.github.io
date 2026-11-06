@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev145+ge3d7d374a documentation</title>
+    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev149+gd8116202a documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=15ee4fb3"></script>
+    <script src="../_static/documentation_options.js?v=3d149a49"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -530,6 +530,68 @@
 </div>
 <p>Typically the only file that the user will have changed is the Dockerfile and typically merges will work well. It is still a good idea to validate the changes to the repo before committing them.</p>
 </section>
+<section id="checking-for-template-drift">
+<span id="copier-drift"></span><h2>Checking for Template Drift<a class="headerlink" href="#checking-for-template-drift" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code> is a three-way merge, not a re-render. It renders the template
+at your old <code class="docutils literal notranslate"><span class="pre">_commit</span></code> and at the new one, then applies only the difference
+between them to your files. If a template-managed file has diverged (a hand
+edit, or a merge that applied cleanly in the wrong place) and the template
+stops changing that file, no later update will touch it again.</p>
+<p>So <code class="docutils literal notranslate"><span class="pre">_commit</span></code> in <code class="docutils literal notranslate"><span class="pre">.copier-answers.yml</span></code> can report the latest template version
+while files such as <code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">renovate.json</span></code> or
+<code class="docutils literal notranslate"><span class="pre">ci_verify.sh</span></code> still hold an old version. Copier leaves no <code class="docutils literal notranslate"><span class="pre">.rej</span></code> files or
+conflict markers to warn you.</p>
+<p>To check whether your repository matches a clean render, re-render it in a
+throwaway clone and look at the result. Run this from the root of your
+repository with everything committed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">tmp</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="w"> </span>-d<span class="k">)</span>
+git<span class="w"> </span>clone<span class="w"> </span>--quiet<span class="w"> </span>.<span class="w"> </span><span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">  </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>copier<span class="w"> </span>recopy<span class="w"> </span>-f<span class="w"> </span>--skip-tasks<span class="w"> </span>--trust<span class="w"> </span>-r<span class="w"> </span>:current:<span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span>git<span class="w"> </span>status<span class="w"> </span>--short<span class="o">)</span>
+</pre></div>
+</div>
+<p>The subshell leaves your shell in your repository. Remove the clone with
+<code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">&quot;$tmp&quot;</span></code> when you have finished looking at it.</p>
+<p><code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">recopy</span></code> renders the template from scratch using your recorded answers.
+<code class="docutils literal notranslate"><span class="pre">-f</span></code> accepts those answers and overwrites existing files. <code class="docutils literal notranslate"><span class="pre">-r</span> <span class="pre">:current:</span></code> pins
+the render to the template version in <code class="docutils literal notranslate"><span class="pre">_commit</span></code> (this needs copier 9.8.0 or
+later): without it <code class="docutils literal notranslate"><span class="pre">recopy</span></code> uses the latest template release, and the result
+would also include upstream changes.</p>
+<p>Empty output means you are in sync. Otherwise each line is a drifted file:
+<code class="docutils literal notranslate"><span class="pre">M</span></code> is a file that differs from the template render, and <code class="docutils literal notranslate"><span class="pre">??</span></code> is a template
+file that is missing from your repository. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">-C</span> <span class="pre">&quot;$tmp&quot;</span> <span class="pre">diff</span></code> shows the
+changes to the <code class="docutils literal notranslate"><span class="pre">M</span></code> files; open a <code class="docutils literal notranslate"><span class="pre">??</span></code> file in the clone to see its contents.
+The output also includes files you customised on purpose.</p>
+<p>An empty output does not cover two kinds of file. <code class="docutils literal notranslate"><span class="pre">recopy</span></code> does not delete
+files that the template no longer renders, and it does not overwrite files the
+template lists in <code class="docutils literal notranslate"><span class="pre">_skip_if_exists</span></code> (such as <code class="docutils literal notranslate"><span class="pre">CODEOWNERS</span></code> in a services repo).
+Compare those by hand if you suspect them.</p>
+<p>To fix the drift, run the same <code class="docutils literal notranslate"><span class="pre">recopy</span></code> in your real repository on a clean,
+committed working tree. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code> then show every change.
+Add <code class="docutils literal notranslate"><span class="pre">--pretend</span></code> first if you want to see which files would be written. Files
+that are not in the template, such as your IOC instances under <code class="docutils literal notranslate"><span class="pre">services/</span></code>,
+are not touched, but every file the template renders is overwritten. Expect
+the diff to include files you customise on purpose:</p>
+<ul class="simple">
+<li><p>in a beamline or services repo: <code class="docutils literal notranslate"><span class="pre">services/values.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code>,
+<code class="docutils literal notranslate"><span class="pre">services/&lt;location&gt;-synoptic/</span></code> (its <code class="docutils literal notranslate"><span class="pre">config/</span></code> and <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code>), the
+gateway and opis <code class="docutils literal notranslate"><span class="pre">values.yaml</span></code> files under <code class="docutils literal notranslate"><span class="pre">services/</span></code>, the optional
+<code class="docutils literal notranslate"><span class="pre">services/&lt;instrument&gt;-{blueapi,nexus,rabbitmq}/values.yaml</span></code> files, and
+<code class="docutils literal notranslate"><span class="pre">README.md</span></code>;</p></li>
+<li><p>in a generic IOC repo: the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code> and files under <code class="docutils literal notranslate"><span class="pre">ioc/</span></code>.</p></li>
+</ul>
+<p>Restore those with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">--</span> <span class="pre">&lt;file&gt;</span></code> (or keep the parts of the template
+change you want), then commit the rest.</p>
+<p>To make drift less likely during routine updates:</p>
+<ul class="simple">
+<li><p>Update from a clean working tree and review the whole diff. A very small
+diff for a release that changed the template’s scaffolding is a warning
+sign.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">--conflict</span> <span class="pre">rej</span></code> writes failed hunks to <code class="docutils literal notranslate"><span class="pre">.rej</span></code> files instead
+of inline conflict markers, so they are harder to miss.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">--pretend</span></code> previews an update without writing anything.</p></li>
+</ul>
+</section>
 <section id="when-update-fails">
 <h2>When Update fails<a class="headerlink" href="#when-update-fails" title="Link to this heading">#</a></h2>
 <p>Copier cannot do the ‘update’ command if any of the following is true:</p>
@@ -615,6 +677,7 @@ git<span class="w"> </span>push
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-a-beamline-repository">Updating a Beamline Repository</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-a-generic-ioc-repository">Updating a Generic IOC Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checking-for-template-drift">Checking for Template Drift</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-update-fails">When Update fails</a></li>
 </ul>
   </nav></div>

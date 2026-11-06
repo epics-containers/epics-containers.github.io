@@ -61,6 +61,78 @@ copier update -r VERSION_NUMBER --trust .
 
 Typically the only file that the user will have changed is the Dockerfile and typically merges will work well. It is still a good idea to validate the changes to the repo before committing them.
 
+(copier-drift)=
+Checking for Template Drift
+---------------------------
+
+`copier update` is a three-way merge, not a re-render. It renders the template
+at your old `_commit` and at the new one, then applies only the difference
+between them to your files. If a template-managed file has diverged (a hand
+edit, or a merge that applied cleanly in the wrong place) and the template
+stops changing that file, no later update will touch it again.
+
+So `_commit` in `.copier-answers.yml` can report the latest template version
+while files such as `.pre-commit-config.yaml`, `renovate.json` or
+`ci_verify.sh` still hold an old version. Copier leaves no `.rej` files or
+conflict markers to warn you.
+
+To check whether your repository matches a clean render, re-render it in a
+throwaway clone and look at the result. Run this from the root of your
+repository with everything committed:
+
+```bash
+tmp=$(mktemp -d)
+git clone --quiet . "$tmp" &&
+  (cd "$tmp" && copier recopy -f --skip-tasks --trust -r :current: &&
+    git status --short)
+```
+
+The subshell leaves your shell in your repository. Remove the clone with
+`rm -rf "$tmp"` when you have finished looking at it.
+
+`copier recopy` renders the template from scratch using your recorded answers.
+`-f` accepts those answers and overwrites existing files. `-r :current:` pins
+the render to the template version in `_commit` (this needs copier 9.8.0 or
+later): without it `recopy` uses the latest template release, and the result
+would also include upstream changes.
+
+Empty output means you are in sync. Otherwise each line is a drifted file:
+`M` is a file that differs from the template render, and `??` is a template
+file that is missing from your repository. `git -C "$tmp" diff` shows the
+changes to the `M` files; open a `??` file in the clone to see its contents.
+The output also includes files you customised on purpose.
+
+An empty output does not cover two kinds of file. `recopy` does not delete
+files that the template no longer renders, and it does not overwrite files the
+template lists in `_skip_if_exists` (such as `CODEOWNERS` in a services repo).
+Compare those by hand if you suspect them.
+
+To fix the drift, run the same `recopy` in your real repository on a clean,
+committed working tree. `git status` and `git diff` then show every change.
+Add `--pretend` first if you want to see which files would be written. Files
+that are not in the template, such as your IOC instances under `services/`,
+are not touched, but every file the template renders is overwritten. Expect
+the diff to include files you customise on purpose:
+
+- in a beamline or services repo: `services/values.yaml`, `environment.sh`,
+  `services/<location>-synoptic/` (its `config/` and `values.yaml`), the
+  gateway and opis `values.yaml` files under `services/`, the optional
+  `services/<instrument>-{blueapi,nexus,rabbitmq}/values.yaml` files, and
+  `README.md`;
+- in a generic IOC repo: the `Dockerfile`, `README.md` and files under `ioc/`.
+
+Restore those with `git checkout -- <file>` (or keep the parts of the template
+change you want), then commit the rest.
+
+To make drift less likely during routine updates:
+
+- Update from a clean working tree and review the whole diff. A very small
+  diff for a release that changed the template's scaffolding is a warning
+  sign.
+- `copier update --conflict rej` writes failed hunks to `.rej` files instead
+  of inline conflict markers, so they are harder to miss.
+- `copier update --pretend` previews an update without writing anything.
+
 When Update fails
 -----------------
 

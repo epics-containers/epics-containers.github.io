@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev145+ge3d7d374a documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev149+gd8116202a documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=15ee4fb3"></script>
+    <script src="../_static/documentation_options.js?v=3d149a49"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -583,6 +583,17 @@ running — see <a class="reference internal" href="../how-to/compose-quickstart
 <p>(If you are using docker instead of podman, see <a class="reference internal" href="docker.html#using-docker"><span class="std std-ref">Using Docker Instead of Podman</span></a> for docker
 daemon troubleshooting.)</p>
 </section>
+<section id="template-files-out-of-date-after-copier-update">
+<h2>Template files out of date after copier update<a class="headerlink" href="#template-files-out-of-date-after-copier-update" title="Link to this heading">#</a></h2>
+<p>Problem: <code class="docutils literal notranslate"><span class="pre">.copier-answers.yml</span></code> reports the latest template <code class="docutils literal notranslate"><span class="pre">_commit</span></code>, but a
+template-managed file (for example <code class="docutils literal notranslate"><span class="pre">.pre-commit-config.yaml</span></code> or <code class="docutils literal notranslate"><span class="pre">renovate.json</span></code>)
+still has an old version. No <code class="docutils literal notranslate"><span class="pre">.rej</span></code> files or conflict markers were left behind.</p>
+<p>Cause: <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code> applies only the changes between two template versions,
+so a file that has diverged is not corrected once the template stops changing
+that file.</p>
+<p>Solution: see <a class="reference internal" href="../how-to/copier_update.html#copier-drift"><span class="std std-ref">Checking for Template Drift</span></a> to detect the drifted files with
+<code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">recopy</span></code> and restore them.</p>
+</section>
 <section id="container-storage-errors-initializing-the-storage-driver">
 <h2>Container storage errors initializing the storage driver<a class="headerlink" href="#container-storage-errors-initializing-the-storage-driver" title="Link to this heading">#</a></h2>
 <p>Solution: The most likely reason is that you are using a filesystem like <code class="docutils literal notranslate"><span class="pre">zfs</span></code>
@@ -687,6 +698,7 @@ the order of the <code class="docutils literal notranslate"><span class="pre">an
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-up-container-cache">Cleaning up Container Cache</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-container-service">Cannot connect to the container service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#template-files-out-of-date-after-copier-update">Template files out of date after copier update</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#container-storage-errors-initializing-the-storage-driver">Container storage errors initializing the storage driver</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-processing-a-compose-file">Error processing a compose file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-recursive-git-repository-scanning-in-vscode">Disable recursive git-repository scanning in VSCode</a></li>
