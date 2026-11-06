@@ -116,7 +116,8 @@ template-managed file (for example `.pre-commit-config.yaml` or `renovate.json`)
 still has an old version. No `.rej` files or conflict markers were left behind.
 
 Cause: `copier update` applies only the changes between two template versions,
-so a file that diverged once is never corrected by later updates.
+so a file that has diverged is not corrected once the template stops changing
+that file.
 
 Solution: see {any}`copier-drift` to detect the drifted files with
 `copier recopy` and restore them.

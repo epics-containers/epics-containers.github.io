@@ -82,10 +82,13 @@ repository with everything committed:
 
 ```bash
 tmp=$(mktemp -d)
-git clone --quiet . "$tmp" && cd "$tmp" &&
-  copier recopy -f --skip-tasks --trust -r :current: &&
-  git status --short
+git clone --quiet . "$tmp" &&
+  (cd "$tmp" && copier recopy -f --skip-tasks --trust -r :current: &&
+    git status --short)
 ```
+
+The subshell leaves your shell in your repository. Remove the clone with
+`rm -rf "$tmp"` when you have finished looking at it.
 
 `copier recopy` renders the template from scratch using your recorded answers.
 `-f` accepts those answers and overwrites existing files. `-r :current:` pins
@@ -95,8 +98,14 @@ would also include upstream changes.
 
 Empty output means you are in sync. Otherwise each line is a drifted file:
 `M` is a file that differs from the template render, and `??` is a template
-file that is missing from your repository. Use `git diff` in the clone to see
-the details. The output also includes files you customised on purpose.
+file that is missing from your repository. `git -C "$tmp" diff` shows the
+changes to the `M` files; open a `??` file in the clone to see its contents.
+The output also includes files you customised on purpose.
+
+An empty output does not cover two kinds of file. `recopy` does not delete
+files that the template no longer renders, and it does not overwrite files the
+template lists in `_skip_if_exists` (such as `CODEOWNERS` in a services repo).
+Compare those by hand if you suspect them.
 
 To fix the drift, run the same `recopy` in your real repository on a clean,
 committed working tree. `git status` and `git diff` then show every change.
@@ -106,8 +115,10 @@ are not touched, but every file the template renders is overwritten. Expect
 the diff to include files you customise on purpose:
 
 - in a beamline or services repo: `services/values.yaml`, `environment.sh`,
-  `synoptic/`, the gateway and opis `values.yaml` files under `services/`,
-  and `README.md`;
+  `services/<location>-synoptic/` (its `config/` and `values.yaml`), the
+  gateway and opis `values.yaml` files under `services/`, the optional
+  `services/<instrument>-{blueapi,nexus,rabbitmq}/values.yaml` files, and
+  `README.md`;
 - in a generic IOC repo: the `Dockerfile`, `README.md` and files under `ioc/`.
 
 Restore those with `git checkout -- <file>` (or keep the parts of the template
