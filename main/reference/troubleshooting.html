@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev152+gf64d39b4e documentation</title>
+    <title>Troubleshooting &#8212; epics-containers.github.io 4.2.1.dev156+g2f4356cd3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=18bd87630a240e9c25be" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=18bd87630a240e9c25be" />
 
-    <script src="../_static/documentation_options.js?v=9fcc10ca"></script>
+    <script src="../_static/documentation_options.js?v=2919973f"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -582,6 +582,42 @@ ssh-add ~/.ssh/id_rsa
 <p>Where <code class="docutils literal notranslate"><span class="pre">id_rsa</span></code> is the name of your private key file you use for connecting
 to GitHub.</p>
 </section>
+<section id="pulling-a-public-image-from-ghcr-io-fails-with-denied">
+<span id="ghcr-denied"></span><h2>Pulling a public image from ghcr.io fails with “denied”<a class="headerlink" href="#pulling-a-public-image-from-ghcr-io-fails-with-denied" title="Link to this heading">#</a></h2>
+<p>Problem: pulling an epics-containers image or Helm chart fails even though it is
+public, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimdetector-runtime/manifests/2.11ec3": denied: denied
+</pre></div>
+</div>
+<p>or, from Helm:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Error: could not download oci://ghcr.io/epics-containers/ioc-instance: failed to authorize:
+failed to fetch oauth token: unexpected status from GET request to
+https://ghcr.io/token?...: 403 Forbidden
+</pre></div>
+</div>
+<p>Cause: epics-containers images and charts on <code class="docutils literal notranslate"><span class="pre">ghcr.io</span></code> can be pulled without
+logging in. If you have stored credentials for <code class="docutils literal notranslate"><span class="pre">ghcr.io</span></code> and they are no longer
+valid, for example an expired or deleted GitHub token, the registry rejects
+the pull instead of falling back to anonymous access.</p>
+<p>Solution: remove the stored credentials from every tool that may hold them,
+then try again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span><span class="nb">logout</span><span class="w"> </span>ghcr.io
+docker<span class="w"> </span><span class="nb">logout</span><span class="w"> </span>ghcr.io<span class="w">      </span><span class="c1"># if the docker CLI is installed</span>
+helm<span class="w"> </span>registry<span class="w"> </span><span class="nb">logout</span><span class="w"> </span>ghcr.io
+</pre></div>
+</div>
+<p>Run all of them, even if you use podman: <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> sends the
+credentials stored in <code class="docutils literal notranslate"><span class="pre">~/.docker/config.json</span></code> by <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span></code>, so a stale
+token there survives <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">logout</span></code>. Any of the commands may report that you
+were not logged in; that is fine.</p>
+<p>If you do need to log in, for example to push your own images, use a current
+<strong>personal access token (classic)</strong> with the <code class="docutils literal notranslate"><span class="pre">read:packages</span></code> scope
+(<code class="docutils literal notranslate"><span class="pre">write:packages</span></code> to push). Fine-grained tokens are not accepted by GitHub
+Packages; see
+<a class="reference external" href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">Working with the Container registry</a>.</p>
+<p>If a pull still fails after logging out, GHCR occasionally returns a transient
+<code class="docutils literal notranslate"><span class="pre">403</span> <span class="pre">Forbidden</span></code> when fetching a token; retry it.</p>
+</section>
 <section id="cannot-connect-to-the-container-service">
 <h2>Cannot connect to the container service<a class="headerlink" href="#cannot-connect-to-the-container-service" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">podman</span></code> is daemonless, but <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> talks to it through the podman
@@ -706,6 +742,7 @@ the order of the <code class="docutils literal notranslate"><span class="pre">an
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reopen-in-container-fails-docker-not-found">Reopen in Container fails: Docker not found</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-up-container-cache">Cleaning up Container Cache</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-issues-with-github">Permissions issues with GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pulling-a-public-image-from-ghcr-io-fails-with-denied">Pulling a public image from ghcr.io fails with “denied”</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cannot-connect-to-the-container-service">Cannot connect to the container service</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#template-files-out-of-date-after-copier-update">Template files out of date after copier update</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#container-storage-errors-initializing-the-storage-driver">Container storage errors initializing the storage driver</a></li>
