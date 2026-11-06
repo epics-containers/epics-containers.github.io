@@ -132,14 +132,19 @@ logging in. If you have stored credentials for `ghcr.io` and they are no longer
 valid, for example an expired or deleted GitHub token, the registry rejects
 the pull instead of falling back to anonymous access.
 
-Solution: remove the stored credentials and try again:
+Solution: remove the stored credentials from every tool that may hold them,
+then try again:
 
 ```bash
-podman logout ghcr.io      # or: docker logout ghcr.io
+podman logout ghcr.io
+docker logout ghcr.io      # if the docker CLI is installed
 helm registry logout ghcr.io
 ```
 
-Either command may report that you were not logged in; that is fine.
+Run all of them, even if you use podman: `docker compose` sends the
+credentials stored in `~/.docker/config.json` by `docker login`, so a stale
+token there survives `podman logout`. Any of the commands may report that you
+were not logged in; that is fine.
 
 If you do need to log in, for example to push your own images, use a current
 **personal access token (classic)** with the `read:packages` scope
