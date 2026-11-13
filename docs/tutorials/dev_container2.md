@@ -1,6 +1,6 @@
 # Developer Containers Part 2
 
-The developer container you built in [the previous tutorial](dev_container.md)
+The developer container you opened in [the previous tutorial](dev_container.md)
 is a complete EPICS environment. This short follow-up shows two things you can
 do with it once your IOC is running: talk to the IOC with the EPICS
 command-line tools *inside* the container, and launch Phoebus *on the host* to

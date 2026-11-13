@@ -97,8 +97,8 @@ git clone --recursive https://github.com/epics-containers/ioc-adsimdetector.git
 
 :::{warning}
 Use `--recursive` to fetch the `ibek-support` submodule — it tells `ibek` how to
-build and use each support module, and the container build fails without it. If
-you forget, run `git submodule update --init`.
+build and use each support module. If you forget, the container fetches it when
+it opens, or you can run `git submodule update --init`.
 :::
 
 ## Launch the developer container
@@ -111,29 +111,31 @@ code .
 ```
 
 When prompted, choose to reopen in the container (or `Ctrl-Shift-P` →
-`Reopen in Container`). The first time, VSCode builds the `developer` target
-from the project `Dockerfile`, guided by `.devcontainer/devcontainer.json`.
-Because epics-containers builds all support from source to avoid dependency-tree
-problems, building something as large as AreaDetector takes a few minutes the
-first time; the layers are cached, so rebuilds are near-instant up to whatever
-line you changed.
+`Reopen in Container`). VSCode first runs `.devcontainer/initializeCommand` on
+the host to get the Generic IOC's developer image: it pulls the image that CI
+published with the project's latest full release, and builds the image locally
+only when it cannot pull one. {any}`devcontainer-flow` explains each step.
+
+:::{note}
+A Generic IOC generated from an ioc-template version below 5.1.0 builds its
+image when it opens instead; see {any}`devcontainer-template-version`.
+:::
 
 If VSCode reports that Docker is not installed on a podman host, set
 `dev.containers.dockerPath` as described in
 {ref}`the workstation setup guide <vscode-podman>`.
 
 :::{tip}
-VSCode hides the build output behind a progress notification, so a failing
-build can be hard to debug. The best way to watch it is to run `./build` in the
-project root *before* reopening in the container — it builds the same
-`developer` target and streams the full log to your terminal. Once it succeeds,
-reopening in the container reuses the cached layers.
+VSCode hides the pull or build output behind a progress notification. Click
+**show log** in that notification to watch it.
 :::
 
 Once it finishes you are **inside** the container: every VSCode terminal and
 editor runs in the container filesystem. A few host folders are mounted in so
 your work survives a rebuild — most importantly the project itself, mounted at
-`/epics/generic-source`. See [](container-layout) for the full map.
+`/epics/generic-source`. See [](container-layout) for the full map. Each time
+the container starts it runs `ibek dev sync`, which brings it in line with your
+checkout of the project (see [](devcontainer-drift)).
 
 ## Build and run the Generic IOC
 
@@ -144,7 +146,8 @@ cd /epics/ioc
 make
 ```
 
-The IOC source is boilerplate: `iocApp/src/Makefile` links the dbd and lib files
+The image's IOC binary is hidden by the mount of your project folder, so a new
+container always needs this `make`. The IOC source is boilerplate: `iocApp/src/Makefile` links the dbd and lib files
 that `ibek` listed in `/epics/support/configure/dbd_list` and `lib_list` during
 the image build. You may change it if you need different compile options.
 
@@ -233,13 +236,17 @@ This matters because some container-only folders point *into*
 In the devcontainer those links therefore resolve to your host checkout, so:
 
 - edits to a support YAML in your `ibek-support` checkout are picked up
-  straight away, but the `/epics/ibek-defs/ioc.schema.json` generated at image
-  build time is not; regenerate it with `ansible.sh ioc` (or
-  `ibek ioc generate-schema --output /epics/ibek-defs/ioc.schema.json`);
-- if the host `ibek-support` submodule is at a different commit from the one the
-  image was built with, or is not initialised (`git submodule update --init`),
-  the links show that version, or dangle;
-- a module added to the host `ibek-support` gets no links until you run
+  straight away;
+- when the definition files of a module that the `Dockerfile` builds differ
+  from the image's — edited, added or removed, for example because the
+  submodule is at a different commit from the one the image was built with —
+  `ibek dev sync` links them again and regenerates
+  `/epics/ibek-defs/ioc.schema.json`. It runs on every container start, and you
+  can run it at any time;
+- changes that need a module to be rebuilt are reported by `ibek dev sync` and
+  `ibek dev status`, and rebuilt by `ibek dev sync --build`
+  (see [](devcontainer-drift));
+- a module that the `Dockerfile` does not build gets no links until you run
   `ansible.sh <module>` for it.
 
 Unrelated to the mounts: StreamDevice protocol files are **copied**, not linked,

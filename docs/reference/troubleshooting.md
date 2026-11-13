@@ -191,7 +191,7 @@ Solution: make sure your docker compose is up to date
 
 ## Disable recursive git-repository scanning in VSCode
 
-Generic IOC dev containers mount many git repositories under `/epics/support`
+Generic IOC dev containers hold many git repositories under `/epics/support`
 (the `ibek-support` submodule plus support modules). Stop VSCode scanning them
 all by adding to your user settings (`Ctrl-Shift-P` ->
 `Preferences: Open User Settings (JSON)`):

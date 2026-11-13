@@ -74,8 +74,7 @@ your later builds are fast. Watch it under the **Actions** tab.
 
 Open the project in VSCode — but **stay on the host for now**; do not reopen in
 the container yet. You will first point the `Dockerfile` at the correct base
-image and build it once, so the developer container you open afterwards is
-already the right image, cached:
+image, so that the developer image is built from it the first time:
 
 ```bash
 cd ioc-adsim-demo
@@ -112,25 +111,27 @@ This first build contains no support beyond what the base image already ships an
 
 ## Build the image and open the devcontainer
 
-With the base image set, build the developer image **on the host** so you can
-watch the full log — VSCode otherwise hides it behind a progress notification.
-The AreaDetector base is large, so the first build takes a few minutes; the
-layers are cached for every build after that:
-
-```bash
-./build
-```
-
-`./build` calls podman to build the container image. Once it succeeds,
-reopen the project in its developer container — it reuses the image you just
-built, so it opens straight away:
+A developer container normally opens from the developer image that CI
+publishes with each full release. This repository has no release yet, so there
+is no image to pull: when you open the container, `.devcontainer/initializeCommand`
+builds the developer image on the host with `./build` instead (see
+{any}`devcontainer-open`). The AreaDetector base is large, so the first build
+takes a few minutes; the layers are cached for every build after that.
 
 - `Ctrl-Shift-P` -> *Dev Containers: **Reopen in Container***
+
+VSCode hides the build output behind a progress notification. Click **show
+log** in that notification to watch it.
+
+Later starts still have nothing to pull, so they reuse the image you built as
+it is. To build it again after changing the `Dockerfile`, create the marker
+file `.devcontainer/local-build` and rebuild the container, as
+{any}`devcontainer-local-build` describes.
 
 :::{tip}
 If you ever have problems opening a devcontainer
 try the **Rebuild** option (`Ctrl-Shift-P` -> *Dev Containers: Rebuild
-Container*). The rebuild is still fast because the image layers are cached.
+Container*). It creates a new container from the image, so it is quick.
 :::
 
 All the work below happens inside this container.
@@ -444,6 +445,14 @@ the module from upstream, builds it with standard EPICS steps, and records its
 dbds and libs for the IOC link.
 
 :::{note}
+Your container was created from an image built without these lines, so
+`ibek dev status` now reports `ADSimDetector: not built in this container`.
+`ansible.sh` has already built it there, so you can carry on.
+`ibek dev sync --build` builds it again, with any modules after it and the IOC,
+and clears the report.
+:::
+
+:::{note}
 The per-module `COPY`/`RUN` pairs look repetitive, but they maximise the build
 cache hit rate — editing one recipe does not force every module to rebuild.
 :::
@@ -499,7 +508,9 @@ publishes it.
 :::
 
 CI then builds and pushes the image, which appears under the repo's
-**Packages** as `ghcr.io/<org>/ioc-adsim-demo-runtime`.
+**Packages** as `ghcr.io/<org>/ioc-adsim-demo-runtime`. A full release also
+tags the developer image `ghcr.io/<org>/ioc-adsim-demo-developer` as `latest`,
+which the devcontainer pulls from then on.
 
 :::{figure} ../images/simDetRelease.png
 The resulting `2.11ec1` release for `ioc-adsim-demo`, with the published
