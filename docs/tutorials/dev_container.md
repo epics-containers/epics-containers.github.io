@@ -118,7 +118,8 @@ only when it cannot pull one. {any}`devcontainer-flow` explains each step.
 
 :::{note}
 A Generic IOC generated from an ioc-template version below 5.1.0 builds its
-image when it opens instead; see {any}`devcontainer-template-version`.
+image when it opens instead, and does not run the `ibek dev` checks described
+below; see {any}`devcontainer-template-version`.
 :::
 
 If VSCode reports that Docker is not installed on a podman host, set
@@ -147,7 +148,8 @@ make
 ```
 
 The image's IOC binary is hidden by the mount of your project folder, so a new
-container always needs this `make`. The IOC source is boilerplate: `iocApp/src/Makefile` links the dbd and lib files
+container always needs this `make`. The IOC source is boilerplate:
+`iocApp/src/Makefile` links the dbd and lib files
 that `ibek` listed in `/epics/support/configure/dbd_list` and `lib_list` during
 the image build. You may change it if you need different compile options.
 
@@ -226,7 +228,7 @@ checkout:
 |---|---|---|
 | `/epics/generic-source` | only what the `Dockerfile` `COPY`s: `ioc/`, plus `ibek-support/_ansible` and the `ibek-support/<module>` folders it names, as they were at build time | your live host checkout |
 | `/epics/generic-source/ioc` (= `/epics/ioc`) | IOC source **plus compiled binaries** | source only — run `make` to rebuild the binaries |
-| `/epics/generic-source/ibek-support` | only `_ansible` and the modules the `Dockerfile` copies, at the submodule commit it was built from | your host submodule checkout, which may be a different commit or uninitialised |
+| `/epics/generic-source/ibek-support` | only `_ansible` and the modules the `Dockerfile` copies, at the submodule commit it was built from | your host submodule checkout, which may be a different commit |
 | `/epics/opi` | not in the image; created by `ibek` at IOC startup | `opi/auto-generated` in your repo |
 
 This matters because some container-only folders point *into*

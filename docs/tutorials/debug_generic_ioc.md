@@ -17,7 +17,11 @@ failing recipe stop it opening. That case has its own trick, described in
 ## Break the build
 
 Let us introduce a realistic mistake into the `ADSimDetector` recipe you
-authored in {any}`generic_ioc`. Open the `ioc-adsim-demo` developer container,
+authored in {any}`generic_ioc`. Open the `ioc-adsim-demo` project in VSCode and
+use `Ctrl-Shift-P` -> *Dev Containers: Rebuild Container*. That creates the
+container afresh from the developer image of your `2.11ec1` release (or from
+your local image, if it cannot pull that one), rather than reopening the
+container in which you built `ADSimDetector` by hand. Then
 open `ibek-support/ADSimDetector/ADSimDetector.install.yml` and change
 `version` to a tag that does not exist:
 
@@ -33,16 +37,17 @@ container (Terminal -> New Terminal):
 ibek dev status
 ```
 
-It reports `ADSimDetector` as out of date and names the command that rebuilds
-it, `ibek dev sync --build`. Run that:
+It reports that `ADSimDetector` needs a rebuild, and names the command that
+does it, `ibek dev sync --build`. Run that:
 
 ```bash
 ibek dev sync --build
 ```
 
-It runs the module's own line of the `Dockerfile`, `ansible.sh ADSimDetector`.
-`ansible.sh` clones the module before building it, and the clone fails because
-the requested ref is not in the upstream repo:
+It clones the module afresh at the version in `install.yml`, removing any
+`/epics/support/ADSimDetector` that the image has first, before building it with the module's own line of the
+`Dockerfile`, `ansible.sh ADSimDetector`. The clone fails because the requested
+ref is not in the upstream repo:
 
 ```text
 fatal: Remote branch R2-111 not found in upstream origin

@@ -17,6 +17,7 @@ Make the change in the submodule: edit its files, or check out the branch that
 holds the change, on the host or in the container:
 
 ```bash
+# in the container; on the host, use your clone's ibek-support folder
 cd /workspaces/ioc-xxx/ibek-support
 git fetch
 git checkout <branch>
@@ -51,9 +52,11 @@ Then test an IOC instance that uses the modules:
 ```bash
 ibek dev instance /workspaces/<services-repo>/services/<ioc-instance>
 cd /epics/ioc
+make
 ./start.sh
 ```
 
+`make` builds the IOC binary, which a new container does not have.
 `ibek dev instance` also prints how the container differs from your checkout,
 so you can see that nothing is left to sync before you start the IOC.
 

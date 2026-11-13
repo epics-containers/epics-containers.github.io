@@ -86,7 +86,8 @@ developer container without editing each project, list them in the
 
 ## Using the devcontainer CLI
 
-The `devcontainer` CLI launches the same developer container that VSCode would, but driven entirely from the terminal. This is the route to take
+The `devcontainer` CLI launches the same developer container that VSCode
+would, but driven entirely from the terminal. This is the route to take
 if you use a terminal editor, or want to script your workflow.
 
 ### Install the CLI once, shared across IOCs

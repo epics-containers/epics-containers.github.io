@@ -40,12 +40,13 @@ it opens. `.devcontainer/devcontainer.json` names it:
 `.devcontainer/initializeCommand` names the same image. A repository that
 changes one must change the other.
 
-CI publishes images when a tag is built. A full release tag, such as
-`2.11ec1`, also gives the developer image the tag `latest`. A pre-release tag,
+When CI builds a full release tag, such as `2.11ec1`, it also gives that
+release's developer image the tag `latest`. A pre-release tag,
 such as `2.11ec1b1`, does not move `latest`, and the runtime image never has a
 `latest` tag. So:
 
-- the image is the one built from the most recent full release. Changes merged
+- the image is the one built from the full release tag pushed most recently,
+  which is usually the latest release. Changes merged
   to main since that release are not in it: `ibek dev sync` reports each
   difference (see [](devcontainer-drift));
 - a repository that has made no full release has no `latest`, so the first
@@ -53,7 +54,8 @@ such as `2.11ec1b1`, does not move `latest`, and the runtime image never has a
 
 To pull from the DLS GitLab registry the host must be logged in to it, with
 `podman login gitlab.diamond.ac.uk:5050` (or `docker login`). Without a login
-the image is built locally.
+the pull fails, and the image is the local one, or a local build when there is
+none (see [](devcontainer-open)).
 
 (devcontainer-open)=
 
@@ -115,7 +117,7 @@ above. Later starts cannot pull either, so they use that local image as it is,
 even after the `Dockerfile` changes. Create the marker file to build it again.
 
 `./build` builds the image from the project folder and leaves the folder as it
-is. `.dockerignore` keeps the IOC build products and the `ioc/config` link out
+is, apart from checking out the `ibek-support` submodule when it is missing. `.dockerignore` keeps the IOC build products and the `ioc/config` link out
 of the image.
 
 ## What is mounted where
@@ -200,14 +202,15 @@ commands compare that record with the project folder mounted at
 | `ibek dev sync --build` | also rebuilds what needs a build |
 | `ibek dev instance <folder>` | links an IOC instance's config folder to `/epics/ioc/config`, then prints the comparison |
 
-Each line of the report ends with the command that fixes it. What is compared:
+Each part of the report names the command that fixes it, where there is one.
+What is compared:
 
 | What changed in the project | `ibek dev sync` | `ibek dev sync --build` |
 |---|---|---|
 | A support module's definition files: `*.ibek.support.yaml`, `*.pvi.device.yaml`, `*.req` | Fixes it: links the files again, removes links that point at nothing, and regenerates `ioc.schema.json` | The same |
 | A support module's other files in `ibek-support`, such as its `install.yml`, or its `RUN ansible.sh` line in the `Dockerfile` | Reports it | Rebuilds that module and every module after it in the `Dockerfile`, then the IOC |
 | What a module clones: the version, repository or patch in its `install.yml` | Reports it, and names the folder that a rebuild removes | Removes `/epics/support/<module>` and clones it again, discarding any edits in that folder, then rebuilds as above |
-| The list of `RUN ansible.sh` lines in the `Dockerfile` | Reports it | Builds an added module and the modules after it, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it |
+| The list of `RUN ansible.sh` lines in the `Dockerfile` | Reports it | Rebuilds from the first added or removed module onwards, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it |
 | `ibek-support/_ansible` | Reports it | Rebuilds every module, then the IOC |
 | `requirements.txt` | Reports it | Upgrades the Python packages and regenerates the schema, then stops: run it again for anything more |
 | The `Dockerfile`'s `ARG` and `FROM` lines (the base image) | Reports it | Reports it: pull a newer developer image, or build one locally |
@@ -263,8 +266,9 @@ submodule yourself:
 git submodule update
 ```
 
-`ibek dev sync` then fixes or reports what the move changed: run
-`ibek dev status` in the container to see it.
+Then run `ibek dev sync` in the container, which fixes or reports what the
+move changed (it also runs on every container start), and `ibek dev status` to
+see what is left.
 
 ## Working on a support module
 
