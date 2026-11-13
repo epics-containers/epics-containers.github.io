@@ -30,7 +30,7 @@ module: ADSimDetector
 version: R2-111          # typo — there is no such tag
 ```
 
-Ask the container how it now differs from the project, in a terminal in the
+Ask the container how it differs from the project, in a terminal in the
 container (Terminal -> New Terminal):
 
 ```bash
@@ -75,7 +75,7 @@ version: R2-11
 The failed clone left a checkout of the module's default branch in
 `/epics/support/ADSimDetector`, and `ansible.sh` builds a module folder that
 exists as it is, without cloning it. So remove the folder, then run the rebuild
-again, in the container:
+again:
 
 ```bash
 # in the container
@@ -86,10 +86,12 @@ ibek dev sync --build
 This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can
 also run `ansible.sh ADSimDetector` by hand while you iterate; it is idempotent.
-When you run `ansible.sh ADSimDetector` by hand, or after a clone fails, remove
-`/epics/support/ADSimDetector` first, so that it is cloned at the version in
-`install.yml`. `ibek dev status` keeps reporting the module
-until `ibek dev sync --build` has built it.
+`ansible.sh` builds the folder that is there, so if you change the version in
+`install.yml` before running it by hand, or after a clone fails, remove
+`/epics/support/ADSimDetector` first so that it is cloned at the version in
+`install.yml`. `ibek dev sync --build` clones a module again by itself when its
+version differs from the one the container last built. `ibek dev status` keeps reporting the module until
+`ibek dev sync --build` has built it.
 
 ## Make the fix permanent
 
