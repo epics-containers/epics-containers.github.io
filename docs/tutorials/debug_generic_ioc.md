@@ -45,12 +45,14 @@ ibek dev sync --build
 ```
 
 It clones the module afresh at the version in `install.yml`, removing any
-`/epics/support/ADSimDetector` that the image has first, before building it with the module's own line of the
-`Dockerfile`, `ansible.sh ADSimDetector`. The clone fails because the requested
-ref is not in the upstream repo:
+`/epics/support/ADSimDetector` that the image has first, before building it
+with the module's own line of the `Dockerfile`, `ansible.sh ADSimDetector`.
+The clone fails because the requested ref is not in the upstream repo, with
+an error that includes:
 
 ```text
-fatal: Remote branch R2-111 not found in upstream origin
+Failed to checkout R2-111
+error: pathspec 'R2-111' did not match any file(s) known to git
 ```
 
 :::{note}
@@ -68,17 +70,22 @@ back to the real tag:
 version: R2-11
 ```
 
-and run the rebuild again:
+The failed clone left a checkout of the module's default branch in
+`/epics/support/ADSimDetector`, and `ansible.sh` builds a module folder that
+exists as it is, without cloning it. So remove the folder, then run the rebuild
+again, in the container:
 
 ```bash
+rm -rf /epics/support/ADSimDetector
 ibek dev sync --build
 ```
 
 This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can
 also run `ansible.sh ADSimDetector` by hand while you iterate; it is idempotent.
-`ibek dev status` keeps reporting the module until `ibek dev sync --build` has
-built it.
+Remove `/epics/support/ADSimDetector` again whenever you change the version, so
+that it is cloned at that version. `ibek dev status` keeps reporting the module
+until `ibek dev sync --build` has built it.
 
 ## Make the fix permanent
 
@@ -122,7 +129,8 @@ image and so no container to open. The fix is a small trick:
    Container*, so that the image is built from the edited `Dockerfile` and the
    container is created from it.
 3. Run the failing command by hand inside the container, `ansible.sh
-   ADSimDetector`, and fix the recipe until it passes.
+   ADSimDetector`, and fix the recipe until it passes. After a clone failure,
+   remove `/epics/support/ADSimDetector` before running it again, as above.
 4. Uncomment the line and run a full `./build` on the host to confirm.
 
 ## Aside: a missing system header

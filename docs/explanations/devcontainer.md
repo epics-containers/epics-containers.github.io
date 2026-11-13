@@ -117,8 +117,9 @@ above. Later starts cannot pull either, so they use that local image as it is,
 even after the `Dockerfile` changes. Create the marker file to build it again.
 
 `./build` builds the image from the project folder and leaves the folder as it
-is, apart from checking out the `ibek-support` submodule when it is missing. `.dockerignore` keeps the IOC build products and the `ioc/config` link out
-of the image.
+is, apart from checking out the `ibek-support` submodule when it is missing.
+`.dockerignore` keeps the IOC build products and the `ioc/config` link out of
+the image.
 
 ## What is mounted where
 
@@ -210,7 +211,7 @@ What is compared:
 | A support module's definition files: `*.ibek.support.yaml`, `*.pvi.device.yaml`, `*.req` | Fixes it: links the files again, removes links that point at nothing, and regenerates `ioc.schema.json` | The same |
 | A support module's other files in `ibek-support`, such as its `install.yml`, or its `RUN ansible.sh` line in the `Dockerfile` | Reports it | Rebuilds that module and every module after it in the `Dockerfile`, then the IOC |
 | What a module clones: the version, repository or patch in its `install.yml` | Reports it, and names the folder that a rebuild removes | Removes `/epics/support/<module>` and clones it again, discarding any edits in that folder, then rebuilds as above |
-| The list of `RUN ansible.sh` lines in the `Dockerfile` | Reports it | Rebuilds from the first added or removed module onwards, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it |
+| The list of `RUN ansible.sh` lines in the `Dockerfile` | Reports it | Rebuilds from the first place where the list differs, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it |
 | `ibek-support/_ansible` | Reports it | Rebuilds every module, then the IOC |
 | `requirements.txt` | Reports it | Upgrades the Python packages and regenerates the schema, then stops: run it again for anything more |
 | The `Dockerfile`'s `ARG` and `FROM` lines (the base image) | Reports it | Reports it: pull a newer developer image, or build one locally |
