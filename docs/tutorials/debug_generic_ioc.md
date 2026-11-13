@@ -34,6 +34,7 @@ Ask the container how it now differs from the project, in a terminal in the
 container (Terminal -> New Terminal):
 
 ```bash
+# in the container
 ibek dev status
 ```
 
@@ -41,6 +42,7 @@ It reports that `ADSimDetector` needs a rebuild, and names the command that
 does it, `ibek dev sync --build`. Run that:
 
 ```bash
+# in the container
 ibek dev sync --build
 ```
 
@@ -76,6 +78,7 @@ exists as it is, without cloning it. So remove the folder, then run the rebuild
 again, in the container:
 
 ```bash
+# in the container
 rm -rf /epics/support/ADSimDetector
 ibek dev sync --build
 ```
@@ -83,8 +86,9 @@ ibek dev sync --build
 This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can
 also run `ansible.sh ADSimDetector` by hand while you iterate; it is idempotent.
-Remove `/epics/support/ADSimDetector` again whenever you change the version, so
-that it is cloned at that version. `ibek dev status` keeps reporting the module
+When you run `ansible.sh ADSimDetector` by hand, or after a clone fails, remove
+`/epics/support/ADSimDetector` first, so that it is cloned at the version in
+`install.yml`. `ibek dev status` keeps reporting the module
 until `ibek dev sync --build` has built it.
 
 ## Make the fix permanent

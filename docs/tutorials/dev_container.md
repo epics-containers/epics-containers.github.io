@@ -150,7 +150,8 @@ make
 The image's IOC binary is hidden by the mount of your project folder, so a new
 container always needs this `make`. The IOC source is boilerplate:
 `iocApp/src/Makefile` links the dbd and lib files that `ibek` listed in
-`/epics/support/configure/dbd_list` and `lib_list` during the image build. You may change it if you need different compile options.
+`/epics/support/configure/dbd_list` and `lib_list` during the image build.
+You may change it if you need different compile options.
 
 :::{note}
 `make` may warn about unsupported locale settings. These are benign.
