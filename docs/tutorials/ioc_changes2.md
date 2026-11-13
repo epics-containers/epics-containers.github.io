@@ -92,7 +92,7 @@ command in its own config.
 This is deliberately artificial: a `post_init` here changes behaviour for *all*
 simDetector instances. For per-instance behaviour, prefer the `epics.dbpf` or
 `epics.PostStartupCommand` entity in `ioc.yaml` (both defined globally in
-`ibek-support/_global/epics.ibek.support.yaml`) — the type 1 approach you used
+`ibek-support/_ansible/epics.ibek.support.yaml`) — the type 1 approach you used
 in [Changing the IOC Instance](ioc_changes1.md).
 :::
 

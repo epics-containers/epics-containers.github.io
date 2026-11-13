@@ -1,50 +1,60 @@
 # Debugging Generic IOC Builds
 
 This tutorial continues from {any}`generic_ioc`, where we built the
-`ioc-adsimdetector` Generic IOC and re-authored its `ADSimDetector` recipe.
+`ioc-adsim-demo` Generic IOC and re-authored its `ADSimDetector` recipe.
 Here we look at what to do when such a build *fails*.
 
-The developer container is built **from the Generic IOC image** (the `developer`
-target of the same `Dockerfile`). That is normally a strength — you debug in the
-exact environment the image is built in — but it has one catch: when the *image*
-build fails, there is no container to open. The fix is a small trick:
+The developer container opens from a developer image that was built already:
+the one CI published with the project's latest full release, or a local one
+(see {any}`devcontainer-open`). So a recipe that no longer builds does not stop
+the container opening. You find the failure and fix it inside the container,
+which is the exact environment the image is built in.
 
-1. Comment out the failing `RUN ansible.sh …` line so the image — and therefore
-   the dev container built from it — builds again.
-2. Reopen the dev container.
-3. Run the failing command **by hand** inside the live container and iterate
-   until it passes.
-4. Uncomment the line and run a full `./build` to confirm.
-
-This makes the dev container the debugging surface, which is the project's
-gold-standard loop.
+Only when the image itself has to be built as the container opens can a
+failing recipe stop it opening. That case has its own trick, described in
+[](image-build-fails).
 
 ## Break the build
 
 Let us introduce a realistic mistake into the `ADSimDetector` recipe you
-authored in {any}`generic_ioc`. Open
-`ibek-support/ADSimDetector/ADSimDetector.install.yml` and change `version` to a
-tag that does not exist:
+authored in {any}`generic_ioc`. Open the `ioc-adsim-demo` project in VSCode and
+use `Ctrl-Shift-P` -> *Dev Containers: Rebuild Container*. That creates the
+container afresh from the developer image of your `2.11ec1` release (or from
+your local image, if it cannot pull that one), rather than reopening the
+container in which you built `ADSimDetector` by hand. Then
+open `ibek-support/ADSimDetector/ADSimDetector.install.yml` and change
+`version` to a tag that does not exist:
 
 ```yaml
 module: ADSimDetector
 version: R2-111          # typo — there is no such tag
 ```
 
-Now rebuild from a terminal *outside* the dev container:
+Ask the container how it differs from the project, in a terminal in the
+container (Terminal -> New Terminal):
 
 ```bash
-cd ioc-adsimdetector     # wherever you cloned it
-./build
+# in the container
+ibek dev status
 ```
 
-The build cache skips the unchanged steps and re-runs from
-`COPY ibek-support/ADSimDetector/ ADSimDetector` onwards. `ansible.sh` clones the
-module before building it, and the clone fails because the requested ref is not
-in the upstream repo:
+It reports that `ADSimDetector` needs a rebuild, and names the command that
+does it, `ibek dev sync --build`. Run that:
+
+```bash
+# in the container
+ibek dev sync --build
+```
+
+It clones the module afresh at the version in `install.yml`, removing any
+`/epics/support/ADSimDetector` that the image has first, before building it
+with the module's own line of the `Dockerfile`, `ansible.sh ADSimDetector`.
+The clone fails because the requested ref is not in the upstream repo, with
+an error that includes:
 
 ```text
-fatal: Remote branch R2-111 not found in upstream origin
+Failed to checkout R2-111
+error: pathspec 'R2-111' did not match any file(s) known to git
 ```
 
 :::{note}
@@ -53,56 +63,44 @@ step with an *authentication* or *repository not found* error — same place,
 different message.
 :::
 
-## Get a working dev container
-
-Because the image will not build, the dev container cannot open. Comment out the
-failing line in the `Dockerfile`, leaving its matching `COPY` in place:
-
-```dockerfile
-COPY ibek-support/ADSimDetector/ ADSimDetector
-# RUN ansible.sh ADSimDetector
-```
-
-The `developer` image now builds again — it simply omits the `ADSimDetector`
-support for the moment. Reopen and rebuild the dev container so it picks up the
-edited `Dockerfile`:
-
-```bash
-code .
-# then Ctrl-Shift-P -> "Dev Containers: Rebuild Container"
-```
-
 ## Fix it live inside the container
 
-Open a terminal in the dev container (Terminal -> New Terminal) and run the
-command that failed, by hand:
-
-```bash
-ansible.sh ADSimDetector
-```
-
-You get the same clone error — but now you can fix it in place. Correct the
-version in `ibek-support/ADSimDetector/ADSimDetector.install.yml` back to the
-real tag and re-run. `ansible.sh` is idempotent, so you can re-run it as often as
-you like:
+Correct the version in `ibek-support/ADSimDetector/ADSimDetector.install.yml`
+back to the real tag:
 
 ```yaml
 version: R2-11
 ```
 
+The failed clone left a checkout of the module's default branch in
+`/epics/support/ADSimDetector`, and `ansible.sh` builds a module folder that
+exists as it is, without cloning it. So remove the folder, then run the rebuild
+again:
+
 ```bash
-ansible.sh ADSimDetector
+# in the container
+rm -rf /epics/support/ADSimDetector
+ibek dev sync --build
 ```
 
-This time the module clones and builds.
+This time the module clones and builds, then the IOC is built. You can re-run
+it as often as you like: it carries on from the module that failed. You can
+also run `ansible.sh ADSimDetector` by hand while you iterate; it is idempotent.
+`ansible.sh` builds the folder that is there, so if you change the version in
+`install.yml` before running it by hand, or after a clone fails, remove
+`/epics/support/ADSimDetector` first so that it is cloned at the version in
+`install.yml`. `ibek dev sync --build` clones a module again by itself when its
+version differs from the one the container last built. `ibek dev status` keeps reporting the module until
+`ibek dev sync --build` has built it.
 
 ## Make the fix permanent
 
-Uncomment the `RUN ansible.sh ADSimDetector` line in the `Dockerfile`, then run a
-full build from outside the container to confirm the image builds cleanly from
-scratch:
+The fix is in your `ibek-support` checkout on the host. To confirm that the
+image builds cleanly with it, run a full build from a terminal *outside* the
+container:
 
 ```bash
+cd ioc-adsim-demo     # wherever you cloned it
 ./build
 ```
 
@@ -112,6 +110,34 @@ modules in {any}`generic_ioc` — only here it starts from a failure. Anything y
 can fix interactively with `ansible.sh` can be recorded in the recipe or
 `Dockerfile` and replayed by `./build`.
 :::
+
+(image-build-fails)=
+
+## When the image build fails
+
+`.devcontainer/initializeCommand` builds the image as the container opens when
+the marker file `.devcontainer/local-build` exists, or when it can neither pull
+the image nor find a local one, as for a repository with no release (see
+{any}`devcontainer-local-build`). If a recipe fails in that build, there is no
+image and so no container to open. The fix is a small trick:
+
+1. Comment out the failing `RUN ansible.sh …` line in the `Dockerfile`, leaving
+   its matching `COPY` in place:
+
+   ```dockerfile
+   COPY ibek-support/ADSimDetector/ ADSimDetector
+   # RUN ansible.sh ADSimDetector
+   ```
+
+   The image now builds again — it simply omits the `ADSimDetector` support
+   for the moment.
+2. Open the container with `Ctrl-Shift-P` -> *Dev Containers: Rebuild
+   Container*, so that the image is built from the edited `Dockerfile` and the
+   container is created from it.
+3. Run the failing command by hand inside the container, `ansible.sh
+   ADSimDetector`, and fix the recipe until it passes. After a clone failure,
+   remove `/epics/support/ADSimDetector` before running it again, as above.
+4. Uncomment the line and run a full `./build` on the host to confirm.
 
 ## Aside: a missing system header
 
