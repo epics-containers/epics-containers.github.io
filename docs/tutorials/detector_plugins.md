@@ -116,7 +116,7 @@ entity_model. Append a single entity for it to
 
 This one entity expands — via the support def's `sub_entities` — into the four
 plugins of the lighter **Ophyd** set, all already compiled into the
-AreaDetector image:
+`ioc-adsimdetector` image:
 
 | Plugin | PV prefix | What it does |
 |---|---|---|

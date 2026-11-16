@@ -61,7 +61,10 @@ make
 so you can see that nothing is left to sync before you start the IOC.
 
 To publish the change, commit and push it in `ibek-support` first, then commit
-the new submodule commit in the Generic IOC repository.
+the new submodule commit in the Generic IOC repository. A full release of the
+Generic IOC needs that commit on the default branch of the submodule's
+`origin`, so release it with a pre-release tag until the change is merged; see
+{any}`generic-ioc-release-submodule`.
 
 ## Without a container
 

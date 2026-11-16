@@ -110,7 +110,8 @@ rebuilding any other.
 The template builds three common modules, `iocStats`, `pvlogging` and
 `autosave`. An areaDetector driver also needs `asyn`, `ADCore` (which builds
 `ADSupport` too) and the modules they depend on. Add them to the `Dockerfile`,
-so that the module list between the `ENV PATH` line and the `ioc` build reads:
+so that the module list after the `ENV PATH` line, down to the `ioc` build,
+reads:
 
 ```dockerfile
 COPY ibek-support/iocStats/ iocStats
@@ -195,6 +196,7 @@ git submodule update
 cd ibek-support
 git fetch
 git checkout main            # work from your fork's main branch
+git pull --ff-only           # bring it up to date with your fork
 git remote -v               # confirm origin is your fork
 cd ..
 ```
@@ -509,6 +511,7 @@ link needs each DBD file after the DBD files it depends on. See
 {any}`dbd-order`.
 :::
 
+(generic-ioc-release-submodule)=
 ## Publish the Generic IOC
 
 Commit your `ibek-support` recipe to your fork's `main` branch, then commit
@@ -526,7 +529,6 @@ git commit -m "add ADSimDetector tutorial version"
 git push   # a tutorial may push to main; real projects use a PR
 ```
 
-(generic-ioc-release-submodule)=
 :::{important}
 A full release tag fails CI unless the `ibek-support` submodule commit is on
 the default branch of the submodule's `origin`, the URL in `.gitmodules`. The

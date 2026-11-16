@@ -100,7 +100,7 @@ and the maximum image dimensions it computes statistics over). A production
 pattern like the real `detectorPlugins` promotes more of these to parameters —
 add them the same way when you need them.
 
-The `ADCore` plugins it references are compiled into every AreaDetector image,
+The `ADCore` plugins it references are compiled into every areaDetector Generic IOC image,
 so this pattern needs **no `.db` / `.template` of its own** — it only adds the
 `ibek` entities that instantiate and connect them at runtime.
 
