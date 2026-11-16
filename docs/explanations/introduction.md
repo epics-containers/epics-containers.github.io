@@ -233,8 +233,8 @@ its state on a given date is straightforward — there is a complete record.
 
 ## Scope
 
-This project targets Linux soft IOCs on x86_64 (amd64) and arm64: Generic IOC
-images are built for both. Soft IOCs that need direct hardware access on the
+This project targets Linux soft IOCs on x86_64 (amd64) and arm64: the Generic
+IOC template builds images for both by default. Soft IOCs that need direct hardware access on the
 server (e.g. USB or PCIe) are supported by mounting the hardware into the
 container — though these IOCs cannot use Kubernetes failover.
 

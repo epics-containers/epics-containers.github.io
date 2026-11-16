@@ -91,7 +91,6 @@ the container yet. You will first add the areaDetector support modules to the
 `Dockerfile`, so that the developer image is built with them the first time:
 
 ```bash
-cd ioc-adsim-demo
 code .
 ```
 

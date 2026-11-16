@@ -112,7 +112,6 @@ entities:
   - type: lakeshore340.lakeshore340
     P: BL01T-EA-TEMP-01
     PORT: p1
-    name: lakeshore
 ```
 
 `STREAM_PROTOCOL_PATH` tells StreamDevice where to find the vendored `.proto`
@@ -218,9 +217,9 @@ BL01T-EA-TEMP-01:KRDG0  23.4
 ```
 
 :::{note}
-There are is no PVI device file for this device yet, so no auto-generated PVI screen.
-For now, inspect its PVs directly with `caget`.
-TODO: add a PVI device file and auto-generated Phoebus screen for this tutorial.
+PVI also generates an engineering screen for the device from the vendored
+`lakeshore340.pvi.device.yaml`, under `opi/auto-generated/bl01t-ea-temp-01/`;
+open it in Phoebus as in {any}`change-the-opi-screen`.
 :::
 
 

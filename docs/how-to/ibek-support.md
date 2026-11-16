@@ -105,11 +105,13 @@ If your IOC instance is split across more than one entity file (for example
 `config/ioc.yaml` plus extra entity YAML vendored into `config/` with
 `ibek pattern add`), use `generate2`, which takes the config folder and
 discovers all of them. `--definitions` takes one file per use, so repeat it for
-each support YAML, including any vendored into `config/`:
+each support YAML, including any vendored into `config/` (this loop is for
+bash):
 
 ```bash
 defs=()
 for f in ../../../ibek-support/*/*ibek.support.yaml config/*.ibek.support.yaml; do
+  [ -e "$f" ] || continue
   defs+=(--definitions "$f")
 done
 ibek runtime generate2 config "${defs[@]}"
