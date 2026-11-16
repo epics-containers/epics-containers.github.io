@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -509,6 +509,17 @@
 EPICS support module so that IOC <em>instances</em> can be created from it with nothing
 but a YAML file. You will also embed an example instance for testing.</p>
 <p>This is a <em>type 2</em> change from <a class="reference internal" href="dev_container.html#ioc-change-types"><span class="std std-ref">Types of change</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Do you need a new Generic IOC?</strong> Often not. A device driven by StreamDevice
+can usually run on the existing <code class="docutils literal notranslate"><span class="pre">ioc-streamdevice</span></code> image, with its support
+vendored into the instance by <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code> from the
+<a class="reference external" href="https://github.com/epics-containers/ibek-runtime-streamdevice">ibek-runtime-streamdevice</a>
+library, which holds patterns for over a hundred devices. Check there first; see
+<a class="reference internal" href="stream_device.html"><span class="doc">Add a Stream Device with ibek pattern</span></a>, and <a class="reference internal" href="custom_pattern.html"><span class="doc">Author Your Own Runtime Pattern</span></a> to write your own pattern.
+Build a Generic IOC when the device needs a compiled support module that no
+existing image provides.</p>
+</div>
 <p>The worked example wraps the <strong>areaDetector simulation detector</strong>
 (<a class="reference external" href="https://github.com/areaDetector/ADSimDetector"><code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code></a>) — a camera
 that generates frames internally, so it needs no hardware and no external
@@ -541,7 +552,8 @@ Internal git repositories are fully supported.</p>
 <p>Like a beamline, a Generic IOC starts from a <code class="docutils literal notranslate"><span class="pre">copier</span></code> template. Create an empty
 GitHub repository named <code class="docutils literal notranslate"><span class="pre">ioc-adsim-demo</span></code> at <a class="github reference external" href="https://github.com/new">new</a>, then
 generate the project into it (if you do not have <code class="docutils literal notranslate"><span class="pre">copier</span></code>, see <a class="reference internal" href="setup_workstation.html#copier"><span class="std std-ref">copier and ec</span></a>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># creates the folder ioc-adsim-demo in the current directory</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># run this next to your t01-services folder, so both appear under /workspaces</span>
+<span class="c1"># inside the devcontainer; creates the folder ioc-adsim-demo</span>
 copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/ioc-template<span class="w"> </span>--trust<span class="w"> </span>ioc-adsim-demo
 </pre></div>
 </div>
@@ -587,8 +599,7 @@ your later builds are fast. Watch it under the <strong>Actions</strong> tab.</p>
 <p>Open the project in VSCode — but <strong>stay on the host for now</strong>; do not reopen in
 the container yet. You will first add the areaDetector support modules to the
 <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, so that the developer image is built with them the first time:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo
-code<span class="w"> </span>.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
 </pre></div>
 </div>
 <div class="admonition note">
@@ -774,7 +785,8 @@ applies any patches the recipe specifies;</p></li>
 <li><p>appends its <code class="docutils literal notranslate"><span class="pre">dbds</span></code> and <code class="docutils literal notranslate"><span class="pre">libs</span></code> to the global <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/dbd_list</span></code>
 and <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/lib_list</span></code> so the IOC links them in;</p></li>
 <li><p>registers its runtime files — symlinking the <code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>, PVI
-device, autosave request and StreamDevice protocol files into <code class="docutils literal notranslate"><span class="pre">/epics</span></code>.</p></li>
+device and autosave request files into <code class="docutils literal notranslate"><span class="pre">/epics</span></code>, and copying its StreamDevice
+protocol files into <code class="docutils literal notranslate"><span class="pre">/epics/support/configure/protocol</span></code>.</p></li>
 </ul>
 <p>The module now exists under <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code>.</p>
 </section>

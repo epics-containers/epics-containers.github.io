@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Add the Standard Detector Plugins &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Add the Standard Detector Plugins &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -514,8 +514,8 @@ Substitute your own names throughout.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code> provides a light set of four plugins, and is the recommended
-set for Diamond II. The prior gdaPlugins pattern also published in the same repo
-matches what we used to ship with builder IOCs.</p>
+set for Diamond II. The same pattern also provides a heavier <code class="docutils literal notranslate"><span class="pre">gdaPlugins</span></code> entity
+model, which matches the plugin set DLS builder IOCs ship.</p>
 <p>For non DLS users this just serves as a useful example and you are free to create
 your own pattern repositories.</p>
 </div>
@@ -541,7 +541,7 @@ existing install.</p>
 library — one of two pattern libraries <code class="docutils literal notranslate"><span class="pre">ibek</span></code> knows about out of the box. From
 the services-repo root, vendor it into the instance:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>t01-services
-ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> </span>ibek-runtime-support:detectorPlugins@v0.1.0<span class="w"> </span>services/bl01t-ea-cam-01
+ibek<span class="w"> </span>pattern<span class="w"> </span>add<span class="w"> </span>ibek-runtime-support:detectorPlugins@0.4.0<span class="w"> </span>services/bl01t-ea-cam-01
 </pre></div>
 </div>
 <p>The qualified name is <code class="docutils literal notranslate"><span class="pre">&lt;library&gt;:&lt;pattern&gt;&#64;&lt;tag&gt;</span></code>. That one command:</p>
@@ -690,7 +690,7 @@ camera — statistics, ROI-statistics, HDF5 file writer and PVA.</span><a class=
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="nt">patterns</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">detectorPlugins</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v0.1.0</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.4.0</span>
 <span class="w">    </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.com/epics-containers/ibek-runtime-support</span>
 <span class="w">    </span><span class="nt">files</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">config/detectorPlugins.ibek.support.yaml</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sha256:…</span>

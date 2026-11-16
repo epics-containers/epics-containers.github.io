@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -546,8 +546,18 @@ our own forks.</p>
 <span id="generic-iocs"></span><h4>Generic IOCs and instances<a class="headerlink" href="#generic-iocs-and-instances" title="Link to this heading">#</a></h4>
 <p>The central idea is that an IOC container image is a <strong>Generic IOC</strong>: one image
 shared by every IOC instance that talks to a given class of device. For example
-<a class="reference external" href="https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-runtime">ghcr.io/epics-containers/ioc-adaravis-runtime:2026.4.3</a>
+<a class="reference external" href="https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-runtime">ghcr.io/epics-containers/ioc-adaravis-runtime:R2-3ec6</a>
 uses the AreaDetector driver ADAravis to drive any GigE camera.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Do you need a new Generic IOC?</strong> Often not. A device driven by StreamDevice
+can usually run on the existing <code class="docutils literal notranslate"><span class="pre">ioc-streamdevice</span></code> image, with its support
+vendored into the instance as a runtime pattern by <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code>; the
+<a class="reference external" href="https://github.com/epics-containers/ibek-runtime-streamdevice">ibek-runtime-streamdevice</a>
+library holds patterns for over a hundred such devices. Check there first, see
+<a class="reference internal" href="../tutorials/stream_device.html"><span class="doc">Add a Stream Device with ibek pattern</span></a>, and <a class="reference internal" href="../tutorials/custom_pattern.html"><span class="doc">Author Your Own Runtime Pattern</span></a> to
+write your own pattern.</p>
+</div>
 <p>A Generic IOC image contains:</p>
 <ul class="simple">
 <li><p>a set of compiled support modules</p></li>
@@ -732,11 +742,10 @@ its state on a given date is straightforward — there is a complete record.</p>
 </section>
 <section id="scope">
 <h2>Scope<a class="headerlink" href="#scope" title="Link to this heading">#</a></h2>
-<p>This project targets x86_64 Linux soft IOCs. Soft IOCs that need direct hardware
-access on the server (e.g. USB or PCIe) are supported by mounting the hardware
-into the container — though these IOCs cannot use Kubernetes failover.</p>
-<p>Other Linux architectures could be added to the cluster. arm64 native builds
-have been prototyped but are not yet a supported architecture.</p>
+<p>This project targets Linux soft IOCs on x86_64 (amd64) and arm64: the Generic
+IOC template builds images for both by default. Soft IOCs that need direct hardware access on the
+server (e.g. USB or PCIe) are supported by mounting the hardware into the
+container — though these IOCs cannot use Kubernetes failover.</p>
 <p>Python soft IOCs are also supported — see
 <a class="reference external" href="https://github.com/DiamondLightSource/pythonSoftIOC">pythonSoftIOC</a>.</p>
 <p>GUI generation for engineering screens is provided by the PVI project — see
@@ -761,7 +770,10 @@ container” helper, installed into every Generic IOC image. It is used:</p>
 <li><p>at build time: to fetch and build EPICS support modules</p></li>
 <li><p>at run time: to generate build artifacts, e.g. <code class="docutils literal notranslate"><span class="pre">st.cmd</span></code> and the IOC database,
 from the <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> configuration</p></li>
-<li><p>inside the developer container: to assist with testing and debugging.</p></li>
+<li><p>inside the developer container: to assist with testing and debugging</p></li>
+<li><p>on the developer’s workstation: <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span></code> vendors runtime patterns
+(support definitions loaded at runtime, with no image rebuild) into an IOC
+instance.</p></li>
 </ul>
 <p>See <a class="reference external" href="https://github.com/epics-containers/ibek">ibek</a>.</p>
 </section>

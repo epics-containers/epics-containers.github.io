@@ -36,7 +36,7 @@ In `services/bl01t-ea-temp-01/compose.yml`, replace **every** `ioc_default_name`
 with `bl01t-ea-temp-01`, and set the image to the generic StreamDevice IOC:
 
 ```yaml
-    image: ghcr.io/epics-containers/ioc-streamdevice-runtime:2.8.26ec1
+    image: ghcr.io/epics-containers/ioc-streamdevice-runtime:2.8.26ec8
 ```
 
 ## Vendor the `lakeshore340` support
@@ -45,7 +45,7 @@ with `bl01t-ea-temp-01`, and set the image to the generic StreamDevice IOC:
 driver into the instance you just created:
 
 ```bash
-ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.1.1 services/bl01t-ea-temp-01
+ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.8.2 services/bl01t-ea-temp-01
 ```
 
 :::{note}
@@ -56,25 +56,24 @@ ibek pattern add ibek-runtime-streamdevice:lakeshore340@0.1.1 services/bl01t-ea-
 `ibek-runtime-streamdevice` is one of ibek's built-in libraries, resolved from
 its name to
 [its GitHub repo](https://github.com/epics-containers/ibek-runtime-streamdevice).
-The command vendors three files into `config/` — exact copies of the library's,
-with nothing added to them — and writes a `runtime-lock.yaml` at the instance
-root:
+The pattern's `ibek.manifest.yaml` names the files an IOC needs, and the command
+vendors those into `config/` — exact copies of the library's, with nothing
+added to them — and writes a `runtime-lock.yaml` at the instance root:
 
 | File | Role |
 |---|---|
 | `config/lakeshore340.ibek.support.yaml` | The entity model `lakeshore340.lakeshore340` you instantiate below. |
 | `config/lakeshore340.proto` | The StreamDevice protocol (the serial command set). |
 | `config/lakeshore340.template` | The EPICS database of temperature/heater records. |
+| `config/lakeshore340.pvi.device.yaml` | The PVI device description, from which the engineering screen is generated. |
+| `config/lakeshore340_settings.req` | The autosave request file listing the settings to save and restore. |
 | `runtime-lock.yaml` | Pins the version and the per-file SHA-256 hashes. |
 
-Three files, because that is everything the `lakeshore340` folder holds. A
-pattern whose folder also holds files an IOC has no use for — a `README`, device
-documentation, calibration notes — declares the runtime subset in an
-`ibek.manifest.yaml` beside them, and only that subset is vendored. Most
-patterns have no manifest and vendor everything they contain into `config/`; see
-{any}`custom_pattern` to write one.
+The rest of the `lakeshore340` folder — its `README`, the simulator and device
+tests from the original support module — stays in the library. See
+{any}`custom_pattern` to write a manifest for your own pattern.
 
-Commit the lock with the instance. It is what marks those three files as copies —
+Commit the lock with the instance. It is what marks those files as copies —
 edit them in the library, never here. Anyone can later confirm they are
 untampered with:
 
@@ -113,7 +112,6 @@ entities:
   - type: lakeshore340.lakeshore340
     P: BL01T-EA-TEMP-01
     PORT: p1
-    name: lakeshore
 ```
 
 `STREAM_PROTOCOL_PATH` tells StreamDevice where to find the vendored `.proto`
@@ -219,9 +217,11 @@ BL01T-EA-TEMP-01:KRDG0  23.4
 ```
 
 :::{note}
-There are is no PVI device file for this device yet, so no auto-generated PVI screen.
-For now, inspect its PVs directly with `caget`.
-TODO: add a PVI device file and auto-generated Phoebus screen for this tutorial.
+PVI also generates an engineering screen for the device from the vendored
+`lakeshore340.pvi.device.yaml`, under `opi/auto-generated/bl01t-ea-temp-01/`.
+To open it, set the `-resource` of the `phoebus` service to
+`/opi/auto-generated/bl01t-ea-temp-01/index.bob`, as in
+{any}`change-the-opi-screen`, and restart that service.
 :::
 
 

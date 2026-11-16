@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Set up a Developer Workstation &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -531,9 +531,10 @@ clone over <code class="docutils literal notranslate"><span class="pre">https://
 </div>
 <section id="platform-support">
 <h2>Platform support<a class="headerlink" href="#platform-support" title="Link to this heading">#</a></h2>
-<p>The tutorial container images are <strong>x86_64 Linux</strong>. The best experience is an
-Intel Linux workstation or laptop (<code class="docutils literal notranslate"><span class="pre">arm64</span></code> images exist but are less widely
-tested). On any other platform you have two options:</p>
+<p>The tutorial container images are built for <strong>x86_64 Linux</strong>. Generic IOC
+images, such as <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code>, are also built for <code class="docutils literal notranslate"><span class="pre">arm64</span></code> unless their
+repository turns that off, so check the image you need. The best experience is an x86_64 Linux workstation
+or laptop. On any other platform you have two options:</p>
 <ul class="simple">
 <li><p>run the container runtime natively — see the <a class="reference internal" href="../how-to/compose-quickstart.html#quickstart"><span class="std std-ref">quickstart</span></a>;</p></li>
 <li><p>or use the pre-built <strong>VirtualBox appliance</strong> below.</p></li>

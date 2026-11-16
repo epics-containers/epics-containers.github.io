@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Author Your Own Runtime Pattern &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Author Your Own Runtime Pattern &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -603,9 +603,9 @@ so this pattern needs <strong>no <code class="docutils literal notranslate"><spa
 <section id="optional-declare-what-gets-vendored">
 <h3>Optional: declare what gets vendored<a class="headerlink" href="#optional-declare-what-gets-vendored" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">basicPlugins</span></code> holds one file and every byte of it belongs in the IOC, so there
-is nothing to declare. That is the usual case: <strong>a pattern with no manifest
-vendors every file in its folder into the instance’s <code class="docutils literal notranslate"><span class="pre">config/</span></code></strong> — ibek
-supplies a default manifest for it:</p>
+is nothing to declare: <strong>a pattern with no manifest vendors every file in its
+folder into the instance’s <code class="docutils literal notranslate"><span class="pre">config/</span></code></strong> — ibek supplies a default manifest for
+it:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="nt">vendor</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">src</span><span class="p">:</span><span class="w"> </span><span class="s">'.*'</span>
@@ -650,11 +650,11 @@ claims.</p>
 in its <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code>, and register it in the repo-root <code class="docutils literal notranslate"><span class="pre">compose.yml</span></code>. Use a
 separate instance so its plugin ports do not clash with the <code class="docutils literal notranslate"><span class="pre">detectorPlugins</span></code>
 already running in <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>. Pin the SimDetector image:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec9</span>
 </pre></div>
 </div>
 <p>Give it a camera in <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-02/config/ioc.yaml</span></code>:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec9/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_global.get_env('IOC_NAME')</span><span class="nv"> </span><span class="s">}}"</span>
 

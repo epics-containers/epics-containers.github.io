@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How a Generic IOC Developer Container Works &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>How a Generic IOC Developer Container Works &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -583,17 +583,18 @@ image from the project folder with <code class="docutils literal notranslate"><s
 <li><p>when there is no local image either, it builds one with <code class="docutils literal notranslate"><span class="pre">./build</span></code>;</p></li>
 </ul>
 </li>
-<li><p>records the ID of that image in <code class="docutils literal notranslate"><span class="pre">.devcontainer/image-id</span></code>, and prints a
-WARNING when an existing container for this project was created from a
-different image (see <a class="reference internal" href="#devcontainer-reopen"><span class="std std-ref">Reopen and Rebuild</span></a>).</p></li>
+<li><p>records the ID of that image in <code class="docutils literal notranslate"><span class="pre">.devcontainer/image-id</span></code>, which the
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands compare with the image the container was created from
+(see <a class="reference internal" href="#devcontainer-reopen"><span class="std std-ref">Reopen and Rebuild</span></a>).</p></li>
 </ol>
 <p>It prints one coloured line that says which way it got the image. It uses
 docker when docker works, and podman otherwise or when <code class="docutils literal notranslate"><span class="pre">USE_PODMAN</span></code> is set, as
 <code class="docutils literal notranslate"><span class="pre">./build</span></code> does.</p>
 <p>VSCode then starts the container. A container being created for the first
-time also runs <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code>, which removes the IOC build
-products from the project’s <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder (see <a class="reference internal" href="#devcontainer-ioc-folder"><span class="std std-ref">The ioc folder</span></a>) and
-records which image the container was created from. On every start, including
+time also runs <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code>, which runs
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span> <span class="pre">uninstall</span></code> in <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> to remove the IOC build products from the
+project’s <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder (see <a class="reference internal" href="#devcontainer-ioc-folder"><span class="std std-ref">The ioc folder</span></a>), and records which image
+the container was created from. On every start, including
 the first, the container runs <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code>, which brings the container in
 line with the project folder (see <a class="reference internal" href="#devcontainer-drift"><span class="std std-ref">Keeping the container in line with the project</span></a>).</p>
 <section id="building-the-image-locally">
@@ -668,9 +669,11 @@ make
 <p>What <code class="docutils literal notranslate"><span class="pre">make</span></code> builds lands in the host project folder, and it is linked against
 the support modules of the container that built it. A container from a
 different image may have different support modules, so when a container is
-created, <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code> removes the build products from the
-<code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder: <code class="docutils literal notranslate"><span class="pre">bin</span></code>, <code class="docutils literal notranslate"><span class="pre">lib</span></code>, <code class="docutils literal notranslate"><span class="pre">dbd</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code> and every <code class="docutils literal notranslate"><span class="pre">O.*</span></code> folder. It keeps all
-source files, and the <code class="docutils literal notranslate"><span class="pre">ioc/config</span></code> link that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> makes.
+created, <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code> runs <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span> <span class="pre">uninstall</span></code> in
+<code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code>. That removes the IOC’s <code class="docutils literal notranslate"><span class="pre">O.*</span></code> build folders and what it installed
+in <code class="docutils literal notranslate"><span class="pre">bin</span></code>, <code class="docutils literal notranslate"><span class="pre">lib</span></code>, <code class="docutils literal notranslate"><span class="pre">dbd</span></code> and <code class="docutils literal notranslate"><span class="pre">db</span></code>, and keeps all source files and the
+<code class="docutils literal notranslate"><span class="pre">ioc/config</span></code> link that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> makes. A failure there only prints a message: the
+container is still created. Run <code class="docutils literal notranslate"><span class="pre">make</span></code> in <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> to build the IOC again.
 Reopening an existing container keeps its build products, which still match
 it.</p>
 <p>Your changes to the IOC source are in the host project folder, so they are
@@ -776,10 +779,9 @@ IOC build products are removed.</p></li>
 </ul>
 <p>So a newer image that <code class="docutils literal notranslate"><span class="pre">initializeCommand</span></code> pulls takes effect only after
 <strong>Rebuild Container</strong>. While the existing container was created from a
-different image, two warnings say so: <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> prints
-one in yellow on the host as the container opens, and the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands
-print one in the container. Both start <code class="docutils literal notranslate"><span class="pre">WARNING:</span></code> and both are cleared by
-<strong>Dev Containers: Rebuild Container</strong>.</p>
+different image than the one <code class="docutils literal notranslate"><span class="pre">initializeCommand</span></code> recorded in
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/image-id</span></code>, the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands in the container print a
+<code class="docutils literal notranslate"><span class="pre">WARNING:</span></code> that says so. <strong>Dev Containers: Rebuild Container</strong> clears it.</p>
 </section>
 <section id="the-ibek-support-submodule">
 <span id="devcontainer-submodule"></span><h2>The ibek-support submodule<a class="headerlink" href="#the-ibek-support-submodule" title="Link to this heading">#</a></h2>

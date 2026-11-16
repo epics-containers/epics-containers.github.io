@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -579,8 +579,15 @@ definitions of the classes of entities available.</p>
 <p>If your IOC instance is split across more than one entity file (for example
 <code class="docutils literal notranslate"><span class="pre">config/ioc.yaml</span></code> plus extra entity YAML vendored into <code class="docutils literal notranslate"><span class="pre">config/</span></code> with
 <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">pattern</span> <span class="pre">add</span></code>), use <code class="docutils literal notranslate"><span class="pre">generate2</span></code>, which takes the config folder and
-discovers all of them:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate2<span class="w"> </span>config<span class="w"> </span>--definitions<span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml
+discovers all of them. <code class="docutils literal notranslate"><span class="pre">--definitions</span></code> takes one file per use, so repeat it for
+each support YAML, including any vendored into <code class="docutils literal notranslate"><span class="pre">config/</span></code> (this loop is for
+bash):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">defs</span><span class="o">=()</span>
+<span class="k">for</span><span class="w"> </span>f<span class="w"> </span><span class="k">in</span><span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml<span class="w"> </span>config/*.ibek.support.yaml<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">continue</span>
+<span class="w">  </span><span class="nv">defs</span><span class="o">+=(</span>--definitions<span class="w"> </span><span class="s2">"</span><span class="nv">$f</span><span class="s2">"</span><span class="o">)</span>
+<span class="k">done</span>
+ibek<span class="w"> </span>runtime<span class="w"> </span>generate2<span class="w"> </span>config<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">defs</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
 </section>

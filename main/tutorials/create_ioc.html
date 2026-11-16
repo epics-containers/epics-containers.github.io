@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create an IOC Instance &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
+    <title>Create an IOC Instance &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=0a93013a"></script>
+    <script src="../_static/documentation_options.js?v=5e831000"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -552,7 +552,7 @@ code<span class="w"> </span>.
 <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/compose.yml</span></code>, replace <strong>every</strong> <code class="docutils literal notranslate"><span class="pre">ioc_default_name</span></code>
 with <code class="docutils literal notranslate"><span class="pre">bl01t-ea-cam-01</span></code>, and replace <code class="docutils literal notranslate"><span class="pre">replace_with_image_uri</span></code> with the
 SimDetector Generic IOC image:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec9</span>
 </pre></div>
 </div>
 <p>That name and that image are the only per-IOC content; everything else is
@@ -571,7 +571,7 @@ support it can instantiate, so nothing extra is downloaded here.</p>
 <p>Open <code class="docutils literal notranslate"><span class="pre">services/bl01t-ea-cam-01/config/ioc.yaml</span></code>, point the schema line at the
 SimDetector Generic IOC, and add a <code class="docutils literal notranslate"><span class="pre">simDetector</span></code> plus a Standard Arrays plugin
 wired to it:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec9/ibek.ioc.schema.json</span>
 
 <span class="nt">ioc_name</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">_global.get_env('IOC_NAME')</span><span class="nv"> </span><span class="s">}}"</span>
 
