@@ -30,6 +30,26 @@ Wait for the pods to come up:
 kubectl -n argocd get pods --watch
 ```
 
+## Allow Applications in your beamline namespace
+
+By default ArgoCD only manages Applications that live in its own `argocd`
+namespace. The deployment template creates its Applications in the beamline
+namespace (`t02-beamline`), so enable
+[Applications in any namespace](https://argo-cd.readthedocs.io/en/stable/operator-manual/app-any-namespace/)
+for it, restart the two workloads that read the setting, and give the ArgoCD
+API server the permissions it needs there:
+
+```bash
+kubectl -n argocd patch configmap argocd-cmd-params-cm --type merge \
+  -p '{"data":{"application.namespaces":"t02-beamline"}}'
+kubectl -n argocd rollout restart deployment argocd-server
+kubectl -n argocd rollout restart statefulset argocd-application-controller
+kubectl apply -k 'https://github.com/argoproj/argo-cd//examples/k8s-rbac/argocd-server-applications?ref=stable'
+```
+
+The ArgoCD project must also list the namespace; {any}`deploy-argocd` creates
+it with `--source-namespaces t02-beamline`.
+
 ## Reach the web UI
 
 The ArgoCD server is not exposed outside the cluster by default. Port-forward it

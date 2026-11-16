@@ -122,7 +122,7 @@ Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimd
 or, from Helm:
 
 ```none
-Error: could not download oci://ghcr.io/epics-containers/ioc-instance: failed to authorize:
+Error: could not download oci://ghcr.io/epics-containers/charts/ioc-instance: failed to authorize:
 failed to fetch oauth token: unexpected status from GET request to
 https://ghcr.io/token?...: 403 Forbidden
 ```

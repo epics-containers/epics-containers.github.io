@@ -59,15 +59,10 @@ Answer the prompts as follows for a local k3s cluster:
 | `cluster_name` | `local` *(any lower-case name for your cluster)* |
 | `cluster_namespace` | `t02-beamline` |
 | `git_platform` | `github.com` |
+| `github_org` | *your GitHub account or org* |
 | `gateway` | `No` *(k3s uses host networking — see below)* |
 | `athena_services` | *(leave blank)* |
 | `logging_url` | `Skip` |
-
-:::{note}
-The template defines copier **migration scripts** that run when you later bring
-the repo up to a newer template version with `copier update`. Those scripts
-require the `--trust` flag, i.e. `copier update --trust`.
-:::
 
 Create the repo on GitHub (<https://github.com/new>) named `t02-services`, then
 commit and push:
@@ -103,7 +98,8 @@ export EC_SERVICES_REPO=https://github.com/<your-account>/t02-services
 export EC_LOG_URL=                                         # central log server (blank)
 ```
 
-It also checks that `ec` is installed and enables shell completion. For the full
+It also checks that `ec` is installed, enables shell completion, and sets the
+namespace of your current `kubectl` context to `t02-beamline`. For the full
 command and environment-variable reference see {any}`edge-containers-cli`.
 
 ## Deploy the shared services
@@ -150,8 +146,8 @@ Run `ec --help` to explore the other commands (`ec logs`, `ec exec`,
 
 :::{note}
 When something will not start, inspect the underlying resources with
-`kubectl describe pod <name>`, or browse them in the Kubernetes dashboard (see
-{any}`k8s-dashboard` for the local-cluster install).
+`kubectl describe pod <name>`, or browse them in a cluster web UI (see
+{any}`k8s-web-ui`).
 :::
 
 ## Next steps

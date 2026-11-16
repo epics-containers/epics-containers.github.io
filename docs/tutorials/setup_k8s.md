@@ -139,33 +139,14 @@ kubectl get pods --namespace longhorn-system --watch
 kubectl get storageclass
 ```
 
-(k8s-dashboard)=
+(k8s-web-ui)=
 
-## Set up the Kubernetes dashboard (optional)
+## Browse the cluster in a web UI (optional)
 
-The [Kubernetes dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-is a web UI for the cluster. Install it with Helm:
-
-```bash
-helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard \
-  --create-namespace --namespace kubernetes-dashboard
-```
-
-Reach it in a browser at `https://localhost:8080/` by port-forwarding:
-
-```bash
-kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8080:443
-```
-
-To log in you need a bearer token. Follow the upstream dashboard
-[Creating a sample user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
-guide to create an `admin-user` service account bound to `cluster-admin`, then
-mint a short-lived token:
-
-```bash
-kubectl -n kubernetes-dashboard create token admin-user
-```
+[Headlamp](https://headlamp.dev/) is a web UI for Kubernetes. Its
+[desktop application](https://headlamp.dev/docs/latest/installation/desktop/)
+runs on your workstation and connects with your `~/.kube/config`, so there is
+nothing to install in the cluster and no login token to create.
 
 (clean-up)=
 
