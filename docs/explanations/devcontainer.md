@@ -177,9 +177,9 @@ What `make` builds lands in the host project folder, and it is linked against
 the support modules of the container that built it. A container from a
 different image may have different support modules, so when a container is
 created, `.devcontainer/postCreateCommand` runs `make clean uninstall` in
-`/epics/ioc`. That removes the `O.*` build folders and the installed `bin`,
-`lib`, `dbd` and `db`, and keeps all source files and the `ioc/config` link
-that `ibek dev instance` makes. A failure there only prints a message: the
+`/epics/ioc`. That removes the IOC's `O.*` build folders and what it installed
+in `bin`, `lib`, `dbd` and `db`, and keeps all source files and the
+`ioc/config` link that `ibek dev instance` makes. A failure there only prints a message: the
 container is still created. Run `make` in `/epics/ioc` to build the IOC again.
 Reopening an existing container keeps its build products, which still match
 it.
