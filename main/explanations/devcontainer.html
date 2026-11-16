@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How a Generic IOC Developer Container Works &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=30646c52"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'explanations/devcontainer';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.24.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://epics-containers.github.io/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'main';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/k8s-epics2.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="EPICS Network Protocols in Containers" href="epics_protocols.html" />
+    <link rel="prev" title="5. Use Python for scripting inside and outside containers" href="decisions/0005-python-scripting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="main" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-light" alt=""/>
+    <img src="../_static/k8s-epics2.ico" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">epics-containers.github.io</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../how-to.html">
+    How-to Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../explanations.html">
+    Explanations
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reference.html">
+    Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/epics-containers/epics-containers.github.io" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/epics-containers.github.io" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fas fa-cube fa-lg" aria-hidden="true"></i><span class="visually-hidden">PyPI</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="argocd.html">How ArgoCD Deploys Your IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autosave.html">Autosave for IOCs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Change Management Manifesto</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="decisions.html">Architectural Decision Records</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0001-record-architecture-decisions.html">1. Record architecture decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0002-switched-to-python-copier-template.html">2. Adopt python-copier-template for project structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0003-use-substitution-files.html">3. Use of substitution files to generate EPICS Databases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0004-autosave-req-files.html">4. How to configure autosave for IOCs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decisions/0005-python-scripting.html">5. Use Python for scripting inside and outside containers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">How a Generic IOC Developer Container Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="epics_protocols.html">EPICS Network Protocols in Containers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Essential Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rootless.html">Rootless vs Rootful</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../explanations.html" class="nav-link">Explanations</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">How a Generic IOC Developer Container Works</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="how-a-generic-ioc-developer-container-works">
+<span id="devcontainer-flow"></span><span id="ioc-source"></span><h1>How a Generic IOC Developer Container Works<a class="headerlink" href="#how-a-generic-ioc-developer-container-works" title="Link to this heading">#</a></h1>
+<p>This page explains what happens when you open a Generic IOC project in its
+developer container, what the container holds, and how it is kept in line with
+the project folder on your host. The tutorial <a class="reference internal" href="../tutorials/dev_container.html"><span class="std std-doc">Developer Containers</span></a> shows
+the same steps in use.</p>
+<section id="developer-container-and-runtime-container">
+<h2>Developer container and runtime container<a class="headerlink" href="#developer-container-and-runtime-container" title="Link to this heading">#</a></h2>
+<p>Every Generic IOC image is built in two targets from the project’s
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>:</p>
+<ul class="simple">
+<li><p>the <strong>developer</strong> target holds the build tools, the compiled support modules
+and the compiled IOC. It is the image the developer container runs.</p></li>
+<li><p>the <strong>runtime</strong> target holds only what the IOC needs to run, copied from the
+developer target. It is the image that IOC instances deploy.</p></li>
+</ul>
+<p>The developer container is where you work on a Generic IOC and its support
+modules. It mounts host folders into the container so that:</p>
+<ul class="simple">
+<li><p>the developer container looks as similar as possible to the runtime
+container;</p></li>
+<li><p>you can change things and recompile them without building a new image;</p></li>
+<li><p>the work you keep happens in the host filesystem, so it is not lost when the
+container is rebuilt or deleted.</p></li>
+</ul>
+</section>
+<section id="the-developer-image">
+<h2>The developer image<a class="headerlink" href="#the-developer-image" title="Link to this heading">#</a></h2>
+<p>The developer container runs a published image rather than building one when
+it opens. <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code> names it:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Git platform</p></th>
+<th class="head"><p>Developer image</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GitHub</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;org&gt;/&lt;repo&gt;-developer:latest</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>DLS GitLab</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gitlab.diamond.ac.uk:5050/controls/containers/iocs/&lt;repo&gt;/&lt;repo&gt;-linux-developer:latest</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> names the same image. A repository that
+changes one must change the other.</p>
+<p>When CI builds a full release tag, such as <code class="docutils literal notranslate"><span class="pre">2.11ec1</span></code>, it also gives that
+release’s developer image the tag <code class="docutils literal notranslate"><span class="pre">latest</span></code>. A pre-release tag,
+such as <code class="docutils literal notranslate"><span class="pre">2.11ec1b1</span></code>, does not move <code class="docutils literal notranslate"><span class="pre">latest</span></code>, and the runtime image never has a
+<code class="docutils literal notranslate"><span class="pre">latest</span></code> tag. So:</p>
+<ul class="simple">
+<li><p>the image is the one built from the full release tag pushed most recently,
+which is usually the latest release. Changes merged
+to main since that release are not in it: <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code> reports each
+difference (see <a class="reference internal" href="#devcontainer-drift"><span class="std std-ref">Keeping the container in line with the project</span></a>);</p></li>
+<li><p>a repository that has made no full release has no <code class="docutils literal notranslate"><span class="pre">latest</span></code>, so the first
+start builds the image locally (see <a class="reference internal" href="#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>).</p></li>
+</ul>
+<p>To pull from the DLS GitLab registry the host must be logged in to it, with
+<code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">login</span> <span class="pre">gitlab.diamond.ac.uk:5050</span></code> (or <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">login</span></code>). Without a login
+the pull fails, and the image is the local one, or a local build when there is
+none (see <a class="reference internal" href="#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>).</p>
+</section>
+<section id="what-happens-when-the-container-opens">
+<span id="devcontainer-open"></span><h2>What happens when the container opens<a class="headerlink" href="#what-happens-when-the-container-opens" title="Link to this heading">#</a></h2>
+<p>When you choose <strong>Reopen in Container</strong>, VSCode runs
+<code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> on the host. It:</p>
+<ol class="arabic simple">
+<li><p>creates the host folders that the container mounts:
+<code class="docutils literal notranslate"><span class="pre">$HOME/.config/terminal-config</span></code>, <code class="docutils literal notranslate"><span class="pre">$HOME/.cache/uv</span></code> and the project’s
+<code class="docutils literal notranslate"><span class="pre">opi/auto-generated</span></code>;</p></li>
+<li><p>runs <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span> <span class="pre">--init</span></code> when the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule is not
+checked out, which is the case in a fresh clone made without
+<code class="docutils literal notranslate"><span class="pre">--recursive</span></code> (see <a class="reference internal" href="#devcontainer-submodule"><span class="std std-ref">The ibek-support submodule</span></a>);</p></li>
+<li><p>gets the developer image, in this order:</p>
+<ul class="simple">
+<li><p>when the marker file <code class="docutils literal notranslate"><span class="pre">.devcontainer/local-build</span></code> exists, it builds the
+image from the project folder with <code class="docutils literal notranslate"><span class="pre">./build</span></code>
+(see <a class="reference internal" href="#devcontainer-local-build"><span class="std std-ref">Building the image locally</span></a>);</p></li>
+<li><p>otherwise it pulls the image;</p></li>
+<li><p>when the pull fails, it uses the local image of that name;</p></li>
+<li><p>when there is no local image either, it builds one with <code class="docutils literal notranslate"><span class="pre">./build</span></code>;</p></li>
+</ul>
+</li>
+<li><p>records the ID of that image in <code class="docutils literal notranslate"><span class="pre">.devcontainer/image-id</span></code>, and prints a
+WARNING when an existing container for this project was created from a
+different image (see <a class="reference internal" href="#devcontainer-reopen"><span class="std std-ref">Reopen and Rebuild</span></a>).</p></li>
+</ol>
+<p>It prints one coloured line that says which way it got the image. It uses
+docker when docker works, and podman otherwise or when <code class="docutils literal notranslate"><span class="pre">USE_PODMAN</span></code> is set, as
+<code class="docutils literal notranslate"><span class="pre">./build</span></code> does.</p>
+<p>VSCode then starts the container. A container being created for the first
+time also runs <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code>, which removes the IOC build
+products from the project’s <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder (see <a class="reference internal" href="#devcontainer-ioc-folder"><span class="std std-ref">The ioc folder</span></a>) and
+records which image the container was created from. On every start, including
+the first, the container runs <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code>, which brings the container in
+line with the project folder (see <a class="reference internal" href="#devcontainer-drift"><span class="std std-ref">Keeping the container in line with the project</span></a>).</p>
+<section id="building-the-image-locally">
+<span id="devcontainer-local-build"></span><h3>Building the image locally<a class="headerlink" href="#building-the-image-locally" title="Link to this heading">#</a></h3>
+<p>To run an image built from your own project folder instead of the published
+one, for example after changing the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, or on a branch far from the
+last release, create the marker file on the host and then use
+<strong>Dev Containers: Rebuild Container</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># on the host, in the project folder</span>
+touch<span class="w"> </span>.devcontainer/local-build
+</pre></div>
+</div>
+<p>While that file exists, every start builds the image with <code class="docutils literal notranslate"><span class="pre">./build</span></code> instead of
+pulling it. The build is quick when its layers are cached. It gives the image
+the same name as the published one, so the container runs it in the same way.
+The file’s content is ignored and git ignores the file. Delete it to go back
+to the published image.</p>
+<p>A repository with no full release builds its image locally the first time, as
+above. Later starts cannot pull either, so they use that local image as it is,
+even after the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> changes. Create the marker file to build it again.</p>
+<p><code class="docutils literal notranslate"><span class="pre">./build</span></code> builds the image from the project folder and leaves the folder as it
+is, apart from checking out the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule when it is missing.
+<code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code> keeps the IOC build products and the <code class="docutils literal notranslate"><span class="pre">ioc/config</span></code> link out of
+the image.</p>
+</section>
+</section>
+<section id="what-is-mounted-where">
+<h2>What is mounted where<a class="headerlink" href="#what-is-mounted-where" title="Link to this heading">#</a></h2>
+<p>The developer container mounts the parent of the project folder at
+<code class="docutils literal notranslate"><span class="pre">/workspaces</span></code>, so the project and all its peers, such as your services repo,
+are in the container. It also mounts the project folder a second time, at
+<code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code>. The image build copies the project’s source to that
+same path, so the source is found in the same place in the developer container
+and in the runtime container. In the developer container the mount hides the
+image’s copy: what you see at <code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code> is your host project
+folder.</p>
+<p>The rest of <code class="docutils literal notranslate"><span class="pre">/epics</span></code> belongs to the image:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/support</span></code> holds the support modules, cloned and compiled when the
+image was built.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code>, <code class="docutils literal notranslate"><span class="pre">/epics/pvi-defs</span></code> and <code class="docutils literal notranslate"><span class="pre">/epics/autosave</span></code> hold one symbolic
+link per definition file: the <code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">*.pvi.device.yaml</span></code> and
+<code class="docutils literal notranslate"><span class="pre">*.req</span></code> files of each support module. Each link points into
+<code class="docutils literal notranslate"><span class="pre">/epics/generic-source/ibek-support*/&lt;module&gt;/</span></code>, so in the developer
+container it resolves to your host checkout of <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>.
+<code class="docutils literal notranslate"><span class="pre">/epics/ibek-defs</span></code> also holds <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code>, the IOC schema generated
+from those files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> is a link to <code class="docutils literal notranslate"><span class="pre">/epics/generic-source/ioc</span></code>.</p></li>
+</ul>
+<p>The tutorial’s <a class="reference internal" href="../tutorials/dev_container.html#container-layout"><span class="std std-ref">Generic IOC container filesystem layout</span></a> table lists every mount.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>What is in the image, such as <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code>, lives in the container’s own
+filesystem. Changes there are lost when the container is rebuilt or deleted.
+Keep the work you want in the host folders.</p>
+</div>
+</section>
+<section id="the-ioc-folder">
+<span id="devcontainer-ioc-folder"></span><h2>The ioc folder<a class="headerlink" href="#the-ioc-folder" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder of the project holds the Generic IOC source. It is much the
+same for every Generic IOC, but each project has its own copy so that it can be
+changed when needed. The image build compiles it, so the runtime image has the
+IOC binary.</p>
+<p>In the developer container <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> resolves to the <code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder of your
+host project, which holds the source only: the binary that the image build
+compiled is hidden. So you build the IOC in the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+<span class="nb">cd</span><span class="w"> </span>/epics/ioc
+make
+</pre></div>
+</div>
+<p>What <code class="docutils literal notranslate"><span class="pre">make</span></code> builds lands in the host project folder, and it is linked against
+the support modules of the container that built it. A container from a
+different image may have different support modules, so when a container is
+created, <code class="docutils literal notranslate"><span class="pre">.devcontainer/postCreateCommand</span></code> removes the build products from the
+<code class="docutils literal notranslate"><span class="pre">ioc</span></code> folder: <code class="docutils literal notranslate"><span class="pre">bin</span></code>, <code class="docutils literal notranslate"><span class="pre">lib</span></code>, <code class="docutils literal notranslate"><span class="pre">dbd</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code> and every <code class="docutils literal notranslate"><span class="pre">O.*</span></code> folder. It keeps all
+source files, and the <code class="docutils literal notranslate"><span class="pre">ioc/config</span></code> link that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> makes.
+Reopening an existing container keeps its build products, which still match
+it.</p>
+<p>Your changes to the IOC source are in the host project folder, so they are
+under version control and survive the container.</p>
+</section>
+<section id="keeping-the-container-in-line-with-the-project">
+<span id="devcontainer-drift"></span><h2>Keeping the container in line with the project<a class="headerlink" href="#keeping-the-container-in-line-with-the-project" title="Link to this heading">#</a></h2>
+<p>The image was built from the project as it was at that time. Your host project
+folder may differ from it: you may have pulled changes merged since the last
+release, edited a support module’s definition files, or changed the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>. As the last step of the image build, <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">stamp</span></code> records
+what the image was built from in <code class="docutils literal notranslate"><span class="pre">/epics/dev-stamp.json</span></code>. The <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code>
+commands compare that record with the project folder mounted at
+<code class="docutils literal notranslate"><span class="pre">/epics/generic-source</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code></p></td>
+<td><p>prints the comparison and changes nothing</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code></p></td>
+<td><p>fixes what needs no build and reports the rest. The container runs it on every start</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code></p></td>
+<td><p>also rebuilds what needs a build</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span> <span class="pre">&lt;folder&gt;</span></code></p></td>
+<td><p>links an IOC instance’s config folder to <code class="docutils literal notranslate"><span class="pre">/epics/ioc/config</span></code>, then prints the comparison</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each part of the report names the command that fixes it, where there is one.
+What is compared:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>What changed in the project</p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code></p></th>
+<th class="head"><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A support module’s definition files: <code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">*.pvi.device.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">*.req</span></code></p></td>
+<td><p>Fixes it: links the files again, removes links that point at nothing, and regenerates <code class="docutils literal notranslate"><span class="pre">ioc.schema.json</span></code></p></td>
+<td><p>The same</p></td>
+</tr>
+<tr class="row-odd"><td><p>A support module’s other files in <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>, such as its <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>, or its <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span></code> line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></p></td>
+<td><p>Reports it</p></td>
+<td><p>Rebuilds that module and every module after it in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, then the IOC</p></td>
+</tr>
+<tr class="row-even"><td><p>What a module clones: the version, repository or patch in its <code class="docutils literal notranslate"><span class="pre">install.yml</span></code></p></td>
+<td><p>Reports it, and names the folder that a rebuild removes</p></td>
+<td><p>Removes <code class="docutils literal notranslate"><span class="pre">/epics/support/&lt;module&gt;</span></code> and clones it again, discarding any edits in that folder, then rebuilds as above</p></td>
+</tr>
+<tr class="row-odd"><td><p>The list of <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span></code> lines in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></p></td>
+<td><p>Reports it</p></td>
+<td><p>Rebuilds from the first place where the list differs, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ibek-support/_ansible</span></code></p></td>
+<td><p>Reports it</p></td>
+<td><p>Rebuilds every module, then the IOC</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p></td>
+<td><p>Reports it</p></td>
+<td><p>Upgrades the Python packages and regenerates the schema, then stops: run it again for anything more</p></td>
+</tr>
+<tr class="row-even"><td><p>The <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>’s <code class="docutils literal notranslate"><span class="pre">ARG</span></code> and <code class="docutils literal notranslate"><span class="pre">FROM</span></code> lines (the base image)</p></td>
+<td><p>Reports it</p></td>
+<td><p>Reports it: pull a newer developer image, or build one locally</p></td>
+</tr>
+<tr class="row-odd"><td><p>The IOC binary: missing, older than the IOC source, or older than the last module rebuild</p></td>
+<td><p>Reports it: run <code class="docutils literal notranslate"><span class="pre">make</span></code> in <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code></p></td>
+<td><p>Builds the IOC</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code> never compiles anything. Its output on container start is easy
+to miss, so run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> when you want to see where the container
+stands.</p>
+<p>What <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> rebuilds lives in the container’s own filesystem.
+A container created again starts from the image, so run it again there if
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> asks for it.</p>
+<p>An image built without <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">stamp</span></code> has nothing to compare: the commands
+say so in one line.</p>
+</section>
+<section id="reopen-and-rebuild">
+<span id="devcontainer-reopen"></span><h2>Reopen and Rebuild<a class="headerlink" href="#reopen-and-rebuild" title="Link to this heading">#</a></h2>
+<p>VSCode keeps a project’s container between sessions. The two commands that
+open the project differ:</p>
+<ul class="simple">
+<li><p><strong>Reopen in Container</strong> starts the existing container if there is one. It
+stays on the image it was created from, and keeps everything in its own
+filesystem.</p></li>
+<li><p><strong>Dev Containers: Rebuild Container</strong> deletes the container and creates
+another from the image that <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> has just
+pulled or built. Changes to the container’s own filesystem are lost, and the
+IOC build products are removed.</p></li>
+</ul>
+<p>So a newer image that <code class="docutils literal notranslate"><span class="pre">initializeCommand</span></code> pulls takes effect only after
+<strong>Rebuild Container</strong>. While the existing container was created from a
+different image, two warnings say so: <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> prints
+one in yellow on the host as the container opens, and the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands
+print one in the container. Both start <code class="docutils literal notranslate"><span class="pre">WARNING:</span></code> and both are cleared by
+<strong>Dev Containers: Rebuild Container</strong>.</p>
+</section>
+<section id="the-ibek-support-submodule">
+<span id="devcontainer-submodule"></span><h2>The ibek-support submodule<a class="headerlink" href="#the-ibek-support-submodule" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule holds the build recipes and definition files of
+the support modules. <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> and <code class="docutils literal notranslate"><span class="pre">./build</span></code> check it
+out only when it is not checked out at all. Once it is, they leave it alone,
+so a branch or commit you have checked out in it stays as it is.</p>
+<p>After a <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> that moves the project’s <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> commit, update the
+submodule yourself:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># on the host, in the project folder</span>
+git<span class="w"> </span>submodule<span class="w"> </span>update
+</pre></div>
+</div>
+<p>Then run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code> in the container, which fixes or reports what the
+move changed (it also runs on every container start), and <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> to
+see what is left.</p>
+</section>
+<section id="working-on-a-support-module">
+<h2>Working on a support module<a class="headerlink" href="#working-on-a-support-module" title="Link to this heading">#</a></h2>
+<p>Changing the source of a support module, rather than its <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>
+recipe, is covered by <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code>.</p>
+<div class="note admonition">
+<p class="admonition-title">To be written</p>
+<p>This section will describe <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code>.</p>
+</div>
+</section>
+<section id="generic-iocs-from-earlier-templates">
+<span id="devcontainer-template-version"></span><h2>Generic IOCs from earlier templates<a class="headerlink" href="#generic-iocs-from-earlier-templates" title="Link to this heading">#</a></h2>
+<p>A Generic IOC generated from a version of
+<a class="reference external" href="https://github.com/epics-containers/ioc-template">ioc-template</a> below 5.1.0
+works differently. Its <code class="docutils literal notranslate"><span class="pre">.devcontainer/devcontainer.json</span></code> has a <code class="docutils literal notranslate"><span class="pre">build</span></code> block
+in place of an <code class="docutils literal notranslate"><span class="pre">image</span></code>, so VSCode builds the <code class="docutils literal notranslate"><span class="pre">developer</span></code> target from the
+project’s <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> when it creates the container, and the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code>
+checks above do not run. epics-containers builds all support from source, so
+building something as large as AreaDetector takes a few minutes the first
+time; the layers are cached, so later builds are quick up to the first line
+that changed. The <code class="docutils literal notranslate"><span class="pre">_commit</span></code> line of the project’s
+<code class="docutils literal notranslate"><span class="pre">.copier-answers.yml</span></code> shows the template version. To move the project to the
+published-image flow, update it from the template (see
+<a class="reference internal" href="../how-to/copier_update.html"><span class="std std-doc">Updating User Repositories with Copier</span></a>).</p>
+</section>
+<section id="summing-up">
+<h2>Summing up<a class="headerlink" href="#summing-up" title="Link to this heading">#</a></h2>
+<p>For the most part you can ignore the details and remember:</p>
+<ul class="simple">
+<li><p><strong>Reopen in Container</strong> to carry on; <strong>Dev Containers: Rebuild Container</strong>
+when a WARNING asks for it, or to move to a newer image;</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">make</span></code> in <code class="docutils literal notranslate"><span class="pre">/epics/ioc</span></code> to build the IOC, and <code class="docutils literal notranslate"><span class="pre">./start.sh</span></code> there to run
+it;</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> to see how the container differs from the project, and
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> when it asks for a rebuild;</p></li>
+<li><p>your changes to the project folder are on the host and under version
+control.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="decisions/0005-python-scripting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5. Use Python for scripting inside and outside containers</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="epics_protocols.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EPICS Network Protocols in Containers</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-container-and-runtime-container">Developer container and runtime container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-developer-image">The developer image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-when-the-container-opens">What happens when the container opens</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-image-locally">Building the image locally</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-mounted-where">What is mounted where</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ioc-folder">The ioc folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-the-container-in-line-with-the-project">Keeping the container in line with the project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reopen-and-rebuild">Reopen and Rebuild</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ibek-support-submodule">The ibek-support submodule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-on-a-support-module">Working on a support module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generic-iocs-from-earlier-templates">Generic IOCs from earlier templates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summing-up">Summing up</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  
+  <div class="tocsection editthispage">
+    <a href="https://github.com/epics-containers/epics-containers.github.io/edit/main/docs/explanations/devcontainer.md">
+      <i class="fa-solid fa-pencil"></i>
+      
+      
+        
+          Edit on GitHub
+        
+      
+    </a>
+  </div>
+</div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/explanations/devcontainer.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

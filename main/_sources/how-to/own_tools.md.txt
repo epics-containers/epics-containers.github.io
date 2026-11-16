@@ -86,8 +86,8 @@ developer container without editing each project, list them in the
 
 ## Using the devcontainer CLI
 
-The `devcontainer` CLI builds and launches the same developer container that
-VSCode would, but driven entirely from the terminal. This is the route to take
+The `devcontainer` CLI launches the same developer container that VSCode
+would, but driven entirely from the terminal. This is the route to take
 if you use a terminal editor, or want to script your workflow.
 
 ### Install the CLI once, shared across IOCs
@@ -116,32 +116,33 @@ found. The rest of this page calls `devcontainer` directly; if you skipped the
 global install, prefix each command with `npx` and run it from the IOC folder.
 ```
 
-### Build the Generic IOC first
+### Clone the Generic IOC
 
-Clone your Generic IOC repo and run its `./build` script before launching the
-container. This pulls in the `ibek-support` submodules and surfaces any errors
-in the container build step up front, where they are easy to read:
+Clone your Generic IOC repo with its `ibek-support` submodule:
 
 ```bash
-git clone <your-ioc-xxx-repo-url>
+git clone --recursive <your-ioc-xxx-repo-url>
 cd ioc-xxx
-./build
 ```
 
+Like VSCode, the CLI runs `.devcontainer/initializeCommand` on the host before
+it starts the container. That pulls the Generic IOC's published developer
+image, or builds it locally when it cannot pull one; see
+{any}`devcontainer-open`. A build streams its full log to your terminal.
+
 ```{tip}
-If a support module fails to build, comment it out of the `Dockerfile` so the
-container can build. You can then debug that module interactively from inside
-the developer container.
+If a support module fails to build when the image is built locally, see
+{any}`image-build-fails`.
 ```
 
 ### Launch and attach
 
-From the IOC directory, bring the developer container up. It builds the image
-if needed and then runs in the background:
+From the IOC directory, bring the developer container up. It gets the image as
+above and then runs in the background:
 
 ```bash
 devcontainer up --workspace-folder .
-# wait for the build to complete; the container is now running in the background
+# wait for it to complete; the container is now running in the background
 podman ps   # confirm it is up
 ```
 
@@ -170,12 +171,16 @@ podman stop <name-or-id>   # stop it (keeps the container for a fast restart)
 podman rm -f <name-or-id>  # stop and remove it completely
 ```
 
-To rebuild from scratch on the next launch — for example after editing the
-`Dockerfile` — recreate the container with:
+To create the container again from the image, as VSCode's *Dev Containers:
+Rebuild Container* does, run:
 
 ```bash
 devcontainer up --workspace-folder . --remove-existing-container
 ```
+
+To build the image from your own `Dockerfile` first, for example after editing
+it, create the marker file `.devcontainer/local-build` before you run that
+command (see {any}`devcontainer-local-build`).
 
 ### Troubleshooting
 

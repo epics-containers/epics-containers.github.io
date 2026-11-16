@@ -61,6 +61,14 @@ copier update -r VERSION_NUMBER --trust .
 
 Typically the only file that the user will have changed is the Dockerfile and typically merges will work well. It is still a good idea to validate the changes to the repo before committing them.
 
+When a Generic IOC's developer container misbehaves, update the repository with
+`copier update` first. The `.devcontainer` files, `build` and the end of the
+`Dockerfile` come from the template, and the developer container depends on
+them working together (see {any}`devcontainer-flow`). After the update, open
+the project with *Dev Containers: Rebuild Container*. Until the repository
+makes a full release from the updated template, it has no published
+developer image to pull, so the container builds the image locally.
+
 (copier-drift)=
 Checking for Template Drift
 ---------------------------

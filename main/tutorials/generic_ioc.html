@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev157+gd793541aa documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=eb2578a1"></script>
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -584,8 +584,7 @@ not published — there is no release tag yet — but it primes the build cache 
 your later builds are fast. Watch it under the <strong>Actions</strong> tab.</p>
 <p>Open the project in VSCode — but <strong>stay on the host for now</strong>; do not reopen in
 the container yet. You will first point the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> at the correct base
-image and build it once, so the developer container you open afterwards is
-already the right image, cached:</p>
+image, so that the developer image is built from it the first time:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo
 code<span class="w"> </span>.
 </pre></div>
@@ -618,24 +617,26 @@ instead. It is built on <code class="docutils literal notranslate"><span class="
 </section>
 <section id="build-the-image-and-open-the-devcontainer">
 <h2>Build the image and open the devcontainer<a class="headerlink" href="#build-the-image-and-open-the-devcontainer" title="Link to this heading">#</a></h2>
-<p>With the base image set, build the developer image <strong>on the host</strong> so you can
-watch the full log — VSCode otherwise hides it behind a progress notification.
-The AreaDetector base is large, so the first build takes a few minutes; the
-layers are cached for every build after that:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">./build</span></code> calls podman to build the container image. Once it succeeds,
-reopen the project in its developer container — it reuses the image you just
-built, so it opens straight away:</p>
+<p>A developer container normally opens from the developer image that CI
+publishes with each full release. This repository has no release yet, so there
+is no image to pull: when you open the container, <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code>
+builds the developer image on the host with <code class="docutils literal notranslate"><span class="pre">./build</span></code> instead (see
+<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>). The AreaDetector base is large, so the first build
+takes a few minutes; the layers are cached for every build after that.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt; <em>Dev Containers: <strong>Reopen in Container</strong></em></p></li>
 </ul>
+<p>VSCode hides the build output behind a progress notification. Click <strong>show
+log</strong> in that notification to watch it.</p>
+<p>Later starts still have nothing to pull, so they reuse the image you built as
+it is. To build it again after changing the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, create the marker
+file <code class="docutils literal notranslate"><span class="pre">.devcontainer/local-build</span></code> and rebuild the container, as
+<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-local-build"><span class="std std-ref">Building the image locally</span></a> describes.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>If you ever have problems opening a devcontainer
 try the <strong>Rebuild</strong> option (<code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt; <em>Dev Containers: Rebuild
-Container</em>). The rebuild is still fast because the image layers are cached.</p>
+Container</em>). It creates a new container from the image, so it is quick.</p>
 </div>
 <p>All the work below happens inside this container.</p>
 </section>
@@ -919,6 +920,14 @@ the module from upstream, builds it with standard EPICS steps, and records its
 dbds and libs for the IOC link.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Your container was created from an image built without these lines, so
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> now reports <code class="docutils literal notranslate"><span class="pre">ADSimDetector:</span> <span class="pre">not</span> <span class="pre">built</span> <span class="pre">in</span> <span class="pre">this</span> <span class="pre">container</span></code>.
+<code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> has already built it there, so you can carry on.
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> builds it again, with any modules after it and the IOC,
+and clears the report.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The per-module <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pairs look repetitive, but they maximise the build
 cache hit rate — editing one recipe does not force every module to rebuild.</p>
 </div>
@@ -969,7 +978,9 @@ publishes it.</span><a class="headerlink" href="#id1" title="Link to this image"
 </figcaption>
 </figure>
 <p>CI then builds and pushes the image, which appears under the repo’s
-<strong>Packages</strong> as <code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;org&gt;/ioc-adsim-demo-runtime</span></code>.</p>
+<strong>Packages</strong> as <code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;org&gt;/ioc-adsim-demo-runtime</span></code>. A full release also
+tags the developer image <code class="docutils literal notranslate"><span class="pre">ghcr.io/&lt;org&gt;/ioc-adsim-demo-developer</span></code> as <code class="docutils literal notranslate"><span class="pre">latest</span></code>,
+which the devcontainer pulls from then on.</p>
 <figure class="align-default" id="id2">
 <img alt="../_images/simDetRelease.png" src="../_images/simDetRelease.png" />
 <figcaption>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev157+gd793541aa documentation</title>
+    <title>Updating and Testing ibek-support &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=eb2578a1"></script>
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -489,10 +489,64 @@
   <section id="updating-and-testing-ibek-support">
 <h1>Updating and Testing ibek-support<a class="headerlink" href="#updating-and-testing-ibek-support" title="Link to this heading">#</a></h1>
 <p>The <a class="reference external" href="https://github.com/epics-containers/ibek-support">ibek-support</a> repository
-contains <code class="docutils literal notranslate"><span class="pre">ibek</span></code> support YAML (files named <code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>). Here is an
-example procedure for local testing of changes to support YAML in ibek-support
-alongside the IOC instance YAML that uses it.</p>
-<p>(Suggest you do this inside a developer workspace devcontainer.)</p>
+holds the build recipe (<code class="docutils literal notranslate"><span class="pre">&lt;module&gt;.install.yml</span></code>) and the <code class="docutils literal notranslate"><span class="pre">ibek</span></code> support YAML
+(<code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>) of each support module. Each Generic IOC has it as the
+<code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule. This page shows how to test changes to it.</p>
+<section id="in-a-generic-ioc-developer-container">
+<h2>In a Generic IOC developer container<a class="headerlink" href="#in-a-generic-ioc-developer-container" title="Link to this heading">#</a></h2>
+<p>The best place to test a change to <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> is the developer container of
+a Generic IOC that uses the modules you are changing. The container’s support
+modules and definition links come from the image, and the <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands
+bring them in line with your checkout of the submodule (see
+<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-drift"><span class="std std-ref">Keeping the container in line with the project</span></a>).</p>
+<p>Make the change in the submodule: edit its files, or check out the branch that
+holds the change, on the host or in the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container; on the host, use your clone's ibek-support folder</span>
+<span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-xxx/ibek-support
+git<span class="w"> </span>fetch
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch&gt;
+</pre></div>
+</div>
+<p>Then, in the container, see how the container differs from your checkout:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>status
+</pre></div>
+</div>
+<ul>
+<li><p>Changes to definition files (<code class="docutils literal notranslate"><span class="pre">*.ibek.support.yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">*.pvi.device.yaml</span></code>,
+<code class="docutils literal notranslate"><span class="pre">*.req</span></code>) need no build. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code> links them again and regenerates the
+IOC schema. The container runs it on every start; run it yourself after a
+change:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>sync
+</pre></div>
+</div>
+</li>
+<li><p>Changes that need a build, such as an <code class="docutils literal notranslate"><span class="pre">install.yml</span></code> change or a move of the
+submodule to a commit with other recipes, are reported with the command that
+rebuilds them. It rebuilds each changed module, every module after it in the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, and then the IOC:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>sync<span class="w"> </span>--build
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Then test an IOC instance that uses the modules:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>dev<span class="w"> </span>instance<span class="w"> </span>/workspaces/&lt;services-repo&gt;/services/&lt;ioc-instance&gt;
+<span class="nb">cd</span><span class="w"> </span>/epics/ioc
+make
+./start.sh
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> builds the IOC binary, which a new container does not have.
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">instance</span></code> also prints how the container differs from your checkout,
+so you can see that nothing is left to sync before you start the IOC.</p>
+<p>To publish the change, commit and push it in <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> first, then commit
+the new submodule commit in the Generic IOC repository.</p>
+</section>
+<section id="without-a-container">
+<h2>Without a container<a class="headerlink" href="#without-a-container" title="Link to this heading">#</a></h2>
+<p>You can also check support YAML against IOC instance YAML with <code class="docutils literal notranslate"><span class="pre">ibek</span></code> alone,
+outside any container. This generates the startup script and database from the
+files, but builds nothing.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><strong>DLS users:</strong> obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code> with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code> before running
@@ -526,6 +580,7 @@ discovers all of them:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ibek<span class="w"> </span>runtime<span class="w"> </span>generate2<span class="w"> </span>config<span class="w"> </span>--definitions<span class="w"> </span>../../../ibek-support/*/*ibek.support.yaml
 </pre></div>
 </div>
+</section>
 </section>
 
 
@@ -566,6 +621,19 @@ discovers all of them:</p>
                 <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#in-a-generic-ioc-developer-container">In a Generic IOC developer container</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#without-a-container">Without a container</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev157+gd793541aa documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=eb2578a1"></script>
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -506,42 +506,49 @@
   <section id="debugging-generic-ioc-builds">
 <h1>Debugging Generic IOC Builds<a class="headerlink" href="#debugging-generic-ioc-builds" title="Link to this heading">#</a></h1>
 <p>This tutorial continues from <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>, where we built the
-<code class="docutils literal notranslate"><span class="pre">ioc-adsimdetector</span></code> Generic IOC and re-authored its <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe.
+<code class="docutils literal notranslate"><span class="pre">ioc-adsim-demo</span></code> Generic IOC and re-authored its <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe.
 Here we look at what to do when such a build <em>fails</em>.</p>
-<p>The developer container is built <strong>from the Generic IOC image</strong> (the <code class="docutils literal notranslate"><span class="pre">developer</span></code>
-target of the same <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>). That is normally a strength — you debug in the
-exact environment the image is built in — but it has one catch: when the <em>image</em>
-build fails, there is no container to open. The fix is a small trick:</p>
-<ol class="arabic simple">
-<li><p>Comment out the failing <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">…</span></code> line so the image — and therefore
-the dev container built from it — builds again.</p></li>
-<li><p>Reopen the dev container.</p></li>
-<li><p>Run the failing command <strong>by hand</strong> inside the live container and iterate
-until it passes.</p></li>
-<li><p>Uncomment the line and run a full <code class="docutils literal notranslate"><span class="pre">./build</span></code> to confirm.</p></li>
-</ol>
-<p>This makes the dev container the debugging surface, which is the project’s
-gold-standard loop.</p>
+<p>The developer container opens from a developer image that was built already:
+the one CI published with the project’s latest full release, or a local one
+(see <a class="reference internal" href="../explanations/devcontainer.html#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>). So a recipe that no longer builds does not stop
+the container opening. You find the failure and fix it inside the container,
+which is the exact environment the image is built in.</p>
+<p>Only when the image itself has to be built as the container opens can a
+failing recipe stop it opening. That case has its own trick, described in
+<a class="reference internal" href="#image-build-fails"><span class="std std-ref">When the image build fails</span></a>.</p>
 <section id="break-the-build">
 <h2>Break the build<a class="headerlink" href="#break-the-build" title="Link to this heading">#</a></h2>
 <p>Let us introduce a realistic mistake into the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe you
-authored in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. Open
-<code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code> and change <code class="docutils literal notranslate"><span class="pre">version</span></code> to a
-tag that does not exist:</p>
+authored in <a class="reference internal" href="generic_ioc.html"><span class="doc">Create a Generic IOC</span></a>. Open the <code class="docutils literal notranslate"><span class="pre">ioc-adsim-demo</span></code> project in VSCode and
+use <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt; <em>Dev Containers: Rebuild Container</em>. That creates the
+container afresh from the developer image of your <code class="docutils literal notranslate"><span class="pre">2.11ec1</span></code> release (or from
+your local image, if it cannot pull that one), rather than reopening the
+container in which you built <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> by hand. Then
+open <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code> and change
+<code class="docutils literal notranslate"><span class="pre">version</span></code> to a tag that does not exist:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ADSimDetector</span>
 <span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R2-111</span><span class="w">          </span><span class="c1"># typo — there is no such tag</span>
 </pre></div>
 </div>
-<p>Now rebuild from a terminal <em>outside</em> the dev container:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsimdetector<span class="w">     </span><span class="c1"># wherever you cloned it</span>
-./build
+<p>Ask the container how it differs from the project, in a terminal in the
+container (Terminal -&gt; New Terminal):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+ibek<span class="w"> </span>dev<span class="w"> </span>status
 </pre></div>
 </div>
-<p>The build cache skips the unchanged steps and re-runs from
-<code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">ibek-support/ADSimDetector/</span> <span class="pre">ADSimDetector</span></code> onwards. <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> clones the
-module before building it, and the clone fails because the requested ref is not
-in the upstream repo:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>fatal: Remote branch R2-111 not found in upstream origin
+<p>It reports that <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> needs a rebuild, and names the command that
+does it, <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code>. Run that:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+ibek<span class="w"> </span>dev<span class="w"> </span>sync<span class="w"> </span>--build
+</pre></div>
+</div>
+<p>It clones the module afresh at the version in <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>, removing any
+<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> that the image has first, before building it
+with the module’s own line of the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code>.
+The clone fails because the requested ref is not in the upstream repo, with
+an error that includes:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Failed to checkout R2-111
+error: pathspec 'R2-111' did not match any file(s) known to git
 </pre></div>
 </div>
 <div class="admonition note">
@@ -551,47 +558,39 @@ step with an <em>authentication</em> or <em>repository not found</em> error — 
 different message.</p>
 </div>
 </section>
-<section id="get-a-working-dev-container">
-<h2>Get a working dev container<a class="headerlink" href="#get-a-working-dev-container" title="Link to this heading">#</a></h2>
-<p>Because the image will not build, the dev container cannot open. Comment out the
-failing line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, leaving its matching <code class="docutils literal notranslate"><span class="pre">COPY</span></code> in place:</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/ADSimDetector/<span class="w"> </span>ADSimDetector
-<span class="c"># RUN ansible.sh ADSimDetector</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal notranslate"><span class="pre">developer</span></code> image now builds again — it simply omits the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code>
-support for the moment. Reopen and rebuild the dev container so it picks up the
-edited <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>.
-<span class="c1"># then Ctrl-Shift-P -&gt; "Dev Containers: Rebuild Container"</span>
-</pre></div>
-</div>
-</section>
 <section id="fix-it-live-inside-the-container">
 <h2>Fix it live inside the container<a class="headerlink" href="#fix-it-live-inside-the-container" title="Link to this heading">#</a></h2>
-<p>Open a terminal in the dev container (Terminal -&gt; New Terminal) and run the
-command that failed, by hand:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>ADSimDetector
-</pre></div>
-</div>
-<p>You get the same clone error — but now you can fix it in place. Correct the
-version in <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code> back to the
-real tag and re-run. <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> is idempotent, so you can re-run it as often as
-you like:</p>
+<p>Correct the version in <code class="docutils literal notranslate"><span class="pre">ibek-support/ADSimDetector/ADSimDetector.install.yml</span></code>
+back to the real tag:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R2-11</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ansible.sh<span class="w"> </span>ADSimDetector
+<p>The failed clone left a checkout of the module’s default branch in
+<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code>, and <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> builds a module folder that
+exists as it is, without cloning it. So remove the folder, then run the rebuild
+again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>/epics/support/ADSimDetector
+ibek<span class="w"> </span>dev<span class="w"> </span>sync<span class="w"> </span>--build
 </pre></div>
 </div>
-<p>This time the module clones and builds.</p>
+<p>This time the module clones and builds, then the IOC is built. You can re-run
+it as often as you like: it carries on from the module that failed. You can
+also run <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code> by hand while you iterate; it is idempotent.
+<code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> builds the folder that is there, so if you change the version in
+<code class="docutils literal notranslate"><span class="pre">install.yml</span></code> before running it by hand, or after a clone fails, remove
+<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> first so that it is cloned at the version in
+<code class="docutils literal notranslate"><span class="pre">install.yml</span></code>. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> clones a module again by itself when its
+version differs from the one the container last built. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> keeps reporting the module until
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> has built it.</p>
 </section>
 <section id="make-the-fix-permanent">
 <h2>Make the fix permanent<a class="headerlink" href="#make-the-fix-permanent" title="Link to this heading">#</a></h2>
-<p>Uncomment the <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code> line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, then run a
-full build from outside the container to confirm the image builds cleanly from
-scratch:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build
+<p>The fix is in your <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> checkout on the host. To confirm that the
+image builds cleanly with it, run a full build from a terminal <em>outside</em> the
+container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo<span class="w">     </span><span class="c1"># wherever you cloned it</span>
+./build
 </pre></div>
 </div>
 <div class="admonition note">
@@ -601,6 +600,31 @@ modules in <a class="reference internal" href="generic_ioc.html"><span class="do
 can fix interactively with <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> can be recorded in the recipe or
 <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> and replayed by <code class="docutils literal notranslate"><span class="pre">./build</span></code>.</p>
 </div>
+</section>
+<section id="when-the-image-build-fails">
+<span id="image-build-fails"></span><h2>When the image build fails<a class="headerlink" href="#when-the-image-build-fails" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code> builds the image as the container opens when
+the marker file <code class="docutils literal notranslate"><span class="pre">.devcontainer/local-build</span></code> exists, or when it can neither pull
+the image nor find a local one, as for a repository with no release (see
+<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-local-build"><span class="std std-ref">Building the image locally</span></a>). If a recipe fails in that build, there is no
+image and so no container to open. The fix is a small trick:</p>
+<ol class="arabic">
+<li><p>Comment out the failing <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">…</span></code> line in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, leaving
+its matching <code class="docutils literal notranslate"><span class="pre">COPY</span></code> in place:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/ADSimDetector/<span class="w"> </span>ADSimDetector
+<span class="c"># RUN ansible.sh ADSimDetector</span>
+</pre></div>
+</div>
+<p>The image now builds again — it simply omits the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> support
+for the moment.</p>
+</li>
+<li><p>Open the container with <code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt; <em>Dev Containers: Rebuild
+Container</em>, so that the image is built from the edited <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> and the
+container is created from it.</p></li>
+<li><p>Run the failing command by hand inside the container, <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code>, and fix the recipe until it passes. After a clone failure,
+remove <code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> before running it again, as above.</p></li>
+<li><p>Uncomment the line and run a full <code class="docutils literal notranslate"><span class="pre">./build</span></code> on the host to confirm.</p></li>
+</ol>
 </section>
 <section id="aside-a-missing-system-header">
 <h2>Aside: a missing system header<a class="headerlink" href="#aside-a-missing-system-header" title="Link to this heading">#</a></h2>
@@ -701,9 +725,9 @@ provides network diagnostics such as <code class="docutils literal notranslate">
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#break-the-build">Break the build</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-a-working-dev-container">Get a working dev container</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-it-live-inside-the-container">Fix it live inside the container</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#make-the-fix-permanent">Make the fix permanent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-the-image-build-fails">When the image build fails</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-a-missing-system-header">Aside: a missing system header</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tools-inside-the-container">Tools inside the container</a></li>
 </ul>

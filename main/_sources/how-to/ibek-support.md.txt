@@ -1,11 +1,73 @@
 # Updating and Testing ibek-support
 
 The [ibek-support](https://github.com/epics-containers/ibek-support) repository
-contains `ibek` support YAML (files named `*.ibek.support.yaml`). Here is an
-example procedure for local testing of changes to support YAML in ibek-support
-alongside the IOC instance YAML that uses it.
+holds the build recipe (`<module>.install.yml`) and the `ibek` support YAML
+(`*.ibek.support.yaml`) of each support module. Each Generic IOC has it as the
+`ibek-support` submodule. This page shows how to test changes to it.
 
-(Suggest you do this inside a developer workspace devcontainer.)
+## In a Generic IOC developer container
+
+The best place to test a change to `ibek-support` is the developer container of
+a Generic IOC that uses the modules you are changing. The container's support
+modules and definition links come from the image, and the `ibek dev` commands
+bring them in line with your checkout of the submodule (see
+{any}`devcontainer-drift`).
+
+Make the change in the submodule: edit its files, or check out the branch that
+holds the change, on the host or in the container:
+
+```bash
+# in the container; on the host, use your clone's ibek-support folder
+cd /workspaces/ioc-xxx/ibek-support
+git fetch
+git checkout <branch>
+```
+
+Then, in the container, see how the container differs from your checkout:
+
+```bash
+ibek dev status
+```
+
+- Changes to definition files (`*.ibek.support.yaml`, `*.pvi.device.yaml`,
+  `*.req`) need no build. `ibek dev sync` links them again and regenerates the
+  IOC schema. The container runs it on every start; run it yourself after a
+  change:
+
+  ```bash
+  ibek dev sync
+  ```
+
+- Changes that need a build, such as an `install.yml` change or a move of the
+  submodule to a commit with other recipes, are reported with the command that
+  rebuilds them. It rebuilds each changed module, every module after it in the
+  `Dockerfile`, and then the IOC:
+
+  ```bash
+  ibek dev sync --build
+  ```
+
+Then test an IOC instance that uses the modules:
+
+```bash
+ibek dev instance /workspaces/<services-repo>/services/<ioc-instance>
+cd /epics/ioc
+make
+./start.sh
+```
+
+`make` builds the IOC binary, which a new container does not have.
+`ibek dev instance` also prints how the container differs from your checkout,
+so you can see that nothing is left to sync before you start the IOC.
+
+To publish the change, commit and push it in `ibek-support` first, then commit
+the new submodule commit in the Generic IOC repository.
+
+## Without a container
+
+You can also check support YAML against IOC instance YAML with `ibek` alone,
+outside any container. This generates the startup script and database from the
+files, but builds nothing.
 
 :::{note}
 **DLS users:** obtain `uv` with `module load uv` before running

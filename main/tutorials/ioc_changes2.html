@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changing a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev157+gd793541aa documentation</title>
+    <title>Changing a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=eb2578a1"></script>
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -584,7 +584,7 @@ command in its own config.</p>
 <p>This is deliberately artificial: a <code class="docutils literal notranslate"><span class="pre">post_init</span></code> here changes behaviour for <em>all</em>
 simDetector instances. For per-instance behaviour, prefer the <code class="docutils literal notranslate"><span class="pre">epics.dbpf</span></code> or
 <code class="docutils literal notranslate"><span class="pre">epics.PostStartupCommand</span></code> entity in <code class="docutils literal notranslate"><span class="pre">ioc.yaml</span></code> (both defined globally in
-<code class="docutils literal notranslate"><span class="pre">ibek-support/_global/epics.ibek.support.yaml</span></code>) — the type 1 approach you used
+<code class="docutils literal notranslate"><span class="pre">ibek-support/_ansible/epics.ibek.support.yaml</span></code>) — the type 1 approach you used
 in <a class="reference internal" href="ioc_changes1.html"><span class="std std-doc">Changing the IOC Instance</span></a>.</p>
 </div>
 <p>Support YAML — entities, <code class="docutils literal notranslate"><span class="pre">pre_init</span></code>/<code class="docutils literal notranslate"><span class="pre">post_init</span></code>, and parameters — is covered in

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev157+gd793541aa documentation</title>
+    <title>Updating User Repositories with Copier &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=eb2578a1"></script>
+    <script src="../_static/documentation_options.js?v=115ee54e"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -529,6 +529,13 @@
 </pre></div>
 </div>
 <p>Typically the only file that the user will have changed is the Dockerfile and typically merges will work well. It is still a good idea to validate the changes to the repo before committing them.</p>
+<p>When a Generic IOC’s developer container misbehaves, update the repository with
+<code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code> first. The <code class="docutils literal notranslate"><span class="pre">.devcontainer</span></code> files, <code class="docutils literal notranslate"><span class="pre">build</span></code> and the end of the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> come from the template, and the developer container depends on
+them working together (see <a class="reference internal" href="../explanations/devcontainer.html#devcontainer-flow"><span class="std std-ref">How a Generic IOC Developer Container Works</span></a>). After the update, open
+the project with <em>Dev Containers: Rebuild Container</em>. Until the repository
+makes a full release from the updated template, it has no published
+developer image to pull, so the container builds the image locally.</p>
 </section>
 <section id="checking-for-template-drift">
 <span id="copier-drift"></span><h2>Checking for Template Drift<a class="headerlink" href="#checking-for-template-drift" title="Link to this heading">#</a></h2>
