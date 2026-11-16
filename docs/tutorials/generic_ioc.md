@@ -554,7 +554,8 @@ git add .gitmodules ibek-support
 git commit -m "use the merged ibek-support recipe"
 ```
 
-Then make the full release.
+Push that commit to the default branch, through a pull request if your project
+uses them, then make the full release from it.
 :::
 
 :::{note}
