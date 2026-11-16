@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
+    <title>Essential Concepts &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=115ee54e"></script>
+    <script src="../_static/documentation_options.js?v=0a93013a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -556,6 +556,11 @@ uses the AreaDetector driver ADAravis to drive any GigE camera.</p>
 </ul>
 <p>It deliberately contains no startup script or EPICS database — those are
 instance-specific and supplied at runtime.</p>
+<p>Each Generic IOC image is built from the <code class="docutils literal notranslate"><span class="pre">epics-base</span></code> developer and runtime
+images, and its <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> compiles every support module the image contains
+from source, common ones such as <code class="docutils literal notranslate"><span class="pre">asyn</span></code> included. No Generic IOC is built on
+another, so each one pins its own module versions and is released on its own.
+See <a class="reference internal" href="../tutorials/generic_ioc.html#generic-ioc-dockerfile"><span class="std std-ref">Add the areaDetector stack to the Dockerfile</span></a>.</p>
 <p>An <strong>IOC instance</strong> runs by combining two things:</p>
 <ul class="simple">
 <li><p>the Generic IOC image, passed to the container runtime</p></li>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev163+g1a83151f3 documentation</title>
+    <title>Create a Generic IOC &#8212; epics-containers.github.io 4.2.1.dev167+gbe7397af8 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=115ee54e"></script>
+    <script src="../_static/documentation_options.js?v=0a93013a"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -519,9 +519,9 @@ this <code class="docutils literal notranslate"><span class="pre">ioc-adsimdetec
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A detector is a good worked example because it shows the one real twist over a
-plain device: an areaDetector IOC builds on the <strong>AreaDetector developer base
-image</strong>, which already ships ADCore and ADSupport. You add only the
-detector-specific module on top.</p>
+plain device: a detector driver needs the areaDetector stack under it. The
+Generic IOC’s <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> builds that whole stack itself — <code class="docutils literal notranslate"><span class="pre">asyn</span></code>, <code class="docutils literal notranslate"><span class="pre">ADCore</span></code>
+and the modules they depend on — before the detector-specific module.</p>
 </div>
 <p>epics-containers builds support straight from public git repositories, so a
 support module needs to be published with a standard EPICS layout. <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code>
@@ -565,14 +565,16 @@ copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epi
 <tr class="row-odd"><td><p>The GitHub organisation that will contain this repo</p></td>
 <td><p><em>your GitHub account or org</em></p></td>
 </tr>
-<tr class="row-even"><td><p>Remote URI of the repository</p></td>
-<td><p><em>(accept the default)</em></p></td>
+<tr class="row-even"><td><p>Build and publish an arm64 image as well as amd64?</p></td>
+<td><p><em>(accept the default, yes)</em></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Accept the defaults for any remaining prompts. Then make the first commit and
-push:</p>
+<p><code class="docutils literal notranslate"><span class="pre">copier</span></code> also initialises git in the new folder, adds the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>
+submodule and sets <code class="docutils literal notranslate"><span class="pre">origin</span></code> to
+<code class="docutils literal notranslate"><span class="pre">git&#64;github.com:&lt;your</span> <span class="pre">account</span> <span class="pre">or</span> <span class="pre">org&gt;/ioc-adsim-demo.git</span></code>. Make the first
+commit and push:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"initial commit"</span>
@@ -583,8 +585,8 @@ git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span
 not published — there is no release tag yet — but it primes the build cache so
 your later builds are fast. Watch it under the <strong>Actions</strong> tab.</p>
 <p>Open the project in VSCode — but <strong>stay on the host for now</strong>; do not reopen in
-the container yet. You will first point the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> at the correct base
-image, so that the developer image is built from it the first time:</p>
+the container yet. You will first add the areaDetector support modules to the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, so that the developer image is built with them the first time:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>ioc-adsim-demo
 code<span class="w"> </span>.
 </pre></div>
@@ -594,26 +596,64 @@ code<span class="w"> </span>.
 <p><strong>DLS users:</strong> run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">vscode</span></code> before <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">.</span></code></p>
 </div>
 </section>
-<section id="switch-to-the-areadetector-base-image">
-<h2>Switch to the AreaDetector base image<a class="headerlink" href="#switch-to-the-areadetector-base-image" title="Link to this heading">#</a></h2>
+<section id="add-the-areadetector-stack-to-the-dockerfile">
+<span id="generic-ioc-dockerfile"></span><h2>Add the areaDetector stack to the Dockerfile<a class="headerlink" href="#add-the-areadetector-stack-to-the-dockerfile" title="Link to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> builds the container image. Its <code class="docutils literal notranslate"><span class="pre">ARG</span></code> lines pick the
-<strong>developer</strong> base image to build in and the <strong>runtime</strong> base image to ship.
-The template defaults to the plain <code class="docutils literal notranslate"><span class="pre">epics-base</span></code> images and then builds a few
-common modules (<code class="docutils literal notranslate"><span class="pre">iocStats</span></code>, <code class="docutils literal notranslate"><span class="pre">pvlogging</span></code>, <code class="docutils literal notranslate"><span class="pre">autosave</span></code>) on top.</p>
-<p>For an areaDetector IOC, point <code class="docutils literal notranslate"><span class="pre">DEVELOPER</span></code> at the AreaDetector developer base
-instead. It is built on <code class="docutils literal notranslate"><span class="pre">ioc-asyn</span></code> and already contains ADCore, ADSupport,
-<code class="docutils literal notranslate"><span class="pre">asyn</span></code> and the common modules:</p>
-<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">ARG</span><span class="w"> </span><span class="nv">RUNTIME</span><span class="o">=</span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/epics-base<span class="si">${</span><span class="nv">IMAGE_EXT</span><span class="si">}</span>-runtime:7.0.10ec2
-<span class="k">ARG</span><span class="w"> </span><span class="nv">DEVELOPER</span><span class="o">=</span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/ioc-areadetector<span class="si">${</span><span class="nv">IMAGE_EXT</span><span class="si">}</span>-developer:3.14ec3
+<code class="docutils literal notranslate"><span class="pre">epics-base</span></code> <strong>developer</strong> image to build in and the <code class="docutils literal notranslate"><span class="pre">epics-base</span></code> <strong>runtime</strong>
+image to ship:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">ARG</span><span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>ghcr.io/epics-containers
+<span class="k">ARG</span><span class="w"> </span><span class="nv">RUNTIME</span><span class="o">=</span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/epics-base-runtime:7.0.11ec2
+<span class="k">ARG</span><span class="w"> </span><span class="nv">DEVELOPER</span><span class="o">=</span><span class="si">${</span><span class="nv">REGISTRY</span><span class="si">}</span>/epics-base-developer:7.0.11ec2
 </pre></div>
 </div>
-</section>
-<section id="delete-the-redundant-support-module-builds">
-<h2>Delete the redundant support module builds<a class="headerlink" href="#delete-the-redundant-support-module-builds" title="Link to this heading">#</a></h2>
-<p>Because the base image already ships <code class="docutils literal notranslate"><span class="pre">asyn</span></code> and the common modules
-(<code class="docutils literal notranslate"><span class="pre">iocStats</span></code>, <code class="docutils literal notranslate"><span class="pre">pvlogging</span></code>, <code class="docutils literal notranslate"><span class="pre">autosave</span></code>), you can <strong>delete</strong> their per-module
-<code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> lines from the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>.</p>
-<p>This first build contains no support beyond what the base image already ships and should build quite quickly. You will add the detector module next.</p>
+<p>Every Generic IOC builds from these two images and compiles all of its support
+modules itself, from the recipes in the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule: each module is
+a <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">ibek-support/&lt;module&gt;/</span></code> line and a <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span> <span class="pre">&lt;module&gt;</span></code> line. No
+Generic IOC image is built on another one, so each Generic IOC chooses and pins
+every module it contains, and one Generic IOC can be released without
+rebuilding any other.</p>
+<p>The template builds three common modules, <code class="docutils literal notranslate"><span class="pre">iocStats</span></code>, <code class="docutils literal notranslate"><span class="pre">pvlogging</span></code> and
+<code class="docutils literal notranslate"><span class="pre">autosave</span></code>. An areaDetector driver also needs <code class="docutils literal notranslate"><span class="pre">asyn</span></code>, <code class="docutils literal notranslate"><span class="pre">ADCore</span></code> (which builds
+<code class="docutils literal notranslate"><span class="pre">ADSupport</span></code> too) and the modules they depend on. Add them to the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>,
+so that the module list after the <code class="docutils literal notranslate"><span class="pre">ENV</span> <span class="pre">PATH</span></code> line, down to the <code class="docutils literal notranslate"><span class="pre">ioc</span></code> build,
+reads:</p>
+<div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/iocStats/<span class="w"> </span>iocStats
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>iocStats
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/sequencer/<span class="w"> </span>sequencer
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>sequencer
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/sscan/<span class="w"> </span>sscan
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>sscan
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/calc/<span class="w"> </span>calc
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>calc
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/asyn/<span class="w"> </span>asyn
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>asyn
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/busy/<span class="w"> </span>busy
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>busy
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/autosave/<span class="w"> </span>autosave
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>autosave
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/pvlogging/<span class="w"> </span>pvlogging
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>pvlogging
+
+<span class="k">COPY</span><span class="w"> </span>ibek-support/ADCore/<span class="w"> </span>ADCore
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>ADCore
+
+<span class="c"># get the ioc source and build it</span>
+<span class="k">COPY</span><span class="w"> </span>ioc<span class="w"> </span><span class="si">${</span><span class="nv">SOURCE_FOLDER</span><span class="si">}</span>/ioc
+<span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>ioc
+</pre></div>
+</div>
+<p>This is the same list, in the same order, that the published
+<a class="reference external" href="https://github.com/epics-containers/ioc-adsimdetector/blob/main/Dockerfile">ioc-adsimdetector</a>
+builds, less <code class="docutils literal notranslate"><span class="pre">ffmpegServer</span></code> (an MJPEG streaming plugin that this example does
+not use) and the detector module itself, which you add later in this tutorial.
+Each module comes after the modules it depends on; see <a class="reference internal" href="#module-build-order"><span class="std std-ref">Add the module to the Dockerfile</span></a>.</p>
 </section>
 <section id="build-the-image-and-open-the-devcontainer">
 <h2>Build the image and open the devcontainer<a class="headerlink" href="#build-the-image-and-open-the-devcontainer" title="Link to this heading">#</a></h2>
@@ -621,8 +661,9 @@ instead. It is built on <code class="docutils literal notranslate"><span class="
 publishes with each full release. This repository has no release yet, so there
 is no image to pull: when you open the container, <code class="docutils literal notranslate"><span class="pre">.devcontainer/initializeCommand</span></code>
 builds the developer image on the host with <code class="docutils literal notranslate"><span class="pre">./build</span></code> instead (see
-<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>). The AreaDetector base is large, so the first build
-takes a few minutes; the layers are cached for every build after that.</p>
+<a class="reference internal" href="../explanations/devcontainer.html#devcontainer-open"><span class="std std-ref">What happens when the container opens</span></a>). The first build compiles every support module, and
+<code class="docutils literal notranslate"><span class="pre">ADCore</span></code> is large, so it takes a while; Docker caches each <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span></code>
+step, so later builds start again only from the first line that changed.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Ctrl-Shift-P</span></code> -&gt; <em>Dev Containers: <strong>Reopen in Container</strong></em></p></li>
 </ul>
@@ -655,6 +696,7 @@ git<span class="w"> </span>submodule<span class="w"> </span>update
 <span class="nb">cd</span><span class="w"> </span>ibek-support
 git<span class="w"> </span>fetch
 git<span class="w"> </span>checkout<span class="w"> </span>main<span class="w">            </span><span class="c1"># work from your fork's main branch</span>
+git<span class="w"> </span>pull<span class="w"> </span>--ff-only<span class="w">           </span><span class="c1"># bring it up to date with your fork</span>
 git<span class="w"> </span>remote<span class="w"> </span>-v<span class="w">               </span><span class="c1"># confirm origin is your fork</span>
 <span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
@@ -909,7 +951,8 @@ definitions). When a build <em>fails</em>, see <a class="reference internal" hre
 <span id="module-build-order"></span><h2>Add the module to the Dockerfile<a class="headerlink" href="#add-the-module-to-the-dockerfile" title="Link to this heading">#</a></h2>
 <p>The recipe works inside the devcontainer, but the <em>published</em> image is built by
 CI from the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, which does not yet know about the detector. Now that
-the recipe exists, add its <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pair below the base-image <code class="docutils literal notranslate"><span class="pre">ARG</span></code>s:</p>
+the recipe exists, add its <code class="docutils literal notranslate"><span class="pre">COPY</span></code>/<code class="docutils literal notranslate"><span class="pre">RUN</span></code> pair after <code class="docutils literal notranslate"><span class="pre">ADCore</span></code>, before the <code class="docutils literal notranslate"><span class="pre">ioc</span></code>
+build:</p>
 <div class="highlight-dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">COPY</span><span class="w"> </span>ibek-support/ADSimDetector/<span class="w"> </span>ADSimDetector
 <span class="k">RUN</span><span class="w"> </span>ansible.sh<span class="w"> </span>ADSimDetector
 </pre></div>
@@ -941,19 +984,45 @@ link needs each DBD file after the DBD files it depends on. See
 </div>
 </section>
 <section id="publish-the-generic-ioc">
-<h2>Publish the Generic IOC<a class="headerlink" href="#publish-the-generic-ioc" title="Link to this heading">#</a></h2>
-<p>Commit your <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe (on a branch) and the IOC project, then push:</p>
+<span id="generic-ioc-release-submodule"></span><h2>Publish the Generic IOC<a class="headerlink" href="#publish-the-generic-ioc" title="Link to this heading">#</a></h2>
+<p>Commit your <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe to your fork’s <code class="docutils literal notranslate"><span class="pre">main</span></code> branch, then commit
+the IOC project, which records the new submodule commit, and push both:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-adsim-demo/ibek-support
-git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>add-adsimdetector
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"re-author ADSimDetector support module"</span>
-git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>add-adsimdetector
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
 
 <span class="nb">cd</span><span class="w"> </span>..
 git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"add ADSimDetector tutorial version"</span>
 git<span class="w"> </span>push<span class="w">   </span><span class="c1"># a tutorial may push to main; real projects use a PR</span>
 </pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A full release tag fails CI unless the <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> submodule commit is on
+the default branch of the submodule’s <code class="docutils literal notranslate"><span class="pre">origin</span></code>, the URL in <code class="docutils literal notranslate"><span class="pre">.gitmodules</span></code>. The
+image records only that commit, so it must stay reachable for anyone to rebuild
+the image from its source. That is why the tutorial commits the recipe on your
+fork’s <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p>For a real Generic IOC, open a pull request with the recipe at
+<a class="reference external" href="https://github.com/epics-containers/ibek-support">ibek-support</a>, so that other
+Generic IOCs can use it too. While it is under review, publish pre-release tags
+such as <code class="docutils literal notranslate"><span class="pre">2.11ec1b1</span></code>: CI skips the check for them, and does not tag the
+developer image <code class="docutils literal notranslate"><span class="pre">latest</span></code>. Once the pull request is merged, point the submodule
+back at <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> and move it to a commit on its <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/workspaces/ioc-xxx
+git<span class="w"> </span>submodule<span class="w"> </span>set-url<span class="w"> </span>ibek-support<span class="w"> </span>https://github.com/epics-containers/ibek-support.git
+<span class="nb">cd</span><span class="w"> </span>ibek-support
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>checkout<span class="w"> </span>origin/main
+<span class="nb">cd</span><span class="w"> </span>..
+git<span class="w"> </span>add<span class="w"> </span>.gitmodules<span class="w"> </span>ibek-support
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"use the merged ibek-support recipe"</span>
+</pre></div>
+</div>
+<p>Push that commit to the default branch, through a pull request if your project
+uses them, then make the full release from it.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1055,8 +1124,7 @@ and run it with <code class="docutils literal notranslate"><span class="pre">doc
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-generic-ioc-project">Create the Generic IOC project</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#switch-to-the-areadetector-base-image">Switch to the AreaDetector base image</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-the-redundant-support-module-builds">Delete the redundant support module builds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-areadetector-stack-to-the-dockerfile">Add the areaDetector stack to the Dockerfile</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-image-and-open-the-devcontainer">Build the image and open the devcontainer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-the-ibek-support-submodule">Fork the ibek-support submodule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-author-the-build-recipe">Re-author the build recipe</a></li>
