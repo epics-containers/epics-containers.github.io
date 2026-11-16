@@ -16,9 +16,9 @@ this `ioc-adsimdetector`); to keep the tutorial repo separate from the published
 
 :::{note}
 A detector is a good worked example because it shows the one real twist over a
-plain device: an areaDetector IOC builds on the **AreaDetector developer base
-image**, which already ships ADCore and ADSupport. You add only the
-detector-specific module on top.
+plain device: a detector driver needs the areaDetector stack under it. The
+Generic IOC's `Dockerfile` builds that whole stack itself — `asyn`, `ADCore`
+and the modules they depend on — before the detector-specific module.
 :::
 
 epics-containers builds support straight from public git repositories, so a
@@ -56,10 +56,12 @@ Answer the prompts:
 | A one line description of the module | `Generic IOC for the areaDetector simulation detector` |
 | Git platform hosting the repository | `github.com` |
 | The GitHub organisation that will contain this repo | *your GitHub account or org* |
-| Remote URI of the repository | *(accept the default)* |
+| Build and publish an arm64 image as well as amd64? | *(accept the default, yes)* |
 
-Accept the defaults for any remaining prompts. Then make the first commit and
-push:
+`copier` also initialises git in the new folder, adds the `ibek-support`
+submodule and sets `origin` to
+`git@github.com:<your account or org>/ioc-adsim-demo.git`. Make the first
+commit and push:
 
 ```bash
 cd ioc-adsim-demo
@@ -73,8 +75,8 @@ not published — there is no release tag yet — but it primes the build cache 
 your later builds are fast. Watch it under the **Actions** tab.
 
 Open the project in VSCode — but **stay on the host for now**; do not reopen in
-the container yet. You will first point the `Dockerfile` at the correct base
-image, so that the developer image is built from it the first time:
+the container yet. You will first add the areaDetector support modules to the
+`Dockerfile`, so that the developer image is built with them the first time:
 
 ```bash
 cd ioc-adsim-demo
@@ -85,29 +87,70 @@ code .
 **DLS users:** run `module load vscode` before `code .`
 :::
 
-## Switch to the AreaDetector base image
+(generic-ioc-dockerfile)=
+## Add the areaDetector stack to the Dockerfile
 
 The `Dockerfile` builds the container image. Its `ARG` lines pick the
-**developer** base image to build in and the **runtime** base image to ship.
-The template defaults to the plain `epics-base` images and then builds a few
-common modules (`iocStats`, `pvlogging`, `autosave`) on top.
-
-For an areaDetector IOC, point `DEVELOPER` at the AreaDetector developer base
-instead. It is built on `ioc-asyn` and already contains ADCore, ADSupport,
-`asyn` and the common modules:
+`epics-base` **developer** image to build in and the `epics-base` **runtime**
+image to ship:
 
 ```dockerfile
-ARG RUNTIME=${REGISTRY}/epics-base${IMAGE_EXT}-runtime:7.0.10ec2
-ARG DEVELOPER=${REGISTRY}/ioc-areadetector${IMAGE_EXT}-developer:3.14ec3
+ARG REGISTRY=ghcr.io/epics-containers
+ARG RUNTIME=${REGISTRY}/epics-base-runtime:7.0.11ec2
+ARG DEVELOPER=${REGISTRY}/epics-base-developer:7.0.11ec2
 ```
 
-## Delete the redundant support module builds
+Every Generic IOC builds from these two images and compiles all of its support
+modules itself, from the recipes in the `ibek-support` submodule: each module is
+a `COPY ibek-support/<module>/` line and a `RUN ansible.sh <module>` line. No
+Generic IOC image is built on another one, so each Generic IOC chooses and pins
+every module it contains, and one Generic IOC can be released without
+rebuilding any other.
 
-Because the base image already ships `asyn` and the common modules
-(`iocStats`, `pvlogging`, `autosave`), you can **delete** their per-module
-`COPY`/`RUN` lines from the `Dockerfile`.
+The template builds three common modules, `iocStats`, `pvlogging` and
+`autosave`. An areaDetector driver also needs `asyn`, `ADCore` (which builds
+`ADSupport` too) and the modules they depend on. Add them to the `Dockerfile`,
+so that the module list after the `ENV PATH` line, down to the `ioc` build,
+reads:
 
-This first build contains no support beyond what the base image already ships and should build quite quickly. You will add the detector module next.
+```dockerfile
+COPY ibek-support/iocStats/ iocStats
+RUN ansible.sh iocStats
+
+COPY ibek-support/sequencer/ sequencer
+RUN ansible.sh sequencer
+
+COPY ibek-support/sscan/ sscan
+RUN ansible.sh sscan
+
+COPY ibek-support/calc/ calc
+RUN ansible.sh calc
+
+COPY ibek-support/asyn/ asyn
+RUN ansible.sh asyn
+
+COPY ibek-support/busy/ busy
+RUN ansible.sh busy
+
+COPY ibek-support/autosave/ autosave
+RUN ansible.sh autosave
+
+COPY ibek-support/pvlogging/ pvlogging
+RUN ansible.sh pvlogging
+
+COPY ibek-support/ADCore/ ADCore
+RUN ansible.sh ADCore
+
+# get the ioc source and build it
+COPY ioc ${SOURCE_FOLDER}/ioc
+RUN ansible.sh ioc
+```
+
+This is the same list, in the same order, that the published
+[ioc-adsimdetector](https://github.com/epics-containers/ioc-adsimdetector/blob/main/Dockerfile)
+builds, less `ffmpegServer` (an MJPEG streaming plugin that this example does
+not use) and the detector module itself, which you add later in this tutorial.
+Each module comes after the modules it depends on; see {any}`module-build-order`.
 
 ## Build the image and open the devcontainer
 
@@ -115,8 +158,9 @@ A developer container normally opens from the developer image that CI
 publishes with each full release. This repository has no release yet, so there
 is no image to pull: when you open the container, `.devcontainer/initializeCommand`
 builds the developer image on the host with `./build` instead (see
-{any}`devcontainer-open`). The AreaDetector base is large, so the first build
-takes a few minutes; the layers are cached for every build after that.
+{any}`devcontainer-open`). The first build compiles every support module, and
+`ADCore` is large, so it takes a while; Docker caches each `RUN ansible.sh`
+step, so later builds start again only from the first line that changed.
 
 - `Ctrl-Shift-P` -> *Dev Containers: **Reopen in Container***
 
@@ -152,6 +196,7 @@ git submodule update
 cd ibek-support
 git fetch
 git checkout main            # work from your fork's main branch
+git pull --ff-only           # bring it up to date with your fork
 git remote -v               # confirm origin is your fork
 cd ..
 ```
@@ -432,7 +477,8 @@ definitions). When a build *fails*, see {any}`debug_generic_ioc`.
 
 The recipe works inside the devcontainer, but the *published* image is built by
 CI from the `Dockerfile`, which does not yet know about the detector. Now that
-the recipe exists, add its `COPY`/`RUN` pair below the base-image `ARG`s:
+the recipe exists, add its `COPY`/`RUN` pair after `ADCore`, before the `ioc`
+build:
 
 ```dockerfile
 COPY ibek-support/ADSimDetector/ ADSimDetector
@@ -465,22 +511,52 @@ link needs each DBD file after the DBD files it depends on. See
 {any}`dbd-order`.
 :::
 
+(generic-ioc-release-submodule)=
 ## Publish the Generic IOC
 
-Commit your `ibek-support` recipe (on a branch) and the IOC project, then push:
+Commit your `ibek-support` recipe to your fork's `main` branch, then commit
+the IOC project, which records the new submodule commit, and push both:
 
 ```bash
 cd /workspaces/ioc-adsim-demo/ibek-support
-git checkout -b add-adsimdetector
 git add .
 git commit -m "re-author ADSimDetector support module"
-git push -u origin add-adsimdetector
+git push origin main
 
 cd ..
 git add .
 git commit -m "add ADSimDetector tutorial version"
 git push   # a tutorial may push to main; real projects use a PR
 ```
+
+:::{important}
+A full release tag fails CI unless the `ibek-support` submodule commit is on
+the default branch of the submodule's `origin`, the URL in `.gitmodules`. The
+image records only that commit, so it must stay reachable for anyone to rebuild
+the image from its source. That is why the tutorial commits the recipe on your
+fork's `main`.
+
+For a real Generic IOC, open a pull request with the recipe at
+[ibek-support](https://github.com/epics-containers/ibek-support), so that other
+Generic IOCs can use it too. While it is under review, publish pre-release tags
+such as `2.11ec1b1`: CI skips the check for them, and does not tag the
+developer image `latest`. Once the pull request is merged, point the submodule
+back at `ibek-support` and move it to a commit on its `main`:
+
+```bash
+cd /workspaces/ioc-xxx
+git submodule set-url ibek-support https://github.com/epics-containers/ibek-support.git
+cd ibek-support
+git fetch origin
+git checkout origin/main
+cd ..
+git add .gitmodules ibek-support
+git commit -m "use the merged ibek-support recipe"
+```
+
+Push that commit to the default branch, through a pull request if your project
+uses them, then make the full release from it.
+:::
 
 :::{note}
 ### Version naming convention for ioc-xxx generic IOC releases.
