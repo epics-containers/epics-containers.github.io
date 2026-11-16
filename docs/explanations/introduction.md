@@ -46,6 +46,12 @@ A Generic IOC image contains:
 It deliberately contains no startup script or EPICS database — those are
 instance-specific and supplied at runtime.
 
+Each Generic IOC image is built from the `epics-base` developer image, and its
+`Dockerfile` compiles every support module the image contains from source,
+common ones such as `asyn` included. No Generic IOC is built on another, so
+each one pins its own module versions and is released on its own. See
+{any}`generic-ioc-dockerfile`.
+
 An **IOC instance** runs by combining two things:
 
 - the Generic IOC image, passed to the container runtime
