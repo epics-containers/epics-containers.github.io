@@ -19,8 +19,8 @@ By the end you will have:
 
 - a new repository, `t01-services`, generated from the template;
 - a ready-made example IOC instance (`example-test-01`) plus the `gateway`,
-  `pvagw`, `phoebus` and `epics-opis` services that the local `docker compose`
-  workflow uses;
+  `pvagw` and `phoebus` services that the local `docker compose` workflow uses,
+  and an `epics-opis` service for server deployments;
 - the repo pushed to GitHub, where continuous integration (CI) validates every
   IOC configuration.
 
