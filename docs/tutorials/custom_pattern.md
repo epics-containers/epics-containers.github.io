@@ -107,9 +107,9 @@ so this pattern needs **no `.db` / `.template` of its own** — it only adds the
 ### Optional: declare what gets vendored
 
 `basicPlugins` holds one file and every byte of it belongs in the IOC, so there
-is nothing to declare. That is the usual case: **a pattern with no manifest
-vendors every file in its folder into the instance's `config/`** — ibek
-supplies a default manifest for it:
+is nothing to declare: **a pattern with no manifest vendors every file in its
+folder into the instance's `config/`** — ibek supplies a default manifest for
+it:
 
 ```yaml
 version: 1

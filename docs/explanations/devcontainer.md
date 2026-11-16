@@ -77,18 +77,19 @@ When you choose **Reopen in Container**, VSCode runs
    - otherwise it pulls the image;
    - when the pull fails, it uses the local image of that name;
    - when there is no local image either, it builds one with `./build`;
-4. records the ID of that image in `.devcontainer/image-id`, and prints a
-   WARNING when an existing container for this project was created from a
-   different image (see [](devcontainer-reopen)).
+4. records the ID of that image in `.devcontainer/image-id`, which the
+   `ibek dev` commands compare with the image the container was created from
+   (see [](devcontainer-reopen)).
 
 It prints one coloured line that says which way it got the image. It uses
 docker when docker works, and podman otherwise or when `USE_PODMAN` is set, as
 `./build` does.
 
 VSCode then starts the container. A container being created for the first
-time also runs `.devcontainer/postCreateCommand`, which removes the IOC build
-products from the project's `ioc` folder (see [](devcontainer-ioc-folder)) and
-records which image the container was created from. On every start, including
+time also runs `.devcontainer/postCreateCommand`, which runs
+`make clean uninstall` in `/epics/ioc` to remove the IOC build products from the
+project's `ioc` folder (see [](devcontainer-ioc-folder)), and records which image
+the container was created from. On every start, including
 the first, the container runs `ibek dev sync`, which brings the container in
 line with the project folder (see [](devcontainer-drift)).
 
@@ -175,9 +176,11 @@ make
 What `make` builds lands in the host project folder, and it is linked against
 the support modules of the container that built it. A container from a
 different image may have different support modules, so when a container is
-created, `.devcontainer/postCreateCommand` removes the build products from the
-`ioc` folder: `bin`, `lib`, `dbd`, `db` and every `O.*` folder. It keeps all
-source files, and the `ioc/config` link that `ibek dev instance` makes.
+created, `.devcontainer/postCreateCommand` runs `make clean uninstall` in
+`/epics/ioc`. That removes the `O.*` build folders and the installed `bin`,
+`lib`, `dbd` and `db`, and keeps all source files and the `ioc/config` link
+that `ibek dev instance` makes. A failure there only prints a message: the
+container is still created. Run `make` in `/epics/ioc` to build the IOC again.
 Reopening an existing container keeps its build products, which still match
 it.
 
@@ -245,10 +248,9 @@ open the project differ:
 
 So a newer image that `initializeCommand` pulls takes effect only after
 **Rebuild Container**. While the existing container was created from a
-different image, two warnings say so: `.devcontainer/initializeCommand` prints
-one in yellow on the host as the container opens, and the `ibek dev` commands
-print one in the container. Both start `WARNING:` and both are cleared by
-**Dev Containers: Rebuild Container**.
+different image than the one `initializeCommand` recorded in
+`.devcontainer/image-id`, the `ibek dev` commands in the container print a
+`WARNING:` that says so. **Dev Containers: Rebuild Container** clears it.
 
 (devcontainer-submodule)=
 
