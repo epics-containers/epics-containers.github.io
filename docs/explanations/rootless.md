@@ -18,7 +18,7 @@ Advantages of rootless operation include:
 :::{note}
 **DLS users:** managed workstations run rootless containers for exactly these
 reasons. See the
-[DLS dev-guide setup](https://dev-guide.diamond.ac.uk/epics-containers/reference/setup.html)
+[DLS dev-guide setup](https://dev-guide.diamond.ac.uk/epics-containers/reference/setup/)
 for site-specific configuration.
 :::
 

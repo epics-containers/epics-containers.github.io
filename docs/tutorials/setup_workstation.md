@@ -29,9 +29,10 @@ clone over `https://github.com/...` rather than `git@github.com:...`.
 
 ## Platform support
 
-The tutorial container images are **x86_64 Linux**. The best experience is an
-Intel Linux workstation or laptop (`arm64` images exist but are less widely
-tested). On any other platform you have two options:
+The tutorial container images are built for **x86_64 Linux**. Generic IOC
+images, such as `ioc-adsimdetector`, are also built for `arm64` unless their
+repository turns that off, so check the image you need. The best experience is an x86_64 Linux workstation
+or laptop. On any other platform you have two options:
 
 - run the container runtime natively — see the [quickstart](quickstart);
 - or use the pre-built **VirtualBox appliance** below.

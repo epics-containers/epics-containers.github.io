@@ -116,7 +116,7 @@ Problem: pulling an epics-containers image or Helm chart fails even though it is
 public, for example:
 
 ```none
-Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimdetector-runtime/manifests/2.11ec3": denied: denied
+Error response from daemon: Head "https://ghcr.io/v2/epics-containers/ioc-adsimdetector-runtime/manifests/2.11ec9": denied: denied
 ```
 
 or, from Helm:
