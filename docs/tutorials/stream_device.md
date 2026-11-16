@@ -218,8 +218,10 @@ BL01T-EA-TEMP-01:KRDG0  23.4
 
 :::{note}
 PVI also generates an engineering screen for the device from the vendored
-`lakeshore340.pvi.device.yaml`, under `opi/auto-generated/bl01t-ea-temp-01/`;
-open it in Phoebus as in {any}`change-the-opi-screen`.
+`lakeshore340.pvi.device.yaml`, under `opi/auto-generated/bl01t-ea-temp-01/`.
+To open it, set the `-resource` of the `phoebus` service to
+`/opi/auto-generated/bl01t-ea-temp-01/index.bob`, as in
+{any}`change-the-opi-screen`, and restart that service.
 :::
 
 
