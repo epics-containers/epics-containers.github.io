@@ -161,13 +161,13 @@ separate instance so its plugin ports do not clash with the `detectorPlugins`
 already running in `bl01t-ea-cam-01`. Pin the SimDetector image:
 
 ```yaml
-    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec9
 ```
 
 Give it a camera in `services/bl01t-ea-cam-02/config/ioc.yaml`:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec9/ibek.ioc.schema.json
 
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 

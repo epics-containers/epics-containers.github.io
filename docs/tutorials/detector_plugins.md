@@ -11,8 +11,8 @@ Substitute your own names throughout.
 
 :::{note}
 `detectorPlugins` provides a light set of four plugins, and is the recommended
-set for Diamond II. The prior gdaPlugins pattern also published in the same repo
-matches what we used to ship with builder IOCs.
+set for Diamond II. The same pattern also provides a heavier `gdaPlugins` entity
+model, which matches the plugin set DLS builder IOCs ship.
 
 For non DLS users this just serves as a useful example and you are free to create
 your own pattern repositories.
@@ -42,7 +42,7 @@ the services-repo root, vendor it into the instance:
 
 ```bash
 cd t01-services
-ibek pattern add ibek-runtime-support:detectorPlugins@v0.1.0 services/bl01t-ea-cam-01
+ibek pattern add ibek-runtime-support:detectorPlugins@0.4.0 services/bl01t-ea-cam-01
 ```
 
 The qualified name is `<library>:<pattern>@<tag>`. That one command:
@@ -165,7 +165,7 @@ The lock is the record. `services/bl01t-ea-cam-01/runtime-lock.yaml` now reads:
 version: 1
 patterns:
   detectorPlugins:
-    version: v0.1.0
+    version: 0.4.0
     source: github.com/epics-containers/ibek-runtime-support
     files:
       config/detectorPlugins.ibek.support.yaml: sha256:…

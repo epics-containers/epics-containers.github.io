@@ -43,7 +43,7 @@ with `bl01t-ea-cam-01`, and replace `replace_with_image_uri` with the
 SimDetector Generic IOC image:
 
 ```yaml
-    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec3
+    image: ghcr.io/epics-containers/ioc-adsimdetector-runtime:2.11ec9
 ```
 
 That name and that image are the only per-IOC content; everything else is
@@ -65,7 +65,7 @@ SimDetector Generic IOC, and add a `simDetector` plus a Standard Arrays plugin
 wired to it:
 
 ```yaml
-# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec3/ibek.ioc.schema.json
+# yaml-language-server: $schema=https://github.com/epics-containers/ioc-adsimdetector/releases/download/2.11ec9/ibek.ioc.schema.json
 
 ioc_name: "{{ _global.get_env('IOC_NAME') }}"
 

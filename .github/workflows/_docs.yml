@@ -44,6 +44,17 @@ jobs:
       - name: Write switcher.json
         run: python .github/pages/make_switcher.py --add $DOCS_VERSION ${{ github.repository }} .github/pages/switcher.json
 
+      # Replace this version's folder whole, so pages removed from the docs
+      # are removed from gh-pages too. Other versions' folders are untouched.
+      - name: Publish this version's docs to gh-pages
+        if: (github.ref_type == 'tag' || github.ref_name == 'main') && env.DOCS_VERSION != ''
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .github/pages/${{ env.DOCS_VERSION }}
+          destination_dir: ${{ env.DOCS_VERSION }}
+          keep_files: false
+
       - name: Publish Docs to gh-pages
         if: github.ref_type == 'tag' || github.ref_name == 'main'
         # We pin to the SHA, not the tag, for security reasons.

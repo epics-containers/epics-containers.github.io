@@ -138,6 +138,6 @@ epics-containers principle of using upstream modules unmodified. The
 [`builder2ibek`](https://epics-containers.github.io/builder2ibek) tool extracts
 that autosave information from a DLS fork and writes the `.req` files into
 `ibek-support`. See the
-[DLS developer guide](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc.html)
+[DLS developer guide](https://dev-guide.diamond.ac.uk/epics-containers/how-tos/convert-ioc/)
 for the full conversion workflow.
 :::

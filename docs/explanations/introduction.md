@@ -34,8 +34,18 @@ our own forks.
 
 The central idea is that an IOC container image is a **Generic IOC**: one image
 shared by every IOC instance that talks to a given class of device. For example
-[ghcr.io/epics-containers/ioc-adaravis-runtime:2026.4.3](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-runtime)
+[ghcr.io/epics-containers/ioc-adaravis-runtime:R2-3ec6](https://github.com/epics-containers/ioc-adaravis/pkgs/container/ioc-adaravis-runtime)
 uses the AreaDetector driver ADAravis to drive any GigE camera.
+
+:::{note}
+**Do you need a new Generic IOC?** Often not. A device driven by StreamDevice
+can usually run on the existing `ioc-streamdevice` image, with its support
+vendored into the instance as a runtime pattern by `ibek pattern add`; the
+[ibek-runtime-streamdevice](https://github.com/epics-containers/ibek-runtime-streamdevice)
+library holds patterns for over a hundred such devices. Check there first, see
+{doc}`../tutorials/stream_device`, and {doc}`../tutorials/custom_pattern` to
+write your own pattern.
+:::
 
 A Generic IOC image contains:
 
@@ -223,12 +233,10 @@ its state on a given date is straightforward — there is a complete record.
 
 ## Scope
 
-This project targets x86_64 Linux soft IOCs. Soft IOCs that need direct hardware
-access on the server (e.g. USB or PCIe) are supported by mounting the hardware
-into the container — though these IOCs cannot use Kubernetes failover.
-
-Other Linux architectures could be added to the cluster. arm64 native builds
-have been prototyped but are not yet a supported architecture.
+This project targets Linux soft IOCs on x86_64 (amd64) and arm64: Generic IOC
+images are built for both. Soft IOCs that need direct hardware access on the
+server (e.g. USB or PCIe) are supported by mounting the hardware into the
+container — though these IOCs cannot use Kubernetes failover.
 
 Python soft IOCs are also supported — see
 [pythonSoftIOC](https://github.com/DiamondLightSource/pythonSoftIOC).
@@ -255,7 +263,10 @@ container" helper, installed into every Generic IOC image. It is used:
 - at build time: to fetch and build EPICS support modules
 - at run time: to generate build artifacts, e.g. `st.cmd` and the IOC database,
   from the `ioc.yaml` configuration
-- inside the developer container: to assist with testing and debugging.
+- inside the developer container: to assist with testing and debugging
+- on the developer's workstation: `ibek pattern` vendors runtime patterns
+  (support definitions loaded at runtime, with no image rebuild) into an IOC
+  instance.
 
 See [ibek](https://github.com/epics-containers/ibek).
 

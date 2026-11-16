@@ -6,6 +6,17 @@ but a YAML file. You will also embed an example instance for testing.
 
 This is a *type 2* change from {any}`ioc-change-types`.
 
+:::{note}
+**Do you need a new Generic IOC?** Often not. A device driven by StreamDevice
+can usually run on the existing `ioc-streamdevice` image, with its support
+vendored into the instance by `ibek pattern add` from the
+[ibek-runtime-streamdevice](https://github.com/epics-containers/ibek-runtime-streamdevice)
+library, which holds patterns for over a hundred devices. Check there first; see
+{any}`stream_device`, and {any}`custom_pattern` to write your own pattern.
+Build a Generic IOC when the device needs a compiled support module that no
+existing image provides.
+:::
+
 The worked example wraps the **areaDetector simulation detector**
 ([`ADSimDetector`](https://github.com/areaDetector/ADSimDetector)) — a camera
 that generates frames internally, so it needs no hardware and no external
@@ -44,7 +55,8 @@ GitHub repository named `ioc-adsim-demo` at <https://github.com/new>, then
 generate the project into it (if you do not have `copier`, see {any}`copier`):
 
 ```bash
-# creates the folder ioc-adsim-demo in the current directory
+# run this next to your t01-services folder, so both appear under /workspaces
+# inside the devcontainer; creates the folder ioc-adsim-demo
 copier copy https://github.com/epics-containers/ioc-template --trust ioc-adsim-demo
 ```
 
@@ -281,7 +293,8 @@ If you want to read exactly what this does, follow the Ansible playbook at
 - appends its `dbds` and `libs` to the global `/epics/support/configure/dbd_list`
   and `/epics/support/configure/lib_list` so the IOC links them in;
 - registers its runtime files — symlinking the `*.ibek.support.yaml`, PVI
-  device, autosave request and StreamDevice protocol files into `/epics`.
+  device and autosave request files into `/epics`, and copying its StreamDevice
+  protocol files into `/epics/support/configure/protocol`.
 
 The module now exists under `/epics/support`.
 

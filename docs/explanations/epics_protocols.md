@@ -142,8 +142,8 @@ Host network needs elevated privileges, so harden the pods:
 :::{note}
 **DLS users:** the production "Argus" cluster implements this pattern with remote
 beamline worker nodes. See the developer guide
-[argocd-accelerator](https://dev-guide.diamond.ac.uk/epics-containers/explanations/argocd-accelerator.html)
+[argocd-accelerator](https://dev-guide.diamond.ac.uk/epics-containers/explanations/argocd-accelerator/)
 explanation and the
-[where](https://dev-guide.diamond.ac.uk/epics-containers/reference/where.html)
+[where](https://dev-guide.diamond.ac.uk/epics-containers/reference/where/)
 reference.
 :::
