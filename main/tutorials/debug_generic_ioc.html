@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
+    <title>Debugging Generic IOC Builds &#8212; epics-containers.github.io 4.2.1.dev183+g739a4269f documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
+    <script src="../_static/documentation_options.js?v=3a93dfc3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -58,7 +58,7 @@
     <link rel="icon" href="../_static/k8s-epics2.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Edit or Create a Support Module" href="support_module.html" />
+    <link rel="next" title="Change a Support Module" href="support_module.html" />
     <link rel="prev" title="Author Your Own Runtime Pattern" href="custom_pattern.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
@@ -437,7 +437,7 @@
 <li class="toctree-l1"><a class="reference internal" href="generic_ioc.html">Create a Generic IOC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_pattern.html">Author Your Own Runtime Pattern</a></li>
 <li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Debugging Generic IOC Builds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="support_module.html">Edit or Create a Support Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="support_module.html">Change a Support Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s.html">Set up a Kubernetes Cluster</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup_k8s_new_beamline.html">Create a Kubernetes Beamline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="add_k8s_ioc.html">Deploy an IOC with Helm</a></li>
@@ -516,6 +516,8 @@ which is the exact environment the image is built in.</p>
 <p>Only when the image itself has to be built as the container opens can a
 failing recipe stop it opening. That case has its own trick, described in
 <a class="reference internal" href="#image-build-fails"><span class="std std-ref">When the image build fails</span></a>.</p>
+<p>The steps below need ibek 4.12.0 or later in the container: check with
+<code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">--version</span></code>, and see <a class="reference internal" href="../explanations/devcontainer.html#devcontainer-ibek-version"><span class="std std-ref">The ibek version</span></a> if it is earlier.</p>
 <section id="break-the-build">
 <h2>Break the build<a class="headerlink" href="#break-the-build" title="Link to this heading">#</a></h2>
 <p>Let us introduce a realistic mistake into the <code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> recipe you
@@ -565,23 +567,24 @@ back to the real tag:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">R2-11</span>
 </pre></div>
 </div>
-<p>The failed clone left a checkout of the module’s default branch in
-<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code>, and <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> builds a module folder that
-exists as it is, without cloning it. So remove the folder, then run the rebuild
-again:</p>
+<p>and run the rebuild again:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
-rm<span class="w"> </span>-rf<span class="w"> </span>/epics/support/ADSimDetector
 ibek<span class="w"> </span>dev<span class="w"> </span>sync<span class="w"> </span>--build
 </pre></div>
 </div>
+<p>The failed clone may have left a checkout of the module’s default branch in
+<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code>. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> recorded the clone as
+not finished, so it clones the module again at the version in <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>
+before it builds it. Until a clone succeeds, <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> reports that
+<code class="docutils literal notranslate"><span class="pre">ADSimDetector</span></code> needs a rebuild: <code class="docutils literal notranslate"><span class="pre">clone</span> <span class="pre">not</span> <span class="pre">finished</span></code> when the failed clone
+left a folder, or that the folder is missing.</p>
 <p>This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can
 also run <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code> by hand while you iterate; it is idempotent.
-<code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> builds the folder that is there, so if you change the version in
-<code class="docutils literal notranslate"><span class="pre">install.yml</span></code> before running it by hand, or after a clone fails, remove
-<code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> first so that it is cloned at the version in
-<code class="docutils literal notranslate"><span class="pre">install.yml</span></code>. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> clones a module again by itself when its
-version differs from the one the container last built. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> keeps reporting the module until
+<code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code> builds the folder that is there, without cloning it, so if you
+change the version in <code class="docutils literal notranslate"><span class="pre">install.yml</span></code> before running it by hand, or after a clone
+fails, remove <code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> first so that it is cloned at the
+version in <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> keeps reporting the module until
 <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> has built it.</p>
 </section>
 <section id="make-the-fix-permanent">
@@ -622,7 +625,8 @@ for the moment.</p>
 Container</em>, so that the image is built from the edited <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> and the
 container is created from it.</p></li>
 <li><p>Run the failing command by hand inside the container, <code class="docutils literal notranslate"><span class="pre">ansible.sh</span> <span class="pre">ADSimDetector</span></code>, and fix the recipe until it passes. After a clone failure,
-remove <code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> before running it again, as above.</p></li>
+remove <code class="docutils literal notranslate"><span class="pre">/epics/support/ADSimDetector</span></code> before running it again: <code class="docutils literal notranslate"><span class="pre">ansible.sh</span></code>
+builds a module folder that is there without cloning it.</p></li>
 <li><p>Uncomment the line and run a full <code class="docutils literal notranslate"><span class="pre">./build</span></code> on the host to confirm.</p></li>
 </ol>
 </section>
@@ -701,7 +705,7 @@ provides network diagnostics such as <code class="docutils literal notranslate">
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Edit or Create a Support Module</p>
+        <p class="prev-next-title">Change a Support Module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

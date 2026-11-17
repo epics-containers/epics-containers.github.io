@@ -14,6 +14,9 @@ Only when the image itself has to be built as the container opens can a
 failing recipe stop it opening. That case has its own trick, described in
 [](image-build-fails).
 
+The steps below need ibek 4.12.0 or later in the container: check with
+`ibek --version`, and see [](devcontainer-ibek-version) if it is earlier.
+
 ## Break the build
 
 Let us introduce a realistic mistake into the `ADSimDetector` recipe you
@@ -72,25 +75,27 @@ back to the real tag:
 version: R2-11
 ```
 
-The failed clone left a checkout of the module's default branch in
-`/epics/support/ADSimDetector`, and `ansible.sh` builds a module folder that
-exists as it is, without cloning it. So remove the folder, then run the rebuild
-again:
+and run the rebuild again:
 
 ```bash
 # in the container
-rm -rf /epics/support/ADSimDetector
 ibek dev sync --build
 ```
+
+The failed clone may have left a checkout of the module's default branch in
+`/epics/support/ADSimDetector`. `ibek dev sync --build` recorded the clone as
+not finished, so it clones the module again at the version in `install.yml`
+before it builds it. Until a clone succeeds, `ibek dev status` reports that
+`ADSimDetector` needs a rebuild: `clone not finished` when the failed clone
+left a folder, or that the folder is missing.
 
 This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can
 also run `ansible.sh ADSimDetector` by hand while you iterate; it is idempotent.
-`ansible.sh` builds the folder that is there, so if you change the version in
-`install.yml` before running it by hand, or after a clone fails, remove
-`/epics/support/ADSimDetector` first so that it is cloned at the version in
-`install.yml`. `ibek dev sync --build` clones a module again by itself when its
-version differs from the one the container last built. `ibek dev status` keeps reporting the module until
+`ansible.sh` builds the folder that is there, without cloning it, so if you
+change the version in `install.yml` before running it by hand, or after a clone
+fails, remove `/epics/support/ADSimDetector` first so that it is cloned at the
+version in `install.yml`. `ibek dev status` keeps reporting the module until
 `ibek dev sync --build` has built it.
 
 ## Make the fix permanent
@@ -136,7 +141,8 @@ image and so no container to open. The fix is a small trick:
    container is created from it.
 3. Run the failing command by hand inside the container, `ansible.sh
    ADSimDetector`, and fix the recipe until it passes. After a clone failure,
-   remove `/epics/support/ADSimDetector` before running it again, as above.
+   remove `/epics/support/ADSimDetector` before running it again: `ansible.sh`
+   builds a module folder that is there without cloning it.
 4. Uncomment the line and run a full `./build` on the host to confirm.
 
 ## Aside: a missing system header

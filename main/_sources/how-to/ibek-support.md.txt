@@ -66,6 +66,9 @@ Generic IOC needs that commit on the default branch of the submodule's
 `origin`, so release it with a pre-release tag until the change is merged; see
 {any}`generic-ioc-release-submodule`.
 
+To change the source of a support module, rather than its recipe, build it
+from a clone with `ibek dev support`: see [](../tutorials/support_module.md).
+
 ## Without a container
 
 You can also check support YAML against IOC instance YAML with `ibek` alone,

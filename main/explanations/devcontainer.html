@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How a Generic IOC Developer Container Works &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
+    <title>How a Generic IOC Developer Container Works &#8212; epics-containers.github.io 4.2.1.dev183+g739a4269f documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
+    <script src="../_static/documentation_options.js?v=3a93dfc3"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -730,7 +730,7 @@ What is compared:</p>
 </tr>
 <tr class="row-even"><td><p>What a module clones: the version, repository or patch in its <code class="docutils literal notranslate"><span class="pre">install.yml</span></code></p></td>
 <td><p>Reports it, and names the folder that a rebuild removes</p></td>
-<td><p>Removes <code class="docutils literal notranslate"><span class="pre">/epics/support/&lt;module&gt;</span></code> and clones it again, discarding any edits in that folder, then rebuilds as above</p></td>
+<td><p>Removes <code class="docutils literal notranslate"><span class="pre">/epics/support/&lt;module&gt;</span></code> and clones it again, discarding any edits in that folder, then rebuilds as above. A module linked to its clone with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code> is built as it is, never cloned again</p></td>
 </tr>
 <tr class="row-odd"><td><p>The list of <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span></code> lines in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></p></td>
 <td><p>Reports it</p></td>
@@ -800,13 +800,96 @@ move changed (it also runs on every container start), and <code class="docutils 
 see what is left.</p>
 </section>
 <section id="working-on-a-support-module">
-<h2>Working on a support module<a class="headerlink" href="#working-on-a-support-module" title="Link to this heading">#</a></h2>
-<p>Changing the source of a support module, rather than its <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code>
-recipe, is covered by <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code>.</p>
-<div class="note admonition">
-<p class="admonition-title">To be written</p>
-<p>This section will describe <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code>.</p>
+<span id="devcontainer-dev-support"></span><h2>Working on a support module<a class="headerlink" href="#working-on-a-support-module" title="Link to this heading">#</a></h2>
+<p>The support modules in <code class="docutils literal notranslate"><span class="pre">/epics/support</span></code> were cloned and compiled when the image
+was built, and they live in the container’s own filesystem. To change the
+source of one, rather than its <code class="docutils literal notranslate"><span class="pre">ibek-support</span></code> recipe, build it from a clone on
+the host with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+ibek<span class="w"> </span>dev<span class="w"> </span>support<span class="w"> </span>ADSimDetector
+</pre></div>
 </div>
+<p>For each module it names, the command:</p>
+<ol class="arabic simple">
+<li><p>clones the repository of the module’s <code class="docutils literal notranslate"><span class="pre">install.yml</span></code> to
+<code class="docutils literal notranslate"><span class="pre">/workspaces/&lt;module&gt;</span></code>, at the <code class="docutils literal notranslate"><span class="pre">version</span></code> of its <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>. That folder is
+on the host, next to the project, so the clone and your edits in it outlive
+the container. A clone that is already there is used as it is, on whatever
+branch or commit it has checked out, as long as one of its remotes is the
+repository of the <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>. A clone of some other repository, a
+folder that is not the top of a git clone, and a module folder that is
+already a link somewhere else are refused, each with a line that says what
+to do;</p></li>
+<li><p>removes the module that the image built from <code class="docutils literal notranslate"><span class="pre">/epics/support/&lt;module&gt;</span></code> and
+makes that path a link to the clone;</p></li>
+<li><p>builds the module with its own <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">ansible.sh</span></code> line of the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>,
+then every module after it in the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, then the IOC.</p></li>
+</ol>
+<p>Run the same command again to build again after you change the source. A
+module that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code> has linked is never cloned again: the clone is
+yours, and the commands build it as it is. The <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span></code> commands report each
+module that is linked to its clone.</p>
+<p>You can name several modules at once. They are built in the order of the
+<code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, starting from the first of them.</p>
+<p>The build changes the clone:</p>
+<ul class="simple">
+<li><p>files that the build makes are added to the clone’s <code class="docutils literal notranslate"><span class="pre">.git/info/exclude</span></code>, so
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> does not show them. The command names those that <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>
+would otherwise show; most modules’ <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> already ignores <code class="docutils literal notranslate"><span class="pre">lib</span></code>,
+<code class="docutils literal notranslate"><span class="pre">bin</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code> and <code class="docutils literal notranslate"><span class="pre">O.*</span></code>;</p></li>
+<li><p>the build edits some tracked files to build the module in this container,
+such as <code class="docutils literal notranslate"><span class="pre">configure/RELEASE</span></code>. They show in <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code>, and the command names
+them: do not commit those edits;</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">patch_file</span></code> in the <code class="docutils literal notranslate"><span class="pre">install.yml</span></code> is not applied to the clone. The command
+says so; apply the patch with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">apply</span></code> in the clone if the build needs it.</p></li>
+</ul>
+<section id="declarations-and-a-container-created-again">
+<h3>Declarations and a container created again<a class="headerlink" href="#declarations-and-a-container-created-again" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code> records each module in <code class="docutils literal notranslate"><span class="pre">.ibek-dev.yaml</span></code> in the project
+folder, which git ignores. The file is on the host, so it outlives the
+container, but the link and the build are in the container’s own filesystem.
+In a container created again, from the same image or another:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span></code> and <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> report each declared module that is not
+linked to its clone, and name <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code>. They compile nothing;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> checks each clone again, links it, and builds it,
+the modules after it and the IOC.</p></li>
+</ul>
+</section>
+<section id="going-back-to-the-version-of-install-yml">
+<h3>Going back to the version of install.yml<a class="headerlink" href="#going-back-to-the-version-of-install-yml" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># in the container</span>
+ibek<span class="w"> </span>dev<span class="w"> </span>support<span class="w"> </span>--release<span class="w"> </span>ADSimDetector
+ibek<span class="w"> </span>dev<span class="w"> </span>sync<span class="w"> </span>--build
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--release</span></code> removes the link and the declaration and builds nothing. The clone
+is left as it is. <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> then reports the module folder as missing,
+and <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> clones the module at the version of its
+<code class="docutils literal notranslate"><span class="pre">install.yml</span></code> and builds it, the modules after it and the IOC.</p>
+<p>The tutorial <a class="reference internal" href="../tutorials/support_module.html"><span class="std std-doc">Change a Support Module</span></a> uses these commands to change a
+support module and publish the change.</p>
+</section>
+<section id="the-ibek-version">
+<span id="devcontainer-ibek-version"></span><h3>The ibek version<a class="headerlink" href="#the-ibek-version" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span></code> needs ibek 4.12.0 or later in the container, and a project
+generated from ioc-template 5.1.0 or later (see
+<a class="reference internal" href="#devcontainer-template-version"><span class="std std-ref">Generic IOCs from earlier templates</span></a>): it compares the container with the stamp
+that <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">stamp</span></code> wrote when the image was built. Check the version in
+the container with <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">--version</span></code>. The image installs ibek from the
+project’s <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, which holds a lower bound such as
+<code class="docutils literal notranslate"><span class="pre">ibek&gt;=4.11.1,&lt;5</span></code>. To move to a later ibek:</p>
+<ol class="arabic simple">
+<li><p>raise the lower bound in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> on the host, for example to
+<code class="docutils literal notranslate"><span class="pre">ibek&gt;=4.12.0,&lt;5</span></code>;</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> in the container. It sees that
+<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> has changed, upgrades the Python packages in the
+container and stops. Run it again for anything else it reports.</p></li>
+</ol>
+<p>The change to <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> goes into the next image that the project
+builds or releases. Until then, a container created again from the published
+image has its ibek, and <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> upgrades it again.</p>
+</section>
 </section>
 <section id="generic-iocs-from-earlier-templates">
 <span id="devcontainer-template-version"></span><h2>Generic IOCs from earlier templates<a class="headerlink" href="#generic-iocs-from-earlier-templates" title="Link to this heading">#</a></h2>
@@ -833,6 +916,9 @@ when a WARNING asks for it, or to move to a newer image;</p></li>
 it;</p></li>
 <li><p>run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">status</span></code> to see how the container differs from the project, and
 <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">sync</span> <span class="pre">--build</span></code> when it asks for a rebuild;</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span> <span class="pre">&lt;module&gt;</span></code> to work on the source of a support module in
+a clone on the host, and <code class="docutils literal notranslate"><span class="pre">ibek</span> <span class="pre">dev</span> <span class="pre">support</span> <span class="pre">--release</span> <span class="pre">&lt;module&gt;</span></code> to go back to
+the version of its <code class="docutils literal notranslate"><span class="pre">install.yml</span></code>;</p></li>
 <li><p>your changes to the project folder are on the host and under version
 control.</p></li>
 </ul>
@@ -897,7 +983,12 @@ control.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-the-container-in-line-with-the-project">Keeping the container in line with the project</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reopen-and-rebuild">Reopen and Rebuild</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ibek-support-submodule">The ibek-support submodule</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-on-a-support-module">Working on a support module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-on-a-support-module">Working on a support module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#declarations-and-a-container-created-again">Declarations and a container created again</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#going-back-to-the-version-of-install-yml">Going back to the version of install.yml</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ibek-version">The ibek version</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generic-iocs-from-earlier-templates">Generic IOCs from earlier templates</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summing-up">Summing up</a></li>
 </ul>
