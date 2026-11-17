@@ -106,7 +106,7 @@ on GitHub and push the change to your fork. Commit only your own change, not
 the edit to `configure/RELEASE`:
 
 ```bash
-# on the host, or in the container
+# in the container
 cd /workspaces/ADSimDetector
 git checkout -b greeting
 git add simDetectorApp/Db/simDetector.template

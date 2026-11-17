@@ -314,9 +314,9 @@ You can name several modules at once. They are built in the order of the
 The build changes the clone:
 
 - files that the build makes are added to the clone's `.git/info/exclude`, so
-  `git status` does not show them. Most modules' `.gitignore` already ignores
-  `lib`, `bin`, `db` and `O.*`, and the command names the files that it adds
-  to the exclude file;
+  `git status` does not show them. The command names those that `git status`
+  would otherwise show; most modules' `.gitignore` already ignores `lib`,
+  `bin`, `db` and `O.*`;
 - the build edits some tracked files to build the module in this container,
   such as `configure/RELEASE`. They show in `git status`, and the command names
   them: do not commit those edits;
@@ -355,7 +355,7 @@ support module and publish the change.
 
 ### The ibek version
 
-`ibek dev support` needs ibek 4.12.0 or later in the image, and a project
+`ibek dev support` needs ibek 4.12.0 or later in the container, and a project
 generated from ioc-template 5.1.0 or later (see
 [](devcontainer-template-version)): it compares the container with the stamp
 that `ibek dev stamp` wrote when the image was built. Check the version in
