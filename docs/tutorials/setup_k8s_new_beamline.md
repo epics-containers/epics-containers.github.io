@@ -59,7 +59,7 @@ Answer the prompts as follows for a local k3s cluster:
 | `cluster_name` | `local` *(any lower-case name for your cluster)* |
 | `cluster_namespace` | `t02-beamline` |
 | `git_platform` | `github.com` |
-| `github_org` | *your GitHub account or org* |
+| `github_org` | *your GitHub account or org (the default is `epics-containers`)* |
 | `gateway` | `No` *(k3s uses host networking — see below)* |
 | `athena_services` | *(leave blank)* |
 | `logging_url` | `Skip` |
