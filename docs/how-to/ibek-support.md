@@ -47,6 +47,9 @@ ibek dev status
   ibek dev sync --build
   ```
 
+To change the source of a support module, rather than its recipe, build it
+from a clone with `ibek dev support`: see [](../tutorials/support_module.md).
+
 Then test an IOC instance that uses the modules:
 
 ```bash

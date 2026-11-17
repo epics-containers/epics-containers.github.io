@@ -273,16 +273,99 @@ Then run `ibek dev sync` in the container, which fixes or reports what the
 move changed (it also runs on every container start), and `ibek dev status` to
 see what is left.
 
+(devcontainer-dev-support)=
+
 ## Working on a support module
 
-Changing the source of a support module, rather than its `ibek-support`
-recipe, is covered by `ibek dev support`.
+The support modules in `/epics/support` were cloned and compiled when the image
+was built, and they live in the container's own filesystem. To change the
+source of one, rather than its `ibek-support` recipe, build it from a clone on
+the host with `ibek dev support`:
 
-:::{admonition} To be written
-:class: note
+```bash
+# in the container
+ibek dev support ADSimDetector
+```
 
-This section will describe `ibek dev support`.
-:::
+For each module it names, the command:
+
+1. clones the repository of the module's `install.yml` to
+   `/workspaces/<module>`, at the `version` of its `install.yml`. That folder is
+   on the host, next to the project, so the clone and your edits in it outlive
+   the container. A clone that is already there is used as it is, on whatever
+   branch or commit it has checked out, as long as one of its remotes is the
+   repository of the `install.yml`. A clone of some other repository is
+   refused;
+2. removes the module that the image built from `/epics/support/<module>` and
+   makes that path a link to the clone;
+3. builds the module with its own `RUN ansible.sh` line of the `Dockerfile`,
+   then every module after it in the `Dockerfile`, then the IOC.
+
+Run the same command again to build again after you change the source. A
+module that `ibek dev support` has linked is never cloned again: the clone is
+yours, and the commands build it as it is. The `ibek dev` commands report each
+module that is linked to its clone.
+
+You can name several modules at once. They are built in the order of the
+`Dockerfile`, starting from the first of them.
+
+The build changes the clone:
+
+- files that the build makes, such as `lib`, `bin`, `db` and `O.*` folders,
+  are listed in the clone's `.git/info/exclude`, so `git status` does not show
+  them. The command names them;
+- the build edits some tracked files to build the module in this container,
+  such as `configure/RELEASE`. They show in `git status`, and the command names
+  them: do not commit those edits;
+- a `patch_file` in the `install.yml` is not applied to the clone. The command
+  says so; apply the patch with `git apply` in the clone if the build needs it.
+
+### Declarations and a container created again
+
+`ibek dev support` records each module in `.ibek-dev.yaml` in the project
+folder, which git ignores. The file is on the host, so it outlives the
+container, but the link and the build are in the container's own filesystem.
+In a container created again, from the same image or another:
+
+- `ibek dev sync` and `ibek dev status` report each declared module that is not
+  linked to its clone, and name `ibek dev sync --build`. They compile nothing;
+- `ibek dev sync --build` checks each clone again, links it, and builds it,
+  the modules after it and the IOC.
+
+### Going back to the version of install.yml
+
+```bash
+# in the container
+ibek dev support --release ADSimDetector
+ibek dev sync --build
+```
+
+`--release` removes the link and the declaration and builds nothing. The clone
+is left as it is. `ibek dev status` then reports the module folder as missing,
+and `ibek dev sync --build` clones the module at the version of its
+`install.yml` and builds it, the modules after it and the IOC.
+
+The tutorial [](../tutorials/support_module.md) uses these commands to change a
+support module and publish the change.
+
+(devcontainer-ibek-version)=
+
+### The ibek version
+
+`ibek dev support` needs ibek 4.12.0 or later in the image. Check the version in
+the container with `ibek --version`. The image installs ibek from the
+project's `requirements.txt`, which holds a lower bound such as
+`ibek>=4.11.1,<5`. To move to a later ibek:
+
+1. raise the lower bound in `requirements.txt` on the host, for example to
+   `ibek>=4.12.0,<5`;
+2. run `ibek dev sync --build` in the container. It sees that
+   `requirements.txt` has changed and upgrades the Python packages in the
+   container.
+
+The change to `requirements.txt` goes into the next image that the project
+builds or releases. Until then, a container created again from the published
+image has its ibek, and `ibek dev sync --build` upgrades it again.
 
 (devcontainer-template-version)=
 
@@ -311,5 +394,8 @@ For the most part you can ignore the details and remember:
   it;
 - run `ibek dev status` to see how the container differs from the project, and
   `ibek dev sync --build` when it asks for a rebuild;
+- run `ibek dev support <module>` to work on the source of a support module in
+  a clone on the host, and `ibek dev support --release <module>` to go back to
+  the version of its `install.yml`;
 - your changes to the project folder are on the host and under version
   control.
