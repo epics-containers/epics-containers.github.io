@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up a Kubernetes Cluster &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>Set up a Kubernetes Cluster &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -624,26 +624,12 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 </pre></div>
 </div>
 </section>
-<section id="set-up-the-kubernetes-dashboard-optional">
-<span id="k8s-dashboard"></span><h2>Set up the Kubernetes dashboard (optional)<a class="headerlink" href="#set-up-the-kubernetes-dashboard-optional" title="Link to this heading">#</a></h2>
-<p>The <a class="reference external" href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Kubernetes dashboard</a>
-is a web UI for the cluster. Install it with Helm:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>https://kubernetes.github.io/dashboard/
-helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>kubernetes-dashboard/kubernetes-dashboard<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span>--namespace<span class="w"> </span>kubernetes-dashboard
-</pre></div>
-</div>
-<p>Reach it in a browser at <code class="docutils literal notranslate"><span class="pre">https://localhost:8080/</span></code> by port-forwarding:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>port-forward<span class="w"> </span>svc/kubernetes-dashboard-kong-proxy<span class="w"> </span><span class="m">8080</span>:443
-</pre></div>
-</div>
-<p>To log in you need a bearer token. Follow the upstream dashboard
-<a class="reference external" href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md">Creating a sample user</a>
-guide to create an <code class="docutils literal notranslate"><span class="pre">admin-user</span></code> service account bound to <code class="docutils literal notranslate"><span class="pre">cluster-admin</span></code>, then
-mint a short-lived token:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>-n<span class="w"> </span>kubernetes-dashboard<span class="w"> </span>create<span class="w"> </span>token<span class="w"> </span>admin-user
-</pre></div>
-</div>
+<section id="browse-the-cluster-in-a-web-ui-optional">
+<span id="k8s-web-ui"></span><h2>Browse the cluster in a web UI (optional)<a class="headerlink" href="#browse-the-cluster-in-a-web-ui-optional" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://headlamp.dev/">Headlamp</a> is a web UI for Kubernetes. Its
+<a class="reference external" href="https://headlamp.dev/docs/latest/installation/desktop/">desktop application</a>
+runs on your workstation and connects with your <code class="docutils literal notranslate"><span class="pre">~/.kube/config</span></code>, so there is
+nothing to install in the cluster and no login token to create.</p>
 </section>
 <section id="clean-up">
 <span id="id3"></span><h2>Clean up<a class="headerlink" href="#clean-up" title="Link to this heading">#</a></h2>
@@ -711,7 +697,7 @@ cluster.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-your-installation">Test your installation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-namespace">Create a namespace</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-persistent-volume-support">Install persistent volume support</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-kubernetes-dashboard-optional">Set up the Kubernetes dashboard (optional)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#browse-the-cluster-in-a-web-ui-optional">Browse the cluster in a web UI (optional)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-up">Clean up</a></li>
 </ul>
   </nav></div>

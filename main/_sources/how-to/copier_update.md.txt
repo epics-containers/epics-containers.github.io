@@ -25,22 +25,20 @@ NOTE: generic IOCs with a given major version number template should work with b
 Updating a Beamline Repository
 ------------------------------
 
-A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. The beamline repository is created using the `services-template-helm` copier template. See [](../tutorials/create_beamline.md) for the tutorial on how to create a new beamline repository.
+A beamline (or other grouping) repository is a collection of IOC instances and services that are deployed together. It is created from the `services-template-compose` copier template for `docker compose` deployment (see [](../tutorials/create_beamline.md)) or from `services-template-helm` for Kubernetes (see [](../tutorials/setup_k8s_new_beamline.md)).
 
 To update your beamline repository to the latest version of the templates you should run the following command in the root of your repository:
 
 ```bash
-copier update -r VERSION_NUMBER --trust .
+copier update -r VERSION_NUMBER .
 ```
 
-You can supply the VERSION_NUMBER of the template you want or omit the `-r` option to get the latest released version. The `--trust` flag is required because the `services-template-helm` migrations run shell commands to update your IOC instances in place.
+You can supply the VERSION_NUMBER of the template you want or omit the `-r` option to get the latest released version. Add `--trust` only when VERSION_NUMBER is a `services-template-helm` release before 5.10.0: some of those releases define copier migrations, which copier runs only for a trusted template.
 
 This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository. Once you are happy with the changes you can test them by re-deploying some of your IOC instances. When everything is working you can push the changes to your repository.
 
-For example, in version 4.0.3b3 the `services-template-helm` changed the way that the configmap is created for each IOC instance. This added a soft-link **templates** folder that points at **../../.helm-shared/templates**. Looking at what changes happened in the example IOC will help you to understand what changes you might need to make in your own IOC instances. Copier migrations will attempt to make these changes for you but it is recommended to check that they have been done correctly.
-
 :::{note}
-After a **major** template update you may need to re-vendor runtime support for each IOC instance. A major version can retire the previous runtime-support mechanism; in that case the copier migration removes the retired artefacts but cannot recreate the per-instance vendored files. Re-run the following for each affected instance:
+After a **major** template update you may need to re-vendor runtime support for each IOC instance. A major version can retire the previous runtime-support mechanism, and `copier update` cannot recreate the per-instance vendored files. Re-run the following for each affected instance:
 
 ```bash
 ibek pattern add <library>:<pattern>@<tag> services/<instance>
@@ -178,6 +176,6 @@ In the above example the **copier copy** has made many changes to the repo. Beca
 ```bash
 # from the root of the repo
 git add .
-git commit -m'update to template version 4.0.3b3'
+git commit -m'update to template version VERSION_NUMBER'
 git push
 ```

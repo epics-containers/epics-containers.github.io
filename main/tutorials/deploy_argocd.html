@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>Deploy an IOC with ArgoCD &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -562,7 +562,8 @@ per-namespace and per-project, so create an ArgoCD project allowed to deploy
 into it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>proj<span class="w"> </span>create<span class="w"> </span>t02-beamline<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span>https://kubernetes.default.svc,t02-beamline<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-s<span class="w"> </span><span class="s2">"*"</span>
+<span class="w">  </span>-s<span class="w"> </span><span class="s2">"*"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--source-namespaces<span class="w"> </span>t02-beamline
 </pre></div>
 </div>
 <div class="admonition note">
@@ -570,8 +571,10 @@ into it:</p>
 <p>The template sets each Application’s <code class="docutils literal notranslate"><span class="pre">project:</span></code> field to your <em>namespace
 name</em> (the <code class="docutils literal notranslate"><span class="pre">cluster_namespace</span></code> you give <code class="docutils literal notranslate"><span class="pre">copier</span></code> below), so the ArgoCD
 project is named <strong><code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code></strong> to match. <code class="docutils literal notranslate"><span class="pre">-d</span></code> whitelists the destination
-<code class="docutils literal notranslate"><span class="pre">cluster,namespace</span></code>; <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">&quot;*&quot;</span></code> permits any source repo. Adjust the cluster
-URL/name if your IOCs run on a different cluster from the one hosting ArgoCD.</p>
+<code class="docutils literal notranslate"><span class="pre">cluster,namespace</span></code>; <code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">&quot;*&quot;</span></code> permits any source repo; <code class="docutils literal notranslate"><span class="pre">--source-namespaces</span></code>
+lets Applications that live in <code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code> use the project (the template
+creates them there, see <a class="reference internal" href="setup_argocd.html#setup-argocd"><span class="std std-ref">Set up Argo CD</span></a>). Adjust the cluster URL/name if
+your IOCs run on a different cluster from the one hosting ArgoCD.</p>
 </div>
 </li>
 </ol>
@@ -581,9 +584,15 @@ URL/name if your IOCs run on a different cluster from the one hosting ArgoCD.</p
 <p>Generate the deployment repo from the public
 <a class="reference external" href="https://github.com/epics-containers/deployment-template-argocd"><code class="docutils literal notranslate"><span class="pre">deployment-template-argocd</span></code></a>
 template with <code class="docutils literal notranslate"><span class="pre">copier</span></code> (use <code class="docutils literal notranslate"><span class="pre">uvx</span> <span class="pre">copier</span> <span class="pre">...</span></code> if <code class="docutils literal notranslate"><span class="pre">copier</span></code> is not installed):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>https://github.com/epics-containers/deployment-template-argocd<span class="w"> </span>t02-deployment
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>copier<span class="w"> </span>copy<span class="w"> </span>-d<span class="w"> </span><span class="nv">gateway</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span>https://github.com/epics-containers/deployment-template-argocd<span class="w"> </span>t02-deployment
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">gateway=false</span></code> matches the <code class="docutils literal notranslate"><span class="pre">gateway:</span> <span class="pre">No</span></code> answer you gave for
+<code class="docutils literal notranslate"><span class="pre">t02-services</span></code>. Without it the template adds a <code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code> service,
+which <code class="docutils literal notranslate"><span class="pre">t02-services</span></code> does not have, so that child Application could never sync.
+Copier does not record this answer for a github.com repo, so pass the same
+<code class="docutils literal notranslate"><span class="pre">-d</span> <span class="pre">gateway=false</span></code> to any later <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code> or <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">recopy</span></code> of
+<code class="docutils literal notranslate"><span class="pre">t02-deployment</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">copier</span></code> asks a series of questions (defined in the template’s <code class="docutils literal notranslate"><span class="pre">copier.yml</span></code>).
 Answer them as follows for the worked example:</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -741,16 +750,15 @@ and <em>at what version</em>; the service content lives in the services repo.</p
 <span class="nt">services</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">t02-epics-pvcs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 <span class="w">  </span><span class="nt">t02-epics-opis</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-<span class="w">  </span><span class="nt">t02-epics-gateways</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">source.repoURL</span></code> here points at the <strong>services</strong> repo, not this one: every
 <em>child</em> Application sources its Helm chart from <code class="docutils literal notranslate"><span class="pre">services/&lt;service&gt;</span></code> in the
-services repo. The template seeds three children — <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> (shared
-storage), <code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code> (auto-generated OPIs) and <code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code> (a
-Channel Access gateway). An entry of <code class="docutils literal notranslate"><span class="pre">{}</span></code> inherits all the defaults above, so
+services repo. The template seeds two children — <code class="docutils literal notranslate"><span class="pre">t02-epics-pvcs</span></code> (shared
+storage) and <code class="docutils literal notranslate"><span class="pre">t02-epics-opis</span></code> (auto-generated OPIs), plus <code class="docutils literal notranslate"><span class="pre">t02-epics-gateways</span></code>
+(a Channel Access gateway) when <code class="docutils literal notranslate"><span class="pre">gateway</span></code> is true. An entry of <code class="docutils literal notranslate"><span class="pre">{}</span></code> inherits all the defaults above, so
 the service tracks <code class="docutils literal notranslate"><span class="pre">main</span></code> through <code class="docutils literal notranslate"><span class="pre">source.targetRevision</span></code>. Always write <code class="docutils literal notranslate"><span class="pre">{}</span></code>:
 Helm drops a key with an empty value, which removes the service.</p>
 </div>
@@ -805,7 +813,7 @@ repo, create the root Application from <code class="docutils literal notranslate
 </div>
 <p>ArgoCD creates the root Application <code class="docutils literal notranslate"><span class="pre">t02</span></code>, which in turn creates one child
 Application per entry in <code class="docutils literal notranslate"><span class="pre">apps/values.yaml</span></code>. Within a moment you should see the
-root plus its three seeded children:</p>
+root plus its two seeded children:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>argocd<span class="w"> </span>app<span class="w"> </span>list<span class="w"> </span>--app-namespace<span class="w"> </span>t02-beamline
 </pre></div>
 </div>
@@ -813,7 +821,6 @@ root plus its three seeded children:</p>
 t02-beamline/t02                  Synced        Healthy
 t02-beamline/t02-epics-pvcs       Synced        Healthy
 t02-beamline/t02-epics-opis       Synced        Healthy
-t02-beamline/t02-epics-gateways   Synced        Healthy
 </pre></div>
 </div>
 <div class="admonition note">
@@ -867,7 +874,6 @@ use the <strong>Sync</strong> button in the web UI, or <code class="docutils lit
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span> name                 label     version   ready   deployed
  t02-epics-pvcs       service   main      True    2026-06-25T09:10:00Z
  t02-epics-opis       service   main      True    2026-06-25T09:10:00Z
- t02-epics-gateways   service   main      True    2026-06-25T09:10:00Z
  bl02t-ea-cam-01   service   main      True    2026-06-25T09:14:00Z
 </pre></div>
 </div>

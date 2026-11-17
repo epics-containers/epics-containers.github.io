@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Deploy and Manage IOC Instances Locally &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>Deploy and Manage IOC Instances Locally &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -517,7 +517,7 @@ repository and service names throughout.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> sets up your local <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> environment (container
-engine, <code class="docutils literal notranslate"><span class="pre">UIDGID</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPOSE_PROFILES</span></code>, EPICS name servers). See
+engine, <code class="docutils literal notranslate"><span class="pre">UIDGID</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPOSE_PROFILES</span></code>, Channel Access address list). See
 <a class="reference internal" href="../reference/environment.html"><span class="doc">The Environment Configuration File</span></a> for the full list of what it can set in each
 kind of repository.</p>
 </div>
@@ -535,9 +535,9 @@ repo. For the local <code class="docutils literal notranslate"><span class="pre"
 phoebus container’s X11 access;</p></li>
 <li><p>sets <code class="docutils literal notranslate"><span class="pre">COMPOSE_PROFILES=test</span></code> so <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span></code> launches the
 developer-workstation profile (IOCs, gateways and an OPI viewer);</p></li>
-<li><p>points Channel Access and PV Access at the gateways on localhost
-(<code class="docutils literal notranslate"><span class="pre">EPICS_CA_NAME_SERVERS=127.0.0.1:9064</span></code>) so host tools can see the
-containerised PVs.</p></li>
+<li><p>points Channel Access at the gateway on localhost
+(<code class="docutils literal notranslate"><span class="pre">EPICS_CA_ADDR_LIST=127.0.0.1</span></code>) so host tools can see the containerised
+PVs.</p></li>
 </ul>
 </section>
 <section id="deploy-the-services">
@@ -555,9 +555,9 @@ start from the local cache.</p>
 </pre></div>
 </div>
 <p>Among the running services you should see the example IOC (<code class="docutils literal notranslate"><span class="pre">example-test-01</span></code>),
-the Channel Access and PV Access gateways, the <code class="docutils literal notranslate"><span class="pre">epics-opis</span></code> OPI web server, the
-<code class="docutils literal notranslate"><span class="pre">phoebus</span></code> OPI viewer, and a one-shot <code class="docutils literal notranslate"><span class="pre">init</span></code> container that generates the PV
-Access gateway and phoebus config and then exits.</p>
+the Channel Access and PV Access gateways and the <code class="docutils literal notranslate"><span class="pre">phoebus</span></code> OPI viewer. A
+one-shot <code class="docutils literal notranslate"><span class="pre">init</span></code> container generates the PV Access gateway and phoebus config
+and then exits, so only <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">compose</span> <span class="pre">ps</span> <span class="pre">-a</span></code> lists it.</p>
 </section>
 <section id="start-and-stop-a-service">
 <h2>Start and stop a service<a class="headerlink" href="#start-and-stop-a-service" title="Link to this heading">#</a></h2>

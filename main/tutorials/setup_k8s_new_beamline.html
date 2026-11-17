@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Create a Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>Create a Kubernetes Beamline &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -576,23 +576,20 @@ holds the defaults shared by every chart.</p>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">git_platform</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">github.com</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gateway</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">github_org</span></code></p></td>
+<td><p><em>the GitHub account or org that will hold the repo: <code class="docutils literal notranslate"><span class="pre">&lt;your-account&gt;</span></code> below (the default is <code class="docutils literal notranslate"><span class="pre">epics-containers</span></code>)</em></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gateway</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">No</span></code> <em>(k3s uses host networking — see below)</em></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">athena_services</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">athena_services</span></code></p></td>
 <td><p><em>(leave blank)</em></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">logging_url</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logging_url</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">Skip</span></code></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The template defines copier <strong>migration scripts</strong> that run when you later bring
-the repo up to a newer template version with <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span></code>. Those scripts
-require the <code class="docutils literal notranslate"><span class="pre">--trust</span></code> flag, i.e. <code class="docutils literal notranslate"><span class="pre">copier</span> <span class="pre">update</span> <span class="pre">--trust</span></code>.</p>
 </div>
 <p>Create the repo on GitHub (<a class="github reference external" href="https://github.com/new">new</a>) named <code class="docutils literal notranslate"><span class="pre">t02-services</span></code>, then
 commit and push:</p>
@@ -623,7 +620,8 @@ uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </
 <span class="nb">export</span><span class="w"> </span><span class="nv">EC_LOG_URL</span><span class="o">=</span><span class="w">                                         </span><span class="c1"># central log server (blank)</span>
 </pre></div>
 </div>
-<p>It also checks that <code class="docutils literal notranslate"><span class="pre">ec</span></code> is installed and enables shell completion. For the full
+<p>It also checks that <code class="docutils literal notranslate"><span class="pre">ec</span></code> is installed, enables shell completion, and sets the
+namespace of your current <code class="docutils literal notranslate"><span class="pre">kubectl</span></code> context to <code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code>. For the full
 command and environment-variable reference see <a class="reference internal" href="../reference/glossary.html#edge-containers-cli"><span class="std std-ref">edge-containers-cli</span></a>.</p>
 </section>
 <section id="deploy-the-shared-services">
@@ -666,8 +664,8 @@ personal namespaces — instead run a Channel Access gateway; answer <strong>Yes
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When something will not start, inspect the underlying resources with
-<code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">&lt;name&gt;</span></code>, or browse them in the Kubernetes dashboard (see
-<a class="reference internal" href="setup_k8s.html#k8s-dashboard"><span class="std std-ref">Set up the Kubernetes dashboard (optional)</span></a> for the local-cluster install).</p>
+<code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">&lt;name&gt;</span></code>, or browse them in a cluster web UI (see
+<a class="reference internal" href="setup_k8s.html#k8s-web-ui"><span class="std std-ref">Browse the cluster in a web UI (optional)</span></a>).</p>
 </div>
 </section>
 <section id="next-steps">

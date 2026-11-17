@@ -104,7 +104,7 @@ value that begins with `:` or `{` (as with `R: ":DET:"`).
 :::
 
 Finally register the instance by adding it to the `include:` list in the
-repo-root `compose.yml`:
+repo-root `compose.yaml`:
 
 ```yaml
 include:

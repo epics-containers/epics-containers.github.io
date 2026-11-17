@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>The Environment Configuration File &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -564,10 +564,9 @@ for the full list, each variable’s command-line flag and its default.</p>
 </section>
 <section id="installation-of-ec">
 <h2>Installation of <code class="docutils literal notranslate"><span class="pre">ec</span></code><a class="headerlink" href="#installation-of-ec" title="Link to this heading">#</a></h2>
-<p>The second section of the <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> file installs the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command from
-the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> package. The recommended approach is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code>
-globally on your workstation (and then omit this section from your
-<code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> files).</p>
+<p>The second section of the <code class="docutils literal notranslate"><span class="pre">environment.sh</span></code> file checks that the <code class="docutils literal notranslate"><span class="pre">ec</span></code> command
+from the <code class="docutils literal notranslate"><span class="pre">edge-containers-cli</span></code> package is installed, and enables its shell
+completion. It does not install <code class="docutils literal notranslate"><span class="pre">ec</span></code>: install it once on your workstation.</p>
 <p>The simplest way is to install <code class="docutils literal notranslate"><span class="pre">ec</span></code> as a <code class="docutils literal notranslate"><span class="pre">uv</span></code> tool (DLS users can obtain <code class="docutils literal notranslate"><span class="pre">uv</span></code>
 with <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">uv</span></code>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>edge-containers-cli

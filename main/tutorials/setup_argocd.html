@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Set up Argo CD &#8212; epics-containers.github.io 4.2.1.dev173+ge3e1fcb64 documentation</title>
+    <title>Set up Argo CD &#8212; epics-containers.github.io 4.2.1.dev179+gbbc13c623 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=5e831000"></script>
+    <script src="../_static/documentation_options.js?v=fe083f8c"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -529,6 +529,24 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> <
 </pre></div>
 </div>
 </section>
+<section id="allow-applications-in-your-beamline-namespace">
+<h2>Allow Applications in your beamline namespace<a class="headerlink" href="#allow-applications-in-your-beamline-namespace" title="Link to this heading">#</a></h2>
+<p>By default ArgoCD only manages Applications that live in its own <code class="docutils literal notranslate"><span class="pre">argocd</span></code>
+namespace. The deployment template creates its Applications in the beamline
+namespace (<code class="docutils literal notranslate"><span class="pre">t02-beamline</span></code>), so enable
+<a class="reference external" href="https://argo-cd.readthedocs.io/en/stable/operator-manual/app-any-namespace/">Applications in any namespace</a>
+for it, restart the two workloads that read the setting, and give the ArgoCD
+API server the permissions it needs there:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>patch<span class="w"> </span>configmap<span class="w"> </span>argocd-cmd-params-cm<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"data":{"application.namespaces":"t02-beamline"}}'</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>deployment<span class="w"> </span>argocd-server
+kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>rollout<span class="w"> </span>restart<span class="w"> </span>statefulset<span class="w"> </span>argocd-application-controller
+kubectl<span class="w"> </span>apply<span class="w"> </span>-k<span class="w"> </span><span class="s1">'https://github.com/argoproj/argo-cd//examples/k8s-rbac/argocd-server-applications?ref=stable'</span>
+</pre></div>
+</div>
+<p>The ArgoCD project must also list the namespace; <a class="reference internal" href="deploy_argocd.html#deploy-argocd"><span class="std std-ref">Deploy an IOC with ArgoCD</span></a> creates
+it with <code class="docutils literal notranslate"><span class="pre">--source-namespaces</span> <span class="pre">t02-beamline</span></code>.</p>
+</section>
 <section id="reach-the-web-ui">
 <h2>Reach the web UI<a class="headerlink" href="#reach-the-web-ui" title="Link to this heading">#</a></h2>
 <p>The ArgoCD server is not exposed outside the cluster by default. Port-forward it
@@ -615,6 +633,7 @@ a services repo under GitOps control.</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-argo-cd-server">Install the Argo CD server</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-applications-in-your-beamline-namespace">Allow Applications in your beamline namespace</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reach-the-web-ui">Reach the web UI</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieve-the-admin-password">Retrieve the admin password</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-argocd-cli">Install the argocd CLI</a></li>

@@ -67,15 +67,18 @@ repeat the installation steps.
    ```bash
    argocd proj create t02-beamline \
      -d https://kubernetes.default.svc,t02-beamline \
-     -s "*"
+     -s "*" \
+     --source-namespaces t02-beamline
    ```
 
    :::{note}
    The template sets each Application's `project:` field to your *namespace
    name* (the `cluster_namespace` you give `copier` below), so the ArgoCD
    project is named **`t02-beamline`** to match. `-d` whitelists the destination
-   `cluster,namespace`; `-s "*"` permits any source repo. Adjust the cluster
-   URL/name if your IOCs run on a different cluster from the one hosting ArgoCD.
+   `cluster,namespace`; `-s "*"` permits any source repo; `--source-namespaces`
+   lets Applications that live in `t02-beamline` use the project (the template
+   creates them there, see {any}`setup-argocd`). Adjust the cluster URL/name if
+   your IOCs run on a different cluster from the one hosting ArgoCD.
    :::
 
 ## Scaffold a deployment repo
@@ -85,8 +88,15 @@ Generate the deployment repo from the public
 template with `copier` (use `uvx copier ...` if `copier` is not installed):
 
 ```bash
-copier copy https://github.com/epics-containers/deployment-template-argocd t02-deployment
+copier copy -d gateway=false https://github.com/epics-containers/deployment-template-argocd t02-deployment
 ```
+
+`-d gateway=false` matches the `gateway: No` answer you gave for
+`t02-services`. Without it the template adds a `t02-epics-gateways` service,
+which `t02-services` does not have, so that child Application could never sync.
+Copier does not record this answer for a github.com repo, so pass the same
+`-d gateway=false` to any later `copier update` or `copier recopy` of
+`t02-deployment`.
 
 `copier` asks a series of questions (defined in the template's `copier.yml`).
 Answer them as follows for the worked example:
@@ -191,15 +201,14 @@ versions:
 services:
   t02-epics-pvcs: {}
   t02-epics-opis: {}
-  t02-epics-gateways: {}
 ```
 
 :::{note}
 `source.repoURL` here points at the **services** repo, not this one: every
 *child* Application sources its Helm chart from `services/<service>` in the
-services repo. The template seeds three children — `t02-epics-pvcs` (shared
-storage), `t02-epics-opis` (auto-generated OPIs) and `t02-epics-gateways` (a
-Channel Access gateway). An entry of `{}` inherits all the defaults above, so
+services repo. The template seeds two children — `t02-epics-pvcs` (shared
+storage) and `t02-epics-opis` (auto-generated OPIs), plus `t02-epics-gateways`
+(a Channel Access gateway) when `gateway` is true. An entry of `{}` inherits all the defaults above, so
 the service tracks `main` through `source.targetRevision`. Always write `{}`:
 Helm drops a key with an empty value, which removes the service.
 :::
@@ -267,7 +276,7 @@ argocd app create --file t02-deployment/apps.yaml
 
 ArgoCD creates the root Application `t02`, which in turn creates one child
 Application per entry in `apps/values.yaml`. Within a moment you should see the
-root plus its three seeded children:
+root plus its two seeded children:
 
 ```bash
 argocd app list --app-namespace t02-beamline
@@ -278,7 +287,6 @@ NAME                              SYNC STATUS   HEALTH
 t02-beamline/t02                  Synced        Healthy
 t02-beamline/t02-epics-pvcs       Synced        Healthy
 t02-beamline/t02-epics-opis       Synced        Healthy
-t02-beamline/t02-epics-gateways   Synced        Healthy
 ```
 
 :::{note}
@@ -336,7 +344,6 @@ ec ps
  name                 label     version   ready   deployed
  t02-epics-pvcs       service   main      True    2026-06-25T09:10:00Z
  t02-epics-opis       service   main      True    2026-06-25T09:10:00Z
- t02-epics-gateways   service   main      True    2026-06-25T09:10:00Z
  bl02t-ea-cam-01   service   main      True    2026-06-25T09:14:00Z
 ```
 
