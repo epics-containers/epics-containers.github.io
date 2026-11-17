@@ -213,7 +213,7 @@ What is compared:
 |---|---|---|
 | A support module's definition files: `*.ibek.support.yaml`, `*.pvi.device.yaml`, `*.req` | Fixes it: links the files again, removes links that point at nothing, and regenerates `ioc.schema.json` | The same |
 | A support module's other files in `ibek-support`, such as its `install.yml`, or its `RUN ansible.sh` line in the `Dockerfile` | Reports it | Rebuilds that module and every module after it in the `Dockerfile`, then the IOC |
-| What a module clones: the version, repository or patch in its `install.yml` | Reports it, and names the folder that a rebuild removes | Removes `/epics/support/<module>` and clones it again, discarding any edits in that folder, then rebuilds as above |
+| What a module clones: the version, repository or patch in its `install.yml` | Reports it, and names the folder that a rebuild removes | Removes `/epics/support/<module>` and clones it again, discarding any edits in that folder, then rebuilds as above. A module linked to its clone with `ibek dev support` is built as it is, never cloned again |
 | The list of `RUN ansible.sh` lines in the `Dockerfile` | Reports it | Rebuilds from the first place where the list differs, then the IOC. A removed module stays installed, and reported, until the container is created from an image built without it |
 | `ibek-support/_ansible` | Reports it | Rebuilds every module, then the IOC |
 | `requirements.txt` | Reports it | Upgrades the Python packages and regenerates the schema, then stops: run it again for anything more |
@@ -294,8 +294,10 @@ For each module it names, the command:
    on the host, next to the project, so the clone and your edits in it outlive
    the container. A clone that is already there is used as it is, on whatever
    branch or commit it has checked out, as long as one of its remotes is the
-   repository of the `install.yml`. A clone of some other repository is
-   refused;
+   repository of the `install.yml`. A clone of some other repository, a
+   folder that is not the top of a git clone, and a module folder that is
+   already a link somewhere else are refused, each with a line that says what
+   to do;
 2. removes the module that the image built from `/epics/support/<module>` and
    makes that path a link to the clone;
 3. builds the module with its own `RUN ansible.sh` line of the `Dockerfile`,
@@ -311,9 +313,10 @@ You can name several modules at once. They are built in the order of the
 
 The build changes the clone:
 
-- files that the build makes, such as `lib`, `bin`, `db` and `O.*` folders,
-  are listed in the clone's `.git/info/exclude`, so `git status` does not show
-  them. The command names them;
+- files that the build makes are added to the clone's `.git/info/exclude`, so
+  `git status` does not show them. Most modules' `.gitignore` already ignores
+  `lib`, `bin`, `db` and `O.*`, and the command names the files that it adds
+  to the exclude file;
 - the build edits some tracked files to build the module in this container,
   such as `configure/RELEASE`. They show in `git status`, and the command names
   them: do not commit those edits;
@@ -352,7 +355,10 @@ support module and publish the change.
 
 ### The ibek version
 
-`ibek dev support` needs ibek 4.12.0 or later in the image. Check the version in
+`ibek dev support` needs ibek 4.12.0 or later in the image, and a project
+generated from ioc-template 5.1.0 or later (see
+[](devcontainer-template-version)): it compares the container with the stamp
+that `ibek dev stamp` wrote when the image was built. Check the version in
 the container with `ibek --version`. The image installs ibek from the
 project's `requirements.txt`, which holds a lower bound such as
 `ibek>=4.11.1,<5`. To move to a later ibek:
@@ -360,8 +366,8 @@ project's `requirements.txt`, which holds a lower bound such as
 1. raise the lower bound in `requirements.txt` on the host, for example to
    `ibek>=4.12.0,<5`;
 2. run `ibek dev sync --build` in the container. It sees that
-   `requirements.txt` has changed and upgrades the Python packages in the
-   container.
+   `requirements.txt` has changed, upgrades the Python packages in the
+   container and stops. Run it again for anything else it reports.
 
 The change to `requirements.txt` goes into the next image that the project
 builds or releases. Until then, a container created again from the published

@@ -47,9 +47,6 @@ ibek dev status
   ibek dev sync --build
   ```
 
-To change the source of a support module, rather than its recipe, build it
-from a clone with `ibek dev support`: see [](../tutorials/support_module.md).
-
 Then test an IOC instance that uses the modules:
 
 ```bash
@@ -68,6 +65,9 @@ the new submodule commit in the Generic IOC repository. A full release of the
 Generic IOC needs that commit on the default branch of the submodule's
 `origin`, so release it with a pre-release tag until the change is merged; see
 {any}`generic-ioc-release-submodule`.
+
+To change the source of a support module, rather than its recipe, build it
+from a clone with `ibek dev support`: see [](../tutorials/support_module.md).
 
 ## Without a container
 

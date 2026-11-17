@@ -14,6 +14,9 @@ Only when the image itself has to be built as the container opens can a
 failing recipe stop it opening. That case has its own trick, described in
 [](image-build-fails).
 
+The steps below need ibek 4.12.0 or later in the container: check with
+`ibek --version`, and see [](devcontainer-ibek-version) if it is earlier.
+
 ## Break the build
 
 Let us introduce a realistic mistake into the `ADSimDetector` recipe you
@@ -82,9 +85,9 @@ ibek dev sync --build
 The failed clone may have left a checkout of the module's default branch in
 `/epics/support/ADSimDetector`. `ibek dev sync --build` recorded the clone as
 not finished, so it clones the module again at the version in `install.yml`
-before it builds it. Until a clone succeeds, `ibek dev status` reports
-`ADSimDetector: clone not finished`. This needs ibek 4.12.0 or later in the
-container (see [](devcontainer-ibek-version)).
+before it builds it. Until a clone succeeds, `ibek dev status` reports that
+`ADSimDetector` needs a rebuild: `clone not finished` when the failed clone
+left a folder, or that the folder is missing.
 
 This time the module clones and builds, then the IOC is built. You can re-run
 it as often as you like: it carries on from the module that failed. You can

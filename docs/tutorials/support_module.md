@@ -9,9 +9,7 @@ it, and point the module's `ibek-support` recipe at the release that holds it.
 
 The worked example adds a record to `ADSimDetector` in the `ioc-adsim-demo`
 project from {any}`generic_ioc`. The same steps work for any module that a
-Generic IOC builds, such as `ADSimDetector` in
-[ioc-adsimdetector](https://github.com/epics-containers/ioc-adsimdetector).
-The last section starts a brand-new module the same way.
+Generic IOC builds. The last section starts a brand-new module the same way.
 
 [](../explanations/devcontainer.md) explains what the commands do in more
 detail (see [](devcontainer-dev-support)).
@@ -54,8 +52,8 @@ that `ADSimDetector` is linked to its clone. Add `/workspaces/ADSimDetector` to 
 VSCode workspace (`File -> Add Folder to Workspace`) to edit it.
 
 The build leaves its mark on the clone. The files it makes are hidden from
-`git status` through the clone's `.git/info/exclude`, and the command lists
-them. It also edits `configure/RELEASE` so that the module builds against the
+`git status`, by the module's `.gitignore` or, where that does not cover them,
+by the clone's `.git/info/exclude`. It also edits `configure/RELEASE` so that the module builds against the
 other modules in the container. That edit shows in `git status`: do not commit
 it.
 
@@ -82,7 +80,7 @@ Run the same command after each change to the source.
 
 ## Test it
 
-Run the instance from {any}`generic_ioc` against the new build:
+Run the instance from {any}`generic_ioc`:
 
 ```bash
 ibek dev instance /workspaces/t01-services/services/bl01t-ea-cam-01
@@ -186,7 +184,12 @@ a minimal recipe:
    git clone https://github.com/<YOUR GITHUB USER>/mymodule.git
    cd mymodule
    makeBaseApp.pl -t support mymodule
+   git add .
+   git commit -m "EPICS support module layout"
    ```
+
+   Commit the layout before the first build, so that `git status` shows the
+   build's edits to `configure/RELEASE` and you leave them out of your commits.
 
 4. Build it from the clone, which `ibek dev support` uses because its remote is
    the repository of the recipe:
@@ -196,8 +199,9 @@ a minimal recipe:
    ```
 
    Add the `dbds` and `libs` that the module installs to its `install.yml` (see
-   {any}`generic_ioc`), and its `mymodule.ibek.support.yaml`, then work on the
-   source as above.
+   {any}`generic_ioc`) as the source comes to install them: the layout installs
+   no library until it has source files. Write its
+   `mymodule.ibek.support.yaml`, then work on the source as above.
 
 :::{warning}
 The order of the `<module>_DBD` lines in `*App/src/Makefile` matters. List each
@@ -205,7 +209,8 @@ DBD file after the DBD files it depends on, or the Generic IOC build fails. See
 {any}`dbd-order`.
 :::
 
-Commit the source, tag a release, and set the recipe's `version` to that tag
+Commit the source, without the build's edits to `configure/RELEASE`, tag a
+release, and set the recipe's `version` to that tag
 before you release the Generic IOC.
 
 A new module has no published Generic IOC release yet, so there is no online
