@@ -94,6 +94,9 @@ copier copy -d gateway=false https://github.com/epics-containers/deployment-temp
 `-d gateway=false` matches the `gateway: No` answer you gave for
 `t02-services`. Without it the template adds a `t02-epics-gateways` service,
 which `t02-services` does not have, so that child Application could never sync.
+Copier does not record this answer for a github.com repo, so pass the same
+`-d gateway=false` to any later `copier update` or `copier recopy` of
+`t02-deployment`.
 
 `copier` asks a series of questions (defined in the template's `copier.yml`).
 Answer them as follows for the worked example:

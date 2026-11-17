@@ -33,7 +33,7 @@ To update your beamline repository to the latest version of the templates you sh
 copier update -r VERSION_NUMBER .
 ```
 
-You can supply the VERSION_NUMBER of the template you want or omit the `-r` option to get the latest released version.
+You can supply the VERSION_NUMBER of the template you want or omit the `-r` option to get the latest released version. Add `--trust` only when VERSION_NUMBER is a `services-template-helm` release before 5.10.0: those releases define copier migrations, which copier runs only for a trusted template.
 
 This will update your project in place. You should then inspect the changes using git (the source control pane in vscode is excellent for this purpose) and commit them to your repository. Once you are happy with the changes you can test them by re-deploying some of your IOC instances. When everything is working you can push the changes to your repository.
 
