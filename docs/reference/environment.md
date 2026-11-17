@@ -63,10 +63,9 @@ for the full list, each variable's command-line flag and its default.
 
 ## Installation of `ec`
 
-The second section of the `environment.sh` file installs the `ec` command from
-the `edge-containers-cli` package. The recommended approach is to install `ec`
-globally on your workstation (and then omit this section from your
-`environment.sh` files).
+The second section of the `environment.sh` file checks that the `ec` command
+from the `edge-containers-cli` package is installed, and enables its shell
+completion. It does not install `ec`: install it once on your workstation.
 
 The simplest way is to install `ec` as a `uv` tool (DLS users can obtain `uv`
 with `module load uv`):

@@ -35,7 +35,7 @@ That indirection buys you a lot:
   is reverting a commit; ArgoCD reconciles the cluster back to it.
 
 ArgoCD itself is installed once into your Kubernetes cluster as part of cluster
-setup (see {any}`setup-kubernetes`). Everything below assumes it is already
+setup (see {any}`setup-argocd`). Everything below assumes it is already
 running and that the `argocd` CLI is logged in.
 
 ## Two repositories, two jobs

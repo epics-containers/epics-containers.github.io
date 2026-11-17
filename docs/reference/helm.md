@@ -11,7 +11,7 @@ selected by a **backend**, set with the `EC_CLI_BACKEND` environment variable
 |----------|------------------|-------------|-------------|
 | ArgoCD   | `ARGOCD` (default) | A deployment repository reconciled by ArgoCD | Production continuous deployment |
 | Kubernetes | `K8S`           | `helm` directly against a cluster | Pure-Helm clusters with no ArgoCD |
-| Demo     | `DEMO`           | An in-memory simulation | Trying out `ec` / running the tutorials offline |
+| Demo     | `DEMO`           | An in-memory simulation | Trying out `ec` offline |
 
 The available commands and options change per backend: when a command is not
 implemented for the selected backend it is dropped from `ec --help` entirely.
@@ -66,5 +66,4 @@ commands map onto cluster operations — start/stop scale the StatefulSet,
 ## DEMO
 
 The `DEMO` backend simulates a cluster in memory so you can explore the `ec`
-command set without any infrastructure. It is used by the introductory
-tutorials and for experimenting offline.
+command set without any infrastructure, for experimenting offline.

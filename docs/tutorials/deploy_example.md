@@ -13,7 +13,7 @@ repository and service names throughout.
 
 :::{note}
 `environment.sh` sets up your local `docker compose` environment (container
-engine, `UIDGID`, `COMPOSE_PROFILES`, EPICS name servers). See
+engine, `UIDGID`, `COMPOSE_PROFILES`, Channel Access address list). See
 {any}`../reference/environment` for the full list of what it can set in each
 kind of repository.
 :::
@@ -35,9 +35,9 @@ repo. For the local `docker compose` track it:
   phoebus container's X11 access;
 - sets `COMPOSE_PROFILES=test` so `docker compose` launches the
   developer-workstation profile (IOCs, gateways and an OPI viewer);
-- points Channel Access and PV Access at the gateways on localhost
-  (`EPICS_CA_NAME_SERVERS=127.0.0.1:9064`) so host tools can see the
-  containerised PVs.
+- points Channel Access at the gateway on localhost
+  (`EPICS_CA_ADDR_LIST=127.0.0.1`) so host tools can see the containerised
+  PVs.
 
 (deploy-example-instance)=
 ## Deploy the services
@@ -60,9 +60,9 @@ docker compose ps
 ```
 
 Among the running services you should see the example IOC (`example-test-01`),
-the Channel Access and PV Access gateways, the `epics-opis` OPI web server, the
-`phoebus` OPI viewer, and a one-shot `init` container that generates the PV
-Access gateway and phoebus config and then exits.
+the Channel Access and PV Access gateways and the `phoebus` OPI viewer. A
+one-shot `init` container generates the PV Access gateway and phoebus config
+and then exits, so only `docker compose ps -a` lists it.
 
 ## Start and stop a service
 
